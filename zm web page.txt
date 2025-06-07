@@ -1,0 +1,25 @@
+zm web page
+logo homme button
+remove about us in home page
+rearrainge contactus
+no exit mark for zm qr scanner
+maps in contactus page
+bottom button clicks page not coming top
+no error page for contact us
+no success message in contact us
+arrow button for faq
+every page not coming from top
+remove language button in top
+re arrange the generate qr code page
+login timeout
+remove contact us and abhout us in terms and conditions,privacy polocies and cookie policy
+bottom zm qr page redirect
+change faq to support
+bring a friend no exit button
+bot assistane train
+home page video options
+error page for uploading incorrect formatall 
+qr data pull from s3
+carrer
+investment page
+franchaise page
