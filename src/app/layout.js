@@ -1,7 +1,9 @@
 import Navbar from "@/components/navbar/navbar";
 import Footer from "@/components/footer/footer";
 import "./globals.css";
-import { LanguageProvider } from "@/context/LanguageContext"; // 👈 Import your provider
+import { LanguageProvider } from "@/context/languageContext/LanguageContext"; // 👈 Import your provider
+import DesignProvider from "@/context/qrCodeDesignContext/DesignProvider";
+
 
 export const metadata = {
   title: "Zm QR Code Services",
@@ -13,11 +15,13 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <LanguageProvider> {/* 👈 Wrap the app in provider */}
+          <DesignProvider>
           <Navbar />
           <main>
             {children}
           </main>
           <Footer />
+          </DesignProvider>
         </LanguageProvider>
       </body>
     </html>

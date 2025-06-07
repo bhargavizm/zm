@@ -4,33 +4,34 @@ import ScheduleDemo from "@/components/homePage/demo/demo";
 import DesignSection from "@/components/homePage/customizedQRCodeDesigns/designSection";
 import ImageToQR from "@/components/homePage/imageToQR";
 import MarketingFeatures from "@/components/homePage/marketingFeatures/marketingFeatures";
+import MultipleQRCodes from "@/components/homePage/multipleQRCodes/multipleQRCodes";
+import Security from "@/components/homePage/security/security";
 import QRCodeTracking from "@/components/homePage/tracking";
 import QRDesign from "@/components/homePage/qrDesign/qrDesign";
 import React from "react";
-import Security from "@/components/homePage/security/security";
-import TestimonialSection from "@/components/homePage/customerReview";
-import MultipleQRCodes from "@/components/homePage/multipleQRCodes.jsx/multipleQRCodes";
+import CustomizeQRCode from "@/components/homePage/customizedQRCodeDesigns/customizeQRCode";
+import ServicesLayout from "@/components/servicesPages/servicesLayout/servicesLayout";
+import CustomerReviews from "@/components/homePage/customerReviews";
+
+
 
 const GenerateQR = () => {
-    return (
-        <>
-            {/* <main className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
-        <QRCustomizer />
-        <QRCustomizer2 />
-    </main> */}
-            <DesignSection />
-            <CreateLogo />
-            <ScheduleDemo />
-            <Security />
-            <MultipleQRCodes />
-            <ImageToQR />
-            <BulkQRGenerator />
-            <QRDesign />
-            <TestimonialSection />
-            <MarketingFeatures />
-            <QRCodeTracking />
-        </>
-    );
+  return (
+    <>
+      <CustomizeQRCode />
+      <ServicesLayout/>
+      <CreateLogo />
+      <ScheduleDemo/>
+      <Security/>
+      <MultipleQRCodes/>
+      <ImageToQR/>
+      <BulkQRGenerator/>
+      <QRDesign/>
+      <CustomerReviews/>
+      <MarketingFeatures/>
+      <QRCodeTracking/>
+    </>
+  );
 };
 
 export default GenerateQR;

@@ -73,7 +73,7 @@ const ScheduleDemo = () => {
           backgroundImage: "url('/images/bg-demo-image.png')",
         }}
       >
-        <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-8 bg-[rgba(0,128,128,0.6)] padding-lr py-8 md:py-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-8 bg-[rgba(0,128,128,0.6)] padding-lr py-10">
           {/* Image Column */}
           <div className="col-span-12 lg:col-span-2 flex justify-center lg:justify-start">
             <Image

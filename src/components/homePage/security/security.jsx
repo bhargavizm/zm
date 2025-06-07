@@ -3,7 +3,7 @@ import React from "react";
 import Accordion from "./accordion";
 import Image from "next/image";
 
-const Security = () => {
+const Security = () => {  
   return (
     <>
       <section className="bg-mainGreen padding-lr py-20">
