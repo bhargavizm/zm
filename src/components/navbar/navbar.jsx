@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLanguage } from '@/context/languageContext/LanguageContext';
 import LanguageSelector from './LanguageSelector';
 
 const Navbar = () => {
