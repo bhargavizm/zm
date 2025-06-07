@@ -18,12 +18,12 @@ const MarketingFeatures = () => {
             key={item.id}
             className="bg-white rounded-xl p-6 cursor-pointer shadow-xl transition-effects border-2 border-dashed"
           >
-            <div className="w-16 h-16 mx-auto mb-4 animate-bounce">
+            <div className="w-16 h-16 mx-auto mb-4 pt-4 animate-bounce">
               <Image
                 src={item.image}
                 alt={item.title}
-                width={64}
-                height={64}
+                width={70}
+                height={70}
               />
             </div>
             <h3 className="text-xl font-semibold text-center text-darkGreen">

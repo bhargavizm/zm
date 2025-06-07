@@ -36,35 +36,35 @@
 } */
 
 .animatedBorder {
-    background: linear-gradient(135deg,
-            #00ffff,
-            #008080);
-    background-size: 300% 300%;
-    animation: crossFlow 5s ease-in-out infinite;
+  background: linear-gradient(
+    135deg,
+    #be69a8,
+    #00802d
+  );
+  background-size: 300% 300%;
+  animation: crossFlow 5s ease-in-out infinite;
 
-    padding: 2px;
+  padding: 2px;
 
-    mask:
-        linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-    mask-composite: exclude;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
 
-    -webkit-mask:
-        linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
 }
 
 @keyframes crossFlow {
-    0% {
-        background-position: top left;
-    }
-
-    50% {
-        background-position: bottom right;
-    }
-
-    100% {
-        background-position: top left;
-    }
+  0% {
+    background-position: top left;
+  }
+  50% {
+    background-position: bottom right;
+  }
+  100% {
+    background-position: top left;
+  }
 }
