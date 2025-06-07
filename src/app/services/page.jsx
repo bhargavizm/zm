@@ -1,107 +1,58 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
-import { CardSpotlight } from "@/components/ui/card-spotlight";
+import React, { useEffect, useState } from "react";
 
-const Page = () => {
-    const [cards, setCards] = useState([]);
+const ServicesPage = () => {
+    const [services, setServices] = useState([]);
 
     useEffect(() => {
-        import('../data/services.jsx').then((module) => {
-            const data = module.default;
-            if (Array.isArray(data)) {
-                setCards(data);
-            } else {
-                console.error("services.jsx did not return an array.");
-            }
-        }).catch(err => {
-            console.error("Error loading services.jsx:", err);
-        });
+        import("../data/services.jsx")
+            .then((module) => {
+                const data = module.default;
+                if (Array.isArray(data)) {
+                    setServices(data);
+                } else {
+                    console.error("services.jsx did not return an array.");
+                }
+            })
+            .catch((err) => {
+                console.error("Error loading services.jsx:", err);
+            });
     }, []);
 
     return (
-        <div className="min-h-screen px-4 py-12 my-10 bg-[#028989] text-white">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0 text-[#001a1a] overflow-x-auto">
-                {cards.map((card, index) => (
-                    <CardContainer
-                        key={index}
-                        className="inter-var"
-                        style={{
-                            width: '251.06px',
-                            height: '444.6px',
-                            perspective: '1000px',
-                        }}
-                        containerClassName="!py-0 !flex items-start justify-center"
-                    >
-                        <CardBody
-                            className="p-4 dark:bg-black dark:border-white/[0.2] rounded-xl flex flex-col justify-between"
-                            style={{ width: '221.06px', height: '444.6px' }}
+        <div className="py-12 bg-[#9af6f6]">
+            <div className="max-w-7xl mx-auto px-4 py-20 sm:px-6 lg:px-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 ">
+                    {services.map((service, index) => (
+                        <div
+                            key={index}
+                            className="bg-white rounded-xl shadow-lg transition duration-200 overflow-hidden  p-6  hover:-translate-y-1 cursor-pointer"
                         >
-                            <CardSpotlight className="bg-[#98e6e6] group hover:bg-[#028989] transition-colors duration-300 flex flex-col h-full rounded-xl p-4">
-                                {/* Title and icon */}
-                                <CardItem
-                                    translateZ={50}
-                                    className="flex items-center text-lg font-semibold text-[#001a1a] group-hover:text-white mb-3 transition-colors duration-300"
-                                >
-                                    <span className="mr-2">{card.icon}</span>
-                                    <span>{card.serviceName}</span>
-                                </CardItem>
+                            <div className="flex items-start mb-3 ">
+                                <span className="text-2xl text-teal-600 mr-2">{service.icon}</span>
+                                <h2 className="text-xl font-bold text-gray-900">{service.serviceName}</h2>
+                            </div>
 
-                                {/* Image */}
-                                {card.image && (
-                                    <CardItem
-                                        translateZ={80}
-                                        className="rounded-lg overflow-hidden mb-4 flex-shrink-0 w-full"
-                                    >
-                                        <img
-                                            src={card.image}
-                                            alt={card.serviceName}
-                                            className="w-full h-[180px] object-cover rounded-lg"
-                                        />
-                                    </CardItem>
-                                )}
+                            {/* Image + QR Group */}
+                            {service.image && (
+                                <div className="flex justify-end items-center space-x-4 mb-4">
+                                    <img
+                                        src={service.image}
+                                        alt={service.serviceName}
+                                        className="w-64 h-64 object-contain"
+                                    />
+                                </div>
+                            )}
 
-                                {/* Description */}
-                                <CardItem
-                                    as="p"
-                                    translateZ={60}
-                                    className="text-[#001a1a] group-hover:text-white text-xs mb-4 flex-grow overflow-auto"
-                                    style={{ lineHeight: 1.2 }}
-                                >
-                                    {card.description}
-                                </CardItem>
-
-                                {/* Action buttons */}
-                                {card.scanner && (
-                                    <div className="flex justify-end flex-wrap gap-2 mt-auto">
-                                        <CardItem
-                                            translateZ={30}
-                                            as="a"
-                                            href={card.scanner}
-                                            target="_blank"
-                                            className="px-3 py-1.5 rounded-xl bg-[#008080] text-white text-xs font-semibold hover:brightness-110 transition"
-                                        >
-                                            Get QR →
-                                        </CardItem>
-                                        <CardItem
-                                            translateZ={30}
-                                            as="a"
-                                            href={card.scanner}
-                                            target="_blank"
-                                            className="px-3 py-1.5 rounded-xl bg-[#008080] text-white text-xs font-semibold hover:brightness-110 transition"
-                                        >
-                                            User Guide →
-                                        </CardItem>
-                                    </div>
-                                )}
-                            </CardSpotlight>
-                        </CardBody>
-                    </CardContainer>
-                ))}
+                            {/* Description */}
+                            <p className="text-sm text-gray-600">{service.description}</p>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );
 };
 
-export default Page;
+export default ServicesPage;

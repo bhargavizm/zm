@@ -11,12 +11,12 @@ export default function LoginPage() {
     return (
         <div className="min-h-screen flex flex-col md:flex-row bg-black text-white">
             {/* Left Section */}
-            <div className="bg-loginBlue md:w-1/2 w-full flex flex-col justify-center items-center text-white p-6 md:rounded-l-2xl">
+            <div className="bg-mainGreen md:w-1/2 w-full flex flex-col justify-center items-center text-white p-6 md:rounded-l-2xl">
                 <Image src="/logo.svg" alt="logo" width={200} height={200} className="m-5" />
                 <h1 className="text-2xl font-semibold text-center px-4">
                     World's No.1 QR Code Generating and Managing Platform
                 </h1>
-                <Image src="/lock.jpg" alt="lock" width={200} height={200} className="m-5" />
+                <Image src="/qr-image-login.png" alt="qr-image" width={400} height={400} className="m-5" />
                 {/* Placeholder for animated beam */}
                 <h4 className="text-md font-thin text-center px-4">
                     Trusted by the World's Top Brands.
