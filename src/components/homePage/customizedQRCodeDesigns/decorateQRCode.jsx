@@ -3,15 +3,21 @@ import DesignModal from "./designModal";
 import { IoIosArrowForward } from "react-icons/io";
 import { FaLongArrowAltDown } from "react-icons/fa";
 import AnimatedButton from "@/components/animatedButton/animatedButton";
+import PreviewPanel from "./previewPanel";
+
+
+const tabs = ["Stickers", "Colors", "Shapes", "Logos"];
 
 const DecorateQRCode = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [activeTab, setActiveTab] = useState("QR Shapes");
   return (
     <>
       <section>
         <div className="grid grid-cols-12 gap-4 mx-4 sm:mx-6 md:mx-9">
-          <div className="col-span-12 lg:col-span-8 bg-white px-4 sm:px-6 lg:px-6 py-8 sm:py-10 rounded-3xl shadow-lg">
+          <div className="col-span-12 lg:col-span-7 bg-white px-4 sm:px-6 lg:px-6 py-8 sm:py-10 rounded-3xl shadow-lg">
             <h2 className="text-darkGreen font-bold text-xl sm:text-2xl mb-4">
               QR Code Generator With Logo
             </h2>
@@ -100,7 +106,30 @@ const DecorateQRCode = () => {
             </div>
           </div>
 
-          <div className="col-span-12 lg:col-span-4 bg-white rounded-3xl shadow-lg px-6 py-9 mt-6 lg:mt-0">
+          {/* Preview Panel */}
+          <div className="col-span-12 lg:col-span-5 bg-white rounded-3xl shadow-lg px-6 py-9 mt-6 lg:mt-0">
+            <PreviewPanel />
+
+            <hr className="my-6 border border-slate-200" />
+
+            <div className="flex justify-center flex-wrap mb-4">
+              {tabs.map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => {
+                    setActiveTab(tab); // set clicked tab as active
+                    setIsModalOpen(true); // open modal
+                  }}
+                  className={`px-2 py-2 cursor-pointer text-mainGreen hover:text-darkGreen hover:font-bold transition-effects  text-lg rounded-xl transition-all duration-300
+                 
+              
+              `}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+
             <AnimatedButton className="w-full flex justify-center items-center gap-2">
               Download Large Files <FaLongArrowAltDown />
             </AnimatedButton>
@@ -109,7 +138,13 @@ const DecorateQRCode = () => {
       </section>
 
       {/* Modal */}
-      {isModalOpen && <DesignModal setIsModalOpen={setIsModalOpen} />}
+      {isModalOpen && (
+        <DesignModal
+          setIsModalOpen={setIsModalOpen}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+        />
+      )}
     </>
   );
 };

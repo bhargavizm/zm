@@ -64,7 +64,7 @@ const cardVariants = {
   }),
 };
 
-const TestimonialSection = () => {
+const CustomerReviews = () => {
   return (
    <section className="bg-[#f5f7fb] py-20 px-4 md:px-12">
       <h2 className="text-center text-3xl md:text-4xl font-extrabold text-blue-900 mb-10">
@@ -80,7 +80,7 @@ const TestimonialSection = () => {
           viewport={{ once: true }}
           className="bg-mainGreen text-white px-6 py-5 rounded-2xl backdrop-blur-sm shadow-xl"
         >
-          <div className="text-3xl mb-2">⭐⭐⭐⭐⭐ 4.9/5</div>
+          <div className="text-3xl mb-2">⭐⭐⭐⭐⭐ 4.5/5</div>
           <p className="text-sm opacity-80">Based on 48,000+ reviews on ZM QR Code Services</p>
         </motion.div>
 
@@ -118,4 +118,4 @@ const TestimonialSection = () => {
   );
 };
 
-export default TestimonialSection;
+export default CustomerReviews;
