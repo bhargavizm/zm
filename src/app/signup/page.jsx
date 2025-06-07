@@ -15,7 +15,7 @@ const SignUpPage = () => {
                 <h1 className="text-xl md:text-2xl font-semibold text-center max-w-[80%]">
                     World’s No.1 QR Code Generate and Managing Platform
                 </h1>
-                <Image src="/lock.jpg" alt="lock" width={200} height={200} className="m-5" />
+                <Image src="/qr-image-login.png" alt="qr-image" width={400} height={400} className="m-5" />
                 <h4 className="text-sm md:text-md font-thin text-center max-w-[80%]">
                     Trusted by the World's Top Brands.
                 </h4>
