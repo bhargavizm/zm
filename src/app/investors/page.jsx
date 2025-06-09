@@ -69,8 +69,8 @@ const InsightCard = ({ title, value, summary, link, color }) => (
 
 const Investors = () => {
   return (
-    <div className="w-full min-h-screen bg-[#1deaea] text-white font-sans">
-      <div className='bg-[#2adbdb] text-black font-sans max-w-6xl mx-auto px-6 rounded-2xl'>
+    <div className="w-full min-h-screen bg-[#159999] text-white font-sans">
+      <div className='bg-[#159292] text-black font-sans max-w-6xl mx-auto px-6 rounded-2xl'>
         {/* Hero Section */}
         <motion.section
           initial={{ opacity: 0 }}
@@ -222,7 +222,7 @@ const Investors = () => {
       </section>
 
       {/* QR Industry Market Stats */}
-      <section className="py-16 bg-[#1deaea] text-black">
+      <section className="py-16 bg-[#1b9d9d] shadow-lg text-black">
         <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-3xl font-bold text-center mb-12">QR Code Industry Insights</h2>
           <div className="grid md:grid-cols-3 gap-8">

@@ -1,37 +1,45 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { FaChild, FaSchool, FaUser, FaPhone, FaMapMarkerAlt, FaLock, FaCalendarAlt, FaUpload, FaLocationArrow, FaEye, FaEyeSlash } from 'react-icons/fa';
+import React, { useState } from 'react';
+import { FaCar, FaIdCard, FaFileAlt, FaUser, FaPhone, FaMapMarkerAlt, FaLock, FaCalendarAlt, FaUpload, FaLocationArrow } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
-export default function KidSafetyForm() {
-  const router = useRouter();
+export default function VehicleContent() {
   const [formData, setFormData] = useState({
-    childName: '',
-    dob: '',
-    image: null,
-    grade: '',
-    schoolName: '',
-    schoolAddress: '',
-    parentName: '',
+    vehicleModel: '',
+    vehicleType: '',
+    buyingDate: '',
+    vehicleDesc: '',
+    rcNumber: '',
+    driverName: '',
+    ownerName: '',
     contactNumber: '',
-    alternateNumber: '',
-    homeAddress: '',
+    alternateContact: '',
+    address: '',
     mapLink: '',
-    password: ''
+    password: '',
+  });
+
+  const [files, setFiles] = useState({
+    vehicleImages: [],
+    rcImages: [],
+    licenseImages: [],
+    insuranceImages: [],
+    pollutionImages: [],
+    ownerDriverImage: null,
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [locationStatus, setLocationStatus] = useState('idle'); // idle | fetching | success | error
-  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: files ? files[0] : value
-    }));
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleFileChange = (e, name, isMultiple = true) => {
+    const fileList = isMultiple ? Array.from(e.target.files) : e.target.files[0];
+    setFiles((prev) => ({ ...prev, [name]: fileList }));
   };
 
   const getCurrentLocation = () => {
@@ -74,14 +82,11 @@ export default function KidSafetyForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    const previewData = { ...formData, image: formData.image?.name || '' };
-    localStorage.setItem('kidFormData', JSON.stringify(previewData));
-    
-    // Simulate processing before navigation
+    console.log(formData, files);
+    // Simulate API call
     setTimeout(() => {
-      router.push('/kidsSafetyPre');
       setIsSubmitting(false);
-    }, 1500);
+    }, 2000);
   };
 
   // Animation variants
@@ -112,7 +117,7 @@ export default function KidSafetyForm() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="max-w-2xl mx-auto"
+        className="max-w-4xl mx-auto"
       >
         <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
           {/* Header */}
@@ -123,10 +128,10 @@ export default function KidSafetyForm() {
               transition={{ type: 'spring', stiffness: 300 }}
               className="flex items-center justify-center space-x-3"
             >
-              <FaChild className="text-3xl" />
-              <h1 className="text-2xl font-bold">Child Safety QR Code Generator</h1>
+              <FaCar className="text-3xl" />
+              <h1 className="text-2xl font-bold">Vehicle QR Code Generator</h1>
             </motion.div>
-            <p className="text-teal-100 text-center mt-2">Keep your child safe with our identification system</p>
+            <p className="text-teal-100 text-center mt-2">Fill in your vehicle details to generate a QR code</p>
           </div>
 
           {/* Form */}
@@ -137,86 +142,139 @@ export default function KidSafetyForm() {
             onSubmit={handleSubmit}
             className="p-6 space-y-6"
           >
-            {/* Child Information Section */}
+            {/* Vehicle Information Section */}
             <motion.div variants={itemVariants} className="bg-teal-50 p-4 rounded-lg">
               <h2 className="text-xl font-semibold text-teal-800 flex items-center space-x-2 mb-4">
-                <FaChild className="text-teal-600" />
-                <span>Child Information</span>
+                <FaCar className="text-teal-600" />
+                <span>Vehicle Information</span>
               </h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Input 
-                  label="Child Name" 
-                  name="childName" 
-                  value={formData.childName} 
+                  label="Vehicle Model Name" 
+                  name="vehicleModel" 
+                  value={formData.vehicleModel} 
                   onChange={handleChange} 
-                  icon={<FaUser className="text-teal-500" />}
+                  icon={<FaCar className="text-teal-500" />}
                 />
                 <Input 
-                  label="Date of Birth" 
-                  name="dob" 
+                  label="Type of Vehicle" 
+                  name="vehicleType" 
+                  value={formData.vehicleType} 
+                  onChange={handleChange} 
+                  icon={<FaFileAlt className="text-teal-500" />}
+                />
+                <Input 
+                  label="Date of Buying" 
+                  name="buyingDate" 
                   type="date" 
-                  value={formData.dob} 
+                  value={formData.buyingDate} 
                   onChange={handleChange} 
                   icon={<FaCalendarAlt className="text-teal-500" />}
                 />
                 <FileInput 
-                  label="Child Photo" 
-                  name="image" 
-                  accept="image/*"
-                  multiple={false}
-                  onChange={handleChange} 
+                  label="Vehicle Images (Max 4)" 
+                  name="vehicleImages" 
+                  multiple 
+                  onChange={(e) => handleFileChange(e, 'vehicleImages')} 
                   icon={<FaUpload className="text-teal-500" />}
                 />
-                <Input 
-                  label="Grade/Class" 
-                  name="grade" 
-                  value={formData.grade} 
-                  onChange={handleChange} 
-                  icon={<FaSchool className="text-teal-500" />}
-                />
               </div>
-            </motion.div>
-
-            {/* School Information Section */}
-            <motion.div variants={itemVariants} className="bg-teal-50 p-4 rounded-lg">
-              <h2 className="text-xl font-semibold text-teal-800 flex items-center space-x-2 mb-4">
-                <FaSchool className="text-teal-600" />
-                <span>School Information</span>
-              </h2>
               
-              <div className="space-y-4">
-                <Input 
-                  label="School Name" 
-                  name="schoolName" 
-                  value={formData.schoolName} 
-                  onChange={handleChange} 
-                  icon={<FaSchool className="text-teal-500" />}
-                />
-                <TextArea 
-                  label="School Address" 
-                  name="schoolAddress" 
-                  value={formData.schoolAddress} 
-                  onChange={handleChange} 
-                />
-              </div>
+              <TextArea 
+                label="Description of Vehicle" 
+                name="vehicleDesc" 
+                value={formData.vehicleDesc} 
+                onChange={handleChange} 
+              />
             </motion.div>
 
-            {/* Parent Information Section */}
+            {/* Registration Section */}
             <motion.div variants={itemVariants} className="bg-teal-50 p-4 rounded-lg">
               <h2 className="text-xl font-semibold text-teal-800 flex items-center space-x-2 mb-4">
-                <FaUser className="text-teal-600" />
-                <span>Parent Information</span>
+                <FaIdCard className="text-teal-600" />
+                <span>Registration Details</span>
               </h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Input 
-                  label="Parent Name" 
-                  name="parentName" 
-                  value={formData.parentName} 
+                  label="RC Number" 
+                  name="rcNumber" 
+                  value={formData.rcNumber} 
+                  onChange={handleChange} 
+                  icon={<FaIdCard className="text-teal-500" />}
+                />
+                <FileInput 
+                  label="RC Images (Max 2)" 
+                  name="rcImages" 
+                  multiple 
+                  onChange={(e) => handleFileChange(e, 'rcImages')} 
+                  icon={<FaUpload className="text-teal-500" />}
+                />
+                <FileInput 
+                  label="Driving License (Max 3)" 
+                  name="licenseImages" 
+                  multiple 
+                  onChange={(e) => handleFileChange(e, 'licenseImages')} 
+                  icon={<FaUpload className="text-teal-500" />}
+                />
+                <FileInput 
+                  label="Insurance (Max 6)" 
+                  name="insuranceImages" 
+                  multiple 
+                  onChange={(e) => handleFileChange(e, 'insuranceImages')} 
+                  icon={<FaUpload className="text-teal-500" />}
+                />
+                <FileInput 
+                  label="Pollution Cert (Max 3)" 
+                  name="pollutionImages" 
+                  multiple 
+                  onChange={(e) => handleFileChange(e, 'pollutionImages')} 
+                  icon={<FaUpload className="text-teal-500" />}
+                />
+              </div>
+            </motion.div>
+
+            {/* Owner/Driver Section */}
+            <motion.div variants={itemVariants} className="bg-teal-50 p-4 rounded-lg">
+              <h2 className="text-xl font-semibold text-teal-800 flex items-center space-x-2 mb-4">
+                <FaUser className="text-teal-600" />
+                <span>Owner/Driver Details</span>
+              </h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Input 
+                  label="Driver Name" 
+                  name="driverName" 
+                  value={formData.driverName} 
                   onChange={handleChange} 
                   icon={<FaUser className="text-teal-500" />}
                 />
+                <Input 
+                  label="Owner Name" 
+                  name="ownerName" 
+                  value={formData.ownerName} 
+                  onChange={handleChange} 
+                  icon={<FaUser className="text-teal-500" />}
+                />
+                <FileInput 
+                  label="Owner/Driver Image" 
+                  name="ownerDriverImage" 
+                  multiple={false} 
+                  onChange={(e) => handleFileChange(e, 'ownerDriverImage', false)} 
+                  icon={<FaUpload className="text-teal-500" />}
+                />
+              </div>
+            </motion.div>
+
+            {/* Contact Section */}
+            <motion.div variants={itemVariants} className="bg-teal-50 p-4 rounded-lg">
+              <h2 className="text-xl font-semibold text-teal-800 flex items-center space-x-2 mb-4">
+                <FaPhone className="text-teal-600" />
+                <span>Contact Information</span>
+              </h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Input 
                   label="Contact Number" 
                   name="contactNumber" 
@@ -225,32 +283,32 @@ export default function KidSafetyForm() {
                   icon={<FaPhone className="text-teal-500" />}
                 />
                 <Input 
-                  label="Alternate Number" 
-                  name="alternateNumber" 
-                  value={formData.alternateNumber} 
+                  label="Alternate Contact" 
+                  name="alternateContact" 
+                  value={formData.alternateContact} 
                   onChange={handleChange} 
                   icon={<FaPhone className="text-teal-500" />}
                 />
               </div>
             </motion.div>
 
-            {/* Home Information Section */}
+            {/* Location Section */}
             <motion.div variants={itemVariants} className="bg-teal-50 p-4 rounded-lg">
               <h2 className="text-xl font-semibold text-teal-800 flex items-center space-x-2 mb-4">
                 <FaMapMarkerAlt className="text-teal-600" />
-                <span>Home Information</span>
+                <span>Location Details</span>
               </h2>
               
               <div className="space-y-4">
                 <TextArea 
-                  label="Home Address" 
-                  name="homeAddress" 
-                  value={formData.homeAddress} 
+                  label="Owner/Driver Address" 
+                  name="address" 
+                  value={formData.address} 
                   onChange={handleChange} 
                 />
                 
                 <div className="relative">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Home Location</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
                   <div className="flex">
                     <input
                       type="text"
@@ -293,32 +351,14 @@ export default function KidSafetyForm() {
                 <span>Security</span>
               </h2>
               
-              <div className="relative">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <FaLock className="text-teal-500" />
-                  </div>
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    className="pl-10 w-full p-2 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                  >
-                    {showPassword ? (
-                      <FaEyeSlash className="text-teal-500" />
-                    ) : (
-                      <FaEye className="text-teal-500" />
-                    )}
-                  </button>
-                </div>
-              </div>
+              <Input 
+                label="Password" 
+                name="password" 
+                type="password" 
+                value={formData.password} 
+                onChange={handleChange} 
+                icon={<FaLock className="text-teal-500" />}
+              />
             </motion.div>
 
             {/* Submit Button */}
@@ -339,10 +379,10 @@ export default function KidSafetyForm() {
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    Generating QR...
+                    Processing...
                   </>
                 ) : (
-                  'Generate Safety QR Code'
+                  'Generate QR Code'
                 )}
               </button>
             </motion.div>
@@ -388,7 +428,7 @@ function TextArea({ label, name, value, onChange }) {
   );
 }
 
-function FileInput({ label, name, multiple, onChange, icon, accept }) {
+function FileInput({ label, name, multiple, onChange, icon }) {
   return (
     <div>
       <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
@@ -400,7 +440,6 @@ function FileInput({ label, name, multiple, onChange, icon, accept }) {
           type="file"
           name={name}
           multiple={multiple}
-          accept={accept}
           onChange={onChange}
           className="pl-10 w-full p-2 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100"
         />
