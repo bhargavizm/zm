@@ -8,7 +8,8 @@ const Stickers = ({ onSelectImage }) => {
          '/images/stickers/stickers-3.svg',
           '/images/stickers/stickers-4.svg',
            '/images/stickers/stickers-5.svg',
-            '/images/stickers/sticker-6.svg',
+            '/images/stickers/stickers-6.svg',
+            '/images/stickers/stickers-7.svg',
 
   ];
   return (

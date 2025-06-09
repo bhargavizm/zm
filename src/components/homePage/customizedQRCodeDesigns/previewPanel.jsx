@@ -1,4 +1,3 @@
-
 "use client";
 
 import useDesignContext from "@/components/hooks/useDesignContext";
@@ -11,35 +10,35 @@ const PreviewPanel = () => {
   return (
     <>
       {selectedSticker && (
-        <div className="relative w-[350px] h-[350px] mx-auto mb-4">
+        <div className="relative w-[380px] h-[350px] mx-auto mb-4">
 
-          {/* Sticker Background (base layer) */}
+          {/* Sticker (base layer, centered) */}
           <Image
             src={selectedSticker}
             alt="Sticker"
             fill
-            className="object-contain rounded-lg z-10"
+            className="object-contain z-10"
           />
 
-          {/* QR Shape (middle layer, centered) */}
+          {/* QR Shape (centered over sticker) */}
           {selectedQRShape && (
             <Image
               src={selectedQRShape}
               alt="QR Shape"
-              width={190}
-              height={150}
-              className="absolute pt-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20"
+              width={200}
+              height={200}
+              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20"
             />
           )}
 
-          {/* Logo (top layer, centered) */}
+          {/* Logo (centered over QR shape) */}
           {selectedLogo && (
             <Image
               src={selectedLogo}
               alt="Logo"
               width={logoSize}
               height={logoSize}
-              className="absolute top-1/2 pt-12 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30"
+              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30"
             />
           )}
 
@@ -50,3 +49,62 @@ const PreviewPanel = () => {
 };
 
 export default PreviewPanel;
+
+
+// "use client";
+
+// import useDesignContext from "@/components/hooks/useDesignContext";
+// import Image from "next/image";
+// import React from "react";
+
+// const PreviewPanel = () => {
+//   const { selectedQRShape, selectedLogo, selectedSticker, logoSize } = useDesignContext();
+
+//   return (
+//     <>
+//       {selectedSticker && (
+//         <div className="relative w-[350px] h-[350px] mx-auto mb-4 flex items-center justify-center">
+          
+//           {/* Sticker Background (base layer) */}
+//           <div className="absolute inset-0 flex items-center justify-center ">
+//             <Image
+//               src={selectedSticker}
+//               alt="Sticker"
+//               fill
+//               className="object-contain"
+//             />
+//           </div>
+
+//           {/* QR Shape (middle layer) */}
+//           {selectedQRShape && (
+//             <div className="absolute z-20 ">
+//               <Image
+//                 src={selectedQRShape}
+//                 alt="QR Shape"
+//                 width={250}
+//                 height={200}
+//                 className="object-contain"
+//               />
+//             </div>
+//           )}
+
+//           {/* Logo (top layer) */}
+//           {selectedLogo && (
+//             <div className="absolute z-30">
+//               <Image
+//                 src={selectedLogo}
+//                 alt="Logo"
+//                 width={logoSize}
+//                 height={logoSize}
+//                 className="object-contain"
+//               />
+//             </div>
+//           )}
+
+//         </div>
+//       )}
+//     </>
+//   );
+// };
+
+// export default PreviewPanel;
