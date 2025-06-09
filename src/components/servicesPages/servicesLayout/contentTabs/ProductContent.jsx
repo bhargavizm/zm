@@ -66,7 +66,7 @@ const ProductContent = () => {
                                     onClick={() => selectTemplate(i)}
                                     className={`p-3 border rounded-lg cursor-pointer transition
                     ${productData.selectedTemplate === i
-                                            ? "border-teal-600 ring teal-400 ring-2"
+                                            ? "border-teal-600  teal-400 ring-2"
                                             : "border-gray-300"
                                         } hover:border-teal-500`}
                                 >
@@ -131,7 +131,7 @@ const ProductContent = () => {
                     </button>
                 </div>
 
-                {/* Preview Section */}
+      {/* Preview Section */}
                 <div className="flex justify-center items-start">
                     <div
                         className="relative w-[300px] h-[500px] bg-white border-4 border-gray-800 rounded-2xl shadow-2xl overflow-hidden"

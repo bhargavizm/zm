@@ -74,7 +74,7 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-4 py-2 text-md rounded-xl ${
+              className={`px-4 py-2 text-md rounded-xl cursor-pointer ${
                 activeTab === tab
                   ? "bg-mainGreen text-white font-bold"
                   : "bg-white text-gray-800"
@@ -91,7 +91,7 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
 
         <div className="flex flex-col md:grid md:grid-cols-12 gap-4 ">
           {/* Tab content */}
-          <div className="w-full md:col-span-7 lg:col-span-8 overflow-y-auto pr-0 md:pr-2 mb-4 md:mb-0">
+          <div className="w-full md:col-span-6 lg:col-span-7 overflow-y-auto px-8 py-6">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}
@@ -106,8 +106,8 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
           </div>
 
           {/* Preview Panel */}
-          <div className="w-full md:col-span-5 lg:col-span-4 rounded-xl border border-slate-100 shadow-lg p-4 pb-9">
-            <div className="flex flex-col  justify-center">
+          <div className="w-full md:col-span-6 lg:col-span-5 rounded-xl border border-slate-100 shadow-lg p-4 pb-9">
+
               <PreviewPanel />
               <div className=" ">
                 <AnimatedButton className="w-full mx-auto flex items-center justify-center gap-2">
@@ -115,7 +115,7 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
                   <FaLongArrowAltDown />
                 </AnimatedButton>
               </div>
-            </div>
+  
           </div>
         </div>
       </div>
