@@ -93,7 +93,7 @@ export default function Career() {
           className="absolute top-0 left-0 w-full h-full object-cover z-0"
         >
           <source
-            src="/videos/vecteezy_visual-representation-of-cloud-computing-technology-with_51092811.mov"
+            src="/videos/data-transfer-video.mov"
             type="video/mp4"
           />
           Your browser does not support the video tag.
