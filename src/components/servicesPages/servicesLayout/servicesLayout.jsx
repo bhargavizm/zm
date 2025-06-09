@@ -5,13 +5,13 @@ import DesignSection from '@/components/homePage/customizedQRCodeDesigns/designS
 import React from 'react'
 import DesignLayout from './designLayout'
 
-const ServicesLayout = () => {
+const ServicesLayout = ({ContentTabComponent, PreviewComponent }) => {
   return (
     <>
-    <section className="bg-mainGreen lg:px-40 pt-30 pb-20">
-        <div className="bg-green-50 rounded-3xl mx-auto max-w-6xl shadow-2xl pb-20">
+    <section className="bg-mainGreen lg:px-40 pt-28 pb-20">
+        <div className="bg-[#35aeae] rounded-3xl mx-auto max-w-6xl shadow-2xl pb-20">
         <DesignSection/>
-        <DesignLayout/>
+        <DesignLayout ContentTabComponent={ContentTabComponent} PreviewComponent={PreviewComponent} />
         </div>
     </section>
     </>

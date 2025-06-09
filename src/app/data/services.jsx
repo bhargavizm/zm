@@ -39,6 +39,7 @@ const services = [
     {
         "icon": <TiBusinessCard className="text-[#001a1a]" />,
         "serviceName": "Business Card",
+        slug: "business-cards",
         "description": "Craft standout digital business cards in a snap with sleek templates, effortlessly sparking connections that resonate.",
         "image": "/services/BusinessCard.webp",
         "scanner": "https://scanner.example.com/pdf"
@@ -46,6 +47,7 @@ const services = [
     {
         "icon": <BsFillCartCheckFill className="text-[#001a1a]" />,
         "serviceName": "Product QR Code",
+        slug: "product-cards",
         "description": "Create a stunning Product QR Code to effortlessly connect customers and elevate your brand's accessibility.",
         "image": "/services/Product.webp",
         "scanner": "https://scanner.example.com/invoice"
@@ -53,6 +55,7 @@ const services = [
     {
         "icon": <SiGoogleforms className="text-[#001a1a]" />,
         "serviceName": "Form QR",
+         slug: "form-qr",
         "description": "Create Google Forms QR Codes for seamless offline responses and manage comprehensive analytics effortlessly at your fingertips.",
         "image": "/services/Form.webp",
         "scanner": "https://scanner.example.com/invoice"
@@ -60,6 +63,7 @@ const services = [
     {
         "icon": <BsPersonVcard className="text-[#001a1a]" />,
         "serviceName": "vCard Plus",
+         slug: "V-Cards",
         "description": "Effortlessly create vCard Plus QR Codes to share your contact information and boost networking opportunities instantly!",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -67,6 +71,7 @@ const services = [
     {
         "icon": <FaFilePdf className="text-[#001a1a]" />,
         "serviceName": "PDF",
+         slug: "PDF",
         "description": "Generate scannable QR Codes for PDF files, ensuring easy access and sharing of important documents digitally.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -74,6 +79,7 @@ const services = [
     {
         "icon": <MdPets className="text-[#001a1a]" />,
         "serviceName": "Pet ID Tags",
+         slug: "Pet-ID-tags",
         "description": "Ensure your pet's safe return with QR Code Pet ID Tags that provide instant access to information.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -81,6 +87,7 @@ const services = [
     {
         "icon": <IoIosLink className="text-[#001a1a]" />,
         "serviceName": "Multi URL",
+         slug: "multi-urls",
         "description": "Effortlessly combine multiple URLs into one QR Code, streamlining access and enhancing user experience seamlessly.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -88,6 +95,7 @@ const services = [
     {
         "icon": <IoIosLink className="text-[#001a1a]" />,
         "serviceName": "Image to QR",
+         slug: "image-to-qr",
         "description": "Effortlessly transform images into QR codes, connecting visuals to digital content in an instant.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -95,6 +103,7 @@ const services = [
     {
         "icon": <ImHeadphones className="text-[#001a1a]" />,
         "serviceName": "Audio",
+         slug: "audios",
         "description": "Generate QR Codes that link to audio content, enhancing experiences with instant access to captivating sound.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -102,6 +111,7 @@ const services = [
     {
         "icon": <GrGallery className="text-[#001a1a]" />,
         "serviceName": "Gallery",
+         slug: "gallery",
         "description": "Showcase your visual creations in a dynamic Gallery, effortlessly accessed through QR Codes for instant viewing.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -109,6 +119,7 @@ const services = [
     {
         "icon": <FaVideo className="text-[#001a1a]" />,
         "serviceName": "Video",
+         slug: "videos",
         "description": "Generate engaging QR Codes for videos, allowing instant access to your captivating content from anywhere, anytime.",
         "image": "/services/video.jpg",
         "scanner": "https://scanner.example.com/invoice"
@@ -116,6 +127,7 @@ const services = [
     {
         "icon": <GoFileDirectoryFill className="text-[#001a1a]" />,
         "serviceName": "Resume",
+         slug: "resumes",
         "description": "Generate a QR Code for your resume, making job applications accessible and shareable with a simple scan.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -123,6 +135,7 @@ const services = [
     {
         "icon": <CgWebsite className="text-[#001a1a]" />,
         "serviceName": "Landing Page",
+         slug: "landing-page",
         "description": "Design engaging landing pages with QR Code integration, enhancing user experience and driving conversions for businesses.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -130,6 +143,7 @@ const services = [
     {
         "icon": <FaSms className="text-[#001a1a]" />,
         "serviceName": "SMS",
+         slug: "sms",
         "description": "Generate QR Codes for SMS notifications, allowing instant communication and seamless engagement with your audience.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -137,6 +151,7 @@ const services = [
     {
         "icon": <FaLink className="text-[#001a1a]" />,
         "serviceName": "URL",
+         slug: "urls",
         "description": "Generate a unique QR Code URL to effortlessly connect users with your content and enhance engagement.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -144,6 +159,7 @@ const services = [
     {
         "icon": <SiGoogleforms className="text-[#001a1a]" />,
         "serviceName": "Forms",
+         slug: "forms",
         "description": "Design intuitive QR Code forms that streamline data collection, enhance user engagement, and simplify analysis effortlessly.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -151,6 +167,7 @@ const services = [
     {
         "icon": <MdDiversity3 className="text-[#001a1a]" />,
         "serviceName": "Meeting",
+         slug: "meetings",
         "description": "Generate QR Codes for meetings that allow instant access to schedules and essential details for participants.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -158,6 +175,7 @@ const services = [
     {
         "icon": <SiGooglemeet className="text-[#001a1a]" />,
         "serviceName": "Google Meet",
+         slug: "google-meets",
         "description": "Generate QR Codes for Google Meet links, making virtual meetings accessible with a simple scan.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -165,6 +183,7 @@ const services = [
     {
         "icon": <MdOutlineVideoCall className="text-[#001a1a]" />,
         "serviceName": "Zoom Meet",
+         slug: "zoom-meets",
         "description": "Generate a Zoom Meet QR Code for instant access to meetings, enhancing convenience and seamless participation.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -172,6 +191,7 @@ const services = [
     {
         "icon": <BsMicrosoftTeams className="text-[#001a1a]" />,
         "serviceName": "MS Teams",
+         slug: "microsoft-teams",
         "description": "Generate QR Codes for MS Teams to connect instantly, enhancing collaboration and communication in your organization.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -179,6 +199,7 @@ const services = [
     {
         "icon": <FaYoutube className="text-[#001a1a]" />,
         "serviceName": "Youtube",
+         slug: "youtube",
         "description": "Generate unique QR Codes for your YouTube channel, enhancing viewer access and boosting your video engagement.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -186,6 +207,7 @@ const services = [
     {
         "icon": <FaFacebook className="text-[#001a1a]" />,
         "serviceName": "Facebook",
+         slug: "facebook",
         "description": "Generate dynamic QR Codes for Facebook to connect easily, share content, and expand your online community.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -193,6 +215,7 @@ const services = [
     {
         "icon": <FaInstagram className="text-[#001a1a]" />,
         "serviceName": "Instagram",
+         slug: "instagram",
         "description": "Generate Instagram QR Codes effortlessly, connecting you with followers and enhancing engagement for your brand online.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -200,6 +223,7 @@ const services = [
     {
         "icon": <FaXTwitter className="text-[#001a1a]" />,
         "serviceName": "Twitter",
+         slug: "twitter",
         "description": "Generate Twitter QR Codes effortlessly, allowing instant connections and sharing of your profile with everyone.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -207,6 +231,7 @@ const services = [
     {
         "icon": <FaLinkedin className="text-[#001a1a]" />,
         "serviceName": "Linkedin",
+         slug: "linkedin",
         "description": "Generate a dynamic QR Code for LinkedIn, effortlessly sharing your professional profile and expanding your network.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -214,6 +239,7 @@ const services = [
     {
         "icon": <MdMenuBook className="text-[#001a1a]" />,
         "serviceName": "MenuBook",
+         slug: "menu-books",
         "description": "Discover curated recipes and personalized menus with MenuBook—your digital dining companion, powered by QR Code innovation.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -221,6 +247,7 @@ const services = [
     {
         "icon": <MdMessage className="text-[#001a1a]" />,
         "serviceName": "Text Message",
+         slug: "text-messages",
         "description": "Instantly send messages through QR Codes, streamlining communication and connecting people effortlessly with just a scan.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -228,6 +255,7 @@ const services = [
     {
         "icon": <RiDiscountPercentFill className="text-[#001a1a]" />,
         "serviceName": "Discount",
+         slug: "discounts",
         "description": "Unlock exclusive discounts with our QR Code generator—share savings and elevate your customer engagement effortlessly!",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -235,6 +263,7 @@ const services = [
     {
         "icon": <MdEventNote className="text-[#001a1a]" />,
         "serviceName": "Event",
+         slug: "events",
         "description": "Generate event QR Codes to effortlessly share details, enhance attendance, and engage participants with instant access.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -242,6 +271,7 @@ const services = [
     {
         "icon": <FaHandsHoldingChild className="text-[#001a1a]" />,
         "serviceName": "Kids Safety QR Tag",
+         slug: "kids-safety-qr-tags",
         "description": "Ensure kids' safety with our Kids Safety QR Tag, providing instant access to emergency contacts and information.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -249,6 +279,7 @@ const services = [
     {
         "icon": <FaCar className="text-[#001a1a]" />,
         "serviceName": "Vehicle",
+         slug: "vehicles",
         "description": "Discover the ideal vehicle with our QR Code—unlock digital specifications and instant access to details effortlessly.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -256,6 +287,7 @@ const services = [
     {
         "icon": <GiCash className="text-[#001a1a]" />,
         "serviceName": "Property QR",
+         slug: "property-qr",
         "description": "Boost your property listings with Property QR Codes, connecting potential buyers to essential digital details instantly.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -263,6 +295,7 @@ const services = [
     {
         "icon": <PiStudent className="text-[#001a1a]" />,
         "serviceName": "Student Form",
+         slug: "student-forms",
         "description": "Effortlessly create a Student Form QR Code that simplifies data collection and enhances engagement with students.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -270,6 +303,7 @@ const services = [
     {
         "icon": <FaLocationDot className="text-[#001a1a]" />,
         "serviceName": "Location",
+         slug: "location",
         "description": "Generate Location QR Codes to share precise directions, making it easy for others to find you.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -277,6 +311,7 @@ const services = [
     {
         "icon": <FaWifi className="text-[#001a1a]" />,
         "serviceName": "Wifi",
+         slug: "wifi",
         "description": "Generate QR Codes for Wifi access, enabling instant connectivity and hassle-free internet access for everyone.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -284,6 +319,7 @@ const services = [
     {
         "icon": <FaGithub className="text-[#001a1a]" />,
         "serviceName": "Github",
+         slug: "github",
         "description": "Elevate your projects with GitHub QR Codes, sharing repositories and code seamlessly with a simple scan.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -291,6 +327,7 @@ const services = [
     {
         "icon": <GrNotes className="text-[#001a1a]" />,
         "serviceName": "Personal Notes",
+         slug: "personal-notes",
         "description": "Capture and organize your thoughts easily with Personal Notes—share insights through scannable QR Codes effortlessly.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -298,6 +335,7 @@ const services = [
     {
         "icon": <FaHeartCircleExclamation className="text-[#001a1a]" />,
         "serviceName": "Medical Alert",
+         slug: "medical-alerts",
         "description": "Enhance safety with Medical Alert QR Codes, providing immediate access to critical health information in emergencies.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"
@@ -305,6 +343,7 @@ const services = [
     {
         "icon": <FaHeartCircleExclamation className="text-[#001a1a]" />,
         "serviceName": "Others",
+         slug: "others",
         "description": "Explore unique possibilities with Others—custom QR Code solutions tailored to diverse needs and creative applications.",
         "image": "https://images.unsplash.com/photo-1530745342582-0795f23ec976?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfDB8fHwy",
         "scanner": "https://scanner.example.com/invoice"

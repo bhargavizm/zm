@@ -81,8 +81,8 @@ const QRCodeTab = () => {
                     key={index}
                     src={src}
                     alt={`Shape ${index + 1}`}
-                    width={35}
-                    height={35}
+                    width={25}
+                    height={25}
                     className="rounded"
                   />
                 ))}
