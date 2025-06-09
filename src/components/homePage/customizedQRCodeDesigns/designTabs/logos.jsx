@@ -1,7 +1,7 @@
 "use client";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import Image from "next/image";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const Logos = ({ onSelectImage }) => {
   const logos = [
@@ -12,16 +12,27 @@ const Logos = ({ onSelectImage }) => {
   ];
 
   const { logoSize, setLogoSize } = useDesignContext();
+  const [showWarning, setShowWarning] = useState(false);
+
+  // Check if logo size is too large (more than 25% of QR size)
+  useEffect(() => {
+    setShowWarning(logoSize > 47); // Adjust threshold as needed
+  }, [logoSize]);
 
   const handleSliderChange = (e) => {
     const value = parseInt(e.target.value);
     setLogoSize(value);
-    localStorage.setItem("logoSize", value); // Optional persistence
+    localStorage.setItem("logoSize", value);
+  };
+
+  const handleReset = () => {
+    setLogoSize(45); // Default size
+    localStorage.setItem("logoSize", 45);
   };
 
   return (
     <section>
-      <div className="flex gap-4 flex-wrap mb-4">
+      <div className="flex gap-4 flex-wrap mb-9">
         {logos.map((src, index) => (
           <Image
             key={index}
@@ -37,22 +48,35 @@ const Logos = ({ onSelectImage }) => {
       </div>
 
       <div className="mb-2 flex flex-col items-start">
-  <label htmlFor="logo-size" className="block mb-1 text-lg font-medium">
-    Logo Scaling:
-  </label>
-  <input
-    type="range"
-    id="logo-size"
-    min="20"
-    max="120"
-    step="5"
-    value={logoSize}
-    onChange={handleSliderChange}
-    className="w-96 accent-mainGreen"
-  />
-</div>
+        <div className="flex justify-start items-center gap-9 w-full mb-4">
+          <label htmlFor="logo-size" className="text-lg font-medium text-darkGreen">
+            Logo Scaling:
+          </label>
+          {showWarning && (
+            <span className="text-red-500 text-sm font-bold">
+              ⚠️ QR Code may not scan, please test!
+            </span>
+          )}
+        </div>
 
-      
+        <input
+          type="range"
+          id="logo-size"
+          min="20"
+          max="120"
+          step="5"
+          value={logoSize}
+          onChange={handleSliderChange}
+          className="w-96 accent-mainGreen mb-2"
+        />
+
+          <button
+            onClick={handleReset}
+            className="text-md text-mainGreen hover:underline"
+          >
+            Reset
+          </button>
+      </div>
     </section>
   );
 };

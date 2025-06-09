@@ -6,7 +6,7 @@ const Colors = () => {
   return (
     <>
       <section>
-        <div className="flex justify-start items-center pt-4 gap-10">
+        <div className="grid lg:grid-cols-6 grid-cols-4  pt-4 gap-7">
           <div
             className="h-[60px] w-[60px] rounded-full bg-[#008080] overflow-hidden flex p-[35px_0_0_0] cursor-pointer"
             //   onClick={() => setPreSetColorOptions(5)}
@@ -60,9 +60,9 @@ const Colors = () => {
             <div className="h-full w-1/2 bg-[#fe3fb5]"></div>
             <div className="h-full w-1/2 bg-[#fe3fb5]"></div>
           </div>
-        </div>
+ 
 
-        <div className="flex justify-start items-center pt-6 gap-10">
+        {/* <div className="flex justify-start items-center pt-6 gap-10"> */}
           <div
             className="h-[60px] w-[60px] rounded-full bg-[#f78f44] overflow-hidden flex p-[35px_0_0_0] cursor-pointer"
             //   onClick={() => setPreSetColorOptions(5)}
