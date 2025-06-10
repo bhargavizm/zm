@@ -37,12 +37,12 @@ const ProductContent = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 p-6 font-sans text-gray-800">
-            <h1 className="text-3xl font-bold text-center text-teal-700 mb-8">
+        <div >
+            <h1 className="text-3xl font-bold  text-teal-700 mb-6">
                 Product QR Code Generator
             </h1>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <div className="grid grid-cols-1  gap-10">
                 {/* Form Section */}
                 <div className="bg-white shadow-xl rounded-xl p-6 space-y-6">
                     <div>
@@ -131,57 +131,7 @@ const ProductContent = () => {
                     </button>
                 </div>
 
-      {/* Preview Section */}
-                <div className="flex justify-center items-start">
-                    <div
-                        className="relative w-[300px] h-[500px] bg-white border-4 border-gray-800 rounded-2xl shadow-2xl overflow-hidden"
-                        style={{
-                            backgroundImage: productData.selectedTemplate
-                                ? `url(/templates/template${productData.selectedTemplate}.png)`
-                                : "none",
-                            backgroundSize: "cover",
-                            backgroundPosition: "center",
-                        }}
-                    >
-                        <div className="absolute inset-4 flex flex-col items-center space-y-4 bg-white bg-opacity-80 p-4 rounded-lg overflow-auto">
-                            {productImage && (
-                                <Image
-                                    src={productImage}
-                                    alt="Product Preview"
-                                    width={360}
-                                    height={360}
-                                    className="rounded-md object-cover"
-                                />
-                            )}
-                            <h2 className="text-xl font-bold text-center">{productData.heading}</h2>
-                            <p className="text-sm text-gray-700">{productData.description}</p>
 
-                            {productData.pageUrl && (
-                                <a
-                                    href={productData.pageUrl}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="text-teal-600 underline"
-                                >
-                                    🔗 Product Page
-                                </a>
-                            )}
-                            {productData.videoUrl && (
-                                <a
-                                    href={productData.videoUrl}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="text-teal-600 underline"
-                                >
-                                    🎥 Product Video
-                                </a>
-                            )}
-
-                            <p className="text-sm text-gray-800">📧 {productData.email}</p>
-                            <p className="text-sm text-gray-800">📞 {productData.phone}</p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     );
