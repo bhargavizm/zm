@@ -1,22 +1,4 @@
 
-// 'use client'
-
-// import React, { useState } from "react";
-// import { DesignContext } from "./DesignContext";
-
-// const DesignProvider = ({ children }) => {
-
-
-//         const [selectedQRShape, setSelectedQRShape] = useState(null);
-//         const [selectedLogo, setSelectedLogo] = useState(null);
-//   return (
-//     <>
-//       <DesignContext.Provider value={{selectedQRShape, setSelectedQRShape,selectedLogo,setSelectedLogo}}>{children}</DesignContext.Provider>
-//     </>
-//   );
-// };
-
-// export default DesignProvider;
 
 "use client";
 
