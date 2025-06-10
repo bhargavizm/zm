@@ -176,7 +176,7 @@ const Footer = () => {
                                 </Link>
                             </p>
                             <p>
-                                <span className="font-bold">Phone : </span>+91 8331085410
+                                <span className="font-bold">Phone : </span>+91 10000 00000
                             </p>
                         </div>
                     </div>
