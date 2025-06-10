@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-const BusinessContent = () => {
+const VcardContent = () => {
     const [form, setForm] = useState({
         name: "",
         heading: "",
@@ -43,7 +43,7 @@ const BusinessContent = () => {
     return (
         <div className="min-h-screen bg-[#f8f9fa] p-6">
             <h1 className="text-3xl font-bold text-center text-[#008080] mb-8">
-                Digital Business Cards
+                VCards
             </h1>
 
             <div className="grid grid-cols-1 gap-10">
@@ -65,7 +65,7 @@ const BusinessContent = () => {
                                     onClick={() => setSelectedTemplate(filename)}
                                 >
                                     <Image
-                                        src={`/business-card-templates/${filename}`}
+                                        src={`/templates/${filename}`}
                                         alt={`Template ${filename}`}
                                         width={100}
                                         height={120}
@@ -138,4 +138,4 @@ const BusinessContent = () => {
     );
 };
 
-export default BusinessContent;
+export default VcardContent;

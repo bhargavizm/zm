@@ -18,6 +18,13 @@ export default function FormContent() {
 
     const [formImage, setFormImage] = useState(null)
 
+    const templateList = [
+        "temp1.webp",
+        "temp2.webp",
+        "temp3.webp",
+        "temp4.webp",
+    ]
+
     const handleChange = (e) => {
         const { id, value, type, files } = e.target
         if (type === 'file') {
@@ -32,17 +39,21 @@ export default function FormContent() {
         }
     }
 
-    const selectTemplate = (index) => {
-        setFormData((prev) => ({ ...prev, selectedTemplate: index }))
+    const selectTemplate = (filename) => {
+        setFormData((prev) => ({ ...prev, selectedTemplate: filename }))
     }
 
     return (
+<<<<<<< HEAD:src/components/servicesPages/servicesLayout/contentTabs/FormContent.jsx
+        <div className="min-h-screen flex text-white font-sans bg-white">
+            <div className="w-full h-screen overflow-y-auto text-black p-6 space-y-6">
+=======
         <div className=" flex bg-gradient-to-br from-[#008080] to-[#006666] text-white font-sans">
             {/* Left Form Section */}
             <div className="w-full  overflow-y-auto bg-white text-black p-6 space-y-6">
+>>>>>>> 8428f6bc963f2b9e53dfee6c6c8b7ce69a225361:src/components/servicesPages/servicesContent/form-qr/FormContent.jsx
                 <h1 className="text-2xl font-bold text-[#008080]">Form QR Generator</h1>
 
-                {/* Image Upload */}
                 <div>
                     <label className="font-semibold">Form Image (500×500)</label>
                     <input
@@ -54,22 +65,21 @@ export default function FormContent() {
                     />
                 </div>
 
-                {/* Template Selector */}
                 <div>
                     <label className="font-semibold">Select a Template</label>
-                    <div className="grid grid-cols-4 gap-4">
-                        {[1, 2, 3, 4].map((i) => (
+                    <div className="grid grid-cols-3 md:grid-cols-4 gap-4">
+                        {templateList.map((filename) => (
                             <div
-                                key={i}
-                                onClick={() => selectTemplate(i)}
-                                className={`cursor-pointer border p-1 rounded-lg ${formData.selectedTemplate === i
-                                        ? 'border-teal-600 ring-2 ring-teal-400'
-                                        : 'border-gray-300'
+                                key={filename}
+                                onClick={() => selectTemplate(filename)}
+                                className={`cursor-pointer border p-1 rounded-lg ${formData.selectedTemplate === filename
+                                    ? 'border-teal-600 ring-2 ring-teal-400'
+                                    : 'border-gray-300'
                                     }`}
                             >
                                 <Image
-                                    src={`/templates/template${i}.png`}
-                                    alt={`Template ${i}`}
+                                    src={`/form-templates/${filename}`}
+                                    alt={`Template ${filename}`}
                                     width={80}
                                     height={80}
                                     className="rounded-md object-cover"
@@ -78,7 +88,7 @@ export default function FormContent() {
                         ))}
                     </div>
                 </div>
-                {/* Input Fields */}
+
                 <input
                     id="formName"
                     type="text"
@@ -111,7 +121,6 @@ export default function FormContent() {
                     placeholder="Video URL"
                     className="border border-gray-300 px-3 py-2 rounded w-full"
                 />
-                {/* Manual PDF */}
                 <div>
                     <label className="font-semibold">Form Manual</label>
                     <input
@@ -149,7 +158,10 @@ export default function FormContent() {
                     Generate QR Code
                 </button>
             </div>
+<<<<<<< HEAD:src/components/servicesPages/servicesLayout/contentTabs/FormContent.jsx
+=======
 
+>>>>>>> 8428f6bc963f2b9e53dfee6c6c8b7ce69a225361:src/components/servicesPages/servicesContent/form-qr/FormContent.jsx
         </div>
     )
 }
