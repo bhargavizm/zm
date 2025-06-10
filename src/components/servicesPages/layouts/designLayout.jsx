@@ -1,11 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import PreviewPanel from "@/components/homePage/customizedQRCodeDesigns/previewPanel";
-import QRCodeTab from "../servicesContent/qrcodeTabs/qrcodeTab";
+
 import { IoEyeOutline } from "react-icons/io5";
 import { MdQrCodeScanner } from "react-icons/md";
 import AnimatedButton from "@/components/animatedButton/animatedButton";
 import { FaLongArrowAltDown } from "react-icons/fa";
+import QRCodeTab from "../servicesContent/qrcodeTabs/qrcodeTab";
 
 const tabs = ["Content", "QR Code"];
 
