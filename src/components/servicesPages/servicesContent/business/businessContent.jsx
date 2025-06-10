@@ -19,9 +19,9 @@ const BusinessContent = () => {
     return (
         <>
         <div className="  ">
-            <h1 className="text-3xl font-bold pb-6 text-[#008080]">
+            {/* <h1 className="text-3xl font-bold pb-6 text-[#008080]">
                 Digital Business Cards
-            </h1>
+            </h1> */}
             <div className="grid grid-cols-1  gap-10">
                 {/* Left Side - Form */}
                 <div className="bg-white shadow-xl rounded-xl p-6 space-y-6">

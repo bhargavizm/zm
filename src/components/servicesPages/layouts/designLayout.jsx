@@ -6,24 +6,29 @@ import { IoEyeOutline } from "react-icons/io5";
 import { MdQrCodeScanner } from "react-icons/md";
 import AnimatedButton from "@/components/animatedButton/animatedButton";
 import { FaLongArrowAltDown } from "react-icons/fa";
+import { useParams } from "next/navigation";
 
 const tabs = ["Content", "QR Code"];
 
 const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
+  const { slug } = useParams();
   const [activeTab, setActiveTab] = useState("Content");
   const [activePreview, setActivePreview] = useState("eye");
-
+  console.log(slug);
   return (
     <section className="pt-8">
       <div className="grid grid-cols-12 gap-4 mx-4 sm:mx-6 md:mx-9">
         {/* Left Panel */}
         <div className="col-span-12 lg:col-span-7 bg-white rounded-3xl shadow-lg">
-          {/* <h1 className="text-2xl font-bold py-4 px-6">
-            Service Configuration
-          </h1> */}
+          <h1 className="text-2xl font-bold py-4 px-6">
+            {slug
+              .split("-")
+              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(" ")}
+          </h1>
 
           {/* Tabs */}
-          <div className="flex gap-6 justify-center bg-[#58b8b8] mt-9 shadow-lg py-2 mb-4">
+          <div className="flex gap-6 justify-center bg-[#58b8b8]  shadow-lg py-2 mb-4">
             {tabs.map((tab) => (
               <button
                 key={tab}
@@ -49,7 +54,7 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
 
         {/* Right Preview Panel */}
         <div className="col-span-12 lg:col-span-5 bg-white rounded-3xl shadow-lg py-8  lg:mt-0">
-          <div className="flex gap-4 px-4 mb-4 bg-[#58b8b8] shadow-lg py-2 mt- ">
+          <div className="flex gap-4 px-4 mb-4 bg-[#58b8b8] shadow-lg py-2 mt-7 ">
             <div
               onClick={() => setActivePreview("scan")}
               className={`p-3 rounded-full cursor-pointer ${
@@ -84,16 +89,14 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
             )}
             {activePreview === "eye" && (
               <div className="flex justify-center items-center p-4 rounded-xl">
-               
-                  {/* Top Notch */}
-                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-5 bg-black rounded-b-2xl z-10"></div>
+                {/* Top Notch */}
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-5 bg-black rounded-b-2xl z-10"></div>
 
-                  {/* Content Area */}
-                  <div className="flex-1 w-full px-4 pt-8 pb-6 overflow-auto">
-                    <PreviewTabComponent />
-                  </div>
+                {/* Content Area */}
+                <div className="flex-1 w-full px-4 pt-8 pb-6 overflow-auto">
+                  <PreviewTabComponent />
                 </div>
-           
+              </div>
             )}
           </div>
         </div>
