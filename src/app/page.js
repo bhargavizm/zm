@@ -1,15 +1,14 @@
-import VehicleContent from "@/components/servicesContent/VehicleContent";
 import GenerateQR from "./generateQR/page";
-import KidSafetyForm from "@/components/servicesContent/KidSafetyForm";
-import PropertyForm from "@/components/servicesContent/PropertyContent";
-import StudentInfoForm from "@/components/servicesContent/StudentsFormContent";
-import TextMessageForm from "@/components/servicesContent/TextMsgForm";
 
 export default function Home() {
   return (
     <>
       <div className="">
+<<<<<<< HEAD
         <GenerateQR/>
+=======
+        <GenerateQR />
+>>>>>>> 9f31668fdab6f73419d1215053bda733cfd94c65
       </div>
     </>
   );

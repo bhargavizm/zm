@@ -37,7 +37,7 @@ const cardItems = [
 ];
 
 const QRCodeTab = () => {
-       const [activeTab, setActiveTab] = useState("QR Shapes");
+        const [activeTab, setActiveTab] = useState("QR Shapes");
         const [isModalOpen, setIsModalOpen] = useState(false);
         console.log(activeTab)
   return (

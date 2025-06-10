@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import Image from "next/image"; // Make sure Image is imported
 
 const ServicesPage = () => {
   const [services, setServices] = useState([]);
@@ -22,41 +23,55 @@ const ServicesPage = () => {
   }, []);
 
   return (
-    <div className="py-12 bg-[#9af6f6]">
-      <div className="max-w-7xl mx-auto px-4 py-20 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div className="py-12 bg-[rgb(0,128,128)]">
+      <div className="max-w-6xl mx-auto px-4 py-20 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {services.map((service, index) => (
             <Link key={index} href={`/services/${service.slug}`}>
-              <div className="bg-white rounded-xl shadow-lg transition duration-200 overflow-hidden p-6 hover:-translate-y-1 cursor-pointer">
+              {/* Added h-96 for fixed height and overflow-hidden */}
+              <div className="bg-white rounded-xl shadow-lg transition duration-200 overflow-hidden p-6 hover:-translate-y-1 cursor-pointer h-85"> {/* Fixed Height Applied Here */}
                 <div className="flex items-start mb-3">
+                  {/* Ensure service.icon is rendering correctly, potentially requires a span or div */}
                   <span className="text-2xl text-teal-600 mr-2">{service.icon}</span>
                   <h2 className="text-xl font-bold text-gray-900">{service.serviceName}</h2>
                 </div>
 
                 {/* Image + QR Section */}
-                {service.image && (
-                  <div className="flex justify-end items-center space-x-4 mb-4">
-                    <img
-                      src={service.image}
-                      alt={service.serviceName}
-                      className="w-64 h-64 object-contain"
-                    />
-
+                {(service.image || service.qrLabel) && (
+                  <div className="flex justify-between items-center space-x-4 mb-4">
+                    {service.image && (
+                      <div className="w-full flex justify-center"> {/* Added wrapper for centering */}
+                        {/* Using next/image for optimization */}
+                        <Image
+                          src={service.image}
+                          alt={service.serviceName}
+                          width={160} // Set appropriate width
+                          height={160} // Set appropriate height
+                          className="object-contain"
+                        />
+                      </div>
+                    )}
                     {service.qrLabel && (
-                      <div className="text-center">
-                        <img
+                      <div className="w-full flex justify-center"> {/* Added wrapper for centering */}
+                        {/* Using next/image for optimization */}
+                        <Image
                           src={service.qrLabel}
                           alt="QR Code"
-                          className="w-16 h-16 mx-auto"
+                          width={64} // Set appropriate width
+                          height={64} // Set appropriate height
+                          className="object-contain"
                         />
-                        <p className="text-xs text-gray-500 mt-1 font-medium">SCAN ME!</p>
                       </div>
                     )}
                   </div>
                 )}
 
+
                 {/* Description */}
-                <p className="text-sm text-gray-600">{service.description}</p>
+                <p className="text-xs text-gray-600">
+                  {service.description}
+                </p>
+
               </div>
             </Link>
           ))}

@@ -41,7 +41,7 @@ export default function LoginPage() {
                     <h1 className="text-xl font-semibold text-center px-4">
                         World's No.1 QR Code Generating and Managing Platform
                     </h1>
-                    <Image src="/qr-image-login.png" alt="qr-image" width={200} height={200} className="m-5" />
+                    <Image src="/qr-image-login.png" alt="qr-image" width={400} height={400} className="m-5" />
                     <h4 className="text-md font-thin text-center px-4">
                         Trusted by the World's Top Brands.
                     </h4>
