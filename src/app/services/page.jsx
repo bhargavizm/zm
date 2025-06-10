@@ -22,8 +22,8 @@ const ServicesPage = () => {
   }, []);
 
   return (
-    <div className="py-12 bg-[#9af6f6]">
-      <div className="max-w-7xl mx-auto px-4 py-20 sm:px-6 lg:px-8">
+    <div className="py-12 bg-[rgb(0,128,128)]">
+      <div className="max-w-6xl mx-auto px-4 py-20 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
             <Link key={index} href={`/services/${service.slug}`}>
@@ -39,7 +39,7 @@ const ServicesPage = () => {
                     <img
                       src={service.image}
                       alt={service.serviceName}
-                      className="w-64 h-64 object-contain"
+                      className="w-40 h-40 object-contain"
                     />
 
                     {service.qrLabel && (
@@ -56,7 +56,7 @@ const ServicesPage = () => {
                 )}
 
                 {/* Description */}
-                <p className="text-sm text-gray-600">{service.description}</p>
+                <p className="text-xs text-gray-600">{service.description}</p>
               </div>
             </Link>
           ))}
