@@ -57,7 +57,7 @@ const Carousel = ({ items = [] }) => {
               <img
                 src={job.icon || '/placeholder.png'}
                 alt={job.title}
-                className="w-20 h-20 mb-4 object-contain"
+                className="w-300 h-40 mb-4 object-contain"
               />
               <p className="text-xl font-semibold text-center">{job.title}</p>
             </div>
