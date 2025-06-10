@@ -163,7 +163,7 @@ export default function Career() {
           “Elevate Your Business with ZM’s Premium QR Code Services”
         </h2>
         <p className="max-w-3xl mx-auto mb-6">
-          We empower businesses with dynamic QR solutions that include AI,
+          We empower businesses with static QR solutions that include AI,
           analytics, branding and customer engagement tools.
         </p>
         <div className="flex justify-center mb-6">
