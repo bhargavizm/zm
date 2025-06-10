@@ -41,12 +41,22 @@ const ProductContent = () => {
     };
 
     return (
+<<<<<<< HEAD:src/components/servicesPages/servicesLayout/contentTabs/ProductContent.jsx
         <div className="min-h-screen bg-[#f8f9fa] p-6">
             <h1 className="text-3xl font-bold text-center text-[#008080] mb-8">
                 Product QR Code Generator
             </h1>
 
             <div className="grid grid-cols-1 gap-10">
+=======
+        <div >
+            <h1 className="text-3xl font-bold  text-teal-700 mb-6">
+                Product QR Code Generator
+            </h1>
+
+            <div className="grid grid-cols-1  gap-10">
+                {/* Form Section */}
+>>>>>>> 8428f6bc963f2b9e53dfee6c6c8b7ce69a225361:src/components/servicesPages/servicesContent/product/ProductContent.jsx
                 <div className="bg-white shadow-xl rounded-xl p-6 space-y-6">
                     {/* Templates */}
                     <div>
@@ -141,6 +151,11 @@ const ProductContent = () => {
                         Generate QR Code
                     </button>
                 </div>
+<<<<<<< HEAD:src/components/servicesPages/servicesLayout/contentTabs/ProductContent.jsx
+=======
+
+
+>>>>>>> 8428f6bc963f2b9e53dfee6c6c8b7ce69a225361:src/components/servicesPages/servicesContent/product/ProductContent.jsx
             </div>
         </div>
     );

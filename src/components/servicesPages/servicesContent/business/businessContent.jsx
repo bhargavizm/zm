@@ -1,8 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
+import BusinessPreview from "./businessPreview";
+import useServicesContext from "@/components/hooks/useServiceContext";
 
 const BusinessContent = () => {
+<<<<<<< HEAD:src/components/servicesPages/servicesLayout/business/businessContent.jsx
     const [form, setForm] = useState({
         name: "",
         heading: "",
@@ -29,8 +32,12 @@ const BusinessContent = () => {
         "bc4.webp",
     ];
 
+=======
+
+    const {  businessForm, setBusinessForm,profileImage, setProfileImage,brandLogo, setBrandLogo} = useServicesContext()
+>>>>>>> 8428f6bc963f2b9e53dfee6c6c8b7ce69a225361:src/components/servicesPages/servicesContent/business/businessContent.jsx
     const handleInputChange = (e) => {
-        setForm({ ...form, [e.target.id]: e.target.value });
+        setBusinessForm({ ...businessForm, [e.target.id]: e.target.value });
     };
 
     const handleImageUpload = (e, setter) => {
@@ -41,8 +48,9 @@ const BusinessContent = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#f8f9fa] p-6">
-            <h1 className="text-3xl font-bold text-center text-[#008080] mb-8">
+        <>
+        <div className="  ">
+            <h1 className="text-3xl font-bold pb-6 text-[#008080]">
                 Digital Business Cards
             </h1>
 
@@ -118,7 +126,7 @@ const BusinessContent = () => {
                                 key={id}
                                 id={id}
                                 type={type}
-                                value={form[id]}
+                                value={businessForm[id]}
                                 onChange={handleInputChange}
                                 placeholder={placeholder}
                                 className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
@@ -135,6 +143,9 @@ const BusinessContent = () => {
                 </div>
             </div>
         </div>
+
+        {/* <BusinessPreview form={form} profileImage={profileImage} brandLogo={brandLogo}/> */}
+        </>
     );
 };
 
