@@ -8,27 +8,37 @@ const componentMap = {
     content: dynamic(() => import('@/components/servicesPages/servicesContent/business/businessContent'), { ssr: false }),
     preview: dynamic(() => import('@/components/servicesPages/servicesContent/business/businessPreview'), { ssr: false }),
   },
+  'v-cards': {
+    content: dynamic(() => import('@/components/servicesPages/servicesContent/business/businessContent'), { ssr: false }),
+    preview: dynamic(() => import('@/components/servicesPages/servicesContent/business/businessPreview'), { ssr: false }),
+  },
+  
   'product-cards': {
     content: dynamic(() => import('@/components/servicesPages/servicesContent/product/ProductContent'), { ssr: false }),
     preview: dynamic(() => import('@/components/servicesPages/servicesContent/product/productReview'), { ssr: false }),
   },
-  'form-qr': {
-    content: dynamic(() => import('@/components/servicesPages/servicesContent/form-qr/FormContent'), { ssr: false }),
-    preview: dynamic(() => import('@/components/servicesPages/servicesContent/form-qr/formPreview'), { ssr: false }),
-  },
-  'audios': {
+
+  'audio': {
     content: dynamic(() => import('@/components/servicesPages/servicesContent/audio/audioContent'), { ssr: false }),
-    preview: dynamic(() => import('@/components/servicesPages/servicesContent/form-qr/formPreview'), { ssr: false }),
+    preview: dynamic(() => import('@/components/servicesPages/servicesContent/audio/audioPreview'), { ssr: false }),
   },
-  // 'product-cards': {
-  //   content: dynamic(() => import('@/components/servicesPages/servicesLayout/contentTabs/ProductContent'), { ssr: false }),
-  //   preview: dynamic(() => import('@/components/servicesPages/servicesLayout/previewTabs/ProductPreview'), { ssr: false }),
-  // },
-  // 'form-qr': {
-  //   content: dynamic(() => import('@/components/servicesPages/servicesLayout/contentTabs/FormContent'), { ssr: false }),
-  //   preview: dynamic(() => import('@/components/servicesPages/servicesLayout/previewTabs/FormPreview'), { ssr: false }),
-  // },
-  // Add all 40 mappings like above
+  'videos': {
+    content: dynamic(() => import('@/components/servicesPages/servicesContent/audio/audioContent'), { ssr: false }),
+    preview: dynamic(() => import('@/components/servicesPages/servicesContent/audio/audioPreview'), { ssr: false }),
+  },
+  'Pet-ID-tags': {
+    content: dynamic(() => import('@/components/servicesPages/servicesContent/petIdTag/PetTagContent'), { ssr: false }),
+    preview: dynamic(() => import('@/components/servicesPages/servicesContent/petIdTag/petIDTagPreview'), { ssr: false }),
+  },
+  'gallery': {
+    content: dynamic(() => import('@/components/servicesPages/servicesContent/gallery/galleryContent'), { ssr: false }),
+    preview: dynamic(() => import('@/components/servicesPages/servicesContent/gallery/galleryPreview'), { ssr: false }),
+  },
+  'resumes': {
+    content: dynamic(() => import('@/components/servicesPages/servicesContent/resume/resumeContent'), { ssr: false }),
+    preview: dynamic(() => import('@/components/servicesPages/servicesContent/resume/resumePreview'), { ssr: false }),
+  },
+
 };
 
 export default componentMap

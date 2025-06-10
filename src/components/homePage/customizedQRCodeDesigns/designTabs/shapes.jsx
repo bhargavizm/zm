@@ -52,7 +52,7 @@ const Shapes = ({ onSelectImage }) => {
             width={30}
             height={30}
             className="cursor-pointer hover:scale-110 transition-transform"
-            onClick={() => onSelectImage(src)}
+            //onClick={() => onSelectImage(src)}
             priority
           />
         ))}
@@ -70,7 +70,7 @@ const Shapes = ({ onSelectImage }) => {
             width={30}
             height={30}
             className="cursor-pointer hover:scale-110 transition-transform"
-            onClick={() => onSelectImage(src)}
+            //onClick={() => onSelectImage(src)}
             priority
           />
         ))}

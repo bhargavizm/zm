@@ -6,7 +6,6 @@ import AnimatedButton from "@/components/animatedButton/animatedButton";
 import PreviewPanel from "./previewPanel";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
-
 const tabs = ["Stickers", "Colors", "Shapes", "Logos"];
 
 const DecorateQRCode = () => {
@@ -27,6 +26,51 @@ const DecorateQRCode = () => {
             <hr className="my-2 border-gray-300" />
 
             {/* 1st Accordion */}
+
+            <div className="max-w-full sm:max-w-xl mx-auto mt-6">
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="w-full px-4 sm:px-6 py-3 sm:py-4 text-left bg-[#35aeae] focus:outline-none flex justify-between items-center cursor-pointer rounded-md"
+              >
+                <span className="font-bold text-white text-base sm:text-lg">
+                  Service Name
+                </span>
+                <svg
+                  className={`w-5 h-5 text-white transform transition-transform duration-300 ${
+                    isOpen ? "rotate-180" : ""
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+
+              {isOpen && (
+                <div className="px-4 sm:px-6 py-4 bg-white text-gray-700 border border-gray-200 rounded-b-md">
+                  <div className="pb-5 relative">
+                    <input
+                      required
+                      id="password"
+                      name="password"
+                      type={showPassword ? "text" : "password"}
+                      autoComplete="off"
+                      className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent pr-10"
+                      placeholder="service name"
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* 2st Accordion */}
 
             <div className="max-w-full sm:max-w-xl mx-auto mt-6">
               <div className="w-full px-4 sm:px-6 py-3 sm:py-4 text-left bg-[#35aeae] flex justify-between items-center rounded-t-md">
@@ -55,56 +99,61 @@ const DecorateQRCode = () => {
               </div>
             </div>
 
-             <div className="max-w-full sm:max-w-xl mx-auto mt-6">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-4 sm:px-6 py-3 sm:py-4 text-left bg-[#35aeae] focus:outline-none flex justify-between items-center cursor-pointer rounded-md"
-      >
-        <span className="font-bold text-white text-base sm:text-lg">
-          Password
-        </span>
-        <svg
-          className={`w-5 h-5 text-white transform transition-transform duration-300 ${
-            isOpen ? "rotate-180" : ""
-          }`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
-      </button>
+            {/* 3st Accordion */}
+            <div className="max-w-full sm:max-w-xl mx-auto mt-6">
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="w-full px-4 sm:px-6 py-3 sm:py-4 text-left bg-[#35aeae] focus:outline-none flex justify-between items-center cursor-pointer rounded-md"
+              >
+                <span className="font-bold text-white text-base sm:text-lg">
+                  Password
+                </span>
+                <svg
+                  className={`w-5 h-5 text-white transform transition-transform duration-300 ${
+                    isOpen ? "rotate-180" : ""
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
 
-      {isOpen && (
-        <div className="px-4 sm:px-6 py-4 bg-white text-gray-700 border border-gray-200 rounded-b-md">
-          <div className="pb-5 relative">
-            <input
-              required
-              id="password"
-              name="password"
-              type={showPassword ? "text" : "password"}
-              autoComplete="off"
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent pr-10"
-              placeholder="Password"
-            />
-            <div
-              className="absolute top-1/3 right-3 transform -translate-y-1/2 text-gray-500 cursor-pointer"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
+              {isOpen && (
+                <div className="px-4 sm:px-6 py-4 bg-white text-gray-700 border border-gray-200 rounded-b-md">
+                  <div className="pb-5 relative">
+                    <input
+                      required
+                      id="password"
+                      name="password"
+                      type={showPassword ? "text" : "password"}
+                      autoComplete="off"
+                      className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent pr-10"
+                      placeholder="Password"
+                    />
+                    <div
+                      className="absolute top-1/3 right-3 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? (
+                        <AiFillEyeInvisible size={20} />
+                      ) : (
+                        <AiFillEye size={20} />
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
-        </div>
-      )}
-    </div>
 
-            {/* 2nd Accordion - opens modal */}
+            {/* 3nd Accordion - opens modal */}
             <div className="max-w-full sm:max-w-xl mx-auto mt-6">
               <button
                 onClick={() => setIsModalOpen(true)}
