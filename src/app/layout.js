@@ -3,6 +3,7 @@ import Footer from "@/components/footer/footer";
 import "./globals.css";
 import { LanguageProvider } from "@/context/languageContext/LanguageContext"; // 👈 Import your provider
 import DesignProvider from "@/context/qrCodeDesignContext/DesignProvider";
+import ServicesProvider from "@/context/servicesContext/ServivesProvider";
 
 
 export const metadata = {
@@ -15,6 +16,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <LanguageProvider> {/* 👈 Wrap the app in provider */}
+          <ServicesProvider>
           <DesignProvider>
           <Navbar />
           <main>
@@ -22,6 +24,7 @@ export default function RootLayout({ children }) {
           </main>
           <Footer />
           </DesignProvider>
+          </ServicesProvider>
         </LanguageProvider>
       </body>
     </html>
