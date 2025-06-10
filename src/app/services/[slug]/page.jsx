@@ -9,8 +9,8 @@ import componentMap from '@/components/servicesPages/servicesRoutes/servicesRout
 
 
 const directToCustomize = [
-  'urls', 'meetings', 'google-meets', 'zoom-meets', 'microsoft-teams',
-  'youtube', 'facebook', 'instagram', 'linkedin', 'twitter', 'location'
+  'urls', 'meetings', 'google-meets', 'zoom-meets', 'microsoft-teams','form-qr','forms',
+  'youtube', 'facebook', 'instagram', 'linkedin', 'twitter', 'location','pdf','landing-page'
 ];
 
 const ServicePage = () => {

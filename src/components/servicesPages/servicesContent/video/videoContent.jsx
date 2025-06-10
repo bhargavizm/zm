@@ -1,87 +1,97 @@
 "use client";
-
-import React, { useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import useServicesContext from "@/components/hooks/useServiceContext";
 
-const  VideoContent = ()  => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [file, setFile] = useState(null);
-  const [password, setPassword] = useState("");
+const VedioContent = () => {
+  const { titleFormData, setTitleFormData } = useServicesContext(); // Using titleFormData
   const [showPassword, setShowPassword] = useState(false);
 
   const router = useRouter();
 
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    setTitleFormData((prev) => ({ // Updated to setTitleFormData
+      ...prev,
+      [name]: files ? files[0] : value,
+    }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!file) {
-      alert("Please select a video file.");
+    if (!titleFormData.file) { // Updated to titleFormData
+      alert("Please select an audio file.");
       return;
     }
 
-    const fileUrl = URL.createObjectURL(file);
+    const data = {
+      title: titleFormData.title, // Updated to titleFormData
+      description: titleFormData.description, // Updated to titleFormData
+      fileName: titleFormData.file.name, // Updated to titleFormData
+      password: titleFormData.password, // Updated to titleFormData
+    };
 
-    // Ideally you store this in a global store or temporary localStorage
-    // For demo purposes, we’ll use localStorage here:
-    localStorage.setItem(
-      "videoPreviewData",
-      JSON.stringify({
-        title,
-        description,
-        fileName: file.name,
-        password,
-        fileUrl,
-      })
-    );
-
-    router.push("/video/preview");
+    localStorage.setItem("audioData", JSON.stringify(data));
+    router.push("/preview");
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#008080] to-[#005f5f] flex items-center justify-center p-6">
-      <div className="w-full max-w-2xl bg-white shadow-xl rounded-2xl p-6 space-y-5">
-        <h1 className="text-2xl font-bold text-center text-gray-800">
-          🎥 Video QR Generator
-        </h1>
+    <div className="flex w-full max-w-3xl gap-6">
+      <div className="flex-1 bg-white shadow-lg rounded-2xl p-6 space-y-5 max-h-[600px] overflow-auto">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="text-sm font-medium text-gray-600">Title</label>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">
+              Title
+            </label>
             <input
               type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="w-full mt-1 px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-500 text-sm"
-              placeholder="Video title"
+              name="title"
+              value={titleFormData.title} // Updated to titleFormData
+              onChange={handleChange}
+              placeholder="Enter audio title"
+              className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
             />
           </div>
+
           <div>
-            <label className="text-sm font-medium text-gray-600">Description</label>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">
+              Description
+            </label>
             <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              name="description"
               rows="2"
-              className="w-full mt-1 px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-500 text-sm"
-              placeholder="Short description"
+              value={titleFormData.description} // Updated to titleFormData
+              onChange={handleChange}
+              placeholder="Enter description"
+              className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
             />
           </div>
+
           <div>
-            <label className="text-sm font-medium text-gray-600">Video File</label>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">
+              Choose File
+            </label>
             <input
               type="file"
-              accept="video/*"
-              onChange={(e) => setFile(e.target.files[0])}
+              name="file"
+              accept="audio/*"
+              onChange={handleChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:bg-teal-600 file:text-white hover:file:bg-teal-700"
             />
           </div>
+
           <div>
-            <label className="text-sm font-medium text-gray-600">Password</label>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">
+              Password
+            </label>
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-500 text-sm"
-                placeholder="Password"
+                name="password"
+                value={titleFormData.password} // Updated to titleFormData
+                onChange={handleChange}
+                placeholder="Enter password"
+                className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
               />
               <button
                 type="button"
@@ -92,16 +102,17 @@ const  VideoContent = ()  => {
               </button>
             </div>
           </div>
+
           <button
             type="submit"
-            className="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 rounded-lg font-semibold text-sm"
+            className="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 rounded-lg font-semibold text-sm transition"
           >
-            Preview on iPhone
+            Submit
           </button>
         </form>
       </div>
     </div>
   );
-}
+};
 
-export default VideoContent
+export default VedioContent;
