@@ -5,6 +5,7 @@ import {
   FaTag, FaPercent, FaDollarSign, FaCalendarAlt, FaCalendarTimes, FaShoppingCart,
   FaRedo, FaBoxOpen, FaFolderOpen, FaUsers, FaPlusCircle, FaTimes, FaFileAlt, FaInfoCircle, FaClipboardCheck
 } from 'react-icons/fa';
+import { FaLocationDot } from "react-icons/fa6";
 import { motion, AnimatePresence } from 'framer-motion';
 
 // --- Color Palette based on #008080 (Teal) ---
