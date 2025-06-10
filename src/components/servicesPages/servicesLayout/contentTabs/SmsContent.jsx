@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { FiMessageSquare, FiUser, FiCalendar, FiLock, FiSmartphone, FiEye, FiEyeOff } from 'react-icons/fi'
 
-export default function QRCodeGenerator() {
+export default function SmsContent() {
   const [formData, setFormData] = useState({
     genderName: '',
     messageType: '',
@@ -43,11 +43,11 @@ export default function QRCodeGenerator() {
                 </h2>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Gender Name</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
                     <input 
                       type="text" 
                       name="genderName" 
-                      placeholder="Enter gender name" 
+                      placeholder="Enter name" 
                       value={formData.genderName} 
                       onChange={handleChange} 
                       className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#008080] focus:border-[#008080]" 
