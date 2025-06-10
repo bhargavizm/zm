@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 // 'use client'
 
 // import React, { useState } from "react";
@@ -17,6 +18,8 @@
 // };
 
 // export default DesignProvider;
+=======
+>>>>>>> 8428f6bc963f2b9e53dfee6c6c8b7ce69a225361
 
 "use client";
 
