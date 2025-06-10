@@ -60,14 +60,14 @@ const services = [
     {
         "icon": <BsPersonVcard className="text-[#001a1a]" />,
         "serviceName": "vCard Plus",
-         slug: "V-Cards",
+         slug: "v-cards",
         "description": "Effortlessly create vCard Plus QR Codes to share your contact information and boost networking opportunities instantly!",
         "image": "/services/vCard.webp",
     },
     {
         "icon": <FaFilePdf className="text-[#001a1a]" />,
         "serviceName": "PDF",
-         slug: "PDF",
+         slug: "pdf",
         "description": "Generate scannable QR Codes for PDF files, ensuring easy access and sharing of important documents digitally.",
         "image": "/services/PDF-to-qr.webp",
     },
