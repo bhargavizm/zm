@@ -67,7 +67,7 @@ const services = [
     {
         "icon": <FaFilePdf className="text-[#001a1a]" />,
         "serviceName": "PDF",
-        slug: "PDF",
+        slug: "pdf",
         "description": "Generate scannable QR Codes for PDF files, ensuring easy access and sharing of important documents digitally.",
         "image": "/services/PDF-to-qr.webp",
     },

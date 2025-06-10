@@ -15,7 +15,7 @@ const componentMap = {
   // others that use ServicesLayout...
 };
 
-const directToCustomize = ['urls', 'meetings','google-meets','zoom-meets','microsoft-teams','youtube', 'facebook', 'instagram', 'linkedin', 'twitter', 'location', 'PDF'];
+const directToCustomize = ['urls', 'meetings','google-meets','zoom-meets','microsoft-teams','youtube', 'facebook', 'instagram', 'linkedin', 'twitter', 'location', 'pdf'];
  // Slugs that directly go to CustomizeQRCode
 
 const ServicePage = () => {
