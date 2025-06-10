@@ -86,6 +86,11 @@ const services = [
         "image": "/services/url-to-qr.webp",
     },
     {
+<<<<<<< HEAD
+        "icon": <ImHeadphones className="text-[#001a1a]" />,
+        "serviceName": "Audio",
+         slug: "audio",
+=======
         "icon": <IoIosLink className="text-[#001a1a]" />,
         "serviceName": "Image to QR",
         slug: "image-to-qr",
@@ -96,6 +101,7 @@ const services = [
         "icon": <ImHeadphones className="text-[#001a1a]" />,
         "serviceName": "Audio",
         slug: "audios",
+>>>>>>> 9f31668fdab6f73419d1215053bda733cfd94c65
         "description": "Generate QR Codes that link to audio content, enhancing experiences with instant access to captivating sound.",
         "image": "/services/audio-qr.webp",
     },

@@ -1,8 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
+import useServicesContext from "@/components/hooks/useServiceContext";
 
 const ProductContent = () => {
+  const { productData, setProductData, setProductImage } = useServicesContext();
     const [form, setForm] = useState({
         heading: "",
         description: "",
@@ -20,29 +22,28 @@ const ProductContent = () => {
     // ✅ Update file extensions to .webp
     const templateImages = ["temp1.webp", "temp2.webp", "temp3.webp", "temp4.webp"];
 
-    const handleInputChange = (e) => {
-        const { id, value } = e.target;
-        setForm({ ...form, [id]: value });
-    };
+  const handleChange = (e) => {
+    const { id, value, type, files } = e.target;
 
-    const handleFileUpload = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const imageUrl = URL.createObjectURL(file);
-            setProductImages((prev) => [...prev, imageUrl]);
-        }
-    };
+    if (type === "file") {
+      const file = files[0];
+      if (file && id === "productImage") {
+        setProductImage(URL.createObjectURL(file));
+      } else if (file && id === "manual") {
+        setProductData((prev) => ({ ...prev, manual: file }));
+      }
+    } else {
+      setProductData((prev) => ({ ...prev, [id]: value }));
+    }
+  };
 
-    const handleManualUpload = (e) => {
-        const file = e.target.files[0];
-        if (file && file.type === "application/pdf") {
-            setForm({ ...form, manual: file });
-        }
-    };
+  const selectTemplate = (index) => {
+    setProductData((prev) => ({ ...prev, selectedTemplate: index }));
+  };
 
     return (
-        <div className="min-h-screen bg-[#f8f9fa] p-6">
-            <h1 className="text-3xl font-bold text-center text-[#008080] mb-8">
+        <div >
+            <h1 className="text-3xl font-bold  text-teal-700 mb-6">
                 Product QR Code Generator
             </h1>
 
