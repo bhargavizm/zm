@@ -16,23 +16,37 @@ const BusinessContent = () => {
         password: "",
         socialLink: "",
     });
+
     const [profileImage, setProfileImage] = useState(null);
     const [brandLogo, setBrandLogo] = useState(null);
+    const [selectedTemplate, setSelectedTemplate] = useState(null);
+
+    // Custom template file names
+    const templateImages = [
+        "bc.webp",
+        "bc2.webp",
+        "bc3.webp",
+        "bc4.webp",
+    ];
+
     const handleInputChange = (e) => {
         setForm({ ...form, [e.target.id]: e.target.value });
     };
+
     const handleImageUpload = (e, setter) => {
         const file = e.target.files[0];
         if (file) {
             setter(URL.createObjectURL(file));
         }
     };
+
     return (
         <div className="min-h-screen bg-[#f8f9fa] p-6">
             <h1 className="text-3xl font-bold text-center text-[#008080] mb-8">
                 Digital Business Cards
             </h1>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+
+            <div className="grid grid-cols-1 gap-10">
                 {/* Left Side - Form */}
                 <div className="bg-white shadow-xl rounded-xl p-6 space-y-6">
                     {/* Templates */}
@@ -40,19 +54,24 @@ const BusinessContent = () => {
                         <h2 className="text-xl font-semibold mb-4">
                             Page Templates (click to select)
                         </h2>
-                        <div className="grid grid-cols-4 gap-2">
-                            {[1, 2, 3, 4].map((i) => (
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            {templateImages.map((filename, idx) => (
                                 <div
-                                    key={i}
-                                    className="border rounded-md p-2 hover:shadow-lg transition cursor-pointer"
+                                    key={idx}
+                                    className={`border-2 rounded-md p-1 cursor-pointer transition hover:shadow-lg ${selectedTemplate === filename
+                                            ? "border-[#008080]"
+                                            : "border-gray-300"
+                                        }`}
+                                    onClick={() => setSelectedTemplate(filename)}
                                 >
                                     <Image
-                                        src={`/templates/template${i}.png`}
-                                        alt={`Template ${i}`}
-                                        width={80}
-                                        height={100}
+                                        src={`/business-card-templates/${filename}`}
+                                        alt={`Template ${filename}`}
+                                        width={100}
+                                        height={120}
                                         className="object-cover rounded"
                                     />
+                                    {/* <p className="text-center text-sm mt-1 truncate">{filename}</p> */}
                                 </div>
                             ))}
                         </div>
@@ -79,6 +98,7 @@ const BusinessContent = () => {
                             />
                         </div>
                     </div>
+
                     {/* Form Fields */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {[
@@ -112,54 +132,6 @@ const BusinessContent = () => {
                     >
                         Submit
                     </button>
-                </div>
-
-                {/* Right Side - Preview */}
-                <div className="flex justify-center items-start">
-                    <div className="w-[320px] h-[570px] border-4 border-[#001a1a] rounded-3xl p-4 shadow-2xl bg-white flex flex-col items-center space-y-3">
-                        {profileImage && (
-                            <Image
-                                src={profileImage}
-                                alt="Profile"
-                                width={200}
-                                height={200}
-                                className="rounded-xl object-cover"
-                            />
-                        )}
-                        {brandLogo && (
-                            <Image
-                                src={brandLogo}
-                                alt="Logo"
-                                width={120}
-                                height={60}
-                                className="object-contain"
-                            />
-                        )}
-                        <h2 className="text-xl font-bold">{form.name}</h2>
-                        <p className="text-sm text-gray-600">{form.heading}</p>
-                        <p className="text-sm text-gray-600 italic">{form.subheading}</p>
-                        <p className="text-sm mt-2">📱 {form.mobile}</p>
-                        <p className="text-sm">🏢 {form.businessName}</p>
-                        <p className="text-sm">🧑‍💼 {form.designation}</p>
-                        <p className="text-sm">📍 {form.address}</p>
-                        <a
-                            href={form.mapLink}
-                            target="_blank"
-                            className="text-blue-500 text-sm"
-                            rel="noreferrer"
-                        >
-                            View on Map
-                        </a>
-                        <p className="text-sm">📧 {form.email}</p>
-                        <a
-                            href={form.socialLink}
-                            target="_blank"
-                            className="text-sm text-[#008080]"
-                            rel="noreferrer"
-                        >
-                            🔗 Social
-                        </a>
-                    </div>
                 </div>
             </div>
         </div>

@@ -8,12 +8,14 @@ import Image from 'next/image';
 
 const componentMap = {
   'business-cards': dynamic(() => import('@/components/servicesPages/servicesLayout/business/businessContent'), { ssr: false }),
-  // 'product-cards': dynamic(() => import('@/components/servicesPages/servicesLayout/contentTabs/ProductContent'), { ssr: false }),
-  // 'form-qr': dynamic(() => import('@/components/servicesPages/servicesLayout/contentTabs/FormContent'), { ssr: false }),
+  'product-cards': dynamic(() => import('@/components/servicesPages/servicesLayout/contentTabs/ProductContent'), { ssr: false }),
+  'form-qr': dynamic(() => import('@/components/servicesPages/servicesLayout/contentTabs/FormContent'), { ssr: false }),
+  'v-cards': dynamic(() => import('@/components/servicesPages/servicesLayout/contentTabs/VcardContent'), { ssr: false }),
+  'Pet-ID-tags': dynamic(() => import('@/components/servicesPages/servicesLayout/contentTabs/PetTagContent'), { ssr: false }),
   // others that use ServicesLayout...
 };
 
-const directToCustomize = ['urls', 'meetings','google-meets','zoom-meets','microsoft-teams','youtube', 'facebook', 'instagram', 'linkedin', 'twitter', 'location',];
+const directToCustomize = ['urls', 'meetings','google-meets','zoom-meets','microsoft-teams','youtube', 'facebook', 'instagram', 'linkedin', 'twitter', 'location', 'PDF'];
  // Slugs that directly go to CustomizeQRCode
 
 const ServicePage = () => {
