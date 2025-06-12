@@ -3,7 +3,7 @@ import Footer from "@/components/footer/footer";
 import "./globals.css";
 import { LanguageProvider } from "@/context/languageContext/LanguageContext"; // 👈 Import your provider
 import DesignProvider from "@/context/qrCodeDesignContext/DesignProvider";
-import ServicesProvider from "@/context/servicesContext/ServivesProvider";
+import ServicesProvider from "@/context/servicesContext/SercivesProvider";
 
 
 export const metadata = {
