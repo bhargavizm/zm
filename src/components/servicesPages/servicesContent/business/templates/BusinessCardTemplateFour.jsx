@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-const BusinessCardTemplateFour = ({ businessForm, profileImage }) => {
+const BusinessCardTemplateFour = ({ data, profileImage, brandLogo }) => {
     const {
         name,
         heading,

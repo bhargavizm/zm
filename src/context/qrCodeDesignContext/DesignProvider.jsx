@@ -11,12 +11,17 @@ const DesignProvider = ({ children }) => {
   const [selectedSticker, setSelectedSticker] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedShape, setSelectedShape] = useState(null);
-  const [logoSize, setLogoSize] = useState(50);
+  const [logoSize, setLogoSize] = useState(45);
+   const [backgroundImage, setBackgroundImage] = useState(null);
+ const [scale, setScale] = useState(55);
 
 useEffect(() => {
   if (typeof window !== "undefined") {
     const savedSize = parseInt(localStorage.getItem("logoSize"));
     if (savedSize) setLogoSize(savedSize);
+
+     const savedScale = parseInt(localStorage.getItem("scale"));
+    if (savedScale) setScale(savedScale);
   }
 }, []);
 
@@ -28,11 +33,14 @@ useEffect(() => {
     setSelectedSticker(localStorage.getItem("selectedSticker"));
     setSelectedColor(localStorage.getItem("selectedColor"));
     setSelectedShape(localStorage.getItem("selectedShape"));
+    // setBackgroundImage(localStorage.getItem("selectedShape"));
   }, []);
 
   useEffect(() => {
   const size = parseInt(localStorage.getItem("logoSize"));
   if (size) setLogoSize(size);
+  const imageScale = parseInt(localStorage.getItem("scale"));
+  if (imageScale) setScale(imageScale);
 }, []);
 
 
@@ -50,7 +58,7 @@ useEffect(() => {
         selectedShape,
         setSelectedShape,
         logoSize,
-  setLogoSize,
+  setLogoSize,backgroundImage, setBackgroundImage, scale, setScale
       }}
     >
       {children}

@@ -3,8 +3,7 @@ import Image from "next/image";
 import useServicesContext from "@/components/hooks/useServiceContext";
 
 // PROPS: Pass businessForm, profileImage, brandLogo etc from your context or parent component
-const BusinessPreview = () => {
-    const { businessForm, profileImage, brandLogo } = useServicesContext()
+const BusinessCardTemplateOne = ({ data, profileImage, brandLogo }) => {
     // Destructure fields to use in JSX
     const {
         name,
@@ -17,7 +16,7 @@ const BusinessPreview = () => {
         address,
         mapLink,
         socialLink,
-    } = businessForm;
+    } = data;
 
     return (
         <div className="w-full mx-auto my-10 rounded-xl bg-black text-white overflow-hidden shadow-2xl relative" style={{ fontFamily: 'Montserrat, Arial, sans-serif' }}>
