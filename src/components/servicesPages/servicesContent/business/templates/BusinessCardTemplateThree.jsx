@@ -1,10 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-const BusinessCardTemplateThree = ({
-    businessForm,
-    profileImage,
-}) => {
+const BusinessCardTemplateThree = ({ data, profileImage, brandLogo }) => {
     const {
         name,
         heading,
@@ -13,7 +10,7 @@ const BusinessCardTemplateThree = ({
         portfolioLink,
         contactLink,
         reviewLink,
-    } = businessForm;
+    } = data;
 
     return (
         <div className="max-w-xs mx-auto my-10 rounded-xl bg-[#efeae6] shadow-lg overflow-hidden text-center relative" style={{ fontFamily: 'Playfair Display, Arial, serif' }}>

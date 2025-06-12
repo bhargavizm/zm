@@ -5,12 +5,14 @@ import Image from "next/image";
 import React from "react";
 
 const PreviewPanel = () => {
-  const { selectedQRShape, selectedLogo, selectedSticker, logoSize } = useDesignContext();
-
+  const { selectedQRShape, selectedLogo, selectedSticker, logoSize , backgroundImage,
+    scale} = useDesignContext();
+console.log(selectedQRShape)
   return (
     <>
+    
       {selectedSticker && (
-        <div className="relative w-[380px] h-[350px] mx-auto mb-4">
+        <div className="relative lg:w-[380px] lg:h-[350px] md:w-[280px] md:h-[250px] w-[180px] h-[150px] mx-auto mb-4">
 
           {/* Sticker (base layer, centered) */}
           <Image
@@ -22,11 +24,23 @@ const PreviewPanel = () => {
 
           {/* QR Shape (centered over sticker) */}
           {selectedQRShape && (
+             <div className="relative lg:w-[380px] lg:h-[350px] md:w-[280px] md:h-[250px] w-[180px] h-[150px] mx-auto mb-4">
             <Image
               src={selectedQRShape}
               alt="QR Shape"
               width={200}
               height={200}
+              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20"
+            />
+            </div>
+          )}
+
+          {backgroundImage && (
+            <Image
+              src={backgroundImage}
+              alt="QR Shape"
+              width={scale}
+              height={scale}
               className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20"
             />
           )}

@@ -2,11 +2,7 @@ import React from "react";
 import Image from "next/image";
 
 // PROPS: Pass businessForm, profileImage, brandLogo etc from your context or parent component
-const BusinessCardTemplateOne = ({
-    businessForm,
-    profileImage,
-    brandLogo,
-}) => {
+const BusinessCardTemplateOne = ({ data, profileImage, brandLogo }) => {
     // Destructure fields to use in JSX
     const {
         name,
@@ -19,7 +15,7 @@ const BusinessCardTemplateOne = ({
         address,
         mapLink,
         socialLink,
-    } = businessForm;
+    } = data;
 
     return (
         <div className="max-w-xs mx-auto my-10 rounded-xl bg-black text-white overflow-hidden shadow-2xl relative" style={{ fontFamily: 'Montserrat, Arial, sans-serif' }}>

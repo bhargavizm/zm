@@ -5,17 +5,7 @@ import useServicesContext from "@/components/hooks/useServiceContext";
 
 const ProductContent = () => {
   const { productData, setProductData, setProductImage } = useServicesContext();
-    const [form, setForm] = useState({
-        heading: "",
-        description: "",
-        pageUrl: "",
-        videoUrl: "",
-        manual: null,
-        email: "",
-        phone: "",
-        password: "",
-        selectedTemplate: null,
-    });
+   
 
     const [productImages, setProductImages] = useState([]);
 
@@ -58,11 +48,11 @@ const ProductContent = () => {
                             {templateImages.map((filename, idx) => (
                                 <div
                                     key={idx}
-                                    className={`border-2 rounded-md p-1 cursor-pointer transition hover:shadow-lg ${form.selectedTemplate === idx
+                                    className={`border-2 rounded-md p-1 cursor-pointer transition hover:shadow-lg ${productImages.selectedTemplate === idx
                                         ? "border-[#008080]"
                                         : "border-gray-300"
                                         }`}
-                                    onClick={() => setForm({ ...form, selectedTemplate: idx })}
+                                    onClick={() => setProductImages({ ...productImages, selectedTemplate: idx })}
                                 >
                                     <Image
                                         src={`/product-templates/${filename}`} // ✅ this path refers to /public/product-templates/
@@ -82,7 +72,7 @@ const ProductContent = () => {
                         <input
                             type="file"
                             accept="image/*"
-                            onChange={handleFileUpload}
+                            onChange={handleChange}
                             className="w-full text-sm"
                         />
                         {productImages.length > 0 && (
@@ -107,7 +97,7 @@ const ProductContent = () => {
                         <input
                             type="file"
                             accept=".pdf"
-                            onChange={handleManualUpload}
+                            onChange={handleChange}
                             className="w-full text-sm"
                         />
                     </div>
@@ -127,8 +117,8 @@ const ProductContent = () => {
                                 key={id}
                                 id={id}
                                 type={type}
-                                value={form[id]}
-                                onChange={handleInputChange}
+                                value={productData[id]}
+                                onChange={handleChange}
                                 placeholder={placeholder}
                                 className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
                             />
