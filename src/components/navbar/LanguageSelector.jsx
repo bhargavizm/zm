@@ -20,10 +20,16 @@ const languageOptions = [
 const LanguageSelector = () => {
     const { setLanguage, language } = useLanguage();
 
+    const handleChange = (e) => {
+        const selectedLang = e.target.value;
+        setLanguage(selectedLang);
+        localStorage.setItem('language', selectedLang); // ✅ optional persistence
+    };
+
     return (
         <select
             value={language}
-            onChange={(e) => setLanguage(e.target.value)}
+            onChange={handleChange}
             className="bg-transparent border border-white rounded px-2 py-1 text-white"
         >
             {languageOptions.map(({ code, label }) => (

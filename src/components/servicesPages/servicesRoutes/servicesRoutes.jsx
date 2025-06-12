@@ -15,7 +15,7 @@ const componentMap = {
   
   'product-cards': {
     content: dynamic(() => import('@/components/servicesPages/servicesContent/product/ProductContent'), { ssr: false }),
-    preview: dynamic(() => import('@/components/servicesPages/servicesContent/product/productReview'), { ssr: false }),
+    preview: dynamic(() => import('@/components/servicesPages/servicesContent/product/productPreview'), { ssr: false }),
   },
 
   'audio': {

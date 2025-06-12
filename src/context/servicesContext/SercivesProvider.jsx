@@ -37,8 +37,8 @@ const ServicesProvider = ({ children }) => {
 
     const [productImage, setProductImage] = useState(null);
 
-    //audio, vedio
-     const [titleFormData, setTitleFormData] = useState({
+    //audio, video
+    const [titleFormData, setTitleFormData] = useState({
         title: "",
         description: "",
         file: null,
@@ -89,6 +89,7 @@ const [resumeFormData, setResumeFormData] = useState({
       images: [],
       visible: true,
     },
+    password: "",
     emergencyContacts: [
       { name: "", relationship: "", phone: "", visible: true },
     ],
@@ -101,7 +102,7 @@ const [isAnimating, setIsAnimating] = useState(false);
   return (
     <ServicesContext.Provider
       value={{
-       businessForm, setBusinessForm,profileImage, setProfileImage,brandLogo, setBrandLogo,productData, setProductData,productImage, setProductImage,titleFormData, setTitleFormData,petIDFormData, setPetIDFormData,isAnimating, setIsAnimating,imagesFormData, setImagesFormData,resumeFormData, setResumeFormData
+        businessForm, setBusinessForm,profileImage, setProfileImage,brandLogo, setBrandLogo,productData, setProductData,productImage, setProductImage,titleFormData, setTitleFormData,petIDFormData, setPetIDFormData,isAnimating, setIsAnimating,imagesFormData, setImagesFormData,resumeFormData, setResumeFormData
       }}
     >
       {children}

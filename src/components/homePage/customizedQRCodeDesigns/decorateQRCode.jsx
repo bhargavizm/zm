@@ -201,8 +201,6 @@ const DecorateQRCode = () => {
                     setIsModalOpen(true); // open modal
                   }}
                   className={`px-2 py-2 cursor-pointer text-mainGreen hover:text-darkGreen hover:font-bold transition-effects  text-lg rounded-xl transition-all duration-300
-                 
-              
               `}
                 >
                   {tab}

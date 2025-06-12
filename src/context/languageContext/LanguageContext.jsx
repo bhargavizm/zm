@@ -9,12 +9,7 @@ export const LanguageProvider = ({ children }) => {
     const [language, setLanguage] = useState('en');
     const [dictionary, setDictionary] = useState(en);
 
-    useEffect(() => {
-        import(`@/languages/${language}.json`).then((module) => {
-            setDictionary(module.default);
-        });
-    }, [language]);
-
+    // Load stored language on initial mount
     useEffect(() => {
         const storedLang = localStorage.getItem('language');
         if (storedLang) {
@@ -22,6 +17,7 @@ export const LanguageProvider = ({ children }) => {
         }
     }, []);
 
+    // Dynamically import dictionary based on language
     useEffect(() => {
         localStorage.setItem('language', language);
         import(`@/languages/${language}.json`).then((module) => {
