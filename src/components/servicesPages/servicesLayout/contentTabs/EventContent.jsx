@@ -13,7 +13,7 @@ export default function EventForm() {
     fromDate: '',
     toDate: '',
     venue: '',
-    address: '',
+    address: '',  
     about: '',
     contactName: '',
     contactEmail: '',
@@ -324,120 +324,7 @@ export default function EventForm() {
         </form>
       </div>
 
-      {/* iPhone Preview Section */}
-      <div className="w-1/2 flex items-center justify-center fixed right-0 h-screen p-8">
-        <div className="relative w-[300px] h-[600px] bg-white rounded-[40px] border-[14px] border-gray-800 overflow-hidden shadow-2xl">
-          {/* iPhone notch */}
-          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-6 bg-gray-800 rounded-b-xl z-10"></div>
-          
-          {/* Screen content */}
-          <div className="h-full overflow-y-auto pt-2 pb-6 px-4">
-            {hasBasicInfo || hasSchedule || hasLocation || hasContact ? (
-              <div className="space-y-4 text-sm">
-                {formData.title && (
-                  <h2 className="text-xl font-bold text-center mt-2">{formData.title}</h2>
-                )}
-                
-                {formData.organizer && (
-                  <p className="text-gray-500 text-center">
-                    Hosted by <span className="font-medium">{formData.organizer}</span>
-                  </p>
-                )}
-                
-                {formData.summary && (
-                  <div className="bg-blue-50 p-3 rounded-lg">
-                    <p className="text-blue-800">{formData.summary}</p>
-                  </div>
-                )}
-                
-                {(formData.fromDate || formData.toDate) && (
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <div className="flex items-center text-gray-700 mb-1">
-                      <FiCalendar className="mr-2" />
-                      <span className="font-medium">When</span>
-                    </div>
-                    {formData.fromDate && (
-                      <p><span className="font-medium">From:</span> {new Date(formData.fromDate).toLocaleString()}</p>
-                    )}
-                    {formData.toDate && (
-                      <p><span className="font-medium">To:</span> {new Date(formData.toDate).toLocaleString()}</p>
-                    )}
-                  </div>
-                )}
-                
-                {(formData.venue || formData.address) && (
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <div className="flex items-center text-gray-700 mb-1">
-                      <FiMapPin className="mr-2" />
-                      <span className="font-medium">Where</span>
-                    </div>
-                    {formData.venue && <p className="font-medium">{formData.venue}</p>}
-                    {formData.address && <p className="text-gray-600">{formData.address}</p>}
-                  </div>
-                )}
-                
-                {formData.about && (
-                  <div>
-                    <h3 className="font-medium mb-1">About</h3>
-                    <p className="text-gray-600">{formData.about}</p>
-                  </div>
-                )}
-                
-                {(formData.contactName || formData.contactEmail || formData.contactPhone) && (
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <div className="flex items-center text-gray-700 mb-1">
-                      <FiUser className="mr-2" />
-                      <span className="font-medium">Contact</span>
-                    </div>
-                    {formData.contactName && <p>{formData.contactName}</p>}
-                    {formData.contactEmail && (
-                      <p className="flex items-center">
-                        <FiMail className="mr-2" /> {formData.contactEmail}
-                      </p>
-                    )}
-                    {formData.contactPhone && (
-                      <p className="flex items-center">
-                        <FiPhone className="mr-2" /> {formData.contactPhone}
-                      </p>
-                    )}
-                  </div>
-                )}
-                
-                {formData.buttonLink && (
-                  <a 
-                    href={`https://${formData.buttonLink}`} 
-                    target="_blank" 
-                    rel="noreferrer"
-                    className="block"
-                  >
-                    <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
-                      {formData.buttonLabel || 'Get Tickets'}
-                    </button>
-                  </a>
-                )}
-                
-                {formData.webUrl && (
-                  <a 
-                    href={`https://${formData.webUrl}`} 
-                    className="flex items-center justify-center text-blue-600 hover:text-blue-800 mt-3"
-                    target="_blank" 
-                    rel="noreferrer"
-                  >
-                    <FiGlobe className="mr-2" />
-                    {formData.webLabel || 'Website'}
-                  </a>
-                )}
-              </div>
-            ) : (
-              <div className="h-full flex flex-col items-center justify-center text-center p-6 text-gray-400">
-                <FiPlus className="text-4xl mb-4" />
-                <h3 className="text-lg font-medium">Event Preview</h3>
-                <p className="mt-2">Start filling the form to see your event preview here</p>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
+
     </div>
   )
 }

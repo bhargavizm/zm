@@ -9,8 +9,6 @@ const BusinessContent = () => {
         setBusinessForm,
         profileImage,
         setProfileImage,
-        brandLogo,
-        setBrandLogo,
     } = useServicesContext();
 
     const [nfcEnabled, setNfcEnabled] = useState(false);
@@ -53,6 +51,7 @@ const BusinessContent = () => {
     return (
         <>  
             <div>
+
                 <div className="grid grid-cols-1 gap-10">
                     <div className="bg-white shadow-xl rounded-xl p-6 space-y-6">
                         {/* Templates */}
@@ -61,7 +60,7 @@ const BusinessContent = () => {
                                 Page Templates (click to select)
                             </h2>
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                {templateImages.map((filename, idx) => (
+                                {/* {templateImages.map((filename, idx) => (
                                     <div
                                         key={idx}
                                         className={`border-2 rounded-md p-2 cursor-pointer transition hover:shadow-lg ${businessForm.selectedTemplate === filename
@@ -83,7 +82,28 @@ const BusinessContent = () => {
                                             className="object-cover rounded"
                                         />
                                     </div>
-                                ))}
+                                ))} */}
+                                {templateImages.map((filename, idx) => (
+              <div
+                key={idx}
+                className={`border-2 rounded-md p-2 cursor-pointer transition hover:shadow-lg ${
+                  businessForm.selectedTemplate === filename
+                    ? "border-[#008080]"
+                    : "border-gray-300"
+                }`}
+                onClick={() =>
+                  setBusinessForm({ ...businessForm, selectedTemplate: filename })
+                }
+              >
+                <Image
+                  src={`/business-card-templates/${filename}`}
+                  alt={`Template ${idx + 1}`}
+                  width={100}
+                  height={120}
+                  className="object-cover rounded"
+                />
+              </div>
+            ))}
                             </div>
                         </div>
 

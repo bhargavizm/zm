@@ -9,8 +9,7 @@ import componentMap from '@/components/servicesPages/servicesRoutes/servicesRout
 
 
 const directToCustomize = [
-  'urls', 'meetings', 'google-meets', 'zoom-meets', 'microsoft-teams','form-qr','forms',
-  'youtube', 'facebook', 'instagram', 'linkedin', 'twitter', 'location','pdf','landing-page'
+  'urls', 'meetings', 'google-meets', 'zoom-meets', 'microsoft-teams','form-qr','forms','student-forms','personal-notes','youtube', 'facebook', 'instagram', 'linkedin', 'twitter', 'location','pdf','landing-page','github'
 ];
 
 const ServicePage = () => {
@@ -42,7 +41,7 @@ const ServicePage = () => {
     return (
       <div className="fixed inset-0 bg-mainGreen bg-opacity-50 flex items-center justify-center z-50">
         <img
-          src="/images/logo.svg"
+          src="/logos/logo.webp"
           alt="Loading Logo"
           className="w-20 h-20 animate-pulse"
         />

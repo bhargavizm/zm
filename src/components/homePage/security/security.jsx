@@ -21,7 +21,7 @@ const Security = () => {
 
           <div className=" flex items-center justify-center flex-col gap-9 pt-9">
             <Image
-              src="/images/logo.svg"
+              src="/logos/logo.webp"
               alt="logo"
               width={170}
               height={100}
