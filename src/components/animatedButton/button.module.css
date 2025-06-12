@@ -38,8 +38,8 @@
 .animatedBorder {
   background: linear-gradient(
     135deg,
-    #be69a8,
-    #00802d
+    #008080,
+    #001a1a
   );
   background-size: 300% 300%;
   animation: crossFlow 5s ease-in-out infinite;

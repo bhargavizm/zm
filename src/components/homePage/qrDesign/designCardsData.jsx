@@ -32,7 +32,7 @@ const DesignCardsData = [
     },
     {
         id: 6,
-        image:'/images/qrbrochures.png',
+        image:'/images/qrbrochures.webp',
         title:'Integrate QRs with Brochures',
         description:'  ZM QR Code Services provides tools to seamlessly place your customized QR codes onto brochure designs, making them print-ready and visually integrated with your promotional materials.'
     },

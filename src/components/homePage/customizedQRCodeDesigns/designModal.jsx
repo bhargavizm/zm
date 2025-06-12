@@ -2,17 +2,18 @@
 
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import QRShapes from "./designTabs/qrshapes";
-import Stickers from "./designTabs/stickers";
+import QRShapes from "./designTabs/qrShapes/qrshapes";
+import Stickers from "./designTabs/stickers/stickers";
 import Colors from "./designTabs/colors/colors";
-import Shapes from "./designTabs/shapes";
-import Logos from "./designTabs/logos";
+import Shapes from "./designTabs/shapes/shapes";
+import Logos from "./designTabs/logos/logos";
 import AnimatedButton from "@/components/animatedButton/animatedButton";
 import { FaLongArrowAltDown } from "react-icons/fa";
 import PreviewPanel from "./previewPanel";
 import useDesignContext from "@/components/hooks/useDesignContext";
+import ImageToQR from "./designTabs/ImageToQR";
 
-const tabs = ["QR Shapes", "Stickers", "Colors", "Shapes", "Logos"];
+const tabs = ["QR Shapes", "Stickers", "Colors", "Shapes", "Logos", "Create QR Using Image"];
 
 const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
   const { setSelectedQRShape, setSelectedLogo, setSelectedSticker } =
@@ -46,13 +47,14 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
     Colors: () => <Colors onSelectImage={handleImageSelect} />,
     Shapes: () => <Shapes onSelectImage={handleImageSelect} />,
     Logos: () => <Logos onSelectImage={handleImageSelect} />,
+    "Create QR Using Image": () => <ImageToQR  />,
   };
 
   const ActiveComponent = tabComponents[activeTab];
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30 px-4">
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-6xl h-[95vh] relative px-6 py-6 overflow-y-auto">
+      <div className="bg-white rounded-xl shadow-xl w-full max-w-6xl h-[95vh] relative px-6 py-6 o overflow-y-auto scrollbar-hide">
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-darkGreen">
@@ -89,9 +91,10 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
 
         {/* Modal Body */}
 
-        <div className="flex flex-col md:grid md:grid-cols-12 gap-4 ">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+
           {/* Tab content */}
-          <div className="w-full md:col-span-6 lg:col-span-7 overflow-y-auto px-8 py-6">
+          <div className="w-full col-span-6 lg:col-span-7 overflow-y-auto px-4 py-6">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}
@@ -106,11 +109,11 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
           </div>
 
           {/* Preview Panel */}
-          <div className="w-full md:col-span-6 lg:col-span-5 rounded-xl border border-slate-100 shadow-lg p-4 pb-9">
+          <div className="col-span-6 lg:col-span-5 rounded-xl border border-slate-100 shadow-lg p-4 pb-9 flex  flex-col ">
 
               <PreviewPanel />
               <div className=" ">
-                <AnimatedButton className="w-full mx-auto flex items-center justify-center gap-2">
+                <AnimatedButton className="mx-auto flex justify-center gap-2">
                   Download Large Files
                   <FaLongArrowAltDown />
                 </AnimatedButton>
@@ -118,6 +121,7 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
   
           </div>
         </div>
+        
       </div>
     </div>
   );

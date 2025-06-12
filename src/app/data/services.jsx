@@ -87,10 +87,10 @@ const services = [
     },
     {
         "icon": <IoIosLink className="text-[#001a1a]" />,
-        "serviceName": "Image to QR",
+        "serviceName": "Business Shop",
         slug: "image-to-qr",
         "description": "Effortlessly transform images into QR codes, connecting visuals to digital content in an instant.",
-        "image": "/services/audio-qr.webp",
+        "image": "/services/BusinessCard.webp",
     },
     {
         "icon": <ImHeadphones className="text-[#001a1a]" />,
@@ -302,14 +302,6 @@ const services = [
         "description": "Enhance safety with Medical Alert QR Codes, providing immediate access to critical health information in emergencies.",
         "image": "/services/medical-alert-qr.webp",
     },
-    {
-        "icon": <FaHeartCircleExclamation className="text-[#001a1a]" />,
-        "serviceName": "Others",
-        slug: "others",
-        "description": "Explore unique possibilities with Others—custom QR Code solutions tailored to diverse needs and creative applications.",
-        "image": "/services/others-qr.webp",
-    },
-
 ]
 
 export default services;
