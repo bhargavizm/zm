@@ -38,6 +38,36 @@ const componentMap = {
     content: dynamic(() => import('@/components/servicesPages/servicesContent/resume/resumeContent'), { ssr: false }),
     preview: dynamic(() => import('@/components/servicesPages/servicesContent/resume/resumePreview'), { ssr: false }),
   },
+
+   'vehicles': {
+    content: dynamic(() => import('@/components/servicesPages/servicesContent/vehicle/VehicleContent'), { ssr: false }),
+    preview: dynamic(() => import('@/components/servicesPages/servicesContent/vehicle/VehiclePreview'), { ssr: false }),
+  },
+  'kids-safety-qr-tags': {
+    content: dynamic(() => import('@/components/servicesPages/servicesContent/kidSafety/KidsSafetyContent'),{ssr:false}),
+    preview: dynamic(() => import('@/components/servicesPages/servicesContent/kidSafety/KidsSafetyPreview'), { ssr: false }),
+  },
+  'sms': {
+    content: dynamic(() => import('@/components/servicesPages/servicesContent/sms/smsContent'),{ssr:false}),
+    preview: dynamic(() => import('@/components/servicesPages/servicesContent/sms/smsPreview'), { ssr: false }),
+  },
+  'text-messages': {
+    content: dynamic(() => import('@/components/servicesPages/servicesContent/textMsg/TextFormContent'),{ssr:false}),
+    preview: dynamic(() => import('@/components/servicesPages/servicesContent/textMsg/TextFormPreview'), { ssr: false }),
+  },
+  'medical-alerts': {
+  content: dynamic(() => import('@/components/servicesPages/servicesContent/medicalAlert/MedicalAlertContent'), { ssr: false }),
+  preview: dynamic(() => import('@/components/servicesPages/servicesContent/medicalAlert/MedicalAlertPreview'), { ssr: false }),
+},
+  'property-qr': {
+  content: dynamic(() => import('@/components/servicesPages/servicesContent/property/PropertyContent'), { ssr: false }),
+  preview: dynamic(() => import('@/components/servicesPages/servicesContent/property/PropertyPreview'), { ssr: false }),
+},
+'multi-urls': {
+  content: dynamic(() => import('@/components/servicesPages/servicesContent/multiUrl/MultiUrlContent'), { ssr: false }),
+  preview: dynamic(() => import('@/components/servicesPages/servicesContent/multiUrl/MultiUrlPreview'), { ssr: false }),
+},
+
   'multi-urls': {
     content: dynamic(() => import('@/components/servicesPages/servicesContent/multiUrls/multiUrlContent'), { ssr: false }),
     preview: dynamic(() => import('@/components/servicesPages/servicesContent/multiUrls/multiUrlPreview'), { ssr: false }),
@@ -62,6 +92,7 @@ const componentMap = {
     content: dynamic(() => import('@/components/servicesPages/servicesContent/wifi/wifiContent'), { ssr: false }),
     preview: dynamic(() => import('@/components/servicesPages/servicesContent/wifi/wifiPreview'), { ssr: false }),
   },
+
 };
 
 export default componentMap
