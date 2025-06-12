@@ -17,7 +17,7 @@ const DemoForm = ({ onClose }) => {
           />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2  gap-4">
-          <div className=" bg-skyBlue">
+          <div className=" bg-mainGreen">
             <DemoFormDesign />
           </div>
           <div className="overflow-y-auto scrollbar-hide max-h-[90vh] pr-2">

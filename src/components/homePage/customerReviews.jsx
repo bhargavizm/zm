@@ -89,7 +89,7 @@ const CustomerReviews = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           viewport={{ once: true }}
-          className="bg-skyBlue text-white px-6 py-5 rounded-2xl shadow-xl backdrop-blur-md"
+          className="bg-[#227171] text-white px-6 py-5 rounded-2xl shadow-xl backdrop-blur-md"
         >
           <div className="text-3xl mb-2">⭐⭐⭐⭐⭐</div>
           <p className="text-sm">Trusted by companies across India – for all industries</p>

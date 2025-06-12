@@ -1,5 +1,6 @@
 "use client";
 
+import AnimatedButton from "@/components/animatedButton/animatedButton";
 import React from "react";
 
 const DemoFormPage = () => {
@@ -150,9 +151,9 @@ const DemoFormPage = () => {
           </div>
 
           <div className="text-center py-6">
-            <button className="bg-skyBlue cursor-pointer hover:bg-lightBlue hover:text-white text-xl text-darkGreen font-bold py-2 px-6 rounded-lg mt-4">
+            <AnimatedButton className="bg-skyBlue cursor-pointer hover:bg-lightBlue hover:text-white text-xl text-darkGreen font-bold py-2 px-6 rounded-lg mt-4">
               Submit
-            </button>
+            </AnimatedButton>
           </div>
         </form>
       </section>

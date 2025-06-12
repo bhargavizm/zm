@@ -1,17 +1,14 @@
 import React from "react";
 import Image from "next/image";
 
-const BusinessCardTemplateTwo = ({
-    businessForm,
-    profileImage,
-}) => {
+const BusinessCardTemplateTwo = ({ data, profileImage, brandLogo }) => {
     const {
         name,
         heading,
         mobile,
         email,
         address,
-    } = businessForm;
+    } = data;
 
     return (
         <div className="max-w-xs mx-auto my-10 rounded-2xl bg-pink-50 shadow-lg overflow-hidden text-center" style={{ fontFamily: 'Lato, Arial, sans-serif' }}>
