@@ -1,0 +1,17 @@
+export const images = [
+  "/images/qr-shapes/qrshapes-2.webp",
+  "/images/qr-shapes/qrshapes-3.webp",
+  "/images/qr-shapes/qrshapes-4.webp",
+  "/images/qr-shapes/qrshapes-6.webp",
+  "/images/qr-shapes/qrshapes-7.webp",
+  "/images/qr-shapes/qrshapes-8.webp",
+  "/images/qr-shapes/qrshapes-9.webp",
+  "/images/qr-shapes/qrshapes-10.webp",
+  "/images/qr-shapes/qrshapes-11.webp",
+  "/images/qr-shapes/qrshapes-13.webp",
+  "/images/qr-shapes/qrshapes-14.webp",
+  "/images/qr-shapes/qrshapes-15.webp",
+  "/images/qr-shapes/qrshapes-16.webp",
+  "/images/qr-shapes/qrshapes-17.webp",
+  "/images/qr-shapes/qrshapes-19.webp",
+];

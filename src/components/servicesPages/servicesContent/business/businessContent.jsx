@@ -10,8 +10,6 @@ const BusinessContent = () => {
         setBusinessForm,
         profileImage,
         setProfileImage,
-        brandLogo,
-        setBrandLogo,
     } = useServicesContext();
 
     const templateImages = ["bc.webp", "bc2.webp", "bc3.webp", "bc4.webp"];
@@ -30,9 +28,7 @@ const BusinessContent = () => {
     return (
         <>
             <div>
-                <h1 className="text-3xl font-bold pb-6 text-[#008080]">
-                    Digital Business Cards
-                </h1>
+
                 <div className="grid grid-cols-1 gap-10">
                     {/* Form Section */}
                     <div className="bg-white shadow-xl rounded-xl p-6 space-y-6">
@@ -42,7 +38,7 @@ const BusinessContent = () => {
                                 Page Templates (click to select)
                             </h2>
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                {templateImages.map((filename, idx) => (
+                                {/* {templateImages.map((filename, idx) => (
                                     <div
                                         key={idx}
                                         className={`border-2 rounded-md p-2 cursor-pointer transition hover:shadow-lg ${
@@ -65,7 +61,28 @@ const BusinessContent = () => {
                                             className="object-cover rounded"
                                         />
                                     </div>
-                                ))}
+                                ))} */}
+                                {templateImages.map((filename, idx) => (
+              <div
+                key={idx}
+                className={`border-2 rounded-md p-2 cursor-pointer transition hover:shadow-lg ${
+                  businessForm.selectedTemplate === filename
+                    ? "border-[#008080]"
+                    : "border-gray-300"
+                }`}
+                onClick={() =>
+                  setBusinessForm({ ...businessForm, selectedTemplate: filename })
+                }
+              >
+                <Image
+                  src={`/business-card-templates/${filename}`}
+                  alt={`Template ${idx + 1}`}
+                  width={100}
+                  height={120}
+                  className="object-cover rounded"
+                />
+              </div>
+            ))}
                             </div>
                         </div>
 

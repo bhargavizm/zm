@@ -47,7 +47,7 @@ const QRDesign = () => {
       <img
         src={card.image}
         alt={`Slide ${index}`}
-        className="w-full h-40 object-cover"
+        className="w-full h-44 object-cover"
       />
     </div>
 
