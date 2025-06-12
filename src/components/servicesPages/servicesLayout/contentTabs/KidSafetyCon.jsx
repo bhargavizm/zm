@@ -130,7 +130,7 @@ function FileInput({ label, name, multiple, onChange, icon, className = '', acce
 
 // --- Main Component ---
 
-export default function KidSafetyForm() {
+export default function KidSafetyCon() {
   // Define all possible fields for the kid safety form
   const initialFields = useMemo(() => [
     // Child Information Section
