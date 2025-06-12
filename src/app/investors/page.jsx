@@ -170,11 +170,11 @@ const Investors = () => {
                 </div>
                 <div className="flex justify-between py-2 border-b">
                   <span className="font-medium">Target Amount:</span>
-                  <span>$5,000,000</span>
+                  <span>₹ 5,000,000</span>
                 </div>
                 <div className="flex justify-between py-2 border-b">
                   <span className="font-medium">Valuation:</span>
-                  <span>$25,000,000</span>
+                  <span>₹ 25,000,000</span>
                 </div>
                 <div className="flex justify-between py-2 border-b">
                   <span className="font-medium">Use of Funds:</span>
