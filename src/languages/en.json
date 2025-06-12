@@ -5,5 +5,11 @@
     "blogs": "Blogs",
     "support": "Support",
     "languages": "Languages",
-    "login": "Login"
+    "login": "Login",
+    "bulkQR": {
+        "heading": "Bulk QR Code Generator",
+        "subheading": "The Best Solution for Generating Thousands of QR Codes or eBusiness Cards",
+        "paragraph1": "ZM QR Code Services lets you design QR codes featuring your brand’s logo, enhancing recognition and improving customer interaction. Seamlessly aligned with your visual identity, our custom QR codes stand out in both digital formats and printed materials, giving your marketing a unique and professional flair.",
+        "paragraph2": "Easily create thousands of QR codes or digital business cards in minutes with our highly acclaimed Bulk QR Code Generator. Simplify your workflow and save valuable time by automating the generation of multiple QR codes in one go. Just upload your Excel or CSV files, and our system will handle the rest. With our customizable QR generator, you can tailor every QR code to reflect your brand—modify colors, shapes, and sizes, and even insert your logo or images. The outcome: Professionally branded, high-resolution QR codes that are fully compatible with all devices, including iPhones and Android smartphones. Sign up today to unlock the full potential of our Bulk QR Code Generator and elevate your brand visibility like never before!"
+    }
 }

@@ -85,6 +85,7 @@ const ServicesProvider = ({ children }) => {
       images: [],
       visible: true,
     },
+    password: "",
     emergencyContacts: [
       { name: "", relationship: "", phone: "", visible: true },
     ],
