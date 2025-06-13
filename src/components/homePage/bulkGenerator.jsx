@@ -13,12 +13,12 @@ const BulkQRGenerator = () => {
             {/* <h2 className="text-mainGreen font-bold text-4xl mb-3 ">
               Bulk QR Code Generator
             </h2> */}
-            <h2>{dictionary.bulkQR.heading}</h2>
+            <h2 className="text-mainGreen font-bold text-4xl mb-3 ">{dictionary.bulkQR.heading}</h2>
             {/* <h4 className="mb-5 weight text-slate-500">
               The Best Solution for Generating Thousands of QR Codes or
               eBusiness Cards
             </h4> */}
-            <h4>{dictionary.bulkQR.subheading}</h4>
+            <h4 className="mb-5 weight text-slate-500">{dictionary.bulkQR.subheading}</h4>
             {/* <p className="text-md">
               ZM QR Code Services lets you design QR codes featuring your
               brand’s logo, enhancing recognition and improving customer
@@ -26,7 +26,7 @@ const BulkQRGenerator = () => {
               custom QR codes stand out in both digital formats and printed
               materials, giving your marketing a unique and professional flair.
             </p> */}
-            <p>{dictionary.bulkQR.paragraph1}</p>
+            <p className="text-md">{dictionary.bulkQR.paragraph1}</p>
             {/* <p className="text-md my-6">
               Easily create thousands of QR codes or digital business cards in
               minutes with our highly acclaimed Bulk QR Code Generator. Simplify
@@ -41,7 +41,7 @@ const BulkQRGenerator = () => {
               potential of our Bulk QR Code Generator and elevate your brand
               visibility like never before!
             </p> */}
-            <p>{dictionary.bulkQR.paragraph2}</p>
+            <p className="text-md my-6">{dictionary.bulkQR.paragraph2}</p>
           </div>
           {/* <div className="lg:col-span-4 ">
           <Image src='/images/qr-code.jpg' alt="create-branded-logo" fill   className="max-w-full h-auto"/>

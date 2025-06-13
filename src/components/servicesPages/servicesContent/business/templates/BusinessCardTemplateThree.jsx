@@ -17,7 +17,7 @@ const BusinessCardTemplateThree = ({ businessForm, profileImage, brandLogo }) =>
 
     return (
         <div
-            className="w-full mx-auto my-10 rounded-xl bg-[#efeae6] shadow-lg overflow-hidden text-center relative"
+            className="w-full mx-auto rounded-xl bg-[#efeae6] shadow-lg overflow-y-auto scrollbar-hide text-center relative"
             style={{ fontFamily: 'Playfair Display, Arial, serif' }}
         >
             {/* Profile Picture */}

@@ -6,7 +6,7 @@ import { FcGoogle } from 'react-icons/fc';
 
 export default function LoginPage() {
     const router = useRouter();
-    const [active, setActive] = useState('existing');
+    const [active, setActive] = useState('new');
     const modalRef = useRef(null);
 
     // Optional: Close modal on outside click
@@ -35,7 +35,7 @@ export default function LoginPage() {
                     &times;
                 </button>
 
-                {/* Left Section */}
+                {/* Left Section
                 <div className="bg-mainGreen md:w-1/2 w-full flex flex-col justify-center items-center text-white p-6 md:rounded-l-2xl">
                     <Image src="/logo.svg" alt="logo" width={120} height={120} className="m-5" />
                     <h1 className="text-xl font-semibold text-center px-4">
@@ -45,8 +45,7 @@ export default function LoginPage() {
                     <h4 className="text-md font-thin text-center px-4">
                         Trusted by the World's Top Brands.
                     </h4>
-                </div>
-
+                </div> */}
                 {/* Right Section */}
                 <div className="md:w-1/2 w-full flex flex-col justify-center items-center bg-white text-[#001a1a] p-6 md:rounded-r-2xl">
                     <h1 className="text-3xl text-loginBlue font-semibold text-center">Welcome Back!</h1>
@@ -60,7 +59,7 @@ export default function LoginPage() {
                                     setActive('new');
                                 }}
                                 type="button"
-                                className={`flex-1 text-sm bg-[#e6e6e6] text-[#001a1a] px-4 py-2 rounded-sm hover:bg-[#d4d4d4] transition-all duration-300 ${active === 'new' ? 'border-b-4 border-[#008080]' : 'border-b-4 border-transparent'
+                                className={`flex-1 text-sm bg-[#e6e6e6] text-[#001a1a] px-4 py-2 rounded-sm hover:bg-[#d4d4d4] transition-all duration-300 ${active === 'new' ? 'border-b-4 border-[#008080]' : 'border-b-4 border-transparent cursor-pointer'
                                     }`}
                             >
                                 I'm a new user
@@ -71,7 +70,7 @@ export default function LoginPage() {
                                     router.push('/login')
                                     }}
                                 type="button"
-                                className={`flex-1 text-sm bg-[#e6e6e6] text-[#001a1a] px-4 py-2 rounded-sm hover:bg-[#c0c0c0] transition-all duration-300 ${active === 'existing' ? 'border-b-4 border-[#008080]' : 'border-b-4 border-transparent'
+                                className={`flex-1 text-sm bg-[#e6e6e6] text-[#001a1a] px-4 py-2 rounded-sm hover:bg-[#c0c0c0] transition-all duration-300 ${active === 'existing' ? 'border-b-4 border-[#008080]' : 'border-b-4 border-transparent cursor-pointer'
                                     }`}
                             >
                                 I'm an existing user
@@ -137,6 +136,18 @@ export default function LoginPage() {
                             />
                         </div>
                     </form>
+                </div>
+
+                {/* Left Section */}
+                <div className="bg-mainGreen md:w-1/2 w-full flex flex-col justify-center items-center text-white p-6 md:rounded-r-2xl">
+                    <Image src="/logo.svg" alt="logo" width={120} height={120} className="m-5" />
+                    <h1 className="text-xl font-semibold text-center px-4">
+                        World's No.1 QR Code Generating and Managing Platform
+                    </h1>
+                    <Image src="/qr-image-login.png" alt="qr-image" width={400} height={400} className="m-5" />
+                    <h4 className="text-md font-thin text-center px-4">
+                        Trusted by the World's Top Brands.
+                    </h4>
                 </div>
             </div>
         </div>

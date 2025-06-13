@@ -9,14 +9,18 @@ import 'swiper/css/effect-coverflow';
 import 'swiper/css/navigation';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import DesignCardsData from './designCardsData';
+import { useLanguage } from '@/context/languageContext/LanguageContext';
 
 
 const QRDesign = () => {
+    const { dictionary } = useLanguage();
   return (
     <>
- <section className="bg-darkGreen py-18">
-    <h2 className='text-white font-bold text-2xl md:text-4xl text-center pb-5'>A perfect combination of QR Design, Marketing and Management</h2>
-    <p className='text-slate-500 pb-9 text-center text-lg'>Customize and create QR code with logo, color, and shape to attract more scans</p>
+  <section className="bg-darkGreen py-18">
+    {/* <h2 className='text-white font-bold text-2xl md:text-4xl text-center pb-5'>A perfect combination of QR Design, Marketing and Management</h2> */}
+    <h2 className='text-white font-bold text-2xl md:text-4xl text-center pb-5'>{dictionary.qrDesignSection.heading}</h2>
+    {/* <p className='text-slate-500 pb-9 text-center text-lg'>Customize and create QR code with logo, color, and shape to attract more scans</p> */}
+    <p className='text-slate-500 pb-9 text-center text-lg'>{dictionary.qrDesignSection.paragraph}</p>
   <div className="max-w-6xl  mx-auto relative px-4">
     <Swiper
       modules={[EffectCoverflow, Navigation]}
