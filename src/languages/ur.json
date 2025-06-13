@@ -83,43 +83,82 @@
             {
                 "title": "اسٹیٹک تیار کریں",
                 "description": "QR ڈیزائن اور مینجمنٹ کے جدید آلات",
-                "image": "/images/marketing-1.svg"
+                "image": "/images/home/marketing-1.svg"
             },
             {
                 "title": "اسکین ٹریک کرنے کیلئے اعلیٰ تجزیات",
                 "description": "مقام، وقت، ڈیوائس، OS، براؤزر",
-                "image": "/images/marketing-2.svg"
+                "image": "/images/home/marketing-2.svg"
             },
             {
                 "title": "بھرپور QR اپ لوڈ اور ڈاؤن لوڈ",
                 "description": "Excel کے ذریعے QR اپلوڈ کریں یا ZIP/PDF میں ڈاؤن لوڈ کریں",
-                "image": "/images/marketing-3.svg"
+                "image": "/images/home/marketing-3.svg"
             },
             {
                 "title": "Google Analytics کے ساتھ انٹیگریٹ کریں",
                 "description": "Excel میں تجزیات ڈاؤن لوڈ کریں یا Google کے ساتھ انٹیگریشن کریں",
-                "image": "/images/marketing-4.svg"
+                "image": "/images/home/marketing-4.svg"
             },
             {
                 "title": "وائیٹ‑لیبل ساتھ ڈومین حسب ضروری",
                 "description": "اپنے مختصر URL اور لینڈنگ پیج URL استعمال کریں",
-                "image": "/images/marketing-5.svg"
+                "image": "/images/home/marketing-5.svg"
             },
             {
                 "title": "خوبصورت vCard Plus اور لینڈنگ پیجز",
                 "description": "پیشہ ورانہ دلکش ڈیزائن",
-                "image": "/images/marketing-6.svg"
+                "image": "/images/home/marketing-6.svg"
             },
             {
                 "title": "QR کوڈ ڈیزائن حسب ضرورت",
                 "description": "دلکش شکلیں، رنگ، لوگو، اسٹیکرز اور 3D اثر",
-                "image": "/images/marketing-7.svg"
+                "image": "/images/home/marketing-7.svg"
             },
             {
                 "title": "اپ گریڈ کے اختیارات کے ساتھ مفت اکاؤنٹ",
                 "description": "مفت بنیادی منصوبہ؛ اپ گریڈ کیلئے لچکدار ادائیگی کے آپشنز",
-                "image": "/images/marketing-8.svg"
+                "image": "/images/home/marketing-8.svg"
             }
         ]
+    },
+    "qrCodeTracking": {
+        "heading": "آف لائن مہمات میں QR کوڈ کی کارکردگی کو ٹریک کریں",
+        "subheading": "ہزاروں QR کوڈز یا ای بزنس کارڈز بنانے کے لیے بہترین حل",
+        "paragraph1": "ZM QR کوڈ سروسز کے ساتھ، آپ بروشرز، پوسٹرز یا فلائیرز جیسے پرنٹ شدہ مواد سے صارفین کو براہ راست اپنی ویب سائٹ یا لینڈنگ پیج پر بھیجنے والے اسٹاٹک QR کوڈز بنا سکتے ہیں۔",
+        "paragraph2": "ہر پرنٹڈ مواد یا چینل کے لیے مختلف QR کوڈز استعمال کر کے آپ جان سکتے ہیں کہ کون سی مہم زیادہ توجہ حاصل کر رہی ہے۔",
+        "paragraph3": "فولڈرز اور لیبلز کے ذریعے مہمات کو منظم کریں اور مختلف QR ورژنز کی کارکردگی کا تقابل کریں تاکہ A/B ٹیسٹنگ کی جا سکے۔",
+        "paragraph4": "اسکین کی تعداد اور اسکین کے بعد کی جانے والی کارروائیوں کی بنیاد پر کامیابی کا اندازہ لگائیں۔",
+        "paragraph5": "ہمارا مفت اسٹاٹک QR کوڈ جنریٹر استعمال کرنا شروع کریں — کوئی سائن اپ کی ضرورت نہیں۔"
+    },
+    "footer": {
+        "aboutUs": "ہمارے بارے میں",
+        "blogs": "بلاگز",
+        "pricing": "قیمتیں",
+        "privacy": "رازداری",
+        "terms": "شرائط و ضوابط",
+        "careers": "ملازمتیں",
+        "investors": "سرمایہ کار",
+        "faq": "عمومی سوالات",
+        "refundPolicy": "رقم کی واپسی کی پالیسی",
+        "servicesTitle": "خدمات",
+        "serviceList": [
+            "بزنس کارڈز کے لیے QR کوڈ بنائیں",
+            "پروڈکٹس کے لیے QR کوड بنائیں",
+            "V کارڈ کے لیے QR کوڈ بنائیں",
+            "فارم کے لیے QR کوڊ بنائیں",
+            "پیٹ ID ٹیگ کے لیے QR کوڈ بنائیں",
+            "PDF کے لیے QR کوڈ بنائیں",
+            "آڈیو کے لیے QR کوڈ بنائیں",
+            "ویڈیو کے لیے QR کوڈ بنائیں",
+            "امیج گیلری کے لیے QR کوڈ بنائیں"
+        ],
+        "followUs": "ہمیں فالو کریں",
+        "getInTouch": "رابطہ کریں",
+        "emailLabel": "ای میل",
+        "phoneLabel": "فون",
+        "email": "support@zmqrcode.com",
+        "phone": "+91 10000 00000",
+        "copyright": "ZM QR Code Services © 2025۔ تمام حقوق محفوظ."
     }
 }
