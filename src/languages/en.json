@@ -83,43 +83,83 @@
             {
                 "title": "Generate Static",
                 "description": "Advanced tools to design and manage QRs",
-                "image": "/images/marketing-1.svg"
+                "image": "/images/home/marketing-1.svg"
             },
             {
                 "title": "Advanced Analytics to Track Scans",
                 "description": "Location, time, device, OS, browser",
-                "image": "/images/marketing-2.svg"
+                "image": "/images/home/marketing-2.svg"
             },
             {
                 "title": "Bulk Upload and Bulk Download QRs",
                 "description": "Upload QRs via excel or download QRs in zip and pdf",
-                "image": "/images/marketing-3.svg"
+                "image": "/images/home/marketing-3.svg"
             },
             {
                 "title": "Integrate with Google Analytics",
                 "description": "Download analytics in excel or integrate with Google",
-                "image": "/images/marketing-4.svg"
+                "image": "/images/home/marketing-4.svg"
             },
             {
                 "title": "Customize Domains with White‑Labeling",
                 "description": "Use your short URLs and landing page URLs",
-                "image": "/images/marketing-5.svg"
+                "image": "/images/home/marketing-5.svg"
             },
             {
                 "title": "Beautiful vCard Plus and Landing Pages",
                 "description": "Beautiful mesmerizing professional designs",
-                "image": "/images/marketing-6.svg"
+                "image": "/images/home/marketing-6.svg"
             },
             {
                 "title": "QR Code Design Customization",
                 "description": "Exciting shapes, colors, logo, stickers and 3D effect",
-                "image": "/images/marketing-7.svg"
+                "image": "/images/home/marketing-7.svg"
             },
             {
                 "title": "Free Account with Upgrade Options",
                 "description": "Free basic plan; flexible payment options for upgrades",
-                "image": "/images/marketing-8.svg"
+                "image": "/images/home/marketing-8.svg"
             }
         ]
+    },
+    "qrCodeTracking": {
+        "imageAlt": "QR Dashboard",
+        "heading": "Track QR Code Performance in Offline Campaigns",
+        "subheading": "The Best Solution for Generating Thousands of QR Codes or eBusiness Cards",
+        "paragraph1": "Connect offline marketing with digital engagement. With ZM QR Code Services, you can create static QR codes that direct users from printed materials like brochures, posters, or flyers straight to your website or landing page—making the offline-to-online transition seamless.",
+        "paragraph2": "Even with static QR codes, you can still compare engagement across various campaigns. By using different static QR codes for each printed asset or distribution channel, you can monitor which materials are drawing the most attention through scan volume.",
+        "paragraph3": "Organize your campaigns with ease using folders and labels, and gain insights by manually comparing which QR version generates more interaction—helpful for A/B testing between print formats or audience segments.",
+        "paragraph4": "Track scan volume and estimate success rates by evaluating the actions users take after scanning—like visiting your site, viewing a product, or contacting you.",
+        "paragraph5": "Start using our free Static QR Code Generator today—no sign-up required to begin creating beautiful, branded QR codes for your print campaigns."
+    },
+    "footer": {
+        "aboutUs": "About Us",
+        "blogs": "Blogs",
+        "pricing": "Pricing",
+        "privacy": "Privacy",
+        "terms": "Terms & Conditions",
+        "careers": "Careers",
+        "investors": "Investors",
+        "faq": "FAQ",
+        "refundPolicy": "Refund Policy",
+        "servicesTitle": "Services",
+        "serviceList": [
+            "Generate QR Code for Business Cards",
+            "Generate QR Code for Products",
+            "Generate QR Code for V Cards",
+            "Generate QR Code for Form QR Code",
+            "Generate QR Code for Pet Id Tag",
+            "Generate QR Code for PDF",
+            "Generate QR Code for Audio",
+            "Generate QR Code for Video",
+            "Generate QR Code for Image Gallery"
+        ],
+        "followUs": "Follow Us",
+        "getInTouch": "Get In Touch",
+        "emailLabel": "Email",
+        "phoneLabel": "Phone",
+        "email": "support@zmqrcode.com",
+        "phone": "+91 10000 00000",
+        "copyright": "ZM QR Code Services © 2025. All Rights Reserved."
     }
 }

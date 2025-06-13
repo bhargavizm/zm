@@ -79,43 +79,82 @@
             {
                 "title": "ਸਟੈਟਿਕ ਬਣਾਓ",
                 "description": "QR ਡਿਜ਼ਾਈਨ ਅਤੇ ਪ੍ਰਬੰਧਨ ਲਈ ਉੰਨਤ ਟੂਲ",
-                "image": "/images/marketing-1.svg"
+                "image": "/images/home/marketing-1.svg"
             },
             {
                 "title": "ਸਕੈਨ ਟ੍ਰੈਕ ਕਰਨ ਲਈ ਅਡਵਾਂਸਡ ਵਿਸ਼ਲੇਸ਼ਣ",
                 "description": "ਟਿਕਾਣਾ, ਸਮਾਂ, ਡਿਵਾਈਸ, OS, ਬਰਾਊਜ਼ਰ",
-                "image": "/images/marketing-2.svg"
+                "image": "/images/home/marketing-2.svg"
             },
             {
                 "title": "ਥੋਕ QR ਇੰਪੋਰਟ/ਐਕਸਪੋਰਟ",
                 "description": "Excel ਨਾਲ QR ਅਪਲੋਡ ਕਰੋ ਜਾਂ ZIP/PDF ਵਿੱਚ ਡਾਊਨਲੋਡ ਕਰੋ",
-                "image": "/images/marketing-3.svg"
+                "image": "/images/home/marketing-3.svg"
             },
             {
                 "title": "Google Analytics ਨਾਲ ਜੋੜੋ",
                 "description": "Excel ਵਿੱਚ ਵਿਸ਼ਲੇਸ਼ਣ ਡਾਊਨਲੋਡ ਕਰੋ ਜਾਂ Google ਨਾਲ ਇੰਟੀਗ੍ਰੇਟ ਕਰੋ",
-                "image": "/images/marketing-4.svg"
+                "image": "/images/home/marketing-4.svg"
             },
             {
                 "title": "ਵਾਈਟ‑ਲੇਬਲ ਡੋਮੇਨ ਕਸਟਮਾਈਜ਼",
                 "description": "ਤੁਹਾਡੇ Short URL ਅਤੇ Landing ਪੇਜ URL ਵਰਤੋ",
-                "image": "/images/marketing-5.svg"
+                "image": "/images/home/marketing-5.svg"
             },
             {
                 "title": "ਸੁੰਦਰ vCard Plus ਅਤੇ Landing Page",
                 "description": "ਮੋਹਕ ਪ੍ਰੋਫੇਸ਼ਨਲ ਡਿਜ਼ਾਈਨ",
-                "image": "/images/marketing-6.svg"
+                "image": "/images/home/marketing-6.svg"
             },
             {
                 "title": "QR ਕੋਡ ਡਿਜ਼ਾਈਨ ਕਸਟਮਾਈਜ਼ੇਸ਼ਨ",
                 "description": "ਦਿਲਕਸ਼ ਸ਼ਕਲਾਂ, ਰੰਗ, ਲੋਗੋ, ਸਟਿਕਰ ਅਤੇ 3D ਪ੍ਰਭਾਵ",
-                "image": "/images/marketing-7.svg"
+                "image": "/images/home/marketing-7.svg"
             },
             {
                 "title": "ਅਪਗ੍ਰੇਡ ਵਿਕਲਪਾਂ ਨਾਲ ਮੁਫ਼ਤ ਖਾਤਾ",
                 "description": "ਮੁਫ਼ਤ ਬੇਸਿਕ ਯੋਜਨਾ; ਅਪਗ੍ਰੇਡ ਲਈ ਲਚੀਲੇ ਭੁਗਤਾਨ ਵਿਕਲਪ",
-                "image": "/images/marketing-8.svg"
+                "image": "/images/home/marketing-8.svg"
             }
         ]
+    },
+    "qrCodeTracking": {
+        "heading": "ਆਫਲਾਈਨ ਮੁਹਿੰਮਾਂ ਵਿੱਚ QR ਕੋਡ ਦੀ ਕਾਰਗੁਜ਼ਾਰੀ ਨੂੰ ਟਰੈਕ ਕਰੋ",
+        "subheading": "ਹਜ਼ਾਰਾਂ QR ਕੋਡ ਜਾਂ eBusiness ਕਾਰਡ ਤਿਆਰ ਕਰਨ ਲਈ ਸਭ ਤੋਂ ਵਧੀਆ ਹੱਲ",
+        "paragraph1": "ਆਫਲਾਈਨ ਮਾਰਕੀਟਿੰਗ ਨੂੰ ਡਿਜ਼ੀਟਲ ਭਾਗੀਦਾਰੀ ਨਾਲ ਜੋੜੋ। ZM QR ਕੋਡ ਸਰਵਿਸ ਨਾਲ, ਤੁਸੀਂ ਸਟੈਟਿਕ QR ਕੋਡ ਤਿਆਰ ਕਰ ਸਕਦੇ ਹੋ ਜੋ ਕਿ ਵਰਤੋਂਕਾਰਾਂ ਨੂੰ ਬਰੋਸ਼ਰ, ਪੋਸਟਰ ਜਾਂ ਫਲਾਇਰ ਵਰਗੀਆਂ ਪ੍ਰਿੰਟ ਕੀਤੀਆਂ ਸਮੱਗਰੀਆਂ ਤੋਂ ਸਿੱਧਾ ਤੁਹਾਡੀ ਵੈੱਬਸਾਈਟ ਜਾਂ ਲੈਂਡਿੰਗ ਪੇਜ 'ਤੇ ਲੈ ਜਾਂਦੇ ਹਨ—ਆਫਲਾਈਨ ਤੋਂ ਆਨਲਾਈਨ ਤਬਦੀਲੀ ਨੂੰ ਸੁਗਮ ਬਣਾਉਂਦੇ ਹੋਏ।",
+        "paragraph2": "ਸਟੈਟਿਕ QR ਕੋਡ ਹੋਣ ਦੇ ਬਾਵਜੂਦ ਵੀ, ਤੁਸੀਂ ਵੱਖ-ਵੱਖ ਮੁਹਿੰਮਾਂ ਵਿੱਚ ਭਾਗੀਦਾਰੀ ਦੀ ਤੁਲਨਾ ਕਰ ਸਕਦੇ ਹੋ। ਹਰ ਪ੍ਰਿੰਟ ਕੀਤੇ ਗਏ ਐਸੈਟ ਜਾਂ ਵੰਡ ਚੈਨਲ ਲਈ ਵੱਖ-ਵੱਖ ਸਟੈਟਿਕ QR ਕੋਡ ਦੀ ਵਰਤੋਂ ਕਰਕੇ, ਤੁਸੀਂ ਸਕੈਨ ਵਾਲੀ ਮਾਤਰਾ ਰਾਹੀਂ ਵੇਖ ਸਕਦੇ ਹੋ ਕਿ ਕਿਹੜੀ ਸਮੱਗਰੀ ਸਭ ਤੋਂ ਵੱਧ ਧਿਆਨ ਖਿੱਚ ਰਹੀ ਹੈ।",
+        "paragraph3": "ਫੋਲਡਰਾਂ ਅਤੇ ਲੇਬਲਾਂ ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਆਪਣੀਆਂ ਮੁਹਿੰਮਾਂ ਨੂੰ ਆਸਾਨੀ ਨਾਲ ਆਯੋਜਿਤ ਕਰੋ ਅਤੇ ਹੱਥੋਂ ਤੌਲਣਾ ਕਰਕੇ ਇਹ ਸਮਝੋ ਕਿ ਕਿਹੜਾ QR ਵਰਜਨ ਹੋਰ ਵੱਧ ਭਾਗੀਦਾਰੀ ਪੈਦਾ ਕਰ ਰਿਹਾ ਹੈ—ਜੋ ਕਿ ਛਾਪੇ ਦੇ ਫਾਰਮੈਟ ਜਾਂ ਦਰਸ਼ਕਾਂ ਦੇ ਖੰਡਾਂ ਵਿਚਕਾਰ A/B ਟੈਸਟਿੰਗ ਲਈ ਲਾਭਕਾਰੀ ਹੈ।",
+        "paragraph4": "ਸਕੈਨ ਮਾਤਰਾ ਨੂੰ ਟਰੈਕ ਕਰੋ ਅਤੇ ਇਹ ਅੰਕਲਣ ਕਰੋ ਕਿ ਸਕੈਨ ਕਰਨ ਤੋਂ ਬਾਅਦ ਵਰਤੋਂਕਾਰ ਕੀ ਕਾਰਵਾਈ ਕਰਦੇ ਹਨ—ਜਿਵੇਂ ਕਿ ਤੁਹਾਡੀ ਸਾਈਟ 'ਤੇ ਜਾਣਾ, ਉਤਪਾਦ ਦੇਖਣਾ ਜਾਂ ਤੁਹਾਡੇ ਨਾਲ ਸੰਪਰਕ ਕਰਨਾ।",
+        "paragraph5": "ਅੱਜ ਹੀ ਸਾਡਾ ਮੁਫਤ Static QR Code Generator ਵਰਤਣਾ ਸ਼ੁਰੂ ਕਰੋ—ਕਿਸੇ ਵੀ ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਦੀ ਲੋੜ ਨਹੀਂ ਹੈ। ਆਪਣੀਆਂ ਪ੍ਰਿੰਟ ਮੁਹਿੰਮਾਂ ਲਈ ਖੂਬਸੂਰਤ, ਬ੍ਰਾਂਡਿਡ QR ਕੋਡ ਤਿਆਰ ਕਰੋ।"
+    },
+    "footer": {
+        "aboutUs": "ਸਾਡੇ ਬਾਰੇ",
+        "blogs": "ਬਲੌਗ",
+        "pricing": "ਕੀਮਤਾਂ",
+        "privacy": "ਗੋਪਨੀਯਤਾ",
+        "terms": "ਸ਼ਰਤਾਂ",
+        "careers": "ਕੈਰੀਅਰ",
+        "investors": "ਨਿਵੇਸ਼ਕ",
+        "faq": "ਸাক্ষਰਤਾ",
+        "refundPolicy": "ਵਾਪਸੀ ਨੀਤੀ",
+        "servicesTitle": "ਸੇਵਾਵਾਂ",
+        "serviceList": [
+            "ਵਪਾਰ ਕਾਰਡ ਲਈ QR ਕੋਡ ਬਣਾਓ",
+            "ਉਤਪਾਦਾਂ ਲਈ QR ਕੋਡ ਬਣਾਓ",
+            "V ਕਾਰਡ ਲਈ QR ਕੋਡ ਬਣਾਓ",
+            "ਫਾਰਮ ਲਈ QR ਕੋਡ ਬਣਾਓ",
+            "ਪੈਟ ID ਟੈਗ ਲਈ QR ਕੋਡ ਬਣਾਓ",
+            "PDF ਲਈ QR ਕੋਡ ਬਣਾਓ",
+            "ਆਡੀਓ ਲਈ QR ਕੋਡ ਬਣਾਓ",
+            "ਵੀਡੀਓ ਲਈ QR ਕੋਡ ਬਣਾਓ",
+            "ਪਿਕਚਰ ਗੈਲਰੀ ਲਈ QR ਕੋਡ ਬਣਾਓ"
+        ],
+        "followUs": "ਸਾਡਾ ਪਾਲਣਾ ਕਰੋ",
+        "getInTouch": "ਸੰਪਰਕ ਕਰੋ",
+        "emailLabel": "ਈਮੇਲ",
+        "phoneLabel": "ਫੋਨ",
+        "email": "support@zmqrcode.com",
+        "phone": "+91 10000 00000",
+        "copyright": "ZM QR Code Services © 2025. ਸਾਰੇ హక్క਼ आरक्षित"
     }
 }

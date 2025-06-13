@@ -83,43 +83,82 @@
             {
                 "title": "ସ୍ଟ୍ୟାଟିକ ଜନେରେଟ୍",
                 "description": "QR ଡିଜାଇନ ଓ ପ୍ରଦାନ ପାଇଁ ଆଧୁନିକ ଟୁଲ୍",
-                "image": "/images/marketing-1.svg"
+                "image": "/images/home/marketing-1.svg"
             },
             {
                 "title": "ଷ୍କ୍ୟାନ ଟ୍ରାକ୍କିଂ ପାଇଁ ଉନ୍ନତ ଅନାଲିଟିକ୍ସ",
                 "description": "ଜାଗା, ସମୟ, ଯନ୍ତ୍ର, OS, browser",
-                "image": "/images/marketing-2.svg"
+                "image": "/images/home/marketing-2.svg"
             },
             {
                 "title": "ବଲ୍କ QR ଅପଲୋଡ୍ ଏବଂ ଡାଉନ୍ଲୋଡ୍",
                 "description": "Excel ଯୋଗେ QR ଅପଲୋଡ୍ କରନ୍ତୁ କିମ୍ବା ZIP/PDF ଡାଉନ୍ଲୋଡ୍ କରନ୍ତୁ",
-                "image": "/images/marketing-3.svg"
+                "image": "/images/home/marketing-3.svg"
             },
             {
                 "title": "Google Analytics ସହିତ ଏକତ୍ରିକରଣ",
                 "description": "Excel ରେ ଅନାନାଲିଟିକ୍ସ download କରନ୍ତୁ କିମ୍ବା Google ସହିତ ସମ୍ମିଳନ କରନ୍ତୁ",
-                "image": "/images/marketing-4.svg"
+                "image": "/images/home/marketing-4.svg"
             },
             {
                 "title": "White‑label ଡୋମେନ୍ ପ୍ରଣାଳୀ",
                 "description": "ଆପଣଙ୍କର short URL ଓ landing ପେଜ URL ବ୍ୟବହାର କରନ୍ତୁ",
-                "image": "/images/marketing-5.svg"
+                "image": "/images/home/marketing-5.svg"
             },
             {
                 "title": "ରୂପବତୀ vCard Plus ଓ landing ପେଜ",
                 "description": "ପ୍ରୋଫେସନାଲ ଡିଜାଇନ",
-                "image": "/images/marketing-6.svg"
+                "image": "/images/home/marketing-6.svg"
             },
             {
                 "title": "QRକୋଡ୍ ଡିଜାଇନ କଷ୍ଟମାଇଜେସନ୍",
                 "description": "ରୂପ, ରଙ୍ଗ, logo, stickers ଓ 3D ଇଫେକ୍ଟ",
-                "image": "/images/marketing-7.svg"
+                "image": "/images/home/marketing-7.svg"
             },
             {
                 "title": "ଅପ୍‌ଗ୍ରେଡ୍ ସହିତ ମୁକ୍ତ ଖାତା",
                 "description": "ମୁକ୍ତ basic plan; upgrade ପାଇଁ ଟଙ୍କାର ବିକଳ୍ପ",
-                "image": "/images/marketing-8.svg"
+                "image": "/images/home/marketing-8.svg"
             }
         ]
+    },
+    "qrCodeTracking": {
+        "heading": "ଅଫଲାଇନ୍ ପ୍ରଚାରରେ QR କୋଡ୍ ପ୍ରଦର୍ଶନ ଟ୍ର୍ୟାକ୍ କରନ୍ତୁ",
+        "subheading": "ହଜାର ହଜାର QR କୋଡ୍ ବା eBusiness ଆଇଡି କାର୍ଡ ସୃଷ୍ଟି ପାଇଁ ସ୍ରେଷ୍ଠ ସମାଧାନ",
+        "paragraph1": "ZM QR କୋଡ୍ ସେବାରେ, ବ୍ରୋସର, ପୋଷ୍ଟର କିମ୍ବା ଫ୍ଲାୟର୍ ମାଧ୍ୟମରେ ବ୍ୟବହାରକାରୀଙ୍କୁ ଆପଣଙ୍କ ୱେବସାଇଟ୍‌କୁ ନେଇଯିବା ସ୍ଥିର QR କୋଡ୍ ସୃଷ୍ଟି କରିପାରିବେ।",
+        "paragraph2": "ଭିନ୍ନ ଚ୍ୟାନେଲ ପାଇଁ ଭିନ୍ନ QR କୋଡ୍ ବ୍ୟବହାର କରି, କେଉଁ ଟି ଅଧିକ ସଂଖ୍ୟାରେ ସ୍କ୍ୟାନ୍ ହେଉଛି ଟ୍ର୍ୟାକ୍ କରନ୍ତୁ।",
+        "paragraph3": "ଫୋଲ୍ଡର ଏବଂ ଲେବଲ୍ ବ୍ୟବହାର କରି ପ୍ରଚାରଗୁଡିକୁ ବ୍ୟବସ୍ଥିତ କରନ୍ତୁ, ଏବଂ A/B ଟେସ୍ଟିଂ ପାଇଁ ଭିନ୍ନ QR କୋଡ୍ ବିଶ୍ଳେଷଣ କରନ୍ତୁ।",
+        "paragraph4": "ସ୍କ୍ୟାନ୍ ଭଲ୍ୟୁମ୍ ଏବଂ ପରେ ଉପଯୋଗକାରୀଙ୍କ କାର୍ଯ୍ୟ ମାଧ୍ୟମରେ ସଫଳତା ଦର ଅନୁମାନ କରନ୍ତୁ।",
+        "paragraph5": "ଆମ ଫ୍ରି ସ୍ଥିର QR କୋଡ୍ ଜେନେରେଟର ବ୍ୟବହାର କରନ୍ତୁ—ରେଜିଷ୍ଟ୍ରେସନ୍ ଆବଶ୍ୟକ ନୁହେଁ।"
+    },
+    "footer": {
+        "aboutUs": "ଆମ ବିଷୟରେ",
+        "blogs": "ବ୍ଲଗ୍‍ଗୁଡ଼ିକ",
+        "pricing": "ମୂଲ୍ୟ",
+        "privacy": "ଗୋପନୀୟତା",
+        "terms": "ଶର୍ତ୍ତ ସମୂହ",
+        "careers": "କ୍ୟାରିଆର",
+        "investors": "ବିନିଯୋଗକାରୀ",
+        "faq": "ସାଧାରଣ ପ୍ରଶ୍ନଗୁଡ଼ିକ",
+        "refundPolicy": "ରିଫଣ୍ଡ ନୀତି",
+        "servicesTitle": "ସେବାଗୁଡିକ",
+        "serviceList": [
+            "ବ୍ୟବସାୟ କାର୍ଡ ପାଇଁ QR କୋଡ୍",
+            "ଉତ୍ପାଦ ପାଇଁ QR କୋଡ୍",
+            "V କାର୍ଡ ପାଇଁ QR କୋଡ୍",
+            "ଫର୍ମ QR କୋଡ୍",
+            "ପ୍ରାଣୀ ID ଟ୍ୟାଗ ପାଇଁ QR କୋଡ୍",
+            "PDF ପାଇଁ QR କୋଡ୍",
+            "ଆଡ଼ିଓ ପାଇଁ QR କୋଡ୍",
+            "ଭିଡିଓ ପାଇଁ QR କୋଡ୍",
+            "ଇମେଜ୍ ଗ୍ୟାଲେରୀ ପାଇଁ QR କୋଡ୍"
+        ],
+        "followUs": "ଆମକୁ ଅନୁସରଣ କରନ୍ତୁ",
+        "getInTouch": "ସଂଯୋଗ ନିଆଁ",
+        "emailLabel": "ଇମେଲ୍",
+        "phoneLabel": "ଫୋନ୍",
+        "email": "support@zmqrcode.com",
+        "phone": "+91 10000 00000",
+        "copyright": "ZM QR Code Services © 2025। ସମସ୍ତ ଅଧିକାର ସੰରକ୍ଷିତ."
     }
 }
