@@ -14,7 +14,7 @@ const ServicesProvider = ({ children }) => {
     designation: "",
     address: "",
     mapLink: "",
-    email: "",
+    email: "",  
     password: "",
     socialLink: "",
   });
@@ -251,6 +251,7 @@ const ServicesProvider = ({ children }) => {
   const [petIDFormData, setPetIDFormData] = useState({
     tagTitle: "",
     mainImage: null,
+    password:'',
     ownerInfo: {
       name: "",
       phone: "",

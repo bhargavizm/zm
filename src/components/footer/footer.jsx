@@ -24,11 +24,11 @@ const Footer = () => {
                                 About Us
                             </Link>
                         </li>
-                        <li>
+                        {/* <li>
                             <Link href="#" className="hover:underline hover:text-gray-400">
                                 Blogs
                             </Link>
-                        </li>
+                        </li> */}
                         <li>
                             <Link href="/#" className="hover:underline hover:text-gray-400">
                                 Pricing

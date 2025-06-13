@@ -136,6 +136,10 @@ const PetIdTemplateOne = ({ petIDFormData }) => {
                     )}
                 </div>
             </div>
+
+            <p className="relative z-10 text-xl font-bold text-[#6D3C00] mb-2 drop-shadow">
+                {petIDFormData.password }
+            </p>
         </div>
     );
 };

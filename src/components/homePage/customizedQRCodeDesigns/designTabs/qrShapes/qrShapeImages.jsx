@@ -57,5 +57,10 @@ export const images = [
   "/images/qr-shapes/qrshapes-60.webp",
    "/images/qr-shapes/qrshapes-61.webp",
   "/images/qr-shapes/qrshapes-62.webp",
+   "/images/qr-shapes/qrshapes-63.webp",
+   "/images/qr-shapes/qrshapes-64.webp",
+  "/images/qr-shapes/qrshapes-65.webp",
+  "/images/qr-shapes/qrshapes-66.webp",
+ 
  
 ];
