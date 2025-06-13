@@ -46,11 +46,11 @@ const QRDesign = () => {
                 <SwiperSlide key={index} className="w-[300px] !h-auto">
                   <div className="bg-white rounded-xl shadow-xl p-5 flex flex-col h-full border-4 border-dashed border-mainGreen">
                     {/* Image Wrapper with fixed aspect ratio */}
-                    <div className="w-full aspect-[4/3] overflow-hidden rounded-md">
+                    <div className="w-full aspect-[4/3] overflow-hidden rounded-md pt-4">
                       <img
                         src={card.image}
-                        alt={`Slide ${index}`}
-                        className="w-full h-40 object-cover"
+                        alt={Slide `${index}`}
+                        className="w-full h-32 object-cover"
                       />
                     </div>
 

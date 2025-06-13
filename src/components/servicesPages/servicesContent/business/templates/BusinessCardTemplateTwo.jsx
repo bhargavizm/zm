@@ -17,7 +17,7 @@ const BusinessCardTemplateTwo = ({ businessForm, profileImage, brandLogo }) => {
 
     return (
         <div
-            className="w-full mx-auto my-10 rounded-2xl bg-[#fce7e0] shadow-lg overflow-hidden text-center"
+            className="w-full mx-auto rounded-2xl bg-[#fce7e0] shadow-lg overflow-y-auto scrollbar-hide text-center"
             style={{ fontFamily: "Lato, Arial, sans-serif" }}
         >
             {/* Profile Photo */}
