@@ -7,13 +7,12 @@ const BusinessContent = () => {
     const {
         businessForm,
         setBusinessForm,
-        profileImage,
         setProfileImage,
     } = useServicesContext();
 
     const [nfcEnabled, setNfcEnabled] = useState(false);
     const [showNfcModal, setShowNfcModal] = useState(false);
-    const [pendingToggle, setPendingToggle] = useState(false);
+
 
     const templateImages = ["bc.webp", "bc2.webp", "bc3.webp", "bc4.webp"];
 
@@ -31,7 +30,7 @@ const BusinessContent = () => {
     const handleNfcToggle = () => {
         if (!nfcEnabled) {
             setShowNfcModal(true);
-            setPendingToggle(true);
+
         } else {
             setNfcEnabled(false);
         }
@@ -40,11 +39,11 @@ const BusinessContent = () => {
     const confirmNfc = () => {
         setNfcEnabled(true);
         setShowNfcModal(false);
-        setPendingToggle(false);
+    
     };
 
     const cancelNfc = () => {
-        setPendingToggle(false);
+      
         setShowNfcModal(false);
     };
 
@@ -206,7 +205,7 @@ const BusinessContent = () => {
 
             {/* ✅ NFC Modal */}
             {showNfcModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-transparent">
+                <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
                     <div className="bg-white rounded-xl shadow-xl p-6 max-w-sm w-full border border-teal-200 relative">
                         {/* Close Button */}
                         <button

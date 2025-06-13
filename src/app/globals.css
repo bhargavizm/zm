@@ -130,8 +130,8 @@
 .animated-borders {
   position: relative;
   display: inline-block;
-  border-radius: 10px;
-  padding: 10px;
+  border-radius: 20px;
+  padding: 5px;
   background: linear-gradient(60deg, #68f603, #0F5353, #fb03e6);
   background-size: 200% 200%;
   animation: borderSpinBox 3s linear infinite;

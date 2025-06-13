@@ -22,7 +22,7 @@ const ProductPreview = () => {
   // Resolve selected template filename based on index
   const selectedTemplateFilename = ["temp1.webp", "temp2.webp", "temp3.webp", "temp4.webp"][productData.selectedTemplate];
 
-  const SelectedTemplate = templateComponentMap[selectedTemplateFilename];
+  const SelectedTemplate = templateComponentMap[selectedTemplateFilename] || 'temp1.webp';
 
   return (
     <div className="flex justify-center items-start  h-[500px] overflow-y-auto scrollbar-hide rounded-2xl">

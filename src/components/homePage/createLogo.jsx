@@ -48,19 +48,19 @@ const CreateLogo = () => {
           {/* <div className="lg:col-span-4 ">
             <Image src='/images/qr-code.jpg' alt="create-branded-logo" fill   className="max-w-full h-auto"/>
           </div> */}
-          <div className="lg:col-span-4">
-            <div className="relative w-full h-64 md:h-80 lg:h-96">
-              <Image
-                src="/images/brand-logo.jpg"
-                alt="create-branded-logo"
-                width={400}
-                height={400}
-                className="object-contain"
-                //sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
-                priority
-              />
-            </div>
+           <div className="lg:col-span-4 flex justify-center">
+          <div className="relative w-full  ">
+            <Image
+              src="/images/home/brand-logo.webp"
+              alt="create-branded-logo"
+              width={400}
+height={400}
+              className="object-contain"
+              //sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
+              priority
+            />
           </div>
+        </div>
         </div>
       </section>
     </>

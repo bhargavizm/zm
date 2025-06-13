@@ -19,8 +19,8 @@ const PetTagPreview = () => {
     "pet3.webp": PetIdTemplateThree,
     "pet4.webp": PetIdTemplateFour,
   };
+const SelectedTemplate = templateMap[petIDFormData.selectedTemplate || "pet1.webp"];
 
-  const SelectedTemplate = templateMap[petIDFormData.selectedTemplate];
 
   return (
     <div className="flex justify-center items-start overflow-y-auto">

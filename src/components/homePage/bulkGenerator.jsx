@@ -49,11 +49,12 @@ const BulkQRGenerator = () => {
           <div className="lg:col-span-4">
             <div className="relative w-full h-64 md:h-80 lg:h-96">
               <Image
-                src="/images/image-qr-5.png"
+                src="/images/home/bulk.webp"
                 alt="create-branded-logo"
-                fill
+                width={400}
+                height={400}
                 className="object-contain"
-                sizes="(max-width: 700px) 100vw, (max-width: 100px) 50vw, 100px"
+                
                 priority
               />
             </div>

@@ -40,7 +40,7 @@ const Accordion = () => {
             onClick={() => toggleItem(index)}
             className={`w-full px-6 py-4 flex justify-between items-center transition-all duration-300 ease-in-out cursor-pointer text-xl font-bold hover:scale-100 ${
               activeIndex === index
-                ? 'bg-skyBlue text-white shadow-lg'
+                ? 'bg-mainGreen text-white shadow-lg'
                 : 'bg-white text-mainGreen hover:bg-skyBlue hover:text-white'
             }`}
           >
