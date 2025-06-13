@@ -112,7 +112,7 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
           <div className="col-span-6 lg:col-span-5 rounded-xl border border-slate-100 shadow-lg p-4 pb-9 flex  flex-col ">
 
               <PreviewPanel />
-              <div className=" ">
+              <div className="pt-9 ">
                 <AnimatedButton className="mx-auto flex justify-center gap-2">
                   Download Large Files
                   <FaLongArrowAltDown />

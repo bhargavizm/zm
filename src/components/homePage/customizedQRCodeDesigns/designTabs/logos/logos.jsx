@@ -27,8 +27,8 @@ const Logos = ({ onSelectImage }) => {
   };
 
   return (
-    <section className="overflow-y-auto scrollbar-hide">
-      <div className="flex gap-6 flex-wrap mb-9">
+    <section className="">
+      <div className="flex gap-6 flex-wrap mb-9 h-[70vh] overflow-y-auto scrollbar-hide">
         {logos.map((src, index) => (
           <Image
             key={index}

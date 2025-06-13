@@ -114,13 +114,13 @@ const handleSliderChange = (e) => {
                   <div className="mb-2 flex flex-col items-start">
         <div className="flex justify-start items-center gap-9 w-full mb-4">
           <label htmlFor="logo-size" className="text-lg font-medium text-darkGreen">
-            Image Scaling: {scale}
+            Image Scaling: 
           </label>
-          {showWarning && (
+          {/* {showWarning && (
             <span className="text-red-500 text-sm font-bold">
               ⚠️ QR Code may not scan, please test!
             </span>
-          )}
+          )} */}
         </div>
 
         <input

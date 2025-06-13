@@ -3,7 +3,6 @@ import CreateLogo from "@/components/homePage/createLogo";
 import ScheduleDemo from "@/components/homePage/demo/demo";
 import ImageToQR from "@/components/homePage/imageToQR";
 import MarketingFeatures from "@/components/homePage/marketingFeatures/marketingFeatures";
-import MultipleQRCodes from "@/components/homePage/multipleQRCodes/multipleQRCodes";
 import Security from "@/components/homePage/security/security";
 import QRCodeTracking from "@/components/homePage/tracking";
 import QRDesign from "@/components/homePage/qrDesign/qrDesign";
@@ -20,7 +19,6 @@ const GenerateQR = () => {
       <CreateLogo />
       <ScheduleDemo/>
       <Security/>
-      <MultipleQRCodes/>
       <ImageToQR/>
       <BulkQRGenerator/>
       <QRDesign/>

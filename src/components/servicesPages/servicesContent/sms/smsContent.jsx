@@ -1,8 +1,9 @@
+// components/smsContent/SmsContent.jsx
 'use client'
 
-import useServicesContext from '@/components/hooks/useServiceContext'
-import React, { useState } from 'react'
-import { FiMessageSquare, FiUser, FiCalendar, FiLock, FiEye, FiEyeOff } from 'react-icons/fi'
+import React from 'react'
+import useServicesContext from "@/components/hooks/useServiceContext";
+import { FiEye, FiEyeOff, FiLock, FiCalendar, FiMessageSquare } from 'react-icons/fi'
 
 const SmsContent = () => {
   const { smsFormData, setSmsFormData } = useServicesContext()
@@ -13,7 +14,7 @@ const SmsContent = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    setSmsFormData({ ...smsFormData, [name]: value })
+    setSmsForm({ ...smsForm, [name]: value })
   }
 
   const togglePasswordVisibility = () => {
