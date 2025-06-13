@@ -83,43 +83,82 @@
             {
                 "title": "ಸ್ಟ್ಯಾಟಿಕ್ ಜನ್",
                 "description": "QR ಡಿಸೈನ್ ಮತ್ತು ನಿರ್ವಹಣೆಗೆ ಪ್ರगत ಉಪಕರಣಗಳು",
-                "image": "/images/marketing-1.svg"
+                "image": "/images/home/marketing-1.svg"
             },
             {
                 "title": "ಸ್ಕ್ಯಾನ್ಗಳನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಲು ಉನ್ನತ ವಿಶ್ಲೇಷಣೆ",
                 "description": "ಸ್ಥಾನ, ಸಮಯ, ಉಪಕರಣ, OS, ಬ್ರೌಸರ್",
-                "image": "/images/marketing-2.svg"
+                "image": "/images/home/marketing-2.svg"
             },
             {
                 "title": "ಬಲ್ಕ್ QR ಅಪ್ಲೋಡ್ ಮತ್ತು ಡೌನ್‌ಲೋಡ್",
                 "description": "Excel ಮೂಲಕ QR ಅಪ್ಲೋಡ್ ಅಥವಾ ZIP/PDF ಡೌನ್‌ಲೋಡ್",
-                "image": "/images/marketing-3.svg"
+                "image": "/images/home/marketing-3.svg"
             },
             {
                 "title": "Google Analytics ಜೊತೆಗೆ ಸಂಪರ್ಕಿಸಿ",
                 "description": "Excel ನಲ್ಲಿ ವಿಶ್ಲೇಷಣೆ ಡೌನ್‌ಲೋಡ್ ಅಥವಾ Google ಸಮುದಾಯ ಸೇರಿಸಿ",
-                "image": "/images/marketing-4.svg"
+                "image": "/images/home/marketing-4.svg"
             },
             {
                 "title": "ವೈಟ್‑ಲೆಬಲ್ ಡೊಮೇನ್ ಕಸ್ಟಮೈಸ್ ಮಾಡಿ",
                 "description": "ನಿಮ್ಮ ಶಾರ್ಟ್ URL ಮತ್ತು ಲ್ಯಾಂಡಿಂಗ್ ಪೇಜ್ URL ಬಳಸಿ",
-                "image": "/images/marketing-5.svg"
+                "image": "/images/home/marketing-5.svg"
             },
             {
                 "title": "ಪ್ರೊಫೆಶನಲ್ vCard Plus ಮತ್ತು ಲ್ಯಾಂಡಿಂಗ್ ಪೇಜೀಸ",
                 "description": "ಆಕರ್ಷಕವಾಗಿ ರೂಪುಗೊಂಡ ವಿನ್ಯಾಸಗಳು",
-                "image": "/images/marketing-6.svg"
+                "image": "/images/home/marketing-6.svg"
             },
             {
                 "title": "QR ಕೋಡ್ ವಿನ್ಯಾಸ ಕಸ್ಟಮೈಜೇಶನ್",
                 "description": "ರೂಪಗಳು, ಬಣ್ಣ, ಲೋಗೋ, ಸ್ಟಿಕರ್ ಮತ್ತು 3D ಪರಿಣಾಮ",
-                "image": "/images/marketing-7.svg"
+                "image": "/images/home/marketing-7.svg"
             },
             {
                 "title": "ಅಪ್‌ಗ್ರೇಡ್ ಆಯ್ಕೆಗಳಿರುವ ಉಚಿತ ಖಾತೆ",
                 "description": "ಉಚಿತ ಮೂಲ ಯೋಜನೆ; ಅಪ್ಗ್ರೇಡ್ ಫ್ಲೆಕ್ಸಿಬಲ್ ಪಾವತಿ ಆಯ್ಕೆಗಳು",
-                "image": "/images/marketing-8.svg"
+                "image": "/images/home/marketing-8.svg"
             }
         ]
+    },
+    "qrCodeTracking": {
+        "heading": "ಓಫ್‌ಲೈನ್‌ ಜಾಹೀರಾತುಗಳಲ್ಲಿ QR ಕೋಡ್‌ ಕಾರ್ಯಕ್ಷಮತೆಯನ್ನು ಟ್ರಾಕ್ ಮಾಡಿ",
+        "subheading": "ಸಾವಿರಾರು QR ಕೋಡ್‌ಗಳು ಅಥವಾ ಇಬಿಸಿನೆಸ್ ಕಾರ್ಡ್‌ಗಳನ್ನು ರಚಿಸಲು ಅತ್ಯುತ್ತಮ ಪರಿಹಾರ",
+        "paragraph1": "ZM QR ಕೋಡ್ ಸೇವೆಗಳೊಂದಿಗೆ, ಬ್ರೋಶರ್‌ಗಳು, ಪೋಸ್ಟರ್‌ಗಳು ಅಥವಾ ಫ್ಲೈಯರ್‌ಗಳಂತಹ ಮುದ್ರಿತ ಮಾಧ್ಯಮಗಳಿಂದ ನೇರವಾಗಿ ನಿಮ್ಮ ವೆಬ್‌ಸೈಟ್‌ಗೆ ಕರೆದೊಯ್ಯುವ ಸ್ಥಿರ QR ಕೋಡ್‌ಗಳನ್ನು ನೀವು ರಚಿಸಬಹುದು.",
+        "paragraph2": "ಪ್ರತಿಯೊಂದು ಪ್ರಿಂಟೆಡ್ ಆಸ್ತಿಗೆ ವಿಭಿನ್ನ ಸ್ಥಿರ QR ಕೋಡ್ ಬಳಸಿದರೆ, ಯಾವ ಚಾನೆಲ್ ಹೆಚ್ಚು ಸೆಳೆಯುತ್ತಿದೆ ಎಂಬುದನ್ನು ನೀವು ಟ್ರಾಕ್ ಮಾಡಬಹುದು.",
+        "paragraph3": "ಫೋಲ್ಡರ್‌ಗಳು ಮತ್ತು ಲೇಬಲ್‌ಗಳೊಂದಿಗೆ ನಿಮ್ಮ ಜಾಹೀರಾತುಗಳನ್ನು ಸುಲಭವಾಗಿ ಆಯೋಜಿಸಿ ಮತ್ತು ವಿವಿಧ QR ಆವೃತ್ತಿಗಳ ನಿರ್ವಹಣೆಯನ್ನು ಹೋಲಿಸಿ.",
+        "paragraph4": "ಸ್ಕ್ಯಾನ್‌ಗಳ ಸಂಖ್ಯೆ ಮತ್ತು ನಂತರದ ಕ್ರಿಯೆಗಳ ಮೂಲಕ ಯಶಸ್ಸನ್ನು ಅಂದಾಜಿಸಿ.",
+        "paragraph5": "ಇಂದೇ ನಮ್ಮ ಉಚಿತ ಸ್ಥಿರ QR ಕೋಡ್ ಜನರೇಟರ್ ಅನ್ನು ಬಳಸಿರಿ—ಪ್ರಾರಂಭಿಸಲುサೈನ್ ಅಪ್ ಅಗತ್ಯವಿಲ್ಲ."
+    },
+    "footer": {
+        "aboutUs": "ನಮ್ಮ ಬಗ್ಗೆ",
+        "blogs": "ಬ್ಲಾಗ್ಗಳು",
+        "pricing": "ಬೆಲೆಗಳು",
+        "privacy": "ಗೌಪ್ಯತೆ",
+        "terms": "ನಿಬంధನೆಗಳು",
+        "careers": "ಉದ್ಯೋಗಾವಕಾಶಗಳು",
+        "investors": "ಹೂಡಿಕೆದಾರರು",
+        "faq": "ಆಡಳಿತ ಪ್ರಶ್ನೆಗಳು",
+        "refundPolicy": "ರಿಫಂಡ್ ಪಾಲಿಸಿ",
+        "servicesTitle": "ಸೇವೆಗಳು",
+        "serviceList": [
+            "ವ್ಯವಹಾರ ಕಾರ್ಡ್‌ಗಳಿಗೆ QR ಕೋಡ್ ರಚಿಸಿ",
+            "ಉತ್ಪನ್ನಗಳಿಗೆ QR ಕೋಡ್ ರಚಿಸಿ",
+            "V ಕಾರ್ಡ್‌ಗಳಿಗೆ QR ಕೋಡ್",
+            "ಫಾರಂ QR ಕೋಡ್",
+            "ಪೆಟ್ ID ಟ್ಯಾಗ್ QR ಕೋಡ್",
+            "PDF ಗಾಗಿ QR ಕೋಡ್",
+            "ಆಡಿಯೋ ಗಾಗಿ QR ಕೋಡ್",
+            "ವೀಡಿಯೋ ಗಾಗಿ QR ಕೋಡ್",
+            "ಇಮೇಜ್ ಗ್ಯಾಲರಿ ಗಾಗಿ QR ಕೋಡ್"
+        ],
+        "followUs": "ನಮ್ಮನ್ನು ಅನುಸರಿಸಿ",
+        "getInTouch": "ಸಂಪರ್ಕಿಸಿ",
+        "emailLabel": "ಇಮೇಲ್",
+        "phoneLabel": "ಫೋನ್",
+        "email": "support@zmqrcode.com",
+        "phone": "+91 10000 00000",
+        "copyright": "ZM QR Code Services © 2025. ಎಲ್ಲಾ ಹಕ್ಕುಗಳು ಕಾಯ್ದಿರಿಸಲಾಗಿದೆ."
     }
 }

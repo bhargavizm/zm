@@ -6,61 +6,60 @@
 // const MarketingData = [
 //     {
 //         id: 1,
-
 //         title: 'Generate Static',
-//         image: '/images/marketing-1.svg',
+//         image: '/images/home/marketing-1.svg',
 //         description: 'Advanced tools to design and manage QRs'
 //     },
 //     {
 //         id: 2,
-
 //         title: 'Advanced Analytics to Track Scans',
-//         image: '/images/marketing-2.svg',
+//         image: '/images/home/marketing-2.svg',
 //         description: 'Location, time, device, OS, browser'
 //     },
 //     {
 //         id: 3,
 
 //         title: 'Bulk Upload and Bulk Download QRs',
-//         image: '/images/marketing-3.svg',
+//         image: '/images/home/marketing-3.svg',
 //         description: 'Upload QRs via excel or download QRs in zip and pdf'
 //     },
 //     {
 //         id: 4,
 
 //         title: 'Integrate with Google Analytics',
-//         image: '/images/marketing-4.svg',
+//         image: '/images/home/marketing-4.svg',
 //         description: 'Download analytics in excel or integrate with Google'
 //     },
 //     {
 //         id: 5,
 
 //         title: 'Customize Domains with White-Labeling',
-//         image: '/images/marketing-6.svg',
+//         image: '/images/home/marketing-6.svg',
 //         description: 'Use your short URLs and landing page URLs'
 //     },
 //     {
 //         id: 6,
 
 //         title: 'Beautiful vCard Plus and Landing Pages',
-//         image: '/images/marketing-7.svg',
+//         image: '/images/home/marketing-7.svg',
 //         description: 'Beautiful mesmerizing professional designs'
 //     },
 //     {
 //         id: 7,
 
 //         title: 'QR Code Design Customization',
-//         image: '/images/marketing-8.svg',
+//         image: '/images/home/marketing-8.svg',
 //         description: 'Exciting shapes, colors, logo, stickers and 3D effect'
 //     },
 //     {
 //         id: 8,
 
 //         title: 'Free Account with Upgrade Options',
-//         image: '/images/marketing-8.svg',
+//         image: '/images/home/marketing-8.svg',
 //         description: 'Free basic plan; flexible payment options for upgrades'
 //     },
 // ]
+
 
 // const MarketingFeatures = () => {
 //     const { dictionary } = useLanguage();
@@ -106,6 +105,8 @@
 // };
 
 // export default MarketingFeatures;
+
+
 "use client";
 
 import Image from "next/image";
@@ -125,21 +126,20 @@ const MarketingFeatures = () => {
       </h4>
 
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {marketing.features &&
-          marketing.features.map((item, index) => (
+        {marketing.items &&
+          marketing.items.map((item, index) => (
             <div
               key={index}
-              className="bg-white rounded-xl p-6 cursor-pointer shadow-xl transition-effects border-2 border-dashed"
+              className="bg-white rounded-xl p-6 cursor-pointer shadow-xl transition-all border-2 border-dashed hover:shadow-2xl"
             >
-              <div className="w-16 h-16 mx-auto mb-4 pt-4 animate-bounce relative">
+              <div className="w-16 h-16 mx-auto mb-4 pt-4 animate-bounce">
                 {item.image && (
                   <Image
-                    src={item.image.startsWith("/") ? item.image : `/${item.image}`}
-                    alt={item.title || "Feature Image"}
-                    width={70}
-                    height={70}
+                    src={item.image}
+                    alt={item.title || "Marketing Feature"}
+                    width={64}
+                    height={64}
                     className="object-contain"
-                    unoptimized // Optional: only use if images are failing due to build
                   />
                 )}
               </div>
