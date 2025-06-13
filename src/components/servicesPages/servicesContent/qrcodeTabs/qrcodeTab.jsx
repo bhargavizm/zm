@@ -27,7 +27,7 @@ const cardItems = [
   {
     id: 4,
     title: "Colors",
-    image: "/images/color.png",
+    image: "/images/home/color.webp",
   },
   {
     id: 5,
