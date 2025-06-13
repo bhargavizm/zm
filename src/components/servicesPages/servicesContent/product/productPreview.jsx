@@ -25,7 +25,7 @@ const ProductPreview = () => {
   const SelectedTemplate = templateComponentMap[selectedTemplateFilename];
 
   return (
-    <div className="flex justify-center items-start">
+    <div className="flex justify-center items-start  h-[500px] overflow-y-auto scrollbar-hide rounded-2xl">
       {SelectedTemplate ? (
         <SelectedTemplate
           productData={productData}

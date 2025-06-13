@@ -89,7 +89,7 @@ const BusinessPreview = () => {
   const SelectedTemplate = templateComponentMap[businessForm.selectedTemplate];
 
   return (
-    <div className="flex justify-center items-start">
+    <div className="flex justify-center items-start h-[500px] overflow-y-auto scrollbar-hide rounded-2xl">
       {SelectedTemplate ? (
         <SelectedTemplate
           businessForm={businessForm}

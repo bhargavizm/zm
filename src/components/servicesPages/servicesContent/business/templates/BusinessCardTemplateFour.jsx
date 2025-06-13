@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-const BusinessCardTemplateFour = ({ data, profileImage, brandLogo }) => {
+const BusinessCardTemplateFour = ({ businessForm, profileImage, brandLogo }) => {
     const {
         name,
         heading,
@@ -17,7 +17,7 @@ const BusinessCardTemplateFour = ({ data, profileImage, brandLogo }) => {
 
     return (
         <div
-            className="w-full mx-auto my-10 rounded-xl bg-[#f9f7f3] shadow-lg overflow-hidden text-center relative"
+            className="w-full mx-auto rounded-xl bg-[#f9f7f3] shadow-lg overflow-y-auto scrollbar-hide text-center relative"
             style={{
                 fontFamily: "Dancing Script, cursive, Arial, sans-serif",
             }}

@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-const BusinessCardTemplateTwo = ({ data, profileImage, brandLogo }) => {
+const BusinessCardTemplateTwo = ({ businessForm, profileImage, brandLogo }) => {
     const {
         name,
         heading,       // e.g., Title ("Graphic Designer")
@@ -17,7 +17,7 @@ const BusinessCardTemplateTwo = ({ data, profileImage, brandLogo }) => {
 
     return (
         <div
-            className="w-full mx-auto my-10 rounded-2xl bg-[#fce7e0] shadow-lg overflow-hidden text-center"
+            className="w-full mx-auto rounded-2xl bg-[#fce7e0] shadow-lg overflow-y-auto scrollbar-hide text-center"
             style={{ fontFamily: "Lato, Arial, sans-serif" }}
         >
             {/* Profile Photo */}
