@@ -49,7 +49,7 @@ const QRDesign = () => {
                     <div className="w-full aspect-[4/3] overflow-hidden rounded-md pt-4">
                       <img
                         src={card.image}
-                        alt={Slide `${index}`}
+                        alt={`Slide ${index}`}
                         className="w-full h-32 object-cover"
                       />
                     </div>

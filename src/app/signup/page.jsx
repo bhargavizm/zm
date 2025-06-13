@@ -3,8 +3,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { FcGoogle } from 'react-icons/fc';
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 export default function LoginPage() {
+     const [visiblePasswords, setVisiblePasswords] = useState({
+    password: false,
+    cpassword: false,
+  });
     const router = useRouter();
     const [active, setActive] = useState('new');
     const modalRef = useRef(null);
@@ -19,6 +24,10 @@ export default function LoginPage() {
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [router]);
+
+    const toggleVisibility = (id) => {
+    setVisiblePasswords((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
@@ -77,29 +86,47 @@ export default function LoginPage() {
                             </button>
                         </div>
 
-                        {[
-                            { id: 'name', label: 'Name*', type: 'text' },
-                            { id: 'email', label: 'Official Email / Login ID*', type: 'text' },
-                            { id: 'password', label: 'Password*', type: 'password' },
-                            { id: 'cpassword', label: 'Confirm password*', type: 'password' }
-                        ].map((input) => (
-                            <div className="relative w-full mt-3" key={input.id}>
-                                <input
-                                    type={input.type}
-                                    id={input.id}
-                                    placeholder=" "
-                                    className="peer w-full border-2 border-gray-300 rounded-sm px-2 pt-4 pb-2 text-gray-800 focus:outline-none focus:border-[#008080]"
-                                />
-                                <label
-                                    htmlFor={input.id}
-                                    className="absolute left-3 -top-2 bg-white px-1 text-sm text-gray-500 transition-all 
-                  peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
-                  peer-focus:-top-2 peer-focus:text-sm peer-focus:text-[#001a1a] peer-focus:bg-white"
-                                >
-                                    {input.label}
-                                </label>
-                            </div>
-                        ))}
+                      {[
+        { id: "name", label: "Name*", type: "text" },
+        { id: "email", label: "Official Email / Login ID*", type: "text" },
+        { id: "password", label: "Password*", type: "password" },
+        { id: "cpassword", label: "Confirm password*", type: "password" },
+      ].map((input) => (
+        <div className="relative w-full mt-3" key={input.id}>
+          <input
+            type={
+              input.type === "password" && visiblePasswords[input.id]
+                ? "text"
+                : input.type
+            }
+            id={input.id}
+            placeholder=" "
+            className="peer w-full border-2 border-gray-300 rounded-sm px-2 pt-4 pb-2 text-gray-800 focus:outline-none focus:border-[#008080]"
+          />
+          <label
+            htmlFor={input.id}
+            className="absolute left-3 -top-2 bg-white px-1 text-sm text-gray-500 transition-all 
+              peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
+              peer-focus:-top-2 peer-focus:text-sm peer-focus:text-[#001a1a] peer-focus:bg-white"
+          >
+            {input.label}
+          </label>
+
+          {input.type === "password" && (
+            <button
+              type="button"
+              onClick={() => toggleVisibility(input.id)}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+            >
+              {visiblePasswords[input.id] ? (
+                <FiEyeOff size={18} />
+              ) : (
+                <FiEye size={18} />
+              )}
+            </button>
+          )}
+        </div>
+      ))}
 
                         {/* Checkboxes */}
                         <div className="flex items-start mt-3 w-full gap-2 text-sm">
