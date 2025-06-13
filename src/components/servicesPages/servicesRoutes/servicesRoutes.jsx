@@ -68,10 +68,7 @@ const componentMap = {
   preview: dynamic(() => import('@/components/servicesPages/servicesContent/multiUrl/MultiUrlPreview'), { ssr: false }),
 },
 
-  'multi-urls': {
-    content: dynamic(() => import('@/components/servicesPages/servicesContent/multiUrls/multiUrlContent'), { ssr: false }),
-    preview: dynamic(() => import('@/components/servicesPages/servicesContent/multiUrls/multiUrlPreview'), { ssr: false }),
-  },
+  
 'menu-books': {
     content: dynamic(() => import('@/components/servicesPages/servicesContent/menuBook/menuBookContent'), { ssr: false }),
     preview: dynamic(() => import('@/components/servicesPages/servicesContent/menuBook/menuBookPreview'), { ssr: false }),
@@ -91,6 +88,10 @@ const componentMap = {
   'wifi': {
     content: dynamic(() => import('@/components/servicesPages/servicesContent/wifi/wifiContent'), { ssr: false }),
     preview: dynamic(() => import('@/components/servicesPages/servicesContent/wifi/wifiPreview'), { ssr: false }),
+  },
+   'image-to-qr': {
+    content: dynamic(() => import('@/components/servicesPages/servicesContent/businessShop/BusinessContent'), { ssr: false }),
+    preview: dynamic(() => import('@/components/servicesPages/servicesContent/businessShop/BusinessPreview'), { ssr: false }),
   },
 
 };

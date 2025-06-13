@@ -3,7 +3,7 @@ import Image from "next/image";
 import useServicesContext from "@/components/hooks/useServiceContext";
 
 // PROPS: Pass businessForm, profileImage, brandLogo etc from your context or parent component
-const BusinessCardTemplateOne = ({ data, profileImage, brandLogo }) => {
+const BusinessCardTemplateOne = ({ businessForm, profileImage, brandLogo }) => {
     // Destructure fields to use in JSX
     const {
         name,
@@ -16,7 +16,7 @@ const BusinessCardTemplateOne = ({ data, profileImage, brandLogo }) => {
         address,
         mapLink,
         socialLink,
-    } = data;
+    } = businessForm;
 
     return (
         <div className="w-full mx-auto my-10 rounded-xl bg-black text-white overflow-hidden shadow-2xl relative" style={{ fontFamily: 'Montserrat, Arial, sans-serif' }}>
@@ -127,4 +127,4 @@ const BusinessCardTemplateOne = ({ data, profileImage, brandLogo }) => {
     );
 };
 
-export default BusinessPreview;
+export default BusinessCardTemplateOne;
