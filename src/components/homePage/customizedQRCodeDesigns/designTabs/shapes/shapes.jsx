@@ -7,7 +7,7 @@ const Shapes = ({ onSelectImage }) => {
   return (
     <section>
       
- <h4 className="text-2xl font-bold text-darkGreen mb-4">Body Frames</h4>
+ <h4 className="text-2xl font-bold text-mainGreen mb-4">Body Frames</h4>
         <div className="flex gap-6 flex-wrap">
                 {bodyFrames.map((src, index) => (
                   <Image
@@ -23,7 +23,7 @@ const Shapes = ({ onSelectImage }) => {
                 ))}
               </div>
 
-      <h4 className="text-2xl font-bold text-darkGreen mb-4">Eye Frames</h4>
+      <h4 className="text-2xl font-bold text-mainGreen my-6">Eye Frames</h4>
       <div className="flex gap-4 flex-wrap">
         {eyeFrames.map((src, index) => (
           <Image
@@ -39,7 +39,7 @@ const Shapes = ({ onSelectImage }) => {
         ))}
       </div>
 
-      <h4 className="text-2xl font-bold text-darkGreen my-6 pt-6">
+      <h4 className="text-2xl font-bold text-mainGreen my-6 pt-4">
         Eye Ball Frames
       </h4>
       <div className="flex gap-4 flex-wrap">

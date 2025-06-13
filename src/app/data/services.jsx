@@ -241,7 +241,7 @@ const services = [
     },
     {
         "icon": <FaHandsHoldingChild className="text-[#001a1a]" />,
-        "serviceName": "Kids Safety QR Tag",
+        "serviceName": "Kids Safety QR ",
         slug: "kids-safety-qr-tags",
         "description": "Ensure kids' safety with our Kids Safety QR Tag, providing instant access to emergency contacts and information.",
         "image": "/services/kids-safety-qr.webp",
