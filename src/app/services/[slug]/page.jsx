@@ -39,11 +39,11 @@ const ServicePage = () => {
 
   if (!ContentTabComponent) {
     return (
-      <div className="fixed inset-0 bg-mainGreen bg-opacity-50 flex items-center justify-center z-50">
+      <div className="fixed inset-0 bg-mainGreen/50 bg-opacity-50 flex items-center justify-center z-50">
         <img
           src="/logos/logo.webp"
           alt="Loading Logo"
-          className="w-20 h-20 animate-pulse"
+          className="w-60 h-auto animate-pulse"
         />
       </div>
     );

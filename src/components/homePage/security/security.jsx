@@ -37,7 +37,7 @@ const Security = () => {
               className="animate-bounce w-full max-w-xs h-auto rounded-lg"
             />
             <Image
-              src="/images/certificates.png"
+              src="/images/home/certificates.webp"
               alt="Security Image"
               width={300} // reduced from 400
               height={300} // reduced from 400

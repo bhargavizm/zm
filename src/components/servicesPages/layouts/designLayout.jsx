@@ -20,7 +20,7 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
     <section className="pt-8">
       <div className="grid grid-cols-12 gap-4 mx-4 sm:mx-6 md:mx-9">
         {/* Left Panel */}
-        <div className="col-span-12 lg:col-span-7 bg-white rounded-3xl shadow-lg">
+        <div className="col-span-6 lg:col-span-7 bg-white rounded-3xl shadow-lg">
           <h1 className="text-2xl font-bold py-4 px-6">
             {slug
               .split("-")
@@ -54,8 +54,8 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
         </div>
 
         {/* Right Preview Panel */}
-        <div className="col-span-12 lg:col-span-5 bg-white rounded-3xl shadow-lg py-8  lg:mt-0">
-          <div className="flex gap-4 px-4 mb-4 bg-[#58b8b8] shadow-lg py-2 mt-7 ">
+        <div className="col-span-6 lg:col-span-5 bg-white rounded-3xl shadow-lg py-8  lg:mt-0">
+          <div className="flex justify-center gap-4 px-4 mb-4 bg-[#58b8b8] shadow-lg py-2 mt-7 ">
             <div
               onClick={() => setActivePreview("scan")}
               className={`p-3 rounded-full cursor-pointer ${

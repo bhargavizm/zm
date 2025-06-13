@@ -19,14 +19,14 @@ const ScheduleDemo = () => {
       <section
         className="relative overflow-hidden w-full text-white bg-scroll-contained bg-cover bg-center"
         style={{
-          backgroundImage: "url('/images/bg-demo-image.png')",
+          backgroundImage: "url('/images/home/bg-demo-image.png')",
         }}
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-8 bg-[rgba(0,128,128,0.6)] padding-lr py-10">
           {/* Image Column */}
           <div className="col-span-12 lg:col-span-2 flex justify-center lg:justify-start">
             <Image
-              src="/images/demo.webp"
+              src="/images/home/demo.webp"
               alt="QR Demo"
               width={250}
               height={250}
