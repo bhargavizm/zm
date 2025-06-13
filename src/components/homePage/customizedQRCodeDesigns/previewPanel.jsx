@@ -5,15 +5,19 @@ import Image from "next/image";
 import React from "react";
 
 const PreviewPanel = () => {
-  const { selectedQRShape, selectedLogo, selectedSticker, logoSize , backgroundImage,
-    scale} = useDesignContext();
-console.log(selectedQRShape)
+  const {
+    selectedQRShape,
+    selectedLogo,
+    selectedSticker,
+    logoSize,
+    backgroundImage,
+    scale,
+  } = useDesignContext();
+  console.log(selectedQRShape);
   return (
     <>
-    
       {selectedSticker && (
-        <div className="relative lg:w-[380px] lg:h-[350px] md:w-[280px] md:h-[250px] w-[180px] h-[150px] mx-auto mb-4">
-
+        <div className="relative lg:w-[370px] lg:h-[350px] md:w-[280px] md:h-[250px] w-[180px] h-[150px] mx-auto mb-4">
           {/* Sticker (base layer, centered) */}
           <Image
             src={selectedSticker}
@@ -21,19 +25,6 @@ console.log(selectedQRShape)
             fill
             className="object-contain z-10"
           />
-
-          {/* QR Shape (centered over sticker) */}
-          {selectedQRShape && (
-             <div className="relative lg:w-[380px] lg:h-[350px] md:w-[280px] md:h-[250px] w-[180px] h-[150px] mx-auto mb-4">
-            <Image
-              src={selectedQRShape}
-              alt="QR Shape"
-              width={200}
-              height={200}
-              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20"
-            />
-            </div>
-          )}
 
           {backgroundImage && (
             <Image
@@ -43,6 +34,19 @@ console.log(selectedQRShape)
               height={scale}
               className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20"
             />
+          )}
+
+          {/* QR Shape (centered over sticker) */}
+          {selectedQRShape && (
+            <div className="relative lg:w-[370px] lg:h-[350px] md:w-[280px] md:h-[250px] w-[180px] h-[150px] mx-auto mb-4">
+              <Image
+                src={selectedQRShape}
+                alt="QR Shape"
+                width={160}
+                height={160}
+                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20"
+              />
+            </div>
           )}
 
           {/* Logo (centered over QR shape) */}
@@ -55,7 +59,6 @@ console.log(selectedQRShape)
               className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30"
             />
           )}
-
         </div>
       )}
     </>
@@ -63,7 +66,6 @@ console.log(selectedQRShape)
 };
 
 export default PreviewPanel;
-
 
 // "use client";
 
@@ -78,7 +80,7 @@ export default PreviewPanel;
 //     <>
 //       {selectedSticker && (
 //         <div className="relative w-[350px] h-[350px] mx-auto mb-4 flex items-center justify-center">
-          
+
 //           {/* Sticker Background (base layer) */}
 //           <div className="absolute inset-0 flex items-center justify-center ">
 //             <Image

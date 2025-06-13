@@ -9,7 +9,7 @@ const QRShapes = ({ onSelectImage }) => {
 
   return (
     <section className="mt-6">
-      <div className="grid grid-cols-6 gap-6">
+      <div className="grid grid-cols-6 gap-6  h-[70vh] overflow-y-auto scrollbar-hide">
         {images.map((src, index) => (
           <Image
             key={index}

@@ -20,7 +20,7 @@ const MenuBookPreview = () => {
     slidesToScroll: 1,
     arrows: false
   }
-
+console.log(menuBookFormData)
   return (
     <>
       <section>
@@ -36,8 +36,10 @@ const MenuBookPreview = () => {
               {/* Use menuBookFormData.menuItems */}
               {menuBookFormData.menuItems.filter(i => i.visible !== false && i.image).length > 0 && (
                 <Slider {...sliderSettings}>
+                   {console.log('qwqre',menuBookFormData.menuItem)}
                   {menuBookFormData.menuItems.filter(i => i.visible !== false && i.image).map((item, i) => (
                     <div key={i} className="pb-2 mt-2">
+                      {console.log('gfdfd',item)}
                       {/* Using img tag directly for now. If item.image is a relative path or local import,
                           you might need to use Next.js <Image /> component. If it's a URL from createObjectURL,
                           img tag is appropriate. */}
@@ -54,19 +56,39 @@ const MenuBookPreview = () => {
 
               {/* Extras */}
               {/* Use menuBookFormData.extras */}
-              {menuBookFormData.extras.filter(i => i.visible).map((field, i) => (
-                <div key={i}>
-                  {field.type === 'link' ? (
-                    <a href={field.value} target="_blank" rel="noopener noreferrer" className="text-blue-500 text-sm underline">{field.value}</a>
-                  ) : field.type === 'form' ? (
-                    <iframe src={field.value} title={`form-${i}`} className="w-full h-40 mt-2 border rounded" />
-                  ) : field.type === 'video' ? (
-                    <video controls className="w-full rounded mt-2"><source src={field.value} /></video>
-                  ) : (
-                    <p className="text-sm">{field.label}: {field.value}</p>
-                  )}
-                </div>
-              ))}
+             {menuBookFormData.extras.filter(i => i.visible && i.value?.trim()).map((field, i) => (
+  <div key={i}>
+    {field.type === 'link' && (
+      <a
+        href={field.value}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-500 text-sm underline"
+      >
+        {field.value}
+      </a>
+    )}
+
+    {field.type === 'form' && field.value && (
+      <iframe
+        src={field.value}
+        title={`form-${i}`}
+        className="w-full h-40 mt-2 border rounded"
+      />
+    )}
+
+    {field.type === 'video' && field.value && (
+      <video controls className="w-full rounded mt-2">
+        <source src={field.value} />
+      </video>
+    )}
+
+    {['phone', 'email'].includes(field.type) && (
+      <p className="text-sm">{field.label}: {field.value}</p>
+    )}
+  </div>
+))}
+
             </div>
           </div>
         </div>

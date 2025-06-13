@@ -7,7 +7,7 @@ const Stickers = ({ onSelectImage }) => {
   return (
    <section>
         <section className="mt-6">
-             <div className="grid grid-cols-8 gap-6 h-[90vh] overflow-y-auto scrollbar-hide" >
+             <div className="grid grid-cols-8 gap-6 h-[70vh] overflow-y-auto scrollbar-hide" >
                {stickers.map((src, index) => (
                  <Image
                    key={index}

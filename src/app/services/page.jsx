@@ -3,6 +3,7 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { FiSearch } from "react-icons/fi";
 
 const ServicesPage = () => {
   const [services, setServices] = useState([]);
@@ -40,24 +41,34 @@ const ServicesPage = () => {
     <div className="py-12 bg-[rgb(0,128,128)] ">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Search Bar */}
-        <div className="my-18 flex justify-end">
-          <input
-            type="text"
-            placeholder="Search services..."
-            className="w-96 p-3 rounded-lg shadow-sm border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 text-white text-bold"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
 
+        <div className="mb-10 my-18 flex justify-end ">
+          <div className="relative w-full max-w-sm focus-within:max-w-md transition-all duration-300 flex justify-end group shadow-2xl">
+            {/* Search Icon */}
+            <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-teal-200 text-lg pointer-events-none transition-colors duration-300 group-focus-within:text-white" />
+
+            {/* Input Field */}
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search services..."
+              className="w-full pl-12 pr-4 py-3 rounded-lg bg-teal-700/60 text-white placeholder:text-teal-200 border border-white/20 focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-teal-300 shadow-md transition-all duration-300"
+            />
+          </div>
+        </div>
         {/* Services Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {filteredServices.map((service, index) => (
             <Link key={index} href={`/services/${service.slug}`}>
               <div className="bg-white rounded-xl shadow-lg transition duration-200 overflow-hidden p-6 hover:-translate-y-1 cursor-pointer h-85">
                 <div className="flex items-start mb-3">
-                  <span className="text-2xl text-teal-600 mr-2">{service.icon}</span>
-                  <h2 className="text-xl font-bold text-gray-900">{service.serviceName}</h2>
+                  <span className="text-2xl text-teal-600 mr-2">
+                    {service.icon}
+                  </span>
+                  <h2 className="text-xl font-bold text-gray-900">
+                    {service.serviceName}
+                  </h2>
                 </div>
 
                 {(service.image || service.qrLabel) && (
@@ -95,7 +106,9 @@ const ServicesPage = () => {
 
         {/* No Results Message */}
         {filteredServices.length === 0 && (
-          <p className="text-center text-white mt-10 text-lg">No services found.</p>
+          <p className="text-center text-white mt-10 text-lg">
+            No services found.
+          </p>
         )}
       </div>
     </div>
