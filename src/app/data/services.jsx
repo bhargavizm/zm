@@ -90,7 +90,7 @@ const services = [
         "serviceName": "Business Shop",
         slug: "business-shops",
         "description": "Effortlessly transform images into QR codes, connecting visuals to digital content in an instant.",
-        "image": "/services/BusinessCard.webp",
+        "image": "/services/bussiness-shop-qr.webp",
     },
     {
         "icon": <ImHeadphones className="text-[#001a1a]" />,

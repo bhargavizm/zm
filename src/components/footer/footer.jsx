@@ -20,7 +20,7 @@ const Footer = () => {
                     </Link>
                     <ul className="space-y-2  pl-22 pt-6 text-md">
                         <li>
-                            <Link href="#" className="hover:underline hover:text-gray-400">
+                            <Link href="/about" className="hover:underline hover:text-gray-400">
                                 About Us
                             </Link>
                         </li>
@@ -30,7 +30,7 @@ const Footer = () => {
                             </Link>
                         </li> */}
                         <li>
-                            <Link href="/#" className="hover:underline hover:text-gray-400">
+                            <Link href="/prices" className="hover:underline hover:text-gray-400">
                                 Pricing
                             </Link>
                         </li>
@@ -45,22 +45,22 @@ const Footer = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link href="/#" className="hover:underline hover:text-gray-400">
+                            <Link href="/career" className="hover:underline hover:text-gray-400">
                                 Careers
                             </Link>
                         </li>
                         <li>
-                            <Link href="/#" className="hover:underline hover:text-gray-400">
+                            <Link href="/investors" className="hover:underline hover:text-gray-400">
                                 Investors
                             </Link>
                         </li>
                         <li>
-                            <Link href="/#" className="hover:underline hover:text-gray-400">
+                            <Link href="/faq" className="hover:underline hover:text-gray-400">
                                 FAQ
                             </Link>
                         </li>
                         <li>
-                            <Link href="/#" className="hover:underline hover:text-gray-400">
+                            <Link href="/refund" className="hover:underline hover:text-gray-400">
                                 Refund Policy
                             </Link>
                         </li>
@@ -71,47 +71,47 @@ const Footer = () => {
                     <h3 className="text-2xl font-bold items-center pt-2">Services</h3>
                     <ul className="space-y-2 pt-10 text-md">
                         <li>
-                            <Link href="/#" className="hover:underline hover:text-gray-400">
+                            <Link href="/services/business-cards" className="hover:underline hover:text-gray-400">
                                 Generate QR Code for Business Cards
                             </Link>
                         </li>
                         <li>
-                            <Link href="/#" className="hover:underline hover:text-gray-400">
+                            <Link href="/services/product-cards" className="hover:underline hover:text-gray-400">
                                 Generate QR Code for Products
                             </Link>
                         </li>
                         <li>
-                            <Link href="/#" className="hover:underline hover:text-gray-400">
+                            <Link href="/services/v-cards" className="hover:underline hover:text-gray-400">
                                 Generate QR Code for V Cards
                             </Link>
                         </li>
                         <li>
-                            <Link href="/#" className="hover:underline hover:text-gray-400">
+                            <Link href="/servives/form-qr" className="hover:underline hover:text-gray-400">
                                 Generate QR Code for Form QR Code
                             </Link>
                         </li>
                         <li>
-                            <Link href="/#" className="hover:underline hover:text-gray-400">
+                            <Link href="/services/Pet-ID-tags" className="hover:underline hover:text-gray-400">
                                 Generate QR Code for Pet Id Tag
                             </Link>
                         </li>
                         <li>
-                            <Link href="/#" className="hover:underline hover:text-gray-400">
+                            <Link href="/services/pdf" className="hover:underline hover:text-gray-400">
                                 Generate QR Code for PDF
                             </Link>
                         </li>
                         <li>
-                            <Link href="/#" className="hover:underline hover:text-gray-400">
+                            <Link href="/services/audios" className="hover:underline hover:text-gray-400">
                                 Generate QR Code for Audio
                             </Link>
                         </li>
                         <li>
-                            <Link href="/#" className="hover:underline hover:text-gray-400">
+                            <Link href="/services/videos" className="hover:underline hover:text-gray-400">
                                 Generate QR Code for Video
                             </Link>
                         </li>
                         <li>
-                            <Link href="/#" className="hover:underline hover:text-gray-400">
+                            <Link href="/services/gallery" className="hover:underline hover:text-gray-400">
                                 Generate QR Code for Image Gallery
                             </Link>
                         </li>

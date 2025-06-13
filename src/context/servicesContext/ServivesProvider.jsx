@@ -18,10 +18,11 @@ const ServicesProvider = ({ children }) => {
     password: "",
     socialLink: "",
   });
+
   const [profileImage, setProfileImage] = useState(null);
   const [brandLogo, setBrandLogo] = useState(null);
 
-  // ✅ Product Form
+  // 📦 Product
   const [productData, setProductData] = useState({
     heading: "",
     description: "",
@@ -35,7 +36,7 @@ const ServicesProvider = ({ children }) => {
   });
   const [productImage, setProductImage] = useState(null);
 
-  // ✅ Audio/Video
+  // 🎥 Audio/Video
   const [titleFormData, setTitleFormData] = useState({
     title: "",
     description: "",
@@ -43,7 +44,7 @@ const ServicesProvider = ({ children }) => {
     password: "",
   });
 
-  // ✅ Gallery
+  // 🖼️ Gallery
   const [imagesFormData, setImagesFormData] = useState({
     title: "",
     description: "",
@@ -51,7 +52,7 @@ const ServicesProvider = ({ children }) => {
     password: "",
   });
 
-  // ✅ Resume
+  // 📄 Resume
   const [resumeFormData, setResumeFormData] = useState({
     title: "",
     description: "",
@@ -60,7 +61,9 @@ const ServicesProvider = ({ children }) => {
     password: "",
   });
 
-  // ✅ Kids Safety
+  
+
+  // 👦 Kids Safety
   const [kidsSafetyFormData, setKidsSafetyFormData] = useState({
     childName: "",
     dob: "",
@@ -77,7 +80,7 @@ const ServicesProvider = ({ children }) => {
   });
   const [kidsImage, setKidsImage] = useState(null);
 
-  // ✅ Vehicle Form
+  // 🚗 Vehicle Form
   const [vehicleForm, setVehicleForm] = useState({
     vehicleModel: "",
     vehicleType: "",
@@ -95,90 +98,78 @@ const ServicesProvider = ({ children }) => {
   });
   const [vehicleImage, setVehicleImage] = useState(null);
 
-  // ✅ SMS
+  // 📩 SMS
   const [smsForm, setSmsForm] = useState({
-    genderName: "",
-    messageType: "",
-    textMessage: "",
-    date: "",
-    password: "",
+    genderName: '',
+    messageType: '',
+    textMessage: '',
+    date: '',
+    password: '',
   });
 
-  // ✅ Text Message
+  // 💬 Text Message
   const [textMessageForm, setTextMessageForm] = useState({
-    sender: "",
-    message: "",
+    sender: '',
+    message: '',
   });
 
-  // ✅ Dynamic Forms: Medical Alert, Property Details, Multi URL
+  // 🏥 Medical Alert + 🏠 Property Form (Dynamic Section-Based)
   const [dynamicForms, setDynamicForms] = useState({
     // 🏥 Medical Alert
     medicalAlert: {
       patientInfo: {
-        patientName: "",
-        birthDate: "",
-        bloodType: "",
+        patientName: '',
+        birthDate: '',
+        bloodType: '',
       },
       medicalHistory: {
-        medicalConditions: "",
-        allergies: "",
-        medications: "",
-        additionalNotes: "",
+        medicalConditions: '',
+        allergies: '',
+        medications: '',
+        additionalNotes: '',
       },
       emergencyContact: {
-        emergencyContact: "",
-        contactPhone: "",
+        emergencyContact: '',
+        contactPhone: '',
       },
       additional: {
-        familyDoctorName: "",
-        familyDoctorPhone: "",
-        emergencyInstructions: "",
-        insuranceProvider: "",
-        policyNumber: "",
+        familyDoctorName: '',
+        familyDoctorPhone: '',
+        emergencyInstructions: '',
+        insuranceProvider: '',
+        policyNumber: '',
       },
-      password: "",
+      password: '',
     },
 
     // 🏠 Property Details
     propertyDetails: {
       basicInfo: {
-        propertyName: "",
-        propertyType: "",
-        ownerName: "",
-        contactNumber: "",
+        propertyName: '',
+        propertyType: '',
+        ownerName: '',
+        contactNumber: '',
       },
       addressInfo: {
-        address: "",
-        mapLink: "",
+        address: '',
+        mapLink: '',
       },
       pricingInfo: {
-        price: "",
-        area: "",
-        amenities: "",
+        price: '',
+        area: '',
+        amenities: '',
       },
       images: {
         mainImage: null,
         galleryImages: [],
       },
-      password: "",
-    },
-
-    // 🔗 Multi URL
-    multiUrl: {
-      socialLinks: {
-        youtube: "",
-        instagram: "",
-        twitter: "",
-        linkedin: "",
-      },
-      customLinks: [], // array of { label, url }
-      password: "",
+      password: '',
     },
   });
 
-  // ✅ Dynamic Form Helpers
+  // ➕ Functions for dynamic form fields (shared by medical & property)
   const updateDynamicForm = (formKey, sectionKey, fieldKey, value) => {
-    setDynamicForms((prev) => ({
+    setDynamicForms(prev => ({
       ...prev,
       [formKey]: {
         ...prev[formKey],
@@ -190,64 +181,32 @@ const ServicesProvider = ({ children }) => {
     }));
   };
 
-  const addTemplateField = (formKey, sectionKey, fieldKeyOrValue, defaultValue = "") => {
-  setDynamicForms((prev) => {
-    const section = { ...prev[formKey][sectionKey] };
-
-    // If defaultValue is used — this means we are dealing with nested arrays like: section[fieldKey]
-    if (fieldKeyOrValue && defaultValue !== "") {
-      const field = section[fieldKeyOrValue] ?? [];
-      const updated = Array.isArray(field)
-        ? [...field, defaultValue]
-        : [defaultValue];
-
-      return {
-        ...prev,
-        [formKey]: {
-          ...prev[formKey],
-          [sectionKey]: {
-            ...section,
-            [fieldKeyOrValue]: updated,
-          },
-        },
-      };
-    }
-
-    // If only value is passed — assume section itself is an array like customLinks
-    const arrayField = Array.isArray(section) ? [...section, fieldKeyOrValue] : [fieldKeyOrValue];
-
-    return {
+  const addTemplateField = (formKey, sectionKey, fieldKey, defaultValue = "") => {
+    setDynamicForms(prev => ({
       ...prev,
       [formKey]: {
         ...prev[formKey],
-        [sectionKey]: arrayField,
-      },
-    };
-  });
-};
-
-
-  const removeTemplateField = (formKey, sectionKey, fieldKey, indexToRemove = null) => {
-    setDynamicForms((prev) => {
-      const section = { ...prev[formKey][sectionKey] };
-
-      if (Array.isArray(section[fieldKey]) && indexToRemove !== null) {
-        section[fieldKey] = section[fieldKey].filter((_, i) => i !== indexToRemove);
-      } else {
-        delete section[fieldKey]; // For object keys
-      }
-
-      return {
-        ...prev,
-        [formKey]: {
-          ...prev[formKey],
-          [sectionKey]: section,
+        [sectionKey]: {
+          ...prev[formKey][sectionKey],
+          [fieldKey]: defaultValue,
         },
-      };
-    });
+      },
+    }));
   };
 
-  // ✅ Pet ID Tag
+  const removeTemplateField = (formKey, sectionKey, fieldKey) => {
+    const updatedSection = { ...dynamicForms[formKey][sectionKey] };
+    delete updatedSection[fieldKey];
+    setDynamicForms(prev => ({
+      ...prev,
+      [formKey]: {
+        ...prev[formKey],
+        [sectionKey]: updatedSection,
+      },
+    }));
+  };
+
+  // 🐾 Pet ID Tag
   const [petIDFormData, setPetIDFormData] = useState({
     tagTitle: "",
     mainImage: null,
@@ -281,14 +240,16 @@ const ServicesProvider = ({ children }) => {
     ],
   });
 
-  // ✅ Shared UI State
+  // 🔐 Password visibility toggle
   const [showPassword, setShowPassword] = useState(false);
+
+  // 💫 Animation flag
   const [isAnimating, setIsAnimating] = useState(false);
 
   return (
     <ServicesContext.Provider
       value={{
-        // Static
+        // Static Forms
         businessForm, setBusinessForm,
         profileImage, setProfileImage,
         brandLogo, setBrandLogo,
@@ -305,7 +266,7 @@ const ServicesProvider = ({ children }) => {
         textMessageForm, setTextMessageForm,
         petIDFormData, setPetIDFormData,
 
-        // Dynamic
+        // Dynamic Section Forms (Medical + Property)
         dynamicForms, setDynamicForms,
         updateDynamicForm,
         addTemplateField,
