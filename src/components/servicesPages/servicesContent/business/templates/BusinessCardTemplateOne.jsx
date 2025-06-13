@@ -19,7 +19,7 @@ const BusinessCardTemplateOne = ({ businessForm, profileImage, brandLogo }) => {
     } = businessForm;
 
     return (
-        <div className="w-full mx-auto my-10 rounded-xl bg-black text-white overflow-hidden shadow-2xl relative" style={{ fontFamily: 'Montserrat, Arial, sans-serif' }}>
+        <div className="w-full mx-auto rounded-xl bg-black text-white overflow-y-auto scrollbar-hide shadow-2xl relative" style={{ fontFamily: 'Montserrat, Arial, sans-serif' }}>
         
             {/* Top yellow bar and dots */}
             <div className="bg-yellow-500 h-16 flex items-center justify-between px-5 relative">
