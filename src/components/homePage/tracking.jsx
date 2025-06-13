@@ -11,7 +11,7 @@ const QRCodeTracking = () => {
         <div className="lg:col-span-4 w-full">
           <div className="relative w-full h-auto">
             <Image
-              src="/images/dashboard.webp"
+              src="/images/home/dashboard.webp"
               alt="QR Dashboard"
               width={600}
               height={800}

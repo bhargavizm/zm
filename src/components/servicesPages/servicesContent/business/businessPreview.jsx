@@ -85,8 +85,8 @@ const BusinessPreview = () => {
     "bc3.webp": BusinessCardTemplateThree,
     "bc4.webp": BusinessCardTemplateFour,
   };
+const SelectedTemplate = templateComponentMap[businessForm.selectedTemplate || "bc.webp"];
 
-  const SelectedTemplate = templateComponentMap[businessForm.selectedTemplate];
 
   return (
     <div className="flex justify-center items-start">

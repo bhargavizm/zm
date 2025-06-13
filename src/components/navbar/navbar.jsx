@@ -21,7 +21,7 @@ const Navbar = () => {
                     <Link href="/" className="hover:text-gray-300">{dictionary.generateQR}</Link>
                     <Link href="/services" className="hover:text-gray-300">{dictionary.services}</Link>
                     <Link href="/prices" className="hover:text-gray-300">{dictionary.prices}</Link>
-                    <Link href="/blogs" className="hover:text-gray-300">{dictionary.blogs}</Link>
+                    {/* <Link href="/blogs" className="hover:text-gray-300">{dictionary.blogs}</Link> */}
                     <Link href="/faq" className="hover:text-gray-300">{dictionary.support}</Link>
                     <LanguageSelector />
                     <Link href="/login" className="border border-white px-5 py-2 rounded-lg transition-effects bg-[linear-gradient(to_right,#008080,#001a1a)]">
@@ -45,7 +45,7 @@ const Navbar = () => {
                     <Link href="/" onClick={() => setIsOpen(false)}>{dictionary.generateQR}</Link>
                     <Link href="/services" onClick={() => setIsOpen(false)}>{dictionary.services}</Link>
                     <Link href="/prices" onClick={() => setIsOpen(false)}>{dictionary.prices}</Link>
-                    <Link href="/blogs" onClick={() => setIsOpen(false)}>{dictionary.blogs}</Link>
+                    {/* <Link href="/blogs" onClick={() => setIsOpen(false)}>{dictionary.blogs}</Link> */}
                     <Link href="/faq" onClick={() => setIsOpen(false)}>{dictionary.support}</Link>
                     <LanguageSelector />
                     <Link href="/login" className="border border-white px-5 py-2 rounded-lg w-26 transition-effects bg-[linear-gradient(to_right,#008080,#001a1a)]">

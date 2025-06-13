@@ -88,7 +88,7 @@ const services = [
     {
         "icon": <IoIosLink className="text-[#001a1a]" />,
         "serviceName": "Business Shop",
-        slug: "image-to-qr",
+        slug: "business-shops",
         "description": "Effortlessly transform images into QR codes, connecting visuals to digital content in an instant.",
         "image": "/services/BusinessCard.webp",
     },

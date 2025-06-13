@@ -23,7 +23,7 @@ const ImageToQR = () => {
   {/* Main large image */}
   <div className="md:col-span-8">
     <Image
-      src="/images/image-qr.png"
+      src="/images/home/image-qr.png"
       alt="Main QR Code"
       width={1000}
       height={1000}
@@ -34,7 +34,7 @@ const ImageToQR = () => {
   {/* Side image */}
   <div className="md:col-span-4">
     <Image
-      src="/images/image-qr-1.png"
+      src="/images/home/image-qr-1.png"
       alt="Secondary QR Code"
       width={500}
       height={500}
@@ -47,7 +47,7 @@ const ImageToQR = () => {
       <div className="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 pt-6 sm-grid-cols-2  gap-16">
         <div>
           <Image
-            src="/images/image-qr-2.png"
+            src="/images/home/image-qr-2.png"
             alt="Image to QR Code"
             width={700} // increased from 500
             height={700}
@@ -58,7 +58,7 @@ const ImageToQR = () => {
         <div className="animated-border-wrapper">
           <div className="animated-border-inner">
             <Image
-              src="/images/image-qr-3.png"
+              src="/images/home/image-qr-3.png"
               alt="Image to QR Code"
               width={200}
               height={200}
@@ -70,7 +70,7 @@ const ImageToQR = () => {
         <div className="animated-border">
           <div className="animated-border-inner">
             <Image
-              src="/images/image-qr-4.png"
+              src="/images/home/image-qr-4.png"
               alt="Image to QR Code"
               width={200}
               height={200}
