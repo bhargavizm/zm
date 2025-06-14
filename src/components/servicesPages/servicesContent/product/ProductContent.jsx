@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import useServicesContext from "@/components/hooks/useServiceContext";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const ProductContent = () => {
     const { productData, setProductData, setProductImage } = useServicesContext();
@@ -9,9 +10,14 @@ const ProductContent = () => {
     const [productImages, setProductImages] = useState([]);
     const [nfcEnabled, setNfcEnabled] = useState(false);
     const [showNfcModal, setShowNfcModal] = useState(false);
-    const [pendingToggle, setPendingToggle] = useState(false);
+      const [showPassword, setShowPassword] = useState(false);
 
     const templateImages = ["temp1.webp", "temp2.webp", "temp3.webp", "temp4.webp"];
+
+       const selectTemplate = (index) => {
+        setProductData((prev) => ({ ...prev, selectedTemplate: index }));
+    };
+
 
     const handleInputChange = (e) => {
         const { id, value, type, checked } = e.target;
@@ -35,14 +41,11 @@ const ProductContent = () => {
         }
     };
 
-    const selectTemplate = (index) => {
-        setProductData((prev) => ({ ...prev, selectedTemplate: index }));
-    };
-
+ 
     const handleNfcToggle = () => {
         if (!nfcEnabled) {
             setShowNfcModal(true);
-            setPendingToggle(true);
+    
         } else {
             setNfcEnabled(false);
         }
@@ -51,11 +54,10 @@ const ProductContent = () => {
     const confirmNfc = () => {
         setNfcEnabled(true);
         setShowNfcModal(false);
-        setPendingToggle(false);
+
     };
 
     const cancelNfc = () => {
-        setPendingToggle(false);
         setShowNfcModal(false);
     };
 
@@ -132,24 +134,48 @@ const ProductContent = () => {
                         {/* Form Fields */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {[
-                                { id: "heading", placeholder: "Product Heading" },
-                                { id: "description", placeholder: "Product Description" },
-                                { id: "pageUrl", placeholder: "Product Page URL", type: "url" },
-                                { id: "videoUrl", placeholder: "Product Video URL", type: "url" },
-                                { id: "email", placeholder: "Contact Email", type: "email" },
-                                { id: "phone", placeholder: "Phone Number", type: "tel" },
-                                { id: "password", placeholder: "QR Code Password", type: "password" },
-                            ].map(({ id, placeholder, type = "text" }) => (
-                                <input
-                                    key={id}
-                                    id={id}
-                                    type={type}
-                                    value={productData[id] || ""}
-                                    onChange={handleInputChange}
-                                    placeholder={placeholder}
-                                    className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
-                                />
-                            ))}
+        { id: "heading", placeholder: "Product Heading" },
+        { id: "description", placeholder: "Product Description" },
+        { id: "pageUrl", placeholder: "Product Page URL", type: "url" },
+        { id: "videoUrl", placeholder: "Product Video URL", type: "url" },
+        { id: "email", placeholder: "Contact Email", type: "email" },
+        { id: "phone", placeholder: "Phone Number", type: "tel" },
+        { id: "password", placeholder: "QR Code Password", type: "password" },
+      ].map(({ id, placeholder, type = "text" }) =>
+        id === "password" ? (
+          <div key={id} className="relative w-full">
+            <input
+              id={id}
+              type={showPassword ? "text" : "password"}
+              value={productData[id] || ""}
+              onChange={handleInputChange}
+              placeholder={placeholder}
+              className="border p-2 pr-10 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600"
+            >
+              {showPassword ? (
+                <AiOutlineEyeInvisible size={20} />
+              ) : (
+                <AiOutlineEye size={20} />
+              )}
+            </button>
+          </div>
+        ) : (
+          <input
+            key={id}
+            id={id}
+            type={type}
+            value={productData[id] || ""}
+            onChange={handleInputChange}
+            placeholder={placeholder}
+            className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
+          />
+        )
+      )}
                         </div>
 
                         {/* NFC Toggle */}
@@ -158,7 +184,7 @@ const ProductContent = () => {
                             <button
                                 type="button"
                                 onClick={handleNfcToggle}
-                                className={`relative inline-flex h-8 w-16 items-center rounded-full transition-colors duration-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#008080] ${nfcEnabled ? "bg-[#008080]" : "bg-gray-300"
+                                className={`cursor-pointer relative inline-flex h-8 w-16 items-center rounded-full transition-colors duration-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#008080] ${nfcEnabled ? "bg-[#008080]" : "bg-gray-300"
                                     }`}
                             >
                                 <span
@@ -204,7 +230,7 @@ const ProductContent = () => {
 
             {/* NFC Modal */}
             {showNfcModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-transparent">
+                <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
                     <div className="bg-white rounded-xl shadow-xl p-6 max-w-sm w-full border border-teal-200 relative">
                         <button
                             onClick={cancelNfc}
@@ -223,13 +249,13 @@ const ProductContent = () => {
                         <div className="flex justify-end mt-5 space-x-3">
                             <button
                                 onClick={cancelNfc}
-                                className="px-4 py-2 rounded border border-gray-400 text-gray-600 hover:bg-gray-100"
+                                className="px-4 py-2 cursor-pointer rounded border border-gray-400 text-gray-600 hover:bg-gray-100"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={confirmNfc}
-                                className="px-4 py-2 bg-[#008080] text-white rounded hover:bg-[#006666] transition"
+                                className="px-4 py-2 cursor-pointer bg-[#008080] text-white rounded hover:bg-[#006666] transition"
                             >
                                 Accept
                             </button>

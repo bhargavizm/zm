@@ -1,7 +1,7 @@
 // components/smsContent/SmsContent.jsx
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import useServicesContext from "@/components/hooks/useServiceContext";
 import { FiEye, FiEyeOff, FiLock, FiCalendar, FiMessageSquare } from 'react-icons/fi'
 
@@ -10,7 +10,7 @@ const SmsContent = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [nfcEnabled, setNfcEnabled] = useState(false);
   const [showNfcModal, setShowNfcModal] = useState(false);
-  const [pendingToggle, setPendingToggle] = useState(false);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -24,7 +24,7 @@ const SmsContent = () => {
   const handleNfcToggle = () => {
     if (!nfcEnabled) {
       setShowNfcModal(true);
-      setPendingToggle(true);
+    
     } else {
       setNfcEnabled(false);
     }
@@ -33,11 +33,11 @@ const SmsContent = () => {
   const confirmNfc = () => {
     setNfcEnabled(true);
     setShowNfcModal(false);
-    setPendingToggle(false);
+ 
   };
 
   const cancelNfc = () => {
-    setPendingToggle(false);
+   
     setShowNfcModal(false);
   };
 

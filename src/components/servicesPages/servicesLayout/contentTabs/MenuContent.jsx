@@ -140,7 +140,7 @@ export default function MenuQRPage() {
 
         {/* Right iPhone Preview */}
         <div className="hidden md:flex w-[45%] px-2 sticky top-24 h-fit">
-          <div className="w-[320px] h-[640px] bg-black rounded-[40px] border-[12px] border-gray-900 shadow-xl relative">
+          <div className="w-[350px] h-[640px] bg-black rounded-[40px] border-[12px] border-gray-900 shadow-xl relative">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-black rounded-b-xl z-30" />
             <div className="absolute inset-0 bg-white overflow-y-auto p-4 text-black rounded-[28px] scrollbar-hidden space-y-4">
               <h3 className="text-lg font-bold text-[#008080]">{formData.restaurantName}</h3>
