@@ -51,9 +51,9 @@ import useServicesContext from "@/components/hooks/useServiceContext";
 import useDesignContext from "@/components/hooks/useDesignContext";
 
 const AudioPreview = () => {
-  const { titleFormData } = useServicesContext();
+  const { audioFormData } = useServicesContext();
   const { bgDesign } = useDesignContext();
-  const { title, description, file, password } = titleFormData || {};
+  const { title, description, file, password } = audioFormData || {};
   const fileName = file ? file.name : "No file selected";
 
   // Determine if selected background is a video or image

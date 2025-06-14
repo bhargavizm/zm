@@ -5,7 +5,7 @@ import useServicesContext from "@/components/hooks/useServiceContext";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
 const VedioContent = () => {
-  const { titleFormData, setTitleFormData } = useServicesContext(); // Using titleFormData
+  const { videoFormData, setVideoFormData, } = useServicesContext(); // Using titleFormData
   const [showPassword, setShowPassword] = useState(false);
 
   const router = useRouter();
@@ -33,7 +33,7 @@ const VedioContent = () => {
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    setTitleFormData((prev) => ({ // Updated to setTitleFormData
+    setVideoFormData((prev) => ({ // Updated to setTitleFormData
       ...prev,
       [name]: files ? files[0] : value,
     }));
@@ -47,10 +47,10 @@ const VedioContent = () => {
     }
 
     const data = {
-      title: titleFormData.title, // Updated to titleFormData
-      description: titleFormData.description, // Updated to titleFormData
-      fileName: titleFormData.file.name, // Updated to titleFormData
-      password: titleFormData.password, // Updated to titleFormData
+      title: videoFormData.title, // Updated to titleFormData
+      description: videoFormData.description, // Updated to titleFormData
+      fileName: videoFormData.file.name, // Updated to titleFormData
+      password: videoFormData.password, // Updated to titleFormData
     };
 
     localStorage.setItem("audioData", JSON.stringify(data));
@@ -69,7 +69,7 @@ const VedioContent = () => {
             <input
               type="text"
               name="title"
-              value={titleFormData.title} // Updated to titleFormData
+              value={videoFormData.title} // Updated to titleFormData
               onChange={handleChange}
               placeholder="Enter audio title"
               className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
@@ -83,7 +83,7 @@ const VedioContent = () => {
             <textarea
               name="description"
               rows="2"
-              value={titleFormData.description} // Updated to titleFormData
+              value={videoFormData.description} // Updated to titleFormData
               onChange={handleChange}
               placeholder="Enter description"
               className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
@@ -112,7 +112,7 @@ const VedioContent = () => {
                        <input
                          type={showPassword ? "text" : "password"}
                          name="password"
-                         value={titleFormData.password}
+                         value={videoFormData.password}
                          onChange={handleChange}
                          placeholder="Enter password"
                          className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
