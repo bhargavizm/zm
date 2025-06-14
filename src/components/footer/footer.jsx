@@ -9,8 +9,23 @@ import {
     FaRegCopyright,
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import { useLanguage } from '@/context/languageContext/LanguageContext';
+
+const serviceLinks = [
+    { name: "Generate QR Code for Business Cards", url: "/services/business-cards" },
+    { name: "Generate QR Code for Products", url: "/services/product-cards" },
+    { name: "Generate QR Code for V Cards", url: "/services/v-cards" },
+    { name: "Generate QR Code for Form QR Code", url: "/services/form-qr" },
+    { name: "Generate QR Code for Pet Id Tag", url: "/services/Pet-ID-tags" },
+    { name: "Generate QR Code for PDF", url: "/services/pdf" },
+    { name: "Generate QR Code for Audio", url: "/services/audios" },
+    { name: "Generate QR Code for Video", url: "/services/videos" },
+    { name: "Generate QR Code for Image Gallery", url: "/services/gallery" },
+];
 
 const Footer = () => {
+    const { dictionary } = useLanguage();
+
     return (
         <footer className="py-16 text-white bg-mainGreen">
             <div className=" lg:px-40 md:px-20 items-center px-6 mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 gap-10">
@@ -18,109 +33,76 @@ const Footer = () => {
                     <Link href="/" className="flex items-center justify-center gap-3 ">
                         <Image src="/logos/logo.webp" alt="logo" width={200} height={100} />
                     </Link>
-                    <ul className="space-y-2  pl-22 pt-6 text-md">
+                    <ul className="space-y-2 pl-22 pt-6 text-md">
                         <li>
                             <Link href="/about" className="hover:underline hover:text-gray-400">
-                                About Us
+                                {dictionary.footer.aboutUs}
                             </Link>
                         </li>
                         {/* <li>
                             <Link href="#" className="hover:underline hover:text-gray-400">
-                                Blogs
+                                {dictionary.footer.blogs}
                             </Link>
                         </li> */}
                         <li>
                             <Link href="/prices" className="hover:underline hover:text-gray-400">
-                                Pricing
+                                {dictionary.footer.pricing}
                             </Link>
                         </li>
                         <li>
                             <Link href="/#" className="hover:underline hover:text-gray-400">
-                                Privacy
+                                {dictionary.footer.privacy}
                             </Link>
                         </li>
                         <li>
                             <Link href="/#" className="hover:underline hover:text-gray-400">
-                                Terms & Conditions
+                                {dictionary.footer.terms}
                             </Link>
                         </li>
                         <li>
                             <Link href="/career" className="hover:underline hover:text-gray-400">
-                                Careers
+                                {dictionary.footer.careers}
                             </Link>
                         </li>
                         <li>
                             <Link href="/investors" className="hover:underline hover:text-gray-400">
-                                Investors
+                                {dictionary.footer.investors}
                             </Link>
                         </li>
                         <li>
                             <Link href="/faq" className="hover:underline hover:text-gray-400">
-                                FAQ
+                                {dictionary.footer.faq}
                             </Link>
                         </li>
                         <li>
                             <Link href="/refund" className="hover:underline hover:text-gray-400">
-                                Refund Policy
+                                {dictionary.footer.refundPolicy}
                             </Link>
                         </li>
                     </ul>
                 </div>
 
                 <div>
-                    <h3 className="text-2xl font-bold items-center pt-2">Services</h3>
+                    <h3 className="text-2xl font-bold items-center pt-2">
+                        {dictionary.footer.servicesTitle}
+                    </h3>
                     <ul className="space-y-2 pt-10 text-md">
-                        <li>
-                            <Link href="/services/business-cards" className="hover:underline hover:text-gray-400">
-                                Generate QR Code for Business Cards
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/services/product-cards" className="hover:underline hover:text-gray-400">
-                                Generate QR Code for Products
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/services/v-cards" className="hover:underline hover:text-gray-400">
-                                Generate QR Code for V Cards
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/servives/form-qr" className="hover:underline hover:text-gray-400">
-                                Generate QR Code for Form QR Code
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/services/Pet-ID-tags" className="hover:underline hover:text-gray-400">
-                                Generate QR Code for Pet Id Tag
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/services/pdf" className="hover:underline hover:text-gray-400">
-                                Generate QR Code for PDF
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/services/audios" className="hover:underline hover:text-gray-400">
-                                Generate QR Code for Audio
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/services/videos" className="hover:underline hover:text-gray-400">
-                                Generate QR Code for Video
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/services/gallery" className="hover:underline hover:text-gray-400">
-                                Generate QR Code for Image Gallery
-                            </Link>
-                        </li>
+                        {dictionary.footer.serviceList.map((service, idx) => (
+                            <li key={service}>
+                                <Link
+                                    href={serviceLinks[idx]?.url || "#"}
+                                    className="hover:underline hover:text-gray-400"
+                                >
+                                    {service}
+                                </Link>
+                            </li>
+                        ))}
                     </ul>
                 </div>
 
                 <div>
                     <h3 className="text-2xl font-bold text-center pt-2 pb-4">
-                        Follow Us
+                        {dictionary.footer.followUs}
                     </h3>
                     <div className="flex items-center justify-center space-x-3 text-lg">
                         <Link
@@ -162,12 +144,12 @@ const Footer = () => {
 
                     <div>
                         <h3 className="text-2xl font-bold pt-6 pb-4 text-center">
-                            Get In Touch{" "}
+                            {dictionary.footer.getInTouch}{" "}
                         </h3>
                         <div className="text-md text-center">
                             <p>
-                                {" "}
-                                <span className="font-bold">Email : </span>{" "}
+                                <span className="font-bold">{dictionary.footer.emailLabel} :  
+                                </span>{" "}
                                 <Link
                                     href="mailto:officalzmqrcodeservices@zmqrcode.com"
                                     className="hover:text-gray-400"
@@ -176,7 +158,8 @@ const Footer = () => {
                                 </Link>
                             </p>
                             <p>
-                                <span className="font-bold">Phone : </span>+91 10000 00000
+                                <span className="font-bold">{dictionary.footer.phoneLabel} : </span>
+                                {dictionary.footer.phone}
                             </p>
                         </div>
                     </div>
@@ -187,7 +170,7 @@ const Footer = () => {
 
             <p className="flex justify-center items-center gap-2 mt-4 text-md text-white">
                 <FaRegCopyright />
-                <span>ZM QR Code Services © 2025. All Rights Reserved.</span>
+                <span>{dictionary.footer.copyright}</span>
             </p>
         </footer>
     );
