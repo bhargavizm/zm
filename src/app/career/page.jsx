@@ -93,7 +93,7 @@ export default function Career() {
           className="absolute top-0 left-0 w-full h-full object-cover z-0"
         >
           <source
-            src="/videos/data-transfer-video.mov"
+            src="/videos/Titlevideo.mp4"
             type="video/mp4"
           />
           Your browser does not support the video tag.
@@ -167,8 +167,16 @@ export default function Career() {
           analytics, branding and customer engagement tools.
         </p>
         <div className="flex justify-center mb-6">
-          <Image src="/images/desk-3139127_1280.jpg" alt="Team Working Illustration" width={240} height={200} />
-        </div>
+  <div className=" bg-white relative w-full max-w-md aspect-[3/2] rounded-lg overflow-hidden shadow-lg">
+    <Image
+      src="/images/normal/careerPa.png"
+      alt="Team Working Illustration"
+      fill
+      className="object-cover"
+    />
+  </div>
+</div>
+
         <button className="bg-[#15a6b6] text-black px-6 py-3 rounded-lg font-semibold hover:scale-105 transition-transform">
           Start your journey now
         </button>

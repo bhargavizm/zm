@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react'
+import AnimatedButton from "@/components/animatedButton/animatedButton";
 import { motion } from 'framer-motion'
 import {
   TrendingUpIcon,
@@ -11,11 +12,13 @@ import {
   PhoneIcon,
   ExternalLink
 } from 'lucide-react'
+import DemoForm from './demo/demoForm/demoForm';
 
 // Counter animation for each stat
 const AnimatedStat = ({ icon, label, start, end, suffix }) => {
   const [count, setCount] = useState(start)
 
+   
   useEffect(() => {
     const interval = setInterval(() => {
       setCount(prev => {
@@ -68,6 +71,8 @@ const InsightCard = ({ title, value, summary, link, color }) => (
 )
 
 const Investors = () => {
+   const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div className="w-full min-h-screen bg-[#159999] text-white font-sans">
       <div className='bg-[#159292] text-black font-sans max-w-6xl mx-auto px-6 rounded-2xl'>
@@ -184,7 +189,7 @@ const Investors = () => {
             </div>
             <div>
               <img
-                src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                src="/images/normal/QrUsage.png"
                 alt="Team collaboration"
                 className="rounded-lg shadow-lg w-full"
               />
@@ -214,7 +219,7 @@ const Investors = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
-            src="https://www.thebusinessresearchcompany.com/graphimages/QR_Code_Payments_Market_2025_Graph.webp"
+            src="/images/normal/Qrbar.png"
             alt="Investment Graph"
             className="rounded-lg shadow-lg w-full"
           />
@@ -271,16 +276,22 @@ const Investors = () => {
               <span>+91 90000 12345</span>
             </div>
           </div>
-          <button className="mt-8 bg-white text-[#008080] px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
-            Contact Investor Relations
-          </button>
+          <div className='py-10'>
+               <AnimatedButton
+                        onClick={() => setIsOpen(true)}
+                        className="w-full  max-w-xs mx-auto lg:mx-0"
+                      >
+                        Schedule a Demo
+                    </AnimatedButton>
+          </div>
+          
         </motion.div>
       </section>
 
       {/* Footer */}
       <footer className="text-center py-6 text-white/70 text-sm border-t border-white/20">
         © {new Date().getFullYear()} ZM QR Code Services. All rights reserved.
-      </footer>
+      </footer> {isOpen && <DemoForm onClose={() => setIsOpen(false)} />}
     </div>
   )
 }
