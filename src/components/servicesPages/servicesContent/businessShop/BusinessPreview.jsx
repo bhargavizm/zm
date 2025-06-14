@@ -341,8 +341,8 @@ const BusinessPreview = () => {
   const isImage = bgDesign && !isVideo;
 
   return (
-    <div className="flex justify-center items-center mt-10">
-      <div className="relative w-[350px] h-[570px] rounded-[40px] border-[14px] border-gray-800 shadow-xl overflow-hidden flex flex-col text-gray-800 bg-white">
+    <div className="flex justify-center  items-center mt-10 hide-scrollbar h-[570px] overflow-y-auto ">
+      <div className="relative w-[350px] h-[570px]  rounded-[40px] border-[14px] border-gray-800 overflow-y-auto hide-scrollbar shadow-xl  flex flex-col text-gray-800 bg-white">
         
         {/* Background Layer */}
         {isImage && (
