@@ -39,8 +39,8 @@ const ServicesProvider = ({ children }) => {
     address: "",
     mapLink: "",
     email: "",
+    url: "", // Changed socialLink to url for consistency
     password: "",
-    socialLink: "",
   });
   const [profileImage, setProfileImage] = useState(null);
   const [brandLogo, setBrandLogo] = useState(null);
@@ -108,41 +108,6 @@ const ServicesProvider = ({ children }) => {
     webUrl: "www.yourweburl.com",
   });
 
-  // Kids Safety (Original structure)
-  const [kidsSafetyFormData, setKidsSafetyFormData] = useState({
-    childName: "",
-    dob: "",
-    classGrade: "",
-    schoolName: "",
-    schoolAddress: "",
-    parentName: "",
-    contact: "",
-    altContact: "",
-    homeAddress: "",
-    mapLink: "",
-    password: "",
-    selectedTemplate: "",
-  });
-  const [kidsImage, setKidsImage] = useState(null);
-
-  // Vehicle (Original structure)
-  const [vehicleForm, setVehicleForm] = useState({
-    vehicleModel: "",
-    vehicleType: "",
-    buyDate: "",
-    description: "",
-    rcNumber: "",
-    driverName: "",
-    ownerName: "",
-    contact: "",
-    altContact: "",
-    address: "",
-    mapLink: "",
-    password: "",
-    selectedTemplate: "",
-  });
-  const [vehicleImage, setVehicleImage] = useState(null);
-
   // SMS (Original structure)
   const [smsFormData, setSmsFormData] = useState({
     genderName: "",
@@ -200,7 +165,7 @@ const ServicesProvider = ({ children }) => {
     additionalInfo: [{ type: "", label: "", value: "", visible: true, placeholder: "" }],
   });
 
-  // Dynamic Forms (Enhanced to include the new shopTimingsTemplate and discountCoupon)
+  // Dynamic Forms (Now includes Kids Safety and Vehicle Data)
   const [dynamicForms, setDynamicForms] = useState({
     medicalAlert: {
       patientInfo: {
@@ -340,7 +305,6 @@ const ServicesProvider = ({ children }) => {
       },
       password: "",
     },
-    // NEW: Discount Coupon data structure
     discountCoupon: {
       code: "",
       type: "percentage", // "percentage" or "fixed"
@@ -352,26 +316,58 @@ const ServicesProvider = ({ children }) => {
       couponImage: null, // File object for the coupon visual
       password: "",
     },
+    kidsSafety: {
+      childName: "",
+      dob: "",
+      classGrade: "",
+      schoolName: "",
+      schoolAddress: "",
+      parentName: "",
+      contact: "",
+      altContact: [], // Initialized as an array for dynamic additions
+      homeAddress: "",
+      mapLink: "",
+      password: "",
+      selectedTemplate: "",
+      kidsImage: null, // Image stored here as File object
+    },
+    // NEW: Vehicle data structure integrated into dynamicForms
+    vehicle: {
+      vehicleModel: "",
+      vehicleType: "",
+      buyDate: "",
+      description: "",
+      rcNumber: "",
+      driverName: "",
+      ownerName: "",
+      contact: "",
+      altContact: [], // Initialize as array for dynamic contacts
+      address: "",
+      mapLink: "",
+      password: "",
+      selectedTemplate: "", // If you want to allow different vehicle preview templates
+      vehicleFrontImage: null, // Stores File object
+      vehicleSideImage: null,   // Stores File object
+      rcImage: null,            // Stores File object
+      licenseImage: null,       // Stores File object
+      ownerImage: null,         // Stores File object
+    },
   });
 
   // Dynamic Helpers (Handle null sectionKey)
   const updateDynamicForm = (formKey, sectionKey, fieldKey, value) => {
     setDynamicForms((prev) => {
-      // Create a shallow copy of the form being updated
       const updatedForm = { ...prev[formKey] };
 
       if (sectionKey === null || sectionKey === undefined) {
-        // If no sectionKey, update the field directly on the formKey level
         updatedForm[fieldKey] = value;
       } else {
-        // If there's a sectionKey, update the field within that nested section
         updatedForm[sectionKey] = {
-          ...updatedForm[sectionKey], // Spread the existing section data
+          ...updatedForm[sectionKey],
           [fieldKey]: value,
         };
       }
 
-      // Return the new state with the updated form
       return {
         ...prev,
         [formKey]: updatedForm,
@@ -404,7 +400,7 @@ const ServicesProvider = ({ children }) => {
     }));
   };
 
-  // UI Toggles (Remain the same)
+  // UI Toggles (Remain local to this Provider)
   const [showPassword, setShowPassword] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -419,10 +415,8 @@ const ServicesProvider = ({ children }) => {
         titleFormData, setTitleFormData,
         imagesFormData, setImagesFormData,
         resumeFormData, setResumeFormData,
-        kidsSafetyFormData, setKidsSafetyFormData,
-        kidsImage, setKidsImage,
-        vehicleForm, setVehicleForm,
-        vehicleImage, setVehicleImage,
+        // Removed original kidsSafetyFormData, setKidsSafetyFormData, kidsImage, setKidsImage
+        // Removed original vehicleForm, setVehicleForm, vehicleImage, setVehicleImage
         smsFormData, setSmsFormData,
         wifiFormData, setWifiFormData,
         menuBookFormData, setMenuBookFormData,
@@ -430,8 +424,8 @@ const ServicesProvider = ({ children }) => {
         petIDFormData, setPetIDFormData,
         eventsFormData, setEventsFormData,
         businessShopFormData, setBusinessShopFormData,
-        dynamicForms, setDynamicForms, // Make dynamicForms available
-        updateDynamicForm, addTemplateField, removeTemplateField, // Make helpers available
+        dynamicForms, setDynamicForms, // Crucial: expose dynamicForms and its setter
+        updateDynamicForm, addTemplateField, removeTemplateField, // Expose helpers
         showPassword, setShowPassword,
         isAnimating, setIsAnimating,
       }}
