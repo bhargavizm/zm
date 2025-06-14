@@ -23,8 +23,8 @@ const componentMap = {
     preview: dynamic(() => import('@/components/servicesPages/servicesContent/audio/audioPreview'), { ssr: false }),
   },
   'videos': {
-    content: dynamic(() => import('@/components/servicesPages/servicesContent/audio/audioContent'), { ssr: false }),
-    preview: dynamic(() => import('@/components/servicesPages/servicesContent/audio/audioPreview'), { ssr: false }),
+    content: dynamic(() => import('@/components/servicesPages/servicesContent/video/videoContent'), { ssr: false }),
+    preview: dynamic(() => import('@/components/servicesPages/servicesContent/video/videoPreview'), { ssr: false }),
   },
   'Pet-ID-tags': {
     content: dynamic(() => import('@/components/servicesPages/servicesContent/petIdTag/PetTagContent'), { ssr: false }),
@@ -73,11 +73,6 @@ const componentMap = {
     content: dynamic(() => import('@/components/servicesPages/servicesContent/menuBook/menuBookContent'), { ssr: false }),
     preview: dynamic(() => import('@/components/servicesPages/servicesContent/menuBook/menuBookPreview'), { ssr: false }),
   },
-
-  // 'sms': {
-  //   content: dynamic(() => import('@/components/servicesPages/servicesContent/sms/smsContent'), { ssr: false }),
-  //   preview: dynamic(() => import('@/components/servicesPages/servicesContent/sms/smsPreview'), { ssr: false }),
-  // },
   'events': {
     content: dynamic(() => import('@/components/servicesPages/servicesContent/events/eventContent'), { ssr: false }),
     preview: dynamic(() => import('@/components/servicesPages/servicesContent/events/eventPreview'), { ssr: false }),
@@ -86,9 +81,14 @@ const componentMap = {
     content: dynamic(() => import('@/components/servicesPages/servicesContent/wifi/wifiContent'), { ssr: false }),
     preview: dynamic(() => import('@/components/servicesPages/servicesContent/wifi/wifiPreview'), { ssr: false }),
   },
-   'image-to-qr': {
+   'business-shops': {
     content: dynamic(() => import('@/components/servicesPages/servicesContent/businessShop/BusinessContent'), { ssr: false }),
     preview: dynamic(() => import('@/components/servicesPages/servicesContent/businessShop/BusinessPreview'), { ssr: false }),
+  },
+
+    'discounts': {
+    content: dynamic(() => import('@/components/servicesPages/servicesContent/discountCoupon/DiscountCouponContent'), { ssr: false }),
+    preview: dynamic(() => import('@/components/servicesPages/servicesContent/discountCoupon/DiscountCouponPreview'), { ssr: false }),
   },
 
 };
