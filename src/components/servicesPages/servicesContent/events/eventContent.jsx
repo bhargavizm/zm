@@ -11,6 +11,8 @@ const EventContent = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [showLocationOptions, setShowLocationOptions] = useState(false)
   const [isLoadingLocation, setIsLoadingLocation] = useState(false)
+   const [nfcEnabled, setNfcEnabled] = useState(false);
+      const [showNfcModal, setShowNfcModal] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -42,7 +44,26 @@ const EventContent = () => {
     }
   }
 
+    const handleNfcToggle = () => {
+    if (!nfcEnabled) {
+      setShowNfcModal(true);
+    } else {
+      setNfcEnabled(false);
+    }
+  };
+
+  const confirmNfc = () => {
+    setNfcEnabled(true);
+    setShowNfcModal(false);
+  };
+
+  const cancelNfc = () => {
+    setShowNfcModal(false);
+  };
+
+
   return (
+    <>
     <div className="flex flex-col lg:flex-row">
       <div className="p-8 flex-1">
         <form className="space-y-8">
@@ -302,34 +323,54 @@ const EventContent = () => {
               </div>
             </div>
           </div>
-
-          {/* Password Field */}
-          <div className="bg-white rounded-xl p-6 shadow-md">
-            <h2 className="text-xl font-semibold mb-4 text-[#0e7b7b]">Security</h2>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  value={eventsFormData.password || ''}
-                  onChange={handleChange}
-                  placeholder="Enter password"
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#59c1c1] focus:border-[#226161]"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-                >
-                  {showPassword ? <FiEyeOff /> : <FiEye />}
-                </button>
-              </div>
-            </div>
-          </div>
         </form>
       </div>
     </div>
+
+
+  {/* ✅ NFC Modal */}
+      {showNfcModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
+          <div className="bg-white rounded-xl shadow-xl p-6 max-w-sm w-full border border-teal-200 relative">
+            {/* Close Button */}
+            <button
+              onClick={cancelNfc}
+              className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl"
+            >
+              &times;
+            </button>
+
+            <h2 className="text-xl font-bold text-[#008080] mb-2">
+              NFC Activated
+            </h2>
+            <p className="text-sm text-gray-700">
+              You're trying to enable <strong>NFC</strong> features.
+              <br />
+              This is a <strong>premium service</strong>.
+              <br />
+              <span className="text-[#008080] font-semibold">
+                Cost: ₹499/year
+              </span>
+            </p>
+
+            <div className="flex justify-end mt-5 space-x-3">
+              <button
+                onClick={cancelNfc}
+                className="px-4 py-2 cursor-pointer rounded border border-gray-400 text-gray-600 hover:bg-gray-100"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmNfc}
+                className="px-4 py-2 cursor-pointer bg-[#008080] text-white rounded hover:bg-[#006666] transition"
+              >
+                Accept
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      </>
   )
 }
 

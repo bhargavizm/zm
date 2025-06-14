@@ -181,9 +181,9 @@ const ServicesPage = () => {
 
   return (
     <div className="py-12 bg-[rgb(0,128,128)]">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 ">
         {/* Search Bar */}
-        <div className="mb-10 flex justify-end">
+        <div className="mb-10 flex justify-end pt-20">
           <div className="relative w-full max-w-sm transition-all duration-300 group shadow-2xl">
             <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-mainGreen text-lg pointer-events-none group-focus-within:text-mainGreen" />
             <input
