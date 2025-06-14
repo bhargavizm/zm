@@ -488,5 +488,19 @@
                 ]
             }
         }
+    },
+    "refund_policy": {
+        "title": "Refund Policy",
+        "intro": "Thank you for choosing our services. Please read the details of our refund policy carefully:",
+        "points": [
+            "Refunds are not provided for digital services once access is granted.",
+            "This includes software tools, QR code generators, and learning material.",
+            "All digital products are considered final sale."
+        ],
+        "strict_policy": "ZM QR Code Services maintains a strict no-refund policy after activation.",
+        "support_info": "If you encounter issues, please contact our team. We are happy to assist with technical support and billing clarification.",
+        "contact_prompt": "For inquiries, visit our",
+        "contact_link": "Contact Us",
+        "contact_suffix": "page."
     }
 }
