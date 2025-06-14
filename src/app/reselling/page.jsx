@@ -1,8 +1,10 @@
 // app/page.js
 'use client';
 
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLanguage } from '@/context/languageContext/LanguageContext';
+
 import {
     FaArrowRight, FaTag, FaIdCard, FaStar, FaPhone, FaLink, FaTools, FaLightbulb,
     FaShieldAlt, FaSyncAlt, FaChartLine, FaCheckCircle, FaUsers, FaLaptopCode,
@@ -107,10 +109,10 @@ const HeroSection = () => {
                     initial={{ opacity: 0, x: 50 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
-                    className="lg:w-1/2 flex justify-center items-center"
+                    className=" flex justify-center items-center bg-white rounded-2xl h-130"
                 >
                     <img
-                        src="https://placehold.co/600x400/008080/FFFFFF?text=Modern+QR+Applications"
+                        src="/images/normal/reGrowth.png"
                         alt="Showcasing modern QR code applications"
                         className="rounded-xl shadow-2xl transform hover:scale-105 transition-transform duration-300"
                     />
@@ -122,6 +124,7 @@ const HeroSection = () => {
 
 // Why ZM QR? (Scroll-down Section)
 const WhyZMQRSection = () => {
+
     return (
         <section className="py-20 px-8" style={{ backgroundColor: SITE_COLORS.sectionBgLight, color: SITE_COLORS.textDark }}>
             <div className="container mx-auto max-w-4xl text-center">
@@ -208,6 +211,7 @@ const TestimonialsSection = () => {
         { quote: "Partnering with ZM QR Code Services has been a game-changer for our business. The support is incredible!", author: "Navya L., Franchisee" },
         { quote: "Their platform is so easy to use and our clients love the QR solutions. Highly recommend!", author: "Joseph., Business Owner" },
         { quote: "The recurring revenue model is fantastic. ZM QR Code has helped us achieve significant growth.", author: "Krishna., Entrepreneur" },
+        { quote: "ZM QR Code Services has transformed the way we connect with our customers. Combined with real-time analytics and branding tools.", author: "Mastanvali., Business Head" }
     ];
 
     // State to manage which testimonial is currently active for the simple placeholder
@@ -425,7 +429,7 @@ const InvestmentAndSupportSection = () => {
                                     <td className="py-2 px-10">0/-</td>
                                 </tr>
 
-                                <tr className="border-b " style={{ borderColor: SITE_COLORS.border, fontWeight:'bold' }}>
+                                <tr className="border-b " style={{ borderColor: SITE_COLORS.border, fontWeight: 'bold' }}>
                                     <td className="py-2 px-4">Marketing & Sales Toolkit</td>
                                     <td className="py-2 px-2 text-center">Depends</td>
                                 </tr>

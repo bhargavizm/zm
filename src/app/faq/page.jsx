@@ -29,9 +29,9 @@ const FAQPage = () => {
                     </ul>
                 </div>
             </nav>
-            <BackgroundBeamsWithCollision className="relative min-h-screen w-full overflow-hidden bg-[#001f1f]">
+            <BackgroundBeamsWithCollision className="relative min-h-screen w-full overflow-hidden bg-[#008080]">
                 {/* Overlay noise */}
-                <div className="absolute inset-0 bg-[url('/noise.jpg')] opacity-[0.10] pointer-events-none z-0" />
+                {/* <div className="absolute inset-0 bg-[url('/noise.jpg')] opacity-[0.10] pointer-events-none z-0" /> */}
 
                 {/* FAQ Container */}
                 <div className="relative w-2/3 mx-auto z-10 px-4 sm:px-6 lg:px-8 py-12">

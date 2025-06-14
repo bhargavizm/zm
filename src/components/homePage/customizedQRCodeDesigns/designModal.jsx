@@ -11,13 +11,19 @@ import AnimatedButton from "@/components/animatedButton/animatedButton";
 import { FaLongArrowAltDown } from "react-icons/fa";
 import PreviewPanel from "./previewPanel";
 import useDesignContext from "@/components/hooks/useDesignContext";
-import ImageToQR from "./designTabs/ImageToQR";
+import ImageToQRDesign from "./designTabs/ImageToQRDesign";
+import ComingSoonModal from "@/components/modalPopUps/comingSoonModal";
 
-const tabs = ["QR Shapes", "Stickers", "Colors", "Shapes", "Logos", "Create QR Using Image"];
+
+const tabs = ["QR Shapes", "Stickers", "Colors", "Shapes", "Logos", "Personalized Image"];
 
 const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
   const { setSelectedQRShape, setSelectedLogo, setSelectedSticker } =
     useDesignContext();
+
+    const [showModal, setShowModal] = useState(false);
+    
+      const handleClick = () => setShowModal(true);
 
   useEffect(() => {
     const savedShape = localStorage.getItem("selectedQRShape");
@@ -47,12 +53,13 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
     Colors: () => <Colors onSelectImage={handleImageSelect} />,
     Shapes: () => <Shapes onSelectImage={handleImageSelect} />,
     Logos: () => <Logos onSelectImage={handleImageSelect} />,
-    "Create QR Using Image": () => <ImageToQR  />,
+    "Personalized Image": () => <ImageToQRDesign  />,
   };
 
   const ActiveComponent = tabComponents[activeTab];
 
   return (
+    <>
     <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30 px-4">
       <div className="bg-white rounded-xl shadow-xl w-full max-w-6xl h-[95vh] relative px-6 py-6 o overflow-y-auto scrollbar-hide">
         {/* Header */}
@@ -113,7 +120,7 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
 
               <PreviewPanel />
               <div className="pt-9 ">
-                <AnimatedButton className="mx-auto flex justify-center gap-2">
+                <AnimatedButton onClick={handleClick} className="mx-auto flex justify-center gap-2">
                   Download Large Files
                   <FaLongArrowAltDown />
                 </AnimatedButton>
@@ -124,6 +131,14 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
         
       </div>
     </div>
+
+     {showModal && (
+        <ComingSoonModal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+        />
+      )}
+    </>
   );
 };
 

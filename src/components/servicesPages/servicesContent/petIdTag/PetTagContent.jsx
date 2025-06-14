@@ -12,8 +12,7 @@ const PetTagContent = () => {
   }
 
   const { petIDFormData, setPetIDFormData } = servicesContext;
-
-const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [showNfcModal, setShowNfcModal] = useState(false);
   const [nfcEnabled, setNfcEnabled] = useState(false);
   const templateImages = ["pet1.webp", "pet2.webp", "pet3.webp", "pet4.webp"];
@@ -60,7 +59,6 @@ const [showPassword, setShowPassword] = useState(false);
   const handleNfcToggle = () => {
     if (!nfcEnabled) {
       setShowNfcModal(true);
-    
     } else {
       setNfcEnabled(false);
     }
@@ -69,11 +67,9 @@ const [showPassword, setShowPassword] = useState(false);
   const confirmNfc = () => {
     setNfcEnabled(true);
     setShowNfcModal(false);
- 
   };
 
   const cancelNfc = () => {
-
     setShowNfcModal(false);
   };
 
@@ -82,7 +78,9 @@ const [showPassword, setShowPassword] = useState(false);
       <div className="bg-white shadow-md rounded-lg p-6 space-y-6">
         {/* Template Selector */}
         <div>
-          <h2 className="text-xl font-semibold mb-2">Select a Pet Tag Template</h2>
+          <h2 className="text-xl font-semibold mb-2">
+            Select a Pet Tag Template
+          </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {templateImages.map((img, idx) => (
               <div
@@ -93,10 +91,11 @@ const [showPassword, setShowPassword] = useState(false);
                     selectedTemplate: img,
                   }))
                 }
-                className={`cursor-pointer p-1 border rounded-lg ${petIDFormData.selectedTemplate === img
+                className={`cursor-pointer p-1 border rounded-lg ${
+                  petIDFormData.selectedTemplate === img
                     ? "border-[#008080]"
                     : "border-gray-300"
-                  }`}
+                }`}
               >
                 <Image
                   src={`/pet-id/${img}`}
@@ -173,14 +172,29 @@ const [showPassword, setShowPassword] = useState(false);
             placeholder="Email Address"
             className="border p-2 rounded w-full"
           />
-          <input
-            type="password"
-            id="password"
-            value={petIDFormData.ownerInfo.password}
-            onChange={handleOwnerChange}
-            placeholder="Password"
-            className="border p-2 rounded w-full"
-          />
+
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              value={petIDFormData.ownerInfo.password}
+              onChange={handleOwnerChange}
+              placeholder="Password"
+              className="border p-2 pr-10 rounded w-full"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+            >
+              {showPassword ? (
+                <AiFillEyeInvisible size={20} />
+              ) : (
+                <AiFillEye size={20} />
+              )}
+            </button>
+          </div>
+
           <input
             type="text"
             id="address"
@@ -215,31 +229,14 @@ const [showPassword, setShowPassword] = useState(false);
                 id={field}
                 value={petIDFormData.pet[field]}
                 onChange={handlePetChange}
-                placeholder={`Pet ${field.charAt(0).toUpperCase() + field.slice(1)}`}
+                placeholder={`Pet ${
+                  field.charAt(0).toUpperCase() + field.slice(1)
+                }`}
                 className="border p-2 rounded w-full"
               />
             ))}
           </div>
         </div>
-
-{/* password */}
-       <div className="py-4 bg-white text-gray-700 relative">
-  <input
-    required
-    type={showPassword ? "text" : "password"}
-    className="w-full border border-gray-300 rounded-md px-3 py-2 pr-10"
-    placeholder="Password"
-    id="password" // <-- ✅ This is important for `handlePetChange`
-    value={petIDFormData.password}
-    onChange={handlePetChange}
-  />
-  <div
-    className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-500 cursor-pointer"
-    onClick={() => setShowPassword(!showPassword)}
-  >
-    {showPassword ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
-  </div>
-</div>
 
         {/* ✅ NFC Toggle with Icon */}
         <div className="flex items-center gap-4 mt-2">
@@ -247,7 +244,7 @@ const [showPassword, setShowPassword] = useState(false);
           <button
             type="button"
             onClick={handleNfcToggle}
-            className={`relative inline-flex h-8 w-16 items-center rounded-full transition-colors duration-500
+            className={`relative cursor-pointer inline-flex h-8 w-16 items-center rounded-full transition-colors duration-500
                     focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#008080]
                     ${nfcEnabled ? "bg-[#008080]" : "bg-gray-300"}`}
           >

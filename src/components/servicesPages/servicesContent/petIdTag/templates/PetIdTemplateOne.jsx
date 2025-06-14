@@ -28,7 +28,7 @@ const PetIdTemplateOne = ({ petIDFormData }) => {
 
     return (
         <div
-            className="relative w-[360px] h-[490px] overflow-y-auto scrollbar-hide rounded-lg shadow-lg flex flex-col items-center justify-start p-6"
+            className="relative  w-[360px] h-[490px] overflow-y-auto scrollbar-hide rounded-lg shadow-lg flex flex-col items-center justify-start"
             style={{
                 backgroundImage: `url(${backgroundImage})`,
                 backgroundSize: "cover",
@@ -66,7 +66,7 @@ const PetIdTemplateOne = ({ petIDFormData }) => {
             </h2>
 
             {/* Pet and Owner Information */}
-            <div className="relative z-10 w-full max-w-xs bg-white bg-opacity-80 rounded-lg p-4 shadow-inner">
+            <div className="relative z-10 w-full max-w-xs bg-white bg-opacity-80 rounded-lg p-4 m-4 shadow-inner ">
                 <div className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-gray-800 text-base">
                     <p className="font-medium text-[#8B4513]">Type of Pet</p>
                     <p>: {petIDFormData.pet.species || "Dog"}</p>
@@ -136,10 +136,6 @@ const PetIdTemplateOne = ({ petIDFormData }) => {
                     )}
                 </div>
             </div>
-
-            <p className="relative z-10 text-xl font-bold text-[#6D3C00] mb-2 drop-shadow">
-                {petIDFormData.password }
-            </p>
         </div>
     );
 };
