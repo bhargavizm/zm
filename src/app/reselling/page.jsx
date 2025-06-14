@@ -1,8 +1,10 @@
 // app/page.js
 'use client';
 
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLanguage } from '@/context/languageContext/LanguageContext';
+
 import {
     FaArrowRight, FaTag, FaIdCard, FaStar, FaPhone, FaLink, FaTools, FaLightbulb,
     FaShieldAlt, FaSyncAlt, FaChartLine, FaCheckCircle, FaUsers, FaLaptopCode,
@@ -122,6 +124,7 @@ const HeroSection = () => {
 
 // Why ZM QR? (Scroll-down Section)
 const WhyZMQRSection = () => {
+
     return (
         <section className="py-20 px-8" style={{ backgroundColor: SITE_COLORS.sectionBgLight, color: SITE_COLORS.textDark }}>
             <div className="container mx-auto max-w-4xl text-center">
@@ -425,7 +428,7 @@ const InvestmentAndSupportSection = () => {
                                     <td className="py-2 px-10">0/-</td>
                                 </tr>
 
-                                <tr className="border-b " style={{ borderColor: SITE_COLORS.border, fontWeight:'bold' }}>
+                                <tr className="border-b " style={{ borderColor: SITE_COLORS.border, fontWeight: 'bold' }}>
                                     <td className="py-2 px-4">Marketing & Sales Toolkit</td>
                                     <td className="py-2 px-2 text-center">Depends</td>
                                 </tr>
