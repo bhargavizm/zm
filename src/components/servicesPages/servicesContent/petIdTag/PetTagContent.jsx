@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import useServicesContext from "@/components/hooks/useServiceContext";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 const PetTagContent = () => {
   const servicesContext = useServicesContext();
@@ -11,7 +12,7 @@ const PetTagContent = () => {
   }
 
   const { petIDFormData, setPetIDFormData } = servicesContext;
-
+  const [showPassword, setShowPassword] = useState(false);
   const [showNfcModal, setShowNfcModal] = useState(false);
   const [nfcEnabled, setNfcEnabled] = useState(false);
   const templateImages = ["pet1.webp", "pet2.webp", "pet3.webp", "pet4.webp"];
@@ -171,14 +172,29 @@ const PetTagContent = () => {
             placeholder="Email Address"
             className="border p-2 rounded w-full"
           />
-          <input
-            type="password"
-            id="password"
-            value={petIDFormData.ownerInfo.password}
-            onChange={handleOwnerChange}
-            placeholder="Password"
-            className="border p-2 rounded w-full"
-          />
+
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              value={petIDFormData.ownerInfo.password}
+              onChange={handleOwnerChange}
+              placeholder="Password"
+              className="border p-2 pr-10 rounded w-full"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+            >
+              {showPassword ? (
+                <AiFillEyeInvisible size={20} />
+              ) : (
+                <AiFillEye size={20} />
+              )}
+            </button>
+          </div>
+
           <input
             type="text"
             id="address"
