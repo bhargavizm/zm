@@ -36,14 +36,14 @@ const EventPreview = () => {
                 )}
 
                 {eventsFormData.organizer && (
-                  <p className="text-gray-500 text-center">
+                  <p className="text-gray-500 text-center my-20">
                     Hosted by <span className="font-medium">{eventsFormData.organizer}</span>
                   </p>
                 )}
 
                 {eventsFormData.summary && (
                   <div className="bg-blue-50 p-3 rounded-lg">
-                    <p className="text-blue-800">{eventsFormData.summary}</p>
+                    <p className="text-[#008080]">{eventsFormData.summary}</p>
                   </div>
                 )}
 
@@ -107,7 +107,7 @@ const EventPreview = () => {
                     rel="noreferrer"
                     className="block"
                   >
-                    <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                    <button className="w-full bg-[#008080] text-white py-3 rounded-lg font-medium hover:bg-[#1c3333] transition-colors cursor-pointer">
                       {eventsFormData.buttonLabel || 'Get Tickets'}
                     </button>
                   </a>
@@ -116,7 +116,7 @@ const EventPreview = () => {
                 {eventsFormData.webUrl && (
                   <a
                     href={`https://${eventsFormData.webUrl}`}
-                    className="flex items-center justify-center text-blue-600 hover:text-blue-800 mt-3"
+                    className="flex items-center justify-center text-[#008080] hover:text-[#1c3333] mt-3"
                     target="_blank"
                     rel="noreferrer"
                   >
