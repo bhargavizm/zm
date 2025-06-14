@@ -49,7 +49,7 @@ const componentMap = {
   },
   'sms': {
     content: dynamic(() => import('@/components/servicesPages/servicesContent/sms/smsContent'),{ssr:false}),
-    preview: dynamic(() => import('@/components/servicesPages/servicesContent/sms/smsPreview'), { ssr: false }),
+    preview: dynamic(() => import('@/components/servicesPages/servicesContent/sms/SmsPreview'), { ssr: false }),
   },
   'text-messages': {
     content: dynamic(() => import('@/components/servicesPages/servicesContent/textMsg/TextFormContent'),{ssr:false}),
