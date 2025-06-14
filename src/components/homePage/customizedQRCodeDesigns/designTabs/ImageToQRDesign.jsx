@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import useDesignContext from "@/components/hooks/useDesignContext";
 
-const ImageToQR = () => {
+const ImageToQRDesign = () => {
   const {backgroundImage, setBackgroundImage, scale, setScale  } = useDesignContext();
   const [showWarning, setShowWarning] = useState(false);
   const fileInputRef = useRef(null);
@@ -149,4 +149,4 @@ const handleSliderChange = (e) => {
   );
 };
 
-export default ImageToQR;
+export default ImageToQRDesign;

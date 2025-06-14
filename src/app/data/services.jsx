@@ -41,7 +41,7 @@ const services = [
         "serviceName": "Business Card",
         slug: "business-cards",
         "description": "Craft standout digital business cards in a snap with sleek templates, effortlessly sparking connections that resonate.",
-        "image": "/services/BusinessCard.webp",
+        "image": "/services/BusinessCard.png",
     },
     {
         "icon": <BsFillCartCheckFill className="text-[#001a1a]" />,

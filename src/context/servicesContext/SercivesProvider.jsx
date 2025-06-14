@@ -58,8 +58,16 @@ const ServicesProvider = ({ children }) => {
   });
   const [productImage, setProductImage] = useState(null);
 
-  // Audio/Video
-  const [titleFormData, setTitleFormData] = useState({
+  // Audio
+  const [audioFormData, setAudioFormData] = useState({
+    title: "",
+    description: "",
+    file: null,
+    password: "",
+  });
+
+   // video
+  const [videoFormData, setVideoFormData] = useState({
     title: "",
     description: "",
     file: null,
@@ -359,7 +367,8 @@ const ServicesProvider = ({ children }) => {
         brandLogo, setBrandLogo,
         productData, setProductData,
         productImage, setProductImage,
-        titleFormData, setTitleFormData,
+       audioFormData, setAudioFormData,
+       videoFormData, setVideoFormData,
         imagesFormData, setImagesFormData,
         resumeFormData, setResumeFormData,
         kidsSafetyFormData, setKidsSafetyFormData,

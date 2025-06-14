@@ -14,6 +14,7 @@ const DesignProvider = ({ children }) => {
   const [logoSize, setLogoSize] = useState(45);
    const [backgroundImage, setBackgroundImage] = useState(null);
  const [scale, setScale] = useState(55);
+ const [bgDesign, setBgDesign] = useState(null);
 
 useEffect(() => {
   if (typeof window !== "undefined") {
@@ -58,7 +59,7 @@ useEffect(() => {
         selectedShape,
         setSelectedShape,
         logoSize,
-  setLogoSize,backgroundImage, setBackgroundImage, scale, setScale
+  setLogoSize,backgroundImage, setBackgroundImage, scale, setScale,bgDesign, setBgDesign
       }}
     >
       {children}
