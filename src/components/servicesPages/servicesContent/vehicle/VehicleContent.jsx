@@ -1,509 +1,480 @@
+// src/components/services/VehicleContent.jsx
 "use client";
+
 import React, { useState } from "react";
-import Image from "next/image";
-import { FiMapPin, FiPlus, FiTrash2, FiUpload } from "react-icons/fi";
 import useServicesContext from "@/components/hooks/useServiceContext";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+
+import { Eye, EyeOff,  PlusCircle } from 'lucide-react'; // Using Lucide for password icons
+import { FiMapPin, FiPlus, FiTrash2, FiUpload, FiX } from "react-icons/fi";
+
 
 const VehicleContent = () => {
-  const {
-    vehicleForm,
-    setVehicleForm,
-    vehicleImage,
-    setVehicleImage,
-  } = useServicesContext();
+  const { dynamicForms, updateDynamicForm } = useServicesContext();
+  // Access vehicle data from dynamicForms, ensuring it's an object
+  const vehicle = dynamicForms.vehicle || {};
 
-  const [showLocationOptions, setShowLocationOptions] = useState(false);
+  // Local UI state for password visibility and NFC
+  const [showPassword, setShowPassword] = useState(false);
+  const [nfcEnabled, setNfcEnabled] = useState(false);
+  const [showNfcModal, setShowNfcModal] = useState(false);
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
-  const [deletedFields, setDeletedFields] = useState([]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setVehicleForm({ ...vehicleForm, [name]: value });
-  };
-      const [showPassword, setShowPassword] = useState(false);
-      const [nfcEnabled, setNfcEnabled] = useState(false);
-    const [showNfcModal, setShowNfcModal] = useState(false);
-  
-    const handleNfcToggle = () => {
-      if (!nfcEnabled) {
-        setShowNfcModal(true);
-      } else {
-        setNfcEnabled(false);
+  // Define all primary fields for the form, including their types and sections
+  // 'optional: true' indicates fields that can be dynamically removed/added by the user.
+  const fieldsConfig = [
+    { key: "vehicleModel", label: "Vehicle Model", type: "text", section: "Vehicle Information" },
+    { key: "vehicleType", label: "Vehicle Type", type: "text", section: "Vehicle Information" },
+    { key: "buyDate", label: "Purchase Date", type: "date", section: "Vehicle Information" },
+    { key: "description", label: "Vehicle Description", type: "textarea", section: "Vehicle Information" },
+    { key: "rcNumber", label: "RC Number", type: "text", section: "Documents & Details" },
+    { key: "driverName", label: "Driver Name", type: "text", section: "Driver & Owner Info" },
+    { key: "ownerName", label: "Owner Name", type: "text", section: "Driver & Owner Info" },
+    { key: "contact", label: "Contact Number", type: "tel", section: "Contact & Location" },
+    // altContact is an array, handled separately for dynamic adding/removing elements.
+    { key: "address", label: "Address", type: "textarea", section: "Contact & Location" },
+    { key: "mapLink", label: "Map Link", type: "url", section: "Contact & Location", optional: true },
+    { key: "password", label: "Password", type: "password", section: "Security" },
+    // selectedTemplate is handled via image selection logic, not a direct input field.
+  ];
+
+  // Define image fields
+  const imageFieldsConfig = [
+    { key: "vehicleFrontImage", label: "Vehicle Front View" },
+    { key: "vehicleSideImage", label: "Vehicle Side View" },
+    { key: "rcImage", label: "RC Document Image" },
+    { key: "licenseImage", label: "Driving License Image" },
+    { key: "ownerImage", label: "Owner Photo" },
+  ];
+
+  // Group fields by their conceptual section for rendering
+  const groupedFields = fieldsConfig.reduce((acc, field) => {
+    (acc[field.section] = acc[field.section] || []).push(field);
+    return acc;
+  }, {});
+
+  // State to track fields that have been "removed" or are not currently displayed (optional fields)
+  const [removedOptionalFields, setRemovedOptionalFields] = useState(() => {
+    const initialRemoved = {};
+    fieldsConfig.forEach(field => {
+      if (field.optional && (vehicle[field.key] === undefined || vehicle[field.key] === null || vehicle[field.key] === '')) {
+        const sectionName = field.section;
+        if (!initialRemoved[sectionName]) {
+          initialRemoved[sectionName] = [];
+        }
+        initialRemoved[sectionName].push(field.key);
       }
-    };
-  
-    const confirmNfc = () => {
-      setNfcEnabled(true);
-      setShowNfcModal(false);
-    };
-  
-    const cancelNfc = () => {
-      setShowNfcModal(false);
-    };
+    });
+    return initialRemoved;
+  });
 
+  // Helper to format field keys into readable labels
+  const formatLabel = (key) => {
+    return key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+  };
 
-    const handleInputChange = (e) => {
-        setVehicleForm({ ...vehicleForm, [e.target.id]: e.target.value });
-    };
+  // Generic handler for input changes (for all fields directly under vehicle)
+  const handleInputChange = (fieldKey, value) => {
+    // For direct properties of 'vehicle', sectionKey is null
+    updateDynamicForm('vehicle', null, fieldKey, value);
+  };
 
-  const handleImageUpload = (e, fieldName) => {
-    const file = e.target.files[0];
+  // Handler for image file selection: stores the File object
+  const handleImageUpload = (fieldKey, file) => {
     if (file) {
-      setVehicleForm({
-        ...vehicleForm,
-        [fieldName]: URL.createObjectURL(file)
-      });
+      updateDynamicForm('vehicle', null, fieldKey, file); // Store the File object
+    } else {
+      updateDynamicForm('vehicle', null, fieldKey, null); // Clear the image if no file
     }
   };
 
-  const handleGetCurrentLocation = () => {
-    setIsLoadingLocation(true);
-    setShowLocationOptions(false);
+  // Handle adding an alternate contact input field (altContact is an array)
+  const addAltContact = () => {
+    const currentAltContacts = vehicle.altContact || [];
+    updateDynamicForm('vehicle', null, 'altContact', [...currentAltContacts, ""]);
+  };
 
+  // Handle changes to an individual alternate contact value
+  const handleAltContactChange = (index, value) => {
+    const currentAltContacts = [...(vehicle.altContact || [])];
+    currentAltContacts[index] = value;
+    updateDynamicForm('vehicle', null, 'altContact', currentAltContacts);
+  };
+
+  // Handle removing an alternate contact input field
+  const removeAltContact = (index) => {
+    const currentAltContacts = [...(vehicle.altContact || [])];
+    currentAltContacts.splice(index, 1);
+    updateDynamicForm('vehicle', null, 'altContact', currentAltContacts);
+  };
+
+  // Add an optional field back to the form
+  const handleAddField = (sectionName, fieldKey) => {
+    handleInputChange(fieldKey, ''); // Initialize the field in state with empty string
+    setRemovedOptionalFields(prev => ({
+      ...prev,
+      [sectionName]: prev[sectionName].filter(item => item !== fieldKey),
+    }));
+  };
+
+  // Remove an optional field from the form
+  const handleRemoveField = (sectionName, fieldKey) => {
+    handleInputChange(fieldKey, undefined); // Set to undefined to effectively remove from state
+    setRemovedOptionalFields(prev => ({
+      ...prev,
+      [sectionName]: [...prev[sectionName], fieldKey],
+    }));
+  };
+
+  // Fetch current GPS location and populate the address and mapLink fields
+  const handleGetCurrentLocation = async () => {
+    setIsLoadingLocation(true);
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setVehicleForm(prev => ({
-            ...prev,
-            mapLink: `Latitude: ${latitude.toFixed(4)}, Longitude: ${longitude.toFixed(4)}`
-          }));
-          setIsLoadingLocation(false);
-        },
-        (error) => {
-          console.error("Error getting location:", error);
-          setIsLoadingLocation(false);
-        }
-      );
+      try {
+        const pos = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject);
+        });
+        const { latitude, longitude } = pos.coords;
+
+        // Use OpenStreetMap's Nominatim for reverse geocoding
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`
+        );
+        const data = await response.json();
+        const fullAddress = data.display_name || "Address not found";
+        const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
+
+        handleInputChange('address', fullAddress);
+        handleInputChange('mapLink', googleMapsLink);
+        console.log("Fetched Address:", fullAddress);
+        console.log("Generated Map Link:", googleMapsLink);
+      } catch (err) {
+        console.error("Error getting location:", err);
+        // Use a custom modal/toast for error feedback instead of alert()
+        alert("Failed to fetch current location. Please enter it manually."); // Temporary: replace with custom UI
+      } finally {
+        setIsLoadingLocation(false);
+      }
     } else {
-      alert("Geolocation is not supported by this browser.");
+      console.warn("Geolocation is not supported by this browser.");
+      alert("Geolocation is not supported by your browser. Please enter location manually."); // Temporary: replace with custom UI
       setIsLoadingLocation(false);
     }
   };
 
-  const removeField = (fieldName) => {
-    setDeletedFields([...deletedFields, fieldName]);
-    setVehicleForm(prev => {
-      const newForm = {...prev};
-      delete newForm[fieldName];
-      return newForm;
-    });
+  // NFC Toggle logic
+  const handleNfcToggle = () => {
+    if (!nfcEnabled) {
+      setShowNfcModal(true);
+    } else {
+      setNfcEnabled(false);
+    }
   };
 
-  const restoreField = (fieldName) => {
-    setDeletedFields(deletedFields.filter(f => f !== fieldName));
-    setVehicleForm(prev => ({
-      ...prev,
-      [fieldName]: ""
-    }));
+  const confirmNfc = () => {
+    setNfcEnabled(true);
+    setShowNfcModal(false);
   };
 
-  const fields = [
-    { name: "vehicleModel", label: "Vehicle Model", type: "text" },
-    { name: "vehicleType", label: "Vehicle Type", type: "text" },
-    { name: "buyDate", label: "Purchase Date", type: "date" },
-    { name: "description", label: "Description", type: "textarea" },
-    { name: "rcNumber", label: "RC Number", type: "text" },
-    { name: "driverName", label: "Driver Name", type: "text" },
-    { name: "ownerName", label: "Owner Name", type: "text" },
-    { name: "contact", label: "Contact Number", type: "tel" },
-    { name: "altContact", label: "Alternate Contact", type: "tel" },
-    { name: "address", label: "Address", type: "textarea" },
-    { name: "mapLink", label: "Location", type: "location" },
-    { name: "password", label: "Password", type: "password" },
-  ];
-
-  const imageFields = [
-    { name: "rcImage", label: "RC Document" },
-    { name: "licenseImage", label: "Driving License" },
-    { name: "vehicleFrontImage", label: "Vehicle Front View" },
-    { name: "vehicleSideImage", label: "Vehicle Side View" },
-    { name: "ownerImage", label: "Owner Photo" },
-  ];
+  const cancelNfc = () => {
+    setShowNfcModal(false);
+  };
 
   return (
-    <div className="flex flex-col lg:flex-row">
-      <div className="p-8 flex-1">
-        <form className="space-y-8">
-          {/* Basic Vehicle Info */}
-          <div className="bg-white rounded-xl p-6 shadow-md">
-            <h2 className="text-xl font-semibold mb-4 text-[#0a5e5e]">
-              Vehicle Information
-            </h2>
-            <div className="space-y-4">
-              {fields
-                .filter(field => !deletedFields.includes(field.name))
-                .map(field => (
-                  <div key={field.name} className="relative group">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      {field.label}
-                    </label>
-                    {field.type === "textarea" ? (
-                      <textarea
-                        name={field.name}
-                        placeholder={`Enter ${field.label.toLowerCase()}`}
-                        value={vehicleForm[field.name] || ""}
-                        onChange={handleChange}
-                        rows={3}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#59c1c1] focus:border-[#226161]"
-                      />
-                    ) : field.type === "location" ? (
-                      <div className="relative">
-                        <div className="flex">
-                          <input
-                            name={field.name}
-                            placeholder="Enter location"
-                            value={vehicleForm[field.name] || ""}
-                            onChange={handleChange}
-                            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#59c1c1] focus:border-[#226161]"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => setShowLocationOptions(!showLocationOptions)}
-                            className="ml-2 p-2 bg-indigo-100 text-[#0e7b7b] rounded-lg hover:bg-indigo-200 transition-colors"
-                          >
-                            <FiMapPin />
-                          </button>
-                        </div>
-                        {showLocationOptions && (
-                          <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 z-10 p-3">
-                            <div className="flex justify-between items-center mb-2">
-                              <h3 className="font-medium">Location Options</h3>
-                              <button onClick={() => setShowLocationOptions(false)} className="text-gray-500 hover:text-gray-700">
-                                <FiX />
-                              </button>
-                            </div>
-                            <button
-                              onClick={handleGetCurrentLocation}
-                              disabled={isLoadingLocation}
-                              className="w-full flex items-center justify-center px-4 py-2 bg-[#0e7b7b] text-white rounded-lg hover:bg-indigo-700 transition-colors mb-2"
-                            >
-                              {isLoadingLocation ? 'Detecting...' : 'Use Current Location'}
-                            </button>
-                            <button
-                              onClick={() => {
-                                setShowLocationOptions(false);
-                                document.getElementsByName('mapLink')[0].focus();
-                              }}
-                              className="w-full flex items-center justify-center px-4 py-2 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 transition-colors"
-                            >
-                              Enter Manually
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    ) : (
+    <div className="space-y-8 p-4 md:p-8 lg:p-12 bg-gray-50 rounded-xl shadow-lg h-[750px] overflow-auto hide-scrollbar">
+      <h1 className="text-4xl font-extrabold text-teal-800 text-center pb-4 border-b-2 border-teal-200">
+        Vehicle QR Code Generator
+      </h1>
+
+      {/* Primary Input Sections */}
+      {Object.entries(groupedFields).map(([sectionName, fields]) => (
+        <div key={sectionName} className="p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
+          <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200 capitalize">
+            {sectionName}
+          </h3>
+          <div className="space-y-5">
+            {fields
+              .filter(field => !removedOptionalFields[sectionName]?.includes(field.key))
+              .map(field => (
+                <div key={field.key} className="relative flex items-center space-x-3">
+                  {field.type === "textarea" ? (
+                    <textarea
+                      id={field.key}
+                      placeholder={field.placeholder}
+                      value={vehicle[field.key] || ""}
+                      onChange={(e) => handleInputChange(field.key, e.target.value)}
+                      rows={3}
+                      className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200 resize-y"
+                    />
+                  ) : field.type === "date" ? (
+                    <div className="flex-1">
+                      <label htmlFor={field.key} className="block text-sm font-medium text-gray-700 mb-1">{formatLabel(field.key)}</label>
                       <input
-                        type={field.type}
-                        name={field.name}
-                        placeholder={`Enter ${field.label.toLowerCase()}`}
-                        value={vehicleForm[field.name] || ""}
-                        onChange={handleChange}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#59c1c1] focus:border-[#226161]"
+                        id={field.key}
+                        type="date"
+                        value={vehicle[field.key] || ""}
+                        onChange={(e) => handleInputChange(field.key, e.target.value)}
+                        className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
                       />
-                    )}
+                    </div>
+                  ) : field.type === "password" ? (
+                    <div className="relative flex-1">
+                      <input
+                        id={field.key}
+                        type={showPassword ? "text" : "password"}
+                        placeholder={field.placeholder}
+                        value={vehicle[field.key] || ""}
+                        onChange={(e) => handleInputChange(field.key, e.target.value)}
+                        className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 pr-12 transition-all duration-200"
+                      />
+                      <span
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-600 hover:text-teal-600"
+                      >
+                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                      </span>
+                    </div>
+                  ) : (
+                    <input
+                      id={field.key}
+                      type={field.type}
+                      placeholder={field.placeholder}
+                      value={vehicle[field.key] || ""}
+                      onChange={(e) => handleInputChange(field.key, e.target.value)}
+                      className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
+                    />
+                  )}
+                  {field.optional && (
                     <button
                       type="button"
-                      onClick={() => removeField(field.name)}
-                      className="absolute right-2 top-8 p-1 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                      onClick={() => handleRemoveField(sectionName, field.key)}
+                      className="p-2 text-red-600 hover:bg-red-50 rounded-full transition-colors duration-200"
+                      title={`Remove ${formatLabel(field.key)}`}
                     >
-                      <FiTrash2 />
+                      <MinusCircle size={20} />
+                    </button>
+                  )}
+                </div>
+              ))}
+
+            {/* Alternate Contact Section (Special Handling for dynamic array) */}
+            {sectionName === 'Contact & Location' && (
+              <>
+                <label className="block text-base font-medium text-gray-700 mt-4">Alternate Contacts</label>
+                {(vehicle.altContact || []).map((contactNum, index) => (
+                  <div key={index} className="flex items-center space-x-3">
+                    <input
+                      type="tel"
+                      placeholder={`Alternate Contact ${index + 1}`}
+                      value={contactNum || ''}
+                      onChange={(e) => handleAltContactChange(index, e.target.value)}
+                      className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeAltContact(index)}
+                      className="p-2 text-red-600 hover:bg-red-50 rounded-full transition-colors duration-200"
+                      title="Remove alternate contact"
+                    >
+                      <MinusCircle size={20} />
                     </button>
                   </div>
                 ))}
-            </div>
-          </div>
-
-          {/* Image Uploads */}
-          <div className="bg-white rounded-xl p-6 shadow-md">
-            <h2 className="text-xl font-semibold mb-4 text-[#0e7b7b]">
-              Vehicle Documents & Images
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {imageFields.map(field => (
-                <div key={field.name} className="relative group">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    {field.label}
-                  </label>
-                  <div className="flex items-center space-x-4">
-                    {vehicleForm[field.name] ? (
-                      <>
-                        <div className="relative w-20 h-20 border rounded-lg overflow-hidden">
-                          <Image
-                            src={vehicleForm[field.name]}
-                            alt={field.label}
-                            layout="fill"
-                            objectFit="cover"
-                          />
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => setVehicleForm({...vehicleForm, [field.name]: null})}
-                          className="text-red-500 hover:text-red-700"
-                        >
-                          <FiTrash2 />
-                        </button>
-                      </>
-                    ) : (
-                      <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
-                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                          <FiUpload className="w-8 h-8 mb-3 text-gray-400" />
-                          <p className="text-sm text-gray-500">Click to upload</p>
-                        </div>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) => handleImageUpload(e, field.name)}
-                          className="hidden"
-                        />
-                      </label>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Deleted Fields Dropdown */}
-          {deletedFields.length > 0 && (
-            <div className="bg-white rounded-xl p-6 shadow-md">
-              <h2 className="text-xl font-semibold mb-4 text-[#0e7b7b]">
-                Restore Deleted Fields
-              </h2>
-              <div className="flex items-center space-x-4">
-                <select
-                  onChange={(e) => restoreField(e.target.value)}
-                  className="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#59c1c1] focus:border-[#226161]"
+                <button
+                  type="button"
+                  onClick={addAltContact}
+                  className="flex items-center justify-center px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors duration-200 text-sm font-semibold shadow-md"
                 >
-                  <option value="">Select field to restore</option>
-                  {deletedFields.map(fieldName => {
-                    const field = fields.find(f => f.name === fieldName);
+                  <PlusCircle size={18} className="mr-2" /> Add Alternate Contact
+                </button>
+              </>
+            )}
+
+            {/* "Add Field" Dropdown for optional fields within this section */}
+            {removedOptionalFields[sectionName]?.length > 0 && (
+              <div className="mt-4">
+                <label htmlFor={`add-field-${sectionName}`} className="block text-sm font-medium text-gray-700 mb-1">Add missing fields:</label>
+                <select
+                  id={`add-field-${sectionName}`}
+                  onChange={(e) => {
+                    const fieldToAdd = fieldsConfig.find(f => f.key === e.target.value && f.section === sectionName);
+                    if (fieldToAdd) {
+                      handleAddField(sectionName, fieldToAdd.key);
+                      e.target.value = ''; // Reset select
+                    }
+                  }}
+                  className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
+                >
+                  <option value="">Select a field to add</option>
+                  {removedOptionalFields[sectionName].map(fieldKey => {
+                    const field = fieldsConfig.find(f => f.key === fieldKey && f.section === sectionName);
                     return field ? (
-                      <option key={fieldName} value={fieldName}>
-                        {field.label}
-                      </option>
+                        <option key={field.key} value={field.key}>
+                            {formatLabel(field.key)}
+                        </option>
                     ) : null;
                   })}
                 </select>
-                <button
-                  type="button"
-                  onClick={() => setDeletedFields([])}
-                  className="px-4 py-2 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200"
-                >
-                  Clear All
-                </button>
               </div>
-            </div>
-          )}
-
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="w-full bg-[#0e7b7b] text-white font-semibold py-3 rounded-lg hover:bg-[#0a5e5e] transition-colors"
-          >
-            Generate Vehicle QR Code
-          </button>
-        </form>
-      </div>
-    </div>
-  );
-    return (
-        <>
-    
-        <div>
-            <h1 className="text-3xl font-bold pb-6 text-[#008080]">
-                QR Code Generator for Vehicle's
-            </h1>
-            <div className="bg-white shadow-xl rounded-xl p-6 space-y-6">
-                {/* Template Selection */}
-                <div>
-                    <h2 className="text-xl font-semibold mb-4">
-                        Vehicle Templates (click to select)
-                    </h2>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        {templateImages.map((filename, idx) => (
-                            <div
-                                key={idx}
-                                className={`border-2 rounded-md p-2 cursor-pointer transition hover:shadow-lg ${vehicleForm.selectedTemplate === filename ? "border-[#008080]" : "border-gray-300"}`}
-                                onClick={() =>
-                                    setVehicleForm({
-                                        ...vehicleForm,
-                                        selectedTemplate: filename,
-                                    })
-                                }
-                            >
-                                <Image
-                                    src={`/images/normal/${filename}`}
-                                    alt={`Template ${idx + 1}`}
-                                    width={100}
-                                    height={120}
-                                    className="object-cover rounded"
-                                />
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Image Upload */}
-                <div>
-                    <label className="block mb-1 font-medium">Add Maximum 1 Vehicle Image</label>
-                    <input type="file" accept="image/*" onChange={handleImageUpload} className="w-full text-sm" />
-                </div>
-
-                {/* Input Fields */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {[
-        { id: "vehicleModel", placeholder: "Vehicle Model Name" },
-        { id: "vehicleType", placeholder: "Type Of Vehicle" },
-        { id: "buyDate", placeholder: "Date Of Buying" },
-        { id: "description", placeholder: "Description of Vehicle" },
-        { id: "rcNumber", placeholder: "RC Number" },
-        { id: "driverName", placeholder: "Driver Name" },
-        { id: "ownerName", placeholder: "Owner Name" },
-        { id: "contact", placeholder: "Contact Number" },
-        { id: "altContact", placeholder: "Alternate Contact Number" },
-        { id: "address", placeholder: "Owner/Driver Address" },
-        { id: "mapLink", placeholder: "Owner/Driver Map Link" },
-        { id: "password", placeholder: "Password" },
-      ].map(({ id, placeholder }) => (
-        id === "password" ? (
-          <div key={id} className="relative">
-            <input
-              id={id}
-              type={showPassword ? "text" : "password"}
-              value={vehicleForm[id] || ""}
-              onChange={handleInputChange}
-              placeholder={placeholder}
-              className="border p-2 pr-10 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
-            />
-            <div
-              className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500 cursor-pointer"
-              onClick={() => setShowPassword((prev) => !prev)}
-            >
-              {showPassword ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
-            </div>
+            )}
           </div>
-        ) : (
-          <input
-            key={id}
-            id={id}
-            type="text"
-            value={vehicleForm[id] || ""}
-            onChange={handleInputChange}
-            placeholder={placeholder}
-            className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
-          />
-        )
-      ))}
-    </div>
-
-    {/* nfc */}
-    
-          <div className="flex items-center gap-4 px-4 mt-2">
-                    <span className="text-sm font-medium text-gray-700">
-                      NFC
-                    </span>
-                    <button
-                      type="button"
-                      onClick={handleNfcToggle}
-                      className={`relative cursor-pointer inline-flex h-8 w-16 items-center rounded-full transition-colors duration-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#008080] ${
-                        nfcEnabled ? "bg-[#008080]" : "bg-gray-300"
-                      }`}
-                    >
-                      <span
-                        className={`absolute left-1 top-1 inline-flex h-6 w-6 items-center justify-center rounded-full bg-white shadow-md transition-all duration-300 ${
-                          nfcEnabled ? "translate-x-8" : "translate-x-0"
-                        }`}
-                      >
-                        {nfcEnabled ? (
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4 text-[#008080]"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M5 13l4 4L19 7"
-                            />
-                          </svg>
-                        ) : (
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4 text-gray-500"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M6 18L18 6M6 6l12 12"
-                            />
-                          </svg>
-                        )}
-                      </span>
-                    </button>
-                  </div>
-
-                {/* Submit */}
-                <button
-                    type="submit"
-                    className="mt-4 w-full bg-[#008080] text-white font-semibold py-2 rounded hover:bg-[#006666] transition"
-                >
-                    Submit
-                </button>
-            </div>
         </div>
+      ))}
 
-          {showNfcModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
-          <div className="bg-white rounded-xl shadow-xl p-6 max-w-sm w-full border border-teal-200 relative">
+      {/* Image Uploads Section */}
+      <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
+        <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200">Vehicle Documents & Images</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {imageFieldsConfig.map(field => (
+            <div key={field.key} className="relative group">
+              <label className="block text-base font-medium text-gray-700 mb-2">
+                {field.label}
+              </label>
+              {vehicle[field.key] ? ( // Check if a File object exists
+                <div className="relative w-full h-40 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center overflow-hidden">
+                  {/* Display image preview using URL.createObjectURL */}
+                  <img
+                    src={URL.createObjectURL(vehicle[field.key])}
+                    alt={field.label}
+                    className="object-cover w-full h-full"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleImageUpload(field.key, null)} // Pass null to clear image
+                    className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors duration-200"
+                    title={`Remove ${field.label}`}
+                  >
+                    <FiTrash2 size={16} />
+                  </button>
+                </div>
+              ) : (
+                <label className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors duration-200">
+                  <FiUpload className="w-10 h-10 mb-3 text-gray-400" />
+                  <p className="text-sm text-gray-500">Click to upload {field.label.toLowerCase()}</p>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleImageUpload(field.key, e.target.files[0])} // Store File object
+                    className="hidden"
+                  />
+                </label>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Location Actions (Use Current Location Button) */}
+      <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
+        <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200">Location Actions</h3>
+        <button
+          type="button"
+          onClick={handleGetCurrentLocation}
+          disabled={isLoadingLocation}
+          className="flex items-center justify-center w-full px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors duration-200 text-base font-semibold shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isLoadingLocation ? (
+            <>
+              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Detecting Location...
+            </>
+          ) : (
+            <>
+              <FiMapPin size={20} className="mr-2" /> Use My Current Location
+            </>
+          )}
+        </button>
+      </div>
+
+      {/* NFC Toggle Section */}
+      <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
+        <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200">NFC Functionality</h3>
+        <div className="flex items-center justify-between">
+          <label htmlFor="nfcToggle" className="text-base font-medium text-gray-700 cursor-pointer">
+            Enable NFC Tag for Vehicle Device
+          </label>
+          <button
+            type="button"
+            id="nfcToggle"
+            onClick={handleNfcToggle}
+            className={`relative inline-flex h-7 w-14 items-center rounded-full transition-colors duration-300
+                      focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500
+                      ${nfcEnabled ? "bg-teal-600" : "bg-gray-300"}`}
+          >
+            <span
+              className={`absolute left-1 top-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white shadow-md transition-transform duration-300
+                        ${nfcEnabled ? "translate-x-7" : "translate-x-0"}`}
+            >
+              {nfcEnabled ? (
+                <svg className="h-4 w-4 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              ) : (
+                <svg className="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              )}
+            </span>
+          </button>
+        </div>
+      </div>
+
+      {/* Submit Button */}
+      <div className="p-6 pt-0 bg-gray-50 flex justify-center">
+        <button
+          type="submit" // Consider changing to "button" if not part of a formal <form> submission
+          className="w-full max-w-sm bg-teal-600 text-white font-semibold py-3 rounded-lg hover:bg-teal-700 transition-colors duration-200 shadow-lg text-lg"
+        >
+          Save Vehicle Profile
+        </button>
+      </div>
+
+      {/* NFC Modal */}
+      {showNfcModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/40 p-4">
+          <div className="bg-white rounded-xl shadow-2xl p-6 max-w-sm w-full border-2 border-teal-400 relative transform transition-all scale-100 ease-out duration-300">
             {/* Close Button */}
             <button
               onClick={cancelNfc}
-              className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl"
+              className="absolute top-3 right-3 text-gray-400 hover:text-gray-700 text-2xl"
+              aria-label="Close NFC modal"
             >
               &times;
             </button>
 
-            <h2 className="text-xl font-bold text-[#008080] mb-2">
-              NFC Activated
-            </h2>
-            <p className="text-sm text-gray-700">
-              You're trying to enable <strong>NFC</strong> features.
-              <br />
-              This is a <strong>premium service</strong>.
-              <br />
-              <span className="text-[#008080] font-semibold">
-                Cost: ₹499/year
-              </span>
-            </p>
+            <div className="text-center">
+                <PlusCircle className="text-teal-500 mx-auto mb-4" size={48} />
+                <h2 className="text-2xl font-bold text-teal-700 mb-3">NFC Activation</h2>
+                <p className="text-base text-gray-700 leading-relaxed">
+                    You're enabling **NFC** features. This is a **premium service**.
+                    <br />
+                    <span className="text-teal-600 font-extrabold text-lg mt-2 inline-block">
+                        Cost: ₹499/year
+                    </span>
+                </p>
+            </div>
 
-            <div className="flex justify-end mt-5 space-x-3">
+            <div className="flex justify-center mt-6 space-x-4">
               <button
                 onClick={cancelNfc}
-                className="px-4 py-2 cursor-pointer rounded border border-gray-400 text-gray-600 hover:bg-gray-100"
+                className="px-6 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition-colors duration-200 font-medium shadow-sm"
               >
                 Cancel
               </button>
               <button
                 onClick={confirmNfc}
-                className="px-4 py-2 cursor-pointer bg-[#008080] text-white rounded hover:bg-[#006666] transition"
+                className="px-6 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700 transition-colors duration-200 font-medium shadow-md"
               >
-                Accept
+                Accept & Enable
               </button>
             </div>
           </div>
         </div>
       )}
-        </>
-    );
+    </div>
+  );
 };
 
 export default VehicleContent;
