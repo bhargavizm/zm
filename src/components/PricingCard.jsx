@@ -4,7 +4,7 @@ import { Check } from 'lucide-react'
 const PricingCard = ({ title, price, features, button, highlighted }) => {
   return (
     <div className={`relative border rounded-2xl p-6 shadow-md bg-white transition-transform duration-300 hover:shadow-xl ${
-      highlighted ? 'border-green-600 ring-2 ring-green-200 scale-105' : 'border-gray-200'
+      highlighted ? 'border-[#008080] ring-2 ring-green-200 scale-105' : 'border-gray-200'
     }`}>
       {/* Most Popular Badge */}
       {highlighted && (
@@ -33,7 +33,7 @@ const PricingCard = ({ title, price, features, button, highlighted }) => {
       </ul>
 
       {/* Button */}
-      <button className="w-full py-2 text-sm font-medium bg-[#008080] text-white rounded-xl hover:bg-green-700 transition-all">
+      <button className="w-full py-2 text-sm font-medium bg-[#008080] text-white rounded-xl hover:bg-[#4d8787] transition-all">
         {button}
       </button>
     </div>
