@@ -258,5 +258,50 @@
         "phone": "+91 90000 12345",
         "contact_ir": "Contact Investor Relations",
         "footer": "© {year} ZM QR Code Services. All rights reserved."
-    }
+    },
+    "about": {
+        "title": "About Us",
+        "intro": {
+            "heading": "About Us",
+            "text": "At ZMQR, we're transforming the future of QR technology with seamless service, secure storage, and innovative solutions that drive efficiency and engagement."
+        },
+        "sections": {
+            "vision": {
+                "title": "Vision",
+                "text": "We offer advanced QR code solutions tailored to business needs. Our analytics, integrations, and digital strategies empower seamless connections and smarter decisions."
+            },
+            "mission": {
+                "title": "Mission",
+                "text": "To deliver innovative and intuitive QR solutions that enhance engagement, streamline workflows, and drive business growth through technology."
+            },
+            "goals": {
+                "title": "Goals",
+                "list": [
+                    "To consistently innovate and create tailored QR code solutions.",
+                    "To empower businesses of all scales to leverage modern technology.",
+                    "To remain a trusted digital transformation partner."
+                ]
+            }
+        },
+        "team": {
+            "title": "Our Team",
+            "description": "A dedicated and passionate team of technologists, designers, and strategists working together to revolutionize digital access and QR code-driven efficiency."
+        },
+        "values": {
+            "innovation": {
+                "title": "Innovation",
+                "description": "We value innovation in every aspect of our work, driving our mission forward with passion and purpose."
+            },
+            "integrity": {
+                "title": "Integrity",
+                "description": "We value integrity in every aspect of our work, driving our mission forward with passion and purpose."
+            },
+            "excellence": {
+                "title": "Excellence",
+                "description": "We value excellence in every aspect of our work, driving our mission forward with passion and purpose."
+            }
+        },
+        "footer": "© ZMQR Code Services. All rights reserved."
+    },
+    
 }
