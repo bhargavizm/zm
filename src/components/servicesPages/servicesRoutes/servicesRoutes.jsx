@@ -44,7 +44,7 @@ const componentMap = {
     preview: dynamic(() => import('@/components/servicesPages/servicesContent/kidSafety/KidsSafetyPreview'), { ssr: false }),
   },
   sms: {
-    content: dynamic(() => import("@/components/servicesPages/servicesContent/sms/SmsContent"), { ssr: false }),
+    content: dynamic(() => import("@/components/servicesPages/servicesContent/sms/smsContent"), { ssr: false }),
     preview: dynamic(() => import("@/components/servicesPages/servicesContent/sms/SmsPreview"), { ssr: false }),
   },
   "text-messages": {
@@ -55,7 +55,7 @@ const componentMap = {
     content: dynamic(() => import("@/components/servicesPages/servicesContent/medicalAlert/MedicalAlertContent"), { ssr: false }),
     preview: dynamic(() => import("@/components/servicesPages/servicesContent/medicalAlert/MedicalAlertPreview"), { ssr: false }),
   },
-  events: { // Corrected and singular 'events' entry
+  events: {
     content: dynamic(() => import('@/components/servicesPages/servicesContent/events/eventContent'), { ssr: false }),
     preview: dynamic(() => import('@/components/servicesPages/servicesContent/events/eventPreview'), { ssr: false }),
   },
@@ -67,11 +67,11 @@ const componentMap = {
     content: dynamic(() => import("@/components/servicesPages/servicesContent/multiUrl/MultiUrlContent"), { ssr: false }),
     preview: dynamic(() => import("@/components/servicesPages/servicesContent/multiUrl/MultiUrlPreview"), { ssr: false }),
   },
-  "business-shops": { // Corrected and singular 'business-shops' entry
+  "business-shops": {
     content: dynamic(() => import('@/components/servicesPages/servicesContent/businessShop/BusinessContent'), { ssr: false }),
     preview: dynamic(() => import('@/components/servicesPages/servicesContent/businessShop/BusinessPreview'), { ssr: false }),
   },
-  "discounts": {
+  discounts: {
     content: dynamic(() => import('@/components/servicesPages/servicesContent/discountCoupon/DiscountCouponContent'), { ssr: false }),
     preview: dynamic(() => import('@/components/servicesPages/servicesContent/discountCoupon/DiscountCouponPreview'), { ssr: false }),
   },

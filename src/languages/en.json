@@ -258,5 +258,249 @@
         "phone": "+91 90000 12345",
         "contact_ir": "Contact Investor Relations",
         "footer": "© {year} ZM QR Code Services. All rights reserved."
+    },
+    "about": {
+        "title": "About Us",
+        "intro": {
+            "heading": "About Us",
+            "text": "At ZMQR, we're transforming the future of QR technology with seamless service, secure storage, and innovative solutions that drive efficiency and engagement."
+        },
+        "sections": {
+            "vision": {
+                "title": "Vision",
+                "text": "We offer advanced QR code solutions tailored to business needs. Our analytics, integrations, and digital strategies empower seamless connections and smarter decisions."
+            },
+            "mission": {
+                "title": "Mission",
+                "text": "To deliver innovative and intuitive QR solutions that enhance engagement, streamline workflows, and drive business growth through technology."
+            },
+            "goals": {
+                "title": "Goals",
+                "list": [
+                    "To consistently innovate and create tailored QR code solutions.",
+                    "To empower businesses of all scales to leverage modern technology.",
+                    "To remain a trusted digital transformation partner."
+                ]
+            }
+        },
+        "team": {
+            "title": "Our Team",
+            "description": "A dedicated and passionate team of technologists, designers, and strategists working together to revolutionize digital access and QR code-driven efficiency."
+        },
+        "values": {
+            "innovation": {
+                "title": "Innovation",
+                "description": "We value innovation in every aspect of our work, driving our mission forward with passion and purpose."
+            },
+            "integrity": {
+                "title": "Integrity",
+                "description": "We value integrity in every aspect of our work, driving our mission forward with passion and purpose."
+            },
+            "excellence": {
+                "title": "Excellence",
+                "description": "We value excellence in every aspect of our work, driving our mission forward with passion and purpose."
+            }
+        },
+        "footer": "© ZMQR Code Services. All rights reserved."
+    },
+    "reselling": {
+        "header": {
+            "title": "Unlock Digital Business Growth: Own a ZM QR Code Services Franchise!",
+            "subtitle": "Join the Future of Connectivity – Your Path to a Thriving Digital Business Starts Here.",
+            "ctaPrimary": "Get Started Today",
+            "ctaSecondary": "Schedule a Discovery Call"
+        },
+        "whyZMQr": {
+            "title": "Why ZM QR Code?",
+            "features": [
+                {
+                    "title": "Booming Market",
+                    "description": "Tap into the exploding demand for QR Codes."
+                },
+                {
+                    "title": "Proven Model",
+                    "description": "Leverage our tested & profitable business system."
+                },
+                {
+                    "title": "Diverse Services",
+                    "description": "Offer a full spectrum of high-demand QR Solutions."
+                },
+                {
+                    "title": "Cutting-Edge Tech",
+                    "description": "Access proprietary, user-friendly platform."
+                },
+                {
+                    "title": "Dedicated Support",
+                    "description": "Benefit from comprehensive training & ongoing guidance."
+                },
+                {
+                    "title": "Recurring Revenue",
+                    "description": "Build a sustainable business with subscription models."
+                }
+            ]
+        },
+        "qrTransformation": {
+            "title": "How QR Codes Transform Businesses",
+            "description": "From streamlined payments to interactive marketing, QR codes are revolutionizing industries."
+        },
+        "testimonials": {
+            "title": "What Our Partners Say",
+            "quotes": [
+                {
+                    "text": "Partnering with ZM QR Code Services has been a game-changer for our business. The support is incredible!",
+                    "author": "Navya L., Franchisee"
+                },
+                {
+                    "text": "Their platform is so easy to use and our clients love the QR solutions. Highly recommend!",
+                    "author": "Joseph., Business Owner"
+                },
+                {
+                    "text": "The recurring revenue model is fantastic. ZM QR Code has helped us achieve significant growth.",
+                    "author": "Krishna., Entrepreneur"
+                }
+            ]
+        },
+        "franchiseAdvantages": {
+            "title": "Your Blueprint for Success: The ZM QR Code Advantage",
+            "subtitle": "Discover the unmatched benefits of partnering with a leader in digital connectivity.",
+            "sections": [
+                {
+                    "title": "The Market Opportunity",
+                    "description": "Tap into the explosive growth of QR code usage across various industries.",
+                    "points": [
+                        "QR code usage surged by X% last year.",
+                        "Y% of consumers prefer QR for payments and information access.",
+                        "Diverse industries (retail, F&B, healthcare, events, marketing) demand QR solutions."
+                    ]
+                },
+                {
+                    "title": "Our Proven Business Model",
+                    "description": "Leverage a low-overhead, scalable business model designed for recurring revenue.",
+                    "points": [
+                        "Recurring revenue potential from dynamic QR codes and platform subscriptions.",
+                        "Low overhead and high scalability.",
+                        "Efficient and automated system for streamlined operations."
+                    ]
+                }
+            ]
+        },
+        "investment": {
+            "title": "Your Zero Investment, Our Commitment: Building Success Together",
+            "subtitle": "Understand the financial roadmap and the extensive support network you'll receive.",
+            "table": {
+                "headers": [
+                    "Item",
+                    "Estimated Cost Range"
+                ],
+                "rows": [
+                    [
+                        "Initial Franchise Fee",
+                        "0/-"
+                    ],
+                    [
+                        "Training & Travel Expenses",
+                        "0/-"
+                    ],
+                    [
+                        "Initial Marketing Spend",
+                        "0/-"
+                    ],
+                    [
+                        "Technology Setup & Software",
+                        "0/-"
+                    ],
+                    [
+                        "Additional Working Capital (3 months)",
+                        "0/-"
+                    ],
+                    [
+                        "Total Estimated Initial Investment",
+                        "0/-"
+                    ],
+                    [
+                        "Marketing & Sales Toolkit",
+                        "Depends"
+                    ]
+                ]
+            },
+            "support": {
+                "title": "What You Get with Your ZM Franchise",
+                "points": [
+                    "Comprehensive Training Program: Initial intensive training covering sales, technology, and operations.",
+                    "Dedicated Support Team: Ongoing assistance and guidance, and extensive resource library.",
+                    "ZM Proprietary Platform Access: Cutting-edge software and analytics dashboard."
+                ]
+            }
+        },
+        "process": {
+            "title": "Your Journey to Becoming a ZM Franchisee",
+            "subtitle": "A simple, transparent process to launch your own successful QR Code business.",
+            "steps": [
+                {
+                    "title": "Inquiry & Information Request",
+                    "description": "Fill out the online form and download our comprehensive Franchise Info Packet."
+                },
+                {
+                    "title": "Initial Discovery Call",
+                    "description": "Engage in a brief, no-obligation chat with our Franchise Development Team."
+                },
+                {
+                    "title": "Review Franchise Disclosure Document (FDD)",
+                    "description": "Dive deep into the legal and financial details of the opportunity."
+                },
+                {
+                    "title": "Territory Agreement & Franchise Agreement",
+                    "description": "Finalize your exclusive territory and sign the official franchise agreement."
+                },
+                {
+                    "title": "Comprehensive Training",
+                    "description": "Participate in our intensive training program designed for successful launch."
+                },
+                {
+                    "title": "Grand Opening & Ongoing Support",
+                    "description": "Launch your ZM franchise with our continued guidance and support."
+                }
+            ]
+        },
+        "contact": {
+            "title": "Connect with Our Franchise Development Team",
+            "subtitle": "We're here to answer your questions and guide you through the ZM opportunity.",
+            "form": {
+                "labels": {
+                    "name": "Name",
+                    "email": "Email",
+                    "phone": "Phone Number",
+                    "region": "Preferred Region/City for Franchise",
+                    "bestTime": "Best Time to Call",
+                    "message": "Message/Questions"
+                },
+                "placeholders": {
+                    "bestTime": "e.g., Weekdays, 10 AM - 2 PM"
+                }
+            },
+            "footer": {
+                "email": "franchise@zmqrcodeservices.com",
+                "phone": "[Your Franchise Contact Number]",
+                "links": [
+                    "Privacy Policy",
+                    "Terms of Service",
+                    "Franchise Disclaimer"
+                ]
+            }
+        }
+    },
+    "refund_policy": {
+        "title": "Refund Policy",
+        "intro": "Thank you for choosing our services. Please read the details of our refund policy carefully:",
+        "points": [
+            "Refunds are not provided for digital services once access is granted.",
+            "This includes software tools, QR code generators, and learning material.",
+            "All digital products are considered final sale."
+        ],
+        "strict_policy": "ZM QR Code Services maintains a strict no-refund policy after activation.",
+        "support_info": "If you encounter issues, please contact our team. We are happy to assist with technical support and billing clarification.",
+        "contact_prompt": "For inquiries, visit our",
+        "contact_link": "Contact Us",
+        "contact_suffix": "page."
     }
 }
