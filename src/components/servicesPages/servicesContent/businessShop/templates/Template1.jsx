@@ -11,7 +11,7 @@ const Template1 = ({ data }) => {
 
   return (
     <div
-      className="relative w-full h-auto bg-cover bg-center rounded-xl overflow-hidden shadow-lg p-6 flex flex-col items-center justify-center text-white text-center"
+      className="relative w-full  bg-cover bg-center rounded-xl overflow-hidden shadow-lg p-6 flex flex-col items-center justify-center text-white text-center"
       style={{ backgroundImage: `url('https://via.placeholder.com/400x600/333333/FFFFFF?text=Background+Image+Here')`, minHeight: '300px', backgroundSize: 'cover', backgroundPosition: 'center' }}
     >
       {/* Overlay to make text readable */}
