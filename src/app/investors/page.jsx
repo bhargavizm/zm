@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useEffect, useState } from 'react'
-import AnimatedButton from "@/components/animatedButton/animatedButton";
 import { motion } from 'framer-motion'
+import { useLanguage } from '@/context/languageContext/LanguageContext';
+
 import {
   TrendingUpIcon,
   UsersIcon,
@@ -12,13 +13,11 @@ import {
   PhoneIcon,
   ExternalLink
 } from 'lucide-react'
-import DemoForm from './demo/demoForm/demoForm';
 
 // Counter animation for each stat
 const AnimatedStat = ({ icon, label, start, end, suffix }) => {
   const [count, setCount] = useState(start)
-
-   
+  
   useEffect(() => {
     const interval = setInterval(() => {
       setCount(prev => {
@@ -71,8 +70,7 @@ const InsightCard = ({ title, value, summary, link, color }) => (
 )
 
 const Investors = () => {
-   const [isOpen, setIsOpen] = useState(false);
-
+  const { dictionary } = useLanguage();
   return (
     <div className="w-full min-h-screen bg-[#159999] text-white font-sans">
       <div className='bg-[#159292] text-black font-sans max-w-6xl mx-auto px-6 rounded-2xl'>
@@ -83,22 +81,34 @@ const Investors = () => {
           transition={{ duration: 1 }}
           className="py-20 text-center px-6"
         >
-          <h1 className="text-5xl font-bold mb-2">Partner with ZM QR Code Services</h1>
-          <p className="inline-block bg-white text-[#033f3f] text-lg mb-4 px-3 py-1 rounded">
+          {/* <h1 className="text-5xl font-bold mb-2">Partner with ZM QR Code Services</h1> */}
+          <h1 className="text-5xl font-bold mb-2">{dictionary.investor.partner}</h1>
+          {/* <p className="inline-block bg-white text-[#033f3f] text-lg mb-4 px-3 py-1 rounded">
             Scan | Store | Connect | Grow
+          </p> */}
+          <p className="inline-block bg-white text-[#033f3f] text-lg mb-4 px-3 py-1 rounded">
+            {dictionary.investor.scan_store_connect_grow}
           </p>
 
-          <p className="text-xl mb-8 max-w-3xl mx-auto">
+          {/* <p className="text-xl mb-8 max-w-3xl mx-auto">
             Transforming how businesses and individuals use QR codes for digital identity, smart links, and interactive experiences.
+          </p> */}
+          <p className="text-xl mb-8 max-w-3xl mx-auto">
+            {dictionary.investor.hero_description}
           </p>
           <div className="flex justify-center gap-4 flex-wrap">
-            <button className="bg-white text-[#008080] px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
+            {/* <button className="bg-white text-[#008080] px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
               Download Pitch Deck
+            </button> */}
+            <button className="bg-white text-[#008080] px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
+              {dictionary.investor.download_pitch}
             </button>
-            <button className="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-[#008080] transition">
+            {/* <button className="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-[#008080] transition">
               Schedule Meeting
+            </button> */}
+            <button className="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-[#008080] transition">
+              {dictionary.investor.company_growth}
             </button>
-
           </div>
         </motion.section>
       </div>
@@ -106,13 +116,21 @@ const Investors = () => {
       {/* Stats Section */}
       <section className="py-20">
         <div className="max-w-6xl mx-auto px-6">
-          <motion.h2
+          {/* <motion.h2
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
             className="text-4xl font-bold text-center mb-12"
           >
             Company Growth Highlights
+          </motion.h2> */}
+          <motion.h2
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+            className="text-4xl font-bold text-center mb-12"
+          >
+            {dictionary.investor.company_growth}
           </motion.h2>
           <div className="grid md:grid-cols-4 gap-10">
             <div className="bg-white text-black p-6 rounded-xl shadow-md">
@@ -164,32 +182,39 @@ const Investors = () => {
               <h2 className="text-3xl font-bold mb-6">
                 Investment Opportunity
               </h2>
-              <p className="text-lg text-gray-600 mb-6">
+              {/* <p className="text-lg text-gray-600 mb-6">
                 We're raising $5M Series A to accelerate our growth, expand our
                 team, and capture the rapidly growing market opportunity.
+              </p> */}
+              <p className="text-lg text-gray-600 mb-6">
+                {dictionary.investor.we_are_raising}
               </p>
               <div className="space-y-4">
                 <div className="flex justify-between py-2 border-b">
-                  <span className="font-medium">Funding Round:</span>
+                  {/* <span className="font-medium">Funding Round:</span> */}
+                  <span className="font-medium">{dictionary.investor.funding_round}:</span>
                   <span>Series A</span>
                 </div>
                 <div className="flex justify-between py-2 border-b">
-                  <span className="font-medium">Target Amount:</span>
+                  {/* <span className="font-medium">Target Amount:</span> */}
+                  <span className="font-medium">{dictionary.investor.target_amount}:</span>
                   <span>₹ 5,000,000</span>
                 </div>
                 <div className="flex justify-between py-2 border-b">
-                  <span className="font-medium">Valuation:</span>
+                  {/* <span className="font-medium">Valuation:</span> */}
+                  <span className="font-medium">{dictionary.investor.valuation}:</span>
                   <span>₹ 25,000,000</span>
                 </div>
                 <div className="flex justify-between py-2 border-b">
-                  <span className="font-medium">Use of Funds:</span>
+                  {/* <span className="font-medium">Use of Funds:</span> */}
+                  <span className="font-medium">{dictionary.investor.use_of_funds}:</span>
                   <span>Product Development & Marketing</span>
                 </div>
               </div>
             </div>
             <div>
               <img
-                src="/images/normal/QrUsage.png"
+                src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
                 alt="Team collaboration"
                 className="rounded-lg shadow-lg w-full"
               />
@@ -206,7 +231,7 @@ const Investors = () => {
           transition={{ duration: 1 }}
           className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center"
         >
-          <div>
+          {/* <div>
             <h2 className="text-3xl font-bold mb-6">Why Invest in ZM?</h2>
             <ul className="space-y-4 text-white/90 text-lg">
               <li>✅ Booming demand for QR-based smart solutions</li>
@@ -214,12 +239,21 @@ const Investors = () => {
               <li>✅ Strong customer retention & fast user base expansion</li>
               <li>✅ Scalable tech infrastructure ready for global deployment</li>
             </ul>
+          </div> */}
+          <div>
+            <h2 className="text-3xl font-bold mb-6">{dictionary.investor.why_invest_zm}</h2>
+            <ul className="space-y-4 text-white/90 text-lg">
+              <li>✅ {dictionary.investor.bullet_1}</li>
+              <li>✅ {dictionary.investor.bullet_2}</li>
+              <li>✅ {dictionary.investor.bullet_3}</li>
+              <li>✅ {dictionary.investor.bullet_4}</li>
+            </ul>
           </div>
           <motion.img
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
-            src="/images/normal/Qrbar.png"
+            src="https://www.thebusinessresearchcompany.com/graphimages/QR_Code_Payments_Market_2025_Graph.webp"
             alt="Investment Graph"
             className="rounded-lg shadow-lg w-full"
           />
@@ -228,7 +262,7 @@ const Investors = () => {
 
       {/* QR Industry Market Stats */}
       <section className="py-16 bg-[#1b9d9d] shadow-lg text-black">
-        <div className="max-w-6xl mx-auto px-6">
+        {/* <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-3xl font-bold text-center mb-12">QR Code Industry Insights</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <InsightCard
@@ -253,6 +287,32 @@ const Investors = () => {
               summary="QR codes became essential post-pandemic for touchless interaction & marketing."
             />
           </div>
+        </div> */}
+        <div className="max-w-6xl mx-auto px-6">
+          <h2 className="text-3xl font-bold text-center mb-12">{dictionary.investor.qr_insights}</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            <InsightCard
+              title={dictionary.investor.qr_industry_growth}
+              value="800% by 2030"
+              color="text-blue-600"
+              link="https://timesofindia.indiatimes.com/blogs/voices/qr-codes-and-the-future-of-marketing/"
+              summary={dictionary.investor.qr_industry_growth_summary}
+            />
+            <InsightCard
+              title={dictionary.investor.mobile_first_future}
+              value="5.3B+ mobile users"
+              color="text-green-600"
+              link="https://www.statista.com/statistics/330695/number-of-smartphone-users-worldwide/"
+              summary={dictionary.investor.mobile_first_summary}
+            />
+            <InsightCard
+              title={dictionary.investor.contactless_revolution}
+              value="Accelerated by COVID"
+              color="text-purple-600"
+              link="https://www.uniqode.com/blog/qr-code-insights/qr-code-report"
+              summary={dictionary.investor.contactless_summary}
+            />
+          </div>
         </div>
       </section>
 
@@ -265,7 +325,8 @@ const Investors = () => {
           className="max-w-4xl mx-auto px-6 text-center bg-white/10 backdrop-blur-md rounded-2xl p-10 shadow-2xl"
         >
           <h2 className="text-3xl font-bold mb-6">Get in Touch</h2>
-          <p className="text-xl mb-8">We welcome investors who believe in technology-driven growth. Reach out to explore.</p>
+          <p className="text-xl mb-8">{dictionary.investor.contact_description}</p>
+          {/* <p className="text-xl mb-8">We welcome investors who believe in technology-driven growth. Reach out to explore.</p> */}
           <div className="grid md:grid-cols-2 gap-8 max-w-2xl mx-auto">
             <div className="flex items-center justify-center gap-3">
               <MailIcon className="w-6 h-6" />
@@ -276,22 +337,15 @@ const Investors = () => {
               <span>+91 90000 12345</span>
             </div>
           </div>
-          <div className='py-10'>
-               <AnimatedButton
-                        onClick={() => setIsOpen(true)}
-                        className="w-full  max-w-xs mx-auto lg:mx-0"
-                      >
-                        Schedule a Demo
-                    </AnimatedButton>
-          </div>
-          
+          {/* <button className="mt-8 bg-white text-[#008080] px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
+            Contact Investor Relations
+          </button> */}
+          <button className="mt-8 bg-white text-[#008080] px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
+            {dictionary.investor.contact_ir}
+          </button>
         </motion.div>
       </section>
 
-      {/* Footer */}
-      <footer className="text-center py-6 text-white/70 text-sm border-t border-white/20">
-        © {new Date().getFullYear()} ZM QR Code Services. All rights reserved.
-      </footer> {isOpen && <DemoForm onClose={() => setIsOpen(false)} />}
     </div>
   )
 }

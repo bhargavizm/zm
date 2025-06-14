@@ -50,12 +50,12 @@ const Footer = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link href="/#" className="hover:underline hover:text-gray-400">
+                            <Link href="/privacy" className="hover:underline hover:text-gray-400">
                                 {dictionary.footer.privacy}
                             </Link>
                         </li>
                         <li>
-                            <Link href="/#" className="hover:underline hover:text-gray-400">
+                            <Link href="/" className="hover:underline hover:text-gray-400">
                                 {dictionary.footer.terms}
                             </Link>
                         </li>

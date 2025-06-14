@@ -1,11 +1,10 @@
-// src/components/ServicesProvider.jsx
 "use client";
 
 import React, { useState } from "react";
 import { ServicesContext } from "./ServicesContext";
 
 const ServicesProvider = ({ children }) => {
-  // Business Shop Static Form (Keeping your original static form structure)
+  // Business Shop Static Form
   const [businessShopFormData, setBusinessShopFormData] = useState({
     shopName: "",
     ownerName: "",
@@ -28,7 +27,7 @@ const ServicesProvider = ({ children }) => {
     },
   });
 
-  // Business Form (Original structure)
+  // Business Form
   const [businessForm, setBusinessForm] = useState({
     name: "",
     heading: "",
@@ -45,7 +44,7 @@ const ServicesProvider = ({ children }) => {
   const [profileImage, setProfileImage] = useState(null);
   const [brandLogo, setBrandLogo] = useState(null);
 
-  // Product Form (Original structure)
+  // Product Form
   const [productData, setProductData] = useState({
     heading: "",
     description: "",
@@ -59,23 +58,31 @@ const ServicesProvider = ({ children }) => {
   });
   const [productImage, setProductImage] = useState(null);
 
-  // Audio/Video (Original structure)
-  const [titleFormData, setTitleFormData] = useState({
+  // Audio
+  const [audioFormData, setAudioFormData] = useState({
     title: "",
     description: "",
     file: null,
     password: "",
   });
 
-  // Gallery (Original structure)
-  const [imagesFormData, setImagesFormData] = useState({
+   // video
+  const [videoFormData, setVideoFormData] = useState({
     title: "",
     description: "",
-    files: [], // Already an array, good for multiple files
+    file: null,
     password: "",
   });
 
-  // Resume (Original structure)
+  // Gallery
+  const [imagesFormData, setImagesFormData] = useState({
+    title: "",
+    description: "",
+    files: [],
+    password: "",
+  });
+
+  // Resume
   const [resumeFormData, setResumeFormData] = useState({
     title: "",
     description: "",
@@ -84,12 +91,12 @@ const ServicesProvider = ({ children }) => {
     password: "",
   });
 
-  // Wifi (Original structure)
+  // Wifi
   const [wifiFormData, setWifiFormData] = useState([
     { ssid: "", password: "", security: "WPA" },
   ]);
 
-  // Events (Original structure)
+  // Events
   const [eventsFormData, setEventsFormData] = useState({
     organizer: "",
     title: "",
@@ -108,7 +115,42 @@ const ServicesProvider = ({ children }) => {
     webUrl: "www.yourweburl.com",
   });
 
-  // SMS (Original structure)
+  // Kids Safety
+  const [kidsSafetyFormData, setKidsSafetyFormData] = useState({
+    childName: "",
+    dob: "",
+    classGrade: "",
+    schoolName: "",
+    schoolAddress: "",
+    parentName: "",
+    contact: "",
+    altContact: "",
+    homeAddress: "",
+    mapLink: "",
+    password: "",
+    selectedTemplate: "",
+  });
+  const [kidsImage, setKidsImage] = useState(null);
+
+  // Vehicle
+  const [vehicleForm, setVehicleForm] = useState({
+    vehicleModel: "",
+    vehicleType: "",
+    buyDate: "",
+    description: "",
+    rcNumber: "",
+    driverName: "",
+    ownerName: "",
+    contact: "",
+    altContact: "",
+    address: "",
+    mapLink: "",
+    password: "",
+    selectedTemplate: "",
+  });
+  const [vehicleImage, setVehicleImage] = useState(null);
+
+  // SMS
   const [smsFormData, setSmsFormData] = useState({
     genderName: "",
     messageType: "",
@@ -117,13 +159,13 @@ const ServicesProvider = ({ children }) => {
     password: "",
   });
 
-  // Text Message (Original structure)
+  // Text Message
   const [textMessageForm, setTextMessageForm] = useState({
     sender: "",
     message: "",
   });
 
-  // Menu Book (Original structure)
+  // Menu Book
   const [menuBookFormData, setMenuBookFormData] = useState({
     restaurantName: "",
     menuItems: [{ name: "", description: "", price: "", image: "", visible: true }],
@@ -136,7 +178,7 @@ const ServicesProvider = ({ children }) => {
     ],
   });
 
-  // Pet ID Tag (Original structure)
+  // Pet ID Tag
   const [petIDFormData, setPetIDFormData] = useState({
     tagTitle: "",
     mainImage: null,
@@ -165,7 +207,7 @@ const ServicesProvider = ({ children }) => {
     additionalInfo: [{ type: "", label: "", value: "", visible: true, placeholder: "" }],
   });
 
-  // Dynamic Forms (Now includes Kids Safety and Vehicle Data)
+  // Dynamic Forms
   const [dynamicForms, setDynamicForms] = useState({
     medicalAlert: {
       patientInfo: {
@@ -354,25 +396,18 @@ const ServicesProvider = ({ children }) => {
     },
   });
 
-  // Dynamic Helpers (Handle null sectionKey)
+  // Dynamic Helpers
   const updateDynamicForm = (formKey, sectionKey, fieldKey, value) => {
-    setDynamicForms((prev) => {
-      const updatedForm = { ...prev[formKey] };
-
-      if (sectionKey === null || sectionKey === undefined) {
-        updatedForm[fieldKey] = value;
-      } else {
-        updatedForm[sectionKey] = {
-          ...updatedForm[sectionKey],
+    setDynamicForms((prev) => ({
+      ...prev,
+      [formKey]: {
+        ...prev[formKey],
+        [sectionKey]: {
+          ...prev[formKey][sectionKey],
           [fieldKey]: value,
-        };
-      }
-
-      return {
-        ...prev,
-        [formKey]: updatedForm,
-      };
-    });
+        },
+      },
+    }));
   };
 
   const addTemplateField = (formKey, sectionKey, fieldKey, defaultValue = "") => {
@@ -400,7 +435,7 @@ const ServicesProvider = ({ children }) => {
     }));
   };
 
-  // UI Toggles (Remain local to this Provider)
+  // UI Toggles
   const [showPassword, setShowPassword] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -412,7 +447,8 @@ const ServicesProvider = ({ children }) => {
         brandLogo, setBrandLogo,
         productData, setProductData,
         productImage, setProductImage,
-        titleFormData, setTitleFormData,
+       audioFormData, setAudioFormData,
+       videoFormData, setVideoFormData,
         imagesFormData, setImagesFormData,
         resumeFormData, setResumeFormData,
         // Removed original kidsSafetyFormData, setKidsSafetyFormData, kidsImage, setKidsImage
@@ -424,8 +460,8 @@ const ServicesProvider = ({ children }) => {
         petIDFormData, setPetIDFormData,
         eventsFormData, setEventsFormData,
         businessShopFormData, setBusinessShopFormData,
-        dynamicForms, setDynamicForms, // Crucial: expose dynamicForms and its setter
-        updateDynamicForm, addTemplateField, removeTemplateField, // Expose helpers
+        dynamicForms, setDynamicForms,
+        updateDynamicForm, addTemplateField, removeTemplateField,
         showPassword, setShowPassword,
         isAnimating, setIsAnimating,
       }}
