@@ -42,7 +42,9 @@ const DecorateQRCode = () => {
     <>
       <section>
         <div className="grid grid-cols-12 gap-4 mx-4 sm:mx-6 md:mx-9">
-          <div className="col-span-12 lg:col-span-7 bg-white px-4 sm:px-6 py-8 rounded-3xl shadow-lg">
+          {/* <div className="col-span-12 lg:col-span-7 bg-white px-4 sm:px-6 py-8 rounded-3xl shadow-lg"> */}
+          <div className="order-2 lg:order-1 col-span-12 lg:col-span-7 bg-white px-4 sm:px-6 py-8 rounded-3xl shadow-lg">
+
             <h2 className="text-darkGreen font-bold text-xl sm:text-2xl mb-4">
               {slug
                 ? slug
@@ -262,7 +264,9 @@ const DecorateQRCode = () => {
           </div>
 
           {/* Preview Panel and Modal Tabs */}
-          <div className="col-span-12 lg:col-span-5 bg-white rounded-3xl shadow-lg px-6 py-9 mt-6 lg:mt-0">
+          {/* <div className="col-span-12 lg:col-span-5 bg-white rounded-3xl shadow-lg px-6 py-9 mt-6 lg:mt-0"> */}
+          <div className="order-1 lg:order-2 col-span-12 lg:col-span-5 bg-white rounded-3xl shadow-lg px-6 py-9 mt-0">
+
             <PreviewPanel />
             <hr className="my-2 border border-slate-200" />
             <div className="flex justify-center items-center gap-4 flex-wrap">
@@ -282,7 +286,7 @@ const DecorateQRCode = () => {
 
             <hr className="mb-4 border border-slate-200" />
 
-            <div className="flex gap-9 pb-6 justify-center items-center">
+            <div className="flex gap-9 pb-6 justify-center flex-wrap items-center">
               <Image
                 src="/images/home/shapes-1.webp"
                 alt="shapes-1"
