@@ -24,6 +24,10 @@ const bgImages = [
   "/bg-images/25.png",
   "/bg-images/26.png",
   "/bg-images/27.png",
+  "/bg-images/28.jpg",
+  "/bg-images/29.jpg",
+  "/bg-images/30.jpg",
+  "/bg-images/31.jpg",
 ];
 
 const bgVideos = [
