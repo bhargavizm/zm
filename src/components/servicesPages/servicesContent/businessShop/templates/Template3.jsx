@@ -1,46 +1,79 @@
 'use client';
-import Image from 'next/image';
+
 import React from 'react';
+import Image from 'next/image';
 
-export default function Template3() {
+const Template3 = ({ data }) => {
+  if (!data) return null;
+  const days = data.days ?? [];
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#e7d6ce]">
-      <div className="w-[375px] h-[812px] rounded-3xl shadow-lg overflow-hidden relative border border-gray-300 bg-[#e7d6ce]">
-        {/* Top decorations */}
-        <div className="absolute top-0 left-0 w-full flex justify-between px-6 pt-6">
-          <div className="w-16 h-16 bg-[#d0bcb3] rounded-full opacity-50"></div>
-          <div className="w-20 h-20 bg-[#d0bcb3] rounded-full opacity-50"></div>
-        </div>
+    <div
+      className="relative w-full bg-cover bg-center rounded-xl overflow-hidden shadow-lg p-6 flex flex-col items-center justify-center text-white text-center"
+      style={{
+        backgroundImage: `url('https://via.placeholder.com/400x600/8b5e3c/FFFFFF?text=Pet+Shop+Background')`,
+        minHeight: '300px',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
+      {/* Overlay for readability */}
+      <div className="absolute inset-0 bg-[#3b2316] opacity-50 z-0"></div>
 
-        {/* Content */}
-        <div className="relative h-full flex flex-col items-center justify-between overflow-hidden">
-          {/* Title */}
-          <div className="text-center mt-12">
-            <h1 className="text-4xl font-extrabold text-[#3b2316] tracking-wide">PET SHOP</h1>
-            <p className="text-md mt-2 font-semibold text-[#3b2316] tracking-widest">
-              PET FOOD & VETERINARIAN
-            </p>
-          </div>
+      {/* Top Info */}
+      <div className="relative z-10 flex justify-between w-full px-2 text-xs font-medium mb-4">
+        <button className="bg-white bg-opacity-20 backdrop-filter backdrop-blur-sm px-3 py-1 rounded-full text-black">
+          {data.aboutUsLink || 'about us'}
+        </button>
+        <span className="bg-white bg-opacity-20 backdrop-filter backdrop-blur-sm px-3 py-1 rounded-full text-black">
+          {data.siteLink || '@petcare'}
+        </span>
+      </div>
 
-          {/* Dog image */}
-          <div className="flex-1 flex items-center justify-center relative mt-4">
-            <Image
-              src="/images/normal/dogTemp.png"
-              alt="dog"
-              width={300}
-              height={500}
-              className="object-contain"
-              priority
-            />
-          </div>
+      {/* Heading */}
+      <h3 className="relative z-10 text-4xl font-serif italic mb-4 leading-tight text-[#fffcf5]">
+        {data.title || 'PET SHOP'}
+      </h3>
 
-          {/* Bottom cloud shape & time */}
-          <div className="w-full text-center bg-[#d0bcb3] text-[#3b2316] py-4 mt-4">
-            <p className="text-md font-semibold tracking-wide">OPEN EVERY DAY</p>
-            <p className="text-2xl font-extrabold mt-1">07 AM - 07 PM</p>
-          </div>
-        </div>
+      {/* Subheading */}
+      <p className="relative z-10 text-md font-semibold text-[#fffaf0] tracking-widest mb-4">
+        {data.subtitle || 'PET FOOD & VETERINARIAN'}
+      </p>
+
+      {/* Dog Image */}
+      <div className="py-10 z-30 w-36 h-36 mx-auto mb-4">
+        <Image
+          src="/images/normal/dogTemp.png"
+          alt="Pet"
+          layout="fill"
+          objectFit="contain"
+          priority
+        />
+      </div>
+
+      {/* Timings */}
+      <div className="relative z-10 w-full max-h-[160px] overflow-y-auto hide-scrollbar space-y-2">
+        {days.length > 0 ? (
+          days.map((day, idx) => (
+            <div
+              key={idx}
+              className="flex justify-between items-center text-sm bg-[#ffffff22] backdrop-blur-md rounded-full px-5 py-2.5 text-white font-medium"
+            >
+              <span className="flex-1 text-left">{day.day || 'DAY'}</span>
+              <span className="text-right">{day.time || 'TIME'}</span>
+            </div>
+          ))
+        ) : (
+          <p className="text-white text-sm italic">No timing info provided</p>
+        )}
+      </div>
+
+      {/* Footer */}
+      <div className="relative z-10 w-full mt-4 text-[#ffefdb] bg-[#3b2316]/80 py-3 rounded-lg font-semibold tracking-wide">
+        {data.footerText || 'OPEN EVERY DAY: 07 AM - 07 PM'}
       </div>
     </div>
   );
-}
+};
+
+export default Template3;

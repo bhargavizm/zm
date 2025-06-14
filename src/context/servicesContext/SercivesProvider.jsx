@@ -38,8 +38,8 @@ const ServicesProvider = ({ children }) => {
     address: "",
     mapLink: "",
     email: "",
+    url: "", // Changed socialLink to url for consistency
     password: "",
-    socialLink: "",
   });
   const [profileImage, setProfileImage] = useState(null);
   const [brandLogo, setBrandLogo] = useState(null);
@@ -314,6 +314,86 @@ const ServicesProvider = ({ children }) => {
         password: "",
       },
     },
+    shopTimingsTemplate: {
+      selectedTemplate: "none", // 'none', 'template1', 'template2', 'template3'
+      template1Data: {
+        title: "Opening Hours",
+        days: [
+          { day: "MONDAY", time: "10AM - 10PM" },
+          { day: "TUESDAY", time: "10AM - 10PM" },
+          { day: "WEDNESDAY", time: "10AM - 10PM" },
+          { day: "THURSDAY", time: "10AM - 10PM" },
+          { day: "FRIDAY", time: "10AM - 10PM" },
+          { day: "SATURDAY", time: "10AM - 10PM" },
+          { day: "SUNDAY", time: "10AM - 10PM" },
+        ],
+        aboutUsLink: "about us",
+        siteLink: "@reallygreatsite",
+      },
+      template2Data: {
+        logoText: "GIGGLING PLATYPUS",
+        mainHeading: "WE'RE OPEN",
+        subHeading: "TUESDAY TO SUNDAY",
+        timeRange: "12 AM - 10 PM",
+        closedDay: "CLOSED MONDAY",
+        addressLine1: "123 Anywhere St., Any City, ST 12345",
+        addressLine2: "123 Anywhere St., Any City",
+        website: "www.reallygreatsite.com",
+      },
+      template3Data: {
+        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+        title: "OUR STORY",
+        description: "Experience the best at our shop!",
+      },
+      password: "",
+    },
+    discountCoupon: {
+      code: "",
+      type: "percentage", // "percentage" or "fixed"
+      value: "", // The percentage or fixed amount
+      minPurchase: "",
+      expiryDate: "",
+      description: "",
+      isActive: true, // Boolean to toggle active state
+      couponImage: null, // File object for the coupon visual
+      password: "",
+    },
+    kidsSafety: {
+      childName: "",
+      dob: "",
+      classGrade: "",
+      schoolName: "",
+      schoolAddress: "",
+      parentName: "",
+      contact: "",
+      altContact: [], // Initialized as an array for dynamic additions
+      homeAddress: "",
+      mapLink: "",
+      password: "",
+      selectedTemplate: "",
+      kidsImage: null, // Image stored here as File object
+    },
+    // NEW: Vehicle data structure integrated into dynamicForms
+    vehicle: {
+      vehicleModel: "",
+      vehicleType: "",
+      buyDate: "",
+      description: "",
+      rcNumber: "",
+      driverName: "",
+      ownerName: "",
+      contact: "",
+      altContact: [], // Initialize as array for dynamic contacts
+      address: "",
+      mapLink: "",
+      password: "",
+      selectedTemplate: "", // If you want to allow different vehicle preview templates
+      vehicleFrontImage: null, // Stores File object
+      vehicleSideImage: null,   // Stores File object
+      rcImage: null,            // Stores File object
+      licenseImage: null,       // Stores File object
+      ownerImage: null,         // Stores File object
+    },
   });
 
   // Dynamic Helpers
@@ -371,10 +451,8 @@ const ServicesProvider = ({ children }) => {
        videoFormData, setVideoFormData,
         imagesFormData, setImagesFormData,
         resumeFormData, setResumeFormData,
-        kidsSafetyFormData, setKidsSafetyFormData,
-        kidsImage, setKidsImage,
-        vehicleForm, setVehicleForm,
-        vehicleImage, setVehicleImage,
+        // Removed original kidsSafetyFormData, setKidsSafetyFormData, kidsImage, setKidsImage
+        // Removed original vehicleForm, setVehicleForm, vehicleImage, setVehicleImage
         smsFormData, setSmsFormData,
         wifiFormData, setWifiFormData,
         menuBookFormData, setMenuBookFormData,
