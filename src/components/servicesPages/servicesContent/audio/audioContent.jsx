@@ -5,7 +5,7 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import useServicesContext from "@/components/hooks/useServiceContext";
 
 const AudioContent = () => {
-  const { titleFormData, setTitleFormData } = useServicesContext();
+  const {audioFormData, setAudioFormData } = useServicesContext();
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
@@ -31,7 +31,7 @@ const AudioContent = () => {
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    setTitleFormData((prev) => ({
+    setAudioFormData((prev) => ({
       ...prev,
       [name]: files ? files[0] : value,
     }));
@@ -45,10 +45,10 @@ const AudioContent = () => {
     }
 
     const data = {
-      title: titleFormData.title,
-      description: titleFormData.description,
-      fileName: titleFormData.file.name,
-      password: titleFormData.password,
+      title: audioFormData.title,
+      description: audioFormData.description,
+      fileName: audioFormData.file.name,
+      password: audioFormData.password,
     };
 
     localStorage.setItem("audioData", JSON.stringify(data));
@@ -68,7 +68,7 @@ const AudioContent = () => {
             <input
               type="text"
               name="title"
-              value={titleFormData.title}
+              value={audioFormData.title}
               onChange={handleChange}
               placeholder="Enter audio title"
               className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
@@ -83,7 +83,7 @@ const AudioContent = () => {
             <textarea
               name="description"
               rows="2"
-              value={titleFormData.description}
+              value={audioFormData.description}
               onChange={handleChange}
               placeholder="Enter description"
               className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
@@ -113,7 +113,7 @@ const AudioContent = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
-                value={titleFormData.password}
+                value={audioFormData.password}
                 onChange={handleChange}
                 placeholder="Enter password"
                 className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"

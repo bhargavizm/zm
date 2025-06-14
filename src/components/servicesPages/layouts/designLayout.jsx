@@ -9,6 +9,7 @@ import { FaLongArrowAltDown } from "react-icons/fa";
 import { useParams } from "next/navigation";
 import QRCodeTab from "../tabsContent/qrTabContent/qrcodeTab";
 import BackdropDesigns from "../tabsContent/backDropDesigns/backdropDesigns";
+import ComingSoonModal from "@/components/modalPopUps/comingSoonModal";
 
 
 const tabs = ["Content", "Backdrop Designs","QR Code", ];
@@ -17,8 +18,12 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
   const { slug } = useParams();
   const [activeTab, setActiveTab] = useState("Content");
   const [activePreview, setActivePreview] = useState("eye");
-  console.log(slug);
+  
+      const [showModal, setShowModal] = useState(false);
+      
+        const handleClick = () => setShowModal(true);
   return (
+    <>
     <section className="pt-8">
       <div className="grid md:grid-cols-12  grid-cols-1 gap-4 mx-4 sm:mx-6 md:mx-9">
         {/* Left Panel */}
@@ -86,10 +91,11 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
             {activePreview === "scan" && (
               <>
                 <PreviewPanel />
-
-                <AnimatedButton className="w-full flex justify-center items-center gap-2">
+<div className="flex justify-center items-center py-6">
+                <AnimatedButton onClick={handleClick} className="  gap-2">
                   Download Large Files <FaLongArrowAltDown />
                 </AnimatedButton>
+                </div>
               </>
             )}
             {activePreview === "eye" && (
@@ -107,6 +113,14 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
         </div>
       </div>
     </section>
+
+    {showModal && (
+        <ComingSoonModal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+        />
+      )}
+    </>
   );
 };
 

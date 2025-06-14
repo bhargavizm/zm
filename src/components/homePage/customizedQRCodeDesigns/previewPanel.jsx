@@ -16,8 +16,9 @@ const PreviewPanel = () => {
   console.log(selectedQRShape);
   return (
     <>
+    <div className="flex justify-center">
       {selectedSticker && (
-        <div className="relative lg:w-[370px] lg:h-[350px] md:w-[280px] md:h-[250px] w-[180px] h-[150px] mx-auto mb-4">
+        <div className="relative lg:w-[370px] lg:h-[350px] w-[280px] h-[250px] mx-auto mb-4">
           {/* Sticker (base layer, centered) */}
           <Image
             src={selectedSticker}
@@ -38,7 +39,7 @@ const PreviewPanel = () => {
 
           {/* QR Shape (centered over sticker) */}
           {selectedQRShape && (
-            <div className="relative lg:w-[370px] lg:h-[350px] md:w-[280px] md:h-[250px] w-[180px] h-[150px] mx-auto mb-4">
+            <div className="relative lg:w-[370px] lg:h-[350px] w-[280px] h-[250px]  mx-auto mb-4">
               <Image
                 src={selectedQRShape}
                 alt="QR Shape"
@@ -61,6 +62,7 @@ const PreviewPanel = () => {
           )}
         </div>
       )}
+      </div>
     </>
   );
 };
