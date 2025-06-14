@@ -23,8 +23,8 @@ const componentMap = {
     preview: dynamic(() => import('@/components/servicesPages/servicesContent/audio/audioPreview'), { ssr: false }),
   },
   'videos': {
-    content: dynamic(() => import('@/components/servicesPages/servicesContent/audio/audioContent'), { ssr: false }),
-    preview: dynamic(() => import('@/components/servicesPages/servicesContent/audio/audioPreview'), { ssr: false }),
+    content: dynamic(() => import('@/components/servicesPages/servicesContent/video/videoContent'), { ssr: false }),
+    preview: dynamic(() => import('@/components/servicesPages/servicesContent/video/videoPreview'), { ssr: false }),
   },
   'Pet-ID-tags': {
     content: dynamic(() => import('@/components/servicesPages/servicesContent/petIdTag/PetTagContent'), { ssr: false }),
