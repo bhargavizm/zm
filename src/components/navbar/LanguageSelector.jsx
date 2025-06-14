@@ -14,7 +14,7 @@ const languageOptions = [
     { code: 'ml', label: 'Malayalam - മലയാളം' },
     { code: 'or', label: 'Odia - ଓଡ଼ିଆ' },
     { code: 'pa', label: 'Punjabi - ਪੰਜਾਬੀ' },
-    { code: 'ur', label: 'Urdu - اُردُو' }
+    { code: 'ur', label: 'Urdu - اُردُو' },
 ];
 
 const LanguageSelector = () => {
