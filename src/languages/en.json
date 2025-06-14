@@ -11,5 +11,155 @@
         "subheading": "The Best Solution for Generating Thousands of QR Codes or eBusiness Cards",
         "paragraph1": "ZM QR Code Services lets you design QR codes featuring your brand’s logo, enhancing recognition and improving customer interaction. Seamlessly aligned with your visual identity, our custom QR codes stand out in both digital formats and printed materials, giving your marketing a unique and professional flair.",
         "paragraph2": "Easily create thousands of QR codes or digital business cards in minutes with our highly acclaimed Bulk QR Code Generator. Simplify your workflow and save valuable time by automating the generation of multiple QR codes in one go. Just upload your Excel or CSV files, and our system will handle the rest. With our customizable QR generator, you can tailor every QR code to reflect your brand—modify colors, shapes, and sizes, and even insert your logo or images. The outcome: Professionally branded, high-resolution QR codes that are fully compatible with all devices, including iPhones and Android smartphones. Sign up today to unlock the full potential of our Bulk QR Code Generator and elevate your brand visibility like never before!"
+    },
+    "createLogo": {
+        "heading": "Create Branded QR Codes with Your Logo",
+        "subheading": "Attract, Impress, and Convert with ZM QR Code Services",
+        "paragraph1": "ZM QR Code Services enables you to design QR codes featuring your brand’s logo, enhancing recognition and customer engagement. Available in digital and print formats, our custom QR codes give your marketing a professional edge.",
+        "paragraph2": "Our user-friendly platform empowers you to create attractive, functional, high-quality, and fully customizable QR codes. Whether linking to a homepage, product listings, social channels, or special promotions, ZM QR Code Services turns every QR code into a strategic marketing asset. Enjoy advanced design flexibility, comprehensive engagement analytics, and high-resolution output for smooth scanning on all devices.",
+        "paragraph3": "With ZM QR Code Services, every scan becomes an opportunity — helping you connect with your audience, strengthen your brand, and drive meaningful conversions."
+    },
+    "imageQR": {
+        "heading": "Image to QR Code",
+        "paragraph": "Turn your logo into a QR Code that grabs attention! In just about 5 minutes, you’ll master the process and create stunning QR Codes that even professionals would admire."
+    },
+    "demo": {
+        "heading": "Book a personalized demo tailored to your use case with one of our QR code experts.",
+        "button": "Schedule a Demo"
+    },
+    "security": {
+        "heading": "Experience Superior Security with ZM QR Code Services",
+        "subheading": "Your peace of mind matters: we ensure data protection is integrated at every level of our system."
+    },
+    "qrDesignSection": {
+        "heading": "A perfect combination of QR Design, Marketing and Management",
+        "paragraph": "Customize and create QR code with logo, color, and shape to attract more scans"
+    },
+    "customerReviews": {
+        "heading": "Hear What Our Customers Have to Say!",
+        "ratings": {
+            "rating1": "⭐⭐⭐⭐⭐ 4.5/5",
+            "reviewText1": "Based on 48,000+ reviews on ZM QR Code Services",
+            "rating2": "⭐⭐⭐⭐⭐",
+            "reviewText2": "Trusted by companies across India – for all industries"
+        },
+        "testimonials": [
+            {
+                "title": "Impressive design options that amplify QR appeal!",
+                "content": "ZM QR Code Services exceeded all expectations. I found QR generation to be simple, intuitive, and surprisingly powerful. The variety of templates allowed me to design high-quality QR codes tailored to different use cases — from WhatsApp links to brochures. With just a few clicks, I was able to create visually stunning, branded QR codes. It’s easily the most user-friendly and flexible QR tool I’ve used.",
+                "author": "Rajesh Mehta – Marketing Director"
+            },
+            {
+                "title": "Effortless bulk QR generation process!",
+                "content": "I had to prepare personalized QR codes for a national HR onboarding event across multiple cities. With ZM’s bulk generator, I simply uploaded a CSV file with employee details and generated 200+ QR codes in under a minute. The automation saved hours of manual work. On top of that, each code was branded and pre-formatted — no additional tweaking needed. Incredible tool!",
+                "author": "Pooja Sharma – HR Head, Zenith Tech"
+            },
+            {
+                "title": "Game-changing service with powerful insights!",
+                "content": "ZM QR Code Services helped us track real-time engagement across our campaign banners and email signatures. The analytics dashboard shows exactly how many scans, when, and from which location. We identified peak engagement times and optimized our marketing accordingly. This data-driven approach gave us a significant edge in converting leads.",
+                "author": "Amit Desai – Growth Strategist"
+            },
+            {
+                "title": "Customization made our campaigns stand out",
+                "content": "As a design-centric brand, we needed QR codes that aligned with our visual identity. ZM allowed us to choose unique shapes, change colors, and even embed our logo seamlessly. The results were stunning — elegant QR codes that matched our flyers, product tags, and packaging. It’s rare to find a QR solution that understands the importance of branding so well.",
+                "author": "Divya Nair – Creative Lead, Bloom & Co."
+            },
+            {
+                "title": "Seamless API integration for developers",
+                "content": "As a backend engineer, I integrated the ZM QR Code API into our CRM in just a few hours. The API documentation is clear, concise, and comes with useful examples. We now auto-generate dynamic QR codes every time a new customer is registered. ZM offers developer-friendly solutions with enterprise-grade reliability.",
+                "author": "Karan Patel – Senior Developer, FinEdge"
+            },
+            {
+                "title": "Reliable platform with exceptional uptime",
+                "content": "We’ve relied on ZM QR Code Services to power logistics QR labels across our nationwide network. Over the past 6 months, we’ve generated more than 10,000 QR codes — not a single error or downtime. Every code scanned successfully on mobile and handheld scanners. This level of reliability is rare and exactly what our operations needed.",
+                "author": "Sneha Rao – Operations Manager, DeliverX"
+            }
+        ]
+    },
+    "marketingFeatures": {
+        "heading": "Leading QR Code Marketing and Management Tools",
+        "subheading": "A reliable QR Code solution equipped with powerful, next‑gen features.",
+        "items": [
+            {
+                "title": "Generate Static",
+                "description": "Advanced tools to design and manage QRs",
+                "image": "/images/home/marketing-1.svg"
+            },
+            {
+                "title": "Advanced Analytics to Track Scans",
+                "description": "Location, time, device, OS, browser",
+                "image": "/images/home/marketing-2.svg"
+            },
+            {
+                "title": "Bulk Upload and Bulk Download QRs",
+                "description": "Upload QRs via excel or download QRs in zip and pdf",
+                "image": "/images/home/marketing-3.svg"
+            },
+            {
+                "title": "Integrate with Google Analytics",
+                "description": "Download analytics in excel or integrate with Google",
+                "image": "/images/home/marketing-4.svg"
+            },
+            {
+                "title": "Customize Domains with White‑Labeling",
+                "description": "Use your short URLs and landing page URLs",
+                "image": "/images/home/marketing-5.svg"
+            },
+            {
+                "title": "Beautiful vCard Plus and Landing Pages",
+                "description": "Beautiful mesmerizing professional designs",
+                "image": "/images/home/marketing-6.svg"
+            },
+            {
+                "title": "QR Code Design Customization",
+                "description": "Exciting shapes, colors, logo, stickers and 3D effect",
+                "image": "/images/home/marketing-7.svg"
+            },
+            {
+                "title": "Free Account with Upgrade Options",
+                "description": "Free basic plan; flexible payment options for upgrades",
+                "image": "/images/home/marketing-8.svg"
+            }
+        ]
+    },
+    "qrCodeTracking": {
+        "imageAlt": "QR Dashboard",
+        "heading": "Track QR Code Performance in Offline Campaigns",
+        "subheading": "The Best Solution for Generating Thousands of QR Codes or eBusiness Cards",
+        "paragraph1": "Connect offline marketing with digital engagement. With ZM QR Code Services, you can create static QR codes that direct users from printed materials like brochures, posters, or flyers straight to your website or landing page—making the offline-to-online transition seamless.",
+        "paragraph2": "Even with static QR codes, you can still compare engagement across various campaigns. By using different static QR codes for each printed asset or distribution channel, you can monitor which materials are drawing the most attention through scan volume.",
+        "paragraph3": "Organize your campaigns with ease using folders and labels, and gain insights by manually comparing which QR version generates more interaction—helpful for A/B testing between print formats or audience segments.",
+        "paragraph4": "Track scan volume and estimate success rates by evaluating the actions users take after scanning—like visiting your site, viewing a product, or contacting you.",
+        "paragraph5": "Start using our free Static QR Code Generator today—no sign-up required to begin creating beautiful, branded QR codes for your print campaigns."
+    },
+    "footer": {
+        "aboutUs": "About Us",
+        "blogs": "Blogs",
+        "pricing": "Pricing",
+        "privacy": "Privacy",
+        "terms": "Terms & Conditions",
+        "careers": "Careers",
+        "investors": "Investors",
+        "faq": "FAQ",
+        "refundPolicy": "Refund Policy",
+        "servicesTitle": "Services",
+        "serviceList": [
+            "Generate QR Code for Business Cards",
+            "Generate QR Code for Products",
+            "Generate QR Code for V Cards",
+            "Generate QR Code for Form QR Code",
+            "Generate QR Code for Pet Id Tag",
+            "Generate QR Code for PDF",
+            "Generate QR Code for Audio",
+            "Generate QR Code for Video",
+            "Generate QR Code for Image Gallery"
+        ],
+        "followUs": "Follow Us",
+        "getInTouch": "Get In Touch",
+        "emailLabel": "Email",
+        "phoneLabel": "Phone",
+        "email": "support@zmqrcode.com",
+        "phone": "+91 10000 00000",
+        "copyright": "ZM QR Code Services © 2025. All Rights Reserved."
     }
 }
