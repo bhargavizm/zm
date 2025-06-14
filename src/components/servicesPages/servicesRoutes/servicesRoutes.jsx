@@ -43,10 +43,7 @@ const componentMap = {
     content: dynamic(() => import('@/components/servicesPages/servicesContent/kidSafety/KidsSafetyContent'), { ssr: false }),
     preview: dynamic(() => import('@/components/servicesPages/servicesContent/kidSafety/KidsSafetyPreview'), { ssr: false }),
   },
-  sms: {
-    content: dynamic(() => import("@/components/servicesPages/servicesContent/sms/SmsContent"), { ssr: false }),
-    preview: dynamic(() => import("@/components/servicesPages/servicesContent/sms/SmsPreview"), { ssr: false }),
-  },
+ 
   "text-messages": {
     content: dynamic(() => import("@/components/servicesPages/servicesContent/textMsg/TextFormContent"), { ssr: false }),
     preview: dynamic(() => import("@/components/servicesPages/servicesContent/textMsg/TextFormPreview"), { ssr: false }),

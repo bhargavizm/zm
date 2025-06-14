@@ -1,10 +1,11 @@
+// src/components/ServicesProvider.jsx
 "use client";
 
 import React, { useState } from "react";
 import { ServicesContext } from "./ServicesContext";
 
 const ServicesProvider = ({ children }) => {
-  // Business Shop Static Form
+  // Business Shop Static Form (Keeping your original static form structure)
   const [businessShopFormData, setBusinessShopFormData] = useState({
     shopName: "",
     ownerName: "",
@@ -27,7 +28,7 @@ const ServicesProvider = ({ children }) => {
     },
   });
 
-  // Business Form
+  // Business Form (Original structure)
   const [businessForm, setBusinessForm] = useState({
     name: "",
     heading: "",
@@ -44,7 +45,7 @@ const ServicesProvider = ({ children }) => {
   const [profileImage, setProfileImage] = useState(null);
   const [brandLogo, setBrandLogo] = useState(null);
 
-  // Product Form
+  // Product Form (Original structure)
   const [productData, setProductData] = useState({
     heading: "",
     description: "",
@@ -58,31 +59,23 @@ const ServicesProvider = ({ children }) => {
   });
   const [productImage, setProductImage] = useState(null);
 
-  // Audio
-  const [audioFormData, setAudioFormData] = useState({
+  // Audio/Video (Original structure)
+  const [titleFormData, setTitleFormData] = useState({
     title: "",
     description: "",
     file: null,
     password: "",
   });
 
-   // video
-  const [videoFormData, setVideoFormData] = useState({
-    title: "",
-    description: "",
-    file: null,
-    password: "",
-  });
-
-  // Gallery
+  // Gallery (Original structure)
   const [imagesFormData, setImagesFormData] = useState({
     title: "",
     description: "",
-    files: [],
+    files: [], // Already an array, good for multiple files
     password: "",
   });
 
-  // Resume
+  // Resume (Original structure)
   const [resumeFormData, setResumeFormData] = useState({
     title: "",
     description: "",
@@ -91,12 +84,12 @@ const ServicesProvider = ({ children }) => {
     password: "",
   });
 
-  // Wifi
+  // Wifi (Original structure)
   const [wifiFormData, setWifiFormData] = useState([
     { ssid: "", password: "", security: "WPA" },
   ]);
 
-  // Events
+  // Events (Original structure)
   const [eventsFormData, setEventsFormData] = useState({
     organizer: "",
     title: "",
@@ -115,24 +108,7 @@ const ServicesProvider = ({ children }) => {
     webUrl: "www.yourweburl.com",
   });
 
-  // Kids Safety
-  const [kidsSafetyFormData, setKidsSafetyFormData] = useState({
-    childName: "",
-    dob: "",
-    classGrade: "",
-    schoolName: "",
-    schoolAddress: "",
-    parentName: "",
-    contact: "",
-    altContact: "",
-    homeAddress: "",
-    mapLink: "",
-    password: "",
-    selectedTemplate: "",
-  });
-  const [kidsImage, setKidsImage] = useState(null);
-
-  // Vehicle
+  // Vehicle (Original structure)
   const [vehicleForm, setVehicleForm] = useState({
     vehicleModel: "",
     vehicleType: "",
@@ -150,7 +126,7 @@ const ServicesProvider = ({ children }) => {
   });
   const [vehicleImage, setVehicleImage] = useState(null);
 
-  // SMS
+  // SMS (Original structure)
   const [smsFormData, setSmsFormData] = useState({
     genderName: "",
     messageType: "",
@@ -159,13 +135,13 @@ const ServicesProvider = ({ children }) => {
     password: "",
   });
 
-  // Text Message
+  // Text Message (Original structure)
   const [textMessageForm, setTextMessageForm] = useState({
     sender: "",
     message: "",
   });
 
-  // Menu Book
+  // Menu Book (Original structure)
   const [menuBookFormData, setMenuBookFormData] = useState({
     restaurantName: "",
     menuItems: [{ name: "", description: "", price: "", image: "", visible: true }],
@@ -178,7 +154,7 @@ const ServicesProvider = ({ children }) => {
     ],
   });
 
-  // Pet ID Tag
+  // Pet ID Tag (Original structure)
   const [petIDFormData, setPetIDFormData] = useState({
     tagTitle: "",
     mainImage: null,
@@ -207,7 +183,7 @@ const ServicesProvider = ({ children }) => {
     additionalInfo: [{ type: "", label: "", value: "", visible: true, placeholder: "" }],
   });
 
-  // Dynamic Forms
+  // Dynamic Forms (Now includes Kids Safety Data)
   const [dynamicForms, setDynamicForms] = useState({
     medicalAlert: {
       patientInfo: {
@@ -358,6 +334,7 @@ const ServicesProvider = ({ children }) => {
       couponImage: null, // File object for the coupon visual
       password: "",
     },
+    // NEW: Kids Safety data structure (moved from separate useState)
     kidsSafety: {
       childName: "",
       dob: "",
@@ -371,43 +348,33 @@ const ServicesProvider = ({ children }) => {
       mapLink: "",
       password: "",
       selectedTemplate: "",
-      kidsImage: null, // Image stored here as File object
-    },
-    // NEW: Vehicle data structure integrated into dynamicForms
-    vehicle: {
-      vehicleModel: "",
-      vehicleType: "",
-      buyDate: "",
-      description: "",
-      rcNumber: "",
-      driverName: "",
-      ownerName: "",
-      contact: "",
-      altContact: [], // Initialize as array for dynamic contacts
-      address: "",
-      mapLink: "",
-      password: "",
-      selectedTemplate: "", // If you want to allow different vehicle preview templates
-      vehicleFrontImage: null, // Stores File object
-      vehicleSideImage: null,   // Stores File object
-      rcImage: null,            // Stores File object
-      licenseImage: null,       // Stores File object
-      ownerImage: null,         // Stores File object
+      kidsImage: null, // Image moved here
     },
   });
 
-  // Dynamic Helpers
+  // Dynamic Helpers (Handle null sectionKey)
   const updateDynamicForm = (formKey, sectionKey, fieldKey, value) => {
-    setDynamicForms((prev) => ({
-      ...prev,
-      [formKey]: {
-        ...prev[formKey],
-        [sectionKey]: {
-          ...prev[formKey][sectionKey],
+    setDynamicForms((prev) => {
+      // Create a shallow copy of the form being updated
+      const updatedForm = { ...prev[formKey] };
+
+      if (sectionKey === null || sectionKey === undefined) {
+        // If no sectionKey, update the field directly on the formKey level
+        updatedForm[fieldKey] = value;
+      } else {
+        // If there's a sectionKey, update the field within that nested section
+        updatedForm[sectionKey] = {
+          ...updatedForm[sectionKey], // Spread the existing section data
           [fieldKey]: value,
-        },
-      },
-    }));
+        };
+      }
+
+      // Return the new state with the updated form
+      return {
+        ...prev,
+        [formKey]: updatedForm,
+      };
+    });
   };
 
   const addTemplateField = (formKey, sectionKey, fieldKey, defaultValue = "") => {
@@ -435,7 +402,8 @@ const ServicesProvider = ({ children }) => {
     }));
   };
 
-  // UI Toggles
+  // UI Toggles (Remain the same)
+  // These specific to this provider, not used in KidsSafetyContent directly anymore.
   const [showPassword, setShowPassword] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -447,12 +415,14 @@ const ServicesProvider = ({ children }) => {
         brandLogo, setBrandLogo,
         productData, setProductData,
         productImage, setProductImage,
-       audioFormData, setAudioFormData,
-       videoFormData, setVideoFormData,
+        titleFormData, setTitleFormData,
         imagesFormData, setImagesFormData,
         resumeFormData, setResumeFormData,
-        // Removed original kidsSafetyFormData, setKidsSafetyFormData, kidsImage, setKidsImage
-        // Removed original vehicleForm, setVehicleForm, vehicleImage, setVehicleImage
+        // kidsSafetyFormData and setKidsSafetyFormData are removed here because they are
+        // now part of the dynamicForms state.
+        // kidsImage and setKidsImage are removed here because it's now part of dynamicForms.kidsSafety
+        vehicleForm, setVehicleForm,
+        vehicleImage, setVehicleImage,
         smsFormData, setSmsFormData,
         wifiFormData, setWifiFormData,
         menuBookFormData, setMenuBookFormData,
@@ -460,9 +430,9 @@ const ServicesProvider = ({ children }) => {
         petIDFormData, setPetIDFormData,
         eventsFormData, setEventsFormData,
         businessShopFormData, setBusinessShopFormData,
-        dynamicForms, setDynamicForms,
-        updateDynamicForm, addTemplateField, removeTemplateField,
-        showPassword, setShowPassword,
+        dynamicForms, setDynamicForms, // Make dynamicForms available
+        updateDynamicForm, addTemplateField, removeTemplateField, // Make helpers available
+        showPassword, setShowPassword, // Still exposed for other components that might use it
         isAnimating, setIsAnimating,
       }}
     >
