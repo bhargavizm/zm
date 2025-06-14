@@ -5,7 +5,7 @@ import { stickers } from './stickerImages';
 const Stickers = ({ onSelectImage }) => {
 
   return (
-   <section>
+
         <section className="mt-6">
              <div className="grid grid-cols-8 gap-6 h-[70vh] overflow-y-auto scrollbar-hide" >
                {stickers.map((src, index) => (
@@ -24,7 +24,7 @@ const Stickers = ({ onSelectImage }) => {
        
        
            </section>
-    </section>
+ 
   )
 }
 

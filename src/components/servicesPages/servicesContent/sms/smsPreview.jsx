@@ -1,4 +1,3 @@
-// components/smsContent/SmsPreview.jsx
 'use client'
 
 import React from 'react'
@@ -6,9 +5,9 @@ import { FiUser, FiMessageSquare, FiCalendar, FiLock } from 'react-icons/fi'
 import useServicesContext from "@/components/hooks/useServiceContext";
 
 const SmsPreview = () => {
-  const { smsForm, showPassword } = useServicesContext();
+  const { smsFormData, showPassword } = useServicesContext();
 
-  const hasData = smsForm.genderName || smsForm.messageType || smsForm.textMessage || smsForm.date || smsForm.password
+  const hasData = smsFormData.genderName || smsFormData.messageType || smsFormData.textMessage || smsFormData.date || smsFormData.password;
 
   return (
     <div className="bg-white rounded-[40px] border-[14px] border-gray-800 shadow-xl w-[300px] h-[600px] overflow-hidden flex flex-col relative">
@@ -21,47 +20,47 @@ const SmsPreview = () => {
             <h2 className="text-xl font-bold text-center text-[#008080]">SMS QR Code</h2>
 
             {/* Recipient */}
-            {(smsForm.genderName || smsForm.messageType) && (
+            {(smsFormData.genderName || smsFormData.messageType) && (
               <div className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20">
                 <div className="flex items-center text-[#008080] mb-1">
                   <FiUser className="mr-2" />
                   <span className="font-medium">Recipient</span>
                 </div>
-                {smsForm.genderName && <p>{smsForm.genderName}</p>}
-                {smsForm.messageType && <p>Type: {smsForm.messageType}</p>}
+                {smsFormData.genderName && <p>{smsFormData.genderName}</p>}
+                {smsFormData.messageType && <p>Type: {smsFormData.messageType}</p>}
               </div>
             )}
 
             {/* Message */}
-            {smsForm.textMessage && (
+            {smsFormData.textMessage && (
               <div className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20">
                 <div className="flex items-center text-[#008080] mb-1">
                   <FiMessageSquare className="mr-2" />
                   <span className="font-medium">Message</span>
                 </div>
-                <p>{smsForm.textMessage}</p>
+                <p>{smsFormData.textMessage}</p>
               </div>
             )}
 
             {/* Date */}
-            {smsForm.date && (
+            {smsFormData.date && (
               <div className="bg-gray-100 p-3 rounded">
                 <div className="flex items-center text-gray-700 mb-1">
                   <FiCalendar className="mr-2" />
                   <span className="font-medium">Date</span>
                 </div>
-                <p>{new Date(smsForm.date).toLocaleDateString('en-GB')}</p>
+                <p>{new Date(smsFormData.date).toLocaleDateString('en-GB')}</p>
               </div>
             )}
 
             {/* Password */}
-            {smsForm.password && (
+            {smsFormData.password && (
               <div className="bg-gray-100 p-3 rounded">
                 <div className="flex items-center text-gray-700 mb-1">
                   <FiLock className="mr-2" />
                   <span className="font-medium">Password Protected</span>
                 </div>
-                <p>{showPassword ? smsForm.password : '●●●●●●●●'}</p>
+                <p>{showPassword ? smsFormData.password : '●●●●●●●●'}</p>
               </div>
             )}
           </div>
