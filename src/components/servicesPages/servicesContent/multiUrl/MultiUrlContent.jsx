@@ -8,9 +8,19 @@ import { MdOutlineArrowDropDown } from "react-icons/md";
 const platformIcons = {
   youtube: <FaYoutube className="text-red-600" />,
   instagram: <FaInstagram className="text-pink-500" />,
-  twitter: <FaTwitter className="text-blue-400" />,
+  twitter: (
+    <svg
+      className="w-5 h-5 text-black"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M17.53 3H21L13.62 10.88L22.36 21H15.87L10.78 14.88L4.94 21H1.49L9.34 12.58L1 3H7.65L12.24 8.7L17.53 3ZM16.35 19H18.19L7.72 5H5.76L16.35 19Z" />
+    </svg>
+  ),
   linkedin: <FaLinkedin className="text-blue-700" />,
 };
+
 
 const MultiUrlContent = () => {
   const {
@@ -27,16 +37,7 @@ const MultiUrlContent = () => {
   const socialLinks = dynamicForms?.multiUrl?.socialLinks || {};
   const customLinks = dynamicForms?.multiUrl?.customLinks || [];
 
-  const handleAddCustomLink = () => {
-    if (customLabel && customUrl) {
-      addTemplateField("multiUrl", "customLinks", "", {
-        label: customLabel,
-        url: customUrl,
-      });
-      setCustomLabel("");
-      setCustomUrl("");
-    }
-  };
+ 
 
   const handleCustomLinkChange = (index, key, value) => {
     const updatedLinks = [...customLinks];
@@ -97,62 +98,13 @@ const MultiUrlContent = () => {
           )}
         </div>
       </div>
+      <div>
 
-      <div className="p-4 border rounded-lg">
-        <h2 className="text-lg font-semibold mb-2">Custom Links</h2>
-
-        {customLinks.map((link, index) => (
-          <div key={index} className="mb-3 space-y-1">
-            <input
-              type="text"
-              className="w-full p-2 border rounded"
-              placeholder="Label"
-              value={link.label}
-              onChange={(e) =>
-                handleCustomLinkChange(index, "label", e.target.value)
-              }
-            />
-            <input
-              type="text"
-              className="w-full p-2 border rounded"
-              placeholder="URL"
-              value={link.url}
-              onChange={(e) =>
-                handleCustomLinkChange(index, "url", e.target.value)
-              }
-            />
-            <button
-              className="text-red-500 text-sm underline"
-              onClick={() => removeTemplateField("multiUrl", "customLinks", "", index)}
-            >
-              Remove
-            </button>
-          </div>
-        ))}
-
-        <div className="flex flex-col space-y-2 mt-4">
-          <input
-            type="text"
-            className="p-2 border rounded"
-            placeholder="New Custom Label"
-            value={customLabel}
-            onChange={(e) => setCustomLabel(e.target.value)}
-          />
-          <input
-            type="text"
-            className="p-2 border rounded"
-            placeholder="New Custom URL"
-            value={customUrl}
-            onChange={(e) => setCustomUrl(e.target.value)}
-          />
-          <button
-            onClick={handleAddCustomLink}
-            className="bg-[#137e7e] text-white px-4 py-2 rounded hover:bg-[#008080]"
-          >
-            Add Custom Link
-          </button>
-        </div>
+        <input type="text" placeholder="custom link"/>
       </div>
+      <button>Submit</button>
+
+      
     </div>
   );
 };

@@ -1,10 +1,11 @@
+// src/components/ServicesProvider.jsx
 "use client";
 
 import React, { useState } from "react";
 import { ServicesContext } from "./ServicesContext";
 
 const ServicesProvider = ({ children }) => {
-  // Business Shop Static Form
+  // Business Shop Static Form (Keeping your original static form structure)
   const [businessShopFormData, setBusinessShopFormData] = useState({
     shopName: "",
     ownerName: "",
@@ -27,7 +28,7 @@ const ServicesProvider = ({ children }) => {
     },
   });
 
-  // Business Form
+  // Business Form (Original structure)
   const [businessForm, setBusinessForm] = useState({
     name: "",
     heading: "",
@@ -44,7 +45,7 @@ const ServicesProvider = ({ children }) => {
   const [profileImage, setProfileImage] = useState(null);
   const [brandLogo, setBrandLogo] = useState(null);
 
-  // Product Form
+  // Product Form (Original structure)
   const [productData, setProductData] = useState({
     heading: "",
     description: "",
@@ -58,7 +59,7 @@ const ServicesProvider = ({ children }) => {
   });
   const [productImage, setProductImage] = useState(null);
 
-  // Audio/Video
+  // Audio/Video (Original structure)
   const [titleFormData, setTitleFormData] = useState({
     title: "",
     description: "",
@@ -66,15 +67,15 @@ const ServicesProvider = ({ children }) => {
     password: "",
   });
 
-  // Gallery
+  // Gallery (Original structure)
   const [imagesFormData, setImagesFormData] = useState({
     title: "",
     description: "",
-    files: [],
+    files: [], // Already an array, good for multiple files
     password: "",
   });
 
-  // Resume
+  // Resume (Original structure)
   const [resumeFormData, setResumeFormData] = useState({
     title: "",
     description: "",
@@ -83,12 +84,12 @@ const ServicesProvider = ({ children }) => {
     password: "",
   });
 
-  // Wifi
+  // Wifi (Original structure)
   const [wifiFormData, setWifiFormData] = useState([
     { ssid: "", password: "", security: "WPA" },
   ]);
 
-  // Events
+  // Events (Original structure)
   const [eventsFormData, setEventsFormData] = useState({
     organizer: "",
     title: "",
@@ -107,7 +108,7 @@ const ServicesProvider = ({ children }) => {
     webUrl: "www.yourweburl.com",
   });
 
-  // Kids Safety
+  // Kids Safety (Original structure)
   const [kidsSafetyFormData, setKidsSafetyFormData] = useState({
     childName: "",
     dob: "",
@@ -124,7 +125,7 @@ const ServicesProvider = ({ children }) => {
   });
   const [kidsImage, setKidsImage] = useState(null);
 
-  // Vehicle
+  // Vehicle (Original structure)
   const [vehicleForm, setVehicleForm] = useState({
     vehicleModel: "",
     vehicleType: "",
@@ -142,7 +143,7 @@ const ServicesProvider = ({ children }) => {
   });
   const [vehicleImage, setVehicleImage] = useState(null);
 
-  // SMS
+  // SMS (Original structure)
   const [smsFormData, setSmsFormData] = useState({
     genderName: "",
     messageType: "",
@@ -151,13 +152,13 @@ const ServicesProvider = ({ children }) => {
     password: "",
   });
 
-  // Text Message
+  // Text Message (Original structure)
   const [textMessageForm, setTextMessageForm] = useState({
     sender: "",
     message: "",
   });
 
-  // Menu Book
+  // Menu Book (Original structure)
   const [menuBookFormData, setMenuBookFormData] = useState({
     restaurantName: "",
     menuItems: [{ name: "", description: "", price: "", image: "", visible: true }],
@@ -170,7 +171,7 @@ const ServicesProvider = ({ children }) => {
     ],
   });
 
-  // Pet ID Tag
+  // Pet ID Tag (Original structure)
   const [petIDFormData, setPetIDFormData] = useState({
     tagTitle: "",
     mainImage: null,
@@ -199,7 +200,7 @@ const ServicesProvider = ({ children }) => {
     additionalInfo: [{ type: "", label: "", value: "", visible: true, placeholder: "" }],
   });
 
-  // Dynamic Forms
+  // Dynamic Forms (Enhanced to include the new shopTimingsTemplate and discountCoupon)
   const [dynamicForms, setDynamicForms] = useState({
     medicalAlert: {
       patientInfo: {
@@ -306,20 +307,76 @@ const ServicesProvider = ({ children }) => {
         password: "",
       },
     },
+    shopTimingsTemplate: {
+      selectedTemplate: "none", // 'none', 'template1', 'template2', 'template3'
+      template1Data: {
+        title: "Opening Hours",
+        days: [
+          { day: "MONDAY", time: "10AM - 10PM" },
+          { day: "TUESDAY", time: "10AM - 10PM" },
+          { day: "WEDNESDAY", time: "10AM - 10PM" },
+          { day: "THURSDAY", time: "10AM - 10PM" },
+          { day: "FRIDAY", time: "10AM - 10PM" },
+          { day: "SATURDAY", time: "10AM - 10PM" },
+          { day: "SUNDAY", time: "10AM - 10PM" },
+        ],
+        aboutUsLink: "about us",
+        siteLink: "@reallygreatsite",
+      },
+      template2Data: {
+        logoText: "GIGGLING PLATYPUS",
+        mainHeading: "WE'RE OPEN",
+        subHeading: "TUESDAY TO SUNDAY",
+        timeRange: "12 AM - 10 PM",
+        closedDay: "CLOSED MONDAY",
+        addressLine1: "123 Anywhere St., Any City, ST 12345",
+        addressLine2: "123 Anywhere St., Any City",
+        website: "www.reallygreatsite.com",
+      },
+      template3Data: {
+        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+        title: "OUR STORY",
+        description: "Experience the best at our shop!",
+      },
+      password: "",
+    },
+    // NEW: Discount Coupon data structure
+    discountCoupon: {
+      code: "",
+      type: "percentage", // "percentage" or "fixed"
+      value: "", // The percentage or fixed amount
+      minPurchase: "",
+      expiryDate: "",
+      description: "",
+      isActive: true, // Boolean to toggle active state
+      couponImage: null, // File object for the coupon visual
+      password: "",
+    },
   });
 
-  // Dynamic Helpers
+  // Dynamic Helpers (Handle null sectionKey)
   const updateDynamicForm = (formKey, sectionKey, fieldKey, value) => {
-    setDynamicForms((prev) => ({
-      ...prev,
-      [formKey]: {
-        ...prev[formKey],
-        [sectionKey]: {
-          ...prev[formKey][sectionKey],
+    setDynamicForms((prev) => {
+      // Create a shallow copy of the form being updated
+      const updatedForm = { ...prev[formKey] };
+
+      if (sectionKey === null || sectionKey === undefined) {
+        // If no sectionKey, update the field directly on the formKey level
+        updatedForm[fieldKey] = value;
+      } else {
+        // If there's a sectionKey, update the field within that nested section
+        updatedForm[sectionKey] = {
+          ...updatedForm[sectionKey], // Spread the existing section data
           [fieldKey]: value,
-        },
-      },
-    }));
+        };
+      }
+
+      // Return the new state with the updated form
+      return {
+        ...prev,
+        [formKey]: updatedForm,
+      };
+    });
   };
 
   const addTemplateField = (formKey, sectionKey, fieldKey, defaultValue = "") => {
@@ -347,7 +404,7 @@ const ServicesProvider = ({ children }) => {
     }));
   };
 
-  // UI Toggles
+  // UI Toggles (Remain the same)
   const [showPassword, setShowPassword] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -373,8 +430,8 @@ const ServicesProvider = ({ children }) => {
         petIDFormData, setPetIDFormData,
         eventsFormData, setEventsFormData,
         businessShopFormData, setBusinessShopFormData,
-        dynamicForms, setDynamicForms,
-        updateDynamicForm, addTemplateField, removeTemplateField,
+        dynamicForms, setDynamicForms, // Make dynamicForms available
+        updateDynamicForm, addTemplateField, removeTemplateField, // Make helpers available
         showPassword, setShowPassword,
         isAnimating, setIsAnimating,
       }}
