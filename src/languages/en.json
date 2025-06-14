@@ -223,5 +223,40 @@
         "comingSoon": {
             "text": "Career Blogs & Interactive Pop‑ups – Coming Soon!"
         }
+    },
+    "investor": {
+        "partner": "Partner with ZM QR Code Services",
+        "scan_store_connect_grow": "Scan | Store | Connect | Grow",
+        "hero_description": "Transforming how businesses and individuals use QR codes for digital identity, smart links, and interactive experiences.",
+        "download_pitch": "Download Pitch Deck",
+        "schedule_meeting": "Schedule a Meeting",
+        "company_growth": "Company Growth Highlights",
+        "yoy_growth": "Year-on-Year Growth",
+        "active_users": "Active Users",
+        "arr": "ARR",
+        "enterprise_clients": "Enterprise Clients",
+        "investment_opportunity": "Investment Opportunities",
+        "we_are_raising": "We are raising ₹5 Cr in Series A funding to accelerate our growth, expand our team, and capture a rapidly growing market.",
+        "funding_round": "Funding Round",
+        "target_amount": "Target Amount",
+        "valuation": "Valuation",
+        "use_of_funds": "Use of Funds",
+        "why_invest_zm": "Why Invest in ZM?",
+        "bullet_1": "Booming demand for QR-based smart solutions",
+        "bullet_2": "Unique features like multilinks, analytics, vCard+, and branding",
+        "bullet_3": "Strong customer retention & rapidly expanding user base",
+        "bullet_4": "Scalable tech infrastructure ready for global deployment",
+        "qr_insights": "QR Code Industry Insights",
+        "qr_industry_growth": "QR Industry Growth",
+        "qr_industry_growth_summary": "According to BARC India and Nielsen reports, QR code usage in India grew by 550% in 2020 compared to 2019.",
+        "mobile_first_future": "Mobile‑First Future",
+        "mobile_first_summary": "With over 5.3 billion smartphone users relying on mobile scanning, QR code usage is on the rise.",
+        "contactless_revolution": "Contactless Revolution",
+        "contactless_summary": "QR codes became essential post-pandemic for touchless interaction & marketing.",
+        "contact_description": "We welcome investors who believe in technology-driven growth. Contact us to learn more.",
+        "email": "invest@zmqrcode.com",
+        "phone": "+91 90000 12345",
+        "contact_ir": "Contact Investor Relations",
+        "footer": "© {year} ZM QR Code Services. All rights reserved."
     }
 }
