@@ -4,10 +4,10 @@ import useServicesContext from "@/components/hooks/useServiceContext";
 import useDesignContext from "@/components/hooks/useDesignContext";
 
 const VideoPreview = () => {
-  const { titleFormData } = useServicesContext();
+  const { videoFormData } = useServicesContext();
   const { bgDesign } = useDesignContext();
 
-  const { title, description, file, password } = titleFormData || {};
+  const { title, description, file, password } = videoFormData || {};
   const fileName = file ? file.name : "No file selected";
 
   // Determine if background is a video or an image
