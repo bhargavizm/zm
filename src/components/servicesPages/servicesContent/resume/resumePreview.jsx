@@ -68,14 +68,14 @@ const ResumePreview = () => {
 
           {resumeFile && (
             <div className="w-full">
-              <p className="text-xs text-white/80 mb-1">Uploaded Resume</p>
+              <p className="text-xs font-medium text-white/80 mb-1">Uploaded Resume</p>
               <p className="text-sm text-blue-300 underline break-all">📄 {resumeFile.name}</p>
             </div>
           )}
 
           {resumeUrl && (
             <div className="w-full">
-              <p className="text-xs text-white/80 mb-1">Resume URL</p>
+              <p className="text-xs font-medium text-white/80 mb-1">Resume URL</p>
               <a
                 href={resumeUrl}
                 target="_blank"
@@ -89,7 +89,7 @@ const ResumePreview = () => {
 
           {password && (
             <div className="w-full">
-              <p className="text-xs text-white/80 mb-1">Password</p>
+              <p className="text-xs font-medium text-white/80 mb-1">Password</p>
               <p>••••••••</p>
             </div>
           )}
