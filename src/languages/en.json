@@ -161,5 +161,67 @@
         "email": "support@zmqrcode.com",
         "phone": "+91 10000 00000",
         "copyright": "ZM QR Code Services © 2025. All Rights Reserved."
+    },
+    "career": {
+        "header": {
+            "login": "LOGIN"
+        },
+        "search": {
+            "findJob": "Find Your DREAM JOB Here",
+            "description": "At ZM QR Code Services, we’re more than a leading QR code solutions provider — we’re a place where innovation meets opportunity.",
+            "placeholderRole": "Software Engineer",
+            "placeholderLocation": "Guntur",
+            "buttonSearch": "Search",
+            "buttonClear": "Clear"
+        },
+        "section1": {
+            "quote": "To Gain Global Leadership in providing Technical Solutions through Sustained Innovation.",
+            "subtitle": "Power Your Brand with ZM's Advanced QR Code Features"
+        },
+        "currentOpenings": {
+            "title": "Current Openings"
+        },
+        "premiumSection": {
+            "title": "Elevate Your Business with ZM’s Premium QR Code Services",
+            "description": "We empower businesses with static QR solutions that include AI, analytics, branding and customer engagement tools.",
+            "button": "Start your journey now"
+        },
+        "features": {
+            "staticQR": "Static QR Creation",
+            "aiFeatures": "AI-Enhanced Features",
+            "analytics": "Real‑time Analytics",
+            "security": "Secure & Scalable"
+        },
+        "innovate": {
+            "title": "Innovate with Cutting‑Edge Technologies",
+            "description": "Join our team of passionate developers, designers, and thinkers to craft the future of QR technology with AI and automation.",
+            "button": "See Open Roles"
+        },
+        "whyWork": {
+            "title": "Why Work With ZM?",
+            "description": "At ZM QR Code Services, we're redefining how businesses and consumers connect through smart, secure, and scalable QR solutions.",
+            "benefits": {
+                "innovative": {
+                    "title": "Innovative Work Environment",
+                    "description": "Work on cutting-edge projects that blend QR technology, A.I. integration, and IoT automation."
+                },
+                "growth": {
+                    "title": "Growth-Focused Culture",
+                    "description": "We support learning, experimentation, and professional development at every level."
+                },
+                "impact": {
+                    "title": "Impactful Roles",
+                    "description": "Your ideas won’t sit on the sidelines. At ZM, your work directly shapes the customer experience."
+                }
+            },
+            "button": "Start your journey now"
+        },
+        "testimonials": {
+            "title": "Life at ZM – What Our Team Says",
+            "quote": "“Working at ZM is more than a job – it’s a place to grow, innovate, and make a real impact.”"
+        },
+        "comingSoon": {
+            "text": "Career Blogs & Interactive Pop‑ups – Coming Soon!"
+        }
     }
 }
