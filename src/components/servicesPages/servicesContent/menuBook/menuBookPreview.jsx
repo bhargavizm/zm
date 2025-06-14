@@ -36,14 +36,14 @@ console.log(menuBookFormData)
               {/* Use menuBookFormData.menuItems */}
               {menuBookFormData.menuItems.filter(i => i.visible !== false && i.image).length > 0 && (
                 <Slider {...sliderSettings}>
-                   {console.log('qwqre',menuBookFormData.menuItem)}
+                  {console.log('qwqre',menuBookFormData.menuItem)}
                   {menuBookFormData.menuItems.filter(i => i.visible !== false && i.image).map((item, i) => (
                     <div key={i} className="pb-2 mt-2">
                       {console.log('gfdfd',item)}
                       {/* Using img tag directly for now. If item.image is a relative path or local import,
                           you might need to use Next.js <Image /> component. If it's a URL from createObjectURL,
                           img tag is appropriate. */}
-                      <img src={item.image} alt={`menu-${i}`} className="w-full h-[180px] object-cover rounded" />
+                      <img src={item.image} alt={menu-`${i}`} className="w-full h-[180px] object-cover rounded" />
                       <div className="pt-2">
                         <h4 className="font-semibold">{item.name}</h4>
                         <p className="text-sm">{item.description}</p>
@@ -72,7 +72,7 @@ console.log(menuBookFormData)
     {field.type === 'form' && field.value && (
       <iframe
         src={field.value}
-        title={`form-${i}`}
+        title={form-`${i}`}
         className="w-full h-40 mt-2 border rounded"
       />
     )}

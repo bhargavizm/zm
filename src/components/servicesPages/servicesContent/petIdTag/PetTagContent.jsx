@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import useServicesContext from "@/components/hooks/useServiceContext";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 const PetTagContent = () => {
   const servicesContext = useServicesContext();
@@ -12,6 +13,7 @@ const PetTagContent = () => {
 
   const { petIDFormData, setPetIDFormData } = servicesContext;
 
+const [showPassword, setShowPassword] = useState(false);
   const [showNfcModal, setShowNfcModal] = useState(false);
   const [nfcEnabled, setNfcEnabled] = useState(false);
   const templateImages = ["pet1.webp", "pet2.webp", "pet3.webp", "pet4.webp"];
@@ -58,7 +60,7 @@ const PetTagContent = () => {
   const handleNfcToggle = () => {
     if (!nfcEnabled) {
       setShowNfcModal(true);
-      setPendingToggle(true);
+    
     } else {
       setNfcEnabled(false);
     }
@@ -67,11 +69,11 @@ const PetTagContent = () => {
   const confirmNfc = () => {
     setNfcEnabled(true);
     setShowNfcModal(false);
-    setPendingToggle(false);
+ 
   };
 
   const cancelNfc = () => {
-    setPendingToggle(false);
+
     setShowNfcModal(false);
   };
 
@@ -220,6 +222,25 @@ const PetTagContent = () => {
           </div>
         </div>
 
+{/* password */}
+       <div className="py-4 bg-white text-gray-700 relative">
+  <input
+    required
+    type={showPassword ? "text" : "password"}
+    className="w-full border border-gray-300 rounded-md px-3 py-2 pr-10"
+    placeholder="Password"
+    id="password" // <-- ✅ This is important for `handlePetChange`
+    value={petIDFormData.password}
+    onChange={handlePetChange}
+  />
+  <div
+    className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+    onClick={() => setShowPassword(!showPassword)}
+  >
+    {showPassword ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
+  </div>
+</div>
+
         {/* ✅ NFC Toggle with Icon */}
         <div className="flex items-center gap-4 mt-2">
           <span className="text-sm font-medium text-gray-700">NFC</span>
@@ -269,14 +290,14 @@ const PetTagContent = () => {
           </button>
         </div>
 
-        <button className="w-full py-2 bg-[#008080] text-white font-semibold rounded hover:bg-[#006666] transition">
+        <button className="w-full py-2 cursor-pointer bg-[#008080] text-white font-semibold rounded hover:bg-[#006666] transition">
           Submit
         </button>
       </div>
 
       {/* ✅ NFC Modal */}
       {showNfcModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-transparent">
+        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
           <div className="bg-white rounded-xl shadow-xl p-6 max-w-sm w-full border border-teal-200 relative">
             {/* Close Button */}
             <button
@@ -302,13 +323,13 @@ const PetTagContent = () => {
             <div className="flex justify-end mt-5 space-x-3">
               <button
                 onClick={cancelNfc}
-                className="px-4 py-2 rounded border border-gray-400 text-gray-600 hover:bg-gray-100"
+                className="px-4 py-2 cursor-pointer rounded border border-gray-400 text-gray-600 hover:bg-gray-100"
               >
                 Cancel
               </button>
               <button
                 onClick={confirmNfc}
-                className="px-4 py-2 bg-[#008080] text-white rounded hover:bg-[#006666] transition"
+                className="px-4 py-2 cursor-pointer bg-[#008080] text-white rounded hover:bg-[#006666] transition"
               >
                 Accept
               </button>

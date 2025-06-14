@@ -3,11 +3,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { FcGoogle } from 'react-icons/fc';
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 export default function LoginPage() {
     const router = useRouter();
     const [active, setActive] = useState('existing');
     const modalRef = useRef(null);
+     const [showPassword, setShowPassword] = useState(false);
 
     // Optional: Close modal on outside click
     useEffect(() => {
@@ -61,7 +63,7 @@ export default function LoginPage() {
                                     router.push('/signup');
                                 }}
                                 type="button"
-                                className={`flex-1 text-sm bg-[#e6e6e6] text-[#001a1a] px-4 py-2 rounded-sm hover:bg-[#d4d4d4] transition-all duration-300 ${active === 'new' ? 'border-b-4 border-[#008080]' : 'border-b-4 border-transparent'
+                                className={`flex-1 text-sm bg-[#e6e6e6] text-[#001a1a] px-4 py-2 rounded-sm hover:bg-[#d4d4d4] transition-all duration-300 ${active === 'new' ? 'border-b-4 border-[#008080]' : 'border-b-4 border-transparent cursor-pointer'
                                     }`}
                             >
                                 I'm a new user
@@ -69,34 +71,45 @@ export default function LoginPage() {
                             <button
                                 onClick={() => setActive('existing')}
                                 type="button"
-                                className={`flex-1 text-sm bg-[#e6e6e6] text-[#001a1a] px-4 py-2 rounded-sm hover:bg-[#c0c0c0] transition-all duration-300 ${active === 'existing' ? 'border-b-4 border-[#008080]' : 'border-b-4 border-transparent'
+                                className={`flex-1 text-sm bg-[#e6e6e6] text-[#001a1a] px-4 py-2 rounded-sm hover:bg-[#c0c0c0] transition-all duration-300 ${active === 'existing' ? 'border-b-4 border-[#008080]' : 'border-b-4 border-transparent cursor-pointer'
                                     }`}
                             >
                                 I'm an existing user
                             </button>
                         </div>
 
-                        {[
-                        { id: 'email', label: 'Official Email / Login ID*', type: 'text' },
-                        { id: 'password', label: 'Password*', type: 'password' },
-                    ].map((input) => (
-                        <div className="relative w-full mt-3" key={input.id}>
-                            <input
-                                type={input.type}
-                                id={input.id}
-                                placeholder=" "
-                                className="peer w-full border-2 border-gray-300 rounded-sm px-2 pt-4 pb-2 text-gray-800 focus:outline-none focus:border-[#008080]"
-                            />
-                            <label
-                                htmlFor={input.id}
-                                className="absolute left-3 -top-2 bg-white px-1 text-sm text-gray-500 transition-all 
-                  peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
-                  peer-focus:-top-2 peer-focus:text-sm peer-focus:text-[#001a1a] peer-focus:bg-white"
-                            >
-                                {input.label}
-                            </label>
-                        </div>
-                    ))}
+ {[
+        { id: "email", label: "Official Email / Login ID*", type: "text" },
+        { id: "password", label: "Password*", type: "password" },
+      ].map((input) => (
+        <div className="relative w-full mt-3" key={input.id}>
+          <input
+            type={input.type === "password" && showPassword ? "text" : input.type}
+            id={input.id}
+            placeholder=" "
+            className="peer w-full border-2 border-gray-300 rounded-sm px-2 pt-4 pb-2 text-gray-800 focus:outline-none focus:border-[#008080]"
+          />
+          <label
+            htmlFor={input.id}
+            className="absolute left-3 -top-2 bg-white px-1 text-sm text-gray-500 transition-all 
+              peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
+              peer-focus:-top-2 peer-focus:text-sm peer-focus:text-[#001a1a] peer-focus:bg-white"
+          >
+            {input.label}
+          </label>
+
+          {input.type === "password" && (
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 focus:outline-none"
+            >
+              {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+            </button>
+          )}
+        </div>
+      ))}
+   
 
                     {/* Checkboxes */}
                     <div className="flex items-start mt-3 w-full gap-2 text-sm">

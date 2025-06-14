@@ -26,7 +26,7 @@ const navItems = [
   { name: 'Home', href: '#' },
   { name: 'About Us', href: '#' },
   { name: 'Services', href: '#' },
-  { name: 'Blogs', href: '#' },
+  // { name: 'Blogs', href: '#' },
   { name: 'Contact Us', href: '#' },
   { name: 'CAREER', href: '#', active: true },
   { name: 'Pricing', href: '#' },
