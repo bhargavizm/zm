@@ -44,7 +44,7 @@ const componentMap = {
     preview: dynamic(() => import('@/components/servicesPages/servicesContent/kidSafety/KidsSafetyPreview'), { ssr: false }),
   },
   sms: {
-    content: dynamic(() => import("@/components/servicesPages/servicesContent/sms/smsContent"), { ssr: false }),
+    content: dynamic(() => import("@/components/servicesPages/servicesContent/sms/SmsContent"), { ssr: false }),
     preview: dynamic(() => import("@/components/servicesPages/servicesContent/sms/SmsPreview"), { ssr: false }),
   },
   "text-messages": {
