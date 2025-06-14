@@ -3,11 +3,12 @@
 
 import useServicesContext from '@/components/hooks/useServiceContext'
 import React, { useState } from 'react'
-import { FiCalendar, FiMapPin, FiUser, FiMail, FiPhone, FiGlobe, FiPlus, FiX } from 'react-icons/fi'
+import { FiCalendar, FiMapPin, FiUser, FiMail, FiPhone, FiGlobe, FiPlus, FiX, FiEye, FiEyeOff } from 'react-icons/fi'
 
 const EventContent = () => {
   const { eventsFormData, setEventsFormData } = useServicesContext()
 
+  const [showPassword, setShowPassword] = useState(false)
   const [showLocationOptions, setShowLocationOptions] = useState(false)
   const [isLoadingLocation, setIsLoadingLocation] = useState(false)
    const [nfcEnabled, setNfcEnabled] = useState(false);
@@ -15,7 +16,7 @@ const EventContent = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    setEventsFormData({ ...eventsFormData, [name]: value })
+    setEventsFormData(prev => ({ ...prev, [name]: value }))
   }
 
   const handleGetCurrentLocation = () => {
@@ -26,7 +27,6 @@ const EventContent = () => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords
-          // Reverse geocode to get address - in a real app you'd use a geocoding service
           setEventsFormData(prev => ({
             ...prev,
             address: `Latitude: ${latitude.toFixed(4)}, Longitude: ${longitude.toFixed(4)}`
@@ -43,12 +43,6 @@ const EventContent = () => {
       setIsLoadingLocation(false)
     }
   }
-
-  // These "has" variables are primarily for the preview, but don't hurt here.
-  const hasBasicInfo = eventsFormData.title || eventsFormData.organizer || eventsFormData.summary
-  const hasSchedule = eventsFormData.fromDate || eventsFormData.toDate
-  const hasLocation = eventsFormData.venue || eventsFormData.address
-  const hasContact = eventsFormData.contactName || eventsFormData.contactEmail || eventsFormData.contactPhone
 
     const handleNfcToggle = () => {
     if (!nfcEnabled) {
@@ -70,12 +64,8 @@ const EventContent = () => {
 
   return (
     <>
-    <div className="flex flex-col lg:flex-row"> {/* Changed to flex-col and lg:flex-row for responsiveness */}
-      {/* Form Section */}
-      {/* Removed w-1/2 and overflow-y-auto to allow fluid width and height */}
-      <div className="p-8 flex-1"> {/* flex-1 allows it to take available space */}
-
-
+    <div className="flex flex-col lg:flex-row">
+      <div className="p-8 flex-1">
         <form className="space-y-8">
           {/* Basic Info */}
           <div className="bg-white rounded-xl p-6 shadow-md">
@@ -89,7 +79,7 @@ const EventContent = () => {
                   type="text"
                   name="organizer"
                   placeholder="Enter host/organizer name"
-                  value={eventsFormData.organizer}
+                  value={eventsFormData.organizer || ''}
                   onChange={handleChange}
                   className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#59c1c1] focus:border-[#226161]"
                 />
@@ -101,7 +91,7 @@ const EventContent = () => {
                   type="text"
                   name="title"
                   placeholder="Enter event name"
-                  value={eventsFormData.title}
+                  value={eventsFormData.title || ''}
                   onChange={handleChange}
                   className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#59c1c1] focus:border-[#226161]"
                 />
@@ -112,21 +102,21 @@ const EventContent = () => {
                 <textarea
                   name="summary"
                   placeholder="A short summary about the event"
-                  value={eventsFormData.summary}
+                  value={eventsFormData.summary || ''}
                   onChange={handleChange}
                   rows={3}
                   className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#59c1c1] focus:border-[#226161]"
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4"> {/* Added responsiveness */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Button Label</label>
                   <input
                     type="text"
                     name="buttonLabel"
                     placeholder="Button Label"
-                    value={eventsFormData.buttonLabel}
+                    value={eventsFormData.buttonLabel || ''}
                     onChange={handleChange}
                     className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#59c1c1] focus:border-[#226161]"
                   />
@@ -137,7 +127,7 @@ const EventContent = () => {
                     type="text"
                     name="buttonLink"
                     placeholder="Button Link"
-                    value={eventsFormData.buttonLink}
+                    value={eventsFormData.buttonLink || ''}
                     onChange={handleChange}
                     className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#59c1c1] focus:border-[#226161]"
                   />
@@ -151,13 +141,13 @@ const EventContent = () => {
             <h2 className="text-xl font-semibold mb-4 text-[#0e7b7b] flex items-center">
               <FiCalendar className="mr-2" /> Schedule
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4"> {/* Added responsiveness */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Start Date & Time</label>
                 <input
                   type="datetime-local"
                   name="fromDate"
-                  value={eventsFormData.fromDate}
+                  value={eventsFormData.fromDate || ''}
                   onChange={handleChange}
                   className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#59c1c1] focus:border-[#226161]"
                 />
@@ -167,7 +157,7 @@ const EventContent = () => {
                 <input
                   type="datetime-local"
                   name="toDate"
-                  value={eventsFormData.toDate}
+                  value={eventsFormData.toDate || ''}
                   onChange={handleChange}
                   className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#59c1c1] focus:border-[#226161]"
                 />
@@ -187,7 +177,7 @@ const EventContent = () => {
                   type="text"
                   name="venue"
                   placeholder="Enter venue name"
-                  value={eventsFormData.venue}
+                  value={eventsFormData.venue || ''}
                   onChange={handleChange}
                   className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#59c1c1] focus:border-[#226161]"
                 />
@@ -199,7 +189,7 @@ const EventContent = () => {
                   <textarea
                     name="address"
                     placeholder="Enter address"
-                    value={eventsFormData.address}
+                    value={eventsFormData.address || ''}
                     onChange={handleChange}
                     rows={2}
                     className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#59c1c1] focus:border-[#226161]"
@@ -217,7 +207,10 @@ const EventContent = () => {
                   <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 z-10 p-3">
                     <div className="flex justify-between items-center mb-2">
                       <h3 className="font-medium">Location Options</h3>
-                      <button onClick={() => setShowLocationOptions(false)} className="text-gray-500 hover:text-gray-700">
+                      <button 
+                        onClick={() => setShowLocationOptions(false)} 
+                        className="text-gray-500 hover:text-gray-700"
+                      >
                         <FiX />
                       </button>
                     </div>
@@ -249,10 +242,10 @@ const EventContent = () => {
             <textarea
               name="about"
               placeholder="Enter detailed information about your event"
-              value={eventsFormData.about}
+              value={eventsFormData.about || ''}
               onChange={handleChange}
               rows={4}
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#59c1c1] focus:border-[#226161]"
             />
           </div>
 
@@ -268,9 +261,9 @@ const EventContent = () => {
                   type="text"
                   name="contactName"
                   placeholder="Enter contact person name"
-                  value={eventsFormData.contactName}
+                  value={eventsFormData.contactName || ''}
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#59c1c1] focus:border-[#226161]"
                 />
               </div>
 
@@ -280,9 +273,9 @@ const EventContent = () => {
                   type="email"
                   name="contactEmail"
                   placeholder="Enter email address"
-                  value={eventsFormData.contactEmail}
+                  value={eventsFormData.contactEmail || ''}
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#59c1c1] focus:border-[#226161]"
                 />
               </div>
 
@@ -292,9 +285,9 @@ const EventContent = () => {
                   type="tel"
                   name="contactPhone"
                   placeholder="Enter phone number"
-                  value={eventsFormData.contactPhone}
+                  value={eventsFormData.contactPhone || ''}
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#59c1c1] focus:border-[#226161]"
                 />
               </div>
             </div>
@@ -305,16 +298,16 @@ const EventContent = () => {
             <h2 className="text-xl font-semibold mb-4 text-[#0e7b7b] flex items-center">
               <FiGlobe className="mr-2" /> Web Links
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4"> {/* Added responsiveness */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Link Label</label>
                 <input
                   type="text"
                   name="webLabel"
                   placeholder="Enter link label"
-                  value={eventsFormData.webLabel}
+                  value={eventsFormData.webLabel || ''}
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#59c1c1] focus:border-[#226161]"
                 />
               </div>
               <div>
@@ -323,69 +316,13 @@ const EventContent = () => {
                   type="text"
                   name="webUrl"
                   placeholder="Enter URL (e.g., www.example.com)"
-                  value={eventsFormData.webUrl}
+                  value={eventsFormData.webUrl || ''}
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#59c1c1] focus:border-[#226161]"
                 />
               </div>
             </div>
           </div>
-
-            <div className="flex items-center gap-4 px-4 mt-2">
-          <span className="text-sm font-medium text-gray-700">NFC</span>
-          <button
-            type="button"
-            onClick={handleNfcToggle}
-            className={`relative inline-flex h-8 w-16 items-center rounded-full transition-colors duration-500 cursor-pointer
-                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#008080]
-                    ${nfcEnabled ? "bg-[#008080]" : "bg-gray-300"}`}
-          >
-            <span
-              className={`absolute left-1 top-1 inline-flex h-6 w-6 items-center justify-center rounded-full bg-white shadow-md transition-all duration-300
-                    ${nfcEnabled ? "translate-x-8" : "translate-x-0"}`}
-            >
-              {nfcEnabled ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4 text-[#008080]"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4 text-gray-500"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              )}
-            </span>
-          </button>
-        </div>
-
-          <button
-        type="submit"
-        className="mt-4 w-full bg-[#008080] text-white font-semibold py-2 rounded hover:bg-[#006666] transition"
-      >
-        Submit
-      </button>
-
         </form>
       </div>
     </div>
