@@ -10,11 +10,13 @@ import clsx from "clsx";
 import { FaCar, FaVideo } from "react-icons/fa";
 import { ImHeadphones } from "react-icons/im";
 import { GrGallery } from "react-icons/gr";
+import { FaHandsHoldingChild } from "react-icons/fa6";
 
 const tabLinks = [
   { href: "/services/business-shops", label: "Business Shop", icon: <TiBusinessCard size={28} /> },
   { href: "/services/Pet-ID-tags", label: "Pet ID Tag", icon: <MdPets size={28} /> },
   { href: "/services/vehicles", label: "Vehicles", icon: <FaCar size={28} /> },
+   { href: "/services/kids-safety-qr-tags", label: "Kids Safety", icon: <FaHandsHoldingChild size={28} /> },
   { href: "/services/audios", label: "Audio", icon: <ImHeadphones size={28} /> },
   { href: "/services/videos", label: "video", icon: <FaVideo size={28} /> },
   { href: "/services/gallery", label: "Gallery", icon: <GrGallery size={28} /> },

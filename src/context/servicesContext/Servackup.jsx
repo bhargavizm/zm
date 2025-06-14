@@ -210,7 +210,6 @@ const ServicesProvider = ({ children }) => {
   const [petIDFormData, setPetIDFormData] = useState({
     tagTitle: "",
     mainImage: null,
-    password:'',
     ownerInfo: {
       name: "",
       phone: "",

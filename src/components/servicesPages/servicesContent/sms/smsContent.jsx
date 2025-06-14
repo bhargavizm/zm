@@ -9,7 +9,8 @@ const SmsContent = () => {
   const [showPassword, setShowPassword] = useState(false)
 
   const [nfcEnabled, setNfcEnabled] = useState(false);
-      const [showNfcModal, setShowNfcModal] = useState(false);
+  const [showNfcModal, setShowNfcModal] = useState(false);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -21,25 +22,24 @@ const SmsContent = () => {
   }
 
   const handleNfcToggle = () => {
-        if (!nfcEnabled) {
-            setShowNfcModal(true);
-
-        } else {
-            setNfcEnabled(false);
-        }
-    };
-
-    const confirmNfc = () => {
-        setNfcEnabled(true);
-        setShowNfcModal(false);
+    if (!nfcEnabled) {
+      setShowNfcModal(true);
     
-    };
+    } else {
+      setNfcEnabled(false);
+    }
+  };
 
-    const cancelNfc = () => {
-      
-        setShowNfcModal(false);
-    };
+  const confirmNfc = () => {
+    setNfcEnabled(true);
+    setShowNfcModal(false);
+ 
+  };
 
+  const cancelNfc = () => {
+   
+    setShowNfcModal(false);
+  };
 
   // These "has" variables are primarily for the preview, not strictly needed for the form itself,
   // but kept for now as they don't affect styling.

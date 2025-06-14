@@ -13,7 +13,7 @@ import PreviewPanel from "./previewPanel";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import ImageToQR from "./designTabs/ImageToQR";
 
-const tabs = ["QR Shapes", "Stickers", "Colors", "Shapes", "Logos", "Create QR Using Image"];
+const tabs = ["QR Shapes", "Stickers", "Colors", "Shapes", "Logos", "Personalised Image"];
 
 const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
   const { setSelectedQRShape, setSelectedLogo, setSelectedSticker } =
