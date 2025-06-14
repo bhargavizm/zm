@@ -58,7 +58,7 @@ const BusinessContent = () => {
 
   return (
     <>
-    <div className="space-y-8 p-4 md:p-8 lg:p-12 bg-gray-50 rounded-xl shadow-lg">
+    <div className="space-y-8 p-4 md:p-8 lg:p-12 bg-gray-50 rounded-xl shadow-lg h-[550px] overflow-auto hide-scrollbar">
 
       {/* New Template Selection and Editing Section */}
       <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
@@ -416,25 +416,11 @@ const BusinessContent = () => {
         onChange={(e) => handleChange('security', 'password', e.target.value)} /> */}
 
 
-       <div className="relative w-full">
-      <input
-        type={showPassword ? "text" : "password"}
-        placeholder="Password"
-        className="w-full border p-2 pr-10 rounded"
-       value={businessInfo.security.password}
-        onChange={(e) => handleChange('security', 'password', e.target.value)}
-      />
-      <span
-        className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500"
-        onClick={() => setShowPassword((prev) => !prev)}
-      >
-        {showPassword ? <IoEyeOffOutline size={20} /> : <IoEyeOutline size={20} />}
-      </span>
-    </div>
+   
     </div>
 
      {/* ✅ NFC Toggle with Icon */}
-              <div className="flex items-center gap-4 my-9">
+              <div className="flex items-center gap-4 my-9 justify-end">
                 <span className="text-sm font-medium text-gray-700">NFC</span>
                 <button
                   type="button"

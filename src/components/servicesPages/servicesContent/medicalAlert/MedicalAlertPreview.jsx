@@ -11,7 +11,7 @@ const formatLabel = (key) =>
 const MedicalAlertPreview = () => {
   const { dynamicForms, showPassword } = useServicesContext();
   const { bgDesign } = useDesignContext();
-  const medicalAlert = dynamicForms.medicalAlert;
+  const medicalAlert = dynamicForms.medicalAlert || {};
 
   const hasData = Object.entries(medicalAlert).some(
     ([section, fields]) =>
@@ -24,96 +24,114 @@ const MedicalAlertPreview = () => {
   const isImage = bgDesign && !isVideo;
 
   return (
-    <div className='flex justify-center'>
-    <div className="relative w-[300px] h-[600px] rounded-[40px] border-[14px] border-gray-800 shadow-xl overflow-hidden flex flex-col">
+    <div className="flex justify-center mt-10">
+      <div className="relative w-[390px] h-[640px] rounded-[3rem] border-[14px] border-gray-800 shadow-xl overflow-hidden flex flex-col bg-white">
+        {/* Background Layer */}
+        {isImage && (
+          <img
+            src={bgDesign}
+            alt="Background"
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          />
+        )}
+        {isVideo && (
+          <video
+            src={bgDesign}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          />
+        )}
+        {!bgDesign && (
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          >
+            <source src="/services-service/medical-alert.mp4" type="video/mp4" />
+          </video>
+        )}
 
-      {/* Background layer */}
-      {isImage && (
-        <img
-          src={bgDesign}
-          alt="Background"
-          className="absolute inset-0 w-full h-full object-cover z-0"
-        />
-      )}
-      {isVideo && (
-        <video
-          src={bgDesign}
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover z-0"
-        />
-      )}
-      {!bgDesign && (
-        <div className="absolute inset-0 bg-gradient-to-b from-[#d1f0f0] to-white z-0" />
-      )}
+        {/* iPhone Notch */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-gray-900 rounded-b-xl z-20 flex items-center justify-center space-x-1">
+          <div className="w-1.5 h-1.5 bg-gray-600 rounded-full"></div>
+          <div className="w-12 h-3 bg-gray-700 rounded-full"></div>
+        </div>
 
-      {/* Overlay for readability */}
-      {/* <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-0" /> */}
+        {/* Screen */}
+        <div className="bg-white h-full w-full rounded-[2.5rem] overflow-hidden flex flex-col relative z-10">
+          {/* Status Bar */}
+          <div className="flex justify-between items-center px-6 pt-4 text-xs font-semibold text-gray-700">
+            <span>9:41</span>
+            <div className="flex items-center space-x-1">
+              <span>🔋</span>
+              <span>📶</span>
+              <span>5G</span>
+            </div>
+          </div>
 
-      {/* Top Bar */}
-      <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-6 bg-gray-800 rounded-b-xl z-10" />
+          {/* Scrollable Content */}
+          <div className="flex-grow overflow-y-auto p-4 pt-2">
+            {hasData ? (
+              <div className="space-y-4">
+                <h2 className="text-xl font-bold text-center text-[#008080]">
+                  Medical Alert
+                </h2>
 
-      {/* Content */}
-      <div className="relative z-10 flex-1 overflow-y-auto no-scrollbar pt-8 pb-4 px-4">
-        {hasData ? (
-          <div className="space-y-4">
-            <h2 className="text-xl font-bold text-center text-[#008080]">
-              Medical Alert
-            </h2>
+                {Object.entries(medicalAlert).map(([section, fields]) => {
+                  if (section === 'password') return null;
+                  return (
+                    typeof fields === 'object' && (
+                      <div
+                        key={section}
+                        className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20 space-y-2"
+                      >
+                        {Object.entries(fields).map(([key, value]) => {
+                          if (!value) return null;
+                          return (
+                            <div key={key} className="text-sm">
+                              <span className="font-medium text-[#008080]">
+                                {formatLabel(key)}:
+                              </span>{' '}
+                              <span className="text-gray-700">{value}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )
+                  );
+                })}
 
-            {Object.entries(medicalAlert).map(([section, fields]) => {
-              if (section === 'password') return null;
-
-              return (
-                typeof fields === 'object' && (
-                  <div
-                    key={section}
-                    className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20 space-y-2"
-                  >
-                    {Object.entries(fields).map(([key, value]) => {
-                      if (!value) return null;
-                      return (
-                        <div key={key} className="text-sm">
-                          <span className="font-medium text-[#008080]">
-                            {formatLabel(key)}:
-                          </span>{' '}
-                          <span className="text-gray-700">{value}</span>
-                        </div>
-                      );
-                    })}
+                {medicalAlert.password && (
+                  <div className="bg-gray-100 p-3 rounded">
+                    <div className="flex items-center text-gray-700 mb-1">
+                      <FiLock className="mr-2" />
+                      <span className="font-medium">Password Protected</span>
+                    </div>
+                    <p>{showPassword ? medicalAlert.password : '●●●●●●●●'}</p>
                   </div>
-                )
-              );
-            })}
-
-            {/* Password (if present) */}
-            {medicalAlert.password && (
-              <div className="bg-gray-100 p-3 rounded">
-                <div className="flex items-center text-gray-700 mb-1">
-                  <FiLock className="mr-2" />
-                  <span className="font-medium">Password Protected</span>
-                </div>
-                <p>{showPassword ? medicalAlert.password : '●●●●●●●●'}</p>
+                )}
+              </div>
+            ) : (
+              <div className="h-full flex flex-col items-center justify-center text-center text-gray-400 pt-10">
+                <FiLock className="text-4xl mb-4 text-[#008080]" />
+                <h3 className="text-lg font-medium">Medical Alert Preview</h3>
+                <p className="mt-2">Enter input to see preview</p>
               </div>
             )}
           </div>
-        ) : (
-          <div className="h-full flex flex-col items-center justify-center text-center text-gray-400">
-            <FiLock className="text-4xl mb-4 text-[#008080]" />
-            <h3 className="text-lg font-medium">Medical Alert Preview</h3>
-            <p className="mt-2">Fill the form to see the preview</p>
-          </div>
-        )}
-      </div>
 
-      {/* Footer */}
-      <div className="relative z-10 border-t border-gray-200 text-center text-xs text-gray-500 py-2 bg-white/70">
-        <p>Scan for Medical Info</p>
-        <p className="mt-1">v1.0.0</p>
+          {/* Footer */}
+          <div className="border-t border-gray-200 text-center text-xs text-gray-500 py-2 bg-white">
+            <p>Scan for Medical Info</p>
+            <p className="mt-1">v1.0.0</p>
+          </div>
+        </div>
       </div>
-    </div>
     </div>
   );
 };
