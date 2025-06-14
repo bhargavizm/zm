@@ -20,7 +20,9 @@ const EventPreview = () => {
   const hasBasicInfo = eventsFormData.title || eventsFormData.organizer || eventsFormData.summary;
   const hasSchedule = eventsFormData.fromDate || eventsFormData.toDate;
   const hasLocation = eventsFormData.venue || eventsFormData.address;
-  const hasContact = eventsFormData.contactName || eventsFormData.contactEmail || eventsFormData.contactPhone;
+  const hasContact =
+    eventsFormData.contactName || eventsFormData.contactEmail || eventsFormData.contactPhone;
+  const hasLinks = eventsFormData.buttonLink || eventsFormData.webUrl;
 
   const isVideo = bgDesign?.endsWith('.mp4');
   const isImage = bgDesign && !isVideo;
@@ -36,50 +38,40 @@ const EventPreview = () => {
             alt="Background"
             className="absolute inset-0 w-full h-full object-cover z-0"
           />
-        ) : isVideo ? (
+        ) : (
           <video
-            src={bgDesign}
+            src={isVideo ? bgDesign : "/services-service/event-card.mp4"}
             autoPlay
             loop
             muted
             playsInline
             className="absolute inset-0 w-full h-full object-cover z-0"
           />
-        ) : (
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover z-0"
-          >
-            <source src="/services-service/event-card.mp4" type="video/mp4" />
-          </video>
         )}
-
-        {/* 🧊 White Overlay */}
-        {/* <div className="absolute inset-0 bg-white/90 backdrop-blur-sm z-10" /> */}
 
         {/* ⬛ Notch */}
         <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-6 bg-gray-800 rounded-b-xl z-20" />
 
         {/* 📱 Content */}
         <div className="relative flex-1 pt-2 pb-6 px-4 overflow-y-auto z-20 text-sm">
-          {hasBasicInfo || hasSchedule || hasLocation || hasContact || eventsFormData.buttonLink || eventsFormData.webUrl ? (
+          {hasBasicInfo || hasSchedule || hasLocation || hasContact || hasLinks || eventsFormData.about ? (
             <div className="space-y-4">
               {eventsFormData.title && (
                 <h2 className="text-xl font-bold text-center mt-2">{eventsFormData.title}</h2>
               )}
+
               {eventsFormData.organizer && (
                 <p className="text-gray-500 text-center">
                   Hosted by <span className="font-medium">{eventsFormData.organizer}</span>
                 </p>
               )}
+
               {eventsFormData.summary && (
                 <div className="bg-blue-50 p-3 rounded-lg">
-                  <p className="text-blue-800">{eventsFormData.summary}</p>
+                  <p className="text-[#008080]">{eventsFormData.summary}</p>
                 </div>
               )}
+
               {(eventsFormData.fromDate || eventsFormData.toDate) && (
                 <div className="bg-gray-50 p-3 rounded-lg">
                   <div className="flex items-center text-gray-700 mb-1">
@@ -94,6 +86,7 @@ const EventPreview = () => {
                   )}
                 </div>
               )}
+
               {(eventsFormData.venue || eventsFormData.address) && (
                 <div className="bg-gray-50 p-3 rounded-lg">
                   <div className="flex items-center text-gray-700 mb-1">
@@ -104,13 +97,15 @@ const EventPreview = () => {
                   {eventsFormData.address && <p className="text-gray-600">{eventsFormData.address}</p>}
                 </div>
               )}
+
               {eventsFormData.about && (
                 <div>
                   <h3 className="font-medium mb-1">About</h3>
                   <p className="text-gray-600">{eventsFormData.about}</p>
                 </div>
               )}
-              {(eventsFormData.contactName || eventsFormData.contactEmail || eventsFormData.contactPhone) && (
+
+              {hasContact && (
                 <div className="bg-gray-50 p-3 rounded-lg">
                   <div className="flex items-center text-gray-700 mb-1">
                     <FiUser className="mr-2" />
@@ -118,13 +113,18 @@ const EventPreview = () => {
                   </div>
                   {eventsFormData.contactName && <p>{eventsFormData.contactName}</p>}
                   {eventsFormData.contactEmail && (
-                    <p className="flex items-center"><FiMail className="mr-2" />{eventsFormData.contactEmail}</p>
+                    <p className="flex items-center">
+                      <FiMail className="mr-2" /> {eventsFormData.contactEmail}
+                    </p>
                   )}
                   {eventsFormData.contactPhone && (
-                    <p className="flex items-center"><FiPhone className="mr-2" />{eventsFormData.contactPhone}</p>
+                    <p className="flex items-center">
+                      <FiPhone className="mr-2" /> {eventsFormData.contactPhone}
+                    </p>
                   )}
                 </div>
               )}
+
               {eventsFormData.buttonLink && (
                 <a
                   href={`https://${eventsFormData.buttonLink}`}
@@ -132,15 +132,16 @@ const EventPreview = () => {
                   rel="noreferrer"
                   className="block"
                 >
-                  <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                  <button className="w-full bg-[#008080] text-white py-3 rounded-lg font-medium hover:bg-[#1c3333] transition-colors cursor-pointer">
                     {eventsFormData.buttonLabel || 'Get Tickets'}
                   </button>
                 </a>
               )}
+
               {eventsFormData.webUrl && (
                 <a
                   href={`https://${eventsFormData.webUrl}`}
-                  className="flex items-center justify-center text-blue-600 hover:text-blue-800 mt-3"
+                  className="flex items-center justify-center text-[#008080] hover:text-[#1c3333] mt-3"
                   target="_blank"
                   rel="noreferrer"
                 >
