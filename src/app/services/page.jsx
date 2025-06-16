@@ -9,6 +9,7 @@ const ServicesPage = () => {
   const [services, setServices] = useState([]);
   const [filteredServices, setFilteredServices] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [expanded, setExpanded] = useState({});
 
   useEffect(() => {
     import("../data/services.jsx")
@@ -16,7 +17,7 @@ const ServicesPage = () => {
         const data = module.default;
         if (Array.isArray(data)) {
           setServices(data);
-          setFilteredServices(data); // Initially show all
+          setFilteredServices(data);
         } else {
           console.error("services.jsx did not return an array.");
         }
@@ -26,7 +27,6 @@ const ServicesPage = () => {
       });
   }, []);
 
-  // Filter services when search query changes
   useEffect(() => {
     const query = searchQuery.toLowerCase();
     const filtered = services.filter(
@@ -37,26 +37,30 @@ const ServicesPage = () => {
     setFilteredServices(filtered);
   }, [searchQuery, services]);
 
+  const toggleExpand = (slug) => {
+    setExpanded((prev) => ({
+      ...prev,
+      [slug]: !prev[slug],
+    }));
+  };
+
   return (
-    <div className="py-12 bg-[rgb(0,128,128)] ">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="py-12 bg-[rgb(0,128,128)]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 ">
         {/* Search Bar */}
-
-        <div className="mb-10 my-18 flex justify-end ">
-          <div className="relative w-full max-w-sm focus-within:max-w-md transition-all duration-300 flex justify-end group shadow-2xl">
-            {/* Search Icon */}
-            <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-teal-200 text-lg pointer-events-none transition-colors duration-300 group-focus-within:text-white" />
-
-            {/* Input Field */}
+        <div className="mb-10 flex justify-end pt-20">
+          <div className="relative w-full max-w-sm transition-all duration-300 group shadow-2xl">
+            <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-mainGreen text-lg pointer-events-none group-focus-within:text-mainGreen" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search services..."
-              className="w-full pl-12 pr-4 py-3 rounded-lg bg-teal-700/60 text-white placeholder:text-teal-200 border border-white/20 focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-teal-300 shadow-md transition-all duration-300"
+              className="w-full pl-12 pr-4 py-3 rounded-lg bg-white text-darkGreen font-bold placeholder:text-teal-800 border border-white/20 focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-teal-900 shadow-md"
             />
           </div>
         </div>
+
         {/* Services Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {filteredServices.map((service, index) => (
@@ -98,13 +102,35 @@ const ServicesPage = () => {
                   </div>
                 )}
 
-                <p className="text-xs text-gray-600">{service.description}</p>
+                {/* Description with Read More */}
+                <div>
+                  <p
+                    className={`text-xs text-gray-600 transition-all duration-300 ${
+                      expanded[service.slug] ? "" : "line-clamp-3"
+                    }`}
+                  >
+                    {service.description}
+                  </p>
+                  <div className="text-right">
+                  {service.description.length > 100 && (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault(); // Prevents Link navigation
+                        toggleExpand(service.slug);
+                      }}
+                      className="text-xs  text-teal-600 my-2 underline"
+                    >
+                      {expanded[service.slug] ? "Show less" : "Read more"}
+                    </button>
+                  )}
+                  </div>
+                </div>
               </div>
             </Link>
           ))}
         </div>
 
-        {/* No Results Message */}
         {filteredServices.length === 0 && (
           <p className="text-center text-white mt-10 text-lg">
             No services found.

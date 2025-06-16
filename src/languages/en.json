@@ -11,5 +11,496 @@
         "subheading": "The Best Solution for Generating Thousands of QR Codes or eBusiness Cards",
         "paragraph1": "ZM QR Code Services lets you design QR codes featuring your brand’s logo, enhancing recognition and improving customer interaction. Seamlessly aligned with your visual identity, our custom QR codes stand out in both digital formats and printed materials, giving your marketing a unique and professional flair.",
         "paragraph2": "Easily create thousands of QR codes or digital business cards in minutes with our highly acclaimed Bulk QR Code Generator. Simplify your workflow and save valuable time by automating the generation of multiple QR codes in one go. Just upload your Excel or CSV files, and our system will handle the rest. With our customizable QR generator, you can tailor every QR code to reflect your brand—modify colors, shapes, and sizes, and even insert your logo or images. The outcome: Professionally branded, high-resolution QR codes that are fully compatible with all devices, including iPhones and Android smartphones. Sign up today to unlock the full potential of our Bulk QR Code Generator and elevate your brand visibility like never before!"
+    },
+    "createLogo": {
+        "heading": "Create Branded QR Codes with Your Logo",
+        "subheading": "Attract, Impress, and Convert with ZM QR Code Services",
+        "paragraph1": "ZM QR Code Services enables you to design QR codes featuring your brand’s logo, enhancing recognition and customer engagement. Available in digital and print formats, our custom QR codes give your marketing a professional edge.",
+        "paragraph2": "Our user-friendly platform empowers you to create attractive, functional, high-quality, and fully customizable QR codes. Whether linking to a homepage, product listings, social channels, or special promotions, ZM QR Code Services turns every QR code into a strategic marketing asset. Enjoy advanced design flexibility, comprehensive engagement analytics, and high-resolution output for smooth scanning on all devices.",
+        "paragraph3": "With ZM QR Code Services, every scan becomes an opportunity — helping you connect with your audience, strengthen your brand, and drive meaningful conversions."
+    },
+    "imageQR": {
+        "heading": "Image to QR Code",
+        "paragraph": "Turn your logo into a QR Code that grabs attention! In just about 5 minutes, you’ll master the process and create stunning QR Codes that even professionals would admire."
+    },
+    "demo": {
+        "heading": "Book a personalized demo tailored to your use case with one of our QR code experts.",
+        "button": "Schedule a Demo"
+    },
+    "security": {
+        "heading": "Experience Superior Security with ZM QR Code Services",
+        "subheading": "Your peace of mind matters: we ensure data protection is integrated at every level of our system."
+    },
+    "qrDesignSection": {
+        "heading": "A perfect combination of QR Design, Marketing and Management",
+        "paragraph": "Customize and create QR code with logo, color, and shape to attract more scans"
+    },
+    "customerReviews": {
+        "heading": "Hear What Our Customers Have to Say!",
+        "ratings": {
+            "rating1": "⭐⭐⭐⭐⭐ 4.5/5",
+            "reviewText1": "Based on 48,000+ reviews on ZM QR Code Services",
+            "rating2": "⭐⭐⭐⭐⭐",
+            "reviewText2": "Trusted by companies across India – for all industries"
+        },
+        "testimonials": [
+            {
+                "title": "Impressive design options that amplify QR appeal!",
+                "content": "ZM QR Code Services exceeded all expectations. I found QR generation to be simple, intuitive, and surprisingly powerful. The variety of templates allowed me to design high-quality QR codes tailored to different use cases — from WhatsApp links to brochures. With just a few clicks, I was able to create visually stunning, branded QR codes. It’s easily the most user-friendly and flexible QR tool I’ve used.",
+                "author": "Rajesh Mehta – Marketing Director"
+            },
+            {
+                "title": "Effortless bulk QR generation process!",
+                "content": "I had to prepare personalized QR codes for a national HR onboarding event across multiple cities. With ZM’s bulk generator, I simply uploaded a CSV file with employee details and generated 200+ QR codes in under a minute. The automation saved hours of manual work. On top of that, each code was branded and pre-formatted — no additional tweaking needed. Incredible tool!",
+                "author": "Pooja Sharma – HR Head, Zenith Tech"
+            },
+            {
+                "title": "Game-changing service with powerful insights!",
+                "content": "ZM QR Code Services helped us track real-time engagement across our campaign banners and email signatures. The analytics dashboard shows exactly how many scans, when, and from which location. We identified peak engagement times and optimized our marketing accordingly. This data-driven approach gave us a significant edge in converting leads.",
+                "author": "Amit Desai – Growth Strategist"
+            },
+            {
+                "title": "Customization made our campaigns stand out",
+                "content": "As a design-centric brand, we needed QR codes that aligned with our visual identity. ZM allowed us to choose unique shapes, change colors, and even embed our logo seamlessly. The results were stunning — elegant QR codes that matched our flyers, product tags, and packaging. It’s rare to find a QR solution that understands the importance of branding so well.",
+                "author": "Divya Nair – Creative Lead, Bloom & Co."
+            },
+            {
+                "title": "Seamless API integration for developers",
+                "content": "As a backend engineer, I integrated the ZM QR Code API into our CRM in just a few hours. The API documentation is clear, concise, and comes with useful examples. We now auto-generate dynamic QR codes every time a new customer is registered. ZM offers developer-friendly solutions with enterprise-grade reliability.",
+                "author": "Karan Patel – Senior Developer, FinEdge"
+            },
+            {
+                "title": "Reliable platform with exceptional uptime",
+                "content": "We’ve relied on ZM QR Code Services to power logistics QR labels across our nationwide network. Over the past 6 months, we’ve generated more than 10,000 QR codes — not a single error or downtime. Every code scanned successfully on mobile and handheld scanners. This level of reliability is rare and exactly what our operations needed.",
+                "author": "Sneha Rao – Operations Manager, DeliverX"
+            }
+        ]
+    },
+    "marketingFeatures": {
+        "heading": "Leading QR Code Marketing and Management Tools",
+        "subheading": "A reliable QR Code solution equipped with powerful, next‑gen features.",
+        "items": [
+            {
+                "title": "Generate Static",
+                "description": "Advanced tools to design and manage QRs",
+                "image": "/images/home/marketing-1.svg"
+            },
+            {
+                "title": "Advanced Analytics to Track Scans",
+                "description": "Location, time, device, OS, browser",
+                "image": "/images/home/marketing-2.svg"
+            },
+            {
+                "title": "Bulk Upload and Bulk Download QRs",
+                "description": "Upload QRs via excel or download QRs in zip and pdf",
+                "image": "/images/home/marketing-3.svg"
+            },
+            {
+                "title": "Integrate with Google Analytics",
+                "description": "Download analytics in excel or integrate with Google",
+                "image": "/images/home/marketing-4.svg"
+            },
+            {
+                "title": "Customize Domains with White‑Labeling",
+                "description": "Use your short URLs and landing page URLs",
+                "image": "/images/home/marketing-5.svg"
+            },
+            {
+                "title": "Beautiful vCard Plus and Landing Pages",
+                "description": "Beautiful mesmerizing professional designs",
+                "image": "/images/home/marketing-6.svg"
+            },
+            {
+                "title": "QR Code Design Customization",
+                "description": "Exciting shapes, colors, logo, stickers and 3D effect",
+                "image": "/images/home/marketing-7.svg"
+            },
+            {
+                "title": "Free Account with Upgrade Options",
+                "description": "Free basic plan; flexible payment options for upgrades",
+                "image": "/images/home/marketing-8.svg"
+            }
+        ]
+    },
+    "qrCodeTracking": {
+        "imageAlt": "QR Dashboard",
+        "heading": "Track QR Code Performance in Offline Campaigns",
+        "subheading": "The Best Solution for Generating Thousands of QR Codes or eBusiness Cards",
+        "paragraph1": "Connect offline marketing with digital engagement. With ZM QR Code Services, you can create static QR codes that direct users from printed materials like brochures, posters, or flyers straight to your website or landing page—making the offline-to-online transition seamless.",
+        "paragraph2": "Even with static QR codes, you can still compare engagement across various campaigns. By using different static QR codes for each printed asset or distribution channel, you can monitor which materials are drawing the most attention through scan volume.",
+        "paragraph3": "Organize your campaigns with ease using folders and labels, and gain insights by manually comparing which QR version generates more interaction—helpful for A/B testing between print formats or audience segments.",
+        "paragraph4": "Track scan volume and estimate success rates by evaluating the actions users take after scanning—like visiting your site, viewing a product, or contacting you.",
+        "paragraph5": "Start using our free Static QR Code Generator today—no sign-up required to begin creating beautiful, branded QR codes for your print campaigns."
+    },
+    "footer": {
+        "aboutUs": "About Us",
+        "blogs": "Blogs",
+        "pricing": "Pricing",
+        "privacy": "Privacy",
+        "terms": "Terms & Conditions",
+        "careers": "Careers",
+        "investors": "Investors",
+        "faq": "FAQ",
+        "refundPolicy": "Refund Policy",
+        "servicesTitle": "Services",
+        "serviceList": [
+            "Generate QR Code for Business Cards",
+            "Generate QR Code for Products",
+            "Generate QR Code for V Cards",
+            "Generate QR Code for Form QR Code",
+            "Generate QR Code for Pet Id Tag",
+            "Generate QR Code for PDF",
+            "Generate QR Code for Audio",
+            "Generate QR Code for Video",
+            "Generate QR Code for Image Gallery"
+        ],
+        "followUs": "Follow Us",
+        "getInTouch": "Get In Touch",
+        "emailLabel": "Email",
+        "phoneLabel": "Phone",
+        "email": "support@zmqrcode.com",
+        "phone": "+91 10000 00000",
+        "copyright": "ZM QR Code Services © 2025. All Rights Reserved."
+    },
+    "career": {
+        "header": {
+            "login": "LOGIN"
+        },
+        "search": {
+            "findJob": "Find Your DREAM JOB Here",
+            "description": "At ZM QR Code Services, we’re more than a leading QR code solutions provider — we’re a place where innovation meets opportunity.",
+            "placeholderRole": "Software Engineer",
+            "placeholderLocation": "Guntur",
+            "buttonSearch": "Search",
+            "buttonClear": "Clear"
+        },
+        "section1": {
+            "quote": "To Gain Global Leadership in providing Technical Solutions through Sustained Innovation.",
+            "subtitle": "Power Your Brand with ZM's Advanced QR Code Features"
+        },
+        "currentOpenings": {
+            "title": "Current Openings"
+        },
+        "premiumSection": {
+            "title": "Elevate Your Business with ZM’s Premium QR Code Services",
+            "description": "We empower businesses with static QR solutions that include AI, analytics, branding and customer engagement tools.",
+            "button": "Start your journey now"
+        },
+        "features": {
+            "staticQR": "Static QR Creation",
+            "aiFeatures": "AI-Enhanced Features",
+            "analytics": "Real‑time Analytics",
+            "security": "Secure & Scalable"
+        },
+        "innovate": {
+            "title": "Innovate with Cutting‑Edge Technologies",
+            "description": "Join our team of passionate developers, designers, and thinkers to craft the future of QR technology with AI and automation.",
+            "button": "See Open Roles"
+        },
+        "whyWork": {
+            "title": "Why Work With ZM?",
+            "description": "At ZM QR Code Services, we're redefining how businesses and consumers connect through smart, secure, and scalable QR solutions.",
+            "benefits": {
+                "innovative": {
+                    "title": "Innovative Work Environment",
+                    "description": "Work on cutting-edge projects that blend QR technology, A.I. integration, and IoT automation."
+                },
+                "growth": {
+                    "title": "Growth-Focused Culture",
+                    "description": "We support learning, experimentation, and professional development at every level."
+                },
+                "impact": {
+                    "title": "Impactful Roles",
+                    "description": "Your ideas won’t sit on the sidelines. At ZM, your work directly shapes the customer experience."
+                }
+            },
+            "button": "Start your journey now"
+        },
+        "testimonials": {
+            "title": "Life at ZM – What Our Team Says",
+            "quote": "“Working at ZM is more than a job – it’s a place to grow, innovate, and make a real impact.”"
+        },
+        "comingSoon": {
+            "text": "Career Blogs & Interactive Pop‑ups – Coming Soon!"
+        }
+    },
+    "investor": {
+        "partner": "Partner with ZM QR Code Services",
+        "scan_store_connect_grow": "Scan | Store | Connect | Grow",
+        "hero_description": "Transforming how businesses and individuals use QR codes for digital identity, smart links, and interactive experiences.",
+        "download_pitch": "Download Pitch Deck",
+        "schedule_meeting": "Schedule a Meeting",
+        "company_growth": "Company Growth Highlights",
+        "yoy_growth": "Year-on-Year Growth",
+        "active_users": "Active Users",
+        "arr": "ARR",
+        "enterprise_clients": "Enterprise Clients",
+        "investment_opportunity": "Investment Opportunities",
+        "we_are_raising": "We are raising ₹5 Cr in Series A funding to accelerate our growth, expand our team, and capture a rapidly growing market.",
+        "funding_round": "Funding Round",
+        "target_amount": "Target Amount",
+        "valuation": "Valuation",
+        "use_of_funds": "Use of Funds",
+        "why_invest_zm": "Why Invest in ZM?",
+        "bullet_1": "Booming demand for QR-based smart solutions",
+        "bullet_2": "Unique features like multilinks, analytics, vCard+, and branding",
+        "bullet_3": "Strong customer retention & rapidly expanding user base",
+        "bullet_4": "Scalable tech infrastructure ready for global deployment",
+        "qr_insights": "QR Code Industry Insights",
+        "qr_industry_growth": "QR Industry Growth",
+        "qr_industry_growth_summary": "According to BARC India and Nielsen reports, QR code usage in India grew by 550% in 2020 compared to 2019.",
+        "mobile_first_future": "Mobile‑First Future",
+        "mobile_first_summary": "With over 5.3 billion smartphone users relying on mobile scanning, QR code usage is on the rise.",
+        "contactless_revolution": "Contactless Revolution",
+        "contactless_summary": "QR codes became essential post-pandemic for touchless interaction & marketing.",
+        "contact_description": "We welcome investors who believe in technology-driven growth. Contact us to learn more.",
+        "email": "invest@zmqrcode.com",
+        "phone": "+91 90000 12345",
+        "contact_ir": "Contact Investor Relations",
+        "footer": "© {year} ZM QR Code Services. All rights reserved."
+    },
+    "about": {
+        "title": "About Us",
+        "intro": {
+            "heading": "About Us",
+            "text": "At ZMQR, we're transforming the future of QR technology with seamless service, secure storage, and innovative solutions that drive efficiency and engagement."
+        },
+        "sections": {
+            "vision": {
+                "title": "Vision",
+                "text": "We offer advanced QR code solutions tailored to business needs. Our analytics, integrations, and digital strategies empower seamless connections and smarter decisions."
+            },
+            "mission": {
+                "title": "Mission",
+                "text": "To deliver innovative and intuitive QR solutions that enhance engagement, streamline workflows, and drive business growth through technology."
+            },
+            "goals": {
+                "title": "Goals",
+                "list": [
+                    "To consistently innovate and create tailored QR code solutions.",
+                    "To empower businesses of all scales to leverage modern technology.",
+                    "To remain a trusted digital transformation partner."
+                ]
+            }
+        },
+        "team": {
+            "title": "Our Team",
+            "description": "A dedicated and passionate team of technologists, designers, and strategists working together to revolutionize digital access and QR code-driven efficiency."
+        },
+        "values": {
+            "innovation": {
+                "title": "Innovation",
+                "description": "We value innovation in every aspect of our work, driving our mission forward with passion and purpose."
+            },
+            "integrity": {
+                "title": "Integrity",
+                "description": "We value integrity in every aspect of our work, driving our mission forward with passion and purpose."
+            },
+            "excellence": {
+                "title": "Excellence",
+                "description": "We value excellence in every aspect of our work, driving our mission forward with passion and purpose."
+            }
+        },
+        "footer": "© ZMQR Code Services. All rights reserved."
+    },
+    "reselling": {
+        "header": {
+            "title": "Unlock Digital Business Growth: Own a ZM QR Code Services Franchise!",
+            "subtitle": "Join the Future of Connectivity – Your Path to a Thriving Digital Business Starts Here.",
+            "ctaPrimary": "Get Started Today",
+            "ctaSecondary": "Schedule a Discovery Call"
+        },
+        "whyZMQr": {
+            "title": "Why ZM QR Code?",
+            "features": [
+                {
+                    "title": "Booming Market",
+                    "description": "Tap into the exploding demand for QR Codes."
+                },
+                {
+                    "title": "Proven Model",
+                    "description": "Leverage our tested & profitable business system."
+                },
+                {
+                    "title": "Diverse Services",
+                    "description": "Offer a full spectrum of high-demand QR Solutions."
+                },
+                {
+                    "title": "Cutting-Edge Tech",
+                    "description": "Access proprietary, user-friendly platform."
+                },
+                {
+                    "title": "Dedicated Support",
+                    "description": "Benefit from comprehensive training & ongoing guidance."
+                },
+                {
+                    "title": "Recurring Revenue",
+                    "description": "Build a sustainable business with subscription models."
+                }
+            ]
+        },
+        "qrTransformation": {
+            "title": "How QR Codes Transform Businesses",
+            "description": "From streamlined payments to interactive marketing, QR codes are revolutionizing industries."
+        },
+        "testimonials": {
+            "title": "What Our Partners Say",
+            "quotes": [
+                {
+                    "text": "Partnering with ZM QR Code Services has been a game-changer for our business. The support is incredible!",
+                    "author": "Navya L., Franchisee"
+                },
+                {
+                    "text": "Their platform is so easy to use and our clients love the QR solutions. Highly recommend!",
+                    "author": "Joseph., Business Owner"
+                },
+                {
+                    "text": "The recurring revenue model is fantastic. ZM QR Code has helped us achieve significant growth.",
+                    "author": "Krishna., Entrepreneur"
+                }
+            ]
+        },
+        "franchiseAdvantages": {
+            "title": "Your Blueprint for Success: The ZM QR Code Advantage",
+            "subtitle": "Discover the unmatched benefits of partnering with a leader in digital connectivity.",
+            "sections": [
+                {
+                    "title": "The Market Opportunity",
+                    "description": "Tap into the explosive growth of QR code usage across various industries.",
+                    "points": [
+                        "QR code usage surged by X% last year.",
+                        "Y% of consumers prefer QR for payments and information access.",
+                        "Diverse industries (retail, F&B, healthcare, events, marketing) demand QR solutions."
+                    ]
+                },
+                {
+                    "title": "Our Proven Business Model",
+                    "description": "Leverage a low-overhead, scalable business model designed for recurring revenue.",
+                    "points": [
+                        "Recurring revenue potential from dynamic QR codes and platform subscriptions.",
+                        "Low overhead and high scalability.",
+                        "Efficient and automated system for streamlined operations."
+                    ]
+                }
+            ]
+        },
+        "investment": {
+            "title": "Your Zero Investment, Our Commitment: Building Success Together",
+            "subtitle": "Understand the financial roadmap and the extensive support network you'll receive.",
+            "table": {
+                "headers": [
+                    "Item",
+                    "Estimated Cost Range"
+                ],
+                "rows": [
+                    [
+                        "Initial Franchise Fee",
+                        "0/-"
+                    ],
+                    [
+                        "Training & Travel Expenses",
+                        "0/-"
+                    ],
+                    [
+                        "Initial Marketing Spend",
+                        "0/-"
+                    ],
+                    [
+                        "Technology Setup & Software",
+                        "0/-"
+                    ],
+                    [
+                        "Additional Working Capital (3 months)",
+                        "0/-"
+                    ],
+                    [
+                        "Total Estimated Initial Investment",
+                        "0/-"
+                    ],
+                    [
+                        "Marketing & Sales Toolkit",
+                        "Depends"
+                    ]
+                ]
+            },
+            "support": {
+                "title": "What You Get with Your ZM Franchise",
+                "points": [
+                    "Comprehensive Training Program: Initial intensive training covering sales, technology, and operations.",
+                    "Dedicated Support Team: Ongoing assistance and guidance, and extensive resource library.",
+                    "ZM Proprietary Platform Access: Cutting-edge software and analytics dashboard."
+                ]
+            }
+        },
+        "process": {
+            "title": "Your Journey to Becoming a ZM Franchisee",
+            "subtitle": "A simple, transparent process to launch your own successful QR Code business.",
+            "steps": [
+                {
+                    "title": "Inquiry & Information Request",
+                    "description": "Fill out the online form and download our comprehensive Franchise Info Packet."
+                },
+                {
+                    "title": "Initial Discovery Call",
+                    "description": "Engage in a brief, no-obligation chat with our Franchise Development Team."
+                },
+                {
+                    "title": "Review Franchise Disclosure Document (FDD)",
+                    "description": "Dive deep into the legal and financial details of the opportunity."
+                },
+                {
+                    "title": "Territory Agreement & Franchise Agreement",
+                    "description": "Finalize your exclusive territory and sign the official franchise agreement."
+                },
+                {
+                    "title": "Comprehensive Training",
+                    "description": "Participate in our intensive training program designed for successful launch."
+                },
+                {
+                    "title": "Grand Opening & Ongoing Support",
+                    "description": "Launch your ZM franchise with our continued guidance and support."
+                }
+            ]
+        },
+        "contact": {
+            "title": "Connect with Our Franchise Development Team",
+            "subtitle": "We're here to answer your questions and guide you through the ZM opportunity.",
+            "form": {
+                "labels": {
+                    "name": "Name",
+                    "email": "Email",
+                    "phone": "Phone Number",
+                    "region": "Preferred Region/City for Franchise",
+                    "bestTime": "Best Time to Call",
+                    "message": "Message/Questions"
+                },
+                "placeholders": {
+                    "bestTime": "e.g., Weekdays, 10 AM - 2 PM"
+                }
+            },
+            "footer": {
+                "email": "franchise@zmqrcodeservices.com",
+                "phone": "[Your Franchise Contact Number]",
+                "links": [
+                    "Privacy Policy",
+                    "Terms of Service",
+                    "Franchise Disclaimer"
+                ]
+            }
+        }
+    },
+    "refund_policy": {
+        "title": "Refund Policy",
+        "intro": "Thank you for choosing our services. Please read the details of our refund policy carefully:",
+        "points": [
+            "Refunds are not provided for digital services once access is granted.",
+            "This includes software tools, QR code generators, and learning material.",
+            "All digital products are considered final sale."
+        ],
+        "strict_policy": "ZM QR Code Services maintains a strict no-refund policy after activation.",
+        "support_info": "If you encounter issues, please contact our team. We are happy to assist with technical support and billing clarification.",
+        "contact_prompt": "For inquiries, visit our",
+        "contact_link": "Contact Us",
+        "contact_suffix": "page."
     }
 }

@@ -2,8 +2,10 @@
 
 import React from "react";
 import Image from "next/image";
+import { useLanguage } from '@/context/languageContext/LanguageContext';
 
 const ImageToQR = () => {
+    const { dictionary } = useLanguage();
   return (
     <section
       style={{
@@ -12,11 +14,15 @@ const ImageToQR = () => {
       }}
       className="py-20 padding-lr  min-h-screen flex flex-col items-center justify-center"
     >
-      <h2 className="text-white text-4xl font-bold mb-6">Image to QR Code</h2>
-      <p className="text-slate-400 text-lg text-center">
+      {/* <h2 className="text-white text-4xl font-bold mb-6">Image to QR Code</h2> */}
+      <h2 className="text-white text-4xl font-bold mb-6">{dictionary.imageQR.heading}</h2>
+      {/* <p className="text-slate-400 text-lg text-center">
         Turn your logo into a QR Code that grabs attention! In just about 5
         minutes, you’ll master the process and create stunning QR Codes that
         even professionals would admire.
+      </p> */}
+      <p className="text-slate-400 text-lg text-center">
+        {dictionary.imageQR.paragraph}
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 pb-6">
@@ -82,7 +88,7 @@ const ImageToQR = () => {
         <div className="animated-borders">
           <div className="animated-border-outer">
             <Image
-              src="/images/scan.png"
+              src="/images/home/scan.png"
               alt="Image to QR Code"
               width={200}
               height={200}
@@ -93,7 +99,7 @@ const ImageToQR = () => {
 
         <div>
           <Image
-            src="/images/image-qr-5.png"
+            src="/images/home/image-qr-5.png"
             alt="Image to QR Code"
             width={700} // increased from 500
             height={700}

@@ -1,14 +1,17 @@
-
-
 "use client";
 
 import Image from "next/image";
 import React, { useState } from "react";
 import DemoForm from "./demoForm/demoForm";
-import AnimatedButton from "@/components/animatedButton/animatedButton";
+import { useLanguage } from '@/context/languageContext/LanguageContext';
 
 const ScheduleDemo = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { dictionary } = useLanguage();
+
+  // Safe fallback values
+  const heading = dictionary?.demo?.heading || "Schedule a personalized demo with our QR experts.";
+  const buttonText = dictionary?.demo?.button || "Schedule a Demo";
 
   return (
     <>
@@ -33,15 +36,15 @@ const ScheduleDemo = () => {
           {/* Text + Button Column */}
           <div className="col-span-12 lg:col-span-6 text-center lg:text-left">
             <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-4 leading-snug text-darkGreen">
-              Book a personalized demo tailored to your use case with one of our QR code experts.
+              {heading}
             </h2>
 
-            <AnimatedButton
+            <button
               onClick={() => setIsOpen(true)}
-              className="w-full max-w-xs mx-auto lg:mx-0"
+              className="w-full max-w-xs mx-auto lg:mx-0 px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
             >
-              Schedule a Demo
-            </AnimatedButton>
+              {buttonText}
+            </button>
           </div>
         </div>
       </section>
