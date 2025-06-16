@@ -58,9 +58,16 @@ const ServicesProvider = ({ children }) => {
     selectedTemplate: null,
   });
   const [productImage, setProductImage] = useState(null);
+  // Audio
+  const [audioFormData, setAudioFormData] = useState({
+    title: "",
+    description: "",
+    file: null,
+    password: "",
+  });
 
-  // Audio/Video (Original structure)
-  const [titleFormData, setTitleFormData] = useState({
+  // video
+  const [videoFormData, setVideoFormData] = useState({
     title: "",
     description: "",
     file: null,
@@ -321,6 +328,17 @@ const ServicesProvider = ({ children }) => {
         title: "OUR STORY",
         description: "Experience the best at our shop!",
       },
+      template5Data: {
+        brandName: "HANOVER AND TYKE",
+        highlightText: "ENJOY A SPECIAL 10% OFF",
+        tagline: "Elevate",
+        subTagline: "Your Look",
+        offerMessage: "AVAILABLE UNTIL 8 NOVEMBER 2030",
+        backgroundColor: "#000000", // black background
+        textColor: "#ffffff",       // white text
+        fontFamily: "Montserrat, sans-serif",
+      },
+
       password: "",
     },
     discountCoupon: {
@@ -410,12 +428,13 @@ const ServicesProvider = ({ children }) => {
   return (
     <ServicesContext.Provider
       value={{
+        audioFormData, setAudioFormData,
+        videoFormData, setVideoFormData,
         businessForm, setBusinessForm,
         profileImage, setProfileImage,
         brandLogo, setBrandLogo,
         productData, setProductData,
         productImage, setProductImage,
-        titleFormData, setTitleFormData,
         imagesFormData, setImagesFormData,
         resumeFormData, setResumeFormData,
         // kidsSafetyFormData and setKidsSafetyFormData are removed here because they are

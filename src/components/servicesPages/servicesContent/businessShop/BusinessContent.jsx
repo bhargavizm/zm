@@ -114,6 +114,22 @@ const BusinessContent = () => {
              
             </div>
 
+             {/* Template 4 Video */}
+             <div
+              className={`relative cursor-pointer rounded-lg overflow-hidden border-2 ${
+                shopTimingsTemplate.selectedTemplate === 'template3' ? 'border-teal-500 ring-2 ring-teal-300' : 'border-gray-300 hover:border-gray-400'
+              } transition-all duration-200 shadow-sm hover:shadow-md`}
+              onClick={() => handleTemplateSelect('template4')}
+            >
+              <img
+                src="/images/templates/businessShop4.jpg"
+                alt="Template 2: We're Open"
+                className="w-full h-auto object-cover"
+              />
+             
+            </div>
+
+
             {/* Clear Selection / No Template Option */}
             <div
               className={`relative cursor-pointer rounded-lg overflow-hidden border-2 ${
@@ -121,7 +137,7 @@ const BusinessContent = () => {
               } transition-all duration-200 shadow-sm hover:shadow-md`}
               onClick={() => handleTemplateSelect('none')}
             >
-              <h1>Manuall</h1>
+              <h1 className='text-center text-bold'>Manuall</h1>
               
             </div>
 

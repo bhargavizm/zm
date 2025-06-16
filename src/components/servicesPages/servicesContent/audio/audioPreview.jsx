@@ -56,15 +56,13 @@ const AudioPreview = () => {
   const { title, description, file, password } = audioFormData || {};
   const fileName = file ? file.name : "No file selected";
 
-  // Determine if selected background is a video or image
   const isVideo = bgDesign?.endsWith(".mp4");
   const isImage = bgDesign && !isVideo;
 
   return (
     <div className="flex justify-center items-center w-full">
       <div className="relative w-[350px] h-[550px] border-4 border-[#001a1a] rounded-3xl shadow-2xl overflow-hidden">
-
-        {/* Background Display: Image, Video, or Default Video */}
+        {/* Background */}
         {isImage ? (
           <img
             src={bgDesign}
@@ -94,24 +92,33 @@ const AudioPreview = () => {
         )}
 
         {/* Foreground Content */}
-        <div className="relative z-10 w-full h-full p-4 flex flex-col items-center justify-center space-y-4 text-white text-center bg-black/30">
-          <div>
-            <p className="text-xs font-semibold">Title</p>
-            <p className="text-sm font-bold">{title || ""}</p>
-          </div>
-          <div>
-            <p className="text-xs font-semibold">Description</p>
-            <p className="text-sm font-medium whitespace-pre-wrap">
-              {description || ""}
-            </p>
-          </div>
-          <div>
-            <p className="text-xs font-semibold">Audio File</p>
-            <p className="text-teal-200 text-base">🎧 {fileName}</p>
-          </div>
-          <div>
-            <p className="text-xs font-semibold">Password</p>
-            <p className="text-white">{password ? "••••••••" : "Not set"}</p>
+        <div className="relative z-10 w-full h-full px-4 py-6 text-white text-center bg-black/30 overflow-hidden">
+          <div className="flex flex-col gap-4 h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-transparent pr-1">
+            {/* Title */}
+            <div className="break-words">
+              <p className="text-xs font-semibold">Title</p>
+              <p className="text-sm font-bold break-words">{title || ""}</p>
+            </div>
+
+            {/* Description */}
+            <div className="break-words">
+              <p className="text-xs font-semibold">Description</p>
+              <p className="text-sm font-medium whitespace-pre-wrap break-words">
+                {description || ""}
+              </p>
+            </div>
+
+            {/* Audio File */}
+            <div>
+              <p className="text-xs font-semibold">Audio File</p>
+              <p className="text-teal-200 text-base truncate">🎧 {fileName}</p>
+            </div>
+
+            {/* Password */}
+            <div>
+              <p className="text-xs font-semibold">Password</p>
+              <p className="text-white">{password ? "••••••••" : "Not set"}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -120,3 +127,4 @@ const AudioPreview = () => {
 };
 
 export default AudioPreview;
+
