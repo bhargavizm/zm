@@ -7,7 +7,7 @@ const BulkQRGenerator = () => {
   const { dictionary } = useLanguage();
   return (
     <>
-      <section className="bg-white padding-lr py-20">
+      <section className="bg-white padding-lr py-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           <div className="lg:col-span-8">
             {/* <h2 className="text-mainGreen font-bold text-4xl mb-3 ">
@@ -47,12 +47,12 @@ const BulkQRGenerator = () => {
           <Image src='/images/qr-code.jpg' alt="create-branded-logo" fill   className="max-w-full h-auto"/>
           </div> */}
           <div className="lg:col-span-4">
-            <div className="relative w-full h-64 md:h-80 lg:h-96">
+            <div className="relative w-full h-72 md:h-80 lg:h-96">
               <Image
                 src="/images/home/bulk.webp"
                 alt="create-branded-logo"
                 width={400}
-                height={400}
+                height={350}
                 className="object-contain"
                 
                 priority

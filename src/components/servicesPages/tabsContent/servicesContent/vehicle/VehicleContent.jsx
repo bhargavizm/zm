@@ -107,9 +107,12 @@ const VehicleContent = () => {
   const imageFieldsConfig = [
     { key: "vehicleFrontImage", label: "Vehicle Front View" },
     { key: "vehicleSideImage", label: "Vehicle Side View" },
-    { key: "rcImage", label: "RC Document Image" },
-    { key: "licenseImage", label: "Driving License Image" },
+    { key: "rcImageFront", label: "RC Document Front Image" },
+    { key: "rcImageBack", label: "RC Document Back Image" },
+    { key: "licenseImageFront", label: "Driving License Front Image" },
+    { key: "licenseImageBack", label: "Driving License Back Image" },
     { key: "ownerImage", label: "Owner Photo" },
+    { key: "vehiclePermit", label: "National/Domestic Permit" },
   ];
 
   // Group fields by their conceptual section for rendering
