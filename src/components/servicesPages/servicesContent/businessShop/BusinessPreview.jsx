@@ -279,6 +279,7 @@
 
 // export default BusinessPreview;
 // src/components/BusinessPreview.jsx
+
 'use client';
 
 import React from 'react';
