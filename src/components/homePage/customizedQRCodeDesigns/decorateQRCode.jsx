@@ -11,7 +11,7 @@ import { FaArrowRightArrowLeft } from "react-icons/fa6";
 import ComingSoonModal from "@/components/modalPopUps/comingSoonModal";
 import NFCModal from "@/components/modalPopUps/nfcModal";
 
-const tabs = ["Stickers", "Colors", "Shapes", "Logos"];
+const tabs = ["QR Shapes","Stickers", "Colors", "Shapes", "Logos","Personalized Image"];
 
 const DecorateQRCode = () => {
   const { slug } = useParams();
@@ -217,7 +217,7 @@ const DecorateQRCode = () => {
                     setActiveTab(tab);
                     setIsModalOpen(true);
                   }}
-                  className="px-2 py-2 text-mainGreen hover:text-darkGreen hover:font-bold transition-all text-lg rounded-xl"
+                  className=" py-2 text-mainGreen hover:text-darkGreen hover:font-bold transition-all text-lg rounded-xl"
                 >
                   {tab}
                 </button>
@@ -226,7 +226,7 @@ const DecorateQRCode = () => {
 
             <hr className="mb-4 border border-slate-200" />
 
-            <div className="flex gap-9 pb-6 justify-center flex-wrap items-center">
+            {/* <div className="flex gap-9 pb-6 justify-center flex-wrap items-center">
               <Image
                 src="/images/home/shapes-1.webp"
                 alt="shapes-1"
@@ -265,7 +265,7 @@ const DecorateQRCode = () => {
                   setIsModalOpen(true);
                 }}
               />
-            </div>
+            </div> */}
             <p
               className="flex justify-center transition-effects items-center gap-2 py-4 text-mainGreen hover:font-bold text-2xl "
               onClick={() => {

@@ -27,8 +27,8 @@ const DesignSection = () => {
   const { slug } = useParams();
 
   return (
-<div className="px-4 sm:px-8 md:px-14 py-8">
-  <div className="flex  w-full overflow-x-auto gap-x-6 border-b  border-white/40 pb-9">
+<div className="px-4 sm:px-8 md:px-14 py-8 mx-auto">
+  <div className="flex lg:justify-center w-full overflow-x-auto gap-x-6 border-b   border-white/40 pb-9">
     {tabLinks.map(({ href, label, icon }) => {
       const isActive = href.includes(slug);
 
@@ -44,7 +44,7 @@ const DesignSection = () => {
           <div
             className={clsx(
               "w-14 h-14 flex items-center justify-center rounded-full transition-all duration-300",
-              isActive ? "bg-white text-darkGreen" : "bg-transparent group-hover:bg-white"
+              isActive ? "bg-white text-darkGreen pb-2" : "bg-transparent group-hover:bg-white"
             )}
           >
             {React.cloneElement(icon, {

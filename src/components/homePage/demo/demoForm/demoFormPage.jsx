@@ -178,7 +178,7 @@ const DemoFormPage = () => {
             </select>
           </div>
 
-          <div className="text-center py-6">
+          <div className="flex justify-center py-6">
             <button
               type="submit"
               className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"

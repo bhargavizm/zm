@@ -339,7 +339,18 @@ const ServicesProvider = ({ children }) => {
         ],
         footerText: "OPEN ALL WEEK | TRADITION MEETS ELEGANCE",
       },
+      template4Data: {
+        brandName: "HANOVER AND TYKE",
+        highlightText: "ENJOY A SPECIAL 10% OFF",
+        tagline: "Elevate",
+        subTagline: "Your Look",
+        offerMessage: "AVAILABLE UNTIL 8 NOVEMBER 2030",
+        backgroundColor: "#000000", // black background
+        textColor: "#ffffff",       // white text
+        fontFamily: "Montserrat, sans-serif",
+      },
       password: "",
+
     },
     discountCoupon: {
       code: "",
