@@ -9,8 +9,8 @@ const DesignProvider = ({ children }) => {
   const [selectedQRShape, setSelectedQRShape] = useState(null);
   const [selectedLogo, setSelectedLogo] = useState(null);
   const [selectedSticker, setSelectedSticker] = useState(null);
-  const [selectedColor, setSelectedColor] = useState(null);
-  const [selectedShape, setSelectedShape] = useState(null);
+  // const [selectedColor, setSelectedColor] = useState(null);
+  // const [selectedShape, setSelectedShape] = useState(null);
   const [logoSize, setLogoSize] = useState(45);
    const [backgroundImage, setBackgroundImage] = useState(null);
  const [scale, setScale] = useState(55);
@@ -28,14 +28,14 @@ useEffect(() => {
 
 
   // Load from localStorage once on mount
-  useEffect(() => {
-    setSelectedQRShape(localStorage.getItem("selectedQRShape"));
-    setSelectedLogo(localStorage.getItem("selectedLogo"));
-    setSelectedSticker(localStorage.getItem("selectedSticker"));
-    setSelectedColor(localStorage.getItem("selectedColor"));
-    setSelectedShape(localStorage.getItem("selectedShape"));
-    // setBackgroundImage(localStorage.getItem("selectedShape"));
-  }, []);
+useEffect(() => {
+  setSelectedQRShape(localStorage.getItem("selectedQRShape") || "/images/qr-shapes/qrshapes-13.webp")
+  setSelectedLogo(localStorage.getItem("selectedLogo") || "/images/logos/box.svg");
+  setSelectedSticker(localStorage.getItem("selectedSticker") || "/images/stickers/sticker-4.svg");
+  // setSelectedColor(localStorage.getItem("selectedColor") || "#000000");
+  // setSelectedShape(localStorage.getItem("selectedShape") || "square");
+}, []);
+
 
   useEffect(() => {
   const size = parseInt(localStorage.getItem("logoSize"));
@@ -54,10 +54,10 @@ useEffect(() => {
         setSelectedLogo,
         selectedSticker,
         setSelectedSticker,
-        selectedColor,
-        setSelectedColor,
-        selectedShape,
-        setSelectedShape,
+        // selectedColor,
+        // setSelectedColor,
+        // selectedShape,
+        // setSelectedShape,
         logoSize,
   setLogoSize,backgroundImage, setBackgroundImage, scale, setScale,bgDesign, setBgDesign
       }}
