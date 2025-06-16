@@ -428,14 +428,14 @@ export default function Career() {
   };
 
   return (
-    <div className="bg-white text-gray-800 font-sans">
-      <header className="bg-gradient-to-r from-[#20eaea] to-[#128888] p-4 md:p-6 flex justify-between items-center">
+    <div className="bg-white text-gray-800 font-sans ">
+      {/* <header className="bg-gradient-to-r from-[#20eaea] to-[#128888] p-4 md:p-6 flex justify-between items-center">
         <button className="bg-[#011010] text-white px-5 py-2 rounded-lg font-semibold hover:scale-105 transition-transform">
           {headerDictionary.login}
         </button>
-      </header>
+      </header> */}
 
-      <section className="relative h-screen overflow-hidden flex items-center justify-center px-4 md:px-16">
+      <section className="relative h-screen overflow-hidden flex items-center justify-center px-4 md:px-16 pt-28 md:pt-0">
         <video
           autoPlay
           muted
@@ -443,7 +443,7 @@ export default function Career() {
           playsInline
           className="absolute top-0 left-0 w-full h-full object-cover z-0"
         >
-          <source src="/videos/data-transfer-video.mov" type="video/mp4" />
+          <source src="/videos/TitleVideo.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         <div className="absolute inset-0 bg-black/40 z-0" />
@@ -487,7 +487,7 @@ export default function Career() {
         </div>
       </section>
 
-      <section className="bg-[#8acad1] py-6 text-center px-4">
+      <section className="bg-[#8acad1] py-6 text-center px-4 padding-lr ">
         <p className="text-lg text-black text-center px-4">
           {section1Dictionary.quote}
         </p>
@@ -496,7 +496,7 @@ export default function Career() {
         </h2>
       </section>
 
-      <section className="py-12 px-6 md:px-16 bg-white">
+      <section className="py-12 px-6 md:px-16 bg-white padding-lr ">
         <h2 className="text-3xl font-bold text-center text-[#128888] mb-8">
           {currentOpeningsDictionary.title}
         </h2>
@@ -510,10 +510,10 @@ export default function Career() {
         <p className="max-w-3xl mx-auto mb-6">
           {premiumSectionDictionary.description}
         </p>
-        <div className="flex justify-center mb-6">
-          <Image src="/images/desk-3139127_1280.jpg" alt="Team Working Illustration" width={240} height={200} />
+        <div className="flex justify-center mb-6 ">
+          <Image src="/images/normal/careerPa.png" alt="Team Working Illustration" width={280} height={200} className='bg-white rounded-2xl'/>
         </div>
-        <button className="bg-[#15a6b6] text-black px-6 py-3 rounded-lg font-semibold hover:scale-105 transition-transform">
+        <button className="bg-[#15a6b6] text-black px-6 py-3 rounded-lg font-semibold hover:scale-105 transition-transform" onClick={handleSearch} >
           {premiumSectionDictionary.button}
         </button>
       </section>
@@ -552,7 +552,7 @@ export default function Career() {
         </div>
       </section>
 
-      <section className="bg-[#094b4f] text-white py-12 px-6 md:px-16">
+      <section className="bg-[#094b4f] text-white py-12 px-6 md:px-16 padding-lr">
         <div className="flex flex-col md:flex-row gap-8 items-center">
           <div className="flex-1">
             <h2 className="text-3xl font-bold mb-4">{whyWorkDictionary.title}</h2>
@@ -568,7 +568,7 @@ export default function Career() {
                 </li>
               ))}
             </ul>
-            <button className="mt-6 bg-[#2bc6c6] text-black px-6 py-3 rounded-lg font-semibold hover:scale-105 transition-transform">
+            <button className="mt-6 bg-[#2bc6c6] text-black px-6 py-3 rounded-lg font-semibold hover:scale-105 transition-transform"  onClick={handleSearch}>
               {whyWorkDictionary.button}
             </button>
           </div>
@@ -600,11 +600,11 @@ export default function Career() {
         </div>
       </section>
 
-      <section className="py-6 bg-gray-100 text-center text-gray-700">
+      {/* <section className="py-6 bg-gray-100 text-center text-gray-700">
         <div className="bg-white border border-dashed border-gray-400 rounded-md p-6 shadow-sm italic text-sm">
           {comingSoonDictionary.text}
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }

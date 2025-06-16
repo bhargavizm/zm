@@ -54,9 +54,9 @@ const BackdropDesigns = () => {
   return (
     <section className="mt-6  space-y-6">
       {/* Image grid */}
-      <div className="grid lg:grid-cols-6 md:grid-cols-4 grid-cols-3 gap-6">
+      <div className="grid lg:grid-cols-6 md:grid-cols-4 grid-cols-3 gap-4">
         {bgImages.map((src, index) => (
-          <div key={index} className="w-36 h-18 overflow-hidden transition-effects">
+          <div key={index} className="w-44 h-16 overflow-hidden transition-effects">
             <Image
               src={src}
               alt={`bg-image ${index + 7}`}
@@ -71,14 +71,16 @@ const BackdropDesigns = () => {
       </div>
 
       {/* Video grid */}
-      <div className="grid lg:grid-cols-5 md:grid-cols-4 grid-cols-2 gap-6">
+      <div className="grid lg:grid-cols-6 md:grid-cols-4 grid-cols-3   gap-4">
         {bgVideos.map((videoSrc, index) => (
-          <div key={index} className="w-24 h-20 overflow-hidden rounded transition-effects">
+          <div key={index} className="w-44 h-16 overflow-hidden rounded transition-effects">
             <video
               src={videoSrc}
-              className="w-full h-full object-cover cursor-pointer  rounded"
+              className=" object-cover cursor-pointer  rounded"
               onClick={() => setBgDesign(videoSrc)}
               muted
+               width={64}
+              height={64}
               loop
               playsInline
             />

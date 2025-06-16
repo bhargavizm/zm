@@ -129,9 +129,9 @@ const ContactUs = () => {
             )}
 
             {/* Footer */}
-            <footer className="bg-gray-800 text-white text-center py-6 text-sm">
+            {/* <footer className="bg-gray-800 text-white text-center py-6 text-sm">
                 <p>&copy; {new Date().getFullYear()} Your Brand. All rights reserved.</p>
-            </footer>
+            </footer> */}
         </div>
     );
 };
