@@ -31,7 +31,7 @@ const Footer = () => {
             <div className=" lg:px-40 md:px-20 items-center px-6 mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 gap-10">
                 <div>
                     <Link href="/" className="flex items-center justify-center gap-3 ">
-                        <Image src="/logos/logo.webp" alt="logo" width={200} height={100} />
+                        <Image src="/logos/zm-full.jpg" alt="logo" width={200} height={100} />
                     </Link>
                     <ul className="space-y-2 pl-36 pt-6 text-md">
                         <li>

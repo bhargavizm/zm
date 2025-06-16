@@ -9,7 +9,6 @@ const ScheduleDemo = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { dictionary } = useLanguage();
 
-  // Safe fallback values
   const heading = dictionary?.demo?.heading || "Schedule a personalized demo with our QR experts.";
   const buttonText = dictionary?.demo?.button || "Schedule a Demo";
 
@@ -21,9 +20,9 @@ const ScheduleDemo = () => {
           backgroundImage: "url('/images/home/bg-demo-image.png')",
         }}
       >
-        <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-8 bg-[rgba(0,128,128,0.6)] padding-lr py-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 items-center justify-center gap-8 bg-[rgba(0,128,128,0.6)] padding-lr py-10 text-center lg:text-left ">
           {/* Image Column */}
-          <div className="col-span-12 lg:col-span-2 flex justify-center lg:justify-start">
+          <div className="col-span-12 lg:col-span-2 flex justify-center">
             <Image
               src="/images/home/demo.webp"
               alt="QR Demo"
@@ -34,14 +33,13 @@ const ScheduleDemo = () => {
           </div>
 
           {/* Text + Button Column */}
-          <div className="col-span-12 lg:col-span-6 text-center lg:text-left">
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-4 leading-snug text-darkGreen">
+          <div className="col-span-12 lg:col-span-6 flex flex-col items-center lg:items-start justify-center gap-4">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold leading-snug text-white px-6">
               {heading}
             </h2>
-
             <button
               onClick={() => setIsOpen(true)}
-              className="w-full max-w-xs mx-auto lg:mx-0 px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
+              className="px-6 py-2 text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)] mx-6 cursor-pointer"
             >
               {buttonText}
             </button>

@@ -35,5 +35,5 @@
     "/images/logos/yelp.svg",
     "/images/logos/zoom.svg",
     "/images/logos/telegram.svg",
-      "/images/logos/zm.svg",
+      "/images/logos/zm-logo.webp",
   ];

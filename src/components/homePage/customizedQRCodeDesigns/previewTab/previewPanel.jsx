@@ -16,7 +16,8 @@ const PreviewPanel = () => {
   console.log(selectedQRShape);
   return (
     <>
-    <div className="relative lg:w-[370px] lg:h-[350px] w-[280px] h-[250px] mx-auto mb-4">
+    <div className="flex justify-center">
+    <div className="relative lg:w-[350px] lg:h-[350px] w-[280px] h-[250px] mx-auto mb-4">
   {selectedSticker && (
     <Image
       src={selectedSticker}
@@ -56,7 +57,7 @@ const PreviewPanel = () => {
     />
   )}
 </div>
-
+</div>
     {/* <div className="flex justify-center">
       {selectedSticker && (
         <div className="relative lg:w-[370px] lg:h-[350px] w-[280px] h-[250px] mx-auto mb-4">
