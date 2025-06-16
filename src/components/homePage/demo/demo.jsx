@@ -3,7 +3,6 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import DemoForm from "./demoForm/demoForm";
-import AnimatedButton from "@/components/animatedButton/animatedButton";
 import { useLanguage } from '@/context/languageContext/LanguageContext';
 
 const ScheduleDemo = () => {
@@ -40,12 +39,12 @@ const ScheduleDemo = () => {
               {heading}
             </h2>
 
-            <AnimatedButton
+            <button
               onClick={() => setIsOpen(true)}
-              className="w-full max-w-xs mx-auto lg:mx-0"
+              className="w-full max-w-xs mx-auto lg:mx-0 px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
             >
               {buttonText}
-            </AnimatedButton>
+            </button>
           </div>
         </div>
       </section>

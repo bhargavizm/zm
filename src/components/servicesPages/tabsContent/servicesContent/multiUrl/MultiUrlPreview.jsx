@@ -297,8 +297,8 @@ const MultiUrlPreview = () => {
 
               {/* Custom Links */}
               {customLinks
-                .filter((link) => link?.label && link?.url)
-                .map((link, index) => (
+                ?.filter((link) => link?.label && link?.url)
+                ?.map((link, index) => (
                   <div
                     key={`custom-${index}`}
                     className="flex items-center gap-3 bg-gray-100 px-3 py-2 rounded"

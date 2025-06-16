@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import DesignModal from "./designModal";
 import { IoIosArrowForward } from "react-icons/io";
 import { FaLongArrowAltDown } from "react-icons/fa";
-import AnimatedButton from "@/components/animatedButton/animatedButton";
 import PreviewPanel from "./previewTab/previewPanel";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useParams } from "next/navigation";
@@ -32,7 +31,7 @@ const DecorateQRCode = () => {
       <section>
         <div className="grid grid-cols-12 gap-4 mx-4 sm:mx-6 md:mx-9">
           {/* <div className="col-span-12 lg:col-span-7 bg-white px-4 sm:px-6 py-8 rounded-3xl shadow-lg"> */}
-          <div className="order-2 lg:order-1 col-span-12 lg:col-span-7 bg-white px-4 sm:px-6 py-8 rounded-3xl shadow-lg">
+          <div className=" col-span-12 lg:col-span-7 bg-white px-4 sm:px-6 py-8 rounded-3xl shadow-lg">
             <h2 className="text-darkGreen font-bold text-xl sm:text-2xl mb-4">
               {slug
                 ? slug
@@ -198,15 +197,16 @@ const DecorateQRCode = () => {
               onClick={handleClick}
               className="mt-8 max-w-xl mx-auto flex justify-center items-center"
             >
-              <AnimatedButton className="flex justify-center items-center gap-2">
+              <button className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]">
                 Save QR Code <IoIosArrowForward />
-              </AnimatedButton>
+              </button>
             </div>
           </div>
 
           {/* Preview Panel and Modal Tabs */}
           {/* <div className="col-span-12 lg:col-span-5 bg-white rounded-3xl shadow-lg px-6 py-9 mt-6 lg:mt-0"> */}
-          <div className="order-1 lg:order-2 col-span-12 lg:col-span-5 bg-white rounded-3xl shadow-lg px-6 py-9 mt-0">
+          <div className=" col-span-12 lg:col-span-5 bg-white rounded-3xl shadow-lg px-6 py-9 mt-0 ">
+
             <PreviewPanel />
             <hr className="my-2 border border-slate-200" />
             <div className="flex justify-center items-center gap-4 flex-wrap">
@@ -283,9 +283,9 @@ const DecorateQRCode = () => {
             </p>
 
             <div className=" flex justify-center items-center gap-2">
-              <AnimatedButton onClick={handleClick}>
+              <button onClick={handleClick} className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]">
                 Download Large Files <FaLongArrowAltDown />
-              </AnimatedButton>
+              </button>
             </div>
           </div>
         </div>

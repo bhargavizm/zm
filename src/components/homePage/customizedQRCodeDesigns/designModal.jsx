@@ -7,7 +7,6 @@ import Stickers from "./designTabs/stickers/stickers";
 import Colors from "./designTabs/colors/colors";
 import Shapes from "./designTabs/shapes/shapes";
 import Logos from "./designTabs/logos/logos";
-import AnimatedButton from "@/components/animatedButton/animatedButton";
 import { FaLongArrowAltDown } from "react-icons/fa";
 import PreviewPanel from "./previewTab/previewPanel";
 import useDesignContext from "@/components/hooks/useDesignContext";
@@ -126,13 +125,13 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
             <div className="col-span-6 lg:col-span-5 rounded-xl border border-slate-100 shadow-lg  pb-9 mx-auto ">
               <PreviewPanel />
               <div className="pt-9 ">
-                <AnimatedButton
+                <button
                   onClick={handleClick}
-                  className="mx-auto flex justify-center gap-2"
+                  className="mx-auto  gap-2px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
                 >
                   Download Large Files
                   <FaLongArrowAltDown />
-                </AnimatedButton>
+                </button>
               </div>
             </div>
           </div>

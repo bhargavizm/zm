@@ -77,7 +77,7 @@ const Investors = () => {
    const [isOpen, setIsOpen] = useState(false);
   return (
     <>
-    <div className="w-full min-h-screen bg-[#159999] text-white font-sans">
+    <div className="w-full bg-[#159999] text-white font-sans pt-30">
       <div className='bg-[#159292] text-black font-sans max-w-6xl mx-auto px-6 rounded-2xl'>
         {/* Hero Section */}
         <motion.section
@@ -345,7 +345,7 @@ const Investors = () => {
           {/* <button className="mt-8 bg-white text-[#008080] px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
             Contact Investor Relations
           </button> */}
-          <button className="mt-8 bg-white text-[#008080] px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition" onClick={() => setIsOpen(true)}>
+          <button className="mt-8 bg-white text-[#008080] px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition cursor-pointer" onClick={() => setIsOpen(true)}>
             {dictionary.investor.contact_ir}
           </button>
         </motion.div>

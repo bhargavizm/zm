@@ -12,7 +12,7 @@ const Navbar = () => {
 
     return (
         <nav className="bg-mainGreen h-[10vh] py-2 text-white fixed top-0 left-0 right-0 w-full z-50">
-            <div className="flex justify-between items-center mx-auto md:px-10 px-20">
+            <div className="flex justify-between items-center mx-auto md:px-10 px-6">
                 <Link href="/" className="flex items-center gap-3">
                     <Image src="/logos/logo.webp" alt="logo" width={170} height={50} priority />
                 </Link>
