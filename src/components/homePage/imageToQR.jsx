@@ -88,7 +88,7 @@ const ImageToQR = () => {
         <div className="animated-borders">
           <div className="animated-border-outer">
             <Image
-              src="/images/scan.png"
+              src="/images/home/scan.png"
               alt="Image to QR Code"
               width={200}
               height={200}
@@ -99,7 +99,7 @@ const ImageToQR = () => {
 
         <div>
           <Image
-            src="/images/image-qr-5.png"
+            src="/images/home/image-qr-5.png"
             alt="Image to QR Code"
             width={700} // increased from 500
             height={700}

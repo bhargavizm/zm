@@ -13,10 +13,12 @@ import {
   PhoneIcon,
   ExternalLink
 } from 'lucide-react'
+import DemoForm from './demo/demoForm/demoForm';
 
 // Counter animation for each stat
 const AnimatedStat = ({ icon, label, start, end, suffix }) => {
   const [count, setCount] = useState(start)
+   
   
   useEffect(() => {
     const interval = setInterval(() => {
@@ -71,8 +73,11 @@ const InsightCard = ({ title, value, summary, link, color }) => (
 
 const Investors = () => {
   const { dictionary } = useLanguage();
+
+   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="w-full min-h-screen bg-[#159999] text-white font-sans">
+    <>
+    <div className="w-full bg-[#159999] text-white font-sans pt-30">
       <div className='bg-[#159292] text-black font-sans max-w-6xl mx-auto px-6 rounded-2xl'>
         {/* Hero Section */}
         <motion.section
@@ -214,7 +219,7 @@ const Investors = () => {
             </div>
             <div>
               <img
-                src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                src="/images/normal/Qrbar.png "
                 alt="Team collaboration"
                 className="rounded-lg shadow-lg w-full"
               />
@@ -253,7 +258,7 @@ const Investors = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
-            src="https://www.thebusinessresearchcompany.com/graphimages/QR_Code_Payments_Market_2025_Graph.webp"
+            src="/images/normal/QrUsage.png"
             alt="Investment Graph"
             className="rounded-lg shadow-lg w-full"
           />
@@ -340,13 +345,16 @@ const Investors = () => {
           {/* <button className="mt-8 bg-white text-[#008080] px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
             Contact Investor Relations
           </button> */}
-          <button className="mt-8 bg-white text-[#008080] px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
+          <button className="mt-8 bg-white text-[#008080] px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition cursor-pointer" onClick={() => setIsOpen(true)}>
             {dictionary.investor.contact_ir}
           </button>
         </motion.div>
       </section>
 
     </div>
+
+   {isOpen && <DemoForm onClose={() => setIsOpen(false)} />}
+    </>
   )
 }
 

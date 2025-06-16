@@ -58,7 +58,7 @@ const ServicesProvider = ({ children }) => {
     selectedTemplate: null,
   });
   const [productImage, setProductImage] = useState(null);
-  // Audio
+// Audio
   const [audioFormData, setAudioFormData] = useState({
     title: "",
     description: "",
@@ -66,13 +66,13 @@ const ServicesProvider = ({ children }) => {
     password: "",
   });
 
-  // video
+   // video
   const [videoFormData, setVideoFormData] = useState({
     title: "",
     description: "",
     file: null,
-    password: "",
-  });
+    password: "",
+  });
 
   // Gallery (Original structure)
   const [imagesFormData, setImagesFormData] = useState({
