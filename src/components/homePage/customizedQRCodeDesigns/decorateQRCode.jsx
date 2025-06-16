@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import DesignModal from "./designModal";
 import { IoIosArrowForward } from "react-icons/io";
 import { FaLongArrowAltDown } from "react-icons/fa";
-import AnimatedButton from "@/components/animatedButton/animatedButton";
-import PreviewPanel from "./previewPanel";
+import PreviewPanel from "./previewTab/previewPanel";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useParams } from "next/navigation";
 import { RiShapesLine } from "react-icons/ri";
 import Image from "next/image";
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
 import ComingSoonModal from "@/components/modalPopUps/comingSoonModal";
+import NFCModal from "@/components/modalPopUps/nfcModal";
 
 const tabs = ["Stickers", "Colors", "Shapes", "Logos"];
 
@@ -21,35 +21,17 @@ const DecorateQRCode = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [activeTab, setActiveTab] = useState("QR Shapes");
-  const [nfcEnabled, setNfcEnabled] = useState(false);
-  const [showNfcModal, setShowNfcModal] = useState(false);
+
   const [showModal, setShowModal] = useState(false);
 
   const handleClick = () => setShowModal(true);
-
-  const handleNfcToggle = () => {
-    if (!nfcEnabled) {
-      setShowNfcModal(true);
-    } else {
-      setNfcEnabled(false);
-    }
-  };
-
-  const confirmNfc = () => {
-    setNfcEnabled(true);
-    setShowNfcModal(false);
-  };
-
-  const cancelNfc = () => {
-    setShowNfcModal(false);
-  };
 
   return (
     <>
       <section>
         <div className="grid grid-cols-12 gap-4 mx-4 sm:mx-6 md:mx-9">
           {/* <div className="col-span-12 lg:col-span-7 bg-white px-4 sm:px-6 py-8 rounded-3xl shadow-lg"> */}
-          <div className="order-2 lg:order-1 col-span-12 lg:col-span-7 bg-white px-4 sm:px-6 py-8 rounded-3xl shadow-lg">
+          <div className=" col-span-12 lg:col-span-7 bg-white px-4 sm:px-6 py-8 rounded-3xl shadow-lg">
             <h2 className="text-darkGreen font-bold text-xl sm:text-2xl mb-4">
               {slug
                 ? slug
@@ -133,57 +115,7 @@ const DecorateQRCode = () => {
                     />
                   </div>
 
-                  {/* NFC Accordion */}
-                  <div className="flex items-center gap-4 px-4 mt-2">
-                    <span className="text-sm font-medium text-gray-700">
-                      NFC
-                    </span>
-                    <button
-                      type="button"
-                      onClick={handleNfcToggle}
-                      className={`relative inline-flex h-8 w-16 items-center rounded-full transition-colors duration-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#008080] ${
-                        nfcEnabled ? "bg-[#008080]" : "bg-gray-300"
-                      }`}
-                    >
-                      <span
-                        className={`absolute left-1 top-1 inline-flex h-6 w-6 items-center justify-center rounded-full bg-white shadow-md transition-all duration-300 ${
-                          nfcEnabled ? "translate-x-8" : "translate-x-0"
-                        }`}
-                      >
-                        {nfcEnabled ? (
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4 text-[#008080]"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M5 13l4 4L19 7"
-                            />
-                          </svg>
-                        ) : (
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4 text-gray-500"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M6 18L18 6M6 6l12 12"
-                            />
-                          </svg>
-                        )}
-                      </span>
-                    </button>
-                  </div>
+                  <NFCModal />
                 </>
               )}
             </div>
@@ -261,16 +193,20 @@ const DecorateQRCode = () => {
               </button>
             </div>
 
-            <div onClick={handleClick} className="mt-8 max-w-xl mx-auto flex justify-center items-center">
-              <AnimatedButton className="flex justify-center items-center gap-2">
+            <div
+              onClick={handleClick}
+              className="mt-8 max-w-xl mx-auto flex justify-center items-center"
+            >
+              <button className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]">
                 Save QR Code <IoIosArrowForward />
-              </AnimatedButton>
+              </button>
             </div>
           </div>
 
           {/* Preview Panel and Modal Tabs */}
           {/* <div className="col-span-12 lg:col-span-5 bg-white rounded-3xl shadow-lg px-6 py-9 mt-6 lg:mt-0"> */}
-          <div className="order-1 lg:order-2 col-span-12 lg:col-span-5 bg-white rounded-3xl shadow-lg px-6 py-9 mt-0">
+          <div className=" col-span-12 lg:col-span-5 bg-white rounded-3xl shadow-lg px-6 py-9 mt-0 ">
+
             <PreviewPanel />
             <hr className="my-2 border border-slate-200" />
             <div className="flex justify-center items-center gap-4 flex-wrap">
@@ -347,9 +283,9 @@ const DecorateQRCode = () => {
             </p>
 
             <div className=" flex justify-center items-center gap-2">
-              <AnimatedButton onClick={handleClick}>
+              <button onClick={handleClick} className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]">
                 Download Large Files <FaLongArrowAltDown />
-              </AnimatedButton>
+              </button>
             </div>
           </div>
         </div>
@@ -362,49 +298,6 @@ const DecorateQRCode = () => {
           activeTab={activeTab}
           setActiveTab={setActiveTab}
         />
-      )}
-
-      {/* NFC MODAL CODE */}
-      {showNfcModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
-          <div className="bg-white rounded-xl shadow-xl p-6 max-w-sm w-full border border-teal-200 relative">
-            {/* Close Button */}
-            <button
-              onClick={cancelNfc}
-              className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl"
-            >
-              &times;
-            </button>
-
-            <h2 className="text-xl font-bold text-[#008080] mb-2">
-              NFC Activated
-            </h2>
-            <p className="text-sm text-gray-700">
-              You're trying to enable <strong>NFC</strong> features.
-              <br />
-              This is a <strong>premium service</strong>.
-              <br />
-              <span className="text-[#008080] font-semibold">
-                Cost: ₹499/year
-              </span>
-            </p>
-
-            <div className="flex justify-end mt-5 space-x-3">
-              <button
-                onClick={cancelNfc}
-                className="px-4 py-2 rounded border border-gray-400 text-gray-600 hover:bg-gray-100"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={confirmNfc}
-                className="px-4 py-2 bg-[#008080] text-white rounded hover:bg-[#006666] transition"
-              >
-                Accept
-              </button>
-            </div>
-          </div>
-        </div>
       )}
 
       {/*  */}

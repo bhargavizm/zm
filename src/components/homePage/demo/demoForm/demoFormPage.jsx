@@ -1,6 +1,5 @@
 "use client";
 
-import AnimatedButton from "@/components/animatedButton/animatedButton";
 import ComingSoonModal from "@/components/modalPopUps/comingSoonModal";
 import React, { useState } from "react";
 
@@ -179,12 +178,12 @@ const DemoFormPage = () => {
           </div>
 
           <div className="text-center py-6">
-            <AnimatedButton
+            <button
               type="submit"
-              className="bg-skyBlue cursor-pointer hover:bg-lightBlue hover:text-white text-xl text-darkGreen font-bold py-2 px-6 rounded-lg mt-4"
+              className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
             >
               Submit
-            </AnimatedButton>
+            </button>
           </div>
         </form>
       </section>

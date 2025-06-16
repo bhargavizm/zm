@@ -1,11 +1,8 @@
-
-
 "use client";
 
 import Image from "next/image";
 import React, { useState } from "react";
 import DemoForm from "./demoForm/demoForm";
-import AnimatedButton from "@/components/animatedButton/animatedButton";
 
 const ScheduleDemo = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,12 +33,12 @@ const ScheduleDemo = () => {
               vbkwjlvbkjergiuqervbkjerqgvhnalized demo tailored to your use case with one of our QR code experts.
             </h2>
 
-            <AnimatedButton
+            <button
               onClick={() => setIsOpen(true)}
-              className="w-full max-w-xs mx-auto lg:mx-0"
+              className="w-full max-w-xs mx-auto lg:mx-0px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
             >
               Schedule a Demo
-            </AnimatedButton>
+            </button>
           </div>
         </div>
       </section>

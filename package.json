@@ -5,9 +5,9 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "export": "next export",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+       "export": "next export"
   },
   "dependencies": {
     "@react-three/fiber": "^9.0.0-alpha.8",

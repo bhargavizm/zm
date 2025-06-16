@@ -4,6 +4,7 @@ import { LanguageProvider } from "@/context/languageContext/LanguageContext"; //
 import DesignProvider from "@/context/qrCodeDesignContext/DesignProvider";
 import ServicesProvider from "@/context/servicesContext/SercivesProvider";
 import Navbar from "@/components/navbar/navbar";
+import ScrollToTop from "@/components/scrollToTop/scrollToTop";
 
 export const metadata = {
   title: "Zm QR Code Services",
@@ -17,6 +18,7 @@ export default function RootLayout({ children }) {
         <LanguageProvider> {/* 👈 Wrap the app in provider */}
           <ServicesProvider>
           <DesignProvider>
+            <ScrollToTop/>
           <Navbar />
           <main>
             {children}

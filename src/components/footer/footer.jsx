@@ -33,7 +33,7 @@ const Footer = () => {
                     <Link href="/" className="flex items-center justify-center gap-3 ">
                         <Image src="/logos/logo.webp" alt="logo" width={200} height={100} />
                     </Link>
-                    <ul className="space-y-2 pl-22 pt-6 text-md">
+                    <ul className="space-y-2 pl-36 pt-6 text-md">
                         <li>
                             <Link href="/about" className="hover:underline hover:text-gray-400">
                                 {dictionary.footer.aboutUs}
@@ -50,12 +50,12 @@ const Footer = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link href="/privacy" className="hover:underline hover:text-gray-400">
+                            <Link href="/privacy-policies" className="hover:underline hover:text-gray-400">
                                 {dictionary.footer.privacy}
                             </Link>
                         </li>
                         <li>
-                            <Link href="/" className="hover:underline hover:text-gray-400">
+                            <Link href="/terms-conditions" className="hover:underline hover:text-gray-400">
                                 {dictionary.footer.terms}
                             </Link>
                         </li>
@@ -166,7 +166,7 @@ const Footer = () => {
                 </div>
             </div>
 
-            <hr className=" border-black my-9" />
+            <hr className=" border-slate-600 my-6" />
 
             <p className="flex justify-center items-center gap-2 mt-4 text-md text-white">
                 <FaRegCopyright />
