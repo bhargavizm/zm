@@ -6,8 +6,8 @@ import useServicesContext from "@/components/hooks/useServiceContext";
 import useDesignContext from '@/components/hooks/useDesignContext';
 
 const SmsPreview = () => {
+  const { bgDesign } = useDesignContext();
   const { smsFormData, showPassword } = useServicesContext();
-    const { bgDesign } = useDesignContext();
 
   const hasData = smsFormData.genderName || smsFormData.messageType || smsFormData.textMessage || smsFormData.date || smsFormData.password;
 
@@ -53,7 +53,7 @@ const SmsPreview = () => {
 
             {/* Recipient */}
             {(smsFormData.genderName || smsFormData.messageType) && (
-              <div className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20">
+              <div className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20 text-black">
                 <div className="flex items-center text-[#008080] mb-1">
                   <FiUser className="mr-2" />
                   <span className="font-medium">Recipient</span>
@@ -65,7 +65,7 @@ const SmsPreview = () => {
 
             {/* Message */}
             {smsFormData.textMessage && (
-              <div className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20">
+              <div className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20 text-black">
                 <div className="flex items-center text-[#008080] mb-1">
                   <FiMessageSquare className="mr-2" />
                   <span className="font-medium">Message</span>
@@ -76,7 +76,7 @@ const SmsPreview = () => {
 
             {/* Date */}
             {smsFormData.date && (
-              <div className="bg-gray-100 p-3 rounded">
+              <div className="bg-gray-100 p-3 rounded text-black">
                 <div className="flex items-center text-gray-700 mb-1">
                   <FiCalendar className="mr-2" />
                   <span className="font-medium">Date</span>
@@ -87,7 +87,7 @@ const SmsPreview = () => {
 
             {/* Password */}
             {smsFormData.password && (
-              <div className="bg-gray-100 p-3 rounded">
+              <div className="bg-gray-100 p-3 rounded text-black">
                 <div className="flex items-center text-gray-700 mb-1">
                   <FiLock className="mr-2" />
                   <span className="font-medium">Password Protected</span>
@@ -105,7 +105,8 @@ const SmsPreview = () => {
         )}
       </div>
 
-      <div className="border-t border-gray-200 text-center text-xs text-gray-500 py-2">
+      {/* Footer */}
+      <div className="border-t border-gray-200 text-center text-xs text-gray-500 py-2 relative z-10 bg-white">
         <p>Scan to send SMS</p>
         <p className="mt-1">v1.0.0</p>
       </div>
@@ -114,4 +115,4 @@ const SmsPreview = () => {
   )
 }
 
-export default SmsPreview
+export default SmsPreview;
