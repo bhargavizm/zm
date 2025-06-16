@@ -46,19 +46,18 @@ const BulkQRGenerator = () => {
           {/* <div className="lg:col-span-4 ">
           <Image src='/images/qr-code.jpg' alt="create-branded-logo" fill   className="max-w-full h-auto"/>
           </div> */}
-          <div className="lg:col-span-4">
-            <div className="relative w-full h-72 md:h-80 lg:h-96">
-              <Image
-                src="/images/home/bulk.webp"
-                alt="create-branded-logo"
-                width={400}
-                height={350}
-                className="object-contain"
-                
-                priority
-              />
-            </div>
-          </div>
+         <div className="lg:col-span-4">
+  <div className="relative w-full aspect-[4/3] max-h-[400px]">
+    <Image
+      src="/images/home/bulk.webp"
+      alt="create-branded-logo"
+      fill
+      className="object-contain"
+      priority
+    />
+  </div>
+</div>
+
         </div>
       </section>
     </>

@@ -7,7 +7,7 @@ const DemoFormDesign = () => {
   return (
     <>
       <section className="p-6 pt-14 flex justify-center items-center flex-col">
-        <h2 className="text-xl text-center font-bold mb-4 leading-snug text-darkGreen py-4">
+        <h2 className="text-xl text-center font-bold mb-4 leading-snug text-white py-4">
           Book a personalized demo tailored to your use case with one of our QR
           code experts.
         </h2>
