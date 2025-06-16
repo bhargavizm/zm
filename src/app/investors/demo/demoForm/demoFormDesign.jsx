@@ -13,11 +13,11 @@ const DemoFormDesign = () => {
         </h2>
 
         <Image
-          src="/images/normal/customerCare2.png"
+          src="/images/normal/business-form-handshake.jpeg"
           alt="imag"
-          width={250}
-          height={200}
-          className="rounded mx-auto mb-6"
+          width={400}
+          height={400}
+          className="rounded mx-auto mb-6 mt-10"
         />
    
 

@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect } from "react";
-import AnimatedButton from "../animatedButton/animatedButton";
+
 
 const ComingSoonModal = ({ isOpen, onClose }) => {
   useEffect(() => {
@@ -31,12 +31,12 @@ const ComingSoonModal = ({ isOpen, onClose }) => {
             <p className="text-gray-600 mb-6">We're constantly working to enhance your experience. Explore our new and
         upcoming features designed to make your journey smoother and more
         productive.</p>
-            <AnimatedButton
+            <button
               onClick={onClose}
-              className="px-4 py-2 bg-mainGreen text-white rounded hover:b transition"
+              className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
             >
               Got it    
-            </AnimatedButton>
+            </button>
           </motion.div>
         </motion.div>
       )}
