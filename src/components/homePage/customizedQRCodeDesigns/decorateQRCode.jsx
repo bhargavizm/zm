@@ -6,7 +6,10 @@ import AnimatedButton from "@/components/animatedButton/animatedButton";
 import PreviewPanel from "./previewPanel";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useParams } from "next/navigation";
+import { RiShapesLine } from "react-icons/ri";
 import Image from "next/image";
+import { FaArrowRightArrowLeft } from "react-icons/fa6";
+import ComingSoonModal from "@/components/modalPopUps/comingSoonModal";
 
 const tabs = ["Stickers", "Colors", "Shapes", "Logos"];
 
@@ -20,6 +23,9 @@ const DecorateQRCode = () => {
   const [activeTab, setActiveTab] = useState("QR Shapes");
   const [nfcEnabled, setNfcEnabled] = useState(false);
   const [showNfcModal, setShowNfcModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleClick = () => setShowModal(true);
 
   const handleNfcToggle = () => {
     if (!nfcEnabled) {
@@ -42,7 +48,8 @@ const DecorateQRCode = () => {
     <>
       <section>
         <div className="grid grid-cols-12 gap-4 mx-4 sm:mx-6 md:mx-9">
-          <div className="col-span-12 lg:col-span-7 bg-white px-4 sm:px-6 py-8 rounded-3xl shadow-lg">
+          {/* <div className="col-span-12 lg:col-span-7 bg-white px-4 sm:px-6 py-8 rounded-3xl shadow-lg"> */}
+          <div className="order-2 lg:order-1 col-span-12 lg:col-span-7 bg-white px-4 sm:px-6 py-8 rounded-3xl shadow-lg">
             <h2 className="text-darkGreen font-bold text-xl sm:text-2xl mb-4">
               {slug
                 ? slug
@@ -254,7 +261,7 @@ const DecorateQRCode = () => {
               </button>
             </div>
 
-            <div className="mt-8 max-w-xl mx-auto flex justify-center items-center">
+            <div onClick={handleClick} className="mt-8 max-w-xl mx-auto flex justify-center items-center">
               <AnimatedButton className="flex justify-center items-center gap-2">
                 Save QR Code <IoIosArrowForward />
               </AnimatedButton>
@@ -262,7 +269,8 @@ const DecorateQRCode = () => {
           </div>
 
           {/* Preview Panel and Modal Tabs */}
-          <div className="col-span-12 lg:col-span-5 bg-white rounded-3xl shadow-lg px-6 py-9 mt-6 lg:mt-0">
+          {/* <div className="col-span-12 lg:col-span-5 bg-white rounded-3xl shadow-lg px-6 py-9 mt-6 lg:mt-0"> */}
+          <div className="order-1 lg:order-2 col-span-12 lg:col-span-5 bg-white rounded-3xl shadow-lg px-6 py-9 mt-0">
             <PreviewPanel />
             <hr className="my-2 border border-slate-200" />
             <div className="flex justify-center items-center gap-4 flex-wrap">
@@ -282,7 +290,7 @@ const DecorateQRCode = () => {
 
             <hr className="mb-4 border border-slate-200" />
 
-            <div className="flex gap-9 pb-6 justify-center items-center">
+            <div className="flex gap-9 pb-6 justify-center flex-wrap items-center">
               <Image
                 src="/images/home/shapes-1.webp"
                 alt="shapes-1"
@@ -322,10 +330,27 @@ const DecorateQRCode = () => {
                 }}
               />
             </div>
+            <p
+              className="flex justify-center transition-effects items-center gap-2 py-4 text-mainGreen hover:font-bold text-2xl "
+              onClick={() => {
+                setActiveTab("QR Shapes");
+                setIsModalOpen(true);
+              }}
+            >
+              <span>
+                <RiShapesLine />
+              </span>
+              <span>More Designs</span>
+              <span>
+                <FaArrowRightArrowLeft />
+              </span>
+            </p>
 
-            <AnimatedButton className="w-full flex justify-center items-center gap-2">
-              Download Large Files <FaLongArrowAltDown />
-            </AnimatedButton>
+            <div className=" flex justify-center items-center gap-2">
+              <AnimatedButton onClick={handleClick}>
+                Download Large Files <FaLongArrowAltDown />
+              </AnimatedButton>
+            </div>
           </div>
         </div>
       </section>
@@ -380,6 +405,14 @@ const DecorateQRCode = () => {
             </div>
           </div>
         </div>
+      )}
+
+      {/*  */}
+      {showModal && (
+        <ComingSoonModal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+        />
       )}
     </>
   );
