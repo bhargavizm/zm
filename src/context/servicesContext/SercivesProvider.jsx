@@ -328,7 +328,18 @@ const ServicesProvider = ({ children }) => {
         title: "OUR STORY",
         description: "Experience the best at our shop!",
       },
+      template4Data: {
+        brandName: "HANOVER AND TYKE",
+        highlightText: "ENJOY A SPECIAL 10% OFF",
+        tagline: "Elevate",
+        subTagline: "Your Look",
+        offerMessage: "AVAILABLE UNTIL 8 NOVEMBER 2030",
+        backgroundColor: "#000000", // black background
+        textColor: "#ffffff",       // white text
+        fontFamily: "Montserrat, sans-serif",
+      },
       password: "",
+
     },
     discountCoupon: {
       code: "",
