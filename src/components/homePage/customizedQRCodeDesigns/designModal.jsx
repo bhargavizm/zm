@@ -9,21 +9,27 @@ import Shapes from "./designTabs/shapes/shapes";
 import Logos from "./designTabs/logos/logos";
 import AnimatedButton from "@/components/animatedButton/animatedButton";
 import { FaLongArrowAltDown } from "react-icons/fa";
-import PreviewPanel from "./previewPanel";
+import PreviewPanel from "./previewTab/previewPanel";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import ImageToQRDesign from "./designTabs/ImageToQRDesign";
 import ComingSoonModal from "@/components/modalPopUps/comingSoonModal";
 
-
-const tabs = ["QR Shapes", "Stickers", "Colors", "Shapes", "Logos", "Personalized Image"];
+const tabs = [
+  "QR Shapes",
+  "Stickers",
+  "Colors",
+  "Shapes",
+  "Logos",
+  "Personalized Image",
+];
 
 const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
   const { setSelectedQRShape, setSelectedLogo, setSelectedSticker } =
     useDesignContext();
 
-    const [showModal, setShowModal] = useState(false);
-    
-      const handleClick = () => setShowModal(true);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleClick = () => setShowModal(true);
 
   useEffect(() => {
     const savedShape = localStorage.getItem("selectedQRShape");
@@ -53,86 +59,87 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
     Colors: () => <Colors onSelectImage={handleImageSelect} />,
     Shapes: () => <Shapes onSelectImage={handleImageSelect} />,
     Logos: () => <Logos onSelectImage={handleImageSelect} />,
-    "Personalized Image": () => <ImageToQRDesign  />,
+    "Personalized Image": () => <ImageToQRDesign />,
   };
 
   const ActiveComponent = tabComponents[activeTab];
 
   return (
     <>
-    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30 px-4">
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-6xl h-[95vh] relative px-6 py-6 o overflow-y-auto scrollbar-hide">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold text-darkGreen">
-            Customize QR Code
-          </h2>
-          <button
-            className="text-xl cursor-pointer font-bold"
-            onClick={() => setIsModalOpen(false)}
-            aria-label="Close modal"
-          >
-            &#10005;
-          </button>
-        </div>
-        <hr className="border-slate-300 mb-2" />
-
-        {/* Modal Tabs */}
-        <div className="flex flex-wrap gap-4 mb-4">
-          {tabs.map((tab) => (
+      <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30 px-4">
+        <div className="bg-white rounded-xl shadow-xl w-full max-w-6xl h-[95vh] relative px-6 py-6 o overflow-y-auto scrollbar-hide">
+          {/* Header */}
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-bold text-darkGreen">
+              Customize QR Code
+            </h2>
             <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`px-4 py-2 text-md rounded-xl cursor-pointer ${
-                activeTab === tab
-                  ? "bg-mainGreen text-white font-bold"
-                  : "bg-white text-gray-800"
-              }`}
+              className="text-xl cursor-pointer font-bold"
+              onClick={() => setIsModalOpen(false)}
+              aria-label="Close modal"
             >
-              {tab}
+              &#10005;
             </button>
-          ))}
-        </div>
+          </div>
+          <hr className="border-slate-300 mb-2" />
 
-        <hr className="border-slate-300 my-2" />
-
-        {/* Modal Body */}
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-
-          {/* Tab content */}
-          <div className="w-full col-span-6 lg:col-span-7 overflow-y-auto px-4 py-6">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3 }}
+          {/* Modal Tabs */}
+          <div className="flex flex-wrap gap-4 mb-4">
+            {tabs.map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`px-4 py-2 text-md rounded-xl cursor-pointer ${
+                  activeTab === tab
+                    ? "bg-mainGreen text-white font-bold"
+                    : "bg-white text-gray-800"
+                }`}
               >
-                <ActiveComponent />
-              </motion.div>
-            </AnimatePresence>
+                {tab}
+              </button>
+            ))}
           </div>
 
-          {/* Preview Panel */}
-          <div className="col-span-6 lg:col-span-5 rounded-xl border border-slate-100 shadow-lg p-4 pb-9 flex  flex-col ">
+          <hr className="border-slate-300 my-2" />
 
+          {/* Modal Body */}
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            {/* <div className="flex flex-col-reverse lg:grid lg:grid-cols-12 gap-4"> */}
+
+            {/* Tab content */}
+            <div className="w-full col-span-6 lg:col-span-7 overflow-y-auto px-4 py-6">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeTab}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <ActiveComponent />
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Preview Panel */}
+            <div className="col-span-6 lg:col-span-5 rounded-xl border border-slate-100 shadow-lg  pb-9 mx-auto ">
               <PreviewPanel />
               <div className="pt-9 ">
-                <AnimatedButton onClick={handleClick} className="mx-auto flex justify-center gap-2">
+                <AnimatedButton
+                  onClick={handleClick}
+                  className="mx-auto flex justify-center gap-2"
+                >
                   Download Large Files
                   <FaLongArrowAltDown />
                 </AnimatedButton>
               </div>
-  
+            </div>
           </div>
         </div>
-        
       </div>
-    </div>
 
-     {showModal && (
+      {showModal && (
         <ComingSoonModal
           isOpen={showModal}
           onClose={() => setShowModal(false)}
@@ -143,5 +150,3 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
 };
 
 export default DesignModal;
-
-
