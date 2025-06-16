@@ -29,7 +29,7 @@ useEffect(() => {
 
   // Load from localStorage once on mount
 useEffect(() => {
-  setSelectedQRShape(localStorage.getItem("selectedQRShape") || "/images/qr-shapes/qrshapes-13.webp")
+  setSelectedQRShape(localStorage.getItem("selectedQRShape") || "/images/qr-shapes/qrshapes-15.webp")
   setSelectedLogo(localStorage.getItem("selectedLogo") || "/images/logos/box.svg");
   setSelectedSticker(localStorage.getItem("selectedSticker") || "/images/stickers/sticker-4.svg");
   // setSelectedColor(localStorage.getItem("selectedColor") || "#000000");
@@ -39,6 +39,7 @@ useEffect(() => {
 
   useEffect(() => {
   const size = parseInt(localStorage.getItem("logoSize"));
+
   if (size) setLogoSize(size);
   const imageScale = parseInt(localStorage.getItem("scale"));
   if (imageScale) setScale(imageScale);
