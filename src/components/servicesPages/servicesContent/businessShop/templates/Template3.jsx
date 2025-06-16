@@ -11,40 +11,40 @@ const Template3 = ({ data }) => {
     <div
       className="relative w-full bg-cover bg-center rounded-xl overflow-hidden shadow-lg p-6 flex flex-col items-center justify-center text-white text-center"
       style={{
-        backgroundImage: `url('https://via.placeholder.com/400x600/8b5e3c/FFFFFF?text=Pet+Shop+Background')`,
+        backgroundImage: `url('/images/templates/businessShop3.jpg')`, // Use a gold showroom-style background
         minHeight: '300px',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}
     >
       {/* Overlay for readability */}
-      <div className="absolute inset-0 bg-[#3b2316] opacity-50 z-0"></div>
+      <div className="absolute inset-0 bg-[#2c1c12]/70 opacity-60 z-0"></div>
 
       {/* Top Info */}
       <div className="relative z-10 flex justify-between w-full px-2 text-xs font-medium mb-4">
         <button className="bg-white bg-opacity-20 backdrop-filter backdrop-blur-sm px-3 py-1 rounded-full text-black">
-          {data.aboutUsLink || 'about us'}
+          {data.aboutUsLink || 'About Us'}
         </button>
         <span className="bg-white bg-opacity-20 backdrop-filter backdrop-blur-sm px-3 py-1 rounded-full text-black">
-          {data.siteLink || '@petcare'}
+          {data.siteLink || '@goldglamjewels'}
         </span>
       </div>
 
       {/* Heading */}
-      <h3 className="relative z-10 text-4xl font-serif italic mb-4 leading-tight text-[#fffcf5]">
-        {data.title || 'PET SHOP'}
+      <h3 className="relative z-10 text-4xl font-serif italic mb-4 leading-tight text-[#fff5e1]">
+        {data.title || 'GOLD GLAM'}
       </h3>
 
       {/* Subheading */}
       <p className="relative z-10 text-md font-semibold text-[#fffaf0] tracking-widest mb-4">
-        {data.subtitle || 'PET FOOD & VETERINARIAN'}
+        {data.subtitle || 'EXQUISITE JEWELLERY COLLECTION'}
       </p>
 
-      {/* Dog Image */}
-      <div className="py-10 z-30 w-36 h-36 mx-auto mb-4">
+      {/* Jewelry Showcase Image */}
+      <div className="relative z-30 w-36 h-36 mx-auto mb-4">
         <Image
-          src="/images/normal/dogTemp.png"
-          alt="Pet"
+          src="/images/templates/businessShop3.jpg" // Replace with actual jewelry image
+          alt="Jewelry"
           layout="fill"
           objectFit="contain"
           priority
@@ -70,7 +70,7 @@ const Template3 = ({ data }) => {
 
       {/* Footer */}
       <div className="relative z-10 w-full mt-4 text-[#ffefdb] bg-[#3b2316]/80 py-3 rounded-lg font-semibold tracking-wide">
-        {data.footerText || 'OPEN EVERY DAY: 07 AM - 07 PM'}
+        {data.footerText || 'OPEN ALL WEEK | TRADITION MEETS ELEGANCE'}
       </div>
     </div>
   );
