@@ -7,18 +7,25 @@ import { MdQrCodeScanner } from "react-icons/md";
 import AnimatedButton from "@/components/animatedButton/animatedButton";
 import { FaLongArrowAltDown } from "react-icons/fa";
 import { useParams } from "next/navigation";
-import QRCodeTab from "../servicesContent/qrcodeTabs/qrcodeTab";
+import QRCodeTab from "../tabsContent/qrTabContent/qrcodeTab";
+import BackdropDesigns from "../tabsContent/backDropDesigns/backdropDesigns";
+import ComingSoonModal from "@/components/modalPopUps/comingSoonModal";
 
-const tabs = ["Content", "QR Code"];
+
+const tabs = ["Content", "Backdrop Designs","QR Code", ];
 
 const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
   const { slug } = useParams();
   const [activeTab, setActiveTab] = useState("Content");
   const [activePreview, setActivePreview] = useState("eye");
-  console.log(slug);
+  
+      const [showModal, setShowModal] = useState(false);
+      
+        const handleClick = () => setShowModal(true);
   return (
+    <>
     <section className="pt-8">
-      <div className="grid grid-cols-12 gap-4 mx-4 sm:mx-6 md:mx-9">
+      <div className="grid md:grid-cols-12  grid-cols-1 gap-4 mx-4 sm:mx-6 md:mx-9">
         {/* Left Panel */}
         <div className="col-span-6 lg:col-span-7 bg-white rounded-3xl shadow-lg">
           <h1 className="text-2xl font-bold py-4 px-6">
@@ -29,7 +36,7 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
           </h1>
 
           {/* Tabs */}
-          <div className="flex gap-6 justify-center bg-[#58b8b8]  shadow-lg py-2 mb-4">
+          <div className="grid grid-cols-3 md:px-6 bg-[#58b8b8]  shadow-lg py-2 mb-4">
             {tabs.map((tab) => (
               <button
                 key={tab}
@@ -48,6 +55,8 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
           {/* Tab Content */}
           <div className="px-6 pb-6 min-h-[500px]">
             {activeTab === "Content" && <ContentTabComponent />}
+
+             {activeTab === "Backdrop Designs" && <BackdropDesigns />}
 
             {activeTab === "QR Code" && <QRCodeTab />}
           </div>
@@ -82,10 +91,11 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
             {activePreview === "scan" && (
               <>
                 <PreviewPanel />
-
-                <AnimatedButton className="w-full flex justify-center items-center gap-2">
+<div className="flex justify-center items-center py-6">
+                <AnimatedButton onClick={handleClick} className="  gap-2">
                   Download Large Files <FaLongArrowAltDown />
                 </AnimatedButton>
+                </div>
               </>
             )}
             {activePreview === "eye" && (
@@ -103,6 +113,14 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
         </div>
       </div>
     </section>
+
+    {showModal && (
+        <ComingSoonModal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+        />
+      )}
+    </>
   );
 };
 
