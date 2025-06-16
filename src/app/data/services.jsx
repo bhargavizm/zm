@@ -41,7 +41,7 @@ const services = [
         "serviceName": "Business Card",
         slug: "business-cards",
         "description": "Craft standout digital business cards in a snap with sleek templates, effortlessly sparking connections that resonate.",
-        "image": "/services/BusinessCard.webp",
+        "image": "/services/BusinessCard.png",
     },
     {
         "icon": <BsFillCartCheckFill className="text-[#001a1a]" />,
@@ -90,7 +90,7 @@ const services = [
         "serviceName": "Business Shop",
         slug: "business-shops",
         "description": "Effortlessly transform images into QR codes, connecting visuals to digital content in an instant.",
-        "image": "/services/BusinessCard.webp",
+        "image": "/services/bussiness-shop-qr.webp",
     },
     {
         "icon": <ImHeadphones className="text-[#001a1a]" />,
@@ -241,7 +241,7 @@ const services = [
     },
     {
         "icon": <FaHandsHoldingChild className="text-[#001a1a]" />,
-        "serviceName": "Kids Safety QR Tag",
+        "serviceName": "Kids Safety QR ",
         slug: "kids-safety-qr-tags",
         "description": "Ensure kids' safety with our Kids Safety QR Tag, providing instant access to emergency contacts and information.",
         "image": "/services/kids-safety-qr.webp",

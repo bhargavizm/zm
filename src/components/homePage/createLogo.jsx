@@ -2,30 +2,32 @@
 
 import Image from "next/image";
 import React from "react";
+import { useLanguage } from '@/context/languageContext/LanguageContext';
 
 const CreateLogo = () => {
+  const { dictionary } = useLanguage();
   return (
     <>
       <section className="bg-white padding-lr py-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           <div className="lg:col-span-8">
-            <h2 className="text-mainGreen font-bold text-4xl mb-3 ">
+            {/* <h2 className="text-mainGreen font-bold text-4xl mb-3">
               Create Branded QR Codes with Your Logo
-            </h2>
-
-            <h4 className="mb-5 weight text-slate-500">
+            </h2> */}
+            <h2 className="text-mainGreen font-bold text-4xl mb-3">{dictionary.createLogo.heading}</h2>
+            {/* <h4 className="mb-5 weight text-slate-500">
               Attract, Impress, and Convert with ZM QR Code Services
-            </h4>
-
-            <p className="text-md">
+            </h4> */}
+            <h4 className="mb-5 weight text-slate-500">{dictionary.createLogo.subheading}</h4>
+            {/* <p className="text-md">
               ZM QR Code Services lets you design QR codes featuring your
               brand’s logo, enhancing recognition and improving customer
               interaction. Seamlessly aligned with your visual identity, our
               custom QR codes stand out in both digital formats and printed
               materials, giving your marketing a unique and professional flair.
-            </p>
-
-            <p className="text-md my-6">
+            </p> */}
+            <p className="text-md">{dictionary.createLogo.paragraph1}</p>
+            {/* <p className="text-md my-6">
               Our user-friendly platform enables you to produce top-quality,
               highly customizable QR codes that are both attractive and
               functional. Whether you're linking to your homepage, product
@@ -34,16 +36,17 @@ const CreateLogo = () => {
               Enjoy advanced design flexibility, comprehensive engagement
               analytics, and high-resolution output for smooth scanning across
               all devices.
-            </p>
-
-            <p className="text-md">
+            </p> */}
+            <p className="text-md my-6">{dictionary.createLogo.paragraph2}</p>
+            {/* <p className="text-md">
               With ZM QR Code Services, every scan opens up opportunities —
               helping you connect with your audience, strengthen your brand, and
               drive conversions effectively.
-            </p>
+            </p> */}
+            <p className="text-md">{dictionary.createLogo.paragraph3}</p>
           </div>
           {/* <div className="lg:col-span-4 ">
-           <Image src='/images/qr-code.jpg' alt="create-branded-logo" fill   className="max-w-full h-auto"/>
+            <Image src='/images/qr-code.jpg' alt="create-branded-logo" fill   className="max-w-full h-auto"/>
           </div> */}
            <div className="lg:col-span-4 flex justify-center">
           <div className="relative w-full  ">
