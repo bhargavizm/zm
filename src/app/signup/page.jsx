@@ -6,10 +6,10 @@ import { FcGoogle } from 'react-icons/fc';
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
 export default function LoginPage() {
-     const [visiblePasswords, setVisiblePasswords] = useState({
-    password: false,
-    cpassword: false,
-  });
+    const [visiblePasswords, setVisiblePasswords] = useState({
+        password: false,
+        cpassword: false,
+    });
     const router = useRouter();
     const [active, setActive] = useState('new');
     const modalRef = useRef(null);
@@ -27,7 +27,7 @@ export default function LoginPage() {
 
     const toggleVisibility = (id) => {
     setVisiblePasswords((prev) => ({ ...prev, [id]: !prev[id] }));
-  };
+    };
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
@@ -56,7 +56,7 @@ export default function LoginPage() {
                     </h4>
                 </div> */}
                 {/* Right Section */}
-                <div className="md:w-1/2 w-full flex flex-col justify-center items-center bg-white text-[#001a1a] p-6 md:rounded-r-2xl">
+                <div className="md:w-1/2 w-full flex flex-col justify-center items-center bg-white text-[#001a1a] p-6 md:rounded-l-2xl">
                     <h1 className="text-3xl text-loginBlue font-semibold text-center">Welcome Back!</h1>
                     <h4 className="font-light text-sm text-loginBlue text-center mt-1">Sign in to your ZM QR Code account</h4>
 
