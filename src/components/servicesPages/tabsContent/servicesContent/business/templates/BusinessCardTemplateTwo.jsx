@@ -25,7 +25,7 @@ const BusinessCardTemplateTwo = ({ businessForm, profileImage, brandLogo }) => {
                 <div className="w-28 h-28 rounded-full overflow-hidden border-4 border-pink-200">
                     <Image
                         src={profileImage || "/default-user.png"}
-                        alt={name || "Profile"}
+                        alt={"Profile"}
                         width={112}
                         height={112}
                         className="object-cover w-full h-full"

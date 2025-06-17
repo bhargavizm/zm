@@ -165,7 +165,7 @@ const ProductContent = () => {
                             type="submit"
                             className="mt-4 w-full bg-[#008080] text-white font-semibold py-2 rounded hover:bg-[#006666] transition"
                         >
-                            Generate QR Code
+                           Submit
                         </button>
                     </div>
                 </div>
