@@ -125,6 +125,7 @@
 //   '/images/stickers/stickers-125.webp',
 // ];
 
+
 export const stickerConfig = {
   "/images/stickers/a.png": {
     qrTop: "50%",
@@ -318,14 +319,15 @@ export const stickerConfig = {
     logoLeft: "50%",
     logoSize: 35,
   },
-  "/images/stickers/stickers-19.png": {
-    qrTop: "50%",
-    qrLeft: "38%",
-    scale: 120,
-    logoTop: "50%",
-    logoLeft: "38%",
-    logoSize: 32,
-  },
+//   "/images/stickers/stickers-19.png": {
+//     qrTop: "50%",
+//     qrLeft: "38%",
+//     scale: 120,
+//     logoTop: "50%",
+//     logoLeft: "38%",
+//     logoSize: 32,
+//   },
+
   "/images/stickers/stickers-20.jpg": {
     qrTop: "65%",
     qrLeft: "40%",
@@ -1075,12 +1077,13 @@ export const stickerConfig = {
     logoLeft: "50%",
     logoSize: 35,
   },
-  "/images/stickers/stickers-125.png": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
+//   "/images/stickers/stickers-125.png": {
+//     qrTop: "50%",
+//     qrLeft: "50%",
+//     scale: 160,
+//     logoTop: "50%",
+//     logoLeft: "50%",
+//     logoSize: 35,
+//   },
+
 };

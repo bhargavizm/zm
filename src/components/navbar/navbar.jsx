@@ -33,7 +33,18 @@ const Navbar = () => {
           <Link href="/prices" className="hover:text-gray-300">
             {dictionary.prices}
           </Link>
-          {/* <Link href="/blogs" className="hover:text-gray-300">{dictionary.blogs}</Link> */}
+           <Link href="/career" className="hover:text-gray-300">
+            {/* {dictionary.prices} */}
+            Careers
+          </Link>
+           <Link href="/investors" className="hover:text-gray-300">
+            {/* {dictionary.prices} */}
+            Investors
+          </Link>
+           <Link href="/franchise" className="hover:text-gray-300">
+            {/* {dictionary.prices} */}
+            Franchise
+          </Link>
           <Link href="/faq" className="hover:text-gray-300">
             {dictionary.support}
           </Link>
@@ -91,7 +102,18 @@ const Navbar = () => {
               <Link href="/prices" onClick={() => setIsOpen(false)}>
                 {dictionary.prices}
               </Link>
-              {/* <Link href="/blogs" onClick={() => setIsOpen(false)}>{dictionary.blogs}</Link> */}
+             <Link href="/career" onClick={() => setIsOpen(false)}>
+                {/* {dictionary.prices} */}
+                Careers
+              </Link>
+               <Link href="/investors" onClick={() => setIsOpen(false)}>
+                {/* {dictionary.prices} */}
+                Investors
+              </Link>
+               <Link href="/franchise" onClick={() => setIsOpen(false)}>
+                {/* {dictionary.prices} */}
+                Franchise 
+              </Link>
               <Link href="/faq" onClick={() => setIsOpen(false)}>
                 {dictionary.support}
               </Link>
