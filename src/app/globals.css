@@ -61,7 +61,6 @@
 
 .bg-scroll-contained {
   animation: bg-scroll-in 20s linear infinite;
-       
   background-repeat: no-repeat;
   background-position: center top;
 }
