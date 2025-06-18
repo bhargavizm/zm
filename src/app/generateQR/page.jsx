@@ -9,12 +9,13 @@ import CustomerReviews from "@/components/homePage/customerReviews";
 import ScheduleDemo from "@/components/homePage/demo/demo";
 import QRDesign from "@/components/homePage/qrDesign/qrDesign";
 import QRCodeTracking from "@/components/homePage/tracking";
-
+// import OfferScrolling from "@/components/homePage/offerScrolling";
 
 
 const GenerateQR = () => {
   return (
     <>
+      {/* <OfferScrolling /> */}
       <CustomizeQRCode />
       <CreateLogo />
       <ScheduleDemo />

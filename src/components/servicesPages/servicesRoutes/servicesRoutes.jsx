@@ -4,7 +4,7 @@ export const directToCustomize = [
   'urls', 'meetings', 'google-meets', 'zoom-meets', 'microsoft-teams',
   'form-qr', 'forms', 'student-forms', 'personal-notes', 'youtube',
   'facebook', 'instagram', 'linkedin', 'twitter', 'location',
-  'pdf', 'landing-page', 'github'
+  , 'landing-page', 'github'
 ];
 
 export    const componentMap = {
@@ -23,6 +23,10 @@ export    const componentMap = {
   audios: {
     content: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/audio/audioContent')),
     preview: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/audio/audioPreview')),
+  },
+   "pdf": {
+    content: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/pdf/pdfContent')),
+    preview: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/pdf/pdfPreview')),
   },
   videos: {
     content: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/video/videoContent')),

@@ -12,6 +12,8 @@ import ComingSoonModal from "@/components/modalPopUps/comingSoonModal";
 
 const tabs = ["Content", "Backdrop Designs", "QR Code"];
 
+const encryptedSlugs = ["audios", "videos", "gallery", "pdf"];
+
 const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
   const { slug } = useParams();
   const [activeTab, setActiveTab] = useState("Content");
@@ -20,18 +22,28 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleClick = () => setShowModal(true);
+
+   const formatServiceName = (slug) => {
+    const name = slug
+      .split("-")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+    return encryptedSlugs.includes(slug)
+      ? `${name} (Encrypted Service) `
+      : name;
+  };
+
+
   return (
     <>
       <section className="pt-8">
         <div className="grid md:grid-cols-12  grid-cols-1 gap-4 mx-4 sm:mx-6 md:mx-9">
           {/* Left Panel */}
           <div className="col-span-6 lg:col-span-7 bg-white rounded-3xl shadow-lg">
-            <h1 className="text-2xl font-bold py-4 px-6">
-              {slug
-                .split("-")
-                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(" ")}
+           <h1 className="text-2xl font-bold py-4 px-6">
+              {formatServiceName(slug)}
             </h1>
+            {/* ...rest of your layout */}
 
             {/* Tabs */}
             <div className="grid grid-cols-3 md:px-6 bg-[#58b8b8]  shadow-lg py-2 mb-4">
