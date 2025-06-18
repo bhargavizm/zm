@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 const OfferScrolling = () => {
   return (
-    <div className=" w-full fixed top-0 z-100 overflow-hidden mt-[10vh] bg-white cursor-pointer ">
+    <div className=" w-full fixed top-0 z-80 overflow-hidden mt-[10vh] bg-white cursor-pointer ">
       <div className="marquee flex items-center whitespace-nowrap space-x-16">
         {[...Array(3)].map((_, index) => (
           <div
