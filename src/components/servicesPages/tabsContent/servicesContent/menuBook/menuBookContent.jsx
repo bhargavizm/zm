@@ -143,9 +143,12 @@ const MenuBookContent = () => {
         <NFCModal/>
 
         <div className="text-center my-6">
-          <button className="bg-[#137e7e] text-white px-4 py-2 rounded hover:bg-[#008080]">
-            Submit
-          </button>
+         <button
+                type="submit"
+                className="w-full bg-[#008080] hover:bg-[#006666] text-white py-3 rounded-lg font-medium transition-colors shadow-lg"
+              >
+              Submit
+              </button>
         </div>
 
       {/* Footer */}

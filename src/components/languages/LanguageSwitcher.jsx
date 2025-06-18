@@ -14,11 +14,7 @@ const LANGUAGES = {
     gu: 'Gujarati',
     kn: 'Kannada',
     mr: 'Marathi',
-<<<<<<< HEAD
-    pa: 'Punjabi'
-=======
     pa: 'Punjabi',
->>>>>>> 304e0512432dc8b76f262528394b9b8e93c154a6
 };
 
 export default function LanguageSwitcher() {

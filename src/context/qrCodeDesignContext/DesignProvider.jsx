@@ -13,7 +13,7 @@ const DesignProvider = ({ children }) => {
   // const [selectedShape, setSelectedShape] = useState(null);
   const [logoSize, setLogoSize] = useState(45);
    const [backgroundImage, setBackgroundImage] = useState(null);
- const [scale, setScale] = useState(55);
+ const [scale, setScale] = useState(80);
  const [bgDesign, setBgDesign] = useState(null);
 
 useEffect(() => {
@@ -30,8 +30,8 @@ useEffect(() => {
   // Load from localStorage once on mount
 useEffect(() => {
   setSelectedQRShape(localStorage.getItem("selectedQRShape") || "/images/qr-shapes/qrshapes-15.webp")
-  setSelectedLogo(localStorage.getItem("selectedLogo") || "/images/logos/box.svg");
-  setSelectedSticker(localStorage.getItem("selectedSticker") || "/images/stickers/sticker-4.svg");
+  setSelectedLogo(localStorage.getItem("selectedLogo") || "/images/logos/zm-logo.png");
+  setSelectedSticker(localStorage.getItem("selectedSticker") || "/images/stickers/stickers-4.svg");
   // setSelectedColor(localStorage.getItem("selectedColor") || "#000000");
   // setSelectedShape(localStorage.getItem("selectedShape") || "square");
 }, []);
