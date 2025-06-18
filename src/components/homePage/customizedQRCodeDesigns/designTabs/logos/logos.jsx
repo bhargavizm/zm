@@ -28,11 +28,10 @@ const Logos = ({ onSelectImage }) => {
 
   return (
     <section >
-<<<<<<< HEAD
-      <div className="grid lg:grid-cols-8 md:grid-cols-6 sm:grid-cols-4 grid-cols-3 h-[70vh] overflow-y-auto scrollbar-hide">
+
 =======
       <div className="grid lg:grid-cols-8 md:grid-cols-6 sm:grid-cols-4 grid-cols-3 h-[70vh] gap-4 overflow-y-auto scrollbar-hide">
->>>>>>> d012277da28460bcbff7e6d4fb874d1c6f390f6d
+
         {logos.map((src, index) => (
           <Image
             key={index}

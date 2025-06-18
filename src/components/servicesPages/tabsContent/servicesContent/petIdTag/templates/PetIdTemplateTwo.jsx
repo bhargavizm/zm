@@ -30,7 +30,7 @@ const PetIdTemplateTwo = ({ petIDFormData }) => {
                     />
                 ) : (
                     <div className="w-[150px] h-[150px] bg-gray-200 rounded-full flex items-center justify-center text-gray-500">
-                        No Image
+                         <img src="/pet-id/dog1.png"/>
                     </div>
                 )}
             </div>
