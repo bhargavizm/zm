@@ -41,22 +41,22 @@ const services = [
         "serviceName": "Business Card",
         slug: "business-cards",
         "description": "Craft standout digital business cards in a snap with sleek templates, effortlessly sparking connections that resonate.",
-        "image": "/services/BusinessCard.png",
+        "image": "/services/business-card.webp",
     },
     {
         "icon": <BsFillCartCheckFill className="text-[#001a1a]" />,
         "serviceName": "Product QR Code",
         slug: "product-cards",
         "description": "Create a stunning Product QR Code to effortlessly connect customers and elevate your brand's accessibility.",
-        "image": "/services/Product.webp",
+        "image": "/services/product-cards.webp",
     },
-    {
-        "icon": <SiGoogleforms className="text-[#001a1a]" />,
-        "serviceName": "Form QR",
-        slug: "form-qr",
-        "description": "Create Google Forms QR Codes for seamless offline responses and manage comprehensive analytics effortlessly at your fingertips.",
-        "image": "/services/Form-qr.webp",
-    },
+    // {
+    //     "icon": <SiGoogleforms className="text-[#001a1a]" />,
+    //     "serviceName": "Form QR",
+    //     slug: "form-qr",
+    //     "description": "Create Google Forms QR Codes for seamless offline responses and manage comprehensive analytics effortlessly at your fingertips.",
+    //     "image": "/services/Form-qr.webp",
+    // },
     {
         "icon": <BsPersonVcard className="text-[#001a1a]" />,
         "serviceName": "vCard Plus",
@@ -64,13 +64,7 @@ const services = [
         "description": "Effortlessly create vCard Plus QR Codes to share your contact information and boost networking opportunities instantly!",
         "image": "/services/vCard.webp",
     },
-    {
-        "icon": <FaFilePdf className="text-[#001a1a]" />,
-        "serviceName": "PDF",
-        slug: "pdf",
-        "description": "Generate scannable QR Codes for PDF files, ensuring easy access and sharing of important documents digitally.",
-        "image": "/services/PDF-to-qr.webp",
-    },
+   
     {
         "icon": <MdPets className="text-[#001a1a]" />,
         "serviceName": "Pet ID Tags",
@@ -92,27 +86,7 @@ const services = [
         "description": "Effortlessly transform images into QR codes, connecting visuals to digital content in an instant.",
         "image": "/services/bussiness-shop-qr.webp",
     },
-    {
-        "icon": <ImHeadphones className="text-[#001a1a]" />,
-        "serviceName": "Audio",
-        slug: "audios",
-        "description": "Generate QR Codes that link to audio content, enhancing experiences with instant access to captivating sound.",
-        "image": "/services/audio-qr.webp",
-    },
-    {
-        "icon": <GrGallery className="text-[#001a1a]" />,
-        "serviceName": "Gallery",
-        slug: "gallery",
-        "description": "Showcase your visual creations in a dynamic Gallery, effortlessly accessed through QR Codes for instant viewing.",
-        "image": "/services/gallery-to-qr.webp",
-    },
-    {
-        "icon": <FaVideo className="text-[#001a1a]" />,
-        "serviceName": "Video",
-        slug: "videos",
-        "description": "Generate engaging QR Codes for videos, allowing instant access to your captivating content from anywhere, anytime.",
-        "image": "/services/video-qr.webp",
-    },
+   
     {
         "icon": <GoFileDirectoryFill className="text-[#001a1a]" />,
         "serviceName": "Resume",
@@ -148,13 +122,13 @@ const services = [
         "description": "Design intuitive QR Code forms that streamline data collection, enhance user engagement, and simplify analysis effortlessly.",
         "image": "/services/forms-qr.webp",
     },
-    {
-        "icon": <MdDiversity3 className="text-[#001a1a]" />,
-        "serviceName": "Meeting",
-        slug: "meetings",
-        "description": "Generate QR Codes for meetings that allow instant access to schedules and essential details for participants.",
-        "image": "/services/meet-qr.webp",
-    },
+    // {
+    //     "icon": <MdDiversity3 className="text-[#001a1a]" />,
+    //     "serviceName": "Meeting",
+    //     slug: "meetings",
+    //     "description": "Generate QR Codes for meetings that allow instant access to schedules and essential details for participants.",
+    //     "image": "/services/meet-qr.webp",
+    // },
     {
         "icon": <SiGooglemeet className="text-[#001a1a]" />,
         "serviceName": "Google Meet",
@@ -304,4 +278,37 @@ const services = [
     },
 ]
 
-export default services;
+
+const encryptedServices = [
+ {
+        "icon": <FaFilePdf className="text-[#001a1a]" />,
+        "serviceName": "PDF",
+        slug: "pdf",
+        "description": "Generate scannable QR Codes for PDF files, ensuring easy access and sharing of important documents digitally.",
+        "image": "/services/PDF-to-qr.webp",
+    },
+     {
+        "icon": <ImHeadphones className="text-[#001a1a]" />,
+        "serviceName": "Audio",
+        slug: "audios",
+        "description": "Generate QR Codes that link to audio content, enhancing experiences with instant access to captivating sound.",
+        "image": "/services/audio-qr.webp",
+    },
+    {
+        "icon": <GrGallery className="text-[#001a1a]" />,
+        "serviceName": "Gallery",
+        slug: "gallery",
+        "description": "Showcase your visual creations in a dynamic Gallery, effortlessly accessed through QR Codes for instant viewing.",
+        "image": "/services/gallery-to-qr.webp",
+    },
+    {
+        "icon": <FaVideo className="text-[#001a1a]" />,
+        "serviceName": "Video",
+        slug: "videos",
+        "description": "Generate engaging QR Codes for videos, allowing instant access to your captivating content from anywhere, anytime.",
+        "image": "/services/video-qr.webp",
+    },
+]
+export default {
+    services, encryptedServices
+};

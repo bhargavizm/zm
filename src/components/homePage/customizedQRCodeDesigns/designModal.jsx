@@ -170,7 +170,7 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
   </div>
 
   {/* Tabs */}
-  <div className="flex flex-wrap gap-2 justify-center mb-4">
+  <div className="flex flex-wrap gap-2 justify-center mb-9">
     {tabs.map((tab) => (
       <button
         key={tab}
