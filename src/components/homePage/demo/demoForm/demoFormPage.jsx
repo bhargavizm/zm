@@ -1,9 +1,6 @@
 "use client";
 
-<<<<<<< HEAD
-=======
 
->>>>>>> d012277da28460bcbff7e6d4fb874d1c6f390f6d
 import ComingSoonModal from "@/components/modalPopUps/comingSoonModal";
 import React, { useState } from "react";
 
@@ -181,11 +178,7 @@ const DemoFormPage = () => {
             </select>
           </div>
 
-<<<<<<< HEAD
-          <div className="text-center py-6">
-=======
           <div className="flex justify-center py-6">
->>>>>>> d012277da28460bcbff7e6d4fb874d1c6f390f6d
             <button
               type="submit"
               className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
