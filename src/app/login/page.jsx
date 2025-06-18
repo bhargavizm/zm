@@ -31,7 +31,7 @@ export default function LoginPage() {
                 {/* Close Button */}
                 <button
                     onClick={() => router.push('/')}
-                    className="absolute top-4 right-4 text-2xl text-gray-400 hover:text-gray-700 z-10"
+                    className="absolute top-4 right-4 text-2xl text-[#001a1a] font-bold cursor-pointer hover:text-gray-700 z-10"
                     aria-label="Close"
                 >
                     &times;
