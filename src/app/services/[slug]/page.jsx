@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-
->>>>>>> d012277da28460bcbff7e6d4fb874d1c6f390f6d
->>>>>>> facbbf2ad8d72053f0aadd23b54d89360bf9874c
 import ServicesDataFlow from "@/components/servicesPages/layouts/servicesDataFlow";
 
 export default function Page() {
@@ -87,8 +80,4 @@ export async function generateStaticParams() {
 //   />;
 // };
 
-<<<<<<< HEAD
 // export default ServicePage;
-=======
-// export default ServicePage;
->>>>>>> facbbf2ad8d72053f0aadd23b54d89360bf9874c
