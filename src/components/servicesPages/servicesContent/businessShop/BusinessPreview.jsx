@@ -286,6 +286,7 @@ import useServicesContext from '@/components/hooks/useServiceContext';
 import Template1 from '@/components/servicesPages/servicesContent/businessShop/templates/Template1';
 import Template2 from '@/components/servicesPages/servicesContent/businessShop/templates/Template2';
 import Template3 from '@/components/servicesPages/servicesContent/businessShop/templates/Template3';
+import Template4 from '@/components/servicesPages/servicesContent/businessShop/templates/Template4';
 import useDesignContext from '@/components/hooks/useDesignContext';
 
 const Section = ({ title, children, condition }) => {
@@ -369,6 +370,7 @@ const BusinessPreview = () => {
               {selectedTemplate === 'template1' && <Template1 data={template1Data} />}
               {selectedTemplate === 'template2' && <Template2 data={template2Data} />}
               {selectedTemplate === 'template3' && <Template3 data={template3Data} />}
+              {selectedTemplate === 'template4' && <Template4 data={template4Data} />}
 
               {/* Sections */}
               <Section
