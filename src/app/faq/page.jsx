@@ -16,9 +16,9 @@ const FAQPage = () => {
     }, []);
 
     return (
-        <div className="bg-[#008080] min-h-screen">
+        <div className="bg-[#008080] pt-40 ">
             {/* Fixed Navbar */}
-            <nav className="bg-[#008080] my-30 text-white fixed top-0 left-0 w-full z-50 shadow-md">
+            <nav className="bg-[#008080] mt-36 my-30 text-white fixed top-0 left-0 w-full z-50 shadow-md">
                 <div className="max-w-6xl mx-auto px-4 flex items-center justify-between h-14">
                     <div className="text-lg font-bold"></div>
                     <ul className="flex space-x-6 text-sm font-medium ml-auto">
