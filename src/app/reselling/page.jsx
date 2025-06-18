@@ -347,6 +347,11 @@ const InvestmentAndSupportSection = () => {
                                     <td className="py-2 px-4">Total Estimated Initial Investment</td>
                                     <td className="py-2 px-10">0/-</td>
                                 </tr>
+
+                                <tr className="border-b " style={{ borderColor: SITE_COLORS.border, fontWeight: 'bold' }}>
+                                    <td className="py-2 px-4">Marketing & Sales Toolkit</td>
+                                    <td className="py-2 px-2 text-center">Depends</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>

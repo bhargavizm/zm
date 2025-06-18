@@ -126,8 +126,6 @@
 // ];
 
 
-
-
 export const stickerConfig = {
   "/images/stickers/a.png": {
     qrTop: "50%",
@@ -329,6 +327,7 @@ export const stickerConfig = {
 //     logoLeft: "38%",
 //     logoSize: 32,
 //   },
+
   "/images/stickers/stickers-20.jpg": {
     qrTop: "65%",
     qrLeft: "40%",
@@ -1086,4 +1085,5 @@ export const stickerConfig = {
 //     logoLeft: "50%",
 //     logoSize: 35,
 //   },
+
 };

@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from "react";
@@ -26,13 +27,8 @@ const DesignSection = () => {
   const { slug } = useParams();
 
   return (
-<<<<<<< HEAD
-<div className="px-4 sm:px-8 md:px-14 py-8">
-  <div className="flex  w-full overflow-x-auto gap-x-6 border-b  border-white/40 pb-9">
-=======
 <div className="px-4 sm:px-8 md:px-14 py-8 mx-auto">
   <div className="flex lg:justify-center w-full overflow-x-auto gap-x-6 border-b   border-white/40 pb-9">
->>>>>>> d012277da28460bcbff7e6d4fb874d1c6f390f6d
     {tabLinks.map(({ href, label, icon }) => {
       const isActive = href.includes(slug);
 
