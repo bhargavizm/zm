@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -98,7 +97,21 @@ const ServicesPage = () => {
               >
                 {service.description}
               </p>
-              {service.description.length > 100 && (
+              {/* {service.description.length > 100 && (
+                <div className="text-right">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleExpand(service.slug);
+                    }}
+                    className="text-xs text-teal-600 my-2 underline"
+                  >
+                    {expanded[service.slug] ? "Show less" : "Read more"}
+                  </button>
+                </div>
+              )} */}
+              {service.description?.trim().length > 100 && (
                 <div className="text-right">
                   <button
                     type="button"
@@ -120,8 +133,8 @@ const ServicesPage = () => {
   );
 
   return (
-    <div className="py-12 bg-[rgb(0,128,128)] min-h-screen">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="py-12 bg-[rgb(0,128,128)] ">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Search */}
         <div className="mb-10 flex justify-end pt-20">
           <div className="relative w-full max-w-sm group shadow-2xl">
@@ -136,60 +149,75 @@ const ServicesPage = () => {
           </div>
         </div>
 
+        {/* Special Services Section */}
+        <div className="">
+          <div className="flex justify-center items-center mt-2 ">
+            <div className="flex items-center justify-center gap- shadow-2xl px-4 py-2 rounded-xl border border-white">
+              {/* Left Image */}
+              <Image
+                src="/logos/ZM Logo.webp"
+                width={50}
+                height={50}
+                alt="Left Logo"
+                className="animate-bounce"
+              />
+
+              {/* Text */}
+              <h2 className="text-3xl animate-bounce font-semibold text-white">
+                Encrypted Services
+              </h2>
+
+              {/* Right Image */}
+              <Image
+                src="/logos/ZM Logo.webp"
+                width={50}
+                height={50}
+                alt="Right Logo"
+                className="animate-bounce"
+              />
+            </div>
+          </div>
+
+          <div className="py-6">
+            {/* <h3 className="text-center text-3xl font-semibold text-white py-6">
+              🔒Secure & Encrypted QR Services{" "}
+              <span className="block text-2xl">
+                You Can Trust At ZM QR Code Services🔒
+              </span>{" "}
+              <span className="text-lg pl-72">
+                {" "}
+                - your privacy is our priority.{" "}
+              </span>
+            </h3> */}
+
+            <div className="border-4 px-16 my-6 rounded-2xl border-double py-9 shadow-3xl border-white">
+              {filteredSpecial.length > 0 ? (
+                renderServices(filteredSpecial)
+              ) : (
+                <p className="text-white text-center ">
+                  No special services found.
+                </p>
+              )}
+
+              <p className="text-white text-center text-2xl animate-bounce px-4 mt-12">
+              🔐 Trust us with your data. It's not just secure — it's encrypted
+              🔒
+            </p>
+            </div>
+            
+          </div>
+        </div>
         {/* Main Services Section */}
+
+         <h2 className="text-3xl  text-center py-6  font-semibold text-white">
+                Secured Services
+              </h2>
+
         {filteredMain.length > 0 ? (
           renderServices(filteredMain)
         ) : (
           <p className="text-white text-center">No services found.</p>
         )}
-
-        {/* Special Services Section */}
-        <div className="flex justify-center mt-16 mb-6">
-          <div className="flex items-center gap- shadow-2xl px-6 py-3 rounded-xl border border-white">
-            {/* Left Image */}
-            <Image
-              src="/logos/ZM Logo.webp"
-              width={50}
-              height={50}
-              alt="Left Logo"
-              className="animate-bounce"
-            />
-
-            {/* Text */}
-            <h2 className="text-3xl animate-bounce font-semibold text-white">
-              Encrypted Services
-            </h2>
-
-            {/* Right Image */}
-            <Image
-              src="/logos/ZM Logo.webp"
-              width={50}
-              height={50}
-              alt="Right Logo"
-              className="animate-bounce"
-            />
-          </div>
-        </div>
-
-        <div className=" ">
-          <h3 className="text-center text-3xl font-semibold text-white py-6">
-             🔒Secure & Encrypted QR Services <span className="block text-2xl">You Can Trust At ZM QR Code
-            Services🔒</span> <span className="text-lg pl-72"> - your privacy is our priority.{" "}</span>
-          </h3>
-
-           
-        {filteredSpecial.length > 0 ? (
-          renderServices(filteredSpecial)
-        ) : (
-          <p className="text-white text-center">No special services found.</p>
-        )}
-
-          <p className="text-white text-center text-2xl animate-bounce px-4  py-20">
-            🔐 Trust us with your data. It's not just secure — it's encrypted 🔒
-          </p>
-        </div>
-
-        
       </div>
     </div>
   );
