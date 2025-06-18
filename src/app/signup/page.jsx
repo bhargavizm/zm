@@ -169,12 +169,12 @@ export default function LoginPage() {
                 {/* Left Section */}
                 <div className="bg-mainGreen md:w-1/2 w-full flex flex-col justify-center items-center text-white p-6 md:rounded-r-2xl">
                     <Image src="/logos/zm-full.jpg" alt="logo" width={150} height={150} className="m-5 mb-10" />
-                    <h1 className="text-xl font-semibold text-center px-4">
-                        World's No.1 QR Code Generating and Managing Platform
+                    <h1 className="text-xl font-semibold text-center px-4 animate-bounce">
+                        🔐 Trust us with your data. It's not just secure — it's encrypted 🔐
                     </h1>
                     <Image src="/qr-image-login.png" alt="qr-image" width={400} height={400} className="m-5" />
-                    <h4 className="text-md font-thin text-center px-4">
-                        Trusted by the World's Top Brands.
+                    <h4 className="text-md text-center px-4 font-medium">
+                        India's No.1 QR Code Generating and Managing Platform
                     </h4>
                 </div>
             </div>

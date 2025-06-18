@@ -9,7 +9,7 @@ export default function LoginPage() {
     const router = useRouter();
     const [active, setActive] = useState('existing');
     const modalRef = useRef(null);
-     const [showPassword, setShowPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     // Optional: Close modal on outside click
     useEffect(() => {
@@ -40,12 +40,12 @@ export default function LoginPage() {
                 {/* Left Section */}
                 <div className="bg-mainGreen md:w-1/2 w-full flex flex-col justify-center items-center text-white p-6 md:rounded-l-2xl">
                     <Image src="/logo.svg" alt="logo" width={120} height={120} className="m-5" />
-                    <h1 className="text-xl font-semibold text-center px-4">
-                        World's No.1 QR Code Generating and Managing Platform
+                    <h1 className="text-xl font-semibold text-center px-4 animate-bounce">
+                        🔐 Trust us with your data. It's not just secure — it's encrypted 🔐
                     </h1>
                     <Image src="/qr-image-login.png" alt="qr-image" width={400} height={400} className="m-5" />
-                    <h4 className="text-md font-thin text-center px-4">
-                        Trusted by the World's Top Brands.
+                    <h4 className="text-md text-center px-4 font-medium">
+                        India's No.1 QR Code Generating and Managing Platform
                     </h4>
                 </div>
 
@@ -78,48 +78,48 @@ export default function LoginPage() {
                             </button>
                         </div>
 
- {[
-        { id: "email", label: "Official Email / Login ID*", type: "text" },
-        { id: "password", label: "Password*", type: "password" },
-      ].map((input) => (
-        <div className="relative w-full mt-3" key={input.id}>
-          <input
-            type={input.type === "password" && showPassword ? "text" : input.type}
-            id={input.id}
-            placeholder=" "
-            className="peer w-full border-2 border-gray-300 rounded-sm px-2 pt-4 pb-2 text-gray-800 focus:outline-none focus:border-[#008080]"
-          />
-          <label
-            htmlFor={input.id}
-            className="absolute left-3 -top-2 bg-white px-1 text-sm text-gray-500 transition-all 
+                        {[
+                            { id: "email", label: "Official Email / Login ID*", type: "text" },
+                            { id: "password", label: "Password*", type: "password" },
+                        ].map((input) => (
+                            <div className="relative w-full mt-3" key={input.id}>
+                                <input
+                                    type={input.type === "password" && showPassword ? "text" : input.type}
+                                    id={input.id}
+                                    placeholder=" "
+                                    className="peer w-full border-2 border-gray-300 rounded-sm px-2 pt-4 pb-2 text-gray-800 focus:outline-none focus:border-[#008080]"
+                                />
+                                <label
+                                    htmlFor={input.id}
+                                    className="absolute left-3 -top-2 bg-white px-1 text-sm text-gray-500 transition-all 
               peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
               peer-focus:-top-2 peer-focus:text-sm peer-focus:text-[#001a1a] peer-focus:bg-white"
-          >
-            {input.label}
-          </label>
+                                >
+                                    {input.label}
+                                </label>
 
-          {input.type === "password" && (
-            <button
-              type="button"
-              onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 focus:outline-none"
-            >
-              {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
-            </button>
-          )}
-        </div>
-      ))}
-   
+                                {input.type === "password" && (
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword((prev) => !prev)}
+                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 focus:outline-none"
+                                    >
+                                        {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+                                    </button>
+                                )}
+                            </div>
+                        ))}
 
-                    {/* Checkboxes */}
-                    <div className="flex items-start mt-3 w-full gap-2 text-sm">
-                        <input type="checkbox" className="border-2 border-mainGreen mt-1" />
-                        <label>I agree to <span className="text-mainGreen">terms</span> and <span className="text-mainGreen">privacy</span> policy</label>
-                    </div>
-                    <div className="flex items-start mt-2 w-full gap-2 text-sm">
+
+                        {/* Checkboxes */}
+                        <div className="flex items-start mt-3 w-full gap-2 text-sm">
+                            <input type="checkbox" defaultChecked className="border-2 border-mainGreen mt-1" />
+                            <label>I agree to <a href="/terms-conditions" target="_blank"><span className="text-mainGreen">terms</span></a> and <a href="/privacy-policies" target="_blank"><span className="text-mainGreen">privacy</span></a> policy</label>
+                        </div>
+                        {/* <div className="flex items-start mt-2 w-full gap-2 text-sm">
                         <input type="checkbox" className="border-2 border-mainGreen mt-1" />
                         <label>Remember me on this browser</label>
-                    </div>
+                    </div> */}
 
                         {/* Submit */}
                         <button
