@@ -72,6 +72,7 @@ export default function Career() {
   // };
   
   const handleSearch = () => {
+    console.log('search')
     const query = new URLSearchParams();
     if (role) query.append('role', role);
     if (location) query.append('location', location);
