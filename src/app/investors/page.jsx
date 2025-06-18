@@ -661,7 +661,7 @@ const InvestorsPage = () => {
   const borderColor = darkMode ? 'border-gray-700' : 'border-gray-200';
 
   return (
-    <div className={`min-h-screen ${bgColor} ${textColor}`} ref={containerRef}>
+    <div className={`min-h-screen ${bgColor} ${textColor} pt-20`} ref={containerRef} >
       <Head>
         <title>Invest in ZM QR Code Services | Next-Gen QR Solutions</title>
         <meta name="description" content="Join ZM QR's growth journey with our innovative QR technology" />
@@ -695,7 +695,6 @@ const InvestorsPage = () => {
                 <MoonIcon className="h-5 w-5" />
               )}
             </button>
-           
           </div>
         </div>
       </nav>

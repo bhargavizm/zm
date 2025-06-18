@@ -61,7 +61,6 @@
 
 .bg-scroll-contained {
   animation: bg-scroll-in 20s linear infinite;
-       
   background-repeat: no-repeat;
   background-position: center top;
 }
@@ -190,16 +189,6 @@
     margin: auto;
     padding: 8px;
   }
-}
-
-
-/* styles/globals.css */
-.delay-100 {
-  animation-delay: 100ms;
-}
-
-.delay-200 {
-  animation-delay: 200ms;
 }
 
 

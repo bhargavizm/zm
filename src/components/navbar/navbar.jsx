@@ -34,16 +34,13 @@ const Navbar = () => {
             {dictionary.prices}
           </Link>
            <Link href="/career" className="hover:text-gray-300">
-            {/* {dictionary.prices} */}
-            Careers
+            {dictionary.Career}
           </Link>
            <Link href="/investors" className="hover:text-gray-300">
-            {/* {dictionary.prices} */}
-            Investors
+            {dictionary.Investors}
           </Link>
            <Link href="/franchise" className="hover:text-gray-300">
-            {/* {dictionary.prices} */}
-            Franchise
+            {dictionary.Franchise}
           </Link>
           <Link href="/faq" className="hover:text-gray-300">
             {dictionary.support}
@@ -133,3 +130,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
