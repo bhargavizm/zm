@@ -81,7 +81,7 @@ const PetTagContent = () => {
                     selectedTemplate: img,
                   }))
                 }
-                className={`cursor-pointer p-1 border rounded-lg ${
+                className={`cursor-pointer p-1  rounded-lg ${
                   petIDFormData.selectedTemplate === img
                     ? "border-[#008080]"
                     : "border-gray-300"

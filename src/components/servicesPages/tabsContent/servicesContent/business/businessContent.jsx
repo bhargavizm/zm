@@ -61,7 +61,7 @@ const BusinessContent = () => {
                 {templateImages.map((filename, idx) => (
                   <div
                     key={idx}
-                    className={`border-2 rounded-md p-2 cursor-pointer transition hover:shadow-lg ${
+                    className={` rounded-md p-2 cursor-pointer transition hover:shadow-lg ${
                       businessForm.selectedTemplate === filename
                         ? "border-[#008080]"
                         : "border-gray-300"
