@@ -66,6 +66,23 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
   return (
     <>
       <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30 px-4">
+<<<<<<< HEAD
+        <div className="bg-white rounded-xl shadow-xl w-full max-w-6xl h-[95vh] relative px-6 py-6 o overflow-y-auto scrollbar-hide">
+          {/* Header */}
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-bold text-darkGreen">
+              Customize QR Code
+            </h2>
+            <button
+              className="text-xl cursor-pointer font-bold"
+              onClick={() => setIsModalOpen(false)}
+              aria-label="Close modal"
+            >
+              &#10005;
+            </button>
+          </div>
+          <hr className="border-slate-300 mb-2" />
+=======
       {/* Desktop Layout */}
 <div className="hidden md:block">
 <div className="bg-white rounded-xl shadow-xl w-full max-w-6xl h-[95vh] relative px-6 py-6 o overflow-y-auto scrollbar-hide">
@@ -100,6 +117,7 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
     </div>
 
     <hr className="border-slate-300 my-2" />
+>>>>>>> d012277da28460bcbff7e6d4fb874d1c6f390f6d
 
     {/* Grid */}
     <div className="grid grid-cols-12 gap-4">
@@ -214,4 +232,8 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
   );
 };
 
+<<<<<<< HEAD
 export default DesignModal;
+=======
+export default DesignModal;
+>>>>>>> d012277da28460bcbff7e6d4fb874d1c6f390f6d
