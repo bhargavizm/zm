@@ -1,5 +1,3 @@
-
-
 'use client';
 
 import React, { useState } from 'react';
@@ -67,7 +65,7 @@ export default function Career() {
   //     const query = new URLSearchParams();
   //     if (role) query.append('role', role);
   //     if (location) query.append('location', location);
-  //     window.location.href = `/jobs?${query.toString()}`;
+  //     window.location.href = /jobs?${query.toString()};
   //   }
   // };
   
