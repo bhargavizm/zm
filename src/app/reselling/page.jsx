@@ -14,27 +14,19 @@ import {
 
 // --- Custom Color Palette ---
 const SITE_COLORS = {
-    // Main dark background (inspired by the hero section and footer)
-    primaryDarkBg: '#001a1a', // A deep green
-
-    // Accent colors for buttons, gradients, icons
-    accentTeal: '#008080',      // Base Teal
-    accentTealLight: '#339999',  // Lighter Teal
-    accentTealDark: '#006666',  // Darker Teal
-
-    // Text colors
-    textLight: '#f0fafa',       // Off-white for text on dark backgrounds
-    textDark: '#1a202c',        // Dark charcoal for text on light backgrounds
-    textMuted: '#64748b',       // Muted gray for secondary text
-
-    // Section backgrounds and borders
-    sectionBgLight: '#ffffff',  // Pure white for content sections
-    sectionBgSubtle: '#f8fafc', // Very light gray for cards/inner sections
-    border: '#e2e8f0',          // Light gray border
+    primaryDarkBg: '#001a1a',
+    accentTeal: '#008080',
+    accentTealLight: '#339999',
+    accentTealDark: '#006666',
+    textLight: '#f0fafa',
+    textDark: '#1a202c',
+    textMuted: '#64748b',
+    sectionBgLight: '#ffffff',
+    sectionBgSubtle: '#f8fafc',
+    border: '#e2e8f0',
 };
 
-// --- Reusable Components (simplified for landing page) ---
-// Button component for consistent styling
+// --- Reusable Components ---
 const PrimaryButton = ({ children, onClick, className = '' }) => (
     <motion.button
         whileHover={{ scale: 1.05 }}
@@ -59,7 +51,6 @@ const SecondaryButton = ({ children, onClick, className = '' }) => (
     </motion.button>
 );
 
-// Feature Item (for lists with icons)
 const FeatureItem = ({ icon, title, description }) => (
     <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -79,13 +70,10 @@ const FeatureItem = ({ icon, title, description }) => (
 );
 
 // --- Section Components ---
-
-// 1. Home Page (Landing Page for Franchise Acquisition)
 const HeroSection = () => {
     return (
         <section className="min-h-screen flex items-center justify-center p-8 relative overflow-hidden" style={{ background: SITE_COLORS.primaryDarkBg }}>
             <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between z-10 text-center lg:text-left">
-                {/* Left Content */}
                 <motion.div
                     initial={{ opacity: 0, x: -50 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -99,17 +87,15 @@ const HeroSection = () => {
                         Join the Future of Connectivity – Your Path to a Thriving Digital Business Starts Here.
                     </p>
                     <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-10 justify-center lg:justify-start">
-
                         <SecondaryButton>Schedule a Discovery Call</SecondaryButton>
                     </div>
                 </motion.div>
 
-                {/* Right Visual */}
                 <motion.div
                     initial={{ opacity: 0, x: 50 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
-                    className=" flex justify-center items-center bg-white rounded-2xl h-130"
+                    className="flex justify-center items-center bg-white rounded-2xl h-130"
                 >
                     <img
                         src="/images/normal/reGrowth.png"
@@ -122,9 +108,7 @@ const HeroSection = () => {
     );
 };
 
-// Why ZM QR? (Scroll-down Section)
 const WhyZMQRSection = () => {
-
     return (
         <section className="py-20 px-8" style={{ backgroundColor: SITE_COLORS.sectionBgLight, color: SITE_COLORS.textDark }}>
             <div className="container mx-auto max-w-4xl text-center">
@@ -168,7 +152,6 @@ const WhyZMQRSection = () => {
     );
 };
 
-// How QR Codes Transform Businesses (Visual/Infographic)
 const HowQRCodesTransformBusinessesSection = () => {
     return (
         <section className="py-20 px-8" style={{ backgroundColor: SITE_COLORS.sectionBgSubtle, color: SITE_COLORS.textDark }}>
@@ -181,11 +164,11 @@ const HowQRCodesTransformBusinessesSection = () => {
                     whileInView={{ opacity: 0.5, scale: 1 }}
                     viewport={{ once: true, amount: 0.5 }}
                     transition={{ duration: 0.8 }}
-                    className="mb-2 max-w-sm mx-auto" /* Added max-w-sm and mx-auto */
+                    className="mb-2 max-w-sm mx-auto"
                 >
                     <video
                         src="videos/reselling.mp4"
-                        alt="Video demonstrating various QR code use cases for ZM QR Code Services"
+                        alt="Video demonstrating various QR code use cases"
                         className="rounded-xl shadow-xl w-full h-auto object-cover"
                         autoPlay
                         loop
@@ -205,26 +188,22 @@ const HowQRCodesTransformBusinessesSection = () => {
     );
 };
 
-// Testimonials (Scrolling Carousel - Placeholder)
 const TestimonialsSection = () => {
     const testimonials = [
         { quote: "Partnering with ZM QR Code Services has been a game-changer for our business. The support is incredible!", author: "Navya L., Franchisee" },
         { quote: "Their platform is so easy to use and our clients love the QR solutions. Highly recommend!", author: "Joseph., Business Owner" },
         { quote: "The recurring revenue model is fantastic. ZM QR Code has helped us achieve significant growth.", author: "Krishna., Entrepreneur" },
-        { quote: "ZM QR Code Services has transformed the way we connect with our customers. Combined with real-time analytics and branding tools.", author: "Mastanvali., Business Head" }
+        { quote: "ZM QR Code Services has transformed the way we connect with our customers.", author: "Mastanvali., Business Head" }
     ];
 
-    // State to manage which testimonial is currently active for the simple placeholder
     const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
 
-    // Simple interval to change testimonials (for demonstration, a real carousel would be more complex)
-    React.useEffect(() => {
+    useEffect(() => {
         const interval = setInterval(() => {
             setCurrentTestimonialIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
-        }, 5000); // Change every 5 seconds
+        }, 5000);
         return () => clearInterval(interval);
     }, [testimonials.length]);
-
 
     return (
         <section className="py-20 px-8" style={{ backgroundColor: SITE_COLORS.sectionBgLight, color: SITE_COLORS.textDark }}>
@@ -234,9 +213,8 @@ const TestimonialsSection = () => {
                 </h2>
                 <div className="relative overflow-hidden w-full max-w-2xl mx-auto h-48 flex items-center justify-center">
                     <AnimatePresence mode="wait">
-                        {/* Only render the current testimonial */}
                         <motion.div
-                            key={currentTestimonialIndex} // Key is crucial for AnimatePresence to detect changes
+                            key={currentTestimonialIndex}
                             initial={{ opacity: 0, x: 100 }}
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -100 }}
@@ -251,7 +229,6 @@ const TestimonialsSection = () => {
                     </AnimatePresence>
                 </div>
                 <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-10 justify-center">
-
                     <SecondaryButton>Schedule a Discovery Call</SecondaryButton>
                 </div>
             </div>
@@ -259,70 +236,35 @@ const TestimonialsSection = () => {
     );
 };
 
-// 2. Why Franchise with ZM? (Detailed Benefits Page)
 const WhyFranchiseWithZMSection = () => {
     const [activeIndex, setActiveIndex] = useState(0);
 
     const advantageBlocks = [
         {
             title: "The Market Opportunity",
-            description: "Tap into the explosive growth of QR code usage across various industries. Consumers are increasingly relying on QR codes for everything from contactless payments to interactive content.",
+            description: "Tap into the explosive growth of QR code usage across various industries.",
             points: [
                 "QR code usage surged by X% last year.",
                 "Y% of consumers prefer QR for payments and information access.",
-                "Diverse industries (retail, F&B, healthcare, events, marketing) demand QR solutions."
+                "Diverse industries demand QR solutions."
             ]
         },
         {
             title: "Our Proven Business Model",
-            description: "Leverage a low-overhead, scalable business model designed for recurring revenue. Our system focuses on efficiency and automation to maximize your profitability.",
+            description: "Leverage a low-overhead, scalable business model designed for recurring revenue.",
             points: [
-                "Recurring revenue potential from dynamic QR codes and platform subscriptions.",
+                "Recurring revenue potential from dynamic QR codes.",
                 "Low overhead and high scalability.",
-                "Efficient and automated system for streamlined operations."
-            ]
-        },
-        {
-            title: "Comprehensive Service Portfolio",
-            description: "Offer a full spectrum of high-demand QR solutions to cater to diverse client needs.",
-            points: [
-                "Dynamic & Static QR Codes",
-                "Custom Design & Branding",
-                "Advanced Management Platform & Analytics",
-                "API Integration for seamless workflows",
-                "Industry-Specific Solutions (e.g., Digital Menus, Event Check-in)"
-            ]
-        },
-        {
-            title: "Cutting-Edge Technology",
-            description: "Gain access to the proprietary ZM platform, designed for ease of use, robust features, and continuous innovation.",
-            points: [
-                "Intuitive, user-friendly interface",
-                "Powerful analytics dashboard",
-                "Secure and reliable infrastructure",
-                "Regular updates and new feature releases"
-            ]
-        },
-        {
-            title: "Unrivaled Support & Training",
-            description: "Benefit from comprehensive training and ongoing guidance to ensure your success.",
-            points: [
-                "Intensive initial training: sales, tech, operations, marketing.",
-                "Dedicated support team and extensive resource library.",
-                "Ready-to-use marketing & sales collateral.",
-                "Exclusive territory and a strong community network."
+                "Efficient and automated system."
             ]
         }
     ];
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setActiveIndex((prevIndex) =>
-                (prevIndex + 1) % advantageBlocks.length
-            );
-        }, 5000); // Change slide every 5 seconds
-
-        return () => clearInterval(interval); // Clear interval on component unmount
+            setActiveIndex((prevIndex) => (prevIndex + 1) % advantageBlocks.length);
+        }, 5000);
+        return () => clearInterval(interval);
     }, [advantageBlocks.length]);
 
     const currentBlock = advantageBlocks[activeIndex];
@@ -333,21 +275,18 @@ const WhyFranchiseWithZMSection = () => {
                 <h2 className="text-3xl lg:text-4xl font-bold text-center mb-6">
                     Your Blueprint for Success: The <span style={{ color: SITE_COLORS.accentTealDark }}>ZM QR Code</span> Advantage
                 </h2>
-                <p className="text-lg leading-relaxed text-center mb-12" style={{ color: SITE_COLORS.textMuted }}>
-                    Discover the unmatched benefits of partnering with a leader in digital connectivity.
-                </p>
-
-                <div className="relative overflow-hidden min-h-[300px] flex items-center justify-center"> {/* Added min-h to prevent layout shift */}
+                
+                <div className="relative overflow-hidden min-h-[300px] flex items-center justify-center">
                     <AnimatePresence mode="wait">
                         <motion.div
-                            key={activeIndex} // Key is crucial for AnimatePresence to detect changes
+                            key={activeIndex}
                             initial={{ opacity: 0, x: 100 }}
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -100 }}
                             transition={{ duration: 0.8 }}
-                            className="absolute w-full px-4" // Ensures the block takes full width and is centered
+                            className="absolute w-full px-4"
                         >
-                            <div className="bg-white p-8 rounded-lg shadow-lg"> {/* Added a wrapper div for styling */}
+                            <div className="bg-white p-8 rounded-lg shadow-lg">
                                 <h3 className="text-2xl font-bold mb-4" style={{ color: SITE_COLORS.accentTealDark }}>{currentBlock.title}</h3>
                                 <p className="mb-4" style={{ color: SITE_COLORS.textDark }}>
                                     {currentBlock.description}
@@ -370,7 +309,6 @@ const WhyFranchiseWithZMSection = () => {
     );
 };
 
-// 3. Investment & Support (Financials and What You Get Page)
 const InvestmentAndSupportSection = () => {
     return (
         <section className="py-20 px-8" style={{ backgroundColor: SITE_COLORS.sectionBgLight, color: SITE_COLORS.textDark }}>
@@ -378,10 +316,7 @@ const InvestmentAndSupportSection = () => {
                 <h2 className="text-3xl lg:text-4xl font-bold text-center mb-6">
                     Your Zero Investment, Our Commitment: <br /> Building Success Together
                 </h2>
-                <p className="text-lg leading-relaxed text-center mb-12" style={{ color: SITE_COLORS.textMuted }}>
-                    Understand the financial roadmap and the extensive support network you'll receive.
-                </p>
-
+                
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -391,9 +326,6 @@ const InvestmentAndSupportSection = () => {
                     style={{ border: `1px solid ${SITE_COLORS.border}` }}
                 >
                     <h3 className="text-2xl font-bold mb-4" style={{ color: SITE_COLORS.accentTealDark }}>Franchise Investment Overview</h3>
-                    <p className="mb-4" style={{ color: SITE_COLORS.textDark }}>
-                        The estimated initial investment for a ZM QR Code Services franchise ranges from:
-                    </p>
                     <div className="overflow-x-auto">
                         <table className="min-w-full bg-white rounded-lg">
                             <thead>
@@ -411,19 +343,6 @@ const InvestmentAndSupportSection = () => {
                                     <td className="py-2 px-4">Training & Travel Expenses</td>
                                     <td className="py-2 px-10">0/-</td>
                                 </tr>
-                                <tr className="border-b" style={{ borderColor: SITE_COLORS.border }}>
-                                    <td className="py-2 px-4">Initial Marketing Spend</td>
-                                    <td className="py-2 px-10">0/-</td>
-                                </tr>
-                                <tr className="border-b" style={{ borderColor: SITE_COLORS.border }}>
-                                    <td className="py-2 px-4">Technology Setup & Software</td>
-                                    <td className="py-2 px-10">0/-</td>
-                                </tr>
-                                <tr className="border-b" style={{ borderColor: SITE_COLORS.border }}>
-                                    <td className="py-2 px-4">Additional Working Capital (3 months)</td>
-                                    <td className="py-2 px-10">0/-</td>
-                                </tr>
-
                                 <tr style={{ backgroundColor: SITE_COLORS.primaryBg, color: SITE_COLORS.textPrimary, fontWeight: 'bold' }}>
                                     <td className="py-2 px-4">Total Estimated Initial Investment</td>
                                     <td className="py-2 px-10">0/-</td>
@@ -436,69 +355,17 @@ const InvestmentAndSupportSection = () => {
                             </tbody>
                         </table>
                     </div>
-                    <p className="mt-6 text-sm italic" style={{ color: SITE_COLORS.textMuted }}>
-                        * This is an estimated range. Please refer to our Franchise Disclosure Document (FDD) for detailed financial requirements and legal disclosures.
-                    </p>
                 </motion.div>
-
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.5 }}
-                    transition={{ duration: 0.6, delay: 0.1 }}
-                    className="bg-white rounded-lg shadow-md p-6 mb-10"
-                    style={{ border: `1px solid ${SITE_COLORS.border}` }}
-                >
-                    <h3 className="text-2xl font-bold mb-4" style={{ color: SITE_COLORS.accentTealDark }}>What You Get with Your ZM Franchise</h3>
-                    <ul className="list-disc list-inside space-y-2" style={{ color: SITE_COLORS.textDark }}>
-                        <li><span className="font-semibold">Comprehensive Training Program:</span> Initial intensive training covering sales, technology, and operations.</li>
-                        {/* Corrected line 349: Ensured no syntax errors */}
-                        <li><span className="font-semibold">Dedicated Support Team:</span> Ongoing assistance and guidance, and extensive resource library.</li>
-                        <li><span className="font-semibold">ZM Proprietary Platform Access:</span> Cutting-edge software and analytics dashboard.</li>
-
-                        <li><span className="font-semibold">Operational Manuals & Best Practices:</span> Detailed guides for day-to-day management.</li>
-                        <li><span className="font-semibold">Research & Development Updates:</span> Continuous innovation to keep you ahead.</li>
-                    </ul>
-                </motion.div>
-
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.5 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                    className="bg-white rounded-lg shadow-md p-6"
-                    style={{ border: `1px solid ${SITE_COLORS.border}` }}
-                >
-                    <h3 className="text-2xl font-bold mb-4" style={{ color: SITE_COLORS.accentTealDark }}>Ideal Candidate Profile</h3>
-                    <p className="mb-4" style={{ color: SITE_COLORS.textDark }}>
-                        ZM QR Code Services is looking for individuals who are:
-                    </p>
-                    <ul className="list-disc list-inside space-y-2" style={{ color: SITE_COLORS.textMuted }}>
-                        <li>Entrepreneurial and driven</li>
-                        <li>Sales-oriented with strong communication skills</li>
-                        <li>Tech-curious and adaptable to new technologies</li>
-                        <li>Customer-focused with a commitment to service excellence</li>
-                    </ul>
-                    <p className="mt-4 text-md font-semibold" style={{ color: SITE_COLORS.accentTeal }}>
-                        Do you have what it takes? Learn more about who succeeds with ZM.
-                    </p>
-                </motion.div>
-
-
             </div>
         </section>
     );
 };
 
-// 4. Our Process (How to Become a Franchisee Page)
 const OurProcessSection = () => {
     const steps = [
         { number: 1, title: "Inquiry & Information Request", description: "Fill out the online form and download our comprehensive Franchise Info Packet." },
-        { number: 2, title: "Initial Discovery Call", description: "Engage in a brief, no-obligation chat with our Franchise Development Team to answer your preliminary questions." },
-        { number: 3, title: "Review Franchise Disclosure Document (FDD)", description: "Dive deep into the legal and financial details of the ZM QR Code Services franchise opportunity." },
-        { number: 4, title: "Territory Agreement & Franchise Agreement", description: "Finalize your exclusive territory and sign the official franchise agreement." },
-        { number: 5, title: "Comprehensive Training", description: "Participate in our intensive training program designed to prepare you for a successful launch." },
-        { number: 6, title: "Grand Opening & Ongoing Support", description: "Launch your ZM franchise with our continued guidance and support every step of the way." },
+        { number: 2, title: "Initial Discovery Call", description: "Engage in a brief, no-obligation chat with our Franchise Development Team." },
+        { number: 3, title: "Review Franchise Disclosure Document", description: "Dive deep into the legal and financial details." },
     ];
 
     return (
@@ -507,10 +374,7 @@ const OurProcessSection = () => {
                 <h2 className="text-3xl lg:text-4xl font-bold text-center mb-6">
                     Your Journey to Becoming a <span style={{ color: SITE_COLORS.accentTealDark }}>ZM Franchisee</span>
                 </h2>
-                <p className="text-lg leading-relaxed text-center mb-12" style={{ color: SITE_COLORS.textMuted }}>
-                    A simple, transparent process to launch your own successful QR Code business.
-                </p>
-
+                
                 <div className="space-y-6">
                     {steps.map((step) => (
                         <motion.div
@@ -541,7 +405,6 @@ const OurProcessSection = () => {
     );
 };
 
-// 5. Contact Us / Inquiry Form
 const ContactUsSection = () => {
     const [formData, setFormData] = useState({
         name: '',
@@ -551,6 +414,7 @@ const ContactUsSection = () => {
         bestTime: '',
         message: ''
     });
+    const [showPopup, setShowPopup] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -559,10 +423,8 @@ const ContactUsSection = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Contact Form Submission:", formData);
-        alert("Thank you for your inquiry! We will get back to you shortly.");
-        // In a real application, you'd send this data to a backend API
-        setFormData({ // Clear form
+        setShowPopup(true);
+        setFormData({
             name: '',
             email: '',
             phone: '',
@@ -572,16 +434,94 @@ const ContactUsSection = () => {
         });
     };
 
+    const closePopup = () => {
+        setShowPopup(false);
+    };
+
     return (
-        <section className="py-20 px-8" style={{ backgroundColor: SITE_COLORS.sectionBgLight, color: SITE_COLORS.textDark }}>
+        <section className="py-20 px-8 relative" style={{ backgroundColor: SITE_COLORS.sectionBgLight, color: SITE_COLORS.textDark }}>
+            {/* Popup Modal */}
+            <AnimatePresence>
+                {showPopup && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-50 flex items-center justify-center p-4"
+                    >
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 0.7 }}
+                            exit={{ opacity: 0 }}
+                            className="absolute inset-0 bg-black"
+                            onClick={closePopup}
+                        />
+                        
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            className="relative bg-white rounded-xl shadow-2xl max-w-md w-full p-8 z-10"
+                            style={{ backgroundColor: SITE_COLORS.sectionBgLight }}
+                        >
+                            <button
+                                onClick={closePopup}
+                                className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+                                aria-label="Close"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                            
+                            <div className="text-center">
+                                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </div>
+                                
+                                <h3 className="text-2xl font-bold mb-4" style={{ color: SITE_COLORS.accentTealDark }}>
+                                    Thank You!
+                                </h3>
+                                
+                                <div className="space-y-3 text-left">
+                                    <p className="text-gray-700 leading-relaxed">
+                                        Thank you for expressing your interest in Franchise in our organization. 
+                                    </p>
+                                    <p className="text-gray-700 leading-relaxed">
+                                        We truly appreciate your confidence in our vision and commitment. Our development team will contact you within 48 hours to:
+                                    </p>
+                                    <ul className="list-disc list-inside pl-4 space-y-1 text-gray-700">
+                                        <li>Discuss the next steps</li>
+                                        <li>Answer any questions you may have</li>
+                                        <li>Provide additional information</li>
+                                    </ul>
+                                </div>
+                                
+                                <div className="mt-6">
+                                    <button
+                                        onClick={closePopup}
+                                        className="px-6 py-2 rounded-full font-medium transition-colors"
+                                        style={{ 
+                                            backgroundColor: SITE_COLORS.accentTeal, 
+                                            color: SITE_COLORS.textLight 
+                                        }}
+                                    >
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
             <div className="container mx-auto max-w-4xl text-center">
                 <h2 className="text-3xl lg:text-4xl font-bold mb-6">
                     Connect with Our <span style={{ color: SITE_COLORS.accentTealDark }}>Franchise Development Team</span>
                 </h2>
-                <p className="text-lg leading-relaxed mb-10" style={{ color: SITE_COLORS.textMuted }}>
-                    We're here to answer your questions and guide you through the ZM opportunity.
-                </p>
-
+                
                 <motion.form
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -613,21 +553,6 @@ const ContactUsSection = () => {
                         />
                     </div>
                     <div>
-                        <label htmlFor="region" className="block text-sm font-medium" style={{ color: SITE_COLORS.textPrimary }}>Preferred Region/City for Franchise</label>
-                        <input type="text" id="region" name="region" value={formData.region} onChange={handleChange}
-                            className="mt-1 block w-full p-3 border rounded-lg focus:ring-2"
-                            style={{ borderColor: SITE_COLORS.border, outlineColor: SITE_COLORS.accentTeal, '--tw-ring-color': SITE_COLORS.accentTeal }}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="bestTime" className="block text-sm font-medium" style={{ color: SITE_COLORS.textPrimary }}>Best Time to Call</label>
-                        <input type="text" id="bestTime" name="bestTime" value={formData.bestTime} onChange={handleChange}
-                            className="mt-1 block w-full p-3 border rounded-lg focus:ring-2"
-                            style={{ borderColor: SITE_COLORS.border, outlineColor: SITE_COLORS.accentTeal, '--tw-ring-color': SITE_COLORS.accentTeal }}
-                            placeholder="e.g., Weekdays, 10 AM - 2 PM"
-                        />
-                    </div>
-                    <div>
                         <label htmlFor="message" className="block text-sm font-medium" style={{ color: SITE_COLORS.textPrimary }}>Message/Questions</label>
                         <textarea id="message" name="message" rows="4" value={formData.message} onChange={handleChange}
                             className="mt-1 block w-full p-3 border rounded-lg focus:ring-2"
@@ -638,24 +563,10 @@ const ContactUsSection = () => {
                         <PrimaryButton type="submit" className="w-full sm:w-auto">Submit Inquiry</PrimaryButton>
                     </div>
                 </motion.form>
-
-                <div className="mt-10 text-lg" style={{ color: SITE_COLORS.textDark }}>
-                    <p className="mb-4">
-                        Email: <a href="mailto:franchise@zmqrcodeservices.com" className="font-semibold" style={{ color: SITE_COLORS.accentTeal }}>franchise@zmqrcodeservices.com</a>
-                    </p>
-                    <p>
-                        Phone: <a href="tel:[Your Franchise Contact Number]" className="font-semibold" style={{ color: SITE_COLORS.accentTeal }}>[Your Franchise Contact Number]</a>
-                    </p>
-                </div>
-
-                <p className="mt-10 text-sm" style={{ color: SITE_COLORS.textMuted }}>
-                    &copy; {new Date().getFullYear()} ZM QR Code Services. All rights reserved. | <a href="#" style={{ color: SITE_COLORS.accentTeal }}>Privacy Policy</a> | <a href="#" style={{ color: SITE_COLORS.accentTeal }}>Terms of Service</a> | <a href="#" style={{ color: SITE_COLORS.accentTeal }}>Franchise Disclaimer</a>
-                </p>
             </div>
         </section>
     );
 };
-
 
 // Main Home Page Component
 export default function Home() {

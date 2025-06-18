@@ -3,7 +3,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect } from "react";
 
-
 const ComingSoonModal = ({ isOpen, onClose }) => {
   useEffect(() => {
     const handleEsc = (e) => e.key === "Escape" && onClose();

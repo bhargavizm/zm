@@ -13,11 +13,11 @@ const DemoFormDesign = () => {
         </h2>
 
         <Image
-          src="/images/home/demo-form.webp"
+          src="/images/normal/customerCare2.png"
           alt="QR Demo"
-          width={150}
-          height={150}
-          className="rounded- mx-auto mb-6"
+          width={230}
+          height={250}
+          className="rounded-xl mb-6"
         />
 
         <hr className="my-6 w-full border-mainGreen" />
