@@ -40,6 +40,10 @@ const ScheduleDemo = () => {
             <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold leading-snug text-white px-6">
               {heading}
             </h2>
+<<<<<<< HEAD
+
+=======
+>>>>>>> d012277da28460bcbff7e6d4fb874d1c6f390f6d
             <button
               onClick={() => router.push('/contactUs')}
               className="px-6 py-2 text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)] mx-6 cursor-pointer"
