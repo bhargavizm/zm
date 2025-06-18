@@ -359,6 +359,7 @@
 // }
 
 // export default Investors
+
 "use client";
 
 import { useRef, useState, createContext, useContext, useEffect } from 'react';
@@ -661,11 +662,12 @@ const InvestorsPage = () => {
   const borderColor = darkMode ? 'border-gray-700' : 'border-gray-200';
 
   return (
-    <div className={` ${bgColor} ${textColor} pt-[135px] `} ref={containerRef} >
+    <div className={` ${bgColor} ${textColor} pt-20 `} ref={containerRef} >
       <Head>
         <title>Invest in ZM QR Code Services | Next-Gen QR Solutions</title>
         <meta name="description" content="Join ZM QR's growth journey with our innovative QR technology" />
       </Head>
+      
 
       {/* Navigation */}
       <nav className={`fixed w-full z-50 ${secondaryBgColor} bg-opacity-90 backdrop-blur-md border-b ${borderColor}`}>
@@ -699,16 +701,32 @@ const InvestorsPage = () => {
         </div>
       </nav>
 
-      {/* Hero Section */}
+      {/* Hero Section with Video Background */}
       <motion.section 
         className={`relative h-screen w-full overflow-hidden flex items-center justify-center ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}
         style={{ y: backgroundY }}
       >
+        {/* Video Background */}
         <motion.div 
-          className="absolute inset-0 bg-[url('/images/hero-bg.jpg')] bg-cover bg-center"
+          className="absolute inset-0 z-0"
           style={{ opacity }}
-        />
-        <div className={`absolute inset-0 ${darkMode ? 'bg-gray-900/70' : 'bg-white/70'} bg-gradient-to-t ${darkMode ? 'via-gray-900/70' : 'via-white/70'} to-transparent`} />
+        >
+          <video 
+            autoPlay 
+            muted 
+            loop 
+            playsInline 
+            className="w-full h-full object-cover"
+            style={{ backgroundColor: darkMode ? '#111827' : '#f3f4f6' }}
+          >
+            <source src="/videos/investmentbg.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </motion.div>
+        
+        {/* Gradient Overlay */}
+        <div className={`absolute inset-0 z-0 ${darkMode ? 'bg-gray-900/70' : 'bg-white/70'} bg-gradient-to-t ${darkMode ? 'via-gray-900/70' : 'via-white/70'} to-transparent`} />
+        
         
         <div className="relative z-10 text-center px-4 max-w-6xl mx-auto">
           <motion.h1 
@@ -1258,7 +1276,6 @@ export default function AppWrapper() {
     </ThemeProvider>
   );
 }
-
 
 
 
