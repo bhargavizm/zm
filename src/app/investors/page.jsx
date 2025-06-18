@@ -1047,7 +1047,17 @@ const InvestorsPage = () => {
               whileInView={{ opacity: 1, x: 0 }}
               className="lg:w-1/2"
             >
-              <img src="/images/normal/business-form-handshake.jpeg" className='mb-10  w-400 h-140 rounded-3xl'/>
+             <video
+  className="mb-10 rounded-3xl object-cover"
+  autoPlay
+  loop
+  muted
+  playsInline
+>
+  <source src="/videos/HandShaking.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
+
               <h2 className="text-2xl md:text-2xl font-bold mb-8">
                 Get in <span className="text-teal-400">Touch</span>
               </h2>
