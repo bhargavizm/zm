@@ -5,6 +5,9 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useLanguage } from '@/context/languageContext/LanguageContext';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 import {
   Facebook,
@@ -17,6 +20,7 @@ import {
   Wand2,
   BarChart3,
   ScanLine,
+  Quote,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
@@ -33,13 +37,78 @@ const jobOpenings = [
   { title: 'Product Manager', icon: '/icons/pm.png' },
 ];
 
+const teamTestimonials = [
+  {
+    id: 1,
+    name: 'Navya.P',
+    role: 'Senior Developer',
+    quote: 'Working at ZM has been transformative. The culture of innovation and support has helped me grow both technically and professionally.',
+    
+  },
+  {
+    id: 2,
+    name: 'Mastan vali.Sk',
+    role: 'Product Manager',
+    quote: 'The collaborative environment at ZM is unmatched. Every team member\'s voice is heard and valued in our product development process.',
+   
+  },
+  {
+    id: 3,
+    name: 'krishnaTeja.A',
+    role: 'DevOps Engineer',
+    quote: 'The challenges we tackle here are cutting-edge. I love that I get to work with the latest technologies every single day.',
+    
+  },
+  {
+    id: 4,
+    name: 'Shahid.Md',
+    role: 'Data Engineer',
+    quote: 'ZM fosters creativity like no other place. We\'re encouraged to think outside the box and push boundaries in design.',
+    
+  },
+  {
+  id: 5,
+  name: 'Pavankrishna.T',
+  role: 'Software Engineer',
+  quote: "At ZM, I'm not just building software — I'm building impact. Every line of code here has a purpose.",
+},
+
+{
+  id: 6,
+  name: 'Joseph',
+  role: 'Team Lead',
+  quote: "Leading at ZM means empowering every team member to think big, move fast, and grow together.",
+},
+
+{
+  id: 7,
+  name: 'Bhargavi Krishna.D',
+  role: 'Operation Head',
+  quote: "ZM gives me the autonomy to streamline and scale operations while keeping people at the center.",
+},
+
+{
+  id: 8,
+  name: 'Mounika',
+  role: 'UX Designer',
+  quote: "Designing at ZM is all about solving real problems with simplicity and elegance. It’s where creativity meets purpose.",
+},
+
+];
+
+const officeImages = [
+  '/images/office/office1.jpg',
+  '/images/office/office2.jpg',
+  '/images/office/office3.jpg',
+  '/images/office/office4.jpg',
+];
+
 export default function Career() {
   const [role, setRole] = useState('');
   const [location, setLocation] = useState('');
   const { dictionary } = useLanguage();
-    const router = useRouter();
+  const router = useRouter();
 
-  // Safely access career dictionary, providing empty object if undefined
   const careerDictionary = dictionary?.career || {};
   const headerDictionary = careerDictionary.header || {};
   const searchDictionary = careerDictionary.search || {};
@@ -50,31 +119,19 @@ export default function Career() {
   const innovateDictionary = careerDictionary.innovate || {};
   const whyWorkDictionary = careerDictionary.whyWork || {};
   const testimonialsDictionary = careerDictionary.testimonials || {};
-  const testimonialQuote = careerDictionary.testimonial?.quote || ''; // Accessing nested property
+  const testimonialQuote = careerDictionary.testimonial?.quote || '';
   const comingSoonDictionary = careerDictionary.comingSoon || {};
 
-  // Benefits for "Why Work With ZM" section, now pulled from the dictionary
   const workBenefits = [
     whyWorkDictionary.benefits?.innovative || { title: 'Innovative Work Environment', description: 'Work on cutting-edge projects that blend QR technology, A.I. integration, and IoT automation.' },
     whyWorkDictionary.benefits?.growth || { title: 'Growth-Focused Culture', description: 'We support learning, experimentation, and professional development at every level.' },
-    whyWorkDictionary.benefits?.impact || { title: 'Impactful Roles', description: 'Your ideas won’t sit on the sidelines. At ZM, your work directly shapes the customer experience.' },
+    whyWorkDictionary.benefits?.impact || { title: 'Impactful Roles', description: 'Your ideas wont sit on the sidelines. At ZM, your work directly shapes the customer experience.' },
   ];
 
-  // const handleSearch = () => {
-  //   if (typeof window !== 'undefined') {
-  //     const query = new URLSearchParams();
-  //     if (role) query.append('role', role);
-  //     if (location) query.append('location', location);
-  //     window.location.href = /jobs?${query.toString()};
-  //   }
-  // };
-  
   const handleSearch = () => {
-    console.log('search')
     const query = new URLSearchParams();
     if (role) query.append('role', role);
     if (location) query.append('location', location);
-
     router.push(`/career/jobs?${query.toString()}`);
   };
 
@@ -83,22 +140,23 @@ export default function Career() {
     setLocation('');
   };
 
-  return (
-    <div className="bg-white text-gray-800 font-sans ">
-      {/* <header className="bg-gradient-to-r from-[#20eaea] to-[#128888] p-4 md:p-6 flex justify-between items-center">
-        <button className="bg-[#011010] text-white px-5 py-2 rounded-lg font-semibold hover:scale-105 transition-transform">
-          {headerDictionary.login}
-        </button>
-      </header> */}
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    arrows: false,
+    adaptiveHeight: true,
+  };
 
+  return (
+    <div className="bg-white text-gray-800 font-sans">
+      {/* Hero Search Section */}
       <section className="relative h-screen overflow-hidden flex items-center justify-center px-4 md:px-16 pt-28 md:pt-0">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute top-0 left-0 w-full h-full object-cover z-0"
-        >
+        <video autoPlay muted loop playsInline className="absolute top-0 left-0 w-full h-full object-cover z-0">
           <source src="/videos/TitleVideo.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
@@ -143,7 +201,8 @@ export default function Career() {
         </div>
       </section>
 
-      <section className="bg-[#8acad1] py-6 text-center px-4 padding-lr ">
+      {/* Quote Section */}
+      <section className="bg-[#8acad1] py-6 text-center px-4 padding-lr">
         <p className="text-lg text-black text-center px-4">
           {section1Dictionary.quote}
         </p>
@@ -152,13 +211,15 @@ export default function Career() {
         </h2>
       </section>
 
-      <section className="py-12 px-6 md:px-16 bg-white padding-lr " id='carousel'>
+      {/* Current Openings */}
+      <section className="py-12 px-6 md:px-16 bg-white padding-lr" id='carousel'>
         <h2 className="text-3xl font-bold text-center text-[#128888] mb-8">
           {currentOpeningsDictionary.title}
         </h2>
-        <Carousel items={jobOpenings} />
+        <Carousel onClick={handleSearch}  items={jobOpenings} />
       </section>
 
+      {/* Premium Section */}
       <section className="bg-[#0d5258] text-white py-12 px-6 md:px-16 text-center">
         <h2 className="text-3xl font-bold mb-4">
           {premiumSectionDictionary.title}
@@ -166,16 +227,17 @@ export default function Career() {
         <p className="max-w-3xl mx-auto mb-6">
           {premiumSectionDictionary.description}
         </p>
-        <div className="flex justify-center mb-6 ">
+        <div className="flex justify-center mb-6">
           <Image src="/images/normal/careerPa.png" alt="Team Working Illustration" width={280} height={200} className='bg-white rounded-2xl'/>
         </div>
         <div className='flex justify-center pt-8'>
-        <button className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]" onClick={handleSearch} >
-          {premiumSectionDictionary.button}
-        </button>
+          <button className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]" onClick={handleSearch}>
+            {premiumSectionDictionary.button}
+          </button>
         </div>
       </section>
 
+      {/* Features Section */}
       <section className="bg-white py-12 px-6 md:px-16 text-center">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
           <div className="flex flex-col items-center">
@@ -197,27 +259,23 @@ export default function Career() {
         </div>
       </section>
 
-      <section
-  className="relative bg-cover bg-center text-white py-16 px-6 md:px-20"
-  style={{ backgroundImage: "url('/images/tech-bg.jpg')" }}
->
-  <div className="bg-[#008080] absolute inset-0 opacity-80" />
-  <div className="relative z-10 max-w-3xl mx-auto text-center">
-    <h2 className="text-3xl font-bold mb-4">{innovateDictionary.title}</h2>
-    <p className="mb-6">{innovateDictionary.description}</p>
-    
-    <div className="flex justify-center pt-4">
-      <Link href="#carousel" scroll={true}>
-        <button
-          className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
-        >
-          {innovateDictionary.button}
-        </button>
-      </Link>
-    </div>
-  </div>
-</section>
+      {/* Innovate Section */}
+      <section className="relative bg-cover bg-center text-white py-16 px-6 md:px-20" style={{ backgroundImage: "url('/images/tech-bg.jpg')" }}>
+        <div className="bg-[#008080] absolute inset-0 opacity-80" />
+        <div className="relative z-10 max-w-3xl mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-4">{innovateDictionary.title}</h2>
+          <p className="mb-6">{innovateDictionary.description}</p>
+          <div className="flex justify-center pt-4">
+            <Link href="#carousel" scroll={true}>
+              <button className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]">
+                {innovateDictionary.button}
+              </button>
+            </Link>
+          </div>
+        </div>
+      </section>
 
+      {/* Why Work With ZM Section */}
       <section className="bg-[#094b4f] text-white py-12 px-6 md:px-16 padding-lr">
         <div className="flex flex-col md:flex-row gap-8 items-center">
           <div className="flex-1">
@@ -234,10 +292,10 @@ export default function Career() {
                 </li>
               ))}
             </ul>
-            <div className=' pt-8'>
-            <button className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"  onClick={handleSearch}>
-              {whyWorkDictionary.button}
-            </button>
+            <div className='pt-8'>
+              <button className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]" onClick={handleSearch}>
+                {whyWorkDictionary.button}
+              </button>
             </div>
           </div>
           <div className="flex-1">
@@ -252,27 +310,54 @@ export default function Career() {
         </div>
       </section>
 
-      <section className="bg-[#128888] text-white py-12 px-6 md:px-16 text-center">
-        <h2 className="text-2xl font-bold mb-6">{testimonialsDictionary.title}</h2>
-        <div className="flex flex-col md:flex-row items-center gap-6 justify-center">
-          <Image
-            src="/images/team-8233881_1280.png"
-            alt="Team Member"
-            width={160}
-            height={160}
-            className="rounded-full object-cover"
-          />
-          <p className="max-w-xl text-white text-lg">
-            {testimonialQuote}
-          </p>
-        </div>
-      </section>
+      {/* Life at ZM - Team Testimonials */}
+<section className="py-16 px-6 md:px-16 bg-gray-50">
+  <div className="max-w-6xl mx-auto flex flex-col items-center">
+    
+    {/* Section Heading */}
+    <h2 className="text-3xl font-bold text-center text-[#128888] mb-12">
+      Life at ZM – What Our Team Says
+    </h2>
 
-      {/* <section className="py-6 bg-gray-100 text-center text-gray-700">
-        <div className="bg-white border border-dashed border-gray-400 rounded-md p-6 shadow-sm italic text-sm">
-          {comingSoonDictionary.text}
-        </div>
-      </section> */}
+    {/* Group Image */}
+    <div className="mb-10">
+      <Image
+        src="/images/normal/empGroup.png"
+        alt="Team Member Group"
+        width={400}
+        height={400}
+        className="object-cover rounded-xl shadow-md"
+      />
+    </div>
+
+    {/* Testimonials Carousel */}
+    <div className="bg-white rounded-xl shadow-lg md:p-10 w-full max-w-4xl">
+      <Slider {...sliderSettings}>
+        {teamTestimonials.map((testimonial) => (
+          <div key={testimonial.id} className="px-2">
+            <div className="flex flex-col md:flex-row items-center gap-8">
+              
+              {/* Testimonial Text */}
+              <div className="text-center md:text-left">
+                <Quote className="text-[#128888] w-8 h-8 mb-4 mx-auto md:mx-0" />
+                <p className="text-lg italic mb-4 text-gray-700 leading-relaxed">
+                  {testimonial.quote}
+                </p>
+                <div>
+                  <p className="font-bold text-[#128888]">{testimonial.name}</p>
+                  <p className="text-gray-600">{testimonial.role}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </Slider>
+    </div>
+  </div>
+</section>
+
+
+      
     </div>
   );
 }

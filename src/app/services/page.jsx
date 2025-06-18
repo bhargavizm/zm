@@ -1,41 +1,47 @@
 "use client";
 
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { FiSearch } from "react-icons/fi";
 
 const ServicesPage = () => {
-  const [services, setServices] = useState([]);
-  const [filteredServices, setFilteredServices] = useState([]);
+  const [mainServices, setMainServices] = useState([]);
+  const [specialServices, setSpecialServices] = useState([]);
+  const [filteredMain, setFilteredMain] = useState([]);
+  const [filteredSpecial, setFilteredSpecial] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [expanded, setExpanded] = useState({});
 
   useEffect(() => {
     import("../data/services.jsx")
       .then((module) => {
-        const data = module.default;
-        if (Array.isArray(data)) {
-          setServices(data);
-          setFilteredServices(data);
-        } else {
-          console.error("services.jsx did not return an array.");
-        }
+        const { services, encryptedServices } = module.default;
+        setMainServices(services);
+        setSpecialServices(encryptedServices);
+        setFilteredMain(services);
+        setFilteredSpecial(encryptedServices);
       })
-      .catch((err) => {
-        console.error("Error loading services.jsx:", err);
-      });
+      .catch((err) => console.error("Error loading services:", err));
   }, []);
 
   useEffect(() => {
     const query = searchQuery.toLowerCase();
-    const filtered = services.filter(
-      (service) =>
-        service.serviceName.toLowerCase().includes(query) ||
-        service.description.toLowerCase().includes(query)
+    setFilteredMain(
+      mainServices.filter(
+        (s) =>
+          s.serviceName.toLowerCase().includes(query) ||
+          s.description.toLowerCase().includes(query)
+      )
     );
-    setFilteredServices(filtered);
-  }, [searchQuery, services]);
+    setFilteredSpecial(
+      specialServices.filter(
+        (s) =>
+          s.serviceName.toLowerCase().includes(query) ||
+          s.description.toLowerCase().includes(query)
+      )
+    );
+  }, [searchQuery, mainServices, specialServices]);
 
   const toggleExpand = (slug) => {
     setExpanded((prev) => ({
@@ -44,13 +50,95 @@ const ServicesPage = () => {
     }));
   };
 
+  const renderServices = (services) => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      {services.map((service, index) => (
+        <Link key={index} href={`/services/${service.slug}`}>
+          <div className="bg-white rounded-xl shadow-lg transition duration-200 overflow-hidden p-6 hover:-translate-y-1 cursor-pointer h-85">
+            <div className="flex items-start mb-3">
+              <span className="text-2xl text-teal-600 mr-2">
+                {service.icon}
+              </span>
+              <h2 className="text-xl font-bold text-gray-900">
+                {service.serviceName}
+              </h2>
+            </div>
+            {(service.image || service.qrLabel) && (
+              <div className="flex justify-between items-center space-x-4 mb-4">
+                {service.image && (
+                  <div className="w-full flex justify-center">
+                    <Image
+                      src={service.image}
+                      alt={service.serviceName}
+                      width={160}
+                      height={160}
+                      className="object-contain"
+                    />
+                  </div>
+                )}
+                {service.qrLabel && (
+                  <div className="w-full flex justify-center">
+                    <Image
+                      src={service.qrLabel}
+                      alt="QR Code"
+                      width={64}
+                      height={64}
+                      className="object-contain"
+                    />
+                  </div>
+                )}
+              </div>
+            )}
+            <div>
+              <p
+                className={`text-xs text-gray-600 transition-all duration-300 ${
+                  expanded[service.slug] ? "" : "line-clamp-3"
+                }`}
+              >
+                {service.description}
+              </p>
+              {/* {service.description.length > 100 && (
+                <div className="text-right">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleExpand(service.slug);
+                    }}
+                    className="text-xs text-teal-600 my-2 underline"
+                  >
+                    {expanded[service.slug] ? "Show less" : "Read more"}
+                  </button>
+                </div>
+              )} */}
+              {service.description?.trim().length > 100 && (
+                <div className="text-right">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleExpand(service.slug);
+                    }}
+                    className="text-xs text-teal-600 my-2 underline"
+                  >
+                    {expanded[service.slug] ? "Show less" : "Read more"}
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </Link>
+      ))}
+    </div>
+  );
+
   return (
-    <div className="py-12 bg-[rgb(0,128,128)]">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 ">
-        {/* Search Bar */}
+    <div className="py-12 bg-[rgb(0,128,128)] ">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Search */}
         <div className="mb-10 flex justify-end pt-20">
-          <div className="relative w-full max-w-sm transition-all duration-300 group shadow-2xl">
-            <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-mainGreen text-lg pointer-events-none group-focus-within:text-mainGreen" />
+          <div className="relative w-full max-w-sm group shadow-2xl">
+            <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-mainGreen" />
             <input
               type="text"
               value={searchQuery}
@@ -61,80 +149,74 @@ const ServicesPage = () => {
           </div>
         </div>
 
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {filteredServices.map((service, index) => (
-            <Link key={index} href={`/services/${service.slug}`}>
-              <div className="bg-white rounded-xl shadow-lg transition duration-200 overflow-hidden p-6 hover:-translate-y-1 cursor-pointer h-85">
-                <div className="flex items-start mb-3">
-                  <span className="text-2xl text-teal-600 mr-2">
-                    {service.icon}
-                  </span>
-                  <h2 className="text-xl font-bold text-gray-900">
-                    {service.serviceName}
-                  </h2>
-                </div>
+        {/* Special Services Section */}
+        <div className="">
+          <div className="flex justify-center items-center mt-2 ">
+            <div className="flex items-center justify-center gap- shadow-2xl px-4 py-2 rounded-xl border border-white">
+              {/* Left Image */}
+              <Image
+                src="/logos/ZM Logo.webp"
+                width={50}
+                height={50}
+                alt="Left Logo"
+                className="animate-bounce"
+              />
 
-                {(service.image || service.qrLabel) && (
-                  <div className="flex justify-between items-center space-x-4 mb-4">
-                    {service.image && (
-                      <div className="w-full flex justify-center">
-                        <Image
-                          src={service.image}
-                          alt={service.serviceName}
-                          width={160}
-                          height={160}
-                          className="object-contain"
-                        />
-                      </div>
-                    )}
-                    {service.qrLabel && (
-                      <div className="w-full flex justify-center">
-                        <Image
-                          src={service.qrLabel}
-                          alt="QR Code"
-                          width={64}
-                          height={64}
-                          className="object-contain"
-                        />
-                      </div>
-                    )}
-                  </div>
-                )}
+              {/* Text */}
+              <h2 className="text-3xl animate-bounce font-semibold text-white">
+                Encrypted Services
+              </h2>
 
-                {/* Description with Read More */}
-                <div>
-                  <p
-                    className={`text-xs text-gray-600 transition-all duration-300 ${
-                      expanded[service.slug] ? "" : "line-clamp-3"
-                    }`}
-                  >
-                    {service.description}
-                  </p>
-                  <div className="text-right">
-                  {service.description.length > 100 && (
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.preventDefault(); // Prevents Link navigation
-                        toggleExpand(service.slug);
-                      }}
-                      className="text-xs  text-teal-600 my-2 underline"
-                    >
-                      {expanded[service.slug] ? "Show less" : "Read more"}
-                    </button>
-                  )}
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
+              {/* Right Image */}
+              <Image
+                src="/logos/ZM Logo.webp"
+                width={50}
+                height={50}
+                alt="Right Logo"
+                className="animate-bounce"
+              />
+            </div>
+          </div>
+
+          <div className="py-6">
+            {/* <h3 className="text-center text-3xl font-semibold text-white py-6">
+              🔒Secure & Encrypted QR Services{" "}
+              <span className="block text-2xl">
+                You Can Trust At ZM QR Code Services🔒
+              </span>{" "}
+              <span className="text-lg pl-72">
+                {" "}
+                - your privacy is our priority.{" "}
+              </span>
+            </h3> */}
+
+            <div className="border-4 px-16 my-6 rounded-2xl border-double py-9 shadow-3xl border-white">
+              {filteredSpecial.length > 0 ? (
+                renderServices(filteredSpecial)
+              ) : (
+                <p className="text-white text-center ">
+                  No special services found.
+                </p>
+              )}
+
+              <p className="text-white text-center text-2xl animate-bounce px-4 mt-12">
+              🔐 Trust us with your data. It's not just secure — it's encrypted
+              🔒
+            </p>
+            </div>
+            
+          </div>
         </div>
+        {/* Main Services Section */}
 
-        {filteredServices.length === 0 && (
-          <p className="text-center text-white mt-10 text-lg">
-            No services found.
-          </p>
+         <h2 className="text-3xl  text-center py-6  font-semibold text-white">
+                Secured Services
+              </h2>
+
+        {filteredMain.length > 0 ? (
+          renderServices(filteredMain)
+        ) : (
+          <p className="text-white text-center">No services found.</p>
         )}
       </div>
     </div>

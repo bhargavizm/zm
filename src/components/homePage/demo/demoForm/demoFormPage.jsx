@@ -1,6 +1,5 @@
 "use client";
 
-
 import ComingSoonModal from "@/components/modalPopUps/comingSoonModal";
 import React, { useState } from "react";
 
