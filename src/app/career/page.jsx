@@ -130,7 +130,7 @@ export default function Career() {
             </div>
             <button
               onClick={handleSearch}
-              className="bg-[#0f5656] text-white px-5 py-2 rounded-full font-medium hover:scale-105 transition-transform"
+              className="bg-[#0f5656] cursor-pointer text-white px-5 py-2 rounded-full font-medium hover:scale-105 transition-transform"
             >
               {searchDictionary.buttonSearch}
             </button>

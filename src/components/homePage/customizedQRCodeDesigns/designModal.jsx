@@ -68,7 +68,7 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
       <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30 px-4">
       {/* Desktop Layout */}
 <div className="hidden md:block">
-<div className="bg-white rounded-xl shadow-xl w-full max-w-7xl h-[95vh] relative px-6 py-6 o overflow-y-auto scrollbar-hide">
+<div className="bg-white rounded-xl shadow-xl w-full max-w-6xl h-[95vh] relative px-6 py-6 o overflow-y-auto scrollbar-hide">
     {/* Header */}
     <div className="flex justify-between items-center mb-4">
       <h2 className="text-xl font-bold text-darkGreen">Customize QR Code</h2>
@@ -135,11 +135,20 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
 </div>
  
  {/* Mobile Layout */}
-<div className="md:hidden bg-pink-600 rounded-xl shadow-xl w-full h-[95vh] relative  pb-4 overflow-y-auto scrollbar-hide">
+<div className="md:hidden bg-white rounded-xl shadow-xl w-full h-[95vh] relative  pb-4 overflow-y-auto scrollbar-hide">
+  <div className="text-end p-6 ">
+   <button
+        className="text-xl cursor-pointer font-bold text-red-600"
+        onClick={() => setIsModalOpen(false)}
+        aria-label="Close modal"
+      >
+        &#10005;
+      </button>
+      </div>
   {/* Preview Sticky */}
- <div className="sticky top-0 z-50 bg-yellow-500 pb-2">
+ <div className="sticky top-0 z-50 bg-white pb-2">
   <div className="flex justify-center">
-    <div className="w-full max-w-xs h-64 overflow-hidden rounded-md">
+    <div className="w-full max-w-xs h-80 overflow-y-auto scrollbar-hide rounded-md">
       <PreviewPanel />
     </div>
   </div>
