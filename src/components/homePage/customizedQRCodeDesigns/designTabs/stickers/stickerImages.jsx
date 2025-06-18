@@ -125,6 +125,9 @@
 //   '/images/stickers/stickers-125.webp',
 // ];
 
+
+
+
 export const stickerConfig = {
   "/images/stickers/a.png": {
     qrTop: "50%",
