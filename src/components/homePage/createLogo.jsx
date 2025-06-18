@@ -49,7 +49,7 @@ const CreateLogo = () => {
             <Image src='/images/qr-code.jpg' alt="create-branded-logo" fill   className="max-w-full h-auto"/>
           </div> */}
            <div className="lg:col-span-4 flex justify-center">
-          <div className="relative w-full  ">
+         <div className="relative w-full aspect-[4/3] max-h-[400px]">
             <Image
               src="/images/home/brand-logo.webp"
               alt="create-branded-logo"
