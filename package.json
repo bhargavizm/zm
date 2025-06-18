@@ -7,11 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-<<<<<<< HEAD
-    "export": "next export"
-=======
        "export": "next export"
->>>>>>> d012277da28460bcbff7e6d4fb874d1c6f390f6d
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",

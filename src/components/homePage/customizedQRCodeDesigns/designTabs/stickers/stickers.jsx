@@ -28,11 +28,7 @@
 //   )
 // }
 
-<<<<<<< HEAD
-export default Stickers
-=======
 // export default Stickers
->>>>>>> d012277da28460bcbff7e6d4fb874d1c6f390f6d
 
 import Image from "next/image";
 import React from "react";
@@ -57,8 +53,4 @@ const Stickers = ({ onSelectImage }) => (
   </section>
 );
 
-<<<<<<< HEAD
-// export default Stickers;
-=======
 export default Stickers;
->>>>>>> d012277da28460bcbff7e6d4fb874d1c6f390f6d

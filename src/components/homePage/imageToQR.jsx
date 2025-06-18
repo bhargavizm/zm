@@ -186,40 +186,10 @@ const ImageToQR = () => {
           </div>
         </div>
 
-<<<<<<< HEAD
-        <div className="animated-border">
-          <div className="animated-border-inner">
-            <Image
-              src="/images/home/image-qr-4.png"
-              alt="Image to QR Code"
-              width={200}
-              height={200}
-              className="rounded-full shadow-lg"
-            />
-          </div>
-        </div>
-
-        <div className="animated-borders">
-          <div className="animated-border-outer">
-            <Image
-              src="/images/home/scan.png"
-              alt="Image to QR Code"
-              width={200}
-              height={200}
-              className="rounded-full shadow-lg"
-            />
-          </div>
-        </div>
-
-        <div>
-          <Image
-            src="/images/home/image-qr-5.png"
-=======
         {/* Gentle pulse animation */}
         <div className="flex justify-center items-center animate-pulse-gentle">
           <Image
             src="/images/home/image-qr-4.png"
->>>>>>> d012277da28460bcbff7e6d4fb874d1c6f390f6d
             alt="Image to QR Code"
             width={200}
             height={200}
