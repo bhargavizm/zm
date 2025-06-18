@@ -60,7 +60,7 @@ const ProductContent = () => {
                                 {templateImages.map((filename, idx) => (
                                     <div
                                         key={idx}
-                                        className={`border-2 rounded-md p-1 cursor-pointer transition hover:shadow-lg ${productData.selectedTemplate === idx
+                                        className={` rounded-md p-1 cursor-pointer transition hover:shadow-lg ${productData.selectedTemplate === idx
                                                 ? "border-[#008080]"
                                                 : "border-gray-300"
                                             }`}
