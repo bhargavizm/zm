@@ -50,7 +50,7 @@ const LanguageSelector = ({ isOpen }) => {
         } flex items-center gap-2  py-2 rounded transition`}
       >
         <FaGlobe className="text-xl" />
-        <span className="text-xl font-medium">Languages</span>
+        <span className="text-xl font-medium">{language || "EN"}</span>
         <MdKeyboardArrowDown className="text-xl" />
       </button>
 
