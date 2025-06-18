@@ -166,12 +166,12 @@ const MedicalAlertContent = () => {
 
       <NFCModal />
 
-      <button
-        type="submit"
-        className="w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 rounded-lg text-sm"
-      >
-        Generate QR Code
-      </button>
+     <button
+              type="submit"
+              className="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 rounded-lg font-semibold text-sm transition"
+            >
+             Submit
+            </button>
     </>
   );
 };
