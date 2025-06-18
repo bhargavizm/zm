@@ -74,6 +74,14 @@ const ServicesProvider = ({ children }) => {
     password: "",
   });
 
+ // pdf
+  const [pdfFormData, setPdfFormData] = useState({
+    title: "",
+    description: "",
+    file: null,
+    password: "",
+  });
+
   // Gallery (Original structure)
   const [imagesFormData, setImagesFormData] = useState({
     title: "",
@@ -453,6 +461,7 @@ const ServicesProvider = ({ children }) => {
         updateDynamicForm, addTemplateField, removeTemplateField, // Make helpers available
         showPassword, setShowPassword, // Still exposed for other components that might use it
         isAnimating, setIsAnimating,
+        pdfFormData, setPdfFormData
       }}
     >
       {children}
