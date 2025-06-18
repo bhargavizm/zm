@@ -6,10 +6,10 @@ import { FcGoogle } from 'react-icons/fc';
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
 export default function LoginPage() {
-     const [visiblePasswords, setVisiblePasswords] = useState({
-    password: false,
-    cpassword: false,
-  });
+    const [visiblePasswords, setVisiblePasswords] = useState({
+        password: false,
+        cpassword: false,
+    });
     const router = useRouter();
     const [active, setActive] = useState('new');
     const modalRef = useRef(null);
@@ -26,8 +26,8 @@ export default function LoginPage() {
     }, [router]);
 
     const toggleVisibility = (id) => {
-    setVisiblePasswords((prev) => ({ ...prev, [id]: !prev[id] }));
-  };
+        setVisiblePasswords((prev) => ({ ...prev, [id]: !prev[id] }));
+    };
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
@@ -38,7 +38,7 @@ export default function LoginPage() {
                 {/* Close Button */}
                 <button
                     onClick={() => router.push('/')}
-                    className="absolute top-4 right-4 text-2xl text-gray-400 hover:text-gray-700 z-10"
+                    className="absolute top-4 right-4 text-2xl text-white font-bold cursor-pointer hover:text-gray-700 z-10"
                     aria-label="Close"
                 >
                     &times;
@@ -56,8 +56,8 @@ export default function LoginPage() {
                     </h4>
                 </div> */}
                 {/* Right Section */}
-                <div className="md:w-1/2 w-full flex flex-col justify-center items-center bg-white text-[#001a1a] p-6 md:rounded-r-2xl">
-                    <h1 className="text-3xl text-loginBlue font-semibold text-center">Welcome Back!</h1>
+                <div className="md:w-1/2 w-full flex flex-col justify-center items-center bg-white text-[#001a1a] p-6 md:rounded-l-2xl">
+                    <h1 className="text-3xl text-loginBlue font-semibold text-center">Welcome!</h1>
                     <h4 className="font-light text-sm text-loginBlue text-center mt-1">Sign in to your ZM QR Code account</h4>
 
                     <form className="flex flex-col items-center mt-6 w-full max-w-sm">
@@ -77,7 +77,7 @@ export default function LoginPage() {
                                 onClick={() => {
                                     setActive('existing');
                                     router.push('/login')
-                                    }}
+                                }}
                                 type="button"
                                 className={`flex-1 text-sm bg-[#e6e6e6] text-[#001a1a] px-4 py-2 rounded-sm hover:bg-[#c0c0c0] transition-all duration-300 ${active === 'existing' ? 'border-b-4 border-[#008080]' : 'border-b-4 border-transparent cursor-pointer'
                                     }`}
@@ -86,57 +86,58 @@ export default function LoginPage() {
                             </button>
                         </div>
 
-                      {[
-        { id: "name", label: "Name*", type: "text" },
-        { id: "email", label: "Official Email / Login ID*", type: "text" },
-        { id: "password", label: "Password*", type: "password" },
-        { id: "cpassword", label: "Confirm password*", type: "password" },
-      ].map((input) => (
-        <div className="relative w-full mt-3" key={input.id}>
-          <input
-            type={
-              input.type === "password" && visiblePasswords[input.id]
-                ? "text"
-                : input.type
-            }
-            id={input.id}
-            placeholder=" "
-            className="peer w-full border-2 border-gray-300 rounded-sm px-2 pt-4 pb-2 text-gray-800 focus:outline-none focus:border-[#008080]"
-          />
-          <label
-            htmlFor={input.id}
-            className="absolute left-3 -top-2 bg-white px-1 text-sm text-gray-500 transition-all 
+                        {[
+                            { id: "name", label: "Name*", type: "text" },
+                            { id: "email", label: "Official Email / Login ID*", type: "text" },
+                            { id: "phone", label: "Phone Number*", type: "text" },
+                            { id: "password", label: "Password*", type: "password" },
+                            { id: "cpassword", label: "Confirm password*", type: "password" },
+                        ].map((input) => (
+                            <div className="relative w-full mt-3" key={input.id}>
+                                <input
+                                    type={
+                                        input.type === "password" && visiblePasswords[input.id]
+                                            ? "text"
+                                            : input.type
+                                    }
+                                    id={input.id}
+                                    placeholder=" "
+                                    className="peer w-full border-2 border-gray-300 rounded-sm px-2 pt-4 pb-2 text-gray-800 focus:outline-none focus:border-[#008080]"
+                                />
+                                <label
+                                    htmlFor={input.id}
+                                    className="absolute left-3 -top-2 bg-white px-1 text-sm text-gray-500 transition-all 
               peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
               peer-focus:-top-2 peer-focus:text-sm peer-focus:text-[#001a1a] peer-focus:bg-white"
-          >
-            {input.label}
-          </label>
+                                >
+                                    {input.label}
+                                </label>
 
-          {input.type === "password" && (
-            <button
-              type="button"
-              onClick={() => toggleVisibility(input.id)}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-            >
-              {visiblePasswords[input.id] ? (
-                <FiEyeOff size={18} />
-              ) : (
-                <FiEye size={18} />
-              )}
-            </button>
-          )}
-        </div>
-      ))}
+                                {input.type === "password" && (
+                                    <button
+                                        type="button"
+                                        onClick={() => toggleVisibility(input.id)}
+                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                                    >
+                                        {visiblePasswords[input.id] ? (
+                                            <FiEyeOff size={18} />
+                                        ) : (
+                                            <FiEye size={18} />
+                                        )}
+                                    </button>
+                                )}
+                            </div>
+                        ))}
 
                         {/* Checkboxes */}
                         <div className="flex items-start mt-3 w-full gap-2 text-sm">
-                            <input type="checkbox" className="border-2 border-mainGreen mt-1" />
-                            <label>I agree to <span className="text-mainGreen">terms</span> and <span className="text-mainGreen">privacy</span> policy</label>
+                            <input type="checkbox" defaultChecked className="border-2 border-mainGreen mt-1" />
+                            <label>I agree to <a href="/terms-conditions" target="_blank"><span className="text-mainGreen">terms</span></a> and <a href="/privacy-policies" target="_blank"><span className="text-mainGreen">privacy</span></a> policy</label>
                         </div>
-                        <div className="flex items-start mt-2 w-full gap-2 text-sm">
+                        {/* <div className="flex items-start mt-2 w-full gap-2 text-sm">
                             <input type="checkbox" className="border-2 border-mainGreen mt-1" />
                             <label>Remember me on this browser</label>
-                        </div>
+                        </div> */}
                         {/* Submit */}
                         <button
                             type="submit"
@@ -167,7 +168,7 @@ export default function LoginPage() {
 
                 {/* Left Section */}
                 <div className="bg-mainGreen md:w-1/2 w-full flex flex-col justify-center items-center text-white p-6 md:rounded-r-2xl">
-                    <Image src="/logo.svg" alt="logo" width={120} height={120} className="m-5" />
+                    <Image src="/logos/zm-full.jpg" alt="logo" width={150} height={150} className="m-5 mb-10" />
                     <h1 className="text-xl font-semibold text-center px-4">
                         World's No.1 QR Code Generating and Managing Platform
                     </h1>
@@ -180,3 +181,4 @@ export default function LoginPage() {
         </div>
     );
 }
+
