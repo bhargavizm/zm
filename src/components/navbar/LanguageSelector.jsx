@@ -55,7 +55,7 @@ const LanguageSelector = ({ isOpen }) => {
       </button>
 
       {dropdownOpen && (
-        <div className="absolute right-0 mt-2 w-60 bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-80 scrollbar-hide overflow-y-auto">
+        <div className="absolute right-0 mt-2 w-60  bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-80 scrollbar-hide overflow-y-auto">
           {languageOptions.map(({ code, label }) => (
             <button
               key={code}

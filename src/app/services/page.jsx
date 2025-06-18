@@ -136,7 +136,7 @@ const ServicesPage = () => {
     <div className="py-12 bg-[rgb(0,128,128)] ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Search */}
-        <div className="mb-10 flex justify-end pt-30">
+        <div className="mb-10 flex justify-end pt-20">
           <div className="relative w-full max-w-sm group shadow-2xl">
             <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-mainGreen" />
             <input
@@ -155,7 +155,7 @@ const ServicesPage = () => {
             <div className="flex items-center justify-center gap- shadow-2xl px-4 py-2 rounded-xl border border-white">
               {/* Left Image */}
               <Image
-                src="/logos/ZM Logo.webp"
+                src="/logos/ZM LOGO.webp"
                 width={50}
                 height={50}
                 alt="Left Logo"
@@ -169,7 +169,7 @@ const ServicesPage = () => {
 
               {/* Right Image */}
               <Image
-                src="/logos/ZM Logo.webp"
+                src="/logos/ZM LOGO.webp"
                 width={50}
                 height={50}
                 alt="Right Logo"
