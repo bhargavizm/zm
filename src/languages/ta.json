@@ -5,9 +5,6 @@
   "blogs": "வலைப்பதிவுகள்",
   "support": "ஆதரவு",
   "languages": "மொழிகள்",
-  "Investors": "மூலதனீட்டியோர்",
-    "Career": "வாழ்க்கைப் பாதை",
-    "Franchise": "முகவர் உரிமம்",
   "login": "உள்நுழைய",
   "bulkQR": {
     "heading": "மொத்த QR குறியீடு உருவாக்கியாளர்",
@@ -162,7 +159,7 @@
     "phoneLabel": "தொலைபேசி",
     "email": "support@zmqrcode.com",
     "phone": "+91 10000 00000",
-    "copyright": "ZM QR Code Services © 2025. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை."
+    "copyright": "ZM QR Code Services © 2024. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை."
   },
   "career": {
     "header": {

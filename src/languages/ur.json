@@ -5,9 +5,6 @@
     "blogs": "بلاگز",
     "support": "مدد",
     "languages": "زبانیں",
-    "Investors": "سرمایہ کار",
-    "Career": "کریئر",
-    "Franchise": "فرینچائز",
     "login": "لاگ ان",
     "bulkQR": {
         "heading": "بلک QR کوڈ جنریٹر",
@@ -162,7 +159,7 @@
         "phoneLabel": "فون",
         "email": "support@zmqrcode.com",
         "phone": "+91 10000 00000",
-        "copyright": "ZM QR Code Services © 2025۔ تمام حقوق محفوظ."
+        "copyright": "ZM QR Code Services © 2024۔ تمام حقوق محفوظ."
     },
     "career": {
         "header": {
