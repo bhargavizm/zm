@@ -23,11 +23,8 @@ const tabs = [
 ];
 
 const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
-  const { setSelectedQRShape, setSelectedLogo, setSelectedSticker } =
-    useDesignContext();
-
+  const { setSelectedQRShape, setSelectedLogo, setSelectedSticker } = useDesignContext();
   const [showModal, setShowModal] = useState(false);
-
   const handleClick = () => setShowModal(true);
 
   useEffect(() => {
@@ -68,7 +65,7 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
       <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30 px-4">
         {/* Desktop Layout */}
         <div className="hidden md:block">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-6xl h-[95vh] relative px-6 py-6 o overflow-y-auto scrollbar-hide">
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-6xl h-[95vh] relative px-6 py-6 overflow-y-auto scrollbar-hide">
             {/* Header */}
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-bold text-darkGreen">Customize QR Code</h2>
@@ -89,8 +86,8 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
                   key={tab}
                   onClick={() => setActiveTab(tab)}
                   className={`px-4 py-2 text-md rounded-xl cursor-pointer ${activeTab === tab
-                      ? "bg-mainGreen text-white font-bold"
-                      : "bg-white text-gray-800"
+                    ? "bg-mainGreen text-white font-bold"
+                    : "bg-white text-gray-800"
                     }`}
                 >
                   {tab}
@@ -100,7 +97,7 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
 
             <hr className="border-slate-300 my-2" />
 
-            {/* Grid */}
+            {/* Grid Layout */}
             <div className="grid grid-cols-12 gap-4">
               <div className="w-full col-span-6 lg:col-span-7 overflow-y-auto px-4 py-6">
                 <AnimatePresence mode="wait">
@@ -115,14 +112,15 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
                   </motion.div>
                 </AnimatePresence>
               </div>
+
               <div className="col-span-6 lg:col-span-5 rounded-xl border w-full border-slate-100 shadow-lg pb-9 mx-auto">
                 <div className="flex justify-center">
                   <PreviewPanel />
                 </div>
-                <div className="pt-9 ">
+                <div className="pt-9 flex justify-center">
                   <button
                     onClick={handleClick}
-                    className="mx-auto px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
+                    className="px-6 py-2 text-xl text-white font-bold rounded-lg flex items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
                   >
                     Download Large Files
                     <FaLongArrowAltDown />
@@ -134,8 +132,9 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
         </div>
 
         {/* Mobile Layout */}
-        <div className="md:hidden bg-white rounded-xl shadow-xl w-full h-[95vh] relative  pb-4 overflow-y-auto scrollbar-hide">
-          <div className="text-end p-6 ">
+        <div className="md:hidden bg-white rounded-xl shadow-xl w-full h-[95vh] relative pb-4 overflow-y-auto scrollbar-hide">
+          {/* Close Button */}
+          <div className="text-end p-6">
             <button
               className="text-xl cursor-pointer font-bold text-red-600"
               onClick={() => setIsModalOpen(false)}
@@ -144,7 +143,8 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
               &#10005;
             </button>
           </div>
-          {/* Preview Sticky */}
+
+          {/* Preview Section */}
           <div className="sticky top-0 z-50 bg-white pb-2">
             <div className="flex justify-center items-center">
               <div className="w-full max-w-xs h-72 overflow-y-auto scrollbar-hide rounded-md">
@@ -154,7 +154,7 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
             <div className="flex justify-center pt-2">
               <button
                 onClick={handleClick}
-                className="px-4 py-2 text-sm text-white font-semibold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
+                className="px-4 py-2 text-sm text-white font-semibold rounded-lg flex items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
               >
                 Download
                 <FaLongArrowAltDown className="text-base" />
@@ -162,21 +162,20 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
             </div>
           </div>
 
-
           {/* Heading */}
           <div className="mt-6 mb-2 text-center font-bold text-lg text-darkGreen">
             Customize QR Code
           </div>
 
           {/* Tabs */}
-          <div className="flex flex-wrap gap-2 justify-center mb-4">
+          <div className="flex flex-wrap gap-2 justify-center mb-9">
             {tabs.map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`px-3 py-1 text-sm rounded-lg ${activeTab === tab
-                    ? "bg-mainGreen text-white font-semibold"
-                    : "bg-white text-gray-800 border"
+                  ? "bg-mainGreen text-white font-semibold"
+                  : "bg-white text-gray-800 border"
                   }`}
               >
                 {tab}
@@ -184,7 +183,7 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
             ))}
           </div>
 
-          {/* Tab content */}
+          {/* Tab Content */}
           <div className="px-2">
             <AnimatePresence mode="wait">
               <motion.div
@@ -199,14 +198,11 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
             </AnimatePresence>
           </div>
         </div>
-
       </div>
 
+      {/* Coming Soon Modal */}
       {showModal && (
-        <ComingSoonModal
-          isOpen={showModal}
-          onClose={() => setShowModal(false)}
-        />
+        <ComingSoonModal isOpen={showModal} onClose={() => setShowModal(false)} />
       )}
     </>
   );
