@@ -131,7 +131,7 @@ const SmsContent = () => {
                 type="submit"
                 className="w-full bg-[#008080] hover:bg-[#006666] text-white py-3 rounded-lg font-medium transition-colors shadow-lg"
               >
-                Generate QR Code
+              Submit
               </button>
             </form>
           </div>

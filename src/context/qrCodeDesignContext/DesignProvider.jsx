@@ -13,7 +13,7 @@ const DesignProvider = ({ children }) => {
   // const [selectedShape, setSelectedShape] = useState(null);
   const [logoSize, setLogoSize] = useState(45);
    const [backgroundImage, setBackgroundImage] = useState(null);
- const [scale, setScale] = useState(55);
+ const [scale, setScale] = useState(80);
  const [bgDesign, setBgDesign] = useState(null);
 
 useEffect(() => {

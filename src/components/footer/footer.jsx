@@ -72,6 +72,12 @@ const Footer = () => {
                             </Link>
                         </li>
                         <li>
+                            <Link href="/franchise" className="hover:underline hover:text-gray-400">
+                                {/* {dictionary.footer.investors} */}
+                                Franchise
+                            </Link>
+                        </li>
+                        <li>
                             <Link href="/faq" className="hover:underline hover:text-gray-400">
                                 {dictionary.footer.faq}
                             </Link>
