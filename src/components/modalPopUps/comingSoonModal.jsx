@@ -2,6 +2,10 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect } from "react";
+<<<<<<< HEAD
+=======
+
+>>>>>>> d012277da28460bcbff7e6d4fb874d1c6f390f6d
 
 const ComingSoonModal = ({ isOpen, onClose }) => {
   useEffect(() => {

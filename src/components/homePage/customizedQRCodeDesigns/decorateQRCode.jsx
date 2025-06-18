@@ -11,7 +11,7 @@ import { FaArrowRightArrowLeft } from "react-icons/fa6";
 import ComingSoonModal from "@/components/modalPopUps/comingSoonModal";
 import NFCModal from "@/components/modalPopUps/nfcModal";
 
-const tabs = ["Stickers", "Colors", "Shapes", "Logos"];
+const tabs = ["QR Shapes","Stickers", "Colors", "Shapes", "Logos","Personalized Image"];
 
 const DecorateQRCode = () => {
   const { slug } = useParams();
@@ -151,11 +151,11 @@ const DecorateQRCode = () => {
                   <input
                     required
                     type={showPassword ? "text" : "password"}
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 pr-10"
+                    className="w-full border border-gray-300 rounded-md px-4 py-2 pr-10"
                     placeholder="Password"
                   />
                   <div
-                    className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                    className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-500 cursor-pointer px-6"
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? (
@@ -166,6 +166,15 @@ const DecorateQRCode = () => {
                   </div>
                 </div>
               )}
+            </div>
+
+            <div
+              onClick={handleClick}
+              className="mt-8 max-w-xl mx-auto flex justify-center items-center"
+            >
+              <button className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center transition-effects gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]">
+                Submit 
+              </button>
             </div>
 
             {/* Customize QR Button */}
@@ -197,7 +206,7 @@ const DecorateQRCode = () => {
               onClick={handleClick}
               className="mt-8 max-w-xl mx-auto flex justify-center items-center"
             >
-              <button className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]">
+              <button className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center transition-effects items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]">
                 Save QR Code <IoIosArrowForward />
               </button>
             </div>
@@ -205,11 +214,18 @@ const DecorateQRCode = () => {
 
           {/* Preview Panel and Modal Tabs */}
           {/* <div className="col-span-12 lg:col-span-5 bg-white rounded-3xl shadow-lg px-6 py-9 mt-6 lg:mt-0"> */}
+<<<<<<< HEAD
           <div className=" col-span-12 lg:col-span-5 bg-white rounded-3xl shadow-lg px-6 py-9 mt-0 ">
 
+=======
+          <div className="cursor-pointer col-span-12 lg:col-span-5 bg-white rounded-3xl shadow-lg px-6 py-9 mt-0 ">
+<div className="flex justify-center">
+>>>>>>> d012277da28460bcbff7e6d4fb874d1c6f390f6d
             <PreviewPanel />
+</div>
+
             <hr className="my-2 border border-slate-200" />
-            <div className="flex justify-center items-center gap-4 flex-wrap">
+            <div className="flex justify-center items-center gap-4 flex-wrap ">
               {tabs.map((tab) => (
                 <button
                   key={tab}
@@ -217,7 +233,7 @@ const DecorateQRCode = () => {
                     setActiveTab(tab);
                     setIsModalOpen(true);
                   }}
-                  className="px-2 py-2 text-mainGreen hover:text-darkGreen hover:font-bold transition-all text-lg rounded-xl"
+                  className=" py-2 text-mainGreen hover:text-darkGreen hover:font-bold transition-all text-lg rounded-xl cursor-pointer"
                 >
                   {tab}
                 </button>
@@ -226,7 +242,7 @@ const DecorateQRCode = () => {
 
             <hr className="mb-4 border border-slate-200" />
 
-            <div className="flex gap-9 pb-6 justify-center flex-wrap items-center">
+            {/* <div className="flex gap-9 pb-6 justify-center flex-wrap items-center">
               <Image
                 src="/images/home/shapes-1.webp"
                 alt="shapes-1"
@@ -265,8 +281,8 @@ const DecorateQRCode = () => {
                   setIsModalOpen(true);
                 }}
               />
-            </div>
-            <p
+            </div> */}
+            {/* <p
               className="flex justify-center transition-effects items-center gap-2 py-4 text-mainGreen hover:font-bold text-2xl "
               onClick={() => {
                 setActiveTab("QR Shapes");
@@ -280,10 +296,15 @@ const DecorateQRCode = () => {
               <span>
                 <FaArrowRightArrowLeft />
               </span>
-            </p>
+            </p> */}
 
+<<<<<<< HEAD
             <div className=" flex justify-center items-center gap-2">
               <button onClick={handleClick} className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]">
+=======
+            <div className=" flex justify-center items-center gap-2 py-4">
+              <button onClick={handleClick} className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)] transition-effects">
+>>>>>>> d012277da28460bcbff7e6d4fb874d1c6f390f6d
                 Download Large Files <FaLongArrowAltDown />
               </button>
             </div>

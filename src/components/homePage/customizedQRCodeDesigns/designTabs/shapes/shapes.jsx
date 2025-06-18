@@ -5,7 +5,7 @@ import { bodyFrames, eyeBalls, eyeFrames } from "./shapeImages";
 const Shapes = ({ onSelectImage }) => {
 
   return (
-    <section>
+    <section className="h-[65vh] overflow-y-auto scrollbar-hide">
       
  <h4 className="text-2xl font-bold text-mainGreen mb-4">Body Frames</h4>
         <div className="flex gap-6 flex-wrap">
@@ -17,7 +17,7 @@ const Shapes = ({ onSelectImage }) => {
                     width={30}
                     height={30}
                     className="cursor-pointer hover:scale-110 transition-transform"
-                    onClick={() => onSelectImage(src)}
+                    //onClick={() => onSelectImage(src)}
                     priority
                   />
                 ))}

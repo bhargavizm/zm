@@ -110,6 +110,20 @@ const BusinessContent = () => {
               {/* Clear Selection / No Template Option */}
               {/* <div
                 className={`relative cursor-pointer rounded-lg overflow-hidden border-2 ${
+                  shopTimingsTemplate.selectedTemplate === "template3"
+                    ? "border-teal-500 ring-2 ring-teal-300"
+                    : "border-gray-300 hover:border-gray-400"
+                } transition-all duration-200 shadow-sm hover:shadow-md`}
+                onClick={() => handleTemplateSelect("template4")}
+              >
+                <img
+                  src="/images/templates/businessShop4.jpg"
+                  alt="Template 2: We're Open"
+                  className="w-full h-auto object-cover"
+                />
+              </div> */}
+              {/* <div
+                className={`relative cursor-pointer rounded-lg overflow-hidden border-2 ${
                   shopTimingsTemplate.selectedTemplate === "none"
                     ? "border-teal-500 ring-2 ring-teal-300"
                     : "border-gray-300 hover:border-gray-400"
