@@ -85,7 +85,7 @@ const FeatureItem = ({ icon, title, description }) => (
 // --- Section Components ---
 const HeroSection = () => {
     return (
-        <section className="min-h-screen flex items-center justify-center p-8 relative overflow-hidden" style={{ background: SITE_COLORS.primaryDarkBg }}>
+        <section className="pt-40 flex items-center justify-center p-8 relative overflow-hidden" style={{ background: SITE_COLORS.primaryDarkBg }}>
             <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between z-10 text-center lg:text-left">
                 <motion.div
                     initial={{ opacity: 0, x: -50 }}
@@ -317,7 +317,7 @@ const WhyFranchiseWithZMSection = () => {
     const currentBlock = advantageBlocks[activeIndex];
 
     return (
-        <section className="py-20 px-8" style={{ backgroundColor: SITE_COLORS.sectionBgSubtle, color: SITE_COLORS.textDark }}>
+        <section className="py-30 px-8" style={{ backgroundColor: SITE_COLORS.sectionBgSubtle, color: SITE_COLORS.textDark }}>
             <div className="container mx-auto max-w-6xl">
                 <h2 className="text-3xl lg:text-4xl font-bold text-center mb-6">
                     Your Blueprint for Success: The <span style={{ color: SITE_COLORS.accentTealDark }}>ZM QR Code</span> Advantage
