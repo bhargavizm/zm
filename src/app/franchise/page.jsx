@@ -174,13 +174,13 @@ const HowQRCodesTransformBusinessesSection = () => {
                 </h2>
                 <motion.div
                     initial={{ opacity: 0, scale: 0.5 }}
-                    whileInView={{ opacity: 0.5, scale: 1 }}
+                    whileInView={{ opacity: 1.5, scale: 1 }}
                     viewport={{ once: true, amount: 0.5 }}
                     transition={{ duration: 0.8 }}
                     className="mb-2 max-w-sm mx-auto"
                 >
                     <video
-                        src="/videos/WhatsApp Video 2025-06-18 at 18.11.35_5537206e.mp4"
+                        src="/videos/franchise.mp4"
                         alt="Video demonstrating various QR code use cases for ZM QR Code Services"
                         className="rounded-xl  w-full h-auto"
                         autoPlay
