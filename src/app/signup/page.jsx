@@ -173,7 +173,7 @@ export default function LoginPage() {
                         🔐 Trust us with your data. It's not just secure — it's encrypted 🔐
                     </h1>
                     <Image src="/qr-image-login.png" alt="qr-image" width={400} height={400} className="m-5" />
-                    <h4 className="text-md text-center px-4 font-medium">
+                    <h4 className="text-md font-thin text-center px-4">
                         India's No.1 QR Code Generating and Managing Platform
                     </h4>
                 </div>

@@ -5,9 +5,6 @@
     "blogs": "ಬ್ಲಾಗ್ಗಳು",
     "support": "ಬೆಂಬಲ",
     "languages": "ಭಾಷೆಗಳು",
-    "Investors": "ಹೂಡಿಕೆದಾರರು",
-    "Career": "ವೃತ್ತಿ",
-    "Franchise": "ಫ್ರಾಂಚೈಸಿ",
     "login": "ಲಾಗಿನ್",
     "bulkQR": {
         "heading": "ಬಲ್ಕ್ QR ಕೋಡ್ ಜನರೇಟರ್",
@@ -162,7 +159,7 @@
         "phoneLabel": "ಫೋನ್",
         "email": "support@zmqrcode.com",
         "phone": "+91 10000 00000",
-        "copyright": "ZM QR Code Services © 2025. ಎಲ್ಲಾ ಹಕ್ಕುಗಳು ಕಾಯ್ದಿರಿಸಲಾಗಿದೆ."
+        "copyright": "ZM QR Code Services © 2024. ಎಲ್ಲಾ ಹಕ್ಕುಗಳು ಕಾಯ್ದಿರಿಸಲಾಗಿದೆ."
     },
     "career": {
         "header": {

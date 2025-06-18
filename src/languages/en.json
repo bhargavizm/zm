@@ -5,9 +5,6 @@
     "blogs": "Blogs",
     "support": "Support",
     "languages": "Languages",
-    "Investors": "Investors",
-    "Career": "Career",
-    "Franchise": "Franchise",
     "login": "Login",
     "bulkQR": {
         "heading": "Bulk QR Code Generator",
@@ -163,7 +160,7 @@
         "phoneLabel": "Phone",
         "email": "support@zmqrcode.com",
         "phone": "+91 10000 00000",
-        "copyright": "ZM QR Code Services © 2025. All Rights Reserved."
+        "copyright": "ZM QR Code Services © 2024. All Rights Reserved."
     },
     "career": {
         "header": {

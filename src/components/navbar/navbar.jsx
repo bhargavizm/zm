@@ -34,13 +34,16 @@ const Navbar = () => {
             {dictionary.prices}
           </Link>
            <Link href="/career" className="hover:text-gray-300">
-            {dictionary.Career}
+            {/* {dictionary.prices} */}
+            Careers
           </Link>
            <Link href="/investors" className="hover:text-gray-300">
-            {dictionary.Investors}
+            {/* {dictionary.prices} */}
+            Investors
           </Link>
            <Link href="/franchise" className="hover:text-gray-300">
-            {dictionary.Franchise}
+            {/* {dictionary.prices} */}
+            Franchise
           </Link>
           <Link href="/faq" className="hover:text-gray-300">
             {dictionary.support}
