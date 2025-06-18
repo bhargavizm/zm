@@ -5,7 +5,7 @@ const Colors = () => {
   const [colorType, setColorType] = useState("single");
   return (
     <>
-      <section>
+      <section className="h-[65vh] overflow-y-auto scrollbar-hide">
         <div className="grid lg:grid-cols-6 grid-cols-3  pt-4 gap-7">
           <div
             className="h-[60px] w-[60px] rounded-full bg-[#008080] overflow-hidden flex p-[35px_0_0_0] cursor-pointer"

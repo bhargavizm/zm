@@ -531,12 +531,12 @@ const VehicleContent = () => {
 
       {/* Submit Button */}
       <div className="p-6 pt-0 bg-gray-50 flex justify-center">
-        <button
-          type="submit" // Consider changing to "button" if not part of a formal <form> submission
-          className="w-full max-w-sm bg-teal-600 text-white font-semibold py-3 rounded-lg hover:bg-teal-700 transition-colors duration-200 shadow-lg text-lg"
-        >
-          Save Vehicle Profile
-        </button>
+       <button
+              type="submit"
+              className="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 rounded-lg font-semibold text-sm transition"
+            >
+             Submit
+            </button>
       </div>
     </div>
   );

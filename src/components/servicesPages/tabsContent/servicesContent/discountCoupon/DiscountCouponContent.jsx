@@ -4,6 +4,7 @@
 import React, { useState } from 'react';
 import useServicesContext from '@/components/hooks/useServiceContext'; // Adjust path if necessary
 import { Eye, EyeOff } from 'lucide-react'; // Assuming lucide-react is installed
+import NFCModal from '@/components/modalPopUps/nfcModal';
 
 const DiscountCouponContent = () => {
   const { dynamicForms, updateDynamicForm } = useServicesContext();
@@ -159,6 +160,17 @@ const DiscountCouponContent = () => {
           </button>
         </div>
       </div>
+
+      <NFCModal/>
+
+       <div className="text-center my-6">
+         <button
+                type="submit"
+                className="w-full bg-[#008080] hover:bg-[#006666] text-white py-3 rounded-lg font-medium transition-colors shadow-lg"
+              >
+              Submit
+              </button>
+        </div>
     </div>
   );
 };
