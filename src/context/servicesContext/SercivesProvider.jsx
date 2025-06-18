@@ -58,7 +58,7 @@ const ServicesProvider = ({ children }) => {
     selectedTemplate: null,
   });
   const [productImage, setProductImage] = useState(null);
-  // Audio
+// Audio
   const [audioFormData, setAudioFormData] = useState({
     title: "",
     description: "",
@@ -66,13 +66,13 @@ const ServicesProvider = ({ children }) => {
     password: "",
   });
 
-  // video
+   // video
   const [videoFormData, setVideoFormData] = useState({
     title: "",
     description: "",
     file: null,
-    password: "",
-  });
+    password: "",
+  });
 
   // Gallery (Original structure)
   const [imagesFormData, setImagesFormData] = useState({
@@ -324,20 +324,9 @@ const ServicesProvider = ({ children }) => {
         website: "www.reallygreatsite.com",
       },
       template3Data: {
-        aboutUsLink: "Explore Us",
-        siteLink: "@goldglamjewels",
-        title: "GOLD GLAM",
-        subtitle: "EXQUISITE JEWELLERY COLLECTION",
-        days: [
-          { day: "Monday", time: "10:00 AM - 08:00 PM" },
-          { day: "Tuesday", time: "10:00 AM - 08:00 PM" },
-          { day: "Wednesday", time: "10:00 AM - 08:00 PM" },
-          { day: "Thursday", time: "10:00 AM - 08:00 PM" },
-          { day: "Friday", time: "10:00 AM - 08:00 PM" },
-          { day: "Saturday", time: "10:00 AM - 09:00 PM" },
-          { day: "Sunday", time: "10:00 AM - 01:00 PM" },
-        ],
-        footerText: "OPEN ALL WEEK | TRADITION MEETS ELEGANCE",
+        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+        title: "OUR STORY",
+        description: "Experience the best at our shop!",
       },
       template4Data: {
         brandName: "HANOVER AND TYKE",

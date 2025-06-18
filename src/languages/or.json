@@ -159,7 +159,11 @@
         "phoneLabel": "ଫୋନ୍",
         "email": "support@zmqrcode.com",
         "phone": "+91 10000 00000",
+<<<<<<< HEAD
         "copyright": "ZM QR Code Services © 2024। ସମସ୍ତ ଅଧିକାର ସੰରକ୍ଷିତ."
+=======
+        "copyright": "ZM QR Code Services © 2025। ସମସ୍ତ ଅଧିକାର ସੰରକ୍ଷିତ."
+>>>>>>> navya
     },
     "career": {
         "header": {

@@ -10,7 +10,7 @@ const ImageToQRDesign = () => {
   const qrRef = useRef(null);
 
    useEffect(() => {
-      setShowWarning(scale > 55); // Adjust threshold as needed
+      setShowWarning(scale > 80); // Adjust threshold as needed
     }, [scale]);
 
 const handleSliderChange = (e) => {
@@ -32,8 +32,8 @@ const handleSliderChange = (e) => {
     setBackgroundImage(null);
   };
    const handleResetValue = () => {
-    setScale(55); // Default size
-    localStorage.setItem("logoSize", 55);
+    setScale(80); // Default size
+    localStorage.setItem("logoSize", 80);
   };
 
   const handleAddNew = () => {
@@ -114,7 +114,7 @@ const handleSliderChange = (e) => {
                   <div className="mb-2 flex flex-col items-start">
         <div className="flex justify-start items-center gap-9 w-full mb-4">
           <label htmlFor="logo-size" className="text-lg font-medium text-darkGreen">
-            Image Scaling: 
+            Image Scaling: {scale}
           </label>
           {/* {showWarning && (
             <span className="text-red-500 text-sm font-bold">

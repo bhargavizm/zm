@@ -118,7 +118,7 @@
   position: relative;
   display: inline-block;
   border-radius: 9999px;
-  padding: 5px;
+  padding: 15px;
   background: linear-gradient(60deg, #f6ee03, #ef0303, #fb03e6);
   background-size: 200% 200%;
   animation: borderSpin 3s linear infinite;
@@ -138,7 +138,7 @@
   }
 }
 
-.animated-borders {
+/* .animated-borders {
   position: relative;
   display: inline-block;
   border-radius: 20px;
@@ -150,7 +150,7 @@
 
 .animated-border-outer {
   border-radius: 9999px;
-}
+} */
 
   @keyframes wiggle {
     0%,
