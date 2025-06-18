@@ -147,8 +147,8 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
       </div>
   {/* Preview Sticky */}
  <div className="sticky top-0 z-50 bg-white pb-2">
-  <div className="flex justify-center">
-    <div className="w-full max-w-xs h-80 overflow-y-auto scrollbar-hide rounded-md">
+  <div className="flex justify-center items-center">
+    <div className="w-full max-w-xs h-72 overflow-y-auto scrollbar-hide rounded-md">
       <PreviewPanel />
     </div>
   </div>
