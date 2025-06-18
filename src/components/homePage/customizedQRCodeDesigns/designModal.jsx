@@ -62,7 +62,7 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
 
   return (
     <>
-      <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30 px-4">
+      <div className="fixed inset-0 z-100 flex items-center justify-center backdrop-blur-md bg-black/30 px-4">
         {/* Desktop Layout */}
         <div className="hidden md:block">
           <div className="bg-white rounded-xl shadow-xl w-full max-w-6xl h-[95vh] relative px-6 py-6 overflow-y-auto scrollbar-hide">
