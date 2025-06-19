@@ -211,14 +211,6 @@ import {
   FaLink,
 } from "react-icons/fa";
 
-const linkIcons = {
-  youtube: "/icons/youtube.png",
-  instagram: "/icons/instagram.png",
-  twitter: "/icons/twitter.png",
-  linkedin: "/icons/linkedin.png",
-  custom: "/icons/link.png",
-};
-
 const MultiUrlPreview = () => {
   const { dynamicForms } = useServicesContext();
   const { bgDesign } = useDesignContext();
@@ -234,6 +226,15 @@ const MultiUrlPreview = () => {
   const hasLinks =
     Object.values(socialLinks).some(Boolean) ||
     customLinks.some((link) => link?.label && link?.url);
+
+  // Define platform icons mapping
+  const platformIcons = {
+    youtube: <FaYoutube className="text-red-600 w-5 h-5" />,
+    instagram: <FaInstagram className="text-pink-500 w-5 h-5" />,
+    twitter: <FaTwitter className="text-blue-400 w-5 h-5" />,
+    linkedin: <FaLinkedin className="text-blue-700 w-5 h-5" />,
+    custom: <FaLink className="text-gray-600 w-5 h-5" />,
+  };
 
   return (
     <div className="flex justify-center">
@@ -278,11 +279,7 @@ const MultiUrlPreview = () => {
                     key={platform}
                     className="flex items-center gap-3 bg-gray-100 px-3 py-2 rounded"
                   >
-                    <img
-                      src={linkIcons[platform] || linkIcons.custom}
-                      alt={platform}
-                      className="w-5 h-5"
-                    />
+                    {platformIcons[platform] || platformIcons.custom}
                     <a
                       href={url}
                       target="_blank"
@@ -303,11 +300,7 @@ const MultiUrlPreview = () => {
                     key={`custom-${index}`}
                     className="flex items-center gap-3 bg-gray-100 px-3 py-2 rounded"
                   >
-                    <img
-                      src={linkIcons.custom}
-                      alt="custom"
-                      className="w-5 h-5"
-                    />
+                    {platformIcons.custom}
                     <a
                       href={link.url}
                       target="_blank"
