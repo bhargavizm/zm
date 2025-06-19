@@ -25,7 +25,8 @@ const Navbar = () => {
 
         <div className="hidden lg:flex items-center space-x-6 font-semibold text-xl">
           <Link href="/" className="hover:text-gray-300">
-            {dictionary.generateQR}
+            {/* {dictionary.generateQR} */}
+            Home
           </Link>
           <Link href="/services" className="hover:text-gray-300">
             {dictionary.services}
@@ -91,7 +92,8 @@ const Navbar = () => {
           <div className="lg:hidden fixed top-[60px] py-4 right-0  w-64 bg-white text-xl font-semibold text-mainGreen z-50 shadow-lg transition-all duration-300">
             <div className="flex flex-col px-6 py- space-y-4 h-full justify-start">
               <Link href="/" onClick={() => setIsOpen(false)}>
-                {dictionary.generateQR}
+                {/* {dictionary.generateQR} */}
+                Home
               </Link>
               <Link href="/services" onClick={() => setIsOpen(false)}>
                 {dictionary.services}

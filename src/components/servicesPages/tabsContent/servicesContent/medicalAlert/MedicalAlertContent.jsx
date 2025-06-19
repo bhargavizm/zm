@@ -138,7 +138,7 @@ const MedicalAlertContent = () => {
         <div className="relative w-full">
           <input
             type={showPassword ? "text" : "password"}
-            placeholder="Password (optional)"
+            placeholder="Password"
             value={dynamicForms.medicalAlert?.password || ""}
             onChange={(e) =>
               setDynamicForms((prev) => ({

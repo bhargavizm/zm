@@ -126,7 +126,7 @@ const ResumeContent = () => {
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">
-                  Password (Optional)
+                  Password 
                 </label>
                 <div className="relative">
                   <input
