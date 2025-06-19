@@ -50,7 +50,13 @@ const LanguageSelector = ({ isOpen }) => {
         } flex items-center gap-2  py-2 rounded transition`}
       >
         <FaGlobe className="text-xl" />
-        <span className="text-xl font-medium">{language || "EN"}</span>
+       <span className="text-xl font-medium">
+  {(
+    languageOptions.find((opt) => opt.code === language)?.label.split(" - ")[0] ||
+    "EN"
+  ).toUpperCase()}
+</span>
+
         <MdKeyboardArrowDown className="text-xl" />
       </button>
 

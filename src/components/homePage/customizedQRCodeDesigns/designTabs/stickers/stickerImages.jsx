@@ -167,7 +167,15 @@ export const stickerConfig = {
     logoLeft: "50%",
     logoSize: 35,
   },
-   "/images/stickers/f.webp": {
+  //  "/images/stickers/f.webp": {
+  //   qrTop: "50%",
+  //   qrLeft: "50%",
+  //   scale: 180,
+  //   logoTop: "50%",
+  //   logoLeft: "50%",
+  //   logoSize: 35,
+  // },
+  "/images/stickers/g.jpg": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 180,
