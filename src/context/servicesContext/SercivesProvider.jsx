@@ -40,6 +40,7 @@ const ServicesProvider = ({ children }) => {
     mapLink: "",
     email: "",
     url: "", // Changed socialLink to url for consistency
+    url1: "", // Changed socialLink to url for consistency
     password: "",
   });
   const [profileImage, setProfileImage] = useState(null);
@@ -58,7 +59,7 @@ const ServicesProvider = ({ children }) => {
     selectedTemplate: null,
   });
   const [productImage, setProductImage] = useState(null);
-// Audio
+  // Audio
   const [audioFormData, setAudioFormData] = useState({
     title: "",
     description: "",
@@ -66,21 +67,21 @@ const ServicesProvider = ({ children }) => {
     password: "",
   });
 
-   // video
+  // video
   const [videoFormData, setVideoFormData] = useState({
     title: "",
     description: "",
     file: null,
-    password: "",
-  });
+    password: "",
+  });
 
- // pdf
+  // pdf
   const [pdfFormData, setPdfFormData] = useState({
     title: "",
     description: "",
     file: null,
-    password: "",
-  });
+    password: "",
+  });
 
   // Gallery (Original structure)
   const [imagesFormData, setImagesFormData] = useState({
@@ -123,24 +124,6 @@ const ServicesProvider = ({ children }) => {
     webUrl: "www.yourweburl.com",
   });
 
-  // Vehicle (Original structure)
-  const [vehicleForm, setVehicleForm] = useState({
-    vehicleModel: "",
-    vehicleType: "",
-    buyDate: "",
-    description: "",
-    rcNumber: "",
-    driverName: "",
-    ownerName: "",
-    contact: "",
-    altContact: "",
-    address: "",
-    mapLink: "",
-    password: "",
-    selectedTemplate: "",
-  });
-  const [vehicleImage, setVehicleImage] = useState(null);
-
   // SMS (Original structure)
   const [smsFormData, setSmsFormData] = useState({
     genderName: "",
@@ -160,13 +143,11 @@ const ServicesProvider = ({ children }) => {
   // Menu Book (Original structure)
   const [menuBookFormData, setMenuBookFormData] = useState({
     restaurantName: "",
-    menuItems: [{ name: "", description: "", price: "", image: "", visible: true }],
+    menuItems: [{ image: "", name: "menu items", }],
     extras: [
       { type: "phone", label: "Phone", value: "", visible: true, placeholder: "+91-0000000000" },
       { type: "email", label: "Email", value: "", visible: true, placeholder: "example@mail.com" },
       { type: "link", label: "Link", value: "", visible: true, placeholder: "https://yourlink.com" },
-      { type: "form", label: "Form", value: "", visible: true, placeholder: "https://formurl.com" },
-      { type: "video", label: "Video", value: "", visible: true, placeholder: "upload" },
     ],
   });
 
@@ -223,6 +204,11 @@ const ServicesProvider = ({ children }) => {
         emergencyInstructions: "",
         insuranceProvider: "",
         policyNumber: "",
+        medicalReports: null,
+        prescription: null,
+        insuranceImage: null,
+        preferredHospital: "",
+        location: ""
       },
       password: "",
     },
@@ -232,6 +218,8 @@ const ServicesProvider = ({ children }) => {
         propertyType: "",
         ownerName: "",
         contactNumber: "",
+        alternateNumber: "",
+        propertyDescription: "",
       },
       addressInfo: {
         address: "",
@@ -294,6 +282,7 @@ const ServicesProvider = ({ children }) => {
       },
       contact: {
         phone: "",
+        altPhone: "",
         email: "",
         address: "",
       },
@@ -344,13 +333,15 @@ const ServicesProvider = ({ children }) => {
         subTagline: "Your Look",
         offerMessage: "AVAILABLE UNTIL 8 NOVEMBER 2030",
         backgroundColor: "#000000", // black background
-        textColor: "#ffffff",       // white text
+        textColor: "#ffffff",       // white text
         fontFamily: "Montserrat, sans-serif",
       },
       password: "",
 
     },
     discountCoupon: {
+      brandLogo: null,
+      nameOfBusiness: "",
       code: "",
       type: "percentage", // "percentage" or "fixed"
       value: "", // The percentage or fixed amount
@@ -370,12 +361,62 @@ const ServicesProvider = ({ children }) => {
       schoolAddress: "",
       parentName: "",
       contact: "",
+      contact2: "",
+      schoolContact: "",
       altContact: [], // Initialized as an array for dynamic additions
       homeAddress: "",
       mapLink: "",
       password: "",
       selectedTemplate: "",
       kidsImage: null, // Image moved here
+    },
+    // NEW: Vehicle data structure
+    vehicle: {
+      general: {
+        vehicleModel: "",
+        vehicleType: "",
+        buyDate: "",
+        description: "",
+      },
+      registration: {
+        rcNumber: "",
+        driverName: "",
+        ownerName: "",
+      },
+      contact: {
+        contact: "",
+        altContact: "",
+        address: "",
+        mapLink: "",
+      },
+      media: {
+        mainImage: null, // File object for main vehicle image
+        licenseFront: null, // File object for license front
+        licenseBack: null, // File object for license back
+        galleryImages: [], // Array of File objects for vehicle gallery
+      },
+      security: {
+        password: "",
+      },
+    },
+    // NEW: Vehicle Template data structure
+    vehicleTemplate: {
+      selectedTemplate: "none", // 'none', 'templateV1', 'templateV2', etc.
+      templateV1Data: {
+        bgimage:"/images/background/bikebg.png"
+      },
+
+      templateV2Data: { // Another placeholder
+         bgimage:"/images/background/carbg.png"
+      }, 
+
+      templateV3Data: {
+        bgimage:"/images/background/lorrybg.png"
+      },
+
+      templateV4Data: { // Another placeholder
+         bgimage:"/images/background/autobg.png"
+      }
     },
   });
 
@@ -446,11 +487,6 @@ const ServicesProvider = ({ children }) => {
         productImage, setProductImage,
         imagesFormData, setImagesFormData,
         resumeFormData, setResumeFormData,
-        // kidsSafetyFormData and setKidsSafetyFormData are removed here because they are
-        // now part of the dynamicForms state.
-        // kidsImage and setKidsImage are removed here because it's now part of dynamicForms.kidsSafety
-        vehicleForm, setVehicleForm,
-        vehicleImage, setVehicleImage,
         smsFormData, setSmsFormData,
         wifiFormData, setWifiFormData,
         menuBookFormData, setMenuBookFormData,

@@ -9,11 +9,11 @@ const ProductContent = () => {
     const { productData, setProductData, setProductImage } = useServicesContext();
 
     const [productImages, setProductImages] = useState([]);
-      const [showPassword, setShowPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     const templateImages = ["temp1.webp", "temp2.webp", "temp3.webp", "temp4.webp"];
 
-       const selectTemplate = (index) => {
+    const selectTemplate = (index) => {
         setProductData((prev) => ({ ...prev, selectedTemplate: index }));
     };
 
@@ -40,7 +40,7 @@ const ProductContent = () => {
         }
     };
 
- 
+
 
     return (
         <>
@@ -61,8 +61,8 @@ const ProductContent = () => {
                                     <div
                                         key={idx}
                                         className={` rounded-md p-1 cursor-pointer transition hover:shadow-lg ${productData.selectedTemplate === idx
-                                                ? "border-[#008080]"
-                                                : "border-gray-300"
+                                            ? "border-[#008080]"
+                                            : "border-gray-300"
                                             }`}
                                         onClick={() => selectTemplate(idx)}
                                     >
@@ -80,92 +80,105 @@ const ProductContent = () => {
 
                         {/* Product Image Upload */}
                         <div>
-                            <label className="block mb-1 font-medium">Product Image (500x500)</label>
+                            <label className="block mb-2 font-medium text-gray-700">Product Image (500x500)</label>
+
                             <input
                                 type="file"
                                 accept="image/*"
                                 onChange={handleFileUpload}
-                                className="w-full text-sm"
+                                className="w-full text-sm text-gray-700
+                                file:mr-4 file:py-2 file:px-4
+                                file:rounded-full file:border-0
+                                file:text-sm file:font-semibold
+                                file:bg-[#008080] file:text-white
+                                hover:file:bg-[#006666] transition duration-200 cursor-pointer"
                             />
+
                             {productImages.length > 0 && (
-                                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-2">
+                                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
                                     {productImages.map((src, idx) => (
                                         <img
                                             key={idx}
                                             src={src}
                                             alt={`Uploaded ${idx}`}
-                                            className="rounded object-cover w-24 h-24 border border-gray-300"
+                                            className="rounded object-cover w-24 h-24 border border-gray-300 shadow-sm"
                                         />
                                     ))}
                                 </div>
                             )}
                         </div>
 
+
                         {/* Manual Upload */}
-                        <div>
+                        {/* <div>
                             <label className="block mb-1 font-medium">Product Manual (PDF)</label>
                             <input
                                 type="file"
                                 accept=".pdf"
                                 onChange={handleManualUpload}
-                                className="w-full text-sm"
+                                className="w-full text-sm text-gray-700
+                                file:mr-4 file:py-2 file:px-4
+                                file:rounded-full file:border-0
+                                file:text-sm file:font-semibold
+                                file:bg-[#008080] file:text-white
+                                hover:file:bg-[#006666] transition duration-200 cursor-pointer"
                             />
-                        </div>
+                        </div> */}
 
                         {/* Form Fields */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {[
-        { id: "heading", placeholder: "Product Heading" },
-        { id: "description", placeholder: "Product Description" },
-        { id: "pageUrl", placeholder: "Product Page URL", type: "url" },
-        { id: "videoUrl", placeholder: "Product Video URL", type: "url" },
-        { id: "email", placeholder: "Contact Email", type: "email" },
-        { id: "phone", placeholder: "Phone Number", type: "tel" },
-        { id: "password", placeholder: "QR Code Password", type: "password" },
-      ].map(({ id, placeholder, type = "text" }) =>
-        id === "password" ? (
-          <div key={id} className="relative w-full">
-            <input
-              id={id}
-              type={showPassword ? "text" : "password"}
-              value={productData[id] || ""}
-              onChange={handleInputChange}
-              placeholder={placeholder}
-              className="border p-2 pr-10 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600"
-            >
-              {showPassword ? (
-                <AiOutlineEyeInvisible size={20} />
-              ) : (
-                <AiOutlineEye size={20} />
-              )}
-            </button>
-          </div>
-        ) : (
-          <input
-            key={id}
-            id={id}
-            type={type}
-            value={productData[id] || ""}
-            onChange={handleInputChange}
-            placeholder={placeholder}
-            className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
-          />
-        )
-      )}
+                                { id: "heading", placeholder: "Product Name" },
+                                { id: "description", placeholder: "Product Description" },
+                                { id: "pageUrl", placeholder: "Product Page URL", type: "url" },
+                                { id: "videoUrl", placeholder: "Product Video URL", type: "url" },
+                                { id: "email", placeholder: "Contact Email", type: "email" },
+                                { id: "phone", placeholder: "Phone Number", type: "tel" },
+                                { id: "password", placeholder: "QR Code Password", type: "password" },
+                            ].map(({ id, placeholder, type = "text" }) =>
+                                id === "password" ? (
+                                    <div key={id} className="relative w-full">
+                                        <input
+                                            id={id}
+                                            type={showPassword ? "text" : "password"}
+                                            value={productData[id] || ""}
+                                            onChange={handleInputChange}
+                                            placeholder={placeholder}
+                                            className="border p-2 pr-10 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowPassword((prev) => !prev)}
+                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600"
+                                        >
+                                            {showPassword ? (
+                                                <AiOutlineEyeInvisible size={20} />
+                                            ) : (
+                                                <AiOutlineEye size={20} />
+                                            )}
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <input
+                                        key={id}
+                                        id={id}
+                                        type={type}
+                                        value={productData[id] || ""}
+                                        onChange={handleInputChange}
+                                        placeholder={placeholder}
+                                        className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
+                                    />
+                                )
+                            )}
                         </div>
 
-                  <NFCModal/>
+                        <NFCModal />
 
                         <button
                             type="submit"
                             className="mt-4 w-full bg-[#008080] text-white font-semibold py-2 rounded hover:bg-[#006666] transition"
                         >
-                           Submit
+                            Submit
                         </button>
                     </div>
                 </div>

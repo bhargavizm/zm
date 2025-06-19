@@ -2,7 +2,7 @@
     {
         "id": 1,
         "question": "What is the refund policy?",
-        "answer": "Refund Policy mentions that, there is no Refund after the QR Code is Generated.",
+        "answer": "You can request a refund within 7 days of purchase if the service hasn't been used or activated.",
         "videoUrl": "https://www.youtube.com/zm/zmqrcode"
     },
     {
@@ -20,7 +20,7 @@
     {
         "id": 4,
         "question": "After a QR code is generated, is it possible to add other content to it?",
-        "answer": "No, You Can't update or Edit the content once the QR Code is generated.",
+        "answer": "Yes, you can update or add additional content through the dynamic QR code management section.",
         "videoUrl": "https://www.youtube.com/zm/zmqrcode"
     },
     {
@@ -44,7 +44,7 @@
     {
         "id": 8,
         "question": "How can I contact customer support for QR codes?",
-        "answer": "Reach out via live chat, email, chat bot or through the help section on our website.",
+        "answer": "Reach out via live chat, email, or through the help section on our website.",
         "videoUrl": "https://www.youtube.com/zm/zmqrcode"
     },
     {
@@ -62,13 +62,13 @@
     {
         "id": 11,
         "question": "Will I get a refund if I cancel my subscription?",
-        "answer": "Refunds are provided based on our refund policy. Refer to our Refund Policy.",
+        "answer": "Refunds are provided based on our refund policy. Generally, cancellations within 7 days are eligible.",
         "videoUrl": "https://www.youtube.com/zm/zmqrcode"
     },
     {
         "id": 12,
         "question": "If I delete my QR account, will my data get erased?",
-        "answer": "No, once your account is deleted, all your QR codes and related data will not be permanently removed.",
+        "answer": "Yes, once your account is deleted, all your QR codes and related data will be permanently removed.",
         "videoUrl": "https://www.youtube.com/zm/zmqrcode"
     },
     {
@@ -80,7 +80,7 @@
     {
         "id": 14,
         "question": "What is the validity of a QR code?",
-        "answer": "Static QR codes are valid permanently until your subscription plan expires.",
+        "answer": "Static QR codes are valid permanently. Dynamic codes are valid as long as your subscription is active.",
         "videoUrl": "https://www.youtube.com/zm/zmqrcode"
     },
     {
@@ -92,7 +92,7 @@
     {
         "id": 16,
         "question": "Will I lose my data if I don’t renew my QR code?",
-        "answer": "No, your data will be retained even if you don't renew your QR code.",
+        "answer": "Yes, dynamic QR code data will become inaccessible unless the plan is renewed within the grace period.",
         "videoUrl": "https://www.youtube.com/zm/zmqrcode"
     },
     {

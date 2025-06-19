@@ -5,6 +5,8 @@ import { IoMdClose } from "react-icons/io";
 import DemoFormDesign from "./demoFormDesign";
 import DemoFormPage from "./demoFormPage";
 
+
+
 const DemoForm = ({ onClose }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30 px-4">
@@ -35,3 +37,5 @@ const DemoForm = ({ onClose }) => {
 };
 
 export default DemoForm;
+
+
