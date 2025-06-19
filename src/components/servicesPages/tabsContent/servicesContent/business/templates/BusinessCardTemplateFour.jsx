@@ -13,6 +13,7 @@ const BusinessCardTemplateFour = ({ businessForm, profileImage, brandLogo }) => 
         address,
         mapLink,
         socialLink,
+        socialLink2,
     } = businessForm;
 
     return (
@@ -94,6 +95,14 @@ const BusinessCardTemplateFour = ({ businessForm, profileImage, brandLogo }) => 
                     className="py-3 rounded-full border border-gray-400 text-gray-900 font-semibold bg-white hover:bg-gray-100 transition"
                 >
                     {socialLink || "SOCIAL LINK"}
+                </a>
+                <a
+                    href={socialLink2 || "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="py-3 rounded-full border border-gray-400 text-gray-900 font-semibold bg-white hover:bg-gray-100 transition"
+                >
+                    {socialLink2 || "SOCIAL LINK2"}
                 </a>
                 <a
                     href={address || "#"}

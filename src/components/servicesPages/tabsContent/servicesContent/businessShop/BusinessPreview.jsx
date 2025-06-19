@@ -39,12 +39,12 @@ const BusinessPreview = () => {
     template1Data = { days: [] },
     template2Data = {},
     template3Data = {},
-     template4Data = {},
+    template4Data = {},
   } = shopTimingsTemplate;
 
   const hasData =
     general.businessName || general.businessType || general.description || general.establishedDate || general.shopTimings ||
-    contact.phone || contact.email || contact.address ||
+    contact.phone || contact.altPhone || contact.email || contact.address ||
     media.logo || media.video || (media.galleryImages?.length > 0) ||
     security.password || selectedTemplate !== "none";
 
@@ -113,6 +113,7 @@ const BusinessPreview = () => {
                 condition={contact.phone || contact.email || contact.address}
               >
                 {contact.phone && <p><strong>Phone:</strong> {contact.phone}</p>}
+                {contact.altPhone && <p><strong>Alternate Phone:</strong> {contact.altPhone}</p>}
                 {contact.email && <p><strong>Email:</strong> {contact.email}</p>}
                 {contact.address && <p><strong>Address:</strong> {contact.address}</p>}
               </Section>
