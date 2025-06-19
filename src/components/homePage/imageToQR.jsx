@@ -119,44 +119,46 @@ import Image from "next/image";
 import { useLanguage } from '@/context/languageContext/LanguageContext';
 
 const ImageToQR = () => {
-    const { dictionary } = useLanguage();
+  const { dictionary } = useLanguage();
+
   return (
     <section
       style={{
         backgroundImage:
           "conic-gradient(from 18deg at right, #3BDEDE 22%, #0F5353 98%)",
       }}
-      className="py-20 padding-lr min-h-screen flex flex-col items-center justify-center"
+      className="py-20 px-4 sm:px-8 lg:px-16 min-h-screen flex flex-col items-center justify-center"
     >
-      <h2 className="text-white text-4xl font-bold mb-6">{dictionary.imageQR.heading}</h2>
-      <p className="text-slate-400 text-lg text-center">
+      <h2 className="text-white text-3xl sm:text-4xl font-bold mb-4 text-center">
+        {dictionary.imageQR.heading}
+      </h2>
+      <p className="text-slate-200 text-base sm:text-lg text-center max-w-2xl mb-10">
         {dictionary.imageQR.paragraph}
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 pb-6">
-        <div className="md:col-span-8">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 w-full max-w-7xl">
+        <div className="md:col-span-8 flex justify-center">
           <Image
             src="/images/home/image-qr.png"
             alt="Main QR Code"
             width={1000}
             height={1000}
-            className="lg:max-w-[700px] h-auto rounded-lg object-contain"
+            className="w-full max-w-[700px] h-auto rounded-lg object-contain"
           />
         </div>
-
-        <div className="md:col-span-4">
+        <div className="md:col-span-4 flex justify-center">
           <Image
             src="/images/home/image-qr-1.png"
             alt="Secondary QR Code"
             width={500}
             height={500}
-            className="lg:max-w-[400px] h-auto rounded-lg object-contain"
+            className="w-full max-w-[400px] h-auto rounded-lg object-contain"
           />
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 pt-6 gap-16">
-        {/* Pulse glow animation */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 mt-12 w-full max-w-6xl">
+        {/* Pulse glow */}
         <div className="flex justify-center items-center">
           <div className="relative">
             <div className="absolute -inset-2 rounded-lg bg-amber-700 blur-lg opacity-75 animate-pulse"></div>
@@ -170,12 +172,12 @@ const ImageToQR = () => {
           </div>
         </div>
 
-        {/* NEW: Floating tiles animation with rounded-xl */}
+        {/* Floating tiles */}
         <div className="flex justify-center items-center">
           <div className="relative floating-tiles-animation rounded-xl">
             <Image
               src="/images/home/image-qr-3.png"
-              alt="Image to QR Code"
+              alt="Floating QR"
               width={200}
               height={200}
               className="rounded-xl shadow-lg relative z-10"
@@ -186,11 +188,11 @@ const ImageToQR = () => {
           </div>
         </div>
 
-        {/* Gentle pulse animation */}
+        {/* Gentle pulse */}
         <div className="flex justify-center items-center animate-pulse-gentle">
           <Image
             src="/images/home/image-qr-4.png"
-            alt="Image to QR Code"
+            alt="Pulsing QR"
             width={200}
             height={200}
             className="rounded-xl shadow-lg"
@@ -202,7 +204,7 @@ const ImageToQR = () => {
           <div className="animate-bounce-slow">
             <Image
               src="/images/home/scan.png"
-              alt="Image to QR Code"
+              alt="Bounce QR"
               width={200}
               height={200}
               className="rounded-xl shadow-lg"
@@ -210,12 +212,12 @@ const ImageToQR = () => {
           </div>
         </div>
 
-        {/* Gradient border animation */}
+        {/* Gradient border */}
         <div className="flex justify-center items-center">
           <div className="p-1 rounded-lg bg-gradient-to-r from-amber-700 via-yellow-500 to-amber-700 bg-size-200 animate-gradient-border">
             <Image
               src="/images/home/image-qr-5.png"
-              alt="Image to QR Code"
+              alt="Gradient QR"
               width={200}
               height={200}
               className="rounded-lg shadow-lg"
@@ -224,45 +226,31 @@ const ImageToQR = () => {
         </div>
       </div>
 
-      {/* Custom animations */}
       <style jsx>{`
         @keyframes spin-slow {
-          to {
-            transform: rotate(360deg);
-          }
+          to { transform: rotate(360deg); }
         }
-        
         .animate-spin-slow {
           animation: spin-slow 8s linear infinite;
         }
-        
+
         @keyframes bounce-slow {
-          0%, 100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(-20px);
-          }
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-20px); }
         }
-        
         .animate-bounce-slow {
           animation: bounce-slow 3s ease-in-out infinite;
         }
-        
+
         @keyframes gradient-border {
-          0% {
-            background-position: 0% 50%;
-          }
-          100% {
-            background-position: 200% 50%;
-          }
+          0% { background-position: 0% 50%; }
+          100% { background-position: 200% 50%; }
         }
-        
         .animate-gradient-border {
           background-size: 200% auto;
           animation: gradient-border 3s linear infinite;
         }
-        
+
         @keyframes pulse-gentle {
           0%, 100% {
             transform: scale(1);
@@ -273,30 +261,10 @@ const ImageToQR = () => {
             box-shadow: 0 0 0 10px rgba(251, 191, 36, 0);
           }
         }
-        
         .animate-pulse-gentle {
           animation: pulse-gentle 3s ease-in-out infinite;
-          position: relative;
-          border-radius: 0.75rem;
         }
-        
-        /* NEW ANIMATION: Floating Tiles */
-        .floating-tiles-animation {
-          position: relative;
-        }
-        
-        .floating-tile-1 {
-          animation: float-tile 4s ease-in-out infinite 0.3s;
-        }
-        
-        .floating-tile-2 {
-          animation: float-tile 4s ease-in-out infinite 0.6s;
-        }
-        
-        .floating-tile-3 {
-          animation: float-tile 4s ease-in-out infinite 0.9s;
-        }
-        
+
         @keyframes float-tile {
           0%, 100% {
             opacity: 0;
@@ -314,6 +282,15 @@ const ImageToQR = () => {
             opacity: 0.4;
             transform: translate(0, 0) scale(1.05);
           }
+        }
+        .floating-tile-1 {
+          animation: float-tile 4s ease-in-out infinite 0.3s;
+        }
+        .floating-tile-2 {
+          animation: float-tile 4s ease-in-out infinite 0.6s;
+        }
+        .floating-tile-3 {
+          animation: float-tile 4s ease-in-out infinite 0.9s;
         }
       `}</style>
     </section>

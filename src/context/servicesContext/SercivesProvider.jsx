@@ -40,6 +40,7 @@ const ServicesProvider = ({ children }) => {
     mapLink: "",
     email: "",
     url: "", // Changed socialLink to url for consistency
+    url1: "", // Changed socialLink to url for consistency
     password: "",
   });
   const [profileImage, setProfileImage] = useState(null);
@@ -74,13 +75,13 @@ const ServicesProvider = ({ children }) => {
     password: "",
   });
 
- // pdf
+  // pdf
   const [pdfFormData, setPdfFormData] = useState({
     title: "",
     description: "",
     file: null,
-    password: "",
-  });
+    password: "",
+  });
 
   // Gallery (Original structure)
   const [imagesFormData, setImagesFormData] = useState({
@@ -136,18 +137,17 @@ const ServicesProvider = ({ children }) => {
   const [textMessageForm, setTextMessageForm] = useState({
     sender: "",
     message: "",
+    password:''
   });
 
   // Menu Book (Original structure)
   const [menuBookFormData, setMenuBookFormData] = useState({
     restaurantName: "",
-    menuItems: [{ name: "", description: "", price: "", image: "", visible: true }],
+    menuItems: [{ image: "", name: "menu items", }],
     extras: [
       { type: "phone", label: "Phone", value: "", visible: true, placeholder: "+91-0000000000" },
       { type: "email", label: "Email", value: "", visible: true, placeholder: "example@mail.com" },
       { type: "link", label: "Link", value: "", visible: true, placeholder: "https://yourlink.com" },
-      { type: "form", label: "Form", value: "", visible: true, placeholder: "https://formurl.com" },
-      { type: "video", label: "Video", value: "", visible: true, placeholder: "upload" },
     ],
   });
 
@@ -204,6 +204,11 @@ const ServicesProvider = ({ children }) => {
         emergencyInstructions: "",
         insuranceProvider: "",
         policyNumber: "",
+        medicalReports: null,
+        prescription: null,
+        insuranceImage: null,
+        preferredHospital: "",
+        location: ""
       },
       password: "",
     },
@@ -213,6 +218,8 @@ const ServicesProvider = ({ children }) => {
         propertyType: "",
         ownerName: "",
         contactNumber: "",
+        alternateNumber: "",
+        propertyDescription: "",
       },
       addressInfo: {
         address: "",
@@ -275,6 +282,7 @@ const ServicesProvider = ({ children }) => {
       },
       contact: {
         phone: "",
+        altPhone: "",
         email: "",
         address: "",
       },
@@ -332,6 +340,8 @@ const ServicesProvider = ({ children }) => {
 
     },
     discountCoupon: {
+      brandLogo: null,
+      nameOfBusiness: "",
       code: "",
       type: "percentage", // "percentage" or "fixed"
       value: "", // The percentage or fixed amount
@@ -351,6 +361,8 @@ const ServicesProvider = ({ children }) => {
       schoolAddress: "",
       parentName: "",
       contact: "",
+      contact2: "",
+      schoolContact: "",
       altContact: [], // Initialized as an array for dynamic additions
       homeAddress: "",
       mapLink: "",

@@ -1,11 +1,11 @@
 {
-    "generateQR": "QR তৈরি করুন",
+    "home": "ઘર",
     "services": "সেবা",
     "prices": "মূল্য",
     "blogs": "ব্লগ",
     "support": "সহায়তা",
     "languages": "ভাষাসমূহ",
-     "Investors": "નિવેશકો",
+    "Investors": "નિવેશકો",
     "Career": "કારકિર્દી",
     "Franchise": "ફ્રેન્ચાઈઝ",
     "login": "লগইন",
@@ -163,7 +163,7 @@
         "phoneLabel": "ફોન",
         "email": "support@zmqrcode.com",
         "phone": "+91 10000 00000",
-        "copyright": "ZM QR Code Services © 2025. તમામ હક્ક સુરક્ષિત."
+        "copyright": "ZM QR Code Services © 2024. તમામ હક્ક સુરક્ષિત."
     },
     "career": {
         "header": {

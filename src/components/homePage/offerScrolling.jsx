@@ -4,12 +4,12 @@ import Image from 'next/image';
 
 const OfferScrolling = () => {
   return (
-    <div className="relative w-full overflow-hidden mt-[10vh] bg-white cursor-pointer z-10">
+    <div className=" w-full z-80 overflow-hidden bg-white cursor-pointer mb-4">
       <div className="marquee flex items-center whitespace-nowrap space-x-16">
         {[...Array(3)].map((_, index) => (
           <div
             key={index}
-            className="scroll-text text-3xl tracking-wide text-mainGreen flex items-center space-x-4 px-4"
+            className="scroll-text text-2xl tracking-wide text-mainGreen flex items-center space-x-4 px-4"
           >
             <Image
               src="/logos/ZM LOGO.webp"
@@ -19,7 +19,7 @@ const OfferScrolling = () => {
               className="inline-block"
             />
             <span>
-              ✨ Start your journey with ZM and enjoy unlimited scans free for the first 90 days. No limits. No charges up to 5 qr codes ✨
+              ✨<span className='inline text-red-700 font-medium'> Absolutely Free Trial!</span> - <span className='text-[#d80208]'>New to ZM? Enjoy 90 Days of Unlimited Scans + 5 QR Codes </span>– <span className='inline text-red-700 font-medium'>Absolutely Free Trial!</span> ✨
             </span>
           </div>
         ))}
@@ -50,6 +50,7 @@ const OfferScrolling = () => {
           }
         }
       `}</style>
+
     </div>
   );
 };

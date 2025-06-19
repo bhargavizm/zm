@@ -123,7 +123,7 @@ export default function JobSearchPage() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-[#a0eaea] to-[#0da6a6] font-sans p-6">
+    <div className=" w-full bg-gradient-to-b from-[#a0eaea] to-[#0da6a6] font-sans p-6">
       {/* Search Fields */}
       <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-4 justify-center items-center mb-6">
         <input

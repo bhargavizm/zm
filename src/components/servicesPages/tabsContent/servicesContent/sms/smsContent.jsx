@@ -82,21 +82,7 @@ const SmsContent = () => {
               </div>
 
               {/* Date */}
-              <div className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-lg mb-6">
-                <h2 className="text-xl font-semibold mb-4 text-[#008080] flex items-center">
-                  <FiCalendar className="mr-2" /> Date and Time
-                </h2>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Date (dd-mm-yyyy)</label>
-                  <input
-                    type="date"
-                    name="date"
-                    value={smsFormData.date}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#008080] focus:border-[#008080]"
-                  />
-                </div>
-              </div>
+            
 
               {/* Password */}
               <div className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-lg mb-6">

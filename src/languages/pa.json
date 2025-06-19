@@ -1,5 +1,5 @@
 {
-    "generateQR": "QR ਬਣਾਓ",
+    "home": "ਘਰ",
     "services": "ਸੇਵਾਵਾਂ",
     "prices": "ਕੀਮਤਾਂ",
     "blogs": "ਬਲੌਗ",
@@ -158,7 +158,7 @@
         "phoneLabel": "ਫੋਨ",
         "email": "support@zmqrcode.com",
         "phone": "+91 10000 00000",
-        "copyright": "ZM QR Code Services © 2025. ਸਾਰੇ హక్క਼ आरक्षित"
+        "copyright": "ZM QR Code Services © 2024. ਸਾਰੇ హక్క਼ आरक्षित"
     },
     "career": {
         "header": {

@@ -7,7 +7,7 @@ import useDesignContext from "@/components/hooks/useDesignContext";
 const ResumePreview = () => {
   const { resumeFormData } = useServicesContext();
   const { bgDesign } = useDesignContext();
-  const { title, description, resumeFile, resumeUrl, password } = resumeFormData || {};
+  const { title, description, resumeFile, resumeUrl } = resumeFormData || {};
 
   const isVideo = bgDesign?.endsWith(".mp4");
   const isImage = bgDesign && !isVideo;
@@ -82,12 +82,6 @@ const ResumePreview = () => {
             </div>
           )}
 
-          {password && (
-            <div className="w-full text-darkGreen">
-              <p className=" font-medium text-white/80 mb-1">Password</p>
-              <p>••••••••</p>
-            </div>
-          )}
         </div>
       </div>
     </div>

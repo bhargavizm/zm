@@ -202,14 +202,14 @@ const DecorateQRCode = () => {
               </button>
             </div>
 
-            <div
+            {/* <div
               onClick={handleClick}
               className="mt-8 max-w-xl mx-auto flex justify-center items-center"
             >
               <button className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center transition-effects items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]">
                 Save QR Code <IoIosArrowForward />
               </button>
-            </div>
+            </div> */}
           </div>
 
           {/* Preview Panel and Modal Tabs */}

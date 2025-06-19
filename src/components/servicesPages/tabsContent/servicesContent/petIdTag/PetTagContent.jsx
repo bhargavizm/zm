@@ -81,7 +81,7 @@ const PetTagContent = () => {
                     selectedTemplate: img,
                   }))
                 }
-                className={`cursor-pointer p-1 border rounded-lg ${
+                className={`border-2 cursor-pointer p-1  rounded-lg ${
                   petIDFormData.selectedTemplate === img
                     ? "border-[#008080]"
                     : "border-gray-300"
@@ -133,19 +133,7 @@ const PetTagContent = () => {
         </div>
 
         {/* Tag Title */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Tag Title
-          </label>
-          <input
-            type="text"
-            id="tagTitle"
-            value={petIDFormData.tagTitle}
-            onChange={handleInputChange}
-            placeholder="Enter tag title"
-            className="w-full border p-2 rounded"
-          />
-        </div>
+        
 
         {/* Owner Info */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -209,14 +197,7 @@ const PetTagContent = () => {
             {[
               "name",
               "breed",
-              "species",
-              "gender",
-              "birthDate",
               "color",
-              "microchip",
-              "specialNeeds",
-              "vetInfo",
-              "diet",
             ].map((field) => (
               <input
                 key={field}

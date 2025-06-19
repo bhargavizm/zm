@@ -50,12 +50,18 @@ const LanguageSelector = ({ isOpen }) => {
         } flex items-center gap-2  py-2 rounded transition`}
       >
         <FaGlobe className="text-xl" />
-        <span className="text-xl font-medium">Languages</span>
+       <span className="text-xl font-medium">
+  {(
+    languageOptions.find((opt) => opt.code === language)?.label.split(" - ")[0] ||
+    "EN"
+  ).toUpperCase()}
+</span>
+
         <MdKeyboardArrowDown className="text-xl" />
       </button>
 
       {dropdownOpen && (
-        <div className="absolute right-0 mt-2 w-60 bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-80 scrollbar-hide overflow-y-auto">
+        <div className="absolute right-0 mt-2 w-60  bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-80 scrollbar-hide overflow-y-auto">
           {languageOptions.map(({ code, label }) => (
             <button
               key={code}
