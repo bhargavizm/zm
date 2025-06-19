@@ -121,7 +121,7 @@ const VehiclePreview = () => {
               <Section title="General Information" condition={
                 general.vehicleModel || general.vehicleType || general.buyDate || general.description
               }>
-                {general.vehicleModel && <p><strong>Model:</strong> {general.vehicleModel}</p>}
+                {general.vehicleModel && <p><strong>Name:</strong> {general.vehicleModel}</p>}
                 {general.vehicleType && <p><strong>Type:</strong> {general.vehicleType}</p>}
                 {general.buyDate && <p><strong>Purchase Date:</strong> {general.buyDate}</p>}
                 {general.description && <p><strong>Description:</strong> {general.description}</p>}
