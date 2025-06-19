@@ -9,7 +9,7 @@ const formatLabel = (key) =>
   key.replace(/([A-Z])/g, ' $1').replace(/^./, (s) => s.toUpperCase());
 
 const MedicalAlertPreview = () => {
-  const { dynamicForms } = useServicesContext();
+  const { dynamicForms, showPassword } = useServicesContext();
   const { bgDesign } = useDesignContext();
   const medicalAlert = dynamicForms.medicalAlert;
 
@@ -17,11 +17,20 @@ const MedicalAlertPreview = () => {
     ([section, fields]) =>
       section !== 'password' &&
       typeof fields === 'object' &&
-      Object.entries(fields).some(([key, value]) => key !== 'password' && value?.toString().trim() !== '')
+      Object.values(fields).some((value) => value?.toString().trim() !== '')
   );
 
   const isVideo = bgDesign?.endsWith('.mp4');
   const isImage = bgDesign && !isVideo;
+
+  const isBase64 = (str) =>
+    typeof str === 'string' && str.startsWith('data:');
+
+  const isImageBase64 = (str) =>
+    isBase64(str) && str.startsWith('data:image');
+
+  const isPdfBase64 = (str) =>
+    isBase64(str) && str.startsWith('data:application/pdf');
 
   return (
     <div className="flex justify-center">
@@ -74,13 +83,35 @@ const MedicalAlertPreview = () => {
                       className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20 space-y-2"
                     >
                       {Object.entries(fields).map(([key, value]) => {
-                        if (key === 'password' || !value) return null;
+                        if (!value) return null;
+
                         return (
                           <div key={key} className="text-sm">
                             <span className="font-medium text-[#008080]">
                               {formatLabel(key)}:
                             </span>{' '}
-                            <span className="text-gray-700">{value}</span>
+
+                            {/* Show uploaded file */}
+                            {isImageBase64(value) ? (
+                              <div className="mt-2">
+                                <img
+                                  src={value}
+                                  alt={key}
+                                  className="w-full rounded shadow"
+                                />
+                              </div>
+                            ) : isPdfBase64(value) ? (
+                              <a
+                                href={value}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-blue-600 underline ml-1"
+                              >
+                                View PDF
+                              </a>
+                            ) : (
+                              <span className="text-gray-700 ml-1">{value}</span>
+                            )}
                           </div>
                         );
                       })}
@@ -88,6 +119,8 @@ const MedicalAlertPreview = () => {
                   )
                 );
               })}
+
+              
             </div>
           ) : (
             <div className="h-full flex flex-col items-center justify-center text-center text-gray-400">
@@ -98,11 +131,7 @@ const MedicalAlertPreview = () => {
           )}
         </div>
 
-        {/* Footer */}
-        <div className="relative z-10 border-t border-gray-200 text-center text-xs text-gray-500 py-2 bg-white/70">
-          <p>Scan for Medical Info</p>
-          <p className="mt-1">v1.0.0</p>
-        </div>
+        
       </div>
     </div>
   );

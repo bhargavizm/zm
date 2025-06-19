@@ -51,7 +51,7 @@ const FAQPage = () => {
                                 >
                                     <span className="mr-4">{faq.id}. {faq.question}</span>
                                     <span
-                                        className={`transform transition-transform duration-300 min-w-4 ${openIndex === index ? 'rotate-180' : ''}`}
+                                        className={transform transition-transform duration-300 min-w-4 ${openIndex === index ? 'rotate-180' : ''}}
                                     >
                                         ▼
                                     </span>
@@ -64,7 +64,7 @@ const FAQPage = () => {
                                             <div className="aspect-video w-full rounded-md overflow-hidden shadow-md">
                                                 <iframe
                                                     src={faq.videoUrl}
-                                                    title={`FAQ Video ${faq.id}`}
+                                                    title={FAQ Video ${faq.id}}
                                                     className="w-full h-full"
                                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                                     allowFullScreen

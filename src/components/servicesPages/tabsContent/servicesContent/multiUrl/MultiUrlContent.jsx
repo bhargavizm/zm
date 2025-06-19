@@ -447,12 +447,12 @@ const MultiUrlContent = () => {
 
         {/* ✅ Submit Button */}
         <div className="text-center mt-4 w-full">
-         <button
-                            type="submit"
-                            className="mt-4 w-full bg-[#008080] text-white font-semibold py-2 rounded hover:bg-[#006666] transition"
-                        >
-                           Submit
-                        </button>
+          <button
+            type="submit"
+            className="mt-4 w-full bg-[#008080] text-white font-semibold py-2 rounded hover:bg-[#006666] transition"
+          >
+            Submit
+          </button>
         </div>
       </div>
     </>

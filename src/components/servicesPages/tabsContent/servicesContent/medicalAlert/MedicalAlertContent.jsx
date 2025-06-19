@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import useServicesContext from "@/components/hooks/useServiceContext";
-import { FiTrash2, FiPlus } from "react-icons/fi";
+import { FiTrash2 } from "react-icons/fi";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import NFCModal from "@/components/modalPopUps/nfcModal";
 
@@ -34,6 +34,11 @@ const MedicalAlertContent = () => {
       "emergencyInstructions",
       "insuranceProvider",
       "policyNumber",
+      "medicalReports", // PDF
+      "prescription", // image
+      "insuranceImage", // image
+      "preferredHospital",
+      "location",
     ],
   };
 
@@ -45,7 +50,15 @@ const MedicalAlertContent = () => {
   });
 
   const handleChange = (section, key, value) => {
-    updateDynamicForm("medicalAlert", section, key, value);
+    if (value instanceof File) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        updateDynamicForm("medicalAlert", section, key, reader.result);
+      };
+      reader.readAsDataURL(value);
+    } else {
+      updateDynamicForm("medicalAlert", section, key, value);
+    }
   };
 
   const handleAddField = (section, key) => {
@@ -64,16 +77,10 @@ const MedicalAlertContent = () => {
     }));
   };
 
-  const handlePasswordChange = (e) => {
-    const value = e.target.value;
-    setDynamicForms((prev) => ({
-      ...prev,
-      medicalAlert: {
-        ...prev.medicalAlert,
-        password: value,
-      },
-    }));
-  };
+  const fieldLabel = (key) =>
+    key
+      .replace(/([A-Z])/g, " $1")
+      .replace(/^./, (str) => str.toUpperCase());
 
   return (
     <>
@@ -82,7 +89,6 @@ const MedicalAlertContent = () => {
           Medical Alert QR Code
         </h1>
 
-        {/* Sections */}
         {Object.entries(sections).map(([section, fields]) => (
           <div key={section} className="border rounded p-4 shadow-sm space-y-4">
             <h3 className="text-xl font-semibold capitalize text-[#008080]">
@@ -93,25 +99,44 @@ const MedicalAlertContent = () => {
               .filter((key) => medicalAlert[section]?.[key] !== undefined)
               .map((key) => (
                 <div key={key} className="flex items-center space-x-2">
-                  <input
-                    type="text"
-                    name={key}
-                    placeholder={key.replace(/([A-Z])/g, " $1")}
-                    value={medicalAlert[section][key]}
-                    onChange={(e) => handleChange(section, key, e.target.value)}
-                    className="border p-2 rounded flex-1"
-                  />
+                  {["medicalReports", "prescription", "insuranceImage"].includes(key) ? (
+                    <div className="flex flex-col w-full">
+                      <label className="text-sm font-medium text-gray-700">
+                        {fieldLabel(key)}
+                      </label>
+                      <input
+                        type="file"
+                        accept={
+                          key === "medicalReports" ? "application/pdf" : "image/*"
+                        }
+                        onChange={(e) =>
+                          handleChange(section, key, e.target.files[0])
+                        }
+                        className="w-full file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2 mt-1"
+                      />
+                    </div>
+                  ) : (
+                    <input
+                      type="text"
+                      name={key}
+                      placeholder={fieldLabel(key)}
+                      value={medicalAlert[section][key]}
+                      onChange={(e) => handleChange(section, key, e.target.value)}
+                      className="border p-2 rounded flex-1"
+                    />
+                  )}
+
                   <button
                     type="button"
                     onClick={() => handleRemoveField(section, key)}
-                    className="  hover:bg-red-200"
+                    className="hover:bg-red-200 p-2 rounded"
+                    aria-label="Remove Field"
                   >
                     <FiTrash2 className="text-red-700" />
                   </button>
                 </div>
               ))}
 
-            {/* Dropdown to Add Deleted Fields */}
             {deletedFields[section].length > 0 && (
               <div className="flex items-center space-x-2">
                 <select
@@ -125,7 +150,7 @@ const MedicalAlertContent = () => {
                   <option value="">Add field</option>
                   {deletedFields[section].map((field) => (
                     <option key={field} value={field}>
-                      {field.replace(/([A-Z])/g, " $1")}
+                      {fieldLabel(field)}
                     </option>
                   ))}
                 </select>
@@ -134,7 +159,7 @@ const MedicalAlertContent = () => {
           </div>
         ))}
 
-        {/* Password Field with Eye Icon */}
+        {/* Password Field */}
         <div className="relative w-full">
           <input
             type={showPassword ? "text" : "password"}
@@ -166,12 +191,12 @@ const MedicalAlertContent = () => {
 
       <NFCModal />
 
-     <button
-              type="submit"
-              className="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 rounded-lg font-semibold text-sm transition"
-            >
-             Submit
-            </button>
+      <button
+        type="submit"
+        className="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 rounded-lg font-semibold text-sm transition mt-6"
+      >
+        Submit
+      </button>
     </>
   );
 };

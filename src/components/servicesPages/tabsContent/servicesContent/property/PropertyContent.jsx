@@ -26,7 +26,7 @@ const PropertyContent = () => {
   };
 
   const sections = {
-    basicInfo: ["propertyName", "propertyType", "ownerName", "contactNumber"],
+    basicInfo: ["propertyName", "propertyType", "ownerName", "contactNumber", "alternateNumber", "propertyDescription"],
     addressInfo: ["address", "mapLink"],
     pricingInfo: ["price", "area", "amenities"],
     images: ["mainImage", "galleryImages"],
@@ -98,7 +98,7 @@ const PropertyContent = () => {
                       onChange={(e) =>
                         handleImageChange(section, key, e.target.files[0])
                       }
-                      className="border p-2 rounded flex-1"
+                      className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
                     />
                   ) : key === "galleryImages" ? (
                     <input
@@ -112,7 +112,7 @@ const PropertyContent = () => {
                           Array.from(e.target.files)
                         )
                       }
-                      className="border p-2 rounded flex-1"
+                      className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
                     />
                   ) : (
                     <input
