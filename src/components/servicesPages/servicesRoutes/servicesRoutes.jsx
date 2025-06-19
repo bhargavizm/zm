@@ -84,7 +84,7 @@ export    const componentMap = {
     content: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/discountCoupon/DiscountCouponContent')),
     preview: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/discountCoupon/DiscountCouponPreview')),
   },
-  "menu-books": {
+  "menu-cards": {
     content: dynamic(() => import("@/components/servicesPages/tabsContent/servicesContent/menuBook/menuBookContent")),
     preview: dynamic(() => import("@/components/servicesPages/tabsContent/servicesContent/menuBook/menuBookPreview")),
   },
@@ -171,7 +171,7 @@ export    const componentMap = {
 //     content: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/discountCoupon/DiscountCouponContent'), { ssr: false }),
 //     preview: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/discountCoupon/DiscountCouponPreview'), { ssr: false }),
 //   },
-//   "menu-books": {
+//   "menu-cards": {
 //     content: dynamic(() => import("@/components/servicesPages/tabsContent/servicesContent/menuBook/menuBookContent"), { ssr: false }),
 //     preview: dynamic(() => import("@/components/servicesPages/tabsContent/servicesContent/menuBook/menuBookPreview"), { ssr: false }),
 //   },

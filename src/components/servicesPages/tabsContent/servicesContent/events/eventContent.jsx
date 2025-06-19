@@ -69,7 +69,7 @@ const EventContent = () => {
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Host Name
+                    Organizer Name
                   </label>
                   <input
                     type="text"
@@ -110,32 +110,7 @@ const EventContent = () => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Button Label
-                    </label>
-                    <input
-                      type="text"
-                      name="buttonLabel"
-                      placeholder="Button Label"
-                      value={eventsFormData.buttonLabel || ""}
-                      onChange={handleChange}
-                      className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#59c1c1] focus:border-[#226161]"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Button Link
-                    </label>
-                    <input
-                      type="text"
-                      name="buttonLink"
-                      placeholder="Button Link"
-                      value={eventsFormData.buttonLink || ""}
-                      onChange={handleChange}
-                      className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#59c1c1] focus:border-[#226161]"
-                    />
-                  </div>
+                  
                 </div>
               </div>
             </div>
@@ -253,19 +228,7 @@ const EventContent = () => {
             </div>
 
             {/* About */}
-            <div className="bg-white rounded-xl p-6 shadow-md">
-              <h2 className="text-xl font-semibold mb-4 text-[#0e7b7b]">
-                About Event
-              </h2>
-              <textarea
-                name="about"
-                placeholder="Enter detailed information about your event"
-                value={eventsFormData.about || ""}
-                onChange={handleChange}
-                rows={4}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#59c1c1] focus:border-[#226161]"
-              />
-            </div>
+            
 
             {/* Contact */}
             <div className="bg-white rounded-xl p-6 shadow-md">
@@ -318,39 +281,7 @@ const EventContent = () => {
             </div>
 
             {/* Web Links */}
-            <div className="bg-white rounded-xl p-6 shadow-md">
-              <h2 className="text-xl font-semibold mb-4 text-[#0e7b7b] flex items-center">
-                <FiGlobe className="mr-2" /> Web Links
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Link Label
-                  </label>
-                  <input
-                    type="text"
-                    name="webLabel"
-                    placeholder="Enter link label"
-                    value={eventsFormData.webLabel || ""}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#59c1c1] focus:border-[#226161]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Link URL
-                  </label>
-                  <input
-                    type="text"
-                    name="webUrl"
-                    placeholder="Enter URL (e.g., www.example.com)"
-                    value={eventsFormData.webUrl || ""}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#59c1c1] focus:border-[#226161]"
-                  />
-                </div>
-              </div>
-            </div>
+            
 
             <NFCModal />
 

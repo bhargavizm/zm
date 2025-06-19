@@ -61,7 +61,7 @@ const BusinessContent = () => {
                 {templateImages.map((filename, idx) => (
                   <div
                     key={idx}
-                    className={`border-2 rounded-md p-2 cursor-pointer transition hover:shadow-lg ${
+                    className={` rounded-md p-2 cursor-pointer transition hover:shadow-lg ${
                       businessForm.selectedTemplate === filename
                         ? "border-[#008080]"
                         : "border-gray-300"
@@ -93,7 +93,12 @@ const BusinessContent = () => {
                   type="file"
                   accept="image/*"
                   onChange={(e) => handleImageUpload(e, setProfileImage)}
-                  className="w-full text-sm"
+                  className="w-full text-sm text-gray-700
+                                file:mr-4 file:py-2 file:px-4
+                                file:rounded-full file:border-0
+                                file:text-sm file:font-semibold
+                                file:bg-[#008080] file:text-white
+                                hover:file:bg-[#006666] transition duration-200 cursor-pointer"
                 />
               </div>
             </div>
@@ -102,20 +107,19 @@ const BusinessContent = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
                 { id: "name", placeholder: "Name" },
-                { id: "heading", placeholder: "Title" },
                 { id: "subheading", placeholder: "Company" },
-                { id: "businessName", placeholder: "Business Name" },
                 { id: "mobile", placeholder: "Mobile Number", type: "tel" },
                 { id: "designation", placeholder: "Designation" },
                 { id: "address", placeholder: "Address" },
                 { id: "mapLink", placeholder: "Map Link", type: "url" },
                 { id: "email", placeholder: "Email", type: "email" },
+                { id: "socialLink", placeholder: "Social Media Link" },
+                { id: "socialLink2", placeholder: "Social Media Link2" },
                 {
                   id: "password",
                   placeholder: "QR Password",
                   type: "password",
                 },
-                { id: "socialLink", placeholder: "Social Media Link" },
               ].map(({ id, placeholder, type = "text" }) =>
                 id === "password" ? (
                   <div key={id} className="relative w-full">

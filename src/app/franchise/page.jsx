@@ -85,7 +85,7 @@ const FeatureItem = ({ icon, title, description }) => (
 // --- Section Components ---
 const HeroSection = () => {
     return (
-        <section className="min-h-screen flex items-center justify-center p-8 relative overflow-hidden" style={{ background: SITE_COLORS.primaryDarkBg }}>
+        <section className="pt-40 flex items-center justify-center p-8 relative overflow-hidden" style={{ background: SITE_COLORS.primaryDarkBg }}>
             <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between z-10 text-center lg:text-left">
                 <motion.div
                     initial={{ opacity: 0, x: -50 }}
@@ -167,8 +167,8 @@ const WhyZMQRSection = () => {
 
 const HowQRCodesTransformBusinessesSection = () => {
     return (
-        <section className="py-20 px-8" style={{ backgroundColor: SITE_COLORS.sectionBgSubtle, color: SITE_COLORS.textDark }}>
-            <div className="container mx-auto max-w-4xl text-center">
+        <section className="py-20 px-8" >
+            <div className=" mx-auto max-w-4xl text-center">
                 <h2 className="text-3xl lg:text-4xl font-bold mb-12">
                     How QR Codes Transform Businesses
                 </h2>
@@ -182,7 +182,7 @@ const HowQRCodesTransformBusinessesSection = () => {
                     <video
                         src="/videos/franchise.mp4"
                         alt="Video demonstrating various QR code use cases for ZM QR Code Services"
-                        className="rounded-xl shadow-xl w-full h-auto object-cover"
+                        className="rounded-xl  w-full h-auto"
                         autoPlay
                         loop
                         muted
@@ -192,7 +192,7 @@ const HowQRCodesTransformBusinessesSection = () => {
                     >
                         Your browser does not support the video tag.
                     </video>
-                    <p className="mt-6 text-lg" style={{ color: SITE_COLORS.accentTealDark }}>
+                    <p className="mt-6 text-lg" style={{ color: SITE_COLORS.accentTeal }}>
                         From streamlined payments to interactive marketing, QR codes are revolutionizing industries.
                     </p>
                 </motion.div>
@@ -317,7 +317,7 @@ const WhyFranchiseWithZMSection = () => {
     const currentBlock = advantageBlocks[activeIndex];
 
     return (
-        <section className="py-20 px-8" style={{ backgroundColor: SITE_COLORS.sectionBgSubtle, color: SITE_COLORS.textDark }}>
+        <section className="py-30 px-8" style={{ backgroundColor: SITE_COLORS.sectionBgSubtle, color: SITE_COLORS.textDark }}>
             <div className="container mx-auto max-w-6xl">
                 <h2 className="text-3xl lg:text-4xl font-bold text-center mb-6">
                     Your Blueprint for Success: The <span style={{ color: SITE_COLORS.accentTealDark }}>ZM QR Code</span> Advantage

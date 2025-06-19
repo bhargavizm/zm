@@ -61,6 +61,7 @@
 
 .bg-scroll-contained {
   animation: bg-scroll-in 20s linear infinite;
+       
   background-repeat: no-repeat;
   background-position: center top;
 }
@@ -191,4 +192,7 @@
   }
 }
 
-
+@keyframes textPulse {
+  0%, 100% { opacity: 0.9; text-shadow: 0 0 10px theme('colors.blue.500'); }
+  50% { opacity: 1; text-shadow: 0 0 20px theme('colors.cyan.500'), 0 0 30px theme('colors.blue.700'); }
+}

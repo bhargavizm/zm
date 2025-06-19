@@ -1,3 +1,4 @@
+
 import ServicesDataFlow from "@/components/servicesPages/layouts/servicesDataFlow";
 
 export default function Page() {
@@ -9,7 +10,7 @@ export async function generateStaticParams() {
     "business-cards", "v-cards", "product-cards", "audios", "videos",
     "Pet-ID-tags", "gallery", "resumes", "vehicles", "kids-safety-qr-tags",
     "sms", "text-messages", "medical-alerts", "events", "property-qr",
-    "multi-urls", "business-shops", "discounts", "menu-books", "wifi",
+    "multi-urls", "business-shops", "discounts", "menu-cards", "wifi",
     "urls", "meetings", "google-meets", "zoom-meets", "microsoft-teams",
     "form-qr", "forms", "student-forms", "personal-notes", "youtube",
     "facebook", "instagram", "linkedin", "twitter", "location", "pdf",
@@ -82,4 +83,3 @@ export async function generateStaticParams() {
 
 
 // export default ServicePage;
-

@@ -28,10 +28,11 @@ const DiscountCouponPreview = () => {
     : 'Dec 31, 2025';
 
   const showImage = !!discountCoupon.couponImage;
+  const showBrandLogo = !!discountCoupon.brandLogo;
 
   return (
     <div className="flex justify-center items-center mt-10">
-      <div className="relative bg-gradient-to-br from-gray-900 to-gray-800 p-3 rounded-[40px] w-[350px] h-[600px] shadow-2xl border-4 border-gray-700 overflow-hidden">
+      <div className="relative bg-gradient-to-br from-gray-900 to-gray-800 p-3 rounded-[40px] w-[350px] h-[600px] shadow-2xl border-4 border-gray-700 overflow-y-auto scrollbar-hide">
         {/* 🔳 Background */}
         {isImage && (
           <img
@@ -51,7 +52,7 @@ const DiscountCouponPreview = () => {
           />
         )}
         {!bgDesign && (
-           <img
+          <img
             src='/services-service/discount.jpg'
             alt="Background"
             className="absolute inset-0 w-full h-full object-cover z-0"
@@ -79,6 +80,18 @@ const DiscountCouponPreview = () => {
           {/* Content */}
           <div className="flex-grow w-full overflow-y-scroll hide-scrollbar p-4 text-gray-800">
             <div className="space-y-6">
+            {showBrandLogo && (
+                  <div className="mb-4 text-center">
+                    <img
+                      src={URL.createObjectURL(discountCoupon.brandLogo)}
+                      alt="brand logo"
+                      className="w-full max-h-40 object-cover rounded-md shadow-md mx-auto"
+                    />
+                  </div>
+                )}
+              <h2 className="text-xl font-bold text-center text-gray-800 mb-4 ">
+                {discountCoupon.nameOfBusiness || 'Name of Business'}
+              </h2>
               <h2 className="text-xl font-bold text-center text-gray-800 mb-4">
                 Your Discount Coupon
               </h2>
@@ -144,3 +157,5 @@ const DiscountCouponPreview = () => {
 };
 
 export default DiscountCouponPreview;
+
+
