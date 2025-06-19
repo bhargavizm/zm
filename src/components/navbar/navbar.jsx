@@ -25,8 +25,7 @@ const Navbar = () => {
 
         <div className="hidden lg:flex items-center space-x-6 font-semibold text-xl">
           <Link href="/" className="hover:text-gray-300">
-            {/* {dictionary.generateQR} */}
-            Home
+            {dictionary.home}
           </Link>
           <Link href="/services" className="hover:text-gray-300">
             {dictionary.services}
@@ -34,17 +33,14 @@ const Navbar = () => {
           <Link href="/prices" className="hover:text-gray-300">
             {dictionary.prices}
           </Link>
-           <Link href="/career" className="hover:text-gray-300">
-            {/* {dictionary.prices} */}
-            Careers
+          <Link href="/career" className="hover:text-gray-300">
+            {dictionary.Career}
           </Link>
-           <Link href="/investors" className="hover:text-gray-300">
-            {/* {dictionary.prices} */}
-            Investors
+          <Link href="/investors" className="hover:text-gray-300">
+            {dictionary.Investors}
           </Link>
-           <Link href="/franchise" className="hover:text-gray-300">
-            {/* {dictionary.prices} */}
-            Franchise
+          <Link href="/franchise" className="hover:text-gray-300">
+            {dictionary.Franchise}
           </Link>
           <Link href="/faq" className="hover:text-gray-300">
             {dictionary.support}
@@ -95,8 +91,7 @@ const Navbar = () => {
           <div className="lg:hidden fixed top-[60px] py-4 right-0  w-64 bg-white text-xl font-semibold text-mainGreen z-50 shadow-lg transition-all duration-300">
             <div className="flex flex-col px-6 py- space-y-4 h-full justify-start">
               <Link href="/" onClick={() => setIsOpen(false)}>
-                {/* {dictionary.generateQR} */}
-                Home
+                {dictionary.home}
               </Link>
               <Link href="/services" onClick={() => setIsOpen(false)}>
                 {dictionary.services}
@@ -104,17 +99,14 @@ const Navbar = () => {
               <Link href="/prices" onClick={() => setIsOpen(false)}>
                 {dictionary.prices}
               </Link>
-             <Link href="/career" onClick={() => setIsOpen(false)}>
-                {/* {dictionary.prices} */}
-                Careers
+            <Link href="/career" onClick={() => setIsOpen(false)}>
+                {dictionary.Career}
               </Link>
-               <Link href="/investors" onClick={() => setIsOpen(false)}>
-                {/* {dictionary.prices} */}
-                Investors
+              <Link href="/investors" onClick={() => setIsOpen(false)}>
+                {dictionary.Investors}
               </Link>
-               <Link href="/franchise" onClick={() => setIsOpen(false)}>
-                {/* {dictionary.prices} */}
-                Franchise 
+              <Link href="/franchise" onClick={() => setIsOpen(false)}>
+                {dictionary.Franchise}
               </Link>
               <Link href="/faq" onClick={() => setIsOpen(false)}>
                 {dictionary.support}
