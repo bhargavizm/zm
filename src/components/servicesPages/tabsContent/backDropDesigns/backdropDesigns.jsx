@@ -52,11 +52,13 @@ const BackdropDesigns = () => {
   const { bgDesign, setBgDesign } = useDesignContext();
 
   return (
-    <section className="mt-6  space-y-6">
+    <section className="mt-6  space-y-6 text-center">
       {/* Image grid */}
-      <div className="grid lg:grid-cols-6 md:grid-cols-4 grid-cols-3 gap-4">
+
+      <h2 className="text-3xl font-bold text-mainGreen text-center py-2">Images</h2>
+      <div className="grid lg:grid-cols-6 md:grid-cols-4 grid-cols-3 gap-4 px-2 ">
         {bgImages.map((src, index) => (
-          <div key={index} className="w-44 h-16 overflow-hidden transition-effects">
+          <div key={index} className="w-44 h-16 overflow-hidden ">
             <Image
               src={src}
               alt={`bg-image ${index + 7}`}
@@ -71,9 +73,10 @@ const BackdropDesigns = () => {
       </div>
 
       {/* Video grid */}
+       <h2 className="text-3xl font-bold text-mainGreen text-center py-2">Videos</h2>
       <div className="grid lg:grid-cols-6 md:grid-cols-4 grid-cols-3   gap-4">
         {bgVideos.map((videoSrc, index) => (
-          <div key={index} className="w-44 h-16 overflow-hidden rounded transition-effects">
+          <div key={index} className="w-44 h-16 overflow-hidden rounded ">
             <video
               src={videoSrc}
               className=" object-cover cursor-pointer  rounded"

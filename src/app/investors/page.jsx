@@ -18,8 +18,7 @@
 // // Counter animation for each stat
 // const AnimatedStat = ({ icon, label, start, end, suffix }) => {
 //   const [count, setCount] = useState(start)
-   
-  
+
 //   useEffect(() => {
 //     const interval = setInterval(() => {
 //       setCount(prev => {
@@ -177,7 +176,6 @@
 //           </div>
 //         </div>
 //       </section>
-
 
 //       {/* Investment Opportunity */}
 //       <section className="py-16">
@@ -359,21 +357,22 @@
 // }
 
 // export default Investors
+
 "use client";
 
-import { useRef, useState, createContext, useContext, useEffect } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import Head from 'next/head';
-import dynamic from 'next/dynamic';
-import Confetti from 'react-confetti';
-import { useWindowSize } from 'react-use';
+import { useRef, useState, createContext, useContext, useEffect } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import Head from "next/head";
+import dynamic from "next/dynamic";
+import Confetti from "react-confetti";
+import { useWindowSize } from "react-use";
 
 // Dynamically import Chart.js to avoid SSR issues
-const DynamicLineChart = dynamic(() => import('@/components/LineChart'), {
+const DynamicLineChart = dynamic(() => import("@/components/LineChart"), {
   ssr: false,
 });
 
-const DynamicPieChart = dynamic(() => import('@/components/PieChart'), {
+const DynamicPieChart = dynamic(() => import("@/components/PieChart"), {
   ssr: false,
 });
 
@@ -390,17 +389,27 @@ import {
   BuildingOfficeIcon,
   SunIcon,
   MoonIcon,
-  CheckIcon
-} from '@heroicons/react/24/outline';
-import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, PointElement, LineElement, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Bar, Line, Pie } from 'react-chartjs-2';
+  CheckIcon,
+} from "@heroicons/react/24/outline";
+import {
+  Chart as ChartJS,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  ArcElement,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Bar, Line, Pie } from "react-chartjs-2";
 
 // Register ChartJS components
 ChartJS.register(
-  BarElement, 
-  CategoryScale, 
-  LinearScale, 
-  PointElement, 
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
   LineElement,
   ArcElement,
   Tooltip,
@@ -411,26 +420,27 @@ ChartJS.register(
 const ThemeContext = createContext();
 
 const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState("dark");
 
   useEffect(() => {
     // Check for saved theme preference or use system preference
-    const savedTheme = localStorage.getItem('theme') || 
-                      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const savedTheme =
+      localStorage.getItem("theme") ||
+      (window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light");
     setTheme(savedTheme);
   }, []);
 
   const toggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    const newTheme = theme === "dark" ? "light" : "dark";
     setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
+    localStorage.setItem("theme", newTheme);
   };
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      <div className={theme}>
-        {children}
-      </div>
+      <div className={theme}>{children}</div>
     </ThemeContext.Provider>
   );
 };
@@ -439,134 +449,143 @@ const useTheme = () => useContext(ThemeContext);
 
 // Chart components with theme-aware colors
 const RevenueChart = ({ darkMode }) => {
-  const textColor = darkMode ? '#e5e7eb' : '#111827';
-  const gridColor = darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+  const textColor = darkMode ? "#e5e7eb" : "#111827";
+  const gridColor = darkMode
+    ? "rgba(255, 255, 255, 0.1)"
+    : "rgba(0, 0, 0, 0.1)";
 
   const data = {
-    labels: ['2024', '2025', '2026', '2027','2028','2029','2030P'],
-    datasets: [{
-      label: 'Revenue ($M)',
-      data: [0.5, 2.1, 5.3, 12.0,18.0,25.0,35.0,],
-      backgroundColor: '#008080',
-      borderColor: '#006666',
-      borderWidth: 2,
-      borderRadius: 4
-    }]
+    labels: ["2024", "2025", "2026", "2027", "2028", "2029", "2030P"],
+    datasets: [
+      {
+        label: "Revenue ($M)",
+        data: [0.5, 2.1, 5.3, 12.0, 18.0, 25.0, 35.0],
+        backgroundColor: "#008080",
+        borderColor: "#006666",
+        borderWidth: 2,
+        borderRadius: 4,
+      },
+    ],
   };
 
   const options = {
     responsive: true,
     plugins: { legend: { display: false } },
     scales: {
-      y: { 
+      y: {
         beginAtZero: true,
         grid: { color: gridColor },
-        ticks: { color: textColor }
+        ticks: { color: textColor },
       },
       x: {
         grid: { display: false },
-        ticks: { color: textColor }
-      }
-    }
+        ticks: { color: textColor },
+      },
+    },
   };
 
   return <Bar data={data} options={options} />;
 };
 
 const UserGrowthChart = ({ darkMode }) => {
-  const textColor = darkMode ? '#e5e7eb' : '#111827';
-  const gridColor = darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+  const textColor = darkMode ? "#e5e7eb" : "#111827";
+  const gridColor = darkMode
+    ? "rgba(255, 255, 255, 0.1)"
+    : "rgba(0, 0, 0, 0.1)";
 
   const data = {
-    labels: ['Q1 2024', 'Q2 2024', 'Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025'],
-    datasets: [{
-      label: 'Monthly Active Users',
-      data: [50000, 95000, 150000, 220000, 350000, 500000],
-      borderColor: '#008080',
-      backgroundColor: 'rgba(0, 128, 128, 0.1)',
-      borderWidth: 3,
-      tension: 0.4,
-      fill: true
-    }]
+    labels: ["Q1 2024", "Q2 2024", "Q3 2024", "Q4 2024", "Q1 2025", "Q2 2025"],
+    datasets: [
+      {
+        label: "Monthly Active Users",
+        data: [50000, 95000, 150000, 220000, 350000, 500000],
+        borderColor: "#008080",
+        backgroundColor: "rgba(0, 128, 128, 0.1)",
+        borderWidth: 3,
+        tension: 0.4,
+        fill: true,
+      },
+    ],
   };
 
   const options = {
     responsive: true,
     plugins: { legend: { display: false } },
     scales: {
-      y: { 
+      y: {
         grid: { color: gridColor },
-        ticks: { color: textColor }
+        ticks: { color: textColor },
       },
       x: {
         grid: { display: false },
-        ticks: { color: textColor }
-      }
-    }
+        ticks: { color: textColor },
+      },
+    },
   };
 
   return <Line data={data} options={options} />;
 };
 
 const MarketGrowthChart = ({ darkMode }) => {
-  const textColor = darkMode ? '#e5e7eb' : '#111827';
-  const gridColor = darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+  const textColor = darkMode ? "#e5e7eb" : "#111827";
+  const gridColor = darkMode
+    ? "rgba(255, 255, 255, 0.1)"
+    : "rgba(0, 0, 0, 0.1)";
 
   const data = {
-    labels: ['2023', '2024', '2025', '2026', '2027', '2030'],
-    datasets: [{
-      label: 'Global QR Market ($B)',
-      data: [8.2, 10.5, 13.1, 16.7, 20.4, 26.0],
-      borderColor: '#008080',
-      backgroundColor: 'rgba(0, 128, 128, 0.1)',
-      borderWidth: 3,
-      tension: 0.3,
-      fill: true
-    }]
+    labels: ["2023", "2024", "2025", "2026", "2027", "2030"],
+    datasets: [
+      {
+        label: "Global QR Market ($B)",
+        data: [8.2, 10.5, 13.1, 16.7, 20.4, 26.0],
+        borderColor: "#008080",
+        backgroundColor: "rgba(0, 128, 128, 0.1)",
+        borderWidth: 3,
+        tension: 0.3,
+        fill: true,
+      },
+    ],
   };
 
   const options = {
     responsive: true,
     plugins: { legend: { display: false } },
     scales: {
-      y: { 
+      y: {
         grid: { color: gridColor },
-        ticks: { color: textColor }
+        ticks: { color: textColor },
       },
       x: {
         grid: { display: false },
-        ticks: { color: textColor }
-      }
-    }
+        ticks: { color: textColor },
+      },
+    },
   };
 
   return <Line data={data} options={options} />;
 };
 
 const AllocationChart = ({ darkMode }) => {
-  const textColor = darkMode ? '#e5e7eb' : '#111827';
+  const textColor = darkMode ? "#e5e7eb" : "#111827";
 
   const data = {
-    labels: ['Product Dev', 'Marketing', 'Expansion', 'Operations'],
-    datasets: [{
-      data: [40, 30, 20, 10],
-      backgroundColor: [
-        '#008080',
-        '#006666',
-        '#004c4c',
-        '#003333'
-      ],
-      borderWidth: 0
-    }]
+    labels: ["Product Dev", "Marketing", "Expansion", "Operations"],
+    datasets: [
+      {
+        data: [40, 30, 20, 10],
+        backgroundColor: ["#008080", "#006666", "#004c4c", "#003333"],
+        borderWidth: 0,
+      },
+    ],
   };
 
   const options = {
     plugins: {
       legend: {
-        position: 'right',
-        labels: { color: textColor }
-      }
-    }
+        position: "right",
+        labels: { color: textColor },
+      },
+    },
   };
 
   return <Pie data={data} options={options} />;
@@ -575,21 +594,21 @@ const AllocationChart = ({ darkMode }) => {
 const InvestorsPage = () => {
   const containerRef = useRef(null);
   const { theme, toggleTheme } = useTheme();
-  const darkMode = theme === 'dark';
+  const darkMode = theme === "dark";
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    company: '',
-    message: '',
-    phone: '',
-    inquiryType: ''
+    name: "",
+    email: "",
+    company: "",
+    message: "",
+    phone: "",
+    inquiryType: "",
   });
   const [showSuccess, setShowSuccess] = useState(false);
   const { width, height } = useWindowSize();
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end end"]
+    offset: ["start start", "end end"],
   });
 
   // Parallax effects
@@ -597,21 +616,55 @@ const InvestorsPage = () => {
   const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.8, 0.5]);
 
   // Teal gradient
-  const tealGradient = 'bg-gradient-to-r from-teal-600 to-teal-800';
+  const tealGradient = "bg-gradient-to-r from-teal-600 to-teal-800";
 
   // Stats data
   const stats = [
-    { value: "10M+", label: "QR Codes Generated", icon: <BoltIcon className="h-8 w-8 text-teal-400" /> },
-    { value: "500K+", label: "Active Users", icon: <UserGroupIcon className="h-8 w-8 text-teal-400" /> },
-    { value: "85%", label: "Retention Rate", icon: <ShieldCheckIcon className="h-8 w-8 text-teal-400" /> },
-    { value: "$5M", label: "Annual Revenue", icon: <CurrencyDollarIcon className="h-8 w-8 text-teal-400" /> },
+    {
+      value: "10M+",
+      label: "QR Codes Generated",
+      icon: <BoltIcon className="h-8 w-8 text-teal-400" />,
+    },
+    {
+      value: "500K+",
+      label: "Active Users",
+      icon: <UserGroupIcon className="h-8 w-8 text-teal-400" />,
+    },
+    {
+      value: "85%",
+      label: "Retention Rate",
+      icon: <ShieldCheckIcon className="h-8 w-8 text-teal-400" />,
+    },
+    {
+      value: "$5M",
+      label: "Annual Revenue",
+      icon: <CurrencyDollarIcon className="h-8 w-8 text-teal-400" />,
+    },
   ];
 
   // Funding rounds
   const rounds = [
-    { name: "Series B", date: "Q4 2024", amount: "$15M", valuation: "$120M", lead: "Sequoia Capital" },
-    { name: "Series A", date: "Q2 2023", amount: "$10M", valuation: "$60M", lead: "Andreessen Horowitz" },
-    { name: "Seed", date: "Q3 2022", amount: "$2M", valuation: "$12M", lead: "Y Combinator" }
+    {
+      name: "Series B",
+      date: "Q4 2024",
+      amount: "$15M",
+      valuation: "$120M",
+      lead: "Sequoia Capital",
+    },
+    {
+      name: "Series A",
+      date: "Q2 2023",
+      amount: "$10M",
+      valuation: "$60M",
+      lead: "Andreessen Horowitz",
+    },
+    {
+      name: "Seed",
+      date: "Q3 2022",
+      amount: "$2M",
+      valuation: "$12M",
+      lead: "Y Combinator",
+    },
   ];
 
   // Technology stack
@@ -619,29 +672,29 @@ const InvestorsPage = () => {
     {
       name: "Dynamic QR Generation",
       description: "Real-time QR code creation with advanced customization",
-      icon: <BoltIcon className="h-8 w-8 text-teal-400" />
+      icon: <BoltIcon className="h-8 w-8 text-teal-400" />,
     },
     {
       name: "Analytics Dashboard",
       description: "Comprehensive scan tracking and user insights",
-      icon: <ChartBarIcon className="h-8 w-8 text-teal-400" />
+      icon: <ChartBarIcon className="h-8 w-8 text-teal-400" />,
     },
     {
       name: "Enterprise API",
       description: "Seamless integration with existing systems",
-      icon: <ShieldCheckIcon className="h-8 w-8 text-teal-400" />
+      icon: <ShieldCheckIcon className="h-8 w-8 text-teal-400" />,
     },
     {
       name: "AI Optimization",
       description: "Machine learning for scan prediction",
-      icon: <UserGroupIcon className="h-8 w-8 text-teal-400" />
-    }
+      icon: <UserGroupIcon className="h-8 w-8 text-teal-400" />,
+    },
   ];
 
   // Handle form input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   // Handle form submission
@@ -654,26 +707,30 @@ const InvestorsPage = () => {
   };
 
   // Theme-aware background colors
-  const bgColor = darkMode ? 'bg-gray-900' : 'bg-gray-50';
-  const secondaryBgColor = darkMode ? 'bg-gray-800' : 'bg-white';
-  const textColor = darkMode ? 'text-white' : 'text-gray-900';
-  const secondaryTextColor = darkMode ? 'text-gray-300' : 'text-gray-600';
-  const borderColor = darkMode ? 'border-gray-700' : 'border-gray-200';
+  const bgColor = darkMode ? "bg-gray-900" : "bg-gray-50";
+  const secondaryBgColor = darkMode ? "bg-gray-800" : "bg-white";
+  const textColor = darkMode ? "text-white" : "text-gray-900";
+  const secondaryTextColor = darkMode ? "text-gray-300" : "text-gray-600";
+  const borderColor = darkMode ? "border-gray-700" : "border-gray-200";
 
   return (
-    <div className={` ${bgColor} ${textColor} pt-[135px] `} ref={containerRef} >
+    <div className={` ${bgColor} ${textColor} md:pt-18  pt-14`} ref={containerRef}>
       <Head>
         <title>Invest in ZM QR Code Services | Next-Gen QR Solutions</title>
-        <meta name="description" content="Join ZM QR's growth journey with our innovative QR technology" />
+        <meta
+          name="description"
+          content="Join ZM QR's growth journey with our innovative QR technology"
+        />
       </Head>
 
       {/* Navigation */}
-      <nav className={`fixed w-full z-50 ${secondaryBgColor} bg-opacity-90 backdrop-blur-md border-b ${borderColor}`}>
+      <nav
+        className={`fixed w-full z-40 ${secondaryBgColor} bg-opacity-90 backdrop-blur-md border-b ${borderColor}`}
+      >
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-         
           <div className="flex items-center space-x-8">
             <div className="hidden md:flex space-x-8">
-              {['Overview', 'Traction', 'Technology', 'Contact'].map((item) => (
+              {["Overview", "Traction", "Technology", "Contact"].map((item) => (
                 <motion.a
                   key={item}
                   href={`#${item.toLowerCase()}`}
@@ -686,8 +743,12 @@ const InvestorsPage = () => {
             </div>
             <button
               onClick={toggleTheme}
-              className={`p-2 rounded-full ${darkMode ? 'bg-gray-700 text-yellow-300' : 'bg-gray-200 text-gray-700'}`}
-              aria-label={`Switch to ${darkMode ? 'light' : 'dark'} mode`}
+              className={`p-2 rounded-full ${
+                darkMode
+                  ? "bg-gray-700 text-yellow-300"
+                  : "bg-gray-200 text-gray-700"
+              }`}
+              aria-label={`Switch to ${darkMode ? "light" : "dark"} mode`}
             >
               {darkMode ? (
                 <SunIcon className="h-5 w-5" />
@@ -700,19 +761,34 @@ const InvestorsPage = () => {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <motion.section 
-        className={`relative h-screen w-full overflow-hidden flex items-center justify-center ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}
+      {/* Hero Section with Video Background */}
+      <motion.section
+        className={`relative h-screen w-full overflow-hidden flex items-center justify-center ${
+          darkMode ? "bg-gray-900" : "bg-gray-50"
+        }`}
         style={{ y: backgroundY }}
       >
-        <motion.div 
-          className="absolute inset-0 bg-[url('/images/hero-bg.jpg')] bg-cover bg-center"
-          style={{ opacity }}
-        />
-        <div className={`absolute inset-0 ${darkMode ? 'bg-gray-900/70' : 'bg-white/70'} bg-gradient-to-t ${darkMode ? 'via-gray-900/70' : 'via-white/70'} to-transparent`} />
-        
+        {/* Video Background */}
+        <motion.div className="absolute inset-0 z-0" style={{ opacity: 1 }}>
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover"
+            style={{ backgroundColor: darkMode ? "#111827" : "#f3f4f6" }}
+          >
+            <source src="/videos/investmentbg.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </motion.div>
+
+        {/* Gradient Overlay */}
+        {/* <div className={`absolute inset-0 z-0 ${darkMode ? 'bg-gray-900/70' : 'bg-white/70'} bg-gradient-to-t ${darkMode ? 'via-gray-900/70' : 'via-white/70'} to-transparent`} />
+         */}
+
         <div className="relative z-10 text-center px-4 max-w-6xl mx-auto">
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-5xl md:text-7xl font-bold mb-6"
@@ -721,22 +797,25 @@ const InvestorsPage = () => {
               Invest in the Future
             </span>
             <br />
-            of Digital Engagement
+            <span className={`${tealGradient} bg-clip-text text-transparent`}>
+              of Digital Engagement
+            </span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className={`text-xl md:text-2xl ${secondaryTextColor} mb-10 max-w-3xl mx-auto`}
+            className={`text-xl md:text-2xl ${secondaryTextColor} text-mainGreen mb-10 max-w-3xl mx-auto`}
           >
-            ZM QR is transforming connections through next-generation QR technology.
+            ZM QR is transforming connections through next-generation QR
+            technology.
           </motion.p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <motion.a
               href="#contact"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={`bg-transparent border-2 border-teal-500 ${textColor} px-8 py-4 rounded-full font-semibold text-lg hover:bg-teal-900/30 transition-all`}
+              className={`bg-transparent border-2 border-teal-500 px-8 py-4 rounded-full font-semibold text-lg hover:bg-teal-900/30 transition-all text-mainGreen`}
             >
               Contact Our Team
             </motion.a>
@@ -767,11 +846,13 @@ const InvestorsPage = () => {
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className={`${secondaryBgColor} backdrop-blur-md rounded-2xl p-8 border ${darkMode ? 'border-teal-500/20' : 'border-teal-300'} hover:${darkMode ? 'border-teal-500/40' : 'border-teal-400'} transition-all shadow-lg`}
+                className={`${secondaryBgColor} backdrop-blur-md rounded-2xl p-8 border ${
+                  darkMode ? "border-teal-500/20" : "border-teal-300"
+                } hover:${
+                  darkMode ? "border-teal-500/40" : "border-teal-400"
+                } transition-all shadow-lg`}
               >
-                <div className="text-teal-400 mb-4">
-                  {stat.icon}
-                </div>
+                <div className="text-teal-400 mb-4">{stat.icon}</div>
                 <h3 className="text-4xl font-bold mb-2">{stat.value}</h3>
                 <p className={secondaryTextColor}>{stat.label}</p>
               </motion.div>
@@ -799,7 +880,7 @@ const InvestorsPage = () => {
                 {[
                   "Contactless payments adoption",
                   "Digital marketing transformation",
-                  "Supply chain digitization"
+                  "Supply chain digitization",
                 ].map((item, index) => (
                   <motion.li
                     key={index}
@@ -816,28 +897,38 @@ const InvestorsPage = () => {
                 ))}
               </ul>
             </motion.div>
+<motion.div
+  initial={{ opacity: 0, x: 50 }}
+  whileInView={{ opacity: 1, x: 0 }}
+  className={`w-full lg:w-1/2 ${secondaryBgColor} rounded-2xl p-4 sm:p-6 lg:p-8 shadow-lg`}
+>
+  {/* Chart Container */}
+  <div className="h-60 sm:h-72 md:h-80 w-full">
+    <MarketGrowthChart darkMode={darkMode} />
+  </div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              className={`lg:w-1/2 ${secondaryBgColor} rounded-2xl p-8 h-full shadow-lg`}
-            >
-              <div className="h-80 w-full">
-                <MarketGrowthChart darkMode={darkMode} />
-              </div>
-              <div className="mt-6 grid grid-cols-3 gap-4 text-center">
-                {[
-                  { value: "18.7%", label: "CAGR" },
-                  { value: "$8.2B", label: "2023 Market" },
-                  { value: "$26B", label: "2030 Projection" }
-                ].map((item, index) => (
-                  <div key={index} className={`${darkMode ? 'bg-teal-900/30' : 'bg-teal-100'} p-3 rounded-lg border ${darkMode ? 'border-teal-500/20' : 'border-teal-300'}`}>
-                    <p className="text-xl font-bold text-teal-400">{item.value}</p>
-                    <p className={secondaryTextColor}>{item.label}</p>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
+  {/* Market Stats */}
+  <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-center">
+    {[
+      { value: "18.7%", label: "CAGR" },
+      { value: "$8.2B", label: "2023 Market" },
+      { value: "$26B", label: "2030 Projection" },
+    ].map((item, index) => (
+      <div
+        key={index}
+        className={`${
+          darkMode ? "bg-teal-900/30" : "bg-teal-100"
+        } p-3 rounded-lg border ${
+          darkMode ? "border-teal-500/20" : "border-teal-300"
+        }`}
+      >
+        <p className="text-xl font-bold text-teal-400">{item.value}</p>
+        <p className={secondaryTextColor}>{item.label}</p>
+      </div>
+    ))}
+  </div>
+</motion.div>
+
           </div>
         </div>
       </section>
@@ -862,9 +953,13 @@ const InvestorsPage = () => {
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              className={`${secondaryBgColor} backdrop-blur-md rounded-2xl p-8 border ${darkMode ? 'border-teal-500/20' : 'border-teal-300'} shadow-lg`}
+              className={`${secondaryBgColor} backdrop-blur-md rounded-2xl p-8 border ${
+                darkMode ? "border-teal-500/20" : "border-teal-300"
+              } shadow-lg`}
             >
-              <h3 className="text-2xl font-bold mb-6">Expected Revenue Growth</h3>
+              <h3 className="text-2xl font-bold mb-6">
+                Expected Revenue Growth
+              </h3>
               <div className="h-64 w-full">
                 <RevenueChart darkMode={darkMode} />
               </div>
@@ -878,8 +973,17 @@ const InvestorsPage = () => {
                   { year: "2029", revenue: "$25M" },
                   { year: "2030P", revenue: "$35M" },
                 ].map((item, index) => (
-                  <div key={index} className={`${darkMode ? 'bg-teal-900/30' : 'bg-teal-100'} p-3 rounded-lg border ${darkMode ? 'border-teal-500/20' : 'border-teal-300'}`}>
-                    <p className={`text-sm ${secondaryTextColor}`}>{item.year}</p>
+                  <div
+                    key={index}
+                    className={`${
+                      darkMode ? "bg-teal-900/30" : "bg-teal-100"
+                    } p-3 rounded-lg border ${
+                      darkMode ? "border-teal-500/20" : "border-teal-300"
+                    }`}
+                  >
+                    <p className={`text-sm ${secondaryTextColor}`}>
+                      {item.year}
+                    </p>
                     <p className="font-semibold">{item.revenue}</p>
                   </div>
                 ))}
@@ -890,7 +994,9 @@ const InvestorsPage = () => {
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className={`${secondaryBgColor} backdrop-blur-md rounded-2xl p-8 border ${darkMode ? 'border-teal-500/20' : 'border-teal-300'} shadow-lg`}
+              className={`${secondaryBgColor} backdrop-blur-md rounded-2xl p-8 border ${
+                darkMode ? "border-teal-500/20" : "border-teal-300"
+              } shadow-lg`}
             >
               <h3 className="text-2xl font-bold mb-6">Expected User Growth</h3>
               <div className="h-64 w-full">
@@ -900,11 +1006,22 @@ const InvestorsPage = () => {
                 {[
                   { metric: "500K+", label: "Active Users" },
                   { metric: "85%", label: "Retention" },
-                  { metric: "4.8/5", label: "Rating" }
+                  { metric: "4.8/5", label: "Rating" },
                 ].map((item, index) => (
-                  <div key={index} className={`${darkMode ? 'bg-teal-900/30' : 'bg-teal-100'} p-3 rounded-lg border ${darkMode ? 'border-teal-500/20' : 'border-teal-300'}`}>
-                    <p className="text-lg font-semibold text-teal-400">{item.metric}</p>
-                    <p className={`text-sm ${secondaryTextColor}`}>{item.label}</p>
+                  <div
+                    key={index}
+                    className={`${
+                      darkMode ? "bg-teal-900/30" : "bg-teal-100"
+                    } p-3 rounded-lg border ${
+                      darkMode ? "border-teal-500/20" : "border-teal-300"
+                    }`}
+                  >
+                    <p className="text-lg font-semibold text-teal-400">
+                      {item.metric}
+                    </p>
+                    <p className={`text-sm ${secondaryTextColor}`}>
+                      {item.label}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -925,7 +1042,8 @@ const InvestorsPage = () => {
               Our <span className="text-teal-400">Technology</span>
             </h2>
             <p className={`text-xl ${secondaryTextColor} max-w-3xl mx-auto`}>
-              Cutting-edge infrastructure powering the next generation of QR solutions
+              Cutting-edge infrastructure powering the next generation of QR
+              solutions
             </p>
           </motion.div>
 
@@ -936,11 +1054,13 @@ const InvestorsPage = () => {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className={`${secondaryBgColor} backdrop-blur-md rounded-2xl p-8 border ${darkMode ? 'border-teal-500/20' : 'border-teal-300'} hover:${darkMode ? 'border-teal-500/40' : 'border-teal-400'} transition-all shadow-lg`}
+                className={`${secondaryBgColor} backdrop-blur-md rounded-2xl p-8 border ${
+                  darkMode ? "border-teal-500/20" : "border-teal-300"
+                } hover:${
+                  darkMode ? "border-teal-500/40" : "border-teal-400"
+                } transition-all shadow-lg`}
               >
-                <div className="text-teal-400 mb-4">
-                  {tech.icon}
-                </div>
+                <div className="text-teal-400 mb-4">{tech.icon}</div>
                 <h3 className="text-2xl font-bold mb-3">{tech.name}</h3>
                 <p className={secondaryTextColor}>{tech.description}</p>
               </motion.div>
@@ -962,17 +1082,34 @@ const InvestorsPage = () => {
               Why <span className="text-teal-400">Invest</span> in Us?
             </h2>
             <p className={`text-lg ${secondaryTextColor} max-w-2xl mx-auto`}>
-              Back a company that's shaping the future with real traction, scalable growth, and visionary leadership.
+              Back a company that's shaping the future with real traction,
+              scalable growth, and visionary leadership.
             </p>
           </motion.div>
 
           {/* Value Propositions */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
             {[
-              { icon: "🚀", title: "Rapid Growth", desc: "Achieved 300% revenue growth in the past 12 months." },
-              { icon: "🌍", title: "Global Reach", desc: "Presence in over 15 countries and expanding rapidly." },
-              { icon: "💡", title: "Innovative Tech", desc: "Built using scalable cloud and AI-powered architecture." },
-              { icon: "🤝", title: "Trusted Partners", desc: "Collaborated with industry leaders and unicorns." }
+              {
+                icon: "🚀",
+                title: "Rapid Growth",
+                desc: "Achieved 300% revenue growth in the past 12 months.",
+              },
+              {
+                icon: "🌍",
+                title: "Global Reach",
+                desc: "Presence in over 15 countries and expanding rapidly.",
+              },
+              {
+                icon: "💡",
+                title: "Innovative Tech",
+                desc: "Built using scalable cloud and AI-powered architecture.",
+              },
+              {
+                icon: "🤝",
+                title: "Trusted Partners",
+                desc: "Collaborated with industry leaders and unicorns.",
+              },
             ].map((item, i) => (
               <motion.div
                 key={i}
@@ -980,7 +1117,9 @@ const InvestorsPage = () => {
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ delay: i * 0.1 }}
                 className={`p-6 rounded-xl border shadow-lg text-center ${
-                  darkMode ? 'bg-teal-900/30 border-teal-500/20' : 'bg-white border-teal-300'
+                  darkMode
+                    ? "bg-teal-900/30 border-teal-500/20"
+                    : "bg-white border-teal-300"
                 }`}
               >
                 <div className="text-4xl mb-4">{item.icon}</div>
@@ -996,11 +1135,16 @@ const InvestorsPage = () => {
               initial={{ opacity: 0, x: -40 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
-              className={`${darkMode ? 'bg-teal-900/30 border-teal-500/20' : 'bg-white border-teal-300'} p-8 rounded-xl border shadow-md`}
+              className={`${
+                darkMode
+                  ? "bg-teal-900/30 border-teal-500/20"
+                  : "bg-white border-teal-300"
+              } p-8 rounded-xl border shadow-md`}
             >
               <h3 className="text-2xl font-bold mb-4">Our Mission</h3>
               <p className={secondaryTextColor}>
-                To transform how people connect, transact, and experience services using technology that scales with their dreams.
+                To transform how people connect, transact, and experience
+                services using technology that scales with their dreams.
               </p>
             </motion.div>
 
@@ -1008,11 +1152,16 @@ const InvestorsPage = () => {
               initial={{ opacity: 0, x: 40 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
-              className={`${darkMode ? 'bg-teal-900/30 border-teal-500/20' : 'bg-white border-teal-300'} p-8 rounded-xl border shadow-md`}
+              className={`${
+                darkMode
+                  ? "bg-teal-900/30 border-teal-500/20"
+                  : "bg-white border-teal-300"
+              } p-8 rounded-xl border shadow-md`}
             >
               <h3 className="text-2xl font-bold mb-4">Our Vision</h3>
               <p className={secondaryTextColor}>
-                To be a global leader in tech innovation, empowering millions through seamless digital experiences and impactful solutions.
+                To be a global leader in tech innovation, empowering millions
+                through seamless digital experiences and impactful solutions.
               </p>
             </motion.div>
           </div>
@@ -1026,7 +1175,8 @@ const InvestorsPage = () => {
           >
             <h4 className="text-2xl font-bold mb-4">Join Our Journey</h4>
             <p className={`mb-6 max-w-xl mx-auto ${secondaryTextColor}`}>
-              Be part of a revolution. Help us scale globally and build a future-driven ecosystem.
+              Be part of a revolution. Help us scale globally and build a
+              future-driven ecosystem.
             </p>
             <a
               href="#contact"
@@ -1041,23 +1191,25 @@ const InvestorsPage = () => {
       {/* Contact Section */}
       <section id="contact" className={`py-24 ${secondaryBgColor}`}>
         <div className="container mx-auto px-6">
-          <h1 className='text-3xl lg:text-4xl font-bold mb-20 text-center'>Let discuss for <span className='text-teal-500'>Investment</span></h1>
+          <h1 className="text-3xl lg:text-4xl font-bold mb-20 text-center">
+            Let discuss for <span className="text-teal-500">Investment</span>
+          </h1>
           <div className="flex flex-col lg:flex-row gap-16">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               className="lg:w-1/2"
             >
-             <video
-  className="mb-10 rounded-3xl object-cover"
-  autoPlay
-  loop
-  muted
-  playsInline
->
-  <source src="/videos/HandShaking.mp4" type="video/mp4" />
-  Your browser does not support the video tag.
-</video>
+              <video
+                className="mb-10 rounded-3xl object-cover"
+                autoPlay
+                loop
+                muted
+                playsInline
+              >
+                <source src="/videos/HandShaking.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
 
               <h2 className="text-2xl md:text-2xl font-bold mb-8">
                 Get in <span className="text-teal-400">Touch</span>
@@ -1072,12 +1224,18 @@ const InvestorsPage = () => {
               whileInView={{ opacity: 1, x: 0 }}
               className="lg:w-1/2"
             >
-              <div className={`${secondaryBgColor} backdrop-blur-md rounded-2xl p-8 border ${darkMode ? 'border-teal-500/20' : 'border-teal-300'} shadow-lg`}>
+              <div
+                className={`${secondaryBgColor} backdrop-blur-md rounded-2xl p-8 border ${
+                  darkMode ? "border-teal-500/20" : "border-teal-300"
+                } shadow-lg`}
+              >
                 <h3 className="text-2xl font-bold mb-6">Enter Details</h3>
                 <form onSubmit={handleSubmit}>
                   <div className="space-y-6">
                     <div>
-                      <label className={`block text-sm font-medium ${secondaryTextColor} mb-1`}>
+                      <label
+                        className={`block text-sm font-medium ${secondaryTextColor} mb-1`}
+                      >
                         Full Name:
                       </label>
                       <input
@@ -1085,13 +1243,19 @@ const InvestorsPage = () => {
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
-                        className={`w-full ${darkMode ? 'bg-gray-700' : 'bg-gray-100'} border ${darkMode ? 'border-gray-600' : 'border-gray-300'} rounded-lg px-4 py-3 ${textColor} focus:outline-none focus:ring-2 focus:ring-teal-500`}
+                        className={`w-full ${
+                          darkMode ? "bg-gray-700" : "bg-gray-100"
+                        } border ${
+                          darkMode ? "border-gray-600" : "border-gray-300"
+                        } rounded-lg px-4 py-3 ${textColor} focus:outline-none focus:ring-2 focus:ring-teal-500`}
                         required
                       />
                     </div>
-                    
+
                     <div>
-                      <label className={`block text-sm font-medium ${secondaryTextColor} mb-1`}>
+                      <label
+                        className={`block text-sm font-medium ${secondaryTextColor} mb-1`}
+                      >
                         Email Address:
                       </label>
                       <input
@@ -1099,12 +1263,18 @@ const InvestorsPage = () => {
                         name="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        className={`w-full ${darkMode ? 'bg-gray-700' : 'bg-gray-100'} border ${darkMode ? 'border-gray-600' : 'border-gray-300'} rounded-lg px-4 py-3 ${textColor} focus:outline-none focus:ring-2 focus:ring-teal-500`}
+                        className={`w-full ${
+                          darkMode ? "bg-gray-700" : "bg-gray-100"
+                        } border ${
+                          darkMode ? "border-gray-600" : "border-gray-300"
+                        } rounded-lg px-4 py-3 ${textColor} focus:outline-none focus:ring-2 focus:ring-teal-500`}
                         required
                       />
                     </div>
                     <div>
-                      <label className={`block text-sm font-medium ${secondaryTextColor} mb-1`}>
+                      <label
+                        className={`block text-sm font-medium ${secondaryTextColor} mb-1`}
+                      >
                         Phone No:
                       </label>
                       <input
@@ -1113,31 +1283,45 @@ const InvestorsPage = () => {
                         value={formData.phone}
                         onChange={handleInputChange}
                         pattern="[789][0-9]{9}"
-                        placeholder='Ex-987654321'
-                        className={`w-full ${darkMode ? 'bg-gray-700' : 'bg-gray-100'} border ${darkMode ? 'border-gray-600' : 'border-gray-300'} rounded-lg px-4 py-3 ${textColor} focus:outline-none focus:ring-2 focus:ring-teal-500`}
+                        placeholder="Ex-987654321"
+                        className={`w-full ${
+                          darkMode ? "bg-gray-700" : "bg-gray-100"
+                        } border ${
+                          darkMode ? "border-gray-600" : "border-gray-300"
+                        } rounded-lg px-4 py-3 ${textColor} focus:outline-none focus:ring-2 focus:ring-teal-500`}
                         required
                       />
                     </div>
-                    
+
                     <div>
-                      <label className={`block text-sm font-medium ${secondaryTextColor} mb-1`}>
+                      <label
+                        className={`block text-sm font-medium ${secondaryTextColor} mb-1`}
+                      >
                         Inquiry Type:
                       </label>
                       <select
                         name="inquiryType"
                         value={formData.inquiryType}
                         onChange={handleInputChange}
-                        className={`w-full ${darkMode ? 'bg-gray-700' : 'bg-gray-100'} border ${darkMode ? 'border-gray-600' : 'border-gray-300'} rounded-lg px-4 py-3 ${textColor} focus:outline-none focus:ring-2 focus:ring-teal-500`}
+                        className={`w-full ${
+                          darkMode ? "bg-gray-700" : "bg-gray-100"
+                        } border ${
+                          darkMode ? "border-gray-600" : "border-gray-300"
+                        } rounded-lg px-4 py-3 ${textColor} focus:outline-none focus:ring-2 focus:ring-teal-500`}
                         required
                       >
                         <option value="">-- Please select an option --</option>
-                        <option value="Investment Inquiry">Investment Inquiry</option>
+                        <option value="Investment Inquiry">
+                          Investment Inquiry
+                        </option>
                         <option value="Ready to Invest">Ready to Invest</option>
                       </select>
                     </div>
-                    
+
                     <div>
-                      <label className={`block text-sm font-medium ${secondaryTextColor} mb-1`}>
+                      <label
+                        className={`block text-sm font-medium ${secondaryTextColor} mb-1`}
+                      >
                         Describe
                       </label>
                       <textarea
@@ -1145,10 +1329,14 @@ const InvestorsPage = () => {
                         name="message"
                         value={formData.message}
                         onChange={handleInputChange}
-                        className={`w-full ${darkMode ? 'bg-gray-700' : 'bg-gray-100'} border ${darkMode ? 'border-gray-600' : 'border-gray-300'} rounded-lg px-4 py-3 ${textColor} focus:outline-none focus:ring-2 focus:ring-teal-500`}
+                        className={`w-full ${
+                          darkMode ? "bg-gray-700" : "bg-gray-100"
+                        } border ${
+                          darkMode ? "border-gray-600" : "border-gray-300"
+                        } rounded-lg px-4 py-3 ${textColor} focus:outline-none focus:ring-2 focus:ring-teal-500`}
                       ></textarea>
                     </div>
-                    
+
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
@@ -1166,88 +1354,116 @@ const InvestorsPage = () => {
       </section>
 
       {showSuccess && (
-  <>
-    <Confetti
-      width={width}
-      height={height}
-      recycle={false}
-      numberOfPieces={500}
-      colors={['#008080', '#006666', '#0d9488', '#0f766e', '#115e59']}
-    />
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Blurred background overlay */}
-      <div 
-        className="absolute inset-0 bg-black/30 backdrop-blur-md"
-        onClick={() => setShowSuccess(false)}
-      />
-      
-      {/* Popup card */}
-      <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ type: 'spring', damping: 25 }}
-        className={`relative ${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl z-10 border ${darkMode ? 'border-teal-500/20' : 'border-teal-200'}`}
-      >
-        <div className="text-center">
-          {/* Animated checkmark circle */}
-          <motion.div 
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.2, type: 'spring' }}
-            className="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-teal-500/10 mb-6"
-          >
+        <>
+          <Confetti
+            width={width}
+            height={height}
+            recycle={false}
+            numberOfPieces={500}
+            colors={["#008080", "#006666", "#0d9488", "#0f766e", "#115e59"]}
+          />
+          <div className="fixed inset-0 z-50 flex items-center justify-center">
+            {/* Blurred background overlay */}
+            <div
+              className="absolute inset-0 bg-black/30 backdrop-blur-md"
+              onClick={() => setShowSuccess(false)}
+            />
+
+            {/* Popup card */}
             <motion.div
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ type: "spring", damping: 25 }}
+              className={`relative ${
+                darkMode ? "bg-gray-800" : "bg-white"
+              } rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl z-10 border ${
+                darkMode ? "border-teal-500/20" : "border-teal-200"
+              }`}
             >
-              <CheckIcon className="h-10 w-10 text-teal-500" strokeWidth={2} />
+              <div className="text-center">
+                {/* Animated checkmark circle */}
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.2, type: "spring" }}
+                  className="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-teal-500/10 mb-6"
+                >
+                  <motion.div
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{ duration: 0.5, delay: 0.5 }}
+                  >
+                    <CheckIcon
+                      className="h-10 w-10 text-teal-500"
+                      strokeWidth={2}
+                    />
+                  </motion.div>
+                </motion.div>
+
+                {/* Title with gradient text */}
+                <h3
+                  className={`text-3xl font-bold bg-gradient-to-r from-teal-500 to-teal-700 bg-clip-text text-transparent mb-4`}
+                >
+                  Congratulations!
+                </h3>
+
+                {/* Beautifully styled message */}
+                <div
+                  className={`prose prose-lg ${
+                    darkMode ? "prose-invert" : ""
+                  } mb-6 text-left`}
+                >
+                  <p
+                    className={`${
+                      darkMode ? "text-gray-300" : "text-gray-700"
+                    } leading-relaxed`}
+                  >
+                    Thank you for expressing your interest in investing in our
+                    organization.
+                  </p>
+                  <p
+                    className={`${
+                      darkMode ? "text-gray-300" : "text-gray-700"
+                    } leading-relaxed`}
+                  >
+                    We truly appreciate your confidence in our vision and
+                    commitment. Our investment team will contact you within 48
+                    hours to:
+                  </p>
+                  <ul
+                    className={`space-y-2 ${
+                      darkMode ? "text-gray-300" : "text-gray-700"
+                    }`}
+                  >
+                    <li className="flex items-start">
+                      <ArrowRightIcon className="h-5 w-5 text-teal-500 mr-2 mt-0.5 flex-shrink-0" />
+                      <span>Share detailed investment materials</span>
+                    </li>
+                    <li className="flex items-start">
+                      <ArrowRightIcon className="h-5 w-5 text-teal-500 mr-2 mt-0.5 flex-shrink-0" />
+                      <span>Answer any questions you may have</span>
+                    </li>
+                    <li className="flex items-start">
+                      <ArrowRightIcon className="h-5 w-5 text-teal-500 mr-2 mt-0.5 flex-shrink-0" />
+                      <span>Discuss next steps</span>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Action button */}
+                <motion.button
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => setShowSuccess(false)}
+                  className={`px-8 py-3 bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white rounded-lg font-medium transition-all shadow-lg`}
+                >
+                  Got it, thank you!
+                </motion.button>
+              </div>
             </motion.div>
-          </motion.div>
-
-          {/* Title with gradient text */}
-          <h3 className={`text-3xl font-bold bg-gradient-to-r from-teal-500 to-teal-700 bg-clip-text text-transparent mb-4`}>
-            Congratulations!
-          </h3>
-          
-          {/* Beautifully styled message */}
-          <div className={`prose prose-lg ${darkMode ? 'prose-invert' : ''} mb-6 text-left`}>
-            <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
-              Thank you for expressing your interest in investing in our organization. 
-            </p>
-            <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
-              We truly appreciate your confidence in our vision and commitment. Our investment team will contact you within 48 hours to:
-            </p>
-            <ul className={`space-y-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-              <li className="flex items-start">
-                <ArrowRightIcon className="h-5 w-5 text-teal-500 mr-2 mt-0.5 flex-shrink-0" />
-                <span>Share detailed investment materials</span>
-              </li>
-              <li className="flex items-start">
-                <ArrowRightIcon className="h-5 w-5 text-teal-500 mr-2 mt-0.5 flex-shrink-0" />
-                <span>Answer any questions you may have</span>
-              </li>
-              <li className="flex items-start">
-                <ArrowRightIcon className="h-5 w-5 text-teal-500 mr-2 mt-0.5 flex-shrink-0" />
-                <span>Discuss next steps</span>
-              </li>
-            </ul>
           </div>
-
-          {/* Action button */}
-          <motion.button
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            onClick={() => setShowSuccess(false)}
-            className={`px-8 py-3 bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white rounded-lg font-medium transition-all shadow-lg`}
-          >
-            Got it, thank you!
-          </motion.button>
-        </div>
-      </motion.div>
-    </div>
-  </>
-)}
+        </>
+      )}
     </div>
   );
 };
@@ -1260,14 +1476,7 @@ export default function AppWrapper() {
   );
 }
 
-
-
-
 // 'use client';
-
-
-
-
 
 // const canvasRef = useRef(null);
 // useEffect(() => {
@@ -1299,13 +1508,13 @@ export default function AppWrapper() {
 
 //       function animate() {
 //         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
+
 //         elements.forEach(el => {
 //           ctx.save();
 //           ctx.translate(el.x, el.y);
 //           ctx.rotate(el.rotation * Math.PI / 180);
 //           ctx.fillStyle = el.color + '20'; // Add transparency
-          
+
 //           if (el.shape === 'square') {
 //             ctx.fillRect(-el.size/2, -el.size/2, el.size, el.size);
 //           } else if (el.shape === 'circle') {
@@ -1320,22 +1529,22 @@ export default function AppWrapper() {
 //             ctx.closePath();
 //             ctx.fill();
 //           }
-          
+
 //           ctx.restore();
-          
+
 //           // Update position
 //           el.x += el.speedX;
 //           el.y += el.speedY;
 //           el.rotation += el.rotationSpeed;
-          
+
 //           // Bounce off edges
 //           if (el.x < 0 || el.x > canvas.width) el.speedX *= -1;
 //           if (el.y < 0 || el.y > canvas.height) el.speedY *= -1;
 //         });
-        
+
 //         requestAnimationFrame(animate);
 //       }
-      
+
 //       animate();
 
 //       // Handle resize
@@ -1343,7 +1552,7 @@ export default function AppWrapper() {
 //         canvas.width = window.innerWidth;
 //         canvas.height = window.innerHeight;
 //       };
-      
+
 //       window.addEventListener('resize', handleResize);
 //       return () => window.removeEventListener('resize', handleResize);
 //     }

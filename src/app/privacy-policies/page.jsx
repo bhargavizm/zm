@@ -12,19 +12,19 @@ const Privacypolicy = () => {
             Please take a moment to read this Privacy Policy thoroughly before using our sites or services. By accessing or utilizing our site or services (other than for the initial purpose of reviewing this Privacy Policy), you consent to the terms outlined in this Privacy Policy.<br/>
         </p><br/>
         <h1 className="text-2xl font-bold mb-4 underline">Introduction</h1><br/>
-        <p>This Privacy Policy for zmqrcodeservices.in (“ZMQRCODESERVICES,” “we,” “us,” or “our”) outlines how and why we collect, store, use, share (“process”), and safeguard your personal information when you access our services (“Services”). This includes: <br/><br/>
+        <p>This Privacy Policy for zmqrcodeservices.in (“ZMQRCODESERVICES,” “we,” “us,” or “our”) outlines how and why we collect, store, use, share (“process”), and safeguard your personal information when you access our services (“Services”). This includes: </p>
         <ul className="list-disc list-inside ">
         <li>Visiting or using our website,
           {" "}
         <a target='_blank'
           href="/"
-          className="text-blue-300 underline hover:text-black"
+          className="text-black hover:text-mainGreen underline font-bold"
         >
-          https://www.zmqrcode.com
+          https://www.zmqrcode.in
         </a> (website home page link), any related services, or any site that references this policy.</li>
         <li>Interacting with us through other means, such as sales, marketing, or events.</li>
         </ul>
-        If you have any questions or concerns regarding our privacy practices, please contact us at support@zmqrcodeservices.com.<br/><br/>
+        <p>If you have any questions or concerns regarding our privacy practices, please contact us at support@zmqrcodeservices.com.<br/><br/>
         ZMqrcodeservices provides a variety of online services, including SaaS (Software as a Service) products and other websites (“Sites”), offering features such as QR code generation, digital business cards, and product information. Your information will be processed in accordance with this Privacy Policy. Please note that some Services may be delivered in multiple countries through our affiliates, technology partners, and sales partners, who may have their own terms and privacy policies.<br/><br/>
         If you are located in the European Union (EU), you will be asked to provide explicit consent for the collection, processing, and sharing of your information through cookies and similar technologies.<br/><br/>
         <h2 className='text-1xl font-semibold'>Notice to EU Individuals: </h2>This Privacy Policy is intended to comply with the General Data Protection Regulation (GDPR) and ensures appropriate protection and handling of your personal data in accordance with GDPR requirements.<br/>
@@ -80,28 +80,28 @@ const Privacypolicy = () => {
           href="https://stripe.com/privacy"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-300 underline hover:text-black"
+          className="text-black hover:text-mainGreen underline font-bold"
         >
           Stripe
         </a>
-        ,{" "}
+        ,{"  "}
         <a
           href="https://www.paypal.com/myaccount/privacy/privacyhub"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-300 underline hover:text-black"
+          className="text-black hover:text-mainGreen underline font-bold"
         >
           PayPal
         </a>
-        ,{" "}
+        ,{"  "}
         <a
           href="https://razorpay.com/privacy/"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-300 underline hover:text-black"
+         className="text-black hover:text-mainGreen underline font-bold"
         >
           Razorpay
-        </a>{" "}
+        </a>{"  "}
         . You can find their privacy policies here: Stripe, PayPal, RazorPay.(links has to be added to the privacy policies)<br/><br/>
 
         <h2 className='text-1xl font-bold p-5'><li className="list-disc list-inside">Non-Personally Identifiable Information (Non-PII): </li></h2>This is information that does not personally identify you. We may collect Non-PII separately or in conjunction with your PII. This includes:
@@ -127,7 +127,7 @@ const Privacypolicy = () => {
         {" "}
         <a
           href="/cookie-policy"
-          className="text-blue-300 underline hover:text-black"
+          className="text-black hover:text-mainGreen underline font-bold"
         >
           Cookie Policy
         </a> (divert to cookies policy page).<br/><br/>
@@ -289,7 +289,7 @@ const Privacypolicy = () => {
         following the opt-out instructions{" "}
         <a
           href="https://tools.google.com/dlpage/gaoptout"
-          className="text-blue-300 underline hover:text-black"
+           className="text-black hover:text-mainGreen underline font-bold"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -298,7 +298,7 @@ const Privacypolicy = () => {
         . You can also learn more about Google’s privacy practices{" "}
         <a
           href="https://policies.google.com/privacy"
-          className="text-blue-300 underline hover:text-black"
+          className="text-black hover:text-mainGreen underline font-bold"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -312,7 +312,7 @@ const Privacypolicy = () => {
         <li>
           <a
             href="https://support.apple.com/en-us/HT201265"
-            className="text-blue-300 underline hover:text-black"
+             className="text-black hover:text-mainGreen underline font-bold"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -322,7 +322,7 @@ const Privacypolicy = () => {
         <li>
           <a
             href="https://support.google.com/chrome/answer/95647"
-            className="text-blue-300 underline hover:text-black"
+            className="text-black hover:text-mainGreen underline font-bold"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -332,7 +332,7 @@ const Privacypolicy = () => {
         <li>
           <a
             href="https://support.mozilla.org/en-US/kb/enhanced-tracking-protection-firefox-desktop"
-            className="text-blue-300 underline hover:text-black"
+             className="text-black hover:text-mainGreen underline font-bold"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -342,7 +342,7 @@ const Privacypolicy = () => {
         <li>
           <a
             href="https://support.microsoft.com/en-us/topic/how-to-delete-cookie-files-in-internet-explorer-bca9446f-d873-78de-77ba-d42645fa52fc"
-            className="text-blue-300 underline hover:text-black"
+            className="text-black hover:text-mainGreen underline font-bold"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -358,7 +358,7 @@ const Privacypolicy = () => {
         them, refer to our{" "}
         <a
           href="/cookie-policy"
-          className="text-blue-300 underline hover:text-black"
+          className="text-black hover:text-mainGreen underline font-bold"
         >
           Cookie Policy
         </a>

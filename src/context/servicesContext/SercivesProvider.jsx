@@ -155,6 +155,7 @@ const ServicesProvider = ({ children }) => {
   const [textMessageForm, setTextMessageForm] = useState({
     sender: "",
     message: "",
+    password:''
   });
 
   // Menu Book (Original structure)
