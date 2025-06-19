@@ -174,13 +174,13 @@ const HowQRCodesTransformBusinessesSection = () => {
                 </h2>
                 <motion.div
                     initial={{ opacity: 0, scale: 0.5 }}
-                    whileInView={{ opacity: 0.5, scale: 1 }}
+                    whileInView={{ opacity: 1.5, scale: 1 }}
                     viewport={{ once: true, amount: 0.5 }}
                     transition={{ duration: 0.8 }}
                     className="mb-2 max-w-sm mx-auto"
                 >
                     <video
-                        src="/videos/reselling.mp4"
+                        src="/videos/franchise.mp4"
                         alt="Video demonstrating various QR code use cases for ZM QR Code Services"
                         className="rounded-xl shadow-xl w-full h-auto object-cover"
                         autoPlay
@@ -192,7 +192,7 @@ const HowQRCodesTransformBusinessesSection = () => {
                     >
                         Your browser does not support the video tag.
                     </video>
-                    <p className="mt-6 text-lg" style={{ color: SITE_COLORS.textMuted }}>
+                    <p className="mt-6 text-lg" style={{ color: SITE_COLORS.accentTealDark }}>
                         From streamlined payments to interactive marketing, QR codes are revolutionizing industries.
                     </p>
                 </motion.div>
