@@ -16,6 +16,7 @@ const BusinessCardTemplateOne = ({ businessForm, profileImage, brandLogo }) => {
         address,
         mapLink,
         socialLink,
+        socialLink2,
     } = businessForm;
 
     return (
@@ -103,6 +104,14 @@ const BusinessCardTemplateOne = ({ businessForm, profileImage, brandLogo }) => {
                     className="w-full py-2 rounded font-semibold bg-white text-black text-center shadow hover:bg-gray-100 transition"
                 >
                     {socialLink || "SocialLink"}
+                </a>
+                <a
+                    href={socialLink2 || "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-2 rounded font-semibold bg-white text-black text-center shadow hover:bg-gray-100 transition"
+                >
+                    {socialLink2 || "SocialLink2"}
                 </a>
                 <a
                     href={address || "#"}
