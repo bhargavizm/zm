@@ -662,7 +662,7 @@ const InvestorsPage = () => {
   const borderColor = darkMode ? 'border-gray-700' : 'border-gray-200';
 
   return (
-    <div className={` ${bgColor} ${textColor} pt-20 `} ref={containerRef} >
+    <div className={` ${bgColor} ${textColor} pt-18 `} ref={containerRef} >
       <Head>
         <title>Invest in ZM QR Code Services | Next-Gen QR Solutions</title>
         <meta name="description" content="Join ZM QR's growth journey with our innovative QR technology" />
@@ -670,7 +670,7 @@ const InvestorsPage = () => {
       
 
       {/* Navigation */}
-      <nav className={`fixed w-full z-50 ${secondaryBgColor} bg-opacity-90 backdrop-blur-md border-b ${borderColor}`}>
+      <nav className={`fixed w-full z-40 ${secondaryBgColor} bg-opacity-90 backdrop-blur-md border-b ${borderColor}`}>
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
          
           <div className="flex items-center space-x-8">
