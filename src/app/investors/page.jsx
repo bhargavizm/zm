@@ -594,7 +594,7 @@ const AllocationChart = ({ darkMode }) => {
 const InvestorsPage = () => {
   const containerRef = useRef(null);
   const { theme, toggleTheme } = useTheme();
-  const darkMode = theme === "dark";
+  const darkMode = theme === "light";
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -724,7 +724,7 @@ const InvestorsPage = () => {
       </Head>
 
       {/* Navigation */}
-      <nav
+      {/* <nav
         className={`fixed w-full z-40 ${secondaryBgColor} bg-opacity-90 backdrop-blur-md border-b ${borderColor}`}
       >
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
@@ -758,7 +758,7 @@ const InvestorsPage = () => {
             </button>
           </div>
         </div>
-      </nav>
+      </nav> */}
 
       {/* Hero Section with Video Background */}
       <motion.section

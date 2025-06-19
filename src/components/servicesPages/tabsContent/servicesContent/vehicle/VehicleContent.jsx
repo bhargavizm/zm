@@ -67,18 +67,20 @@ const VehicleContent = () => {
         <label className="block text-base font-medium text-gray-700">
           {label}
         </label>
-        <div className="flex items-center space-x-3">
-          <input
-            type="file"
-            accept={accept}
-            className="flex-1 text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
-            onChange={(e) => handleFileChange(section, field, e.target.files)}
-          />
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+          <div className="flex-1 min-w-0">
+            <input
+              type="file"
+              accept={accept}
+              className="w-full text-gray-700 file:mr-4 file:py-2 sm:file:py-3 file:px-4 sm:file:px-6 file:rounded-full file:border-0 file:text-xs sm:file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2 truncate"
+              onChange={(e) => handleFileChange(section, field, e.target.files)}
+            />
+          </div>
           {file && (
             <button
               type="button"
               onClick={() => handleRemoveFile(section, field)}
-              className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-200 text-sm font-semibold"
+              className="px-3 sm:px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-200 text-sm font-semibold whitespace-nowrap"
             >
               Remove
             </button>
@@ -86,7 +88,7 @@ const VehicleContent = () => {
         </div>
         {file && (
           <div className="mt-2 flex flex-col items-start space-y-2">
-            <span className="text-sm text-gray-600">Selected: {fileName}</span>
+            <span className="text-sm text-gray-600 truncate w-full">Selected: {fileName}</span>
             {file.type.startsWith("image/") && (
               <img
                 src={URL.createObjectURL(file)}
@@ -111,8 +113,8 @@ const VehicleContent = () => {
     <>
       <div className="space-y-8 p-4 md:p-8 lg:p-12 bg-gray-50 rounded-xl shadow-lg overflow-auto hide-scrollbar h-150">
         {/* Vehicle Template Selection and Editing Section */}
-        <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200">
+        <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
+          <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 border-b pb-2 sm:pb-3 border-gray-200">
             Vehicle Profile Template
           </h3>
 
@@ -122,7 +124,7 @@ const VehicleContent = () => {
             </label>
 
             {/* Template Image/Video Selection Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-6">
                 {/* Template V2 Image */}
               <div
                 className={`relative cursor-pointer rounded-lg overflow-hidden border-2`}
@@ -205,18 +207,18 @@ const VehicleContent = () => {
         </div>
 
         {/* General Section */}
-        <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200">
+        <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
+          <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 border-b pb-2 sm:pb-3 border-gray-200">
             General Vehicle Information
           </h3>
-          <div className="space-y-5">
+          <div className="space-y-4 sm:space-y-5">
             {/* Vehicle Image - Moved to top and made the main image */}
             {renderFileInput("media", "vehicleImage", "Vehicle Image", "image/*")}
 
             <input
               type="text"
               placeholder="Vehicle Name"
-              className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
+              className="w-full px-4 sm:px-5 py-2 sm:py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
               value={vehicleInfo.general.vehicleModel || ""}
               onChange={(e) =>
                 handleChange(
@@ -231,7 +233,7 @@ const VehicleContent = () => {
             <input
               type="text"
               placeholder="Vehicle Type (e.g., Sedan, SUV, Motorcycle)"
-              className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
+              className="w-full px-4 sm:px-5 py-2 sm:py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
               value={vehicleInfo.general.vehicleType || ""}
               onChange={(e) =>
                 handleChange(
@@ -246,7 +248,7 @@ const VehicleContent = () => {
             <textarea
               placeholder="Vehicle Description (e.g., color, features, condition)"
               rows={4}
-              className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200 resize-y"
+              className="w-full px-4 sm:px-5 py-2 sm:py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200 resize-y"
               value={vehicleInfo.general.description || ""}
               onChange={(e) =>
                 handleChange(
@@ -261,15 +263,15 @@ const VehicleContent = () => {
         </div>
 
         {/* Registration Section */}
-        <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200">
+        <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
+          <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 border-b pb-2 sm:pb-3 border-gray-200">
             Registration Details
           </h3>
-          <div className="space-y-5">
+          <div className="space-y-4 sm:space-y-5">
             <input
               type="text"
               placeholder="RC Number"
-              className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
+              className="w-full px-4 sm:px-5 py-2 sm:py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
               value={vehicleInfo.registration.rcNumber || ""}
               onChange={(e) =>
                 handleChange(
@@ -284,7 +286,7 @@ const VehicleContent = () => {
             <input
               type="text"
               placeholder="Driver Name"
-              className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
+              className="w-full px-4 sm:px-5 py-2 sm:py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
               value={vehicleInfo.registration.driverName || ""}
               onChange={(e) =>
                 handleChange(
@@ -299,7 +301,7 @@ const VehicleContent = () => {
              <input
               type="text"
               placeholder=" Driver Contact Number"
-              className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
+              className="w-full px-4 sm:px-5 py-2 sm:py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
               value={vehicleInfo.contact.contact || ""}
               onChange={(e) =>
                 handleChange("vehicle", "contact", "contact", e.target.value)
@@ -309,7 +311,7 @@ const VehicleContent = () => {
             <input
               type="text"
               placeholder="Owner Name"
-              className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
+              className="w-full px-4 sm:px-5 py-2 sm:py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
               value={vehicleInfo.registration.ownerName || ""}
               onChange={(e) =>
                 handleChange(
@@ -324,7 +326,7 @@ const VehicleContent = () => {
              <input
               type="text"
               placeholder="Owner Contact Number"
-              className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
+              className="w-full px-4 sm:px-5 py-2 sm:py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
               value={vehicleInfo.contact.altContact || ""}
               onChange={(e) =>
                 handleChange(
@@ -339,15 +341,15 @@ const VehicleContent = () => {
         </div>
 
         {/* Contact Section */}
-        <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200">
+        <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
+          <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 border-b pb-2 sm:pb-3 border-gray-200">
             Location Information
           </h3>
-          <div className="space-y-5">
+          <div className="space-y-4 sm:space-y-5">
             <textarea
               placeholder="Full Address (e.g., owner's address or parking location)"
               rows={3}
-              className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200 resize-y"
+              className="w-full px-4 sm:px-5 py-2 sm:py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200 resize-y"
               value={vehicleInfo.contact.address || ""}
               onChange={(e) =>
                 handleChange("vehicle", "contact", "address", e.target.value)
@@ -356,7 +358,7 @@ const VehicleContent = () => {
             <input
               type="text"
               placeholder="Map Link (Google Maps, etc.)"
-              className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
+              className="w-full px-4 sm:px-5 py-2 sm:py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
               value={vehicleInfo.contact.mapLink || ""}
               onChange={(e) =>
                 handleChange("vehicle", "contact", "mapLink", e.target.value)
@@ -366,11 +368,11 @@ const VehicleContent = () => {
         </div>
 
         {/* Media Section */}
-        <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200">
+        <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
+          <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 border-b pb-2 sm:pb-3 border-gray-200">
             Media
           </h3>
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {renderFileInput("media", "licenseFront", "License Front Image", "image/*")}
             {renderFileInput("media", "licenseBack", "License Back Image", "image/*")}
             {renderFileInput("media", "rcFront", "Rc Front Image", "image/*")}
@@ -384,29 +386,29 @@ const VehicleContent = () => {
                 type="file"
                 accept="image/*"
                 multiple
-                className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
+                className="w-full text-gray-700 file:mr-4 file:py-2 sm:file:py-3 file:px-4 sm:file:px-6 file:rounded-full file:border-0 file:text-xs sm:file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
                 onChange={(e) =>
                   handleGalleryFileChange("media", "galleryImages", e.target.files)
                 }
               />
               {(vehicleInfo.media.galleryImages || []).length > 0 && (
-                <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
                   {(vehicleInfo.media.galleryImages || []).map((file, index) => (
                     <div key={index} className="relative group">
                       <img
                         src={URL.createObjectURL(file)}
                         alt={`Gallery Image ${index + 1}`}
-                        className="w-full h-24 object-cover rounded-lg border border-gray-300 shadow-sm"
+                        className="w-full h-20 sm:h-24 object-cover rounded-lg border border-gray-300 shadow-sm"
                       />
                       <button
                         type="button"
                         onClick={() =>
                           handleRemoveGalleryImage("media", "galleryImages", index)
                         }
-                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                         aria-label="Remove image"
                       >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 sm:h-4 sm:w-4" viewBox="0 0 20 20" fill="currentColor">
                           <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
                         </svg>
                       </button>
@@ -419,15 +421,15 @@ const VehicleContent = () => {
         </div>
 
         {/* Security Section */}
-        <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200">
+        <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
+          <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 border-b pb-2 sm:pb-3 border-gray-200">
             Security
           </h3>
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Password"
-              className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 pr-12 transition-all duration-200"
+              className="w-full px-4 sm:px-5 py-2 sm:py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 pr-12 transition-all duration-200"
               value={vehicleInfo.security.password || ""}
               onChange={(e) =>
                 handleChange("vehicle", "security", "password", e.target.value)
@@ -435,11 +437,11 @@ const VehicleContent = () => {
             />
             <button
               type="button"
-              className="absolute inset-y-0 right-0 pr-4 flex items-center text-teal-600 hover:text-teal-800 transition-colors duration-200"
+              className="absolute inset-y-0 right-0 pr-3 sm:pr-4 flex items-center text-teal-600 hover:text-teal-800 transition-colors duration-200"
               onClick={togglePasswordVisibility}
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
-              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              {showPassword ? <EyeOff size={18} className="sm:w-5 sm:h-5 w-4 h-4" /> : <Eye size={18} className="sm:w-5 sm:h-5 w-4 h-4" />}
             </button>
           </div>
         </div>
