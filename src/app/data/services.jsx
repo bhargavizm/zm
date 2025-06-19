@@ -188,7 +188,7 @@ const services = [
     {
         "icon": <MdMenuBook className="text-[#001a1a]" />,
         "serviceName": "MenuCard",
-        slug: "menu-books",
+        slug: "menu-cards",
         "description": "Discover curated recipes and personalized menus with MenuBook—your digital dining companion, powered by QR Code innovation.",
         "image": "/services/menu-book-qr.webp",
     },

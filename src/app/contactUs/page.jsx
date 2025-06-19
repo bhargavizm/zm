@@ -17,22 +17,22 @@ const ContactUs = () => {
     return (
         <div className="w-full min-h-screen bg-gradient-to-br from-teal-50 to-white font-sans">
             {/* Navbar */}
-            <nav className="bg-teal-700 text-white py-4 shadow-xl">
-                <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-                    <div className="text-2xl font-extrabold tracking-wide">Your Brand</div>
-                    <ul className="flex space-x-8 text-base font-medium">
+             <nav className="bg-white text-mainGreen fixed top-18 py-2 left-0 w-full z-40 shadow-md">
+                <div className="max-w-6xl mx-auto px-4 flex items-center justify-between h-14">
+                    
+                    <ul className="flex space-x-6 text-xl pr-30 font-medium ml-auto">
                         <li>
-                            <a href="/faq" className="hover:text-teal-200 transition-colors duration-300">FAQ's</a>
+                            <a href="/faq" className="hover:underline transition duration-200">FAQ's</a>
                         </li>
                         <li>
-                            <a href="#contact" className="hover:text-teal-200 transition-colors duration-300">Contact Us</a>
+                            <a href="/contactUs" className="hover:underline transition duration-200">Contact Us</a>
                         </li>
                     </ul>
                 </div>
             </nav>
 
             {/* Contact Section */}
-            <div id="contact" className="flex flex-col items-center justify-center w-full px-4 py-16 md:py-24">
+            <div id="contact" className="flex flex-col items-center justify-center w-full px-4 py-16 my-24 md:py-24">
                 <h1 className="text-5xl md:text-6xl font-extrabold text-teal-900 mb-4 animate-fadeInDown">Get in Touch</h1>
                 <p className="text-lg text-gray-700 mb-10 text-center max-w-2xl leading-relaxed animate-fadeInUp">
                     We'd love to hear from you! Whether you have a question about our services, need support, or just want to chat, our team is ready to help.
