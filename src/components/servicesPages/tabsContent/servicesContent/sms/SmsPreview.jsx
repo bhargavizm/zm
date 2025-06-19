@@ -7,9 +7,9 @@ import useDesignContext from '@/components/hooks/useDesignContext';
 
 const SmsPreview = () => {
   const { bgDesign } = useDesignContext();
-  const { smsFormData, showPassword } = useServicesContext();
+  const { smsFormData } = useServicesContext();
 
-  const hasData = smsFormData.genderName || smsFormData.messageType || smsFormData.textMessage || smsFormData.date || smsFormData.password;
+  const hasData = smsFormData.genderName || smsFormData.messageType || smsFormData.textMessage || smsFormData.date;
 
   
   const isVideo = bgDesign?.endsWith(".mp4");
@@ -85,16 +85,7 @@ const SmsPreview = () => {
               </div>
             )}
 
-            {/* Password */}
-            {smsFormData.password && (
-              <div className="bg-gray-100 p-3 rounded text-black">
-                <div className="flex items-center text-gray-700 mb-1">
-                  <FiLock className="mr-2" />
-                  <span className="font-medium">Password Protected</span>
-                </div>
-                <p>{showPassword ? smsFormData.password : '●●●●●●●●'}</p>
-              </div>
-            )}
+
           </div>
         ) : (
           <div className="h-full flex flex-col items-center justify-center text-center text-gray-400">

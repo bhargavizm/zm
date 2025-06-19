@@ -210,7 +210,7 @@ const PreviewPanel = () => {
   };
 
   return (
-    <div className="md:py-9 py-4">
+    <div className="md:py-9 py-4 flex justify-center items-center">
     <div className="relative lg:w-[370px] lg:h-[370px] md:w-[320px] md:h-[300px] w-[300px] h-[290px] mx-auto">
       {selectedSticker && (
         <Image
