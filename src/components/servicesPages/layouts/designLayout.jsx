@@ -23,7 +23,7 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
 
   const handleClick = () => setShowModal(true);
 
-   const formatServiceName = (slug) => {
+  const formatServiceName = (slug) => {
     const name = slug
       .split("-")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
@@ -33,95 +33,191 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
       : name;
   };
 
-
   return (
     <>
       <section className="pt-8">
-        <div className="grid md:grid-cols-12  grid-cols-1 gap-4 mx-4 sm:mx-6 md:mx-9">
-          {/* Left Panel */}
-          <div className="col-span-6 lg:col-span-7 bg-white rounded-3xl shadow-lg">
-           <h1 className="text-2xl font-bold py-4 px-6">
-              {formatServiceName(slug)}
-            </h1>
-            {/* ...rest of your layout */}
+        {/* desktop layout */}
+        <div className="hidden md:block">
+          <div className="grid md:grid-cols-12  grid-cols-1 gap-4 mx-2 sm:mx-6 md:mx-4">
+            {/* Left Panel */}
+            <div className="col-span-6 lg:col-span-7 bg-white rounded-3xl shadow-lg">
+              <h1 className="text-2xl font-bold py-4 px-6">
+                {formatServiceName(slug)}
+              </h1>
+              {/* ...rest of your layout */}
 
-            {/* Tabs */}
-            <div className="grid grid-cols-3 md:px-6 bg-[#58b8b8]  shadow-lg py-2 mb-4">
-              {tabs.map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`px-4 py-2 text-xl rounded-xl cursor-pointer ${
-                    activeTab === tab
-                      ? "bg-white text-mainGreen font-bold"
-                      : "text-darkGreen"
+              {/* Tabs */}
+              <div className="grid grid-cols-3 md:px-6 bg-[#58b8b8]  shadow-lg py-2 mb-4">
+                {tabs.map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    className={`px-4 py-2 text-xl rounded-xl cursor-pointer ${
+                      activeTab === tab
+                        ? "bg-white text-mainGreen font-bold"
+                        : "text-darkGreen"
+                    }`}
+                  >
+                    {tab}
+                  </button>
+                ))}
+              </div>
+
+              {/* Tab Content */}
+              <div className="px-4 pb-6 h-[75vh] overflow-y-auto scrollbar-hide">
+                {activeTab === "Content" && <ContentTabComponent />}
+
+                {activeTab === "Backdrop Designs" && <BackdropDesigns />}
+
+                {activeTab === "QR Code" && <QRCodeTab />}
+              </div>
+            </div>
+
+            {/* Right Preview Panel */}
+            <div className="col-span-6 lg:col-span-5 bg-white rounded-3xl shadow-lg py-8  lg:mt-0">
+              <div className="flex justify-center gap-4 px-4 mb-4 bg-[#58b8b8] shadow-lg py-2 mt-7 ">
+                <div
+                  onClick={() => setActivePreview("scan")}
+                  className={`p-3 rounded-full cursor-pointer ${
+                    activePreview === "scan"
+                      ? "bg-white text-green-600 shadow-md"
+                      : "text-gray-600 hover:bg-white hover:text-green-600"
                   }`}
                 >
-                  {tab}
-                </button>
-              ))}
-            </div>
+                  <MdQrCodeScanner size={24} />
+                </div>
+                <div
+                  onClick={() => setActivePreview("eye")}
+                  className={`p-3 rounded-full cursor-pointer ${
+                    activePreview === "eye"
+                      ? "bg-white text-mainGreen shadow-md"
+                      : "text-gray-600 hover:bg-white hover:text-green-600"
+                  }`}
+                >
+                  <IoEyeOutline size={24} />
+                </div>
+              </div>
 
-            {/* Tab Content */}
-            <div className="px-6 pb-6 min-h-[500px]">
-              {activeTab === "Content" && <ContentTabComponent />}
+              <div className="px-4">
+                {activePreview === "scan" && (
+                  <>
+                    <PreviewPanel />
+                    <div className="flex justify-center items-center py-6">
+                      <button
+                        onClick={handleClick}
+                        className="  px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
+                      >
+                        Download Large Files <FaLongArrowAltDown />
+                      </button>
+                    </div>
+                  </>
+                )}
+                {activePreview === "eye" && (
+                  <div className="flex justify-center items-center p-4 rounded-xl">
+                    {/* Top Notch */}
+                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-5 bg-black rounded-b-2xl z-10"></div>
 
-              {activeTab === "Backdrop Designs" && <BackdropDesigns />}
-
-              {activeTab === "QR Code" && <QRCodeTab />}
+                    {/* Content Area */}
+                    <div className="flex-1 w-full px-4 pt-8 pb-6 overflow-auto">
+                      <PreviewTabComponent />
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
+        </div>
 
-          {/* Right Preview Panel */}
-          <div className="col-span-6 lg:col-span-5 bg-white rounded-3xl shadow-lg py-8  lg:mt-0">
-            <div className="flex justify-center gap-4 px-4 mb-4 bg-[#58b8b8] shadow-lg py-2 mt-7 ">
-              <div
-                onClick={() => setActivePreview("scan")}
-                className={`p-3 rounded-full cursor-pointer ${
-                  activePreview === "scan"
-                    ? "bg-white text-green-600 shadow-md"
-                    : "text-gray-600 hover:bg-white hover:text-green-600"
-                }`}
-              >
-                <MdQrCodeScanner size={24} />
+        {/* mobile layout */}
+        <div className="md:hidden bg-white rounded-xl shadow-xl w-full  relative pb-4 overflow-y-auto scrollbar-hide">
+          <div className="grid md:grid-cols-12  grid-cols-1 gap-4 md:mx-9">
+            {/* left Preview Panel */}
+            <div className="col-span-6 lg:col-span-5 bg-white rounded-3xl shadow-lg py-8  lg:mt-0">
+              <div className="flex justify-center gap-4  mb-4 bg-[#58b8b8] shadow-lg py-2 mt-7 ">
+                <div
+                  onClick={() => setActivePreview("scan")}
+                  className={`p-3 rounded-full cursor-pointer ${
+                    activePreview === "scan"
+                      ? "bg-white text-green-600 shadow-md"
+                      : "text-gray-600 hover:bg-white hover:text-green-600"
+                  }`}
+                >
+                  <MdQrCodeScanner size={24} />
+                </div>
+                <div
+                  onClick={() => setActivePreview("eye")}
+                  className={`p-3 rounded-full cursor-pointer ${
+                    activePreview === "eye"
+                      ? "bg-white text-mainGreen shadow-md"
+                      : "text-gray-600 hover:bg-white hover:text-green-600"
+                  }`}
+                >
+                  <IoEyeOutline size={24} />
+                </div>
               </div>
-              <div
-                onClick={() => setActivePreview("eye")}
-                className={`p-3 rounded-full cursor-pointer ${
-                  activePreview === "eye"
-                    ? "bg-white text-mainGreen shadow-md"
-                    : "text-gray-600 hover:bg-white hover:text-green-600"
-                }`}
-              >
-                <IoEyeOutline size={24} />
+
+              <div className="px-4">
+                {activePreview === "scan" && (
+                  <>
+                    <div className="h-[50vh] overflow-y-auto scrollbar-hide ">
+                      <PreviewPanel />
+                      <div className="flex justify-center items-center py-6">
+                        <button
+                          onClick={handleClick}
+                          className="  px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
+                        >
+                          Download Large Files <FaLongArrowAltDown />
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
+                {activePreview === "eye" && (
+                  <div className="h-[40vh] overflow-y-auto scrollbar-hide">
+                    <div className="flex justify-center items-center py-4 rounded-xl">
+                      {/* Top Notch */}
+                      {/* <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-5 bg-black rounded-b-2xl z-10"></div> */}
+
+                      {/* Content Area */}
+                      <div className="flex-1 w-full px-4 pt-8 pb-6 overflow-auto">
+                        <PreviewTabComponent />
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
-            <div className="px-4">
-              {activePreview === "scan" && (
-                <>
-                  <PreviewPanel />
-                  <div className="flex justify-center items-center py-6">
-                    <button
-                      onClick={handleClick}
-                      className="  px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
-                    >
-                      Download Large Files <FaLongArrowAltDown />
-                    </button>
-                  </div>
-                </>
-              )}
-              {activePreview === "eye" && (
-                <div className="flex justify-center items-center p-4 rounded-xl">
-                  {/* Top Notch */}
-                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-5 bg-black rounded-b-2xl z-10"></div>
+            {/* right Panel */}
+            <div className="col-span-6 lg:col-span-7 bg-white rounded-3xl shadow-lg">
+              {/* ...rest of your layout */}
 
-                  {/* Content Area */}
-                  <div className="flex-1 w-full px-4 pt-8 pb-6 overflow-auto">
-                    <PreviewTabComponent />
-                  </div>
-                </div>
-              )}
+              {/* Tabs */}
+
+              <div className="grid grid-cols-3 md:px-6 bg-[#58b8b8]  shadow-lg py-2 mb-4">
+                {tabs.map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    className={`px-4 py-2 text-xl rounded-xl cursor-pointer ${
+                      activeTab === tab
+                        ? "bg-white text-mainGreen font-bold"
+                        : "text-darkGreen"
+                    }`}
+                  >
+                    {tab}
+                  </button>
+                ))}
+              </div>
+
+              {/* Tab Content */}
+              <div className="px-6 pb-6 h-[60vh] overflow-y-auto scrollbar-hide">
+                {activeTab === "Content" && <ContentTabComponent />}
+
+                {activeTab === "Backdrop Designs" && <BackdropDesigns />}
+
+                {activeTab === "QR Code" && <QRCodeTab />}
+              </div>
             </div>
           </div>
         </div>

@@ -164,7 +164,7 @@ const PropertyContent = () => {
         <div className="relative w-full">
           <input
             type={showPassword ? "text" : "password"}
-            placeholder="Password (optional)"
+            placeholder="Password"
             value={propertyData.password || ""}
             onChange={handlePasswordChange}
             className="border p-2 pr-10 rounded w-full"
