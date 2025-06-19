@@ -756,6 +756,7 @@ const InvestorsPage = () => {
                 <MoonIcon className="h-5 w-5" />
               )}
             </button>
+           
           </div>
         </div>
       </nav>

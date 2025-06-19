@@ -72,32 +72,7 @@ const ResumeContent = () => {
           {/* Form Section */}
           <div className="flex-1 bg-white shadow-xl rounded-2xl p-6 space-y-5 max-h-[600px] overflow-auto">
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">
-                  Title
-                </label>
-                <input
-                  type="text"
-                  name="title"
-                  className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
-                  value={resumeFormData.title || ""}
-                  onChange={handleChange}
-                  placeholder="Enter resume title"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">
-                  Description
-                </label>
-                <textarea
-                  name="description"
-                  rows="2"
-                  className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
-                  value={resumeFormData.description || ""}
-                  onChange={handleChange}
-                  placeholder="Enter resume description"
-                />
-              </div>
+              
               <div>
                 <label className="block text-xs font-medium text-gray-700 mb-1">
                   Upload Resume (PDF/Doc)

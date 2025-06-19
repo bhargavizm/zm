@@ -1,4 +1,3 @@
-// src/components/services/KidsSafetyPreview.jsx
 'use client';
 
 import React from 'react';
@@ -44,8 +43,10 @@ const KidsSafetyPreview = () => {
     classGrade = '',
     schoolName = '',
     schoolAddress = '',
+    schoolContact = '',
     parentName = '',
     contact = '',
+    contact2 = '',
     altContact = [],
     homeAddress = '',
     mapLink = '',
@@ -58,8 +59,10 @@ const KidsSafetyPreview = () => {
     classGrade ||
     schoolName ||
     schoolAddress ||
+    schoolContact ||
     parentName ||
     contact ||
+    contact2 ||
     altContact.some((v) => v?.trim() !== '') ||
     homeAddress ||
     mapLink ||
@@ -71,7 +74,6 @@ const KidsSafetyPreview = () => {
   return (
     <div className="flex justify-center">
       <div className="relative w-[350px] h-[600px] rounded-[40px] border-[14px] border-gray-800 shadow-xl overflow-hidden flex flex-col">
-        {/* Background */}
         {isImage && (
           <img
             src={bgDesign}
@@ -90,23 +92,20 @@ const KidsSafetyPreview = () => {
           />
         )}
         {!bgDesign && (
-           <img
+          <img
             src='/services-service/kid-safety.jpg'
             alt="Background"
             className="absolute inset-0 w-full h-full object-cover z-0"
           />
         )}
 
-        {/* iPhone Top Notch */}
         <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-6 bg-gray-800 rounded-b-xl z-10" />
 
-        {/* Content */}
         <div className="relative z-10 flex-1 overflow-y-auto p-6 pt-12 m-4 rounded-xl bg-white/70">
           {hasData ? (
             <div className="space-y-6">
               <h2 className="text-xl font-bold text-center text-[#008080]">Kid's Safety Info</h2>
 
-              {/* Profile Image */}
               <PreviewSection title="Child Profile" condition={!!kidsImage}>
                 {kidsImage && (
                   <div className="flex justify-center py-2">
@@ -119,23 +118,22 @@ const KidsSafetyPreview = () => {
                 )}
               </PreviewSection>
 
-              {/* Child Details */}
               <PreviewSection title="Child Details" condition={childName || dob || classGrade}>
                 {childName && <p><strong>Name:</strong> {childName}</p>}
                 {dob && <p><strong>DOB:</strong> {dob}</p>}
                 {classGrade && <p><strong>Class/Grade:</strong> {classGrade}</p>}
               </PreviewSection>
 
-              {/* School Info */}
-              <PreviewSection title="School Information" condition={schoolName || schoolAddress}>
+              <PreviewSection title="School Information" condition={schoolName || schoolAddress || schoolContact}>
                 {schoolName && <p><strong>School:</strong> {schoolName}</p>}
                 {schoolAddress && <p><strong>Address:</strong> {schoolAddress}</p>}
+                {schoolContact && <p><strong>Contact:</strong> {schoolContact}</p>}
               </PreviewSection>
 
-              {/* Parent Contact */}
-              <PreviewSection title="Parent & Emergency Contact" condition={parentName || contact || altContact.length > 0}>
+              <PreviewSection title="Parent & Emergency Contact" condition={parentName || contact || contact2 || altContact.length > 0}>
                 {parentName && <p><strong>Parent:</strong> {parentName}</p>}
                 {contact && <p><strong>Primary Contact:</strong> {contact}</p>}
+                {contact2 && <p><strong>Secondary Contact:</strong> {contact2}</p>}
                 {altContact && altContact.filter(Boolean).length > 0 && (
                   <ul className="list-disc ml-4">
                     {altContact.filter(Boolean).map((num, i) => (
@@ -145,7 +143,6 @@ const KidsSafetyPreview = () => {
                 )}
               </PreviewSection>
 
-              {/* Address & Map */}
               <PreviewSection title="Home Location" condition={homeAddress || mapLink}>
                 {homeAddress && <p><strong>Address:</strong> {homeAddress}</p>}
                 {mapLink && (
@@ -169,12 +166,6 @@ const KidsSafetyPreview = () => {
               <p className="mt-2">Start filling the form to see preview</p>
             </div>
           )}
-        </div>
-
-        {/* Footer */}
-        <div className="relative z-10 border-t border-gray-200 text-center text-xs text-gray-500 py-2 bg-white/70">
-          <p>Scan for Child Info</p>
-          <p className="mt-1">v1.0.0</p>
         </div>
       </div>
     </div>
