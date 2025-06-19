@@ -124,24 +124,6 @@ const ServicesProvider = ({ children }) => {
     webUrl: "www.yourweburl.com",
   });
 
-  // Vehicle (Original structure)
-  const [vehicleForm, setVehicleForm] = useState({
-    vehicleModel: "",
-    vehicleType: "",
-    buyDate: "",
-    description: "",
-    rcNumber: "",
-    driverName: "",
-    ownerName: "",
-    contact: "",
-    altContact: "",
-    address: "",
-    mapLink: "",
-    password: "",
-    selectedTemplate: "",
-  });
-  const [vehicleImage, setVehicleImage] = useState(null);
-
   // SMS (Original structure)
   const [smsFormData, setSmsFormData] = useState({
     genderName: "",
@@ -351,7 +333,7 @@ const ServicesProvider = ({ children }) => {
         subTagline: "Your Look",
         offerMessage: "AVAILABLE UNTIL 8 NOVEMBER 2030",
         backgroundColor: "#000000", // black background
-        textColor: "#ffffff",       // white text
+        textColor: "#ffffff",       // white text
         fontFamily: "Montserrat, sans-serif",
       },
       password: "",
@@ -387,6 +369,54 @@ const ServicesProvider = ({ children }) => {
       password: "",
       selectedTemplate: "",
       kidsImage: null, // Image moved here
+    },
+    // NEW: Vehicle data structure
+    vehicle: {
+      general: {
+        vehicleModel: "",
+        vehicleType: "",
+        buyDate: "",
+        description: "",
+      },
+      registration: {
+        rcNumber: "",
+        driverName: "",
+        ownerName: "",
+      },
+      contact: {
+        contact: "",
+        altContact: "",
+        address: "",
+        mapLink: "",
+      },
+      media: {
+        mainImage: null, // File object for main vehicle image
+        licenseFront: null, // File object for license front
+        licenseBack: null, // File object for license back
+        galleryImages: [], // Array of File objects for vehicle gallery
+      },
+      security: {
+        password: "",
+      },
+    },
+    // NEW: Vehicle Template data structure
+    vehicleTemplate: {
+      selectedTemplate: "none", // 'none', 'templateV1', 'templateV2', etc.
+      templateV1Data: {
+        bgimage:"/images/background/bikebg.png"
+      },
+
+      templateV2Data: { // Another placeholder
+         bgimage:"/images/background/carbg.png"
+      }, 
+
+      templateV3Data: {
+        bgimage:"/images/background/lorrybg.png"
+      },
+
+      templateV4Data: { // Another placeholder
+         bgimage:"/images/background/autobg.png"
+      }
     },
   });
 
@@ -457,11 +487,6 @@ const ServicesProvider = ({ children }) => {
         productImage, setProductImage,
         imagesFormData, setImagesFormData,
         resumeFormData, setResumeFormData,
-        // kidsSafetyFormData and setKidsSafetyFormData are removed here because they are
-        // now part of the dynamicForms state.
-        // kidsImage and setKidsImage are removed here because it's now part of dynamicForms.kidsSafety
-        vehicleForm, setVehicleForm,
-        vehicleImage, setVehicleImage,
         smsFormData, setSmsFormData,
         wifiFormData, setWifiFormData,
         menuBookFormData, setMenuBookFormData,
