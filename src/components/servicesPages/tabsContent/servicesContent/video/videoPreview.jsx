@@ -7,7 +7,7 @@ const VideoPreview = () => {
   const { videoFormData } = useServicesContext();
   const { bgDesign } = useDesignContext();
 
-  const { title, description, file, password } = videoFormData || {};
+  const { title, description, file } = videoFormData || {};
   const fileName = file ? file.name : "No file selected";
 
   // Determine if background is a video or an image
@@ -64,10 +64,7 @@ const VideoPreview = () => {
             <p className="text-teal-200 text-base">🎞 {fileName}</p>
           </div>
 
-          <div>
-            <p className="text-xs font-semibold text-white/80">Password</p>
-            <p>{password ? "••••••••" : "Not set"}</p>
-          </div>
+
         </div>
       </div>
     </div>

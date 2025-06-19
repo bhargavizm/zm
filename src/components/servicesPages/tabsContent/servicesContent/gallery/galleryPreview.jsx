@@ -7,13 +7,15 @@ import useDesignContext from "@/components/hooks/useDesignContext";
 const GalleryPreview = () => {
   const { imagesFormData } = useServicesContext();
   const { bgDesign } = useDesignContext();
-  const { title, description, files, password } = imagesFormData || {};
+  const { title, description, files } = imagesFormData || {};
   const [imagePreviews, setImagePreviews] = useState([]);
 
   useEffect(() => {
     if (files && files.length > 0) {
       const urls = files.map((file) => URL.createObjectURL(file));
       setImagePreviews(urls);
+
+      // Clean up on unmount
       return () => {
         urls.forEach((url) => URL.revokeObjectURL(url));
       };
@@ -74,8 +76,13 @@ const GalleryPreview = () => {
             <p className="text-xs text-white/80 font-medium mb-1">
               Images ({files ? files.length : 0})
             </p>
+
             {imagePreviews.length > 0 ? (
-              <div className="grid grid-cols-2 gap-2 p-2">
+              <div
+                className={`${
+                  imagePreviews.length === 1 ? "flex justify-center" : "grid grid-cols-2 gap-2"
+                } p-2`}
+              >
                 {imagePreviews.map((src, index) => (
                   <Image
                     key={index}
@@ -83,18 +90,13 @@ const GalleryPreview = () => {
                     alt={`Gallery Image ${index + 1}`}
                     width={150}
                     height={150}
-                    className="rounded-lg object-cover w-full h-full aspect-square"
+                    className="rounded-lg object-cover aspect-square"
                   />
                 ))}
               </div>
             ) : (
               <p className="text-sm text-white/70">No images selected</p>
             )}
-          </div>
-
-          <div className="text-center">
-            <p className="text-xs text-white/80 font-medium mb-1">Password</p>
-            <p>{password ? "••••••••" : "Not set"}</p>
           </div>
         </div>
       </div>
