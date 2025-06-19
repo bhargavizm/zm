@@ -420,20 +420,20 @@ ChartJS.register(
 const ThemeContext = createContext();
 
 const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState("light");
 
   useEffect(() => {
     // Check for saved theme preference or use system preference
     const savedTheme =
       localStorage.getItem("theme") ||
-      (window.matchMedia("(prefers-color-scheme: dark)").matches
+      (window.matchMedia("(prefers-color-scheme: light)").matches
         ? "dark"
         : "light");
     setTheme(savedTheme);
   }, []);
 
   const toggleTheme = () => {
-    const newTheme = theme === "dark" ? "light" : "dark";
+    const newTheme = theme === "light" ? "light" : "dark";
     setTheme(newTheme);
     localStorage.setItem("theme", newTheme);
   };
@@ -594,7 +594,7 @@ const AllocationChart = ({ darkMode }) => {
 const InvestorsPage = () => {
   const containerRef = useRef(null);
   const { theme, toggleTheme } = useTheme();
-  const darkMode = theme === "dark";
+  const darkMode = theme === "light";
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -714,7 +714,7 @@ const InvestorsPage = () => {
   const borderColor = darkMode ? "border-gray-700" : "border-gray-200";
 
   return (
-    <div className={` ${bgColor} ${textColor} md:pt-18  pt-14`} ref={containerRef}>
+    <div className={` ${bgColor} ${textColor} md:pt-18  pt-14 overflow-x-hidden`} ref={containerRef}>
       <Head>
         <title>Invest in ZM QR Code Services | Next-Gen QR Solutions</title>
         <meta
@@ -724,41 +724,7 @@ const InvestorsPage = () => {
       </Head>
 
       {/* Navigation */}
-      <nav
-        className={`fixed w-full z-40 ${secondaryBgColor} bg-opacity-90 backdrop-blur-md border-b ${borderColor}`}
-      >
-        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="flex items-center space-x-8">
-            <div className="hidden md:flex space-x-8">
-              {["Overview", "Traction", "Technology", "Contact"].map((item) => (
-                <motion.a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  whileHover={{ scale: 1.05 }}
-                  className={`${secondaryTextColor} hover:text-teal-400 transition-colors`}
-                >
-                  {item}
-                </motion.a>
-              ))}
-            </div>
-            <button
-              onClick={toggleTheme}
-              className={`p-2 rounded-full ${
-                darkMode
-                  ? "bg-gray-700 text-yellow-300"
-                  : "bg-gray-200 text-gray-700"
-              }`}
-              aria-label={`Switch to ${darkMode ? "light" : "dark"} mode`}
-            >
-              {darkMode ? (
-                <SunIcon className="h-5 w-5" />
-              ) : (
-                <MoonIcon className="h-5 w-5" />
-              )}
-            </button>
-          </div>
-        </div>
-      </nav>
+      
 
       {/* Hero Section with Video Background */}
       <motion.section
@@ -774,7 +740,7 @@ const InvestorsPage = () => {
             muted
             loop
             playsInline
-            className="w-full h-full object-cover"
+            className=" h-full w-full object-cover"
             style={{ backgroundColor: darkMode ? "#111827" : "#f3f4f6" }}
           >
             <source src="/videos/investmentbg.mp4" type="video/mp4" />
