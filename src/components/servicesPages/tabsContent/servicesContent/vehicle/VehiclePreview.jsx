@@ -63,6 +63,15 @@ const VehiclePreview = () => {
     media.galleryImages?.length > 0 ||
     security.password ||
     selectedTemplate !== "none";
+  const { selectedTemplate } = vehicleTemplate;
+
+  const hasData =
+    general.vehicleModel || general.vehicleType || general.buyDate || general.description ||
+    registration.rcNumber || registration.driverName || registration.ownerName ||
+    contact.contact || contact.altContact || contact.address || contact.mapLink ||
+    media.vehicleImage || media.licenseFront || media.licenseBack || (media.galleryImages?.length > 0) ||
+    security.password;
+
 
   const isVideo = bgDesign?.endsWith(".mp4");
   const isImage = bgDesign && !isVideo;
@@ -74,8 +83,12 @@ const VehiclePreview = () => {
     templateV4: "/images/back/bgbike.png",
   };
 
+
   const templateBackground = templateBgMap[selectedTemplate] || null;
   const useTemplateBg = selectedTemplate !== "none" && templateBackground;
+  // Always use templateV1 as default if no template is selected
+//   const templateBackground = templateBgMap[selectedTemplate] || templateBgMap.templateV1;
+//   const useTemplateBg = true; // Always true since we always want a template background
 
   return (
     <div className="flex justify-center">
