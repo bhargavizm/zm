@@ -43,7 +43,7 @@ const PetIdTemplateFour = ({ petIDFormData }) => {
             </h2>
 
             {/* Pet and Owner Information */}
-            <div className="relative z-10 w-full max-w-xs bg-white bg-opacity-80 rounded-lg p-4 shadow-inner">
+            <div className="relative z-10 w-full max-w-xs bg-white bg-opacity-80 rounded-lg shadow-inner">
                 <div className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-gray-800 text-base">
                     <p className="font-medium text-[#8B4513]">Type of Pet</p>
                     <p>: {petIDFormData.pet.species || "Dog"}</p>

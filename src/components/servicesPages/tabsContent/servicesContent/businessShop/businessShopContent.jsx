@@ -7,9 +7,13 @@ import useServicesContext from "@/components/hooks/useServiceContext"; // Adjust
 import { Eye, EyeOff } from "lucide-react"; // Assuming lucide-react is installed
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import NFCModal from "@/components/modalPopUps/nfcModal";
+import useDesignContext from "@/components/hooks/useDesignContext";
 
-const BusinessContent = () => {
+const BusinessShopContent = () => {
   const { dynamicForms, updateDynamicForm } = useServicesContext();
+  const { setIsLoading,setBgDesign } = useDesignContext();
+
+
   const businessInfo = dynamicForms.businessInfo;
 
   const [showPassword, setShowPassword] = useState(false);
@@ -29,15 +33,14 @@ const BusinessContent = () => {
   };
 
   // Handler for image/video template selection
-  const handleTemplateSelect = (templateName) => {
-    // Update the selectedTemplate in the state
-    updateDynamicForm(
-      "shopTimingsTemplate",
-      null,
-      "selectedTemplate",
-      templateName
-    );
-  };
+ const handleTemplateSelect = (templateName) => {
+  setIsLoading(true); // Start loader
+  updateDynamicForm("shopTimingsTemplate", null, "selectedTemplate", templateName);
+
+ setBgDesign(null); // Reset background
+      setTimeout(() => setIsLoading(false), 300); // Optional simulated delay
+};
+
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -108,7 +111,7 @@ const BusinessContent = () => {
               </div>
 
               {/* Clear Selection / No Template Option */}
-              {/* <div
+              <div
                 className={`relative cursor-pointer rounded-lg overflow-hidden border-2 ${
                   shopTimingsTemplate.selectedTemplate === "template3"
                     ? "border-teal-500 ring-2 ring-teal-300"
@@ -121,7 +124,7 @@ const BusinessContent = () => {
                   alt="Template 2: We're Open"
                   className="w-full h-auto object-cover"
                 />
-              </div> */}
+              </div>
               {/* <div
                 className={`relative cursor-pointer rounded-lg overflow-hidden border-2 ${
                   shopTimingsTemplate.selectedTemplate === "none"
@@ -130,7 +133,6 @@ const BusinessContent = () => {
                 } transition-all duration-200 shadow-sm hover:shadow-md`}
                 onClick={() => handleTemplateSelect("none")}
               >
-                <h1 className="flex justify-center items-center mt-[50%]">Manual</h1>
               </div> */}
             </div>
 
@@ -410,28 +412,7 @@ const BusinessContent = () => {
               }
             />
 
-            <div className="flex flex-col">
-              <label
-                htmlFor="establishedDate"
-                className="text-sm font-medium text-gray-700 mb-2"
-              >
-                Established Date
-              </label>
-              <input
-                id="establishedDate"
-                type="date"
-                className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
-                value={businessInfo.general.establishedDate || ""}
-                onChange={(e) =>
-                  handleChange(
-                    "businessInfo",
-                    "general",
-                    "establishedDate",
-                    e.target.value
-                  )
-                }
-              />
-            </div>
+            
 
             <input
               type="text"
@@ -463,6 +444,15 @@ const BusinessContent = () => {
               value={businessInfo.contact.phone || ""}
               onChange={(e) =>
                 handleChange("businessInfo", "contact", "phone", e.target.value)
+              }
+            />
+            <input
+              type="text"
+              placeholder="Alternate Phone Number"
+              className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
+              value={businessInfo.contact.altPhone || ""}
+              onChange={(e) =>
+                handleChange("businessInfo", "contact", "altPhone", e.target.value)
               }
             />
 
@@ -513,19 +503,6 @@ const BusinessContent = () => {
               />
             </div>
 
-            <div className="space-y-2">
-              <label className="block text-base font-medium text-gray-700">
-                Business Video
-              </label>
-              <input
-                type="file"
-                accept="video/*"
-                className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
-                onChange={(e) =>
-                  handleFileChange("media", "video", e.target.files)
-                }
-              />
-            </div>
 
             <div className="space-y-2">
               <label className="block text-base font-medium text-gray-700">
@@ -594,4 +571,4 @@ const BusinessContent = () => {
   );
 };
 
-export default BusinessContent;
+export default BusinessShopContent;

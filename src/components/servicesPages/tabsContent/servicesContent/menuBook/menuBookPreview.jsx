@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -9,8 +9,15 @@ import useServicesContext from "@/components/hooks/useServiceContext";
 import useDesignContext from "@/components/hooks/useDesignContext";
 
 const MenuBookPreview = () => {
-  const { menuBookFormData } = useServicesContext();
-  const { bgDesign } = useDesignContext();
+  const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
+const {menuBookFormData} = useServicesContext()
+
+    const defaultBg = '/services-service/menu.webp'
+    
+         useEffect(() => {
+           setIsLoading(true);
+           setBgDesign(defaultBg);
+         }, []);
 
   const isVideo = bgDesign?.endsWith(".mp4");
   const isImage = bgDesign && !isVideo;
@@ -27,12 +34,13 @@ const MenuBookPreview = () => {
   return (
     <>
       <section className="flex justify-center items-start">
-        <div className="relative w-[350px] h-[600px] border-[12px] border-gray-900 rounded-[40px] shadow-xl overflow-hidden">
+        <div className="relative w-[350px] h-[650px] border-[12px] border-gray-900 rounded-[40px] shadow-xl overflow-hidden">
           {/* Background */}
           {isImage ? (
             <img
               src={bgDesign}
               alt="Background"
+               onLoad={() => setTimeout(() => setIsLoading(false), 300)}
               className="absolute top-0 left-0 w-full h-full object-cover z-0"
             />
           ) : isVideo ? (
@@ -42,15 +50,30 @@ const MenuBookPreview = () => {
               loop
               muted
               playsInline
+               onLoadedData={() => setTimeout(() => setIsLoading(false), 300)}
               className="absolute top-0 left-0 w-full h-full object-cover z-0"
             />
           ) : (
             <img
-              src='/services-service/menu.webp'
+              src={defaultBg}
               alt="Background"
+               onLoad={() => setTimeout(() => setIsLoading(false), 300)}
               className="absolute top-0 left-0 w-full h-full object-cover z-0"
             />
           )}
+
+           {/* ⏳ Loader */}
+                          {isLoading && (
+                            <div className="absolute inset-0 z-50 bg-mainGreen backdrop-blur-sm flex justify-center items-center">
+                              <Image
+                                src="/logos/ZM LOGO.png"
+                                alt="Loading"
+                                width={100}
+                                height={100}
+                                className="w-20 h-20 animate-bounce"
+                              />
+                            </div>
+                          )}
 
           {/* Overlay */}
           {/* <div className="absolute inset-0 bg-white/90 backdrop-blur-sm z-10 rounded-[28px]" /> */}
