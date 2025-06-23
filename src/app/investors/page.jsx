@@ -61,7 +61,7 @@
 //     transition={{ duration: 0.6 }}
 //     className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition"
 //   >
-//     <h3 className={`text-xl font-bold mb-2 ${color}`}>{title}</h3>
+//     <h3 className={text-xl font-bold mb-2 ${color}}>{title}</h3>
 //     <p className="text-gray-800 text-2xl font-semibold mb-2">{value}</p>
 //     <p className="text-gray-600 text-sm mb-4">{summary}</p>
 //     <a href={link} target="_blank" rel="noopener noreferrer" className="flex items-center text-blue-600 hover:underline text-sm">
@@ -360,7 +360,7 @@
 
 "use client";
 
-import { useRef, useState, createContext, useContext, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Head from "next/head";
 import dynamic from "next/dynamic";
@@ -387,8 +387,6 @@ import {
   EnvelopeIcon,
   PhoneIcon,
   BuildingOfficeIcon,
-  SunIcon,
-  MoonIcon,
   CheckIcon,
 } from "@heroicons/react/24/outline";
 import {
@@ -416,43 +414,10 @@ ChartJS.register(
   Legend
 );
 
-// Theme context
-const ThemeContext = createContext();
-
-const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState("light");
-
-  useEffect(() => {
-    // Check for saved theme preference or use system preference
-    const savedTheme =
-      localStorage.getItem("theme") ||
-      (window.matchMedia("(prefers-color-scheme: light)").matches
-        ? "dark"
-        : "light");
-    setTheme(savedTheme);
-  }, []);
-
-  const toggleTheme = () => {
-    const newTheme = theme === "light" ? "light" : "dark";
-    setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
-  };
-
-  return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      <div className={theme}>{children}</div>
-    </ThemeContext.Provider>
-  );
-};
-
-const useTheme = () => useContext(ThemeContext);
-
-// Chart components with theme-aware colors
-const RevenueChart = ({ darkMode }) => {
-  const textColor = darkMode ? "#e5e7eb" : "#111827";
-  const gridColor = darkMode
-    ? "rgba(255, 255, 255, 0.1)"
-    : "rgba(0, 0, 0, 0.1)";
+// Chart components with light mode colors
+const RevenueChart = () => {
+  const textColor = "#111827";
+  const gridColor = "rgba(0, 0, 0, 0.1)";
 
   const data = {
     labels: ["2024", "2025", "2026", "2027", "2028", "2029", "2030P"],
@@ -487,11 +452,9 @@ const RevenueChart = ({ darkMode }) => {
   return <Bar data={data} options={options} />;
 };
 
-const UserGrowthChart = ({ darkMode }) => {
-  const textColor = darkMode ? "#e5e7eb" : "#111827";
-  const gridColor = darkMode
-    ? "rgba(255, 255, 255, 0.1)"
-    : "rgba(0, 0, 0, 0.1)";
+const UserGrowthChart = () => {
+  const textColor = "#111827";
+  const gridColor = "rgba(0, 0, 0, 0.1)";
 
   const data = {
     labels: ["Q1 2024", "Q2 2024", "Q3 2024", "Q4 2024", "Q1 2025", "Q2 2025"],
@@ -526,11 +489,9 @@ const UserGrowthChart = ({ darkMode }) => {
   return <Line data={data} options={options} />;
 };
 
-const MarketGrowthChart = ({ darkMode }) => {
-  const textColor = darkMode ? "#e5e7eb" : "#111827";
-  const gridColor = darkMode
-    ? "rgba(255, 255, 255, 0.1)"
-    : "rgba(0, 0, 0, 0.1)";
+const MarketGrowthChart = () => {
+  const textColor = "#111827";
+  const gridColor = "rgba(0, 0, 0, 0.1)";
 
   const data = {
     labels: ["2023", "2024", "2025", "2026", "2027", "2030"],
@@ -565,8 +526,8 @@ const MarketGrowthChart = ({ darkMode }) => {
   return <Line data={data} options={options} />;
 };
 
-const AllocationChart = ({ darkMode }) => {
-  const textColor = darkMode ? "#e5e7eb" : "#111827";
+const AllocationChart = () => {
+  const textColor = "#111827";
 
   const data = {
     labels: ["Product Dev", "Marketing", "Expansion", "Operations"],
@@ -593,8 +554,6 @@ const AllocationChart = ({ darkMode }) => {
 
 const InvestorsPage = () => {
   const containerRef = useRef(null);
-  const { theme, toggleTheme } = useTheme();
-  const darkMode = theme === "light";
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -706,15 +665,8 @@ const InvestorsPage = () => {
     }, 10000);
   };
 
-  // Theme-aware background colors
-  const bgColor = darkMode ? "bg-gray-900" : "bg-gray-50";
-  const secondaryBgColor = darkMode ? "bg-gray-800" : "bg-white";
-  const textColor = darkMode ? "text-white" : "text-gray-900";
-  const secondaryTextColor = darkMode ? "text-gray-300" : "text-gray-600";
-  const borderColor = darkMode ? "border-gray-700" : "border-gray-200";
-
   return (
-    <div className={` ${bgColor} ${textColor} md:pt-18  pt-14 overflow-x-hidden`} ref={containerRef}>
+    <div className="bg-gray-50 text-gray-900 md:pt-18 pt-14 overflow-x-hidden" ref={containerRef}>
       <Head>
         <title>Invest in ZM QR Code Services | Next-Gen QR Solutions</title>
         <meta
@@ -723,48 +675,9 @@ const InvestorsPage = () => {
         />
       </Head>
 
-      {/* Navigation */}
-      {/* <nav
-        className={`fixed w-full z-40 ${secondaryBgColor} bg-opacity-90 backdrop-blur-md border-b ${borderColor}`}
-      >
-        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="flex items-center space-x-8">
-            <div className="hidden md:flex space-x-8">
-              {["Overview", "Traction", "Technology", "Contact"].map((item) => (
-                <motion.a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  whileHover={{ scale: 1.05 }}
-                  className={`${secondaryTextColor} hover:text-teal-400 transition-colors`}
-                >
-                  {item}
-                </motion.a>
-              ))}
-            </div>
-            <button
-              onClick={toggleTheme}
-              className={`p-2 rounded-full ${
-                darkMode
-                  ? "bg-gray-700 text-yellow-300"
-                  : "bg-gray-200 text-gray-700"
-              }`}
-              aria-label={`Switch to ${darkMode ? "light" : "dark"} mode`}
-            >
-              {darkMode ? (
-                <SunIcon className="h-5 w-5" />
-              ) : (
-                <MoonIcon className="h-5 w-5" />
-              )}
-            </button>
-          </div>
-        </div>
-      </nav> */}
-
       {/* Hero Section with Video Background */}
       <motion.section
-        className={`relative h-screen w-full overflow-hidden flex items-center justify-center ${
-          darkMode ? "bg-gray-900" : "bg-gray-50"
-        }`}
+        className="relative h-screen w-full overflow-hidden flex items-center justify-center bg-gray-50"
         style={{ y: backgroundY }}
       >
         {/* Video Background */}
@@ -775,16 +688,12 @@ const InvestorsPage = () => {
             loop
             playsInline
             className="w-full h-full object-cover"
-            style={{ backgroundColor: darkMode ? "#111827" : "#f3f4f6" }}
+            style={{ backgroundColor: "#f3f4f6" }}
           >
             <source src="/videos/investmentbg.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </motion.div>
-
-        {/* Gradient Overlay */}
-        {/* <div className={`absolute inset-0 z-0 ${darkMode ? 'bg-gray-900/70' : 'bg-white/70'} bg-gradient-to-t ${darkMode ? 'via-gray-900/70' : 'via-white/70'} to-transparent`} />
-         */}
 
         <div className="relative z-10 text-center px-4 max-w-6xl mx-auto">
           <motion.h1
@@ -792,11 +701,11 @@ const InvestorsPage = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-5xl md:text-7xl font-bold mb-6"
           >
-            <span className={`${tealGradient} bg-clip-text text-transparent`}>
+            <span className="bg-gradient-to-r from-teal-600 to-teal-800 bg-clip-text text-transparent">
               Invest in the Future
             </span>
             <br />
-            <span className={`${tealGradient} bg-clip-text text-transparent`}>
+            <span className="bg-gradient-to-r from-teal-600 to-teal-800 bg-clip-text text-transparent">
               of Digital Engagement
             </span>
           </motion.h1>
@@ -804,7 +713,7 @@ const InvestorsPage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className={`text-xl md:text-2xl ${secondaryTextColor} text-mainGreen mb-10 max-w-3xl mx-auto`}
+            className="text-xl md:text-2xl text-gray-600 mb-10 max-w-3xl mx-auto"
           >
             ZM QR is transforming connections through next-generation QR
             technology.
@@ -814,7 +723,7 @@ const InvestorsPage = () => {
               href="#contact"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={`bg-transparent border-2 border-teal-500 px-8 py-4 rounded-full font-semibold text-lg hover:bg-teal-900/30 transition-all text-mainGreen`}
+              className="bg-transparent border-2 border-teal-500 px-8 py-4 rounded-full font-semibold text-lg hover:bg-teal-900/30 transition-all text-teal-600"
             >
               Contact Our Team
             </motion.a>
@@ -823,7 +732,7 @@ const InvestorsPage = () => {
       </motion.section>
 
       {/* Stats Section */}
-      <section id="overview" className={`py-24 ${secondaryBgColor}`}>
+      <section id="overview" className="py-24 bg-white">
         <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -833,7 +742,7 @@ const InvestorsPage = () => {
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
               Why <span className="text-teal-400">ZM QR</span>?
             </h2>
-            <p className={`text-xl ${secondaryTextColor} max-w-3xl mx-auto`}>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Industry-leading QR technology with proven adoption metrics.
             </p>
           </motion.div>
@@ -845,15 +754,11 @@ const InvestorsPage = () => {
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className={`${secondaryBgColor} backdrop-blur-md rounded-2xl p-8 border ${
-                  darkMode ? "border-teal-500/20" : "border-teal-300"
-                } hover:${
-                  darkMode ? "border-teal-500/40" : "border-teal-400"
-                } transition-all shadow-lg`}
+                className="bg-white backdrop-blur-md rounded-2xl p-8 border border-teal-300 hover:border-teal-400 transition-all shadow-lg"
               >
                 <div className="text-teal-400 mb-4">{stat.icon}</div>
                 <h3 className="text-4xl font-bold mb-2">{stat.value}</h3>
-                <p className={secondaryTextColor}>{stat.label}</p>
+                <p className="text-gray-600">{stat.label}</p>
               </motion.div>
             ))}
           </div>
@@ -861,7 +766,7 @@ const InvestorsPage = () => {
       </section>
 
       {/* Market Opportunity */}
-      <section className={`py-24 ${bgColor}`}>
+      <section className="py-24 bg-gray-50">
         <div className="container mx-auto px-6">
           <div className="flex flex-col lg:flex-row gap-16 items-center">
             <motion.div
@@ -872,7 +777,7 @@ const InvestorsPage = () => {
               <h2 className="text-4xl md:text-5xl font-bold mb-8">
                 <span className="text-teal-400">$26B</span> Market Opportunity
               </h2>
-              <p className={`text-xl ${secondaryTextColor} mb-8`}>
+              <p className="text-xl text-gray-600 mb-8">
                 The global QR code market is growing at 18.7% CAGR through 2030.
               </p>
               <ul className="space-y-4">
@@ -896,44 +801,39 @@ const InvestorsPage = () => {
                 ))}
               </ul>
             </motion.div>
-<motion.div
-  initial={{ opacity: 0, x: 50 }}
-  whileInView={{ opacity: 1, x: 0 }}
-  className={`w-full lg:w-1/2 ${secondaryBgColor} rounded-2xl p-4 sm:p-6 lg:p-8 shadow-lg`}
->
-  {/* Chart Container */}
-  <div className="h-60 sm:h-72 md:h-80 w-full">
-    <MarketGrowthChart darkMode={darkMode} />
-  </div>
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              className="w-full lg:w-1/2 bg-white rounded-2xl p-4 sm:p-6 lg:p-8 shadow-lg"
+            >
+              {/* Chart Container */}
+              <div className="h-60 sm:h-72 md:h-80 w-full">
+                <MarketGrowthChart />
+              </div>
 
-  {/* Market Stats */}
-  <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-center">
-    {[
-      { value: "18.7%", label: "CAGR" },
-      { value: "$8.2B", label: "2023 Market" },
-      { value: "$26B", label: "2030 Projection" },
-    ].map((item, index) => (
-      <div
-        key={index}
-        className={`${
-          darkMode ? "bg-teal-900/30" : "bg-teal-100"
-        } p-3 rounded-lg border ${
-          darkMode ? "border-teal-500/20" : "border-teal-300"
-        }`}
-      >
-        <p className="text-xl font-bold text-teal-400">{item.value}</p>
-        <p className={secondaryTextColor}>{item.label}</p>
-      </div>
-    ))}
-  </div>
-</motion.div>
-
+              {/* Market Stats */}
+              <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-center">
+                {[
+                  { value: "18.7%", label: "CAGR" },
+                  { value: "$8.2B", label: "2023 Market" },
+                  { value: "$26B", label: "2030 Projection" },
+                ].map((item, index) => (
+                  <div
+                    key={index}
+                    className="bg-teal-100 p-3 rounded-lg border border-teal-300"
+                  >
+                    <p className="text-xl font-bold text-teal-400">{item.value}</p>
+                    <p className="text-gray-600">{item.label}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* Traction Section */}
-      <section id="traction" className={`py-24 ${secondaryBgColor}`}>
+      <section id="traction" className="py-24 bg-white">
         <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0 }}
@@ -943,7 +843,7 @@ const InvestorsPage = () => {
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
               Our <span className="text-teal-400">Traction</span>
             </h2>
-            <p className={`text-xl ${secondaryTextColor} max-w-3xl mx-auto`}>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Consistent growth across all key metrics.
             </p>
           </motion.div>
@@ -952,15 +852,13 @@ const InvestorsPage = () => {
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              className={`${secondaryBgColor} backdrop-blur-md rounded-2xl p-8 border ${
-                darkMode ? "border-teal-500/20" : "border-teal-300"
-              } shadow-lg`}
+              className="bg-white backdrop-blur-md rounded-2xl p-8 border border-teal-300 shadow-lg"
             >
               <h3 className="text-2xl font-bold mb-6">
                 Expected Revenue Growth
               </h3>
               <div className="h-64 w-full">
-                <RevenueChart darkMode={darkMode} />
+                <RevenueChart />
               </div>
               <div className="mt-6 grid grid-cols-4 gap-4">
                 {[
@@ -974,13 +872,9 @@ const InvestorsPage = () => {
                 ].map((item, index) => (
                   <div
                     key={index}
-                    className={`${
-                      darkMode ? "bg-teal-900/30" : "bg-teal-100"
-                    } p-3 rounded-lg border ${
-                      darkMode ? "border-teal-500/20" : "border-teal-300"
-                    }`}
+                    className="bg-teal-100  rounded-lg border border-teal-300"
                   >
-                    <p className={`text-sm ${secondaryTextColor}`}>
+                    <p className="text-sm text-gray-600">
                       {item.year}
                     </p>
                     <p className="font-semibold">{item.revenue}</p>
@@ -993,13 +887,11 @@ const InvestorsPage = () => {
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className={`${secondaryBgColor} backdrop-blur-md rounded-2xl p-8 border ${
-                darkMode ? "border-teal-500/20" : "border-teal-300"
-              } shadow-lg`}
+              className="bg-white backdrop-blur-md rounded-2xl p-8 border border-teal-300 shadow-lg"
             >
               <h3 className="text-2xl font-bold mb-6">Expected User Growth</h3>
               <div className="h-64 w-full">
-                <UserGrowthChart darkMode={darkMode} />
+                <UserGrowthChart />
               </div>
               <div className="mt-6 grid grid-cols-3 gap-4">
                 {[
@@ -1009,16 +901,12 @@ const InvestorsPage = () => {
                 ].map((item, index) => (
                   <div
                     key={index}
-                    className={`${
-                      darkMode ? "bg-teal-900/30" : "bg-teal-100"
-                    } p-3 rounded-lg border ${
-                      darkMode ? "border-teal-500/20" : "border-teal-300"
-                    }`}
+                    className="bg-teal-100 p-3 rounded-lg border border-teal-300"
                   >
                     <p className="text-lg font-semibold text-teal-400">
                       {item.metric}
                     </p>
-                    <p className={`text-sm ${secondaryTextColor}`}>
+                    <p className="text-sm text-gray-600">
                       {item.label}
                     </p>
                   </div>
@@ -1030,7 +918,7 @@ const InvestorsPage = () => {
       </section>
 
       {/* Technology Section */}
-      <section id="technology" className={`py-24 ${bgColor}`}>
+      <section id="technology" className="py-24 bg-gray-50">
         <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0 }}
@@ -1040,7 +928,7 @@ const InvestorsPage = () => {
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
               Our <span className="text-teal-400">Technology</span>
             </h2>
-            <p className={`text-xl ${secondaryTextColor} max-w-3xl mx-auto`}>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Cutting-edge infrastructure powering the next generation of QR
               solutions
             </p>
@@ -1053,15 +941,11 @@ const InvestorsPage = () => {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className={`${secondaryBgColor} backdrop-blur-md rounded-2xl p-8 border ${
-                  darkMode ? "border-teal-500/20" : "border-teal-300"
-                } hover:${
-                  darkMode ? "border-teal-500/40" : "border-teal-400"
-                } transition-all shadow-lg`}
+                className="bg-white backdrop-blur-md rounded-2xl p-8 border border-teal-300 hover:border-teal-400 transition-all shadow-lg"
               >
                 <div className="text-teal-400 mb-4">{tech.icon}</div>
                 <h3 className="text-2xl font-bold mb-3">{tech.name}</h3>
-                <p className={secondaryTextColor}>{tech.description}</p>
+                <p className="text-gray-600">{tech.description}</p>
               </motion.div>
             ))}
           </div>
@@ -1069,7 +953,7 @@ const InvestorsPage = () => {
       </section>
 
       {/* Why Invest in Us Section */}
-      <section className={`py-24 ${secondaryBgColor}`}>
+      <section className="py-24 bg-white">
         <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -1080,7 +964,7 @@ const InvestorsPage = () => {
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
               Why <span className="text-teal-400">Invest</span> in Us?
             </h2>
-            <p className={`text-lg ${secondaryTextColor} max-w-2xl mx-auto`}>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Back a company that's shaping the future with real traction,
               scalable growth, and visionary leadership.
             </p>
@@ -1115,33 +999,25 @@ const InvestorsPage = () => {
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ delay: i * 0.1 }}
-                className={`p-6 rounded-xl border shadow-lg text-center ${
-                  darkMode
-                    ? "bg-teal-900/30 border-teal-500/20"
-                    : "bg-white border-teal-300"
-                }`}
+                className="p-6 rounded-xl border shadow-lg text-center bg-white border-teal-300"
               >
                 <div className="text-4xl mb-4">{item.icon}</div>
                 <h4 className="text-xl font-bold mb-2">{item.title}</h4>
-                <p className={`text-sm ${secondaryTextColor}`}>{item.desc}</p>
+                <p className="text-sm text-gray-600">{item.desc}</p>
               </motion.div>
             ))}
           </div>
 
           {/* Mission & Vision */}
-          <div className={`grid grid-cols-1 md:grid-cols-2 gap-10 mb-20`}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-20">
             <motion.div
               initial={{ opacity: 0, x: -40 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
-              className={`${
-                darkMode
-                  ? "bg-teal-900/30 border-teal-500/20"
-                  : "bg-white border-teal-300"
-              } p-8 rounded-xl border shadow-md`}
+              className="bg-white border-teal-300 p-8 rounded-xl border shadow-md"
             >
               <h3 className="text-2xl font-bold mb-4">Our Mission</h3>
-              <p className={secondaryTextColor}>
+              <p className="text-gray-600">
                 To transform how people connect, transact, and experience
                 services using technology that scales with their dreams.
               </p>
@@ -1151,14 +1027,10 @@ const InvestorsPage = () => {
               initial={{ opacity: 0, x: 40 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
-              className={`${
-                darkMode
-                  ? "bg-teal-900/30 border-teal-500/20"
-                  : "bg-white border-teal-300"
-              } p-8 rounded-xl border shadow-md`}
+              className="bg-white border-teal-300 p-8 rounded-xl border shadow-md"
             >
               <h3 className="text-2xl font-bold mb-4">Our Vision</h3>
-              <p className={secondaryTextColor}>
+              <p className="text-gray-600">
                 To be a global leader in tech innovation, empowering millions
                 through seamless digital experiences and impactful solutions.
               </p>
@@ -1173,7 +1045,7 @@ const InvestorsPage = () => {
             className="text-center"
           >
             <h4 className="text-2xl font-bold mb-4">Join Our Journey</h4>
-            <p className={`mb-6 max-w-xl mx-auto ${secondaryTextColor}`}>
+            <p className="mb-6 max-w-xl mx-auto text-gray-600">
               Be part of a revolution. Help us scale globally and build a
               future-driven ecosystem.
             </p>
@@ -1188,7 +1060,7 @@ const InvestorsPage = () => {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className={`py-24 ${secondaryBgColor}`}>
+      <section id="contact" className="py-24 bg-white">
         <div className="container mx-auto px-6">
           <h1 className="text-3xl lg:text-4xl font-bold mb-20 text-center">
             Let discuss for <span className="text-teal-500">Investment</span>
@@ -1213,7 +1085,7 @@ const InvestorsPage = () => {
               <h2 className="text-2xl md:text-2xl font-bold mb-8">
                 Get in <span className="text-teal-400">Touch</span>
               </h2>
-              <p className={`text-xl ${secondaryTextColor} mb-8`}>
+              <p className="text-xl text-gray-600 mb-8">
                 Contact our investment team for more information.
               </p>
             </motion.div>
@@ -1223,18 +1095,12 @@ const InvestorsPage = () => {
               whileInView={{ opacity: 1, x: 0 }}
               className="lg:w-1/2"
             >
-              <div
-                className={`${secondaryBgColor} backdrop-blur-md rounded-2xl p-8 border ${
-                  darkMode ? "border-teal-500/20" : "border-teal-300"
-                } shadow-lg`}
-              >
+              <div className="bg-white backdrop-blur-md rounded-2xl p-8 border border-teal-300 shadow-lg">
                 <h3 className="text-2xl font-bold mb-6">Enter Details</h3>
                 <form onSubmit={handleSubmit}>
                   <div className="space-y-6">
                     <div>
-                      <label
-                        className={`block text-sm font-medium ${secondaryTextColor} mb-1`}
-                      >
+                      <label className="block text-sm font-medium text-gray-600 mb-1">
                         Full Name:
                       </label>
                       <input
@@ -1242,19 +1108,13 @@ const InvestorsPage = () => {
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
-                        className={`w-full ${
-                          darkMode ? "bg-gray-700" : "bg-gray-100"
-                        } border ${
-                          darkMode ? "border-gray-600" : "border-gray-300"
-                        } rounded-lg px-4 py-3 ${textColor} focus:outline-none focus:ring-2 focus:ring-teal-500`}
+                        className="w-full bg-gray-100 border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500"
                         required
                       />
                     </div>
 
                     <div>
-                      <label
-                        className={`block text-sm font-medium ${secondaryTextColor} mb-1`}
-                      >
+                      <label className="block text-sm font-medium text-gray-600 mb-1">
                         Email Address:
                       </label>
                       <input
@@ -1262,18 +1122,12 @@ const InvestorsPage = () => {
                         name="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        className={`w-full ${
-                          darkMode ? "bg-gray-700" : "bg-gray-100"
-                        } border ${
-                          darkMode ? "border-gray-600" : "border-gray-300"
-                        } rounded-lg px-4 py-3 ${textColor} focus:outline-none focus:ring-2 focus:ring-teal-500`}
+                        className="w-full bg-gray-100 border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500"
                         required
                       />
                     </div>
                     <div>
-                      <label
-                        className={`block text-sm font-medium ${secondaryTextColor} mb-1`}
-                      >
+                      <label className="block text-sm font-medium text-gray-600 mb-1">
                         Phone No:
                       </label>
                       <input
@@ -1283,30 +1137,20 @@ const InvestorsPage = () => {
                         onChange={handleInputChange}
                         pattern="[789][0-9]{9}"
                         placeholder="Ex-987654321"
-                        className={`w-full ${
-                          darkMode ? "bg-gray-700" : "bg-gray-100"
-                        } border ${
-                          darkMode ? "border-gray-600" : "border-gray-300"
-                        } rounded-lg px-4 py-3 ${textColor} focus:outline-none focus:ring-2 focus:ring-teal-500`}
+                        className="w-full bg-gray-100 border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500"
                         required
                       />
                     </div>
 
                     <div>
-                      <label
-                        className={`block text-sm font-medium ${secondaryTextColor} mb-1`}
-                      >
+                      <label className="block text-sm font-medium text-gray-600 mb-1">
                         Inquiry Type:
                       </label>
                       <select
                         name="inquiryType"
                         value={formData.inquiryType}
                         onChange={handleInputChange}
-                        className={`w-full ${
-                          darkMode ? "bg-gray-700" : "bg-gray-100"
-                        } border ${
-                          darkMode ? "border-gray-600" : "border-gray-300"
-                        } rounded-lg px-4 py-3 ${textColor} focus:outline-none focus:ring-2 focus:ring-teal-500`}
+                        className="w-full bg-gray-100 border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500"
                         required
                       >
                         <option value="">-- Please select an option --</option>
@@ -1318,9 +1162,7 @@ const InvestorsPage = () => {
                     </div>
 
                     <div>
-                      <label
-                        className={`block text-sm font-medium ${secondaryTextColor} mb-1`}
-                      >
+                      <label className="block text-sm font-medium text-gray-600 mb-1">
                         Describe
                       </label>
                       <textarea
@@ -1328,11 +1170,7 @@ const InvestorsPage = () => {
                         name="message"
                         value={formData.message}
                         onChange={handleInputChange}
-                        className={`w-full ${
-                          darkMode ? "bg-gray-700" : "bg-gray-100"
-                        } border ${
-                          darkMode ? "border-gray-600" : "border-gray-300"
-                        } rounded-lg px-4 py-3 ${textColor} focus:outline-none focus:ring-2 focus:ring-teal-500`}
+                        className="w-full bg-gray-100 border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500"
                       ></textarea>
                     </div>
 
@@ -1340,7 +1178,7 @@ const InvestorsPage = () => {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       type="submit"
-                      className={`w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-6 rounded-lg transition-all`}
+                      className="w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-6 rounded-lg transition-all"
                     >
                       Submit
                     </motion.button>
@@ -1373,11 +1211,7 @@ const InvestorsPage = () => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ type: "spring", damping: 25 }}
-              className={`relative ${
-                darkMode ? "bg-gray-800" : "bg-white"
-              } rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl z-10 border ${
-                darkMode ? "border-teal-500/20" : "border-teal-200"
-              }`}
+              className="relative bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl z-10 border border-teal-200"
             >
               <div className="text-center">
                 {/* Animated checkmark circle */}
@@ -1400,40 +1234,22 @@ const InvestorsPage = () => {
                 </motion.div>
 
                 {/* Title with gradient text */}
-                <h3
-                  className={`text-3xl font-bold bg-gradient-to-r from-teal-500 to-teal-700 bg-clip-text text-transparent mb-4`}
-                >
+                <h3 className="text-3xl font-bold bg-gradient-to-r from-teal-500 to-teal-700 bg-clip-text text-transparent mb-4">
                   Congratulations!
                 </h3>
 
                 {/* Beautifully styled message */}
-                <div
-                  className={`prose prose-lg ${
-                    darkMode ? "prose-invert" : ""
-                  } mb-6 text-left`}
-                >
-                  <p
-                    className={`${
-                      darkMode ? "text-gray-300" : "text-gray-700"
-                    } leading-relaxed`}
-                  >
+                <div className="prose prose-lg mb-6 text-left">
+                  <p className="text-gray-700 leading-relaxed">
                     Thank you for expressing your interest in investing in our
                     organization.
                   </p>
-                  <p
-                    className={`${
-                      darkMode ? "text-gray-300" : "text-gray-700"
-                    } leading-relaxed`}
-                  >
+                  <p className="text-gray-700 leading-relaxed">
                     We truly appreciate your confidence in our vision and
                     commitment. Our investment team will contact you within 48
                     hours to:
                   </p>
-                  <ul
-                    className={`space-y-2 ${
-                      darkMode ? "text-gray-300" : "text-gray-700"
-                    }`}
-                  >
+                  <ul className="space-y-2 text-gray-700">
                     <li className="flex items-start">
                       <ArrowRightIcon className="h-5 w-5 text-teal-500 mr-2 mt-0.5 flex-shrink-0" />
                       <span>Share detailed investment materials</span>
@@ -1454,7 +1270,7 @@ const InvestorsPage = () => {
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
                   onClick={() => setShowSuccess(false)}
-                  className={`px-8 py-3 bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white rounded-lg font-medium transition-all shadow-lg`}
+                  className="px-8 py-3 bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white rounded-lg font-medium transition-all shadow-lg"
                 >
                   Got it, thank you!
                 </motion.button>
@@ -1467,13 +1283,7 @@ const InvestorsPage = () => {
   );
 };
 
-export default function AppWrapper() {
-  return (
-    <ThemeProvider>
-      <InvestorsPage />
-    </ThemeProvider>
-  );
-}
+export default InvestorsPage;
 
 // 'use client';
 
