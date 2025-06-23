@@ -42,51 +42,68 @@ const bgVideos = [
   "/bg-images/n.mp4",
   "/bg-images/o.mp4",
   "/bg-images/s.mp4",
-   "/bg-images/t.mp4",
+  "/bg-images/t.mp4",
   "/bg-images/f.mp4",
   "/bg-images/l.mp4",
   "/bg-images/r.mp4",
 ];
 
 const BackdropDesigns = () => {
-  const { bgDesign, setBgDesign } = useDesignContext();
+  const { setIsLoading, setBgDesign, bgDesign } = useDesignContext();
+
+  const handleSelect = (src) => {
+    setIsLoading(true); // Start loader
+    setBgDesign(src);
+  };
 
   return (
-    <section className="mt-6  space-y-6 text-center">
+    <section className="space-y-4 text-center">
       {/* Image grid */}
 
-      <h2 className="text-3xl font-bold text-mainGreen text-center py-2">Images</h2>
-      <div className="grid lg:grid-cols-6 md:grid-cols-4 grid-cols-3 gap-4 px-2 ">
+      <h2 className="text-3xl font-bold text-mainGreen text-center">Images</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 px-2 max-w-full">
         {bgImages.map((src, index) => (
-          <div key={index} className="w-44 h-16 overflow-hidden ">
+          <div
+            key={index}
+            className={`relative w-full h-20 overflow-hidden rounded border-2 cursor-pointer ${
+              bgDesign === src
+                ? "border-[#008080] ring-1 ring-[#008080] p-1"
+                : "border-gray-300"
+            }`}
+            onClick={() => handleSelect(src)}
+          >
             <Image
               src={src}
-              alt={`bg-image ${index + 7}`}
-              width={64}
-              height={64}
-              className="cursor-pointer  rounded object-cover"
-              onClick={() => setBgDesign(src)}
-              priority
+              alt={`bg-image ${index + 1}`}
+              width={300}
+              height={80}
+              className="rounded object-cover w-full h-full"
             />
           </div>
         ))}
       </div>
 
       {/* Video grid */}
-       <h2 className="text-3xl font-bold text-mainGreen text-center py-2">Videos</h2>
-      <div className="grid lg:grid-cols-6 md:grid-cols-4 grid-cols-3   gap-4">
+      <h2 className="text-3xl font-bold text-mainGreen text-center">Videos</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 px-2 max-w-full">
         {bgVideos.map((videoSrc, index) => (
-          <div key={index} className="w-44 h-16 overflow-hidden rounded ">
+          <div
+            key={index}
+            className={`relative w-full h-20 overflow-hidden rounded border-2 cursor-pointer ${
+              bgDesign === videoSrc
+                ? "border-[#008080] ring-1 p-1 ring-[#008080]"
+                : "border-gray-300"
+            }`}
+            onClick={() => handleSelect(videoSrc)}
+          >
             <video
               src={videoSrc}
-              className=" object-cover cursor-pointer  rounded"
-              onClick={() => setBgDesign(videoSrc)}
+              className="object-cover rounded w-full h-full"
               muted
-               width={64}
-              height={64}
               loop
               playsInline
             />
+
           </div>
         ))}
       </div>

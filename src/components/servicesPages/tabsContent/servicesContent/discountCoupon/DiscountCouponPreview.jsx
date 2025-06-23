@@ -1,43 +1,53 @@
-'use client';
+"use client";
 
-import React from 'react';
-import useServicesContext from '@/components/hooks/useServiceContext';
-import useDesignContext from '@/components/hooks/useDesignContext';
+import React, { useEffect } from "react";
+import useServicesContext from "@/components/hooks/useServiceContext";
+import useDesignContext from "@/components/hooks/useDesignContext";
+import Image from "next/image";
 
 const DiscountCouponPreview = () => {
   const { dynamicForms } = useServicesContext();
-  const { bgDesign } = useDesignContext();
   const discountCoupon = dynamicForms.discountCoupon || {};
 
-  const isVideo = bgDesign?.endsWith('.mp4');
+  const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
+
+  const defaultBg ="/services-service/discount.jpg"
+
+  useEffect(() => {
+    setIsLoading(true);
+    setBgDesign(defaultBg);
+  }, []);
+
+  const isVideo = bgDesign?.endsWith(".mp4");
   const isImage = bgDesign && !isVideo;
 
   const formattedDiscountValue =
-    discountCoupon.value !== ''
-      ? discountCoupon.type === 'percentage'
+    discountCoupon.value !== ""
+      ? discountCoupon.type === "percentage"
         ? `${discountCoupon.value}% OFF`
         : `₹ ${parseFloat(discountCoupon.value).toFixed(2)} OFF`
-      : '25% OFF';
+      : "25% OFF";
 
   const formattedExpiryDate = discountCoupon.expiryDate
-    ? new Date(discountCoupon.expiryDate).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
+    ? new Date(discountCoupon.expiryDate).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
       })
-    : 'Dec 31, 2025';
+    : "Dec 31, 2025";
 
   const showImage = !!discountCoupon.couponImage;
   const showBrandLogo = !!discountCoupon.brandLogo;
 
   return (
     <div className="flex justify-center items-center mt-10">
-      <div className="relative bg-gradient-to-br from-gray-900 to-gray-800 p-3 rounded-[40px] w-[350px] h-[600px] shadow-2xl border-4 border-gray-700 overflow-y-auto scrollbar-hide">
+      <div className="relative bg-gradient-to-br from-gray-900 to-gray-800 p-3 rounded-[40px] w-[350px] h-[650px] shadow-2xl border-4 border-gray-700 overflow-y-auto scrollbar-hide">
         {/* 🔳 Background */}
         {isImage && (
           <img
             src={bgDesign}
             alt="Background"
+            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
             className="absolute inset-0 w-full h-full object-cover z-0"
           />
         )}
@@ -48,15 +58,30 @@ const DiscountCouponPreview = () => {
             loop
             muted
             playsInline
+            onLoadedData={() => setTimeout(() => setIsLoading(false), 300)}
             className="absolute inset-0 w-full h-full object-cover z-0"
           />
         )}
         {!bgDesign && (
           <img
-            src='/services-service/discount.jpg'
+            src={defaultBg}
             alt="Background"
+            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
             className="absolute inset-0 w-full h-full object-cover z-0"
           />
+        )}
+
+        {/* ⏳ Loader */}
+        {isLoading && (
+          <div className="absolute inset-0 z-50 bg-mainGreen backdrop-blur-sm flex justify-center items-center">
+            <Image
+              src="/logos/ZM LOGO.png"
+              alt="Loading"
+              width={100}
+              height={100}
+              className="w-20 h-20 animate-bounce"
+            />
+          </div>
         )}
 
         {/* iPhone Notch */}
@@ -80,17 +105,17 @@ const DiscountCouponPreview = () => {
           {/* Content */}
           <div className="flex-grow w-full overflow-y-scroll hide-scrollbar p-4 text-gray-800">
             <div className="space-y-6">
-            {showBrandLogo && (
-                  <div className="mb-4 text-center">
-                    <img
-                      src={URL.createObjectURL(discountCoupon.brandLogo)}
-                      alt="brand logo"
-                      className="w-full max-h-40 object-cover rounded-md shadow-md mx-auto"
-                    />
-                  </div>
-                )}
+              {showBrandLogo && (
+                <div className="mb-4 text-center">
+                  <img
+                    src={URL.createObjectURL(discountCoupon.brandLogo)}
+                    alt="brand logo"
+                    className="w-full max-h-40 object-cover rounded-md shadow-md mx-auto"
+                  />
+                </div>
+              )}
               <h2 className="text-xl font-bold text-center text-gray-800 mb-4 ">
-                {discountCoupon.nameOfBusiness || 'Name of Business'}
+                {discountCoupon.nameOfBusiness || "Name of Business"}
               </h2>
               <h2 className="text-xl font-bold text-center text-gray-800 mb-4">
                 Your Discount Coupon
@@ -118,7 +143,7 @@ const DiscountCouponPreview = () => {
                     Use Code:
                   </p>
                   <h3 className="text-4xl font-extrabold mb-3 bg-white text-teal-700 py-2 px-4 rounded-lg inline-block shadow-inner tracking-wider">
-                    {discountCoupon.code || 'COUPON 2025'}
+                    {discountCoupon.code || "COUPON 2025"}
                   </h3>
 
                   <p className="text-3xl font-bold mt-4 mb-2">
@@ -126,36 +151,39 @@ const DiscountCouponPreview = () => {
                   </p>
 
                   <p className="text-sm italic mb-4 opacity-90">
-                    {discountCoupon.description || 'Apply this coupon to get an exclusive discount on your next purchase!'}
+                    {discountCoupon.description ||
+                      "Apply this coupon to get an exclusive discount on your next purchase!"}
                   </p>
 
                   <div className="flex justify-between items-center bg-teal-700 px-4 py-2 rounded-lg text-xs font-semibold">
                     <p>
-                      Min. Purchase:{' '}
+                      Min. Purchase:{" "}
                       {discountCoupon.minPurchase
-                        ? `₹ ${parseFloat(discountCoupon.minPurchase).toFixed(2)}`
-                        : '₹ 499'}
+                        ? `₹ ${parseFloat(discountCoupon.minPurchase).toFixed(
+                            2
+                          )}`
+                        : "₹ 499"}
                     </p>
                     <p>Expires: {formattedExpiryDate}</p>
                   </div>
 
                   <p
                     className={`mt-4 text-sm font-bold ${
-                      discountCoupon.isActive ? 'text-green-200' : 'text-red-200'
+                      discountCoupon.isActive
+                        ? "text-green-200"
+                        : "text-red-200"
                     }`}
                   >
-                    {discountCoupon.isActive ? 'ACTIVE' : 'INACTIVE'}
+                    {discountCoupon.isActive ? "ACTIVE" : "INACTIVE"}
                   </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div> 
+      </div>
     </div>
   );
 };
 
 export default DiscountCouponPreview;
-
-

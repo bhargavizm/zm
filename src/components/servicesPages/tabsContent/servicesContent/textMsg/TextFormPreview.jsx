@@ -15,8 +15,8 @@
 
 //   return (
 //     <div className='flex justify-center'>
-//     <div className="relative w-[350px] h-[600px] border-[14px] border-gray-800 rounded-[40px] shadow-xl overflow-hidden flex flex-col">
-      
+//     <div className="relative w-[350px] h-[650px] border-[14px] border-gray-800 rounded-[40px] shadow-xl overflow-hidden flex flex-col">
+
 //       {/* 🔳 Background layer */}
 //       {isImage ? (
 //         <img
@@ -94,31 +94,38 @@
 
 // export default TextMessagePreview;
 
+"use client";
 
-'use client';
-
-import React from 'react';
-import { FiUser, FiMessageSquare } from 'react-icons/fi';
-import useServicesContext from '@/components/hooks/useServiceContext';
-import useDesignContext from '@/components/hooks/useDesignContext';
+import React, { useEffect } from "react";
+import { FiUser, FiMessageSquare } from "react-icons/fi";
+import useServicesContext from "@/components/hooks/useServiceContext";
+import useDesignContext from "@/components/hooks/useDesignContext";
+import Image from "next/image";
 
 const TextMessagePreview = () => {
   const { textMessageForm } = useServicesContext();
-  const { bgDesign } = useDesignContext();
+  const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
+
+  const defaultBg = "/services-service/text-message.jpg";
+
+  useEffect(() => {
+    setIsLoading(true);
+    setBgDesign(defaultBg);
+  }, []);
 
   const hasData = textMessageForm.sender || textMessageForm.message;
-  const isVideo = bgDesign?.endsWith('.mp4');
+  const isVideo = bgDesign?.endsWith(".mp4");
   const isImage = bgDesign && !isVideo;
 
   return (
-    <div className='flex justify-center'>
-      <div className="relative w-[350px] h-[600px] border-[14px] border-gray-800 rounded-[40px] shadow-xl overflow-hidden flex flex-col">
-        
+    <div className="flex justify-center">
+      <div className="relative w-[350px] h-[650px] border-[14px] border-gray-800 rounded-[40px] shadow-xl overflow-hidden flex flex-col">
         {/* 🔳 Background Layer */}
         {isImage ? (
           <img
             src={bgDesign}
             alt="Background"
+            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
             className="absolute top-0 left-0 w-full h-full object-cover z-0"
           />
         ) : isVideo ? (
@@ -128,14 +135,29 @@ const TextMessagePreview = () => {
             loop
             muted
             playsInline
+            onLoadedData={() => setTimeout(() => setIsLoading(false), 300)}
             className="absolute top-0 left-0 w-full h-full object-cover z-0"
           />
         ) : (
           <img
-            src="/services-service/text-message.jpg"
+            src={defaultBg}
             alt="Background"
+            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
             className="absolute top-0 left-0 w-full h-full object-cover z-0"
           />
+        )}
+
+        {/* ⏳ Loader */}
+        {isLoading && (
+          <div className="absolute inset-0 z-50 bg-mainGreen backdrop-blur-sm flex justify-center items-center">
+            <Image
+              src="/logos/ZM LOGO.png"
+              alt="Loading"
+              width={100}
+              height={100}
+              className="w-20 h-20 animate-bounce"
+            />
+          </div>
         )}
 
         {/* 🔳 Notch */}
@@ -145,7 +167,9 @@ const TextMessagePreview = () => {
         <div className="relative flex-1 bg-white/70 m-2 rounded-xl overflow-y-auto pt-6 pb-3 px-3 z-20 max-h-full">
           {hasData ? (
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-center text-[#008080]">Text Message Preview</h2>
+              <h2 className="text-xl font-bold text-center text-[#008080]">
+                Text Message Preview
+              </h2>
 
               {textMessageForm.sender && (
                 <div className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20">

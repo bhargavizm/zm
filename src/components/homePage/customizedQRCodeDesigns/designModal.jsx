@@ -36,6 +36,17 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
     if (savedSticker) setSelectedSticker(savedSticker);
   }, []);
 
+   useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === "Escape") {
+        setIsModalOpen(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleEsc);
+    return () => document.removeEventListener("keydown", handleEsc);
+  }, [setIsModalOpen]);
+
   const handleImageSelect = (imagePath) => {
     if (imagePath.includes("qrshapes")) {
       setSelectedQRShape(imagePath);
