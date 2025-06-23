@@ -1,12 +1,13 @@
-'use client';
+"use client";
 
-import React from 'react';
-import useServicesContext from '@/components/hooks/useServiceContext';
-import Template1 from '@/components/servicesPages/tabsContent/servicesContent/businessShop/templates/Template1';
-import Template2 from '@/components/servicesPages/tabsContent/servicesContent/businessShop/templates/Template2';
-import Template3 from '@/components/servicesPages/tabsContent/servicesContent/businessShop/templates/Template3';
-import Template4 from '@/components/servicesPages/tabsContent/servicesContent/businessShop/templates/Template4';
-import useDesignContext from '@/components/hooks/useDesignContext';
+import React, { useEffect } from "react";
+import Image from "next/image";
+import useServicesContext from "@/components/hooks/useServiceContext";
+import useDesignContext from "@/components/hooks/useDesignContext";
+import Template1 from "@/components/servicesPages/tabsContent/servicesContent/businessShop/templates/Template1";
+import Template2 from "@/components/servicesPages/tabsContent/servicesContent/businessShop/templates/Template2";
+import Template3 from "@/components/servicesPages/tabsContent/servicesContent/businessShop/templates/Template3";
+import Template4 from "@/components/servicesPages/tabsContent/servicesContent/businessShop/templates/Template4";
 
 const Section = ({ title, children, condition }) => {
   if (!condition) return null;
@@ -18,9 +19,9 @@ const Section = ({ title, children, condition }) => {
   );
 };
 
-const BusinessPreview = () => {
+const BusinessShopPreview = () => {
   const { dynamicForms } = useServicesContext();
-  const { bgDesign } = useDesignContext();
+  const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
 
   const {
     businessInfo = {},
@@ -35,31 +36,52 @@ const BusinessPreview = () => {
   } = businessInfo;
 
   const {
-    selectedTemplate = "none",
+    selectedTemplate = "template1",
     template1Data = { days: [] },
     template2Data = {},
     template3Data = {},
     template4Data = {},
   } = shopTimingsTemplate;
 
+  const isVideo = bgDesign?.endsWith(".mp4");
+  const isImage = bgDesign && !isVideo;
+
   const hasData =
     general.businessName || general.businessType || general.description || general.establishedDate || general.shopTimings ||
     contact.phone || contact.altPhone || contact.email || contact.address ||
     media.logo || media.video || (media.galleryImages?.length > 0) ||
-    security.password || selectedTemplate !== "none";
+    security.password || selectedTemplate;
 
-  const isVideo = bgDesign?.endsWith('.mp4');
-  const isImage = bgDesign && !isVideo;
+  // 🔄 Reset bg and stop loader on mount
+  useEffect(() => {
+    setBgDesign(null);
+    setIsLoading(false);
+  }, []);
+
+  // 📌 Render selected template
+  const renderSelectedTemplate = () => {
+    switch (selectedTemplate) {
+      case "template2":
+        return <Template2 data={template2Data} />;
+      case "template3":
+        return <Template3 data={template3Data} />;
+      case "template4":
+        return <Template4 data={template4Data} />;
+      default:
+        return <Template1 data={template1Data} />;
+    }
+  };
 
   return (
-    <div className='flex justify-center'>
-      <div className="relative w-[350px] h-[600px] rounded-[40px] border-[14px] border-gray-800 shadow-xl overflow-hidden flex flex-col text-gray-800 bg-white">
+    <div className="flex justify-center items-center w-full">
+      <div className="relative w-[350px] h-[650px] border-[14px] border-gray-800 rounded-[36px] overflow-hidden shadow-2xl bg-white">
 
-        {/* Background Layer */}
+        {/* 🌄 Background Layer */}
         {isImage && (
           <img
             src={bgDesign}
             alt="Background"
+            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
             className="absolute inset-0 w-full h-full object-cover z-0"
           />
         )}
@@ -70,18 +92,27 @@ const BusinessPreview = () => {
             loop
             muted
             playsInline
+            onLoadedData={() => setTimeout(() => setIsLoading(false), 300)}
             className="absolute inset-0 w-full h-full object-cover z-0"
           />
         )}
-        {!bgDesign && (
-          <div className="absolute inset-0 bg-gradient-to-b from-[#d1f0f0] to-white z-0" />
+        {!bgDesign && <div className="absolute inset-0 bg-white z-0" />}
+
+        {/* ⏳ Loading */}
+        {isLoading && (
+          <div className="absolute inset-0 z-50 bg-mainGreen backdrop-blur-sm flex justify-center items-center">
+            <Image
+              src="/logos/ZM LOGO.png"
+              alt="Loading"
+              width={100}
+              height={100}
+              className="w-20 h-20 animate-bounce"
+            />
+          </div>
         )}
 
-        {/* Notch */}
-        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-6 bg-gray-800 rounded-b-xl z-10" />
-
-        {/* Content */}
-        <div className="relative z-10 flex-1 overflow-y-auto scrollbar-hide pt-8 pb-4 px-4">
+        {/* 🧾 Content */}
+        <div className="relative z-10 h-full overflow-y-auto scrollbar-hide pt-8 pb-4 px-4">
           {!hasData ? (
             <div className="flex items-center justify-center h-full text-center text-gray-500 text-lg font-medium">
               Start entering business details to see a live preview!
@@ -90,11 +121,7 @@ const BusinessPreview = () => {
             <>
               <h2 className="text-center text-xl font-bold mb-4 text-[#008080]">Business Profile</h2>
 
-              {/* Templates */}
-              {selectedTemplate === "template1" && <Template1 data={template1Data} />}
-              {selectedTemplate === "template2" && <Template2 data={template2Data} />}
-              {selectedTemplate === "template3" && <Template3 data={template3Data} />}
-               {selectedTemplate === "template4" && <Template4 data={template4Data} />}
+              {renderSelectedTemplate()}
 
               {/* Info Sections */}
               <Section
@@ -166,7 +193,7 @@ const BusinessPreview = () => {
           )}
         </div>
 
-        {/* Footer */}
+        {/* 📎 Footer */}
         <div className="relative z-10 border-t border-gray-200 text-center text-xs text-gray-500 py-2 bg-white/70">
           <p>Scan for Business Info</p>
           <p className="mt-1">v1.0.0</p>
@@ -176,4 +203,4 @@ const BusinessPreview = () => {
   );
 };
 
-export default BusinessPreview;
+export default BusinessShopPreview;
