@@ -127,7 +127,11 @@ const VehicleContent = () => {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-6">
                 {/* Template V2 Image */}
               <div
-                className={`relative cursor-pointer rounded-lg overflow-hidden border-2`}
+                className={`relative cursor-pointer rounded-lg overflow-hidden border-2 
+                  ${vehicleTemplate.selectedTemplate === "templateV1"
+                    ? "border-teal-500 ring-2 ring-teal-300"
+                    : "border-gray-300 hover:border-gray-400"
+                  }`}
                  
                 onClick={() => handleTemplateSelect("templateV1")}
               >
@@ -156,7 +160,7 @@ const VehicleContent = () => {
 
               {/* Template V2 Image */}
               <div
-                className={`relative cursor-pointer rounded-lg overflow-hidden border-2 ${vehicleTemplate.selectedTemplate === "templateV2"
+                className={`relative cursor-pointer rounded-lg overflow-hidden border-2 ${vehicleTemplate.selectedTemplate === "templateV3"
                     ? "border-teal-500 ring-2 ring-teal-300"
                     : "border-gray-300 hover:border-gray-400"
                   } transition-all duration-200 shadow-sm hover:shadow-md`}
@@ -172,7 +176,7 @@ const VehicleContent = () => {
 
               {/* Template V2 Image */}
               <div
-                className={`relative cursor-pointer rounded-lg overflow-hidden border-2 ${vehicleTemplate.selectedTemplate === "templateV1"
+                className={`relative cursor-pointer rounded-lg overflow-hidden border-2 ${vehicleTemplate.selectedTemplate === "templateV4"
                     ? "border-teal-500 ring-2 ring-teal-300"
                     : "border-gray-300 hover:border-gray-400"
                   } transition-all duration-200 shadow-sm hover:shadow-md`}
