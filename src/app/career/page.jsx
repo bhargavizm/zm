@@ -61,7 +61,7 @@ const teamTestimonials = [
   },
   {
     id: 4,
-    name: 'Shahid.Md',
+    name: 'Shahid.Sd',
     role: 'Data Engineer',
     quote: 'ZM fosters creativity like no other place. We\'re encouraged to think outside the box and push boundaries in design.',
     
@@ -75,7 +75,7 @@ const teamTestimonials = [
 
 {
   id: 6,
-  name: 'Joseph',
+  name: 'Joseph Korivi',
   role: 'Team Lead',
   quote: "Leading at ZM means empowering every team member to think big, move fast, and grow together.",
 },
@@ -89,7 +89,7 @@ const teamTestimonials = [
 
 {
   id: 8,
-  name: 'Mounika',
+  name: 'Mounika .P',
   role: 'UX Designer',
   quote: "Designing at ZM is all about solving real problems with simplicity and elegance. It’s where creativity meets purpose.",
 },
