@@ -2,19 +2,15 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import useServicesContext from "@/components/hooks/useServiceContext";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import useDesignContext from "@/components/hooks/useDesignContext";
 import NFCModal from "@/components/modalPopUps/nfcModal";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const PetTagContent = () => {
-  const servicesContext = useServicesContext();
+  const { petIDFormData, setPetIDFormData } = useServicesContext();
+  const { setIsLoading, setBgDesign } = useDesignContext();
 
-  if (!servicesContext) {
-    return <div className="text-center p-6">Loading form...</div>;
-  }
-
-  const { petIDFormData, setPetIDFormData } = servicesContext;
   const [showPassword, setShowPassword] = useState(false);
-
   const templateImages = ["pet1.webp", "pet2.webp", "pet3.webp", "pet4.webp"];
 
   const handleInputChange = (e) => {
@@ -65,34 +61,43 @@ const PetTagContent = () => {
     document.getElementById("imageInput").value = null;
   };
 
+  const handleTemplateSelect = (selectedTemplate) => {
+    if (petIDFormData.selectedTemplate !== selectedTemplate) {
+      setIsLoading(true);
+      setPetIDFormData((prev) => ({
+        ...prev,
+        selectedTemplate,
+      }));
+      setBgDesign(null);
+      setTimeout(() => setIsLoading(false), 300);
+    }
+  };
+
   return (
-    <>
-      <div className="bg-white shadow-md rounded-lg p-6 space-y-6">
-        {/* Template Selector */}
+    <div className="grid grid-cols-1 gap-10">
+      <div className="bg-white shadow-xl rounded-xl p-6 space-y-6">
+        {/* Templates */}
         <div>
-          <h2 className="text-xl font-semibold mb-2">Select a Pet Tag Template</h2>
+          <h2 className="text-xl font-semibold mb-4">
+            Pet Tag Templates (click to select)
+          </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {templateImages.map((img, idx) => (
+            {templateImages.map((filename, idx) => (
               <div
                 key={idx}
-                onClick={() =>
-                  setPetIDFormData((prev) => ({
-                    ...prev,
-                    selectedTemplate: img,
-                  }))
-                }
-                className={`border-2 cursor-pointer p-1  rounded-lg ${
-                  petIDFormData.selectedTemplate === img
-                    ? "border-[#008080]"
+                onClick={() => handleTemplateSelect(filename)}
+                className={`relative rounded-md border-2 cursor-pointer transition-all p-1 ${
+                  petIDFormData.selectedTemplate === filename
+                    ? "border-[#008080] ring-2 ring-[#008080]"
                     : "border-gray-300"
                 }`}
               >
                 <Image
-                  src={`/pet-id/${img}`}
+                  src={`/pet-id/${filename}`}
                   alt={`Template ${idx + 1}`}
-                  width={120}
-                  height={120}
-                  className="rounded object-cover"
+                  width={300}
+                  height={180}
+                  className="object-cover rounded w-full h-auto"
                 />
               </div>
             ))}
@@ -100,23 +105,25 @@ const PetTagContent = () => {
         </div>
 
         {/* Pet Image Upload */}
-        <div className="relative">
-          <label className="block text-base mb-2 font-medium text-gray-700">
-            Upload Pet Image
-          </label>
+        <div>
+          <label className="block mb-1 font-medium">Upload Pet Image</label>
           <input
             id="imageInput"
             type="file"
             accept="image/*"
             onChange={handleImageUpload}
-            className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
+            className="w-full text-sm text-gray-700
+              file:mr-4 file:py-2 file:px-4
+              file:rounded-full file:border-0
+              file:text-sm file:font-semibold
+              file:bg-[#008080] file:text-white
+              hover:file:bg-[#006666] transition duration-200 cursor-pointer"
           />
-
           {petIDFormData.mainImage && (
             <div className="mt-3 relative w-max">
               <Image
                 src={petIDFormData.mainImage}
-                alt="Pet Preview"
+                alt="Pet"
                 width={100}
                 height={100}
                 className="rounded"
@@ -124,16 +131,12 @@ const PetTagContent = () => {
               <button
                 onClick={clearImage}
                 className="absolute top-[-8px] right-[-8px] bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center hover:bg-red-600"
-                title="Remove Image"
               >
                 ✕
               </button>
             </div>
           )}
         </div>
-
-        {/* Tag Title */}
-        
 
         {/* Owner Info */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -143,7 +146,7 @@ const PetTagContent = () => {
             value={petIDFormData.ownerInfo.name}
             onChange={handleOwnerChange}
             placeholder="Owner Name"
-            className="border p-2 rounded w-full"
+            className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
           />
           <input
             type="tel"
@@ -151,7 +154,7 @@ const PetTagContent = () => {
             value={petIDFormData.ownerInfo.phone}
             onChange={handleOwnerChange}
             placeholder="Phone Number"
-            className="border p-2 rounded w-full"
+            className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
           />
           <input
             type="email"
@@ -159,23 +162,27 @@ const PetTagContent = () => {
             value={petIDFormData.ownerInfo.email}
             onChange={handleOwnerChange}
             placeholder="Email Address"
-            className="border p-2 rounded w-full"
+            className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
           />
-          <div className="relative">
+          <div className="relative w-full">
             <input
               type={showPassword ? "text" : "password"}
               id="password"
               value={petIDFormData.ownerInfo.password}
               onChange={handleOwnerChange}
-              placeholder="Password"
-              className="border p-2 pr-10 rounded w-full"
+              placeholder="QR Password"
+              className="border p-2 pr-10 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
             />
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600"
             >
-              {showPassword ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
+              {showPassword ? (
+                <AiOutlineEyeInvisible size={20} />
+              ) : (
+                <AiOutlineEye size={20} />
+              )}
             </button>
           </div>
           <input
@@ -183,8 +190,8 @@ const PetTagContent = () => {
             id="address"
             value={petIDFormData.ownerInfo.address}
             onChange={handleOwnerChange}
-            placeholder="Home Address"
-            className="border p-2 rounded w-full"
+            placeholder="Address"
+            className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
           />
         </div>
 
@@ -194,11 +201,7 @@ const PetTagContent = () => {
             Pet Information
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {[
-              "name",
-              "breed",
-              "color",
-            ].map((field) => (
+            {["name", "breed", "color"].map((field) => (
               <input
                 key={field}
                 type="text"
@@ -206,7 +209,7 @@ const PetTagContent = () => {
                 value={petIDFormData.pet[field]}
                 onChange={handlePetChange}
                 placeholder={`Pet ${field.charAt(0).toUpperCase() + field.slice(1)}`}
-                className="border p-2 rounded w-full"
+                className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
               />
             ))}
           </div>
@@ -214,11 +217,14 @@ const PetTagContent = () => {
 
         <NFCModal />
 
-        <button className="w-full py-2 cursor-pointer bg-[#008080] text-white font-semibold rounded hover:bg-[#006666] transition">
+        <button
+          type="submit"
+          className="mt-4 w-full bg-[#008080] text-white font-semibold py-2 rounded hover:bg-[#006666] transition"
+        >
           Submit
         </button>
       </div>
-    </>
+    </div>
   );
 };
 

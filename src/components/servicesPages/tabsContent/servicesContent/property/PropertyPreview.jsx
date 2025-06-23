@@ -1,13 +1,21 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import useServicesContext from '@/components/hooks/useServiceContext';
 import useDesignContext from '@/components/hooks/useDesignContext';
 import Image from 'next/image';
 
 const PropertyPreview = () => {
   const { dynamicForms } = useServicesContext();
-  const { bgDesign } = useDesignContext();
+   const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
+
+  const defaultBg = '/services-service/property.jpg'
+
+  useEffect(() => {
+    setIsLoading(true);
+    setBgDesign(defaultBg);
+  }, []);
+
   const property = dynamicForms.propertyDetails;
 
   const hasBasicInfo = Object.values(property?.basicInfo || {}).some(Boolean);
@@ -20,7 +28,7 @@ const PropertyPreview = () => {
   const isImage = bgDesign && !isVideo;
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative ">
       {/* 🔳 Background Layer */}
 
 
@@ -28,12 +36,13 @@ const PropertyPreview = () => {
       {/* <div className="absolute inset-0 bg-white/90 backdrop-blur-sm z-10" /> */}
 
       {/* 📱 Main Preview Content */}
-      <div className="relative z-20 flex justify-center py-10">
-        <div className="w-[375px] h-[667px] border-[12px] border-black rounded-[36px] shadow-xl overflow-hidden relative">
+      <div className="relative z-20 flex justify-center">
+        <div className="w-[350px] h-[650px] border-[12px] border-black rounded-[36px] shadow-xl overflow-hidden relative">
                 {isImage && (
         <img
           src={bgDesign}
           alt="Background"
+           onLoad={() => setTimeout(() => setIsLoading(false), 300)}
           className="absolute inset-0 w-full h-full object-cover z-0"
         />
       )}
@@ -44,18 +53,35 @@ const PropertyPreview = () => {
           loop
           muted
           playsInline
+           onLoadedData={() => setTimeout(() => setIsLoading(false), 300)}
           className="absolute inset-0 w-full h-full object-cover z-0"
         />
       )}
       {!bgDesign && (
          <img
-          src='/services-service/property.jpg'
+          src={defaultBg}
           alt="Background"
+           onLoad={() => setTimeout(() => setIsLoading(false), 300)}
           className="absolute inset-0 w-full h-full object-cover z-0"
         />
       )}
+
+              {/* ⏳ Loader */}
+              {isLoading && (
+                <div className="absolute inset-0 z-50 bg-mainGreen backdrop-blur-sm flex justify-center items-center">
+                  <Image
+                    src="/logos/ZM LOGO.png"
+                    alt="Loading"
+                    width={100}
+                    height={100}
+                    className="w-20 h-20 animate-bounce"
+                  />
+                </div>
+              )}
+      
+
         <div className="relative z-10 flex-1 overflow-y-auto p-6 pt-12 m-4 rounded-xl bg-white/70">
-            <h1 className="text-2xl font-bold text-center text-[#008080] mb-6">🏡 Property Preview</h1>
+            {/* <h1 className="text-2xl font-bold text-center text-[#008080] mb-6">🏡 Property Preview</h1> */}
 
             {/* Basic Info */}
             {hasBasicInfo && (

@@ -1,30 +1,38 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FiUser, FiMessageSquare, FiCalendar, FiLock } from 'react-icons/fi'
 import useServicesContext from "@/components/hooks/useServiceContext";
 import useDesignContext from '@/components/hooks/useDesignContext';
+import Image from 'next/image';
 
 const SmsPreview = () => {
-  const { bgDesign } = useDesignContext();
+  const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
   const { smsFormData } = useServicesContext();
 
   const hasData = smsFormData.genderName || smsFormData.messageType || smsFormData.textMessage || smsFormData.date;
 
+  const defaultBg = '/services-service/text-message.jpg'
   
+       useEffect(() => {
+         setIsLoading(true);
+         setBgDesign(defaultBg);
+       }, []);
+
   const isVideo = bgDesign?.endsWith(".mp4");
   const isImage = bgDesign && !isVideo;
 
 
   return (
     <div className='flex justify-center'>
-    <div className=" rounded-[40px] border-[14px] border-gray-800 shadow-xl w-[350px] h-[600px] overflow-hidden flex flex-col relative">
+    <div className=" rounded-[40px] border-[14px] border-gray-800 shadow-xl w-[350px] h-[650px] overflow-hidden flex flex-col relative">
 
             {/* 🌆 Background Layer */}
         {isImage ? (
           <img
             src={bgDesign}
             alt="Background"
+             onLoad={() => setTimeout(() => setIsLoading(false), 300)}
             className="absolute top-0 left-0 w-full h-full object-cover z-0"
           />
         ) : isVideo ? (
@@ -34,15 +42,31 @@ const SmsPreview = () => {
             loop
             muted
             playsInline
+               onLoadedData={() => setTimeout(() => setIsLoading(false), 300)}
             className="absolute top-0 left-0 w-full h-full object-cover z-0"
           />
         ) : (
            <img
-            src='/services-service/text-message.jpg'
+            src={defaultBg}
             alt="Background"
+               onLoad={() => setTimeout(() => setIsLoading(false), 300)}
             className="absolute top-0 left-0 w-full h-full object-cover z-0"
           />
         )}
+
+        {/* ⏳ Loader */}
+                {isLoading && (
+                  <div className="absolute inset-0 z-50 bg-mainGreen backdrop-blur-sm flex justify-center items-center">
+                    <Image
+                      src="/logos/ZM LOGO.png"
+                      alt="Loading"
+                      width={100}
+                      height={100}
+                      className="w-20 h-20 animate-bounce"
+                    />
+                  </div>
+                )}
+
       {/* iPhone Notch */}
       <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-6 bg-gray-800 rounded-b-xl z-10" />
 
