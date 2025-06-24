@@ -4,6 +4,7 @@
 import React, { useState } from "react";
 import useServicesContext from "@/components/hooks/useServiceContext"; // Adjust path as needed
 import { Eye, EyeOff } from "lucide-react"; // Assuming lucide-react is installed
+import NFCModal from "@/components/modalPopUps/nfcModal";
 
 const VehicleContent = () => {
   const { dynamicForms, updateDynamicForm } = useServicesContext();
@@ -449,7 +450,12 @@ const VehicleContent = () => {
             </button>
           </div>
         </div>
+
+        <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
+          <NFCModal/>
+        </div>
       </div>
+
 
       <button className="w-full py-3 cursor-pointer bg-[#008080] text-white font-semibold rounded-lg hover:bg-[#006666] transition-all duration-200 mt-6">
         Submit Vehicle Details

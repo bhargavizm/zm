@@ -120,17 +120,17 @@ useEffect(() => {
             {/* Grid Layout */}
             <div className="grid grid-cols-12 gap-4">
               <div className="w-full col-span-6 lg:col-span-7 overflow-y-auto px-4 py-6">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeTab}
+                {/* <AnimatePresence mode="wait"> */}
+                  <div
+                    //key={activeTab}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.3 }}
                   >
                     <ActiveComponent />
-                  </motion.div>
-                </AnimatePresence>
+                  </div>
+                {/* </AnimatePresence> */}
               </div>
 
               <div className="col-span-6 lg:col-span-5 rounded-xl border w-full border-slate-100 shadow-lg pb-9 mx-auto h-[75vh]  overflow-y-auto scrollbar-hide">
@@ -152,9 +152,9 @@ useEffect(() => {
         </div>
 
         {/* Mobile Layout */}
-        <div className="md:hidden bg-white rounded-xl shadow-xl w-full h-[95vh] relative pb-4 overflow-y-auto scrollbar-hide">
+        <div className="md:hidden bg-white rounded-xl shadow-xl w-full h-[95vh] relative pb-2 overflow-y-auto scrollbar-hide">
           {/* Close Button */}
-          <div className="text-end p-6">
+          <div className="text-end px-6 py-2">
             <button
               className="text-xl cursor-pointer font-bold text-red-600"
               onClick={() => setIsModalOpen(false)}
@@ -207,7 +207,7 @@ useEffect(() => {
           <div className="px-2">
             {/* <AnimatePresence mode="wait"> */}
               <div
-                //key={activeTab}
+               // key={activeTab}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}

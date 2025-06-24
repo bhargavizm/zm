@@ -47,8 +47,8 @@ const Stickers = ({ onSelectImage }) => {
   };
 
   return (
-    <section className="mt-6">
-      <div className="grid xl:grid-cols-7 lg:grid-cols-6 md:grid-cols-4 grid-cols-3 gap-8 h-[65vh] overflow-y-auto scrollbar-hide px-6">
+    <section>
+      <div className="pt-6 grid xl:grid-cols-7 lg:grid-cols-6 md:grid-cols-4 grid-cols-3 gap-8 h-[65vh] overflow-y-auto scrollbar-hide px-6">
         {Object.keys(stickerConfig).map((src, index) => (
           <Image
             key={index}
@@ -61,7 +61,12 @@ const Stickers = ({ onSelectImage }) => {
                 ? "border-mainGreen scale-110 shadow-lg"
                 : "border-transparent"
             }`}
-            onClick={() => handleClick(src)}
+           onClick={(e) => {
+  e.preventDefault();  // prevents unwanted default behavior
+  e.stopPropagation(); // stops bubbling that may cause refocus
+  handleClick(src);
+}}
+
           />
         ))}
       </div>
