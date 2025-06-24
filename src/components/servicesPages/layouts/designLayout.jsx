@@ -41,13 +41,13 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
           <div className="grid md:grid-cols-12  grid-cols-1 gap-4 mx-2 sm:mx-6 md:mx-4">
             {/* Left Panel */}
             <div className="col-span-6 lg:col-span-7 bg-white rounded-3xl shadow-lg">
-              <h1 className="text-2xl font-bold py-4 px-6">
+              <h1 className="text-2xl font-bold py-4 px-6 text-mainGreen ">
                 {formatServiceName(slug)}
               </h1>
               {/* ...rest of your layout */}
 
               {/* Tabs */}
-              <div className="grid grid-cols-3 md:px-6 bg-[#58b8b8]  shadow-lg py-2 mb-4">
+              <div className="grid lg:grid-cols-3 md:grid-cols-2 md:px-6 bg-[#58b8b8]  shadow-lg py-2 mb-4">
                 {tabs.map((tab) => (
                   <button
                     key={tab}
@@ -64,7 +64,7 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
               </div>
 
               {/* Tab Content */}
-              <div className="px-4 pb-6 h-[75vh] overflow-y-auto scrollbar-hide">
+              <div className="px-4 pb-6 h-[85vh] overflow-y-auto scrollbar-hide">
                 {activeTab === "Content" && <ContentTabComponent />}
 
                 {activeTab === "Backdrop Designs" && <BackdropDesigns />}
@@ -113,7 +113,7 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
                   </>
                 )}
                 {activePreview === "eye" && (
-                  <div className="flex justify-center items-center p-4 rounded-xl">
+                  <div className="flex justify-center items-center py-4 rounded-xl">
                     {/* Top Notch */}
                     <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-5 bg-black rounded-b-2xl z-10"></div>
 
@@ -130,9 +130,13 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
 
         {/* mobile layout */}
         <div className="md:hidden bg-white rounded-xl shadow-xl w-full  relative pb-4 overflow-y-auto scrollbar-hide">
+
           <div className="grid md:grid-cols-12  grid-cols-1 gap-4 md:mx-9">
+                      <h1 className="text-3xl font-bold px-6 pt-9 text-mainGreen ">
+                {formatServiceName(slug)}
+              </h1>
             {/* left Preview Panel */}
-            <div className="col-span-6 lg:col-span-5 bg-white rounded-3xl shadow-lg py-8  lg:mt-0">
+            <div className="col-span-6 lg:col-span-5 bg-white rounded-3xl shadow-lg lg:mt-0">
               <div className="flex justify-center gap-4  mb-4 bg-[#58b8b8] shadow-lg py-2 mt-7 ">
                 <div
                   onClick={() => setActivePreview("scan")}

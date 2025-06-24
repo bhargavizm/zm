@@ -42,39 +42,6 @@ const DecorateQRCode = () => {
             </h2>
             <hr className="my-2 border-gray-300" />
 
-            {/* Service Name Accordion */}
-            {/* <div className="max-w-full sm:max-w-xl mx-auto mt-6">
-              <button
-                onClick={() => setServiceOpen(!serviceOpen)}
-                className="w-full px-4 py-3 text-left bg-[#35aeae] flex justify-between items-center cursor-pointer rounded-md"
-              >
-                <span className="font-bold text-white text-base sm:text-lg">
-                  Service Name
-                </span>
-                <svg
-                  className={`w-5 h-5 text-white transform transition-transform duration-300 ${
-                    serviceOpen ? "rotate-180" : ""
-                  }`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-
-              {serviceOpen && (
-                <div className="px-4 py-4 bg-white text-gray-700 border border-gray-200 rounded-b-md">
-                  <input
-                    required
-                    type="text"
-                    className="w-full border border-gray-300 rounded-md px-3 py-2"
-                    placeholder="Service Name"
-                  />
-                </div>
-              )}
-            </div> */}
-
             {/* Basic Information Accordion */}
             <div className="max-w-full sm:max-w-xl mx-auto mt-6">
               <button
@@ -169,7 +136,7 @@ const DecorateQRCode = () => {
             </div>
 
             <div
-              onClick={handleClick}
+              // onClick={handleClick}
               className="mt-8 max-w-xl mx-auto flex justify-center items-center"
             >
               <button className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center transition-effects gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]">
@@ -202,14 +169,7 @@ const DecorateQRCode = () => {
               </button>
             </div>
 
-            {/* <div
-              onClick={handleClick}
-              className="mt-8 max-w-xl mx-auto flex justify-center items-center"
-            >
-              <button className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center transition-effects items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]">
-                Save QR Code <IoIosArrowForward />
-              </button>
-            </div> */}
+            
           </div>
 
           {/* Preview Panel and Modal Tabs */}
@@ -220,7 +180,7 @@ const DecorateQRCode = () => {
 </div>
 
             <hr className="my-2 border border-slate-200" />
-            <div className="flex justify-center items-center gap-4 flex-wrap ">
+            <div className="flex justify-center items-center gap-3 flex-wrap ">
               {tabs.map((tab) => (
                 <button
                   key={tab}
@@ -237,64 +197,8 @@ const DecorateQRCode = () => {
 
             <hr className="mb-4 border border-slate-200" />
 
-            {/* <div className="flex gap-9 pb-6 justify-center flex-wrap items-center">
-              <Image
-                src="/images/home/shapes-1.webp"
-                alt="shapes-1"
-                width={75}
-                height={75}
-                className="cursor-pointer hover:scale-110 transition-transform"
-                priority
-                onClick={() => {
-                  setActiveTab("QR Shapes");
-                  setIsModalOpen(true);
-                }}
-              />
-
-              <Image
-                src="/images/home/shapes-2.webp"
-                alt="shapes-1"
-                width={75}
-                height={75}
-                className="cursor-pointer hover:scale-110 transition-transform"
-                priority
-                onClick={() => {
-                  setActiveTab("QR Shapes");
-                  setIsModalOpen(true);
-                }}
-              />
-
-              <Image
-                src="/images/home/shapes-3.webp"
-                alt="shapes-1"
-                width={75}
-                height={75}
-                className="cursor-pointer hover:scale-110 transition-transform"
-                priority
-                onClick={() => {
-                  setActiveTab("QR Shapes");
-                  setIsModalOpen(true);
-                }}
-              />
-            </div> */}
-            {/* <p
-              className="flex justify-center transition-effects items-center gap-2 py-4 text-mainGreen hover:font-bold text-2xl "
-              onClick={() => {
-                setActiveTab("QR Shapes");
-                setIsModalOpen(true);
-              }}
-            >
-              <span>
-                <RiShapesLine />
-              </span>
-              <span>More Designs</span>
-              <span>
-                <FaArrowRightArrowLeft />
-              </span>
-            </p> */}
-
             <div className=" flex justify-center items-center gap-2 py-4">
-              <button onClick={handleClick} className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)] transition-effects">
+              <button  className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)] transition-effects">
                 Download Large Files <FaLongArrowAltDown />
               </button>
             </div>
