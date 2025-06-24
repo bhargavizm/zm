@@ -333,7 +333,7 @@ const ServicesProvider = ({ children }) => {
         subTagline: "Your Look",
         offerMessage: "AVAILABLE UNTIL 8 NOVEMBER 2030",
         backgroundColor: "#000000", // black background
-        textColor: "#ffffff",       // white text
+        textColor: "#ffffff", // white text
         fontFamily: "Montserrat, sans-serif",
       },
       password: "",

@@ -354,6 +354,127 @@ const BusinessContent = () => {
               </div>
             )}
 
+             {/* Conditional rendering for Template 4 editing */}
+            {shopTimingsTemplate.selectedTemplate === "template4" && (
+              <div className="mt-6 p-4 border border-gray-200 rounded-lg bg-gray-50 space-y-4">
+                <h4 className="text-xl font-medium text-gray-700">
+                  Template 4 Content (We're Open)
+                </h4>
+                <input
+                  type="text"
+                  placeholder="Logo Text (e.g., GIGGLING PLATYPUS)"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-teal-200"
+                  value={shopTimingsTemplate.template2Data.logoText || ""}
+                  onChange={(e) =>
+                    handleChange(
+                      "shopTimingsTemplate",
+                      "template2Data",
+                      "logoText",
+                      e.target.value
+                    )
+                  }
+                />
+                <input
+                  type="text"
+                  placeholder="Main Heading (e.g., WE'RE OPEN)"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-teal-200"
+                  value={shopTimingsTemplate.template2Data.mainHeading || ""}
+                  onChange={(e) =>
+                    handleChange(
+                      "shopTimingsTemplate",
+                      "template2Data",
+                      "mainHeading",
+                      e.target.value
+                    )
+                  }
+                />
+                <input
+                  type="text"
+                  placeholder="Sub Heading (e.g., TUESDAY TO SUNDAY)"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-teal-200"
+                  value={shopTimingsTemplate.template2Data.subHeading || ""}
+                  onChange={(e) =>
+                    handleChange(
+                      "shopTimingsTemplate",
+                      "template2Data",
+                      "subHeading",
+                      e.target.value
+                    )
+                  }
+                />
+                <input
+                  type="text"
+                  placeholder="Time Range (e.g., 12 AM - 10 PM)"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-teal-200"
+                  value={shopTimingsTemplate.template2Data.timeRange || ""}
+                  onChange={(e) =>
+                    handleChange(
+                      "shopTimingsTemplate",
+                      "template2Data",
+                      "timeRange",
+                      e.target.value
+                    )
+                  }
+                />
+                <input
+                  type="text"
+                  placeholder="Closed Day (e.g., CLOSED MONDAY)"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-teal-200"
+                  value={shopTimingsTemplate.template2Data.closedDay || ""}
+                  onChange={(e) =>
+                    handleChange(
+                      "shopTimingsTemplate",
+                      "template2Data",
+                      "closedDay",
+                      e.target.value
+                    )
+                  }
+                />
+                <input
+                  type="text"
+                  placeholder="Address Line 1"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-teal-200"
+                  value={shopTimingsTemplate.template2Data.addressLine1 || ""}
+                  onChange={(e) =>
+                    handleChange(
+                      "shopTimingsTemplate",
+                      "template2Data",
+                      "addressLine1",
+                      e.target.value
+                    )
+                  }
+                />
+                <input
+                  type="text"
+                  placeholder="Address Line 2"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-teal-200"
+                  value={shopTimingsTemplate.template2Data.addressLine2 || ""}
+                  onChange={(e) =>
+                    handleChange(
+                      "shopTimingsTemplate",
+                      "template2Data",
+                      "addressLine2",
+                      e.target.value
+                    )
+                  }
+                />
+                <input
+                  type="text"
+                  placeholder="Website (e.g., www.reallygreatsite.com)"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-teal-200"
+                  value={shopTimingsTemplate.template2Data.website || ""}
+                  onChange={(e) =>
+                    handleChange(
+                      "shopTimingsTemplate",
+                      "template2Data",
+                      "website",
+                      e.target.value
+                    )
+                  }
+                />
+              </div>
+            )}
+
             {/* Conditional rendering for Template 3 editing (Video Template) */}
           </div>
         </div>
