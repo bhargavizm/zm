@@ -12,9 +12,11 @@ import Template4 from "@/components/servicesPages/tabsContent/servicesContent/bu
 const Section = ({ title, children, condition }) => {
   if (!condition) return null;
   return (
-    <div className="mb-6">
-      <h2 className="text-xl font-semibold mb-2 text-[#008080]">{title}</h2>
-      <div className="space-y-1.5 text-sm text-gray-800">{children}</div>
+    <div className="mb-4">
+      <div className="bg-white rounded-lg shadow-sm p-4">
+        <h2 className="text-lg font-semibold mb-2 text-[#008080]">{title}</h2>
+        <div className="space-y-2 text-sm text-gray-800">{children}</div>
+      </div>
     </div>
   );
 };
@@ -119,9 +121,31 @@ const BusinessShopPreview = () => {
             </div>
           ) : (
             <>
-              <h2 className="text-center text-xl font-bold mb-4 text-[#008080]">Business Profile</h2>
+              <div className="bg-white rounded-lg shadow-sm p-4">
+                <h2 className="text-center text-xl font-bold mb-2 text-[#008080]">Business Profile</h2>
+              </div>
 
-              {renderSelectedTemplate()}
+              {/* Templates */}
+              {selectedTemplate === "template1" && (
+                <div className="bg-white rounded-lg shadow-sm p-4">
+                  <Template1 data={template1Data} />
+                </div>
+              )}
+              {selectedTemplate === "template2" && (
+                <div className="bg-white rounded-lg shadow-sm p-4">
+                  <Template2 data={template2Data} />
+                </div>
+              )}
+              {selectedTemplate === "template3" && (
+                <div className="bg-white rounded-lg shadow-sm p-4">
+                  <Template3 data={template3Data} />
+                </div>
+              )}
+              {selectedTemplate === "template4" && (
+                <div className="bg-white rounded-lg shadow-sm p-4">
+                  <Template4 data={template2Data} />
+                </div>
+              )}
 
               {/* Info Sections */}
               <Section
@@ -186,15 +210,13 @@ const BusinessShopPreview = () => {
                 )}
               </Section>
 
-              <Section title="Security" condition={security.password}>
-                <p><strong>Password:</strong> ********</p>
-              </Section>
+             
             </>
           )}
         </div>
 
-        {/* 📎 Footer */}
-        <div className="relative z-10 border-t border-gray-200 text-center text-xs text-gray-500 py-2 bg-white/70">
+        {/* Footer */}
+        <div className="relative z-10 border-t border-gray-200 text-center text-xs text-gray-500 py-2 bg-white/90">
           <p>Scan for Business Info</p>
           <p className="mt-1">v1.0.0</p>
         </div>
