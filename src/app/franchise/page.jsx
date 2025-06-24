@@ -326,7 +326,7 @@ const WhyFranchiseWithZMSection = () => {
                     Discover the unmatched benefits of partnering with a leader in digital connectivity.
                 </p>
 
-                <div className="relative overflow-hidden min-h-[300px] flex items-center justify-center">
+                <div className="relative overflow-hidden min-h-[450px] flex items-center justify-center">
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={activeIndex}
