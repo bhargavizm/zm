@@ -43,7 +43,34 @@ const VehiclePreview = () => {
     security = {},
   } = vehicle;
 
-  const { selectedTemplate = "none" } = vehicleTemplate;
+  //const { selectedTemplate = "none" } = vehicleTemplate;
+
+  // const hasData =
+  //   general.vehicleModel ||
+  //   general.vehicleType ||
+  //   general.buyDate ||
+  //   general.description ||
+  //   registration.rcNumber ||
+  //   registration.driverName ||
+  //   registration.ownerName ||
+  //   contact.contact ||
+  //   contact.altContact ||
+  //   contact.address ||
+  //   contact.mapLink ||
+  //   media.vehicleImage ||
+  //   media.licenseFront ||
+  //   media.licenseBack ||
+  //   media.galleryImages?.length > 0 ||
+  //   security.password ||
+  //   selectedTemplate !== "none";
+  const { selectedTemplate } = vehicleTemplate;
+
+  const hasData =
+    general.vehicleModel || general.vehicleType || general.buyDate || general.description ||
+    registration.rcNumber || registration.driverName || registration.ownerName ||
+    contact.contact || contact.altContact || contact.address || contact.mapLink ||
+    media.vehicleImage || media.licenseFront || media.licenseBack || (media.galleryImages?.length > 0) ||
+    security.password;
 
   const hasData =
     general.vehicleModel ||
@@ -64,6 +91,7 @@ const VehiclePreview = () => {
     security.password ||
     selectedTemplate !== "none";
   
+
 
  
 
@@ -139,7 +167,7 @@ const VehiclePreview = () => {
           <img
             src={templateBackground}
             alt="Template Background"
-            className="absolute inset-0 w-full h-full object-contain z-10 p-2 pointer-events-none"
+            className="absolute inset-0 w-full h-full opacity-70 object-contain z-10 p-2 pointer-events-none"
           />
         )}
 
@@ -165,7 +193,7 @@ const VehiclePreview = () => {
         <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-6 bg-gray-800 rounded-b-xl z-10" />
 
         {/* Content */}
-        <div className="relative z-10 flex-1 overflow-y-auto scrollbar-hide pt-8 pb-4">
+        <div className="relative z-10 flex-1 overflow-y-auto scrollbar-hide pt-8 pb-4 ">
           {!hasData ? (
             <div className="flex items-center justify-center h-full text-center text-gray-500 text-lg font-medium px-4">
               Start entering vehicle details to see a live preview!

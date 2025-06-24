@@ -44,9 +44,9 @@ const ProductContent = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-teal-700 mb-6">
+      {/* <h1 className="text-3xl font-bold text-teal-700 mb-6">
         Product QR Code Generator
-      </h1>
+      </h1> */}
 
       <div className="grid grid-cols-1 gap-10">
         <div className="bg-white shadow-xl rounded-xl p-6 space-y-6">
