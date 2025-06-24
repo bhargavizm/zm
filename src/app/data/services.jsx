@@ -278,7 +278,7 @@ const services = [
     },
 ]
 
-
+// const { dictionary } = useLanguage();
 const encryptedServices = [
  {
         "icon": <FaFilePdf className="text-[#001a1a]" />,

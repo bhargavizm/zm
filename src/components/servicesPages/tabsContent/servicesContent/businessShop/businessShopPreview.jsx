@@ -114,7 +114,7 @@ const BusinessShopPreview = () => {
         )}
 
         {/* 🧾 Content */}
-        <div className="relative z-10 h-full overflow-y-auto scrollbar-hide pt-8 pb-4 px-4">
+        <div className="relative z-10 h-full  overflow-y-auto scrollbar-hide pt-8 pb-4 px-4">
           {!hasData ? (
             <div className="flex items-center justify-center h-full text-center text-gray-500 text-lg font-medium">
               Start entering business details to see a live preview!
@@ -127,22 +127,22 @@ const BusinessShopPreview = () => {
 
               {/* Templates */}
               {selectedTemplate === "template1" && (
-                <div className="bg-white rounded-lg shadow-sm p-4">
+                <div className="bg-white/70 rounded-lg shadow-sm p-4">
                   <Template1 data={template1Data} />
                 </div>
               )}
               {selectedTemplate === "template2" && (
-                <div className="bg-white rounded-lg shadow-sm p-4">
+                <div className="bg-white/70 rounded-lg shadow-sm p-4">
                   <Template2 data={template2Data} />
                 </div>
               )}
               {selectedTemplate === "template3" && (
-                <div className="bg-white rounded-lg shadow-sm p-4">
+                <div className="bg-white/70 rounded-lg shadow-sm p-4">
                   <Template3 data={template3Data} />
                 </div>
               )}
               {selectedTemplate === "template4" && (
-                <div className="bg-white rounded-lg shadow-sm p-4">
+                <div className="bg-white/70 rounded-lg shadow-sm p-4">
                   <Template4 data={template2Data} />
                 </div>
               )}

@@ -183,7 +183,7 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
                       {/* <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-5 bg-black rounded-b-2xl z-10"></div> */}
 
                       {/* Content Area */}
-                      <div className="flex-1 w-full px-4 pt-8 pb-6 overflow-auto">
+                      <div className="flex-1 w-full pt-8 pb-6 overflow-auto">
                         <PreviewTabComponent />
                       </div>
                     </div>
@@ -217,7 +217,7 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
               </div>
 
               {/* Tab Content */}
-              <div className="px-6 pb-6 h-[60vh] overflow-y-auto scrollbar-hide">
+              <div className="px-6 pb-6 h-[80vh] overflow-y-auto scrollbar-hide">
                 {activeTab === "Content" && <ContentTabComponent />}
 
                 {activeTab === "Backdrop Designs" && <BackdropDesigns />}
