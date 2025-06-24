@@ -1,13 +1,21 @@
 
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import useServicesContext from '@/components/hooks/useServiceContext';
 import useDesignContext from '@/components/hooks/useDesignContext';
+import Image from 'next/image';
 
 const WifiPreview = () => {
   const { wifiFormData } = useServicesContext();
-  const { bgDesign } = useDesignContext();
+   const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
+
+  const defaultBg = "/services-service/WIFI.webp"
+
+  useEffect(() => {
+    setIsLoading(true);
+    setBgDesign(defaultBg);
+  }, []);
 
   const { ssid, security } = wifiFormData[0] || {};
 
@@ -15,8 +23,8 @@ const WifiPreview = () => {
   const isImage = bgDesign && !isVideo;
 
   return (
-    <div className="flex items-center justify-center py-10">
-      <div className="relative w-[350px] h-[600px] border-[12px] border-black rounded-[2rem] shadow-2xl overflow-hidden">
+    <div className="flex items-center justify-center">
+      <div className="relative w-[350px] h-[650px] border-[12px] border-black rounded-[2rem] shadow-2xl overflow-hidden">
 
         {/* Background layer */}
         <div className="absolute inset-0 z-0">
@@ -24,6 +32,7 @@ const WifiPreview = () => {
             <img
               src={bgDesign}
               alt="Background"
+               onLoad={() => setTimeout(() => setIsLoading(false), 300)}
               className="w-full h-full object-cover"
             />
           )}
@@ -34,18 +43,34 @@ const WifiPreview = () => {
               loop
               muted
               playsInline
+               onLoadedData={() => setTimeout(() => setIsLoading(false), 300)}
               className="w-full h-full object-cover"
             />
           )}
           {!bgDesign && (
             <img
-              src="/services-service/wifi.jpg"
+              src={defaultBg}
               alt="Default Background"
+               onLoad={() => setTimeout(() => setIsLoading(false), 300)}
               className="w-full h-full object-cover"
             />
           )}
           {/* <div className="absolute inset-0 bg-white/80 backdrop-blur-sm" /> */}
         </div>
+
+             {/* ⏳ Loader */}
+                {isLoading && (
+                  <div className="absolute inset-0 z-50 bg-mainGreen backdrop-blur-sm flex justify-center items-center">
+                    <Image
+                      src="/logos/ZM LOGO.png"
+                      alt="Loading"
+                      width={100}
+                      height={100}
+                      className="w-20 h-20 animate-bounce"
+                    />
+                  </div>
+                )}
+
 
         {/* Indicators */}
         <div className="absolute top-1 left-1/2 transform -translate-x-1/2 w-16 h-1.5 bg-gray-400 rounded-full z-10"></div>

@@ -8,7 +8,7 @@ const PetIdTemplateTwo = ({ petIDFormData }) => {
 
     return (
         <div
-            className="relative w-[350px] h-[600px] overflow-y-auto scrollbar-hide rounded-lg shadow-lg flex flex-col items-center justify-start p-6"
+            className="relative w-[350px] h-[650px] overflow-y-auto scrollbar-hide rounded-lg shadow-lg flex flex-col items-center justify-start p-6"
             style={{
                 backgroundImage: "url(/pet-id/pet2.jpg)", // Using pet2.webp for background
                 backgroundSize: "cover",
@@ -46,7 +46,7 @@ const PetIdTemplateTwo = ({ petIDFormData }) => {
             </h2>
 
             {/* Pet and Owner Information */}
-            <div className="relative z-10 w-full  bg-white bg-opacity-80 rounded-lg p-4">
+            <div className="relative z-10 w-full  bg-white bg-opacity-80 rounded-lg">
                 <div className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-gray-800 text-base">
                     <p className="font-medium text-[#8B4513]">Type of Pet</p>
                     <p>: {petIDFormData.pet.species || "Dog"}</p>

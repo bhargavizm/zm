@@ -77,8 +77,8 @@ export    const componentMap = {
     preview: dynamic(() => import("@/components/servicesPages/tabsContent/servicesContent/multiUrl/MultiUrlPreview")),
   },
   "business-shops": {
-    content: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/businessShop/BusinessContent')),
-    preview: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/businessShop/BusinessPreview')),
+    content: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/businessShop/businessShopContent')),
+    preview: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/businessShop/businessShopPreview')),
   },
   discounts: {
     content: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/discountCoupon/DiscountCouponContent')),

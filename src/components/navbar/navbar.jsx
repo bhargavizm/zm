@@ -1,19 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useLanguage } from "@/context/languageContext/LanguageContext";
 import LanguageSelector from "./LanguageSelector";
+import { MdKeyboardArrowDown } from "react-icons/md";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [supportOpen, setSupportOpen] = useState(false);
+
+  const supportRef = useRef(null);
   const { dictionary } = useLanguage();
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (supportRef.current && !supportRef.current.contains(event.target)) {
+        setSupportOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <nav className="bg-mainGreen h-[10vh] py-2 text-white fixed top-0 left-0 right-0 w-full z-50">
       <div className="flex justify-between items-center mx-auto md:px-10 px-6">
         <Link href="/" className="flex items-center gap-3">
+        <div className="max-w-[170px] w-full h-auto">
           <Image
             src="/logos/zm-full.jpg"
             alt="logo"
@@ -21,6 +36,7 @@ const Navbar = () => {
             height={50}
             priority
           />
+          </div>
         </Link>
 
         <div className="hidden lg:flex items-center space-x-6 font-semibold text-xl">
@@ -42,9 +58,36 @@ const Navbar = () => {
           <Link href="/franchise" className="hover:text-gray-300">
             {dictionary.Franchise}
           </Link>
-          <Link href="/faq" className="hover:text-gray-300">
-            {dictionary.support}
-          </Link>
+          <div className="relative" ref={supportRef}>
+            <button
+              onClick={() => setSupportOpen(!supportOpen)}
+              className="hover:text-gray-300 flex items-center gap-1"
+            >
+              {dictionary.support}
+              <MdKeyboardArrowDown
+                className={`transition-transform ${
+                  supportOpen ? "rotate-180" : "rotate-0"
+                }`}
+              />
+            </button>
+
+            {supportOpen && (
+              <div className="absolute top-full left-0 mt-2 bg-white text-mainGreen rounded-md shadow-md w-48 z-50">
+                <Link
+                  href="/faq"
+                  className="block px-4 py-2 hover:bg-mainGreen hover:text-white transition"
+                >
+                  FAQ
+                </Link>
+                <Link
+                  href="/contactUs"
+                  className="block px-4 py-2 hover:bg-mainGreen hover:text-white transition"
+                >
+                  Contact Us
+                </Link>
+              </div>
+            )}
+          </div>
           <LanguageSelector />
           <Link
             href="/login"
@@ -84,11 +127,11 @@ const Navbar = () => {
           {/* Backdrop */}
           <div
             onClick={() => setIsOpen(false)}
-            className="fixed inset-0bg-opacity-40 z-40"
+            className="fixed inset-0 bg-opacity-40 z-40"
           />
 
           {/* Menu (same as above) */}
-          <div className="lg:hidden fixed top-[60px] py-4 right-0  w-64 bg-white text-xl font-semibold text-mainGreen z-50 shadow-lg transition-all duration-300">
+          <div className="lg:hidden fixed top-[60px] py-4 right-0  w-60 bg-white text-xl font-semibold text-mainGreen z-50 shadow-lg transition-all duration-300">
             <div className="flex flex-col px-6 py- space-y-4 h-full justify-start">
               <Link href="/" onClick={() => setIsOpen(false)}>
                 {dictionary.home}
@@ -99,7 +142,7 @@ const Navbar = () => {
               <Link href="/prices" onClick={() => setIsOpen(false)}>
                 {dictionary.prices}
               </Link>
-            <Link href="/career" onClick={() => setIsOpen(false)}>
+              <Link href="/career" onClick={() => setIsOpen(false)}>
                 {dictionary.Career}
               </Link>
               <Link href="/investors" onClick={() => setIsOpen(false)}>
@@ -109,7 +152,12 @@ const Navbar = () => {
                 {dictionary.Franchise}
               </Link>
               <Link href="/faq" onClick={() => setIsOpen(false)}>
-                {dictionary.support}
+                {/* {dictionary.support} */}
+                FAQ
+              </Link>
+              <Link href="/contactUs" onClick={() => setIsOpen(false)}>
+                {/* {dictionary.support} */}
+                Contact Us
               </Link>
               <LanguageSelector isOpen={isOpen} />
               <Link
@@ -127,4 +175,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
