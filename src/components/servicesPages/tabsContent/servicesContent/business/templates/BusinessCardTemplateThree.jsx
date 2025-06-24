@@ -36,19 +36,19 @@ const BusinessCardTemplateThree = ({ businessForm, profileImage, brandLogo }) =>
 
             {/* Name, Heading, Subheading */}
             <h2 className="text-2xl font-semibold mt-4 text-gray-800">{name || "JULIA SILVA"}</h2>
-            <p className="text-lg text-gray-700">{heading || "Interior Designer"}</p>
+            {/* <p className="text-lg text-gray-700">{heading || "Interior Designer"}</p> */}
             {subheading && (
                 <p className="text-sm text-gray-500 mb-6">{subheading}</p>
             )}
 
             {/* Action Buttons */}
             <div className="flex flex-col gap-3 px-8 mb-6">
-                <a
+                {/* <a
                     href={businessName || "#"}
                     className="py-3 rounded-full border border-gray-400 text-gray-800 font-semibold bg-white hover:bg-gray-50 transition"
                 >
                     {businessName || "BUSINESS NAME"}
-                </a>
+                </a> */}
                 <a
                     href={designation || "#"}
                     target="_blank"

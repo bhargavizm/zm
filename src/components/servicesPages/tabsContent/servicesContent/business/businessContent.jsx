@@ -6,8 +6,12 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import NFCModal from "@/components/modalPopUps/nfcModal";
 
 const BusinessContent = () => {
-  const { businessForm, setBusinessForm, setProfileImage } =
-    useServicesContext();
+  const {
+    businessForm,
+    setBusinessForm,
+    profileImage,
+    setProfileImage,
+  } = useServicesContext();
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -17,11 +21,16 @@ const BusinessContent = () => {
     setBusinessForm({ ...businessForm, [e.target.id]: e.target.value });
   };
 
-  const handleImageUpload = (e, setter) => {
+  const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setter(URL.createObjectURL(file));
+      const imageUrl = URL.createObjectURL(file);
+      setProfileImage(imageUrl);
     }
+  };
+
+  const handleImageRemove = () => {
+    setProfileImage(null);
   };
 
   return (
@@ -35,36 +44,13 @@ const BusinessContent = () => {
                 Page Templates (click to select)
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {/* {templateImages.map((filename, idx) => (
-                                    <div
-                                        key={idx}
-                                        className={`border-2 rounded-md p-2 cursor-pointer transition hover:shadow-lg ${businessForm.selectedTemplate === filename
-                                                ? "border-[#008080]"
-                                                : "border-gray-300"
-                                            }`}
-                                        onClick={() =>
-                                            setBusinessForm({
-                                                ...businessForm,
-                                                selectedTemplate: filename,
-                                            })
-                                        }
-                                    >
-                                        <Image
-                                            src={`/business-card-templates/${filename}`}
-                                            alt={`Template ${idx + 1}`}
-                                            width={100}
-                                            height={120}
-                                            className="object-cover rounded"
-                                        />
-                                    </div>
-                                ))} */}
                 {templateImages.map((filename, idx) => (
                   <div
                     key={idx}
-                    className={` rounded-md p-2 cursor-pointer transition hover:shadow-lg ${
+                    className={`rounded-md p-2 cursor-pointer transition hover:shadow-lg ${
                       businessForm.selectedTemplate === filename
-                        ? "border-[#008080]"
-                        : "border-gray-300"
+                        ? "border-2 border-[#008080]"
+                        : "border border-gray-300"
                     }`}
                     onClick={() =>
                       setBusinessForm({
@@ -86,20 +72,39 @@ const BusinessContent = () => {
             </div>
 
             {/* Image Uploads */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4 items-start">
               <div>
                 <label className="block mb-1 font-medium">Brand Logo</label>
                 <input
                   type="file"
                   accept="image/*"
-                  onChange={(e) => handleImageUpload(e, setProfileImage)}
+                  onChange={handleImageUpload}
                   className="w-full text-sm text-gray-700
-                                file:mr-4 file:py-2 file:px-4
-                                file:rounded-full file:border-0
-                                file:text-sm file:font-semibold
-                                file:bg-[#008080] file:text-white
-                                hover:file:bg-[#006666] transition duration-200 cursor-pointer"
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-full file:border-0
+                    file:text-sm file:font-semibold
+                    file:bg-[#008080] file:text-white
+                    hover:file:bg-[#006666] transition duration-200 cursor-pointer"
                 />
+
+                {profileImage && (
+                  <div className="mt-4 relative w-fit">
+                    <Image
+                      src={profileImage}
+                      alt="Uploaded Logo"
+                      width={100}
+                      height={100}
+                      className="rounded border"
+                    />
+                    <button
+                      onClick={handleImageRemove}
+                      className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-6 h-6 text-xs flex items-center justify-center hover:bg-red-700"
+                      title="Remove image"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -155,8 +160,8 @@ const BusinessContent = () => {
                   />
                 )
               )}
-              
-              <NFCModal/>
+
+              <NFCModal />
             </div>
 
             <button
