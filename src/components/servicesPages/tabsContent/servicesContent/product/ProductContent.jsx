@@ -44,10 +44,6 @@ const ProductContent = () => {
 
   return (
     <div>
-      {/* <h1 className="text-3xl font-bold text-teal-700 mb-6">
-        Product QR Code Generator
-      </h1> */}
-
       <div className="grid grid-cols-1 gap-10">
         <div className="bg-white shadow-xl rounded-xl p-6 space-y-6">
           {/* Templates */}
@@ -79,32 +75,47 @@ const ProductContent = () => {
           </div>
 
           {/* Product Image Upload */}
-          <div>
-            <label className="block mb-2 font-medium text-gray-700">Product Image (500x500)</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleFileUpload}
-              className="w-full text-sm text-gray-700
-                file:mr-4 file:py-2 file:px-4
-                file:rounded-full file:border-0
-                file:text-sm file:font-semibold
-                file:bg-[#008080] file:text-white
-                hover:file:bg-[#006666] transition duration-200 cursor-pointer"
-            />
-            {productImages.length > 0 && (
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-                {productImages.map((src, idx) => (
-                  <img
-                    key={idx}
-                    src={src}
-                    alt={`Uploaded ${idx}`}
-                    className="rounded object-cover w-24 h-24 border border-gray-300 shadow-sm"
-                  />
-                ))}
-              </div>
-            )}
-          </div>
+          {/* Product Image Upload */}
+<div>
+  <label className="block mb-2 font-medium text-gray-700">
+    Product Image (500x500)
+  </label>
+  <input
+    type="file"
+    accept="image/*"
+    onChange={handleFileUpload}
+    className="w-full text-sm text-gray-700
+      file:mr-4 file:py-2 file:px-4
+      file:rounded-full file:border-0
+      file:text-sm file:font-semibold
+      file:bg-[#008080] file:text-white
+      hover:file:bg-[#006666] transition duration-200 cursor-pointer"
+  />
+
+  {productImages.length > 0 && (
+  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+    {productImages.map((src, idx) => (
+      <div key={idx} className="relative">
+        <img
+          src={src}
+          alt={`Uploaded ${idx}`}
+          className="rounded object-cover w-24 h-24 border border-gray-300 shadow-sm"
+        />
+        <button
+          onClick={() =>
+            setProductImages((prev) => prev.filter((_, i) => i !== idx))
+          }
+          className="absolute top-[-8px] left-[86px] bg-white text-red-500 cursor-pointer rounded-full w-5 h-5 text-xs flex items-center justify-center shadow-md"
+          title="Remove"
+        >
+          ✖
+        </button>
+      </div>
+    ))}
+  </div>
+)}
+
+</div>
 
           {/* Form Fields */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

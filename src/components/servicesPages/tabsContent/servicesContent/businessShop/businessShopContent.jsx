@@ -683,8 +683,10 @@ const BusinessShopContent = () => {
         value={businessInfo.security.password}
         onChange={(e) => handleChange('security', 'password', e.target.value)} /> */}
       </div>
-      <NFCModal />
 
+       <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
+      <NFCModal />
+</div>
       <button className="w-full py-2 cursor-pointer bg-[#008080] text-white font-semibold rounded hover:bg-[#006666] transition">
         Submit
       </button>
