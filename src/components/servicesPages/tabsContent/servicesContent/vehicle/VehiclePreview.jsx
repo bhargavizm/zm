@@ -72,6 +72,28 @@ const VehiclePreview = () => {
     media.vehicleImage || media.licenseFront || media.licenseBack || (media.galleryImages?.length > 0) ||
     security.password;
 
+  const hasData =
+    general.vehicleModel ||
+    general.vehicleType ||
+    general.buyDate ||
+    general.description ||
+    registration.rcNumber ||
+    registration.driverName ||
+    registration.ownerName ||
+    contact.contact ||
+    contact.altContact ||
+    contact.address ||
+    contact.mapLink ||
+    media.vehicleImage ||
+    media.licenseFront ||
+    media.licenseBack ||
+    media.galleryImages?.length > 0 ||
+    security.password ||
+    selectedTemplate !== "none";
+  
+
+
+ 
 
   const isVideo = bgDesign?.endsWith(".mp4");
   const isImage = bgDesign && !isVideo;
