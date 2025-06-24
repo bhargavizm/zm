@@ -199,6 +199,14 @@ export const stickerConfig = {
     logoLeft: "50%",
     logoSize: 35,
   },
+  // "/images/stickers/k.webp": {
+  //   qrTop: "50%",
+  //   qrLeft: "50%",
+  //   scale: 180,
+  //   logoTop: "50%",
+  //   logoLeft: "50%",
+  //   logoSize: 35,
+  // },
   // "/images/stickers/j.webp": {
   //   qrTop: "50%",
   //   qrLeft: "50%",
@@ -207,14 +215,14 @@ export const stickerConfig = {
   //   logoLeft: "50%",
   //   logoSize: 35,
   // },
-  //  "/images/stickers/k.webp": {
-  //   qrTop: "50%",
-  //   qrLeft: "50%",
-  //   scale: 180,
-  //   logoTop: "50%",
-  //   logoLeft: "50%",
-  //   logoSize: 35,
-  // },
+   "/images/stickers/k.webp": {
+    qrTop: "68%",
+    qrLeft: "41%",
+    scale: 140,
+    logoTop: "68%",
+    logoLeft: "40%",
+    logoSize: 32,
+  },
   "/images/stickers/stickers-1.svg": {
     qrTop: "50%",
     qrLeft: "50%",
