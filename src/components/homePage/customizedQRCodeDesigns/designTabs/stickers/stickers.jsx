@@ -37,7 +37,7 @@ import { stickerConfig } from "./stickerImages";
 
 const Stickers = ({ onSelectImage }) => (
   <section className="mt-6">
-    <div className="grid lg:grid-cols-7 md:grid-cols-6 sm:grid-cols-4 grid-cols-3 gap-8 h-[65vh] overflow-y-auto scrollbar-hide">
+    <div className="grid xl:grid-cols-7 lg:grid-cols-6 md:grid-cols-4 grid-cols-3 gap-8 h-[65vh] overflow-y-auto scrollbar-hide px-6">
       {Object.keys(stickerConfig).map((src, index) => (
         <Image
           key={index}
