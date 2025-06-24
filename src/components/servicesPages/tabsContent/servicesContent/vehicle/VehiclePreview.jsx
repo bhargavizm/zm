@@ -1,8 +1,9 @@
-'use client';
+"use client";
 
-import React from 'react';
-import useServicesContext from '@/components/hooks/useServiceContext';
-import useDesignContext from '@/components/hooks/useDesignContext';
+import { useEffect } from "react";
+import Image from "next/image"; // ✅ For logo in loader
+import useServicesContext from "@/components/hooks/useServiceContext";
+import useDesignContext from "@/components/hooks/useDesignContext";
 
 // Reusable transparent card section
 const Section = ({ title, children, condition }) => {
@@ -19,18 +20,20 @@ const Section = ({ title, children, condition }) => {
 
 const resolveImageUrl = (image) => {
   if (image instanceof File) return URL.createObjectURL(image);
-  if (typeof image === 'string') return image;
+  if (typeof image === "string") return image;
   return null;
 };
 
 const VehiclePreview = () => {
   const { dynamicForms } = useServicesContext();
-  const { bgDesign } = useDesignContext();
+  const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
 
-  const {
-    vehicle = {},
-    vehicleTemplate = {},
-  } = dynamicForms;
+  useEffect(() => {
+    setBgDesign(null);
+    setIsLoading(false);
+  }, []);
+
+  const { vehicle = {}, vehicleTemplate = {} } = dynamicForms;
 
   const {
     general = {},
@@ -40,6 +43,26 @@ const VehiclePreview = () => {
     security = {},
   } = vehicle;
 
+  const { selectedTemplate = "none" } = vehicleTemplate;
+
+  const hasData =
+    general.vehicleModel ||
+    general.vehicleType ||
+    general.buyDate ||
+    general.description ||
+    registration.rcNumber ||
+    registration.driverName ||
+    registration.ownerName ||
+    contact.contact ||
+    contact.altContact ||
+    contact.address ||
+    contact.mapLink ||
+    media.vehicleImage ||
+    media.licenseFront ||
+    media.licenseBack ||
+    media.galleryImages?.length > 0 ||
+    security.password ||
+    selectedTemplate !== "none";
   const { selectedTemplate } = vehicleTemplate;
 
   const hasData =
@@ -49,30 +72,33 @@ const VehiclePreview = () => {
     media.vehicleImage || media.licenseFront || media.licenseBack || (media.galleryImages?.length > 0) ||
     security.password;
 
-  const isVideo = bgDesign?.endsWith('.mp4');
+
+  const isVideo = bgDesign?.endsWith(".mp4");
   const isImage = bgDesign && !isVideo;
 
   const templateBgMap = {
-    templateV1: '/images/back/bgcar.png',
-    templateV2: '/images/back/bgauto.png',
-    templateV3: '/images/back/bglorry.png',
-    templateV4: '/images/back/bgbike.png',
+    templateV1: "/images/back/bgcar.png",
+    templateV2: "/images/back/bgauto.png",
+    templateV3: "/images/back/bglorry.png",
+    templateV4: "/images/back/bgbike.png",
   };
 
+
+  const templateBackground = templateBgMap[selectedTemplate] || null;
+  const useTemplateBg = selectedTemplate !== "none" && templateBackground;
   // Always use templateV1 as default if no template is selected
-  const templateBackground = templateBgMap[selectedTemplate] || templateBgMap.templateV1;
-  const useTemplateBg = true; // Always true since we always want a template background
+//   const templateBackground = templateBgMap[selectedTemplate] || templateBgMap.templateV1;
+//   const useTemplateBg = true; // Always true since we always want a template background
 
   return (
     <div className="flex justify-center">
-      <div className="relative w-[350px] h-[600px] rounded-[40px] border-[14px] border-gray-800 shadow-xl overflow-hidden flex flex-col text-gray-800 bg-white">
-
+      <div className="relative w-[350px] h-[650px] rounded-[40px] border-[14px] border-gray-800 shadow-xl overflow-hidden flex flex-col text-gray-800 bg-white">
         {/* Background Layer */}
-        {useTemplateBg ? (
+        {/* {useTemplateBg ? (
           <img
             src={templateBackground}
             alt="Template Background"
-            className="absolute inset-0 w-full h-full object-cover z-0"
+            className="absolute inset-0 w-full h-full object-cover z-0 p-3"
           />
         ) : isImage ? (
           <img
@@ -91,6 +117,54 @@ const VehiclePreview = () => {
           />
         ) : (
           <div className="absolute inset-0 bg-gradient-to-b from-[#d1f0f0] to-white z-0" />
+        )} */}
+
+        {/* Background Layer: bgDesign first */}
+        {isVideo && (
+          <video
+            src={bgDesign}
+            autoPlay
+            loop
+            muted
+            playsInline
+            onLoadedData={() => setTimeout(() => setIsLoading(false), 300)}
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          />
+        )}
+        {isImage && (
+          <img
+            src={bgDesign}
+            alt="Background Design"
+            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          />
+        )}
+
+        {/* Template Image Overlay (if selected) */}
+        {useTemplateBg && (
+          <img
+            src={templateBackground}
+            alt="Template Background"
+            className="absolute inset-0 w-full h-full object-contain z-10 p-2 pointer-events-none"
+          />
+        )}
+
+        {/* Fallback gradient if no bgDesign or template */}
+        {!isVideo && !isImage && !useTemplateBg && (
+          <div className="absolute inset-0 bg-gradient-to-b from-[#d1f0f0] to-white z-0" />
+        )}
+
+        {/* Loader Overlay */}
+        {isLoading && (
+          <div className="absolute inset-0 z-50 bg-mainGreen backdrop-blur-sm flex justify-center items-center">
+            <Image
+              src="/logos/ZM LOGO.png"
+              alt="Loading Logo"
+              width={300}
+              height={150}
+              className="w-20 h-20 animate-bounce"
+            />
+          </div>
         )}
 
         {/* Notch */}
@@ -117,34 +191,93 @@ const VehiclePreview = () => {
                 </div>
               )}
 
-              <h2 className="text-center text-xl font-bold mb-4 text-[#008080]">Vehicle Profile</h2>
+              <h2 className="text-center text-xl font-bold mb-4 text-[#008080]">
+                Vehicle Profile
+              </h2>
 
-              <Section title="General Information" condition={
-                general.vehicleModel || general.vehicleType || general.buyDate || general.description
-              }>
-                {general.vehicleModel && <p><strong>Name:</strong> {general.vehicleModel}</p>}
-                {general.vehicleType && <p><strong>Type:</strong> {general.vehicleType}</p>}
-                {general.buyDate && <p><strong>Purchase Date:</strong> {general.buyDate}</p>}
-                {general.description && <p><strong>Description:</strong> {general.description}</p>}
+              <Section
+                title="General Information"
+                condition={
+                  general.vehicleModel ||
+                  general.vehicleType ||
+                  general.buyDate ||
+                  general.description
+                }
+              >
+                {general.vehicleModel && (
+                  <p>
+                    <strong>Name:</strong> {general.vehicleModel}
+                  </p>
+                )}
+                {general.vehicleType && (
+                  <p>
+                    <strong>Type:</strong> {general.vehicleType}
+                  </p>
+                )}
+                {general.buyDate && (
+                  <p>
+                    <strong>Purchase Date:</strong> {general.buyDate}
+                  </p>
+                )}
+                {general.description && (
+                  <p>
+                    <strong>Description:</strong> {general.description}
+                  </p>
+                )}
               </Section>
 
-              <Section title="Registration Details" condition={
-                registration.rcNumber || registration.driverName || registration.ownerName
-              }>
-                {registration.rcNumber && <p><strong>RC Number:</strong> {registration.rcNumber}</p>}
-                {registration.driverName && <p><strong>Driver Name:</strong> {registration.driverName}</p>}
-                {registration.ownerName && <p><strong>Owner Name:</strong> {registration.ownerName}</p>}
+              <Section
+                title="Registration Details"
+                condition={
+                  registration.rcNumber ||
+                  registration.driverName ||
+                  registration.ownerName
+                }
+              >
+                {registration.rcNumber && (
+                  <p>
+                    <strong>RC Number:</strong> {registration.rcNumber}
+                  </p>
+                )}
+                {registration.driverName && (
+                  <p>
+                    <strong>Driver Name:</strong> {registration.driverName}
+                  </p>
+                )}
+                {registration.ownerName && (
+                  <p>
+                    <strong>Owner Name:</strong> {registration.ownerName}
+                  </p>
+                )}
               </Section>
 
-              <Section title="Contact Information" condition={
-                contact.contact || contact.altContact || contact.address || contact.mapLink
-              }>
-                {contact.contact && <p><strong>Contact:</strong> {contact.contact}</p>}
-                {contact.altContact && <p><strong>Alt. Contact:</strong> {contact.altContact}</p>}
-                {contact.address && <p><strong>Address:</strong> {contact.address}</p>}
+              <Section
+                title="Contact Information"
+                condition={
+                  contact.contact ||
+                  contact.altContact ||
+                  contact.address ||
+                  contact.mapLink
+                }
+              >
+                {contact.contact && (
+                  <p>
+                    <strong>Contact:</strong> {contact.contact}
+                  </p>
+                )}
+                {contact.altContact && (
+                  <p>
+                    <strong>Alt. Contact:</strong> {contact.altContact}
+                  </p>
+                )}
+                {contact.address && (
+                  <p>
+                    <strong>Address:</strong> {contact.address}
+                  </p>
+                )}
                 {contact.mapLink && (
                   <p>
-                    <strong>Map Link:</strong>{' '}
+                    <strong>Map Link:</strong>{" "}
                     <a
                       href={contact.mapLink}
                       target="_blank"
@@ -158,9 +291,14 @@ const VehiclePreview = () => {
               </Section>
 
               {/* Media section at the bottom */}
-              <Section title="Additional Images" condition={
-                media.licenseFront || media.licenseBack || (media.galleryImages?.length > 0)
-              }>
+              <Section
+                title="Additional Images"
+                condition={
+                  media.licenseFront ||
+                  media.licenseBack ||
+                  media.galleryImages?.length > 0
+                }
+              >
                 <div className="grid grid-cols-2 gap-2">
                   {resolveImageUrl(media.licenseFront) && (
                     <div className="mb-2">
@@ -182,19 +320,22 @@ const VehiclePreview = () => {
                       />
                     </div>
                   )}
-                  {media.galleryImages?.length > 0 && media.galleryImages.map((img, idx) => {
-                    const src = resolveImageUrl(img);
-                    return src ? (
-                      <div key={idx} className="mb-2">
-                        <p className="font-medium text-xs mb-1">Gallery {idx + 1}:</p>
-                        <img
-                          src={src}
-                          alt={`Gallery ${idx + 1}`}
-                          className="w-full h-20 object-cover rounded border"
-                        />
-                      </div>
-                    ) : null;
-                  })}
+                  {media.galleryImages?.length > 0 &&
+                    media.galleryImages.map((img, idx) => {
+                      const src = resolveImageUrl(img);
+                      return src ? (
+                        <div key={idx} className="mb-2">
+                          <p className="font-medium text-xs mb-1">
+                            Gallery {idx + 1}:
+                          </p>
+                          <img
+                            src={src}
+                            alt={`Gallery ${idx + 1}`}
+                            className="w-full h-20 object-cover rounded border"
+                          />
+                        </div>
+                      ) : null;
+                    })}
                 </div>
               </Section>
             </div>

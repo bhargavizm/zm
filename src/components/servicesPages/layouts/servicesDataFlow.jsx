@@ -33,11 +33,11 @@ const ServicesDataFlow = ()  =>{
 
   if (!ContentTabComponent) {
     return (
-      <div className="fixed inset-0 bg-mainGreen/70 bg-opacity-50 flex items-center justify-center z-50">
+      <div className="fixed inset-0 bg-mainGreen/70 bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-md">
         <img
           src="/logos/logo.webp"
           alt="Loading Logo"
-          className="w-60 h-auto animate-pulse"
+          className="w-50 h-auto animate-pulse"
         />
       </div>
     );
