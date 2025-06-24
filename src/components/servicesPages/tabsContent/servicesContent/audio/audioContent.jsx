@@ -72,18 +72,36 @@ const AudioContent = () => {
           </div>
 
           {/* File Upload Field */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">
-              Choose File
-            </label>
-            <input
-              type="file"
-              name="file"
-              accept="audio/*"
-              onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:bg-teal-600 file:text-white hover:file:bg-teal-700"
-            />
-          </div>
+          {/* File Upload Field with Preview and Remove */}
+<div>
+  <label className="block text-sm font-semibold text-gray-700 mb-1">
+    Choose File
+  </label>
+  <input
+    type="file"
+    name="file"
+    accept="audio/*"
+    onChange={handleChange}
+    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:bg-teal-600 file:text-white hover:file:bg-teal-700"
+  />
+
+  {audioFormData.file && (
+    <div className="flex items-center justify-between mt-2 bg-gray-50 border border-gray-200 rounded px-3 py-2 text-sm">
+      <span className="truncate max-w-[80%]">{audioFormData.file.name}</span>
+      <button
+        type="button"
+        onClick={() =>
+          setAudioFormData((prev) => ({ ...prev, file: null }))
+        }
+        className="text-red-600 hover:text-red-800 font-bold ml-4"
+        aria-label="Remove file"
+      >
+        ✕
+      </button>
+    </div>
+  )}
+</div>
+
 
           {/* Password Field with Eye Icon */}
           <div>

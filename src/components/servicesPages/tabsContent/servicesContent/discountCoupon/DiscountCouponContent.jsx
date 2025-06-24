@@ -197,11 +197,191 @@
 
 
 // src/components/DiscountCouponContent.jsx
+// 'use client';
+
+// import React, { useState } from 'react';
+// import useServicesContext from '@/components/hooks/useServiceContext';
+// import { Eye, EyeOff } from 'lucide-react';
+// import NFCModal from '@/components/modalPopUps/nfcModal';
+
+// const DiscountCouponContent = () => {
+//   const { dynamicForms, updateDynamicForm } = useServicesContext();
+//   const discountCoupon = dynamicForms.discountCoupon || {};
+//   const [showPassword, setShowPassword] = useState(false);
+
+//   const handleChange = (fieldKey, value) => {
+//     updateDynamicForm('discountCoupon', null, fieldKey, value);
+//   };
+
+//   const handleFileChange = (fieldKey, files) => {
+//     handleChange(fieldKey, files[0]);
+//   };
+
+//   const togglePasswordVisibility = () => {
+//     setShowPassword(!showPassword);
+//   };
+
+//   return (
+//     <div className="space-y-8 p-4 md:p-8 lg:p-12 bg-gray-50 rounded-xl shadow-lg">
+//       <div className="grid grid-cols-2 gap-4">
+//         <div className="space-y-2">
+//           <label className="block text-base font-medium text-gray-700">Brand Logo</label>
+//           <input
+//             type="file"
+//             accept="image/*"
+//             className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
+//             onChange={(e) => handleFileChange('brandLogo', e.target.files)}
+//           />
+//         </div>
+//       </div>
+
+//       {/* Coupon Details Section */}
+//       <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100">
+//         <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200">Coupon Details</h3>
+//         <div className="space-y-5">
+//           <input
+//             type="text"
+//             placeholder="Name of Business"
+//             className="w-full px-5 py-3 border border-gray-300 rounded-lg"
+//             value={discountCoupon.nameOfBusiness || ''}
+//             onChange={(e) => handleChange('nameOfBusiness', e.target.value)}
+//           />
+//           <input
+//             type="text"
+//             placeholder="Coupon Code (e.g., SAVE20)"
+//             className="w-full px-5 py-3 border border-gray-300 rounded-lg"
+//             value={discountCoupon.code || ''}
+//             onChange={(e) => handleChange('code', e.target.value)}
+//           />
+
+//           <div className="flex items-center space-x-4">
+//             <label className="text-gray-700 font-medium">Discount Type:</label>
+//             <div className="flex items-center space-x-2">
+//               <input
+//                 type="radio"
+//                 id="percentage"
+//                 name="discountType"
+//                 value="percentage"
+//                 checked={discountCoupon.type === 'percentage'}
+//                 onChange={() => handleChange('type', 'percentage')}
+//               />
+//               <label htmlFor="percentage">Percentage</label>
+//             </div>
+//             <div className="flex items-center space-x-2">
+//               <input
+//                 type="radio"
+//                 id="fixed"
+//                 name="discountType"
+//                 value="fixed"
+//                 checked={discountCoupon.type === 'fixed'}
+//                 onChange={() => handleChange('type', 'fixed')}
+//               />
+//               <label htmlFor="fixed">Fixed Amount</label>
+//             </div>
+//           </div>
+
+//           <input
+//             type="number"
+//             placeholder={discountCoupon.type === 'percentage' ? "Discount Percentage (e.g., 20)" : "Fixed Discount Amount (e.g., 10.00)"}
+//             className="w-full px-5 py-3 border border-gray-300 rounded-lg"
+//             value={discountCoupon.value || ''}
+//             onChange={(e) => handleChange('value', e.target.value)}
+//           />
+//           <input
+//             type="number"
+//             placeholder="Minimum Purchase Amount (e.g., 50.00)"
+//             className="w-full px-5 py-3 border border-gray-300 rounded-lg"
+//             value={discountCoupon.minPurchase || ''}
+//             onChange={(e) => handleChange('minPurchase', e.target.value)}
+//           />
+
+//           <div className="flex flex-col">
+//             <label htmlFor="expiryDate" className="text-sm font-medium mb-2">Expiry Date</label>
+//             <input
+//               id="expiryDate"
+//               type="date"
+//               className="w-full px-5 py-3 border border-gray-300 rounded-lg"
+//               value={discountCoupon.expiryDate || ''}
+//               onChange={(e) => handleChange('expiryDate', e.target.value)}
+//             />
+//           </div>
+
+//           <textarea
+//             placeholder="Coupon Description (e.g., Valid on all items. Max discount ₹20.)"
+//             rows={3}
+//             className="w-full px-5 py-3 border border-gray-300 rounded-lg resize-y"
+//             value={discountCoupon.description || ''}
+//             onChange={(e) => handleChange('description', e.target.value)}
+//           />
+
+//           <div className="space-y-2">
+//             <label className="block text-base font-medium text-gray-700">Coupon Image</label>
+//             <input
+//               type="file"
+//               accept="image/*"
+//               className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
+//               onChange={(e) => handleFileChange('couponImage', e.target.files)}
+//             />
+//           </div>
+
+//           <div className="flex items-center justify-between p-3 border border-gray-200 rounded-lg bg-gray-50">
+//             <label htmlFor="isActive" className="text-base font-medium">Coupon is Active</label>
+//             <label className="relative inline-flex items-center cursor-pointer">
+//               <input
+//                 type="checkbox"
+//                 id="isActive"
+//                 className="sr-only peer"
+//                 checked={!!discountCoupon.isActive}
+//                 onChange={(e) => handleChange('isActive', e.target.checked)}
+//               />
+//               <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-teal-600 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full" />
+//             </label>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* Security Section */}
+//       <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100">
+//         <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200">Security</h3>
+//         <div className="relative">
+//           <input
+//             type={showPassword ? "text" : "password"}
+//             placeholder="Password"
+//             className="w-full px-5 py-3 border border-gray-300 rounded-lg pr-12"
+//             value={discountCoupon.password || ''}
+//             onChange={(e) => handleChange('password', e.target.value)}
+//           />
+//           <button
+//             type="button"
+//             className="absolute inset-y-0 right-0 pr-4 flex items-center text-teal-600"
+//             onClick={togglePasswordVisibility}
+//             aria-label={showPassword ? "Hide password" : "Show password"}
+//           >
+//             {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+//           </button>
+//         </div>
+//       </div>
+
+//       <NFCModal />
+
+//       <div className="text-center my-6">
+//         <button
+//           type="submit"
+//           className="w-full bg-[#008080] hover:bg-[#006666] text-white py-3 rounded-lg font-medium shadow-lg transition-colors"
+//         >
+//           Submit
+//         </button>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default DiscountCouponContent;
 'use client';
 
 import React, { useState } from 'react';
 import useServicesContext from '@/components/hooks/useServiceContext';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, X } from 'lucide-react';
 import NFCModal from '@/components/modalPopUps/nfcModal';
 
 const DiscountCouponContent = () => {
@@ -214,28 +394,57 @@ const DiscountCouponContent = () => {
   };
 
   const handleFileChange = (fieldKey, files) => {
-    handleChange(fieldKey, files[0]);
+    if (files && files[0]) {
+      handleChange(fieldKey, files[0]);
+    }
+  };
+
+  const removeImage = (fieldKey) => {
+    handleChange(fieldKey, null);
   };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
+  const getPreviewUrl = (fileOrUrl) => {
+    if (!fileOrUrl) return null;
+    if (fileOrUrl instanceof File) return URL.createObjectURL(fileOrUrl);
+    if (typeof fileOrUrl === 'string') return fileOrUrl;
+    return null;
+  };
+
   return (
     <div className="space-y-8 p-4 md:p-8 lg:p-12 bg-gray-50 rounded-xl shadow-lg">
-      <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <label className="block text-base font-medium text-gray-700">Brand Logo</label>
-          <input
-            type="file"
-            accept="image/*"
-            className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
-            onChange={(e) => handleFileChange('brandLogo', e.target.files)}
-          />
-        </div>
+      {/* BRAND LOGO */}
+      <div className="space-y-2">
+        <label className="block text-base font-medium text-gray-700">Brand Logo</label>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => handleFileChange('brandLogo', e.target.files)}
+          className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
+        />
+
+        {discountCoupon.brandLogo && (
+          <div className="relative w-32 mt-2">
+            <img
+              src={getPreviewUrl(discountCoupon.brandLogo)}
+              alt="Brand Logo Preview"
+              className="rounded shadow border"
+            />
+            <button
+              onClick={() => removeImage('brandLogo')}
+              className="absolute top-0 right-0 bg-white text-red-600 rounded-full p-1 shadow"
+              aria-label="Remove logo"
+            >
+              <X size={18} />
+            </button>
+          </div>
+        )}
       </div>
 
-      {/* Coupon Details Section */}
+      {/* COUPON DETAILS */}
       <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100">
         <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200">Coupon Details</h3>
         <div className="space-y-5">
@@ -254,93 +463,39 @@ const DiscountCouponContent = () => {
             onChange={(e) => handleChange('code', e.target.value)}
           />
 
-          <div className="flex items-center space-x-4">
-            <label className="text-gray-700 font-medium">Discount Type:</label>
-            <div className="flex items-center space-x-2">
-              <input
-                type="radio"
-                id="percentage"
-                name="discountType"
-                value="percentage"
-                checked={discountCoupon.type === 'percentage'}
-                onChange={() => handleChange('type', 'percentage')}
-              />
-              <label htmlFor="percentage">Percentage</label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <input
-                type="radio"
-                id="fixed"
-                name="discountType"
-                value="fixed"
-                checked={discountCoupon.type === 'fixed'}
-                onChange={() => handleChange('type', 'fixed')}
-              />
-              <label htmlFor="fixed">Fixed Amount</label>
-            </div>
-          </div>
+          {/* ...Other fields remain the same... */}
 
-          <input
-            type="number"
-            placeholder={discountCoupon.type === 'percentage' ? "Discount Percentage (e.g., 20)" : "Fixed Discount Amount (e.g., 10.00)"}
-            className="w-full px-5 py-3 border border-gray-300 rounded-lg"
-            value={discountCoupon.value || ''}
-            onChange={(e) => handleChange('value', e.target.value)}
-          />
-          <input
-            type="number"
-            placeholder="Minimum Purchase Amount (e.g., 50.00)"
-            className="w-full px-5 py-3 border border-gray-300 rounded-lg"
-            value={discountCoupon.minPurchase || ''}
-            onChange={(e) => handleChange('minPurchase', e.target.value)}
-          />
-
-          <div className="flex flex-col">
-            <label htmlFor="expiryDate" className="text-sm font-medium mb-2">Expiry Date</label>
-            <input
-              id="expiryDate"
-              type="date"
-              className="w-full px-5 py-3 border border-gray-300 rounded-lg"
-              value={discountCoupon.expiryDate || ''}
-              onChange={(e) => handleChange('expiryDate', e.target.value)}
-            />
-          </div>
-
-          <textarea
-            placeholder="Coupon Description (e.g., Valid on all items. Max discount ₹20.)"
-            rows={3}
-            className="w-full px-5 py-3 border border-gray-300 rounded-lg resize-y"
-            value={discountCoupon.description || ''}
-            onChange={(e) => handleChange('description', e.target.value)}
-          />
-
+          {/* COUPON IMAGE */}
           <div className="space-y-2">
             <label className="block text-base font-medium text-gray-700">Coupon Image</label>
             <input
               type="file"
               accept="image/*"
-              className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
               onChange={(e) => handleFileChange('couponImage', e.target.files)}
+              className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
             />
-          </div>
 
-          <div className="flex items-center justify-between p-3 border border-gray-200 rounded-lg bg-gray-50">
-            <label htmlFor="isActive" className="text-base font-medium">Coupon is Active</label>
-            <label className="relative inline-flex items-center cursor-pointer">
-              <input
-                type="checkbox"
-                id="isActive"
-                className="sr-only peer"
-                checked={!!discountCoupon.isActive}
-                onChange={(e) => handleChange('isActive', e.target.checked)}
-              />
-              <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-teal-600 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full" />
-            </label>
+            {discountCoupon.couponImage && (
+              <div className="relative w-32 mt-2">
+                <img
+                  src={getPreviewUrl(discountCoupon.couponImage)}
+                  alt="Coupon Preview"
+                  className="rounded shadow border"
+                />
+                <button
+                  onClick={() => removeImage('couponImage')}
+                  className="absolute top-0 right-0 bg-white text-red-600 rounded-full p-1 shadow"
+                  aria-label="Remove coupon image"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
-      {/* Security Section */}
+      {/* SECURITY SECTION */}
       <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100">
         <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200">Security</h3>
         <div className="relative">

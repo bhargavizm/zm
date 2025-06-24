@@ -196,14 +196,25 @@ const MenuBookContent = () => {
     setMenuBookFormData({ ...menuBookFormData, menuItems: updated })
   }
 
+  // const handleFileUpload = (e, index) => {
+  //   const file = e.target.files[0]
+  //   if (!file) return
+  //   const fileURL = URL.createObjectURL(file)
+  //   const updated = [...menuBookFormData.menuItems]
+  //   updated[index].image = `${fileURL}?t=${Date.now()}`
+  //   setMenuBookFormData({ ...menuBookFormData, menuItems: updated })
+  // }
+
   const handleFileUpload = (e, index) => {
-    const file = e.target.files[0]
-    if (!file) return
-    const fileURL = URL.createObjectURL(file)
-    const updated = [...menuBookFormData.menuItems]
-    updated[index].image = `${fileURL}?t=${Date.now()}`
-    setMenuBookFormData({ ...menuBookFormData, menuItems: updated })
-  }
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const fileURL = URL.createObjectURL(file); // ✅ don't modify this
+  const updated = [...menuBookFormData.menuItems];
+  updated[index].image = fileURL; // ✅ no query string
+  setMenuBookFormData({ ...menuBookFormData, menuItems: updated });
+};
+
 
   const handleVideoUpload = (e, index) => {
     const file = e.target.files[0]
@@ -238,7 +249,7 @@ const MenuBookContent = () => {
                     key={index}
                     className={`mt-4 flex ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'} items-start gap-4`}
                   >
-                    <div className="w-full space-y-2 border p-4 rounded bg-[#f0fdfd] relative">
+                    {/* <div className="w-full space-y-2 border p-4 rounded bg-[#f0fdfd] relative">
                       <input
                         type="file"
                         accept="image/*"
@@ -262,7 +273,56 @@ const MenuBookContent = () => {
                           ❌
                         </button>
                       )}
-                    </div>
+                    </div> */}
+                    <div className="w-full space-y-2 border p-4 rounded bg-[#f0fdfd] relative">
+  <input
+    type="file"
+    accept="image/*"
+    onChange={(e) => handleFileUpload(e, index)}
+    className="w-full text-sm text-gray-700
+      file:mr-4 file:py-2 file:px-4
+      file:rounded-full file:border-0
+      file:text-sm file:font-semibold
+      file:bg-[#008080] file:text-white
+      hover:file:bg-[#006666] transition duration-200 cursor-pointer"
+  />
+
+  {/* Image Preview with Remove Button */}
+  {item.image && (
+    <div className="relative w-24 h-24 mt-3">
+      <img
+        src={item.image}
+        alt={`Menu item ${index}`}
+        className="w-full h-full object-cover rounded border shadow-sm"
+      />
+      <button
+        onClick={() => {
+          const updated = [...menuBookFormData.menuItems]
+          updated[index].image = ""
+          setMenuBookFormData({ ...menuBookFormData, menuItems: updated })
+        }}
+        className="absolute top-[-8px] right-[-8px] bg-white text-red-600 rounded-full w-5 h-5 text-xs flex items-center justify-center shadow-md"
+        title="Remove"
+      >
+        ✖
+      </button>
+    </div>
+  )}
+
+  {menuBookFormData.menuItems.length > 1 && (
+    <button
+      onClick={() => {
+        const updated = [...menuBookFormData.menuItems]
+        updated.splice(index, 1)
+        setMenuBookFormData({ ...menuBookFormData, menuItems: updated })
+      }}
+      className="absolute top-2 right-2 text-red-600 text-sm"
+    >
+      ❌
+    </button>
+  )}
+</div>
+
                   </div>
                 ))}
 

@@ -205,18 +205,28 @@ const KidsSafetyContent = () => {
             onChange={handleImageChange}
             className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
           />
-          {kidsSafety.kidsImage && (
-            <div className="mt-4">
-              <p className="text-sm text-gray-600 mb-2">
-                Current Image Preview:
-              </p>
-              <img
-                src={URL.createObjectURL(kidsSafety.kidsImage)}
-                alt="Child Profile"
-                className="w-24 h-24 object-cover rounded-full shadow-inner border border-gray-200"
-              />
-            </div>
-          )}
+         {kidsSafety.kidsImage && (
+  <div className="relative mt-4 w-fit">
+    <p className="text-sm text-gray-600 mb-2">Current Image Preview:</p>
+    <img
+      src={
+        kidsSafety.kidsImage instanceof File
+          ? URL.createObjectURL(kidsSafety.kidsImage)
+          : kidsSafety.kidsImage
+      }
+      alt="Child Profile"
+      className="w-24 h-24 object-cover rounded-2xl shadow-inner border border-gray-200"
+    />
+    <button
+      onClick={() => updateDynamicForm("kidsSafety", null, "kidsImage", null)}
+      className="absolute top-5 right-10 bg-white text-red-600 rounded-full p-1 shadow cursor-pointer"
+      aria-label="Remove image"
+    >
+      ✕
+    </button>
+  </div>
+)}
+
         </div>
       </div>
 

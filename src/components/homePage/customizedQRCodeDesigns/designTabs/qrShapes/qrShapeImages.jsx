@@ -51,7 +51,7 @@ export const images = [
   "/images/qr-shapes/qrshapes-54.webp",
   "/images/qr-shapes/qrshapes-55.webp",
   "/images/qr-shapes/qrshapes-56.webp",
-  "/images/qr-shapes/qrshapes-57.webp",
+  //"/images/qr-shapes/qrshapes-57.webp",
   "/images/qr-shapes/qrshapes-58.webp",
    "/images/qr-shapes/qrshapes-59.webp",
   "/images/qr-shapes/qrshapes-60.webp",
@@ -61,6 +61,7 @@ export const images = [
   // "/images/qr-shapes/qrshapes-64.webp",
   //"/images/qr-shapes/qrshapes-65.webp",
   // "/images/qr-shapes/qrshapes-66.webp",
+   "/images/qr-shapes/qrshapes-67.webp",
  
  
 ];

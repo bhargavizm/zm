@@ -37,7 +37,7 @@ const DesignProvider = ({ children }) => {
     );
     setSelectedSticker(
       localStorage.getItem("selectedSticker") ||
-        "/images/stickers/stickers-4.svg"
+        "/images/stickers/e.png"
     );
     // setSelectedColor(localStorage.getItem("selectedColor") || "#000000");
     // setSelectedShape(localStorage.getItem("selectedShape") || "square");
