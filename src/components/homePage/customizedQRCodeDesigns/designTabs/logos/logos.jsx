@@ -7,7 +7,7 @@ import { logos } from "./logoImages";
 const Logos = ({ onSelectImage }) => {
 
 
-  const { logoSize, setLogoSize } = useDesignContext();
+  const { logoSize, setLogoSize , selectedLogo, setSelectedLogo} = useDesignContext();
   const [showWarning, setShowWarning] = useState(false);
 
   // Check if logo size is too large (more than 25% of QR size)
@@ -37,8 +37,16 @@ const Logos = ({ onSelectImage }) => {
             alt={`Logo ${index + 1}`}
             width={60}
             height={60}
-            className="cursor-pointer hover:scale-110 transition-transform"
-            onClick={() => onSelectImage(src)}
+              className={`cursor-pointer rounded-2xl border-4 transition-all duration-200 ${
+    selectedLogo === src
+      ? "border-mainGreen scale-110 shadow-lg p-1"
+      : "border-transparent"
+  }`}
+            onClick={() => {
+  setSelectedLogo(src);
+  onSelectImage(src);
+}}
+
             priority
           />
         ))}
