@@ -179,212 +179,488 @@
 //     </div>
 //   )
 // }
-'use client'
-import React, { useState } from 'react'
 
-const specialPlans = {
-  monthly: [
-    {
-      name: 'Free',
-      price: 0,
-      features: ['1 Special QR', '30MB Storage', 'ZM Watermark'],
-    },
-    {
-      name: 'Starter',
-      price: 999,
-      features: ['1 GB Storage', '1 Special QR', 'Customization Add-on'],
-    },
-    {
-      name: 'Pro',
-      price: 1799,
-      features: ['2 GB Storage', '2 Special QRs', 'Custom Branding', 'Customization Included'],
-      mostPopular: true,
-    },
-    {
-      name: 'Advanced',
-      price: 2499,
-      features: ['3 GB Storage', '4 Special QRs', 'Priority Support', 'All Add-ons Included'],
-    },
-  ],
-  yearly: [
-    {
-      name: 'Free',
-      price: 0,
-      features: ['1 Special QR', '30MB Storage', 'ZM Watermark'],
-    },
-    {
-      name: 'Starter',
-      price: 7999,
-      features: ['1 GB Storage', '1 Special QR', 'Customization Add-on'],
-    },
-    {
-      name: 'Pro',
-      price: 14392,
-      features: ['2 GB Storage', '2 Special QRs', 'Custom Branding', 'Customization Included'],
-      mostPopular: true,
-    },
-    {
-      name: 'Advanced',
-      price: 23990,
-      features: ['3 GB Storage', '4 Special QRs', 'Priority Support', 'All Add-ons Included'],
-    },
-  ],
-}
 
-const basicPlans = {
-  monthly: [
-    {
-      name: 'Free',
-      price: 0,
-      features: ['4 Basic QR Codes', '30MB Storage'],
-    },
-    {
-      name: 'Starter',
-      price: 99,
-      features: ['1 Basic QR Tool', '50MB Storage'],
-    },
-    {
-      name: 'Pro',
-      price: 299,
-      features: ['3 Tools', 'Customization Add-on'],
-    },
-    {
-      name: 'Advanced',
-      price: 499,
-      features: ['All 32 Tools', 'Customization + NFC'],
-    },
-  ],
-  yearly: [
-    {
-      name: 'Free',
-      price: 0,
-      features: ['4 Basic QR Codes', '30MB Storage'],
-    },
-    {
-      name: 'Starter',
-      price: 999,
-      features: ['1 Basic QR Tool', '50MB Storage'],
-    },
-    {
-      name: 'Pro',
-      price: 2999,
-      features: ['3 Tools', 'Customization Add-on'],
-    },
-    {
-      name: 'Advanced',
-      price: 4999,
-      features: ['All 32 Tools', 'Customization + NFC'],
-    },
-  ],
-}
+// app/pricing/page.tsx
+// import { CheckIcon, MinusIcon } from "@heroicons/react/24/outline";
+
+// export default function PricingPage() {
+//   const plans = [
+//     {
+//       name: "Free",
+//       price: "$0",
+//       description: "Perfect for getting started",
+//       cta: "Get Started",
+//       popular: false,
+//     },
+//     {
+//       name: "Starter",
+//       price: "$9",
+//       description: "For small businesses",
+//       cta: "Start Trial",
+//       popular: false,
+//     },
+//     {
+//       name: "Pro",
+//       price: "$29",
+//       description: "For growing businesses",
+//       cta: "Start Trial",
+//       popular: true,
+//     },
+//     {
+//       name: "Ultima",
+//       price: "$99",
+//       description: "Enterprise solutions",
+//       cta: "Contact Sales",
+//       popular: false,
+//     },
+//   ];
+
+//   const features = [
+//     {
+//       category: "QR Code Features",
+//       items: [
+//         { name: "Dynamic QR Codes", free: true, starter: true, pro: true, ultima: true },
+//         { name: "Static QR Codes", free: true, starter: true, pro: true, ultima: true },
+//         { name: "QR Code Analytics", free: false, starter: true, pro: true, ultima: true },
+//         { name: "Custom Domains", free: false, starter: false, pro: true, ultima: true },
+//         { name: "Bulk Generation", free: false, starter: false, pro: true, ultima: true },
+//       ],
+//     },
+//     {
+//       category: "Customization",
+//       items: [
+//         { name: "Color Customization", free: true, starter: true, pro: true, ultima: true },
+//         { name: "Logo Customization", free: false, starter: true, pro: true, ultima: true },
+//         { name: "Pattern Customization", free: false, starter: false, pro: true, ultima: true },
+//         { name: "Frame Customization", free: false, starter: false, pro: false, ultima: true },
+//       ],
+//     },
+//     {
+//       category: "Support",
+//       items: [
+//         { name: "Email Support", free: false, starter: true, pro: true, ultima: true },
+//         { name: "Priority Support", free: false, starter: false, pro: true, ultima: true },
+//         { name: "Dedicated Account Manager", free: false, starter: false, pro: false, ultima: true },
+//       ],
+//     },
+//   ];
+
+//   return (
+//     <div className="bg-white py-12 sm:py-16">
+//       <div className="mx-auto max-w-7xl px-6 lg:px-8">
+//         <div className="mx-auto max-w-4xl text-center">
+//           <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+//             Simple, transparent pricing
+//           </h1>
+//           <p className="mt-4 text-lg leading-8 text-gray-600">
+//             Choose the perfect plan for your business needs
+//           </p>
+//         </div>
+
+//         {/* Unified Pricing & Features Table */}
+//         <div className="mt-16 flow-root">
+//           <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+//             <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+//               <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-lg">
+//                 <table className="min-w-full divide-y divide-gray-300">
+//                   <thead className="bg-gray-50">
+//                     <tr>
+//                       <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+//                         Plans & Features
+//                       </th>
+//                       {plans.map((plan) => (
+//                         <th key={plan.name} scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
+//                           <div className={`${plan.popular ? 'relative' : ''}`}>
+//                             {plan.popular && (
+//                               <span className="absolute -top-5 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-yellow-50 px-2 py-1 rounded-full text-xs font-medium text-amber-600">
+//                                 Most popular
+//                               </span>
+//                             )}
+//                             <div className={`${plan.popular ? 'ring-2 ring-indigo-600 rounded-t-lg px-4 py-2 bg-gray-50' : ''}`}>
+//                               <div className="font-bold text-lg">{plan.name}</div>
+//                               <div className="text-2xl font-bold my-1">{plan.price}</div>
+//                               <div className="text-xs text-gray-500">{plan.description}</div>
+//                               <a
+//                                 href="#"
+//                                 className={`mt-2 inline-block rounded-md py-1 px-2 text-xs font-semibold leading-5 ${
+//                                   plan.popular 
+//                                     ? 'bg-indigo-600 text-white hover:bg-indigo-500' 
+//                                     : 'text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300'
+//                                 }`}
+//                               >
+//                                 {plan.cta}
+//                               </a>
+//                             </div>
+//                           </div>
+//                         </th>
+//                       ))}
+//                     </tr>
+//                   </thead>
+//                   <tbody className="divide-y divide-gray-200 bg-white">
+//                     {features.map((section) => (
+//                       <>
+//                         <tr key={section.category} className="border-t border-gray-200">
+//                           <th
+//                             colSpan={5}
+//                             scope="colgroup"
+//                             className="bg-gray-50 px-4 py-2 text-left text-sm font-semibold text-gray-900 sm:px-6"
+//                           >
+//                             {section.category}
+//                           </th>
+//                         </tr>
+//                         {section.items.map((feature) => (
+//                           <tr key={feature.name}>
+//                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+//                               {feature.name}
+//                             </td>
+//                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
+//                               {feature.free ? <CheckIcon className="h-5 w-5 text-green-500 mx-auto" /> : <MinusIcon className="h-5 w-5 text-gray-400 mx-auto" />}
+//                             </td>
+//                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
+//                               {feature.starter ? <CheckIcon className="h-5 w-5 text-green-500 mx-auto" /> : <MinusIcon className="h-5 w-5 text-gray-400 mx-auto" />}
+//                             </td>
+//                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
+//                               {feature.pro ? <CheckIcon className="h-5 w-5 text-green-500 mx-auto" /> : <MinusIcon className="h-5 w-5 text-gray-400 mx-auto" />}
+//                             </td>
+//                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
+//                               {feature.ultima ? <CheckIcon className="h-5 w-5 text-green-500 mx-auto" /> : <MinusIcon className="h-5 w-5 text-gray-400 mx-auto" />}
+//                             </td>
+//                           </tr>
+//                         ))}
+//                       </>
+//                     ))}
+//                   </tbody>
+//                 </table>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+// app/prices/page.jsx
+
+'use client';
+
+import React from "react";
+import { CheckIcon, MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { useState } from "react";
 
 export default function PricingPage() {
-  const [planType, setPlanType] = useState('monthly')
-  const [currency, setCurrency] = useState('INR')
+  const [expandedSections, setExpandedSections] = useState({
+    
+  });
+  const [billingCycle, setBillingCycle] = useState('monthly');
+  const [currency, setCurrency] = useState('INR');
 
-  const convert = (inr) => currency === 'INR' ? `₹${inr}` : `$${(inr / 83).toFixed(2)}`
+  const toggleSection = (section) => {
+    setExpandedSections(prev => ({ ...prev, [section]: !prev[section] }));
+  };
 
-  const renderSection = (title, data) => (
-    <section className="my-24">
-      <div className="text-center mb-10">
-        <h2 className="text-4xl font-bold text-teal-700">{title}</h2>
-        <div className="flex justify-center items-center mt-4 space-x-4">
-          <button
-            onClick={() => setCurrency(currency === 'INR' ? 'USD' : 'INR')}
-            className="bg-teal-600 text-white px-3 py-1 rounded text-sm hover:bg-teal-700"
-          >
-            Show in {currency === 'INR' ? 'USD' : 'INR'}
-          </button>
-          <div className="flex bg-teal-100 rounded">
-            <button
-              onClick={() => setPlanType('monthly')}
-              className={`px-4 py-2 rounded-l ${planType === 'monthly' ? 'bg-teal-600 text-white' : 'text-teal-700'}`}
-            >
-              Monthly
-            </button>
-            <button
-              onClick={() => setPlanType('yearly')}
-              className={`px-4 py-2 rounded-r ${planType === 'yearly' ? 'bg-teal-600 text-white' : 'text-teal-700'}`}
-            >
-              Yearly
-            </button>
-          </div>
-        </div>
-      </div>
+  const currencySymbol = currency === 'INR' ? '₹' : '$';
 
-      <div className="grid md:grid-cols-4 gap-6 max-w-7xl mx-auto">
-        {data[planType].map((plan, idx) => (
-          <div key={idx} className={`border rounded-xl shadow-lg p-6 bg-white relative ${plan.mostPopular ? 'border-yellow-400' : 'border-gray-200'}`}>
-            {plan.mostPopular && (
-              <div className="absolute top-2 right-2 bg-yellow-400 text-xs text-white px-2 py-1 rounded-full">
-                Most Popular
-              </div>
-            )}
-            <h3 className="text-xl font-bold mb-2 text-teal-800">{plan.name}</h3>
-            <p className="text-3xl font-semibold mb-4">{convert(plan.price)}</p>
-            <ul className="text-sm text-gray-600 space-y-2">
-              {plan.features.map((f, i) => (
-                <li key={i}>• {f}</li>
-              ))}
-            </ul>
-            <button className="w-full mt-6 bg-teal-600 text-white py-2 rounded hover:bg-teal-700">
-              Choose Plan
-            </button>
-          </div>
-        ))}
-      </div>
-    </section>
-  )
+  const convertPrice = (inrPrice) => {
+    const conversionRate = 0.012; // 1 INR = 0.012 USD
+    return currency === 'USD' ? (inrPrice * conversionRate).toFixed(2) : inrPrice;
+  };
+
+  const basicPlans = {
+    monthly: [
+      { name: "Free", price: 0, description: "90 Days Free Trail", cta: "Start Trial", popular: false },
+      { name: "Silver", price: 99, description: "30 Days", cta: "Buy Now", popular: false },
+      { name: "Gold", price: 499, description: "180 Days", cta: "Buy Now", popular: true },
+      { name: "Daimond", price: 899, description: "365 Days", cta: "Buy Now", popular: false },
+      { name: "Platinum", price: 1599, description: "730 Days", cta: "Buy Now", popular: false },
+    ],
+
+  };
+
+  const specialPlans = {
+    monthly: [
+      { name: "Basic", price: 999, description: "1GB", cta: "Buy Now", popular: false },
+      { name: "Starter", price:1799 , description: "2GB", cta: "Buy Now", popular: false },
+      { name: "Pro", price: 2499, description: "3GB", cta: "Buy Now", popular: true },
+      { name: "Advanced", price: 2999, description: "4GB", cta: "Buy Now", popular: false },
+      { name: "Ultima", price: 3299, description: "5GB", cta: "Buy Now", popular: false },
+    ],
+   
+  };
+
+  const features = [
+    {
+      category: "QR Code Features",
+      items: [
+        
+        { name: "Static QR Codes", free: true, starter: true, pro: true, business: true, platinum:true, ultima: true, custom: true, agency: true, enterprise: true },
+        { name: "Total Scans per Month", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
+        
+      ],
+    },
+
+    {
+      category: "Bulk Uploads",
+      items: [
+        { name: "Bulk Upload (Coming Soon )", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
+        
+      ],
+    },
+    
+     {
+      category: "Security",
+      items: [
+        { name: "2-Factor Authentication (MFA)", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
+        { name: "SSO(Single Sign-On)", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
+        { name: "Data Encryption", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
+        { name: "Passcode Protection", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
+        { name: "Data Encryption", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
+      ],
+    },
+    {
+      category: "Analytics & Reports",
+      items: [
+        
+        { name: "Tracking", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
+        { name: "Daily Analytics Report in Email", free: true , starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
+        
+      ],
+    },
+    {
+      category: "Customization / White Labeling",
+      items: [
+        { name: "White Branding a Domain", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
+        { name: "QR Code with Logo", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
+        
+      ],
+    },
+    {
+      category: "QR Code Management / Sub Accounts",
+      items: [
+        { name: "Max Folders Allowed", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
+        { name: "Total Accounts (Main & Sub)", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
+        
+      ],
+    },
+    {
+      category: "Support",
+      items: [
+        { name: "Email Support", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
+        { name: "Priority Support", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
+        
+      ],
+    },
+     {
+      category: "File Upload / QR Download",
+      items: [
+        { name: "Max Download Resolution", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
+        { name: "Max Upload Size of a Single File / PDF", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
+        
+      ],
+    },
+    {
+      category: "QR Code Customization",
+      items: [
+        { name: "3D QRs", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
+        { name: "QR Codes Shapes", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
+        { name: "Stickers", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
+        { name: "Pre-designed QRs", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
+      ],
+    },
+    {
+      category: "Notifications",
+      items: [
+        { name: "Email me on Scan", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
+        { name: "Email me on Form Submission", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
+        
+      ],
+    },
+  ];
 
   return (
-    <main className="bg-gray-50 pt-24 pb-32 px-4 sm:px-8">
-      {renderSection('Special Services Pricing', specialPlans)}
-      {renderSection('Basic QR Services Pricing', basicPlans)}
+    <div className="bg-[#008080] pt-24 pb-16">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="text-center mb-6">
+          <h1 className="text-4xl font-bold text-white">Plans for Everyone</h1>
+          <p className="mt-2 text-white">Whether you're an individual or a growing business, choose a plan that fits your goals — simple, flexible, and affordable.</p>
+          <div className="flex justify-center gap-4 mt-4">
+            <div className="inline-flex rounded-md shadow-sm">
+              <button
+                onClick={() => setBillingCycle('monthly')}
+                className="px-4 py-2 text-sm font-medium rounded-l-lg text-white  "
+              >Monthly</button>
+              
+            </div>
+            <button
+              onClick={() => setCurrency(currency === 'INR' ? 'USD' : 'INR')}
+              className="ml-4 px-4 py-2 text-sm border bg-white border-gray-300 rounded-md text-gray-700 hover:bg-gray-100"
+            >
+              {currency === 'INR' ? 'Show in USD' : 'Show in INR'}
+            </button>
+          </div>
+        </div>
 
-      {/* Comparison Table */}
-      <section className="max-w-6xl mx-auto mt-24">
-        <h2 className="text-3xl font-bold text-center text-teal-700 mb-6">Compare Features</h2>
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm border border-gray-300 bg-white">
-            <thead className="bg-teal-100">
-              <tr>
-                <th className="text-left p-3">Features</th>
-                {['Free', 'Starter', 'Pro', 'Advanced'].map((name) => (
-                  <th key={name} className="text-center p-3">{name}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {[
-                'Basic QR Codes',
-                'Special QR Codes',
-                'Storage Limit',
-                'Customization',
-                'Custom Branding',
-                'NFC Add-on',
-                'Priority Support',
-              ].map((feature, i) => (
-                <tr key={i} className="border-t">
-                  <td className="p-3">{feature}</td>
-                  {[...Array(4)].map((_, j) => (
-                    <td key={j} className="text-center">
-                      {(() => {
-                        const map = {
-                          0: ['✔️', '✔️', '30MB', '—', '—', '—', '—'],
-                          1: ['✔️', '✔️', '50MB / 1GB', 'Add-on', '—', 'Add-on', '—'],
-                          2: ['✔️', '✔️', '1GB / 2GB', '✔️', '✔️', 'Add-on', '—'],
-                          3: ['✔️', '✔️', '2GB / 3GB', '✔️', '✔️', '✔️', '✔️'],
-                        }
-                        return map[j][i]
-                      })()}
-                    </td>
+        {/* Basic Plans Table */}
+        <div className="mb-16 bg-white p-10">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">Basic Plans ( Secure )</h2>
+          <div className="overflow-x-auto rounded-lg border border-teal-600">
+            <table className="min-w-full border-collapse">
+              <thead>
+                <tr>
+                  <th className="flex items-end h-40 px-4 py-3 text-2xl font-semibold bg-white text-teal-600 border-r border-teal-500">Features</th>
+                  {basicPlans[billingCycle].map((plan, index) => (
+                    <th
+                      key={plan.name}
+                      className={`text-center px-4 py-3 text-sm font-bold bg-white ${
+                        index < basicPlans[billingCycle].length - 1 ? 'border-r border-teal-500' : ''
+                      }`}
+                    >
+                      <div className="flex flex-col items-center gap-1">
+                        <span className="text-lg text-gray-900">{plan.name}</span>
+                        <span className="text-2xl font-extrabold text-teal-600">
+                          {currencySymbol}{convertPrice(plan.price)}
+                        </span>
+                        <span className="text-xs text-gray-600">{plan.description}</span>
+                        <a
+                          href="#"
+                          className={`mt-1 inline-block px-3 py-1 rounded-md text-xs font-semibold ${
+                            plan.popular
+                              ? 'bg-teal-600 text-white hover:bg-teal-700'
+                              : 'text-teal-600 ring-1 ring-inset ring-teal-400 hover:bg-teal-50'
+                          }`}
+                        >
+                          {plan.cta}
+                        </a>
+                      </div>
+                    </th>
                   ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="bg-white">
+                {features.map(section => (
+                  <React.Fragment key={section.category}>
+                    <tr onClick={() => toggleSection(section.category)} className="bg-gray-100 cursor-pointer">
+                      <td colSpan={6} className="px-4 py-2 text-sm font-semibold text-gray-900">
+                        <div className="flex items-center justify-between">
+                          {section.category}
+                          {!expandedSections[section.category] ? (
+                            <MinusIcon className="h-4 w-4 mr-2" />
+                          ) : (
+                            <PlusIcon className="h-4 w-4 mr-2" />
+                          )}
+                          
+                        </div>
+                      </td>
+                    </tr>
+                    {!expandedSections[section.category] &&
+                      section.items.map(feature => (
+                        <tr key={feature.name} className="hover:bg-gray-50">
+                          <td className="px-4 py-3 text-sm text-gray-900 border-r border-teal-100">{feature.name}</td>
+                          <td className="text-center border-r border-teal-100">
+                            {feature.free ? <CheckIcon className="w-5 h-5 mx-auto text-green-500" /> : <MinusIcon className="w-5 h-5 mx-auto text-gray-400" />}
+                          </td>
+                          <td className="text-center border-r border-teal-100">
+                            {feature.starter ? <CheckIcon className="w-5 h-5 mx-auto text-green-500" /> : <MinusIcon className="w-5 h-5 mx-auto text-gray-400" />}
+                          </td>
+                          <td className="text-center border-r border-teal-100">
+                            {feature.pro ? <CheckIcon className="w-5 h-5 mx-auto text-green-500" /> : <MinusIcon className="w-5 h-5 mx-auto text-gray-400" />}
+                          </td>
+                          <td className="text-center">
+                            {feature.business ? <CheckIcon className="w-5 h-5 mx-auto text-green-500" /> : <MinusIcon className="w-5 h-5 mx-auto text-gray-400" />}
+                          </td>
+                          <td className="text-center">
+                            {feature.business ? <CheckIcon className="w-5 h-5 mx-auto text-green-500" /> : <MinusIcon className="w-5 h-5 mx-auto text-gray-400" />}
+                          </td>
+                        </tr>
+                      ))}
+                  </React.Fragment>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </section>
-    </main>
-  )
+
+        {/* Special Plans Table */}
+        <div className="bg-white p-10">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">Special Plans ( Encrypted )</h2>
+          <div className="overflow-x-auto rounded-lg border border-teal-600">
+            <table className="min-w-full border-collapse bg-teal-600">
+              <thead>
+                <tr>
+                  <th className="flex items-end h-40 px-4 py-3 text-2xl font-semibold bg-white text-teal-600 border-r border-teal-500">Features</th>
+                  {specialPlans[billingCycle].map((plan, index) => (
+                    <th
+                      key={plan.name}
+                      className={`text-center px-4 py-3 text-sm font-bold bg-white ${
+                        index < specialPlans[billingCycle].length - 1 ? 'border-r border-teal-500' : ''
+                      }`}
+                    >
+                      <div className="flex flex-col items-center gap-1">
+                        <span className="text-lg text-gray-900">{plan.name}</span>
+                        <span className="text-2xl font-extrabold text-teal-600">
+                          {currencySymbol}{convertPrice(plan.price)}
+                        </span>
+                        <span className="text-xs text-gray-600">{plan.description}</span>
+                        <a
+                          href="#"
+                          className={`mt-1 inline-block px-3 py-1 rounded-md text-xs font-semibold ${
+                            plan.popular
+                              ? 'bg-teal-600 text-white hover:bg-teal-700'
+                              : 'text-teal-600 ring-1 ring-inset ring-teal-400 hover:bg-teal-50'
+                          }`}
+                        >
+                          {plan.cta}
+                        </a>
+                      </div>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="bg-white">
+                {features.map(section => (
+                  <React.Fragment key={section.category}>
+                    <tr onClick={() => toggleSection(section.category)} className="bg-gray-100 cursor-pointer">
+                      <td colSpan={6} className="px-4 py-2 text-sm font-semibold text-gray-900">
+                        <div className="flex items-center justify-between">
+                          {section.category}
+                          {!expandedSections[section.category] ? (
+                            <MinusIcon className="h-4 w-4 mr-2" />
+                          ) : (
+                            <PlusIcon className="h-4 w-4 mr-2" />
+                          )}
+                          
+                        </div>
+                      </td>
+                    </tr>
+                    {!expandedSections[section.category] &&
+                      section.items.map(feature => (
+                        <tr key={feature.name} className="hover:bg-gray-50">
+                          <td className="px-4 py-3 text-sm text-gray-900 border-r border-teal-100">{feature.name}</td>
+                          <td className="text-center border-r border-teal-100">
+                            {feature.ultima ? <CheckIcon className="w-5 h-5 mx-auto text-green-500" /> : <MinusIcon className="w-5 h-5 mx-auto text-gray-400" />}
+                          </td>
+                          <td className="text-center border-r border-teal-100">
+                            {feature.custom ? <CheckIcon className="w-5 h-5 mx-auto text-green-500" /> : <MinusIcon className="w-5 h-5 mx-auto text-gray-400" />}
+                          </td>
+                          <td className="text-center border-r border-teal-100">
+                            {feature.agency ? <CheckIcon className="w-5 h-5 mx-auto text-green-500" /> : <MinusIcon className="w-5 h-5 mx-auto text-gray-400" />}
+                          </td>
+                          <td className="text-center">
+                            {feature.enterprise ? <CheckIcon className="w-5 h-5 mx-auto text-green-500" /> : <MinusIcon className="w-5 h-5 mx-auto text-gray-400" />}
+                          </td>
+                          <td className="text-center">
+                            {feature.enterprise ? <CheckIcon className="w-5 h-5 mx-auto text-green-500" /> : <MinusIcon className="w-5 h-5 mx-auto text-gray-400" />}
+                          </td>
+                        </tr>
+                      ))}
+                  </React.Fragment>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
