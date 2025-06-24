@@ -53,7 +53,7 @@ const BusinessCardTemplateOne = ({ businessForm, profileImage, brandLogo }) => {
             {/* Name, Title, Company */}
             <div className="text-center px-6">
                 <h2 className="text-xl font-bold text-yellow-500">{name || "Your Name"}</h2>
-                <p className="text-sm font-medium mb-1">{heading || "Your Title"}</p>
+                {/* <p className="text-sm font-medium mb-1">{heading || "Your Title"}</p> */}
                 {subheading && (
                     <p className="text-xs text-gray-400 mb-4">{subheading}</p>
                 )}
@@ -61,12 +61,12 @@ const BusinessCardTemplateOne = ({ businessForm, profileImage, brandLogo }) => {
 
             {/* Action Buttons */}
             <div className="flex flex-col items-center gap-3 px-8 mb-4">
-                <a
+                {/* <a
                     href={`{businessName || ""}`}
                     className="w-full py-2 rounded font-semibold bg-yellow-500 text-black text-center shadow hover:bg-yellow-400 transition"
                 >
                     {businessName || "BUSINESS NAME"}
-                </a>
+                </a> */}
                 <a
                     href={designation || "#"}
                     target="_blank"
