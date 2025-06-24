@@ -40,12 +40,12 @@ const BusinessCardTemplateFour = ({ businessForm, profileImage, brandLogo }) => 
             <h2 className="text-2xl italic font-bold mt-3 text-gray-800">
                 {name || "Margaret Lopes"}
             </h2>
-            <p
+            {/* <p
                 className="text-md uppercase tracking-wider text-gray-500"
                 style={{ fontFamily: "Montserrat, Arial, sans-serif" }}
             >
                 {heading || "Content Marketer"}
-            </p>
+            </p> */}
             {subheading && (
                 <p className="text-sm text-gray-400 mb-6" style={{ fontFamily: "Montserrat, sans-serif" }}>
                     {subheading}
@@ -54,12 +54,12 @@ const BusinessCardTemplateFour = ({ businessForm, profileImage, brandLogo }) => 
 
             {/* Action Buttons */}
             <div className="flex flex-col gap-3 px-8 pb-2">
-                <a
+                {/* <a
                     href={businessName || "#"}
                     className="py-3 rounded-full border border-gray-400 text-gray-900 font-semibold bg-white hover:bg-gray-100 transition"
                 >
                     {businessName || "BUSINESS NAME"}
-                </a>
+                </a> */}
                 <a
                     href={designation || "#"}
                     target="_blank"
