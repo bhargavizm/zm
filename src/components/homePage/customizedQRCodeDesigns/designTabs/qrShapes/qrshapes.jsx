@@ -3,13 +3,20 @@
 import Image from "next/image";
 import React from "react";
 import { images } from "./qrShapeImages";
+import useDesignContext from "@/components/hooks/useDesignContext";
 
 const QRShapes = ({ onSelectImage }) => {
+  const { selectedQRShape, setSelectedQRShape } = useDesignContext();
 
+  const handleClick = (src) => {
+    setSelectedQRShape(src);
+    localStorage.setItem("selectedQRShape", src); // Optional persistence
+    onSelectImage(src);
+  };
 
   return (
     <section className="mt-6">
-      <div className="grid xl:grid-cols-7 lg:grid-cols-6 md:grid-cols-4 grid-cols-3 gap-8  h-[65vh] overflow-y-auto scrollbar-hide px-6">
+      <div className="grid xl:grid-cols-7 lg:grid-cols-6 md:grid-cols-4 grid-cols-3 gap-8 h-[65vh] overflow-y-auto scrollbar-hide px-6">
         {images.map((src, index) => (
           <Image
             key={index}
@@ -17,14 +24,16 @@ const QRShapes = ({ onSelectImage }) => {
             alt={`qr shape ${index + 1}`}
             width={60}
             height={60}
-            className="cursor-pointer hover:border hover:border-green-500 hover:p-2 transition-effects"
-            onClick={() => onSelectImage(src)}
+            className={`cursor-pointer rounded-lg border-4 transition-all duration-200 ${
+              selectedQRShape === src
+                ? "border-mainGreen scale-110 shadow-lg"
+                : "border-transparent"
+            }`}
+            onClick={() => handleClick(src)}
             priority
           />
         ))}
       </div>
-
-
     </section>
   );
 };
