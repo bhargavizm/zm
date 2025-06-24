@@ -591,7 +591,7 @@ const Privacypolicy = () => {
       <p>
         If you have any questions or concerns about this Privacy Policy, please reach out to us at:
         </p><br/>
-     <h2 className="text-1xl font-bold">Email: support@qrcodechimp.com</h2>
+     <h2 className="text-1xl font-bold">Email: support@zmqrcode.com</h2>
      <h2 className="text-1xl font-bold">Postal Address: [Insert Company Mailing Address Here]</h2>
          </div>
         </div>

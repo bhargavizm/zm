@@ -1,4 +1,6 @@
 import React from 'react'
+import Link from 'next/link';
+
 
 const Termsandconditions = () => {
   return (
@@ -9,8 +11,8 @@ const Termsandconditions = () => {
       <h2 className="text-1xl font-semibold">AGREEMENT TO OUR LEGAL TERMS</h2><br></br>
       <p>ZMQRCode.com ("ZMQRCodeServices", "we", "us", and "our") provides you with access to its interactive online website and associated services, subject to the following Terms of Use. Please read these Terms of Use carefully before using our website or any of the services we offer. <br/>
       By accessing or using our website or services (other than to review these Terms for the first time), you acknowledge that you have read, understood, and agree to be bound by these Terms of Use. If you do not agree with any part of these Terms, you must not use our website or services. <br/>
-      These Terms of Use (also referred to as the "User Agreement"), together with our <span className='text-[#008080]'>Privacy Policy</span> and any additional terms that may apply to specific products or services, govern your use of all our websites and any other services we offer, including but not limited to surveys, reviews, newsletters, panels, communities, or other related services (collectively referred to as our "Service").
-      Our websites include sites such as, but not limited to, <span className='text-[#008080]'>WWW.ZMQRCODE.IN,</span> and any other websites on which we display or link to these Terms of Use (collectively referred to as our "Site").</p> <br/>
+      These Terms of Use (also referred to as the "User Agreement"), together with our <a href="/privacy-policies/"><span className='text-[#008080]'>Privacy Policy</span> </a> and any additional terms that may apply to specific products or services, govern your use of all our websites and any other services we offer, including but not limited to surveys, reviews, newsletters, panels, communities, or other related services (collectively referred to as our "Service").
+      Our websites include sites such as, but not limited to, <Link href="/"><span className='text-[#008080]'>WWW.ZMQRCODE.IN,</span> </Link> and any other websites on which we display or link to these Terms of Use (collectively referred to as our "Site").</p> <br/>
       <h2 className='text-2xl font-semibold'>1. Our Services</h2><br/>
       <p>The information available through our Services is not intended for access or use by any individual or entity in jurisdictions where such access or use would violate applicable laws or regulations, or where it would require us to comply with registration or legal requirements in that jurisdiction. <br/>
       If you choose to access the Services from outside our operating region, you do so voluntarily and are solely responsible for ensuring that your use complies with any local laws that may apply.
