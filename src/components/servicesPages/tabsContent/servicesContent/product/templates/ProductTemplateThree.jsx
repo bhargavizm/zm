@@ -1,96 +1,160 @@
 "use client";
-import React from "react";
-import Image from "next/image";
-import useServicesContext from "@/components/hooks/useServiceContext";
+import React, { useState, useEffect, useCallback } from "react";
+import { MdEmail } from "react-icons/md";
+import { FaPhoneVolume, FaAddressCard } from "react-icons/fa6";
 
-const ProductTemplateThree = () => {
-    const { productData, productImage } = useServicesContext();
+/**
+ * ProductTemplateThree component displays product information using a specific layout.
+ * It uses a purple background.
+ *
+ * @param {object} props - Component props.
+ * @param {Array<object>} props.items - An array of product objects, each containing image, heading, description, etc.
+ * @param {object} props.productData - Object containing common product data like email, phone, etc.
+ * @param {string} [props.productLogo] - Optional brand logo URL for this product template.
+ * @param {string} [props.productImage] - Optional main product image URL (though individual item images are preferred).
+ * @param {string} [props.bgDesign] - Optional background design URL (image or video).
+ */
+const ProductTemplateThree = ({ items, productData, productLogo, productImage, bgDesign }) => {
+  const {
+    brandName = "Your Brand Name",
+    email = "contact@example.com",
+    phone = "+91 00000 00000",
+    address = "India"
+  } = productData || {};
 
-    // Mapping productData to elements in temp3.webp (Uber Eats UI)
-    const userName = productData.email ? productData.email.split('@')[0] : "Jane Cooper"; // Use email for username
-    const foodName = productData.heading || "The special hot burger";
-    const offerPrice = productData.phone ? `$${productData.phone}` : "$10.00"; // Use phone for price
-    const mainFoodImage = productImage || "/placeholder-burger.webp"; // Using a generic placeholder image
+  const [currentSlide, setCurrentSlide] = useState(0);
 
-    return (
-        <div className="relative w-full max-w-sm mx-auto  rounded-3xl overflow-hidden shadow-2xl phone-frame">
-            <div className="bg-white/70  flex flex-col">
-                <div className="p-6 flex justify-between items-center">
-                    <div>
-                        <div className="text-xl font-semibold text-gray-800">Welcome</div>
-                        <div className="text-gray-600 text-sm">{userName}</div>
-                    </div>
-                    <div className="flex space-x-4">
-                        <button className="p-2 rounded-full bg-gray-100 text-gray-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                            </svg>
-                        </button>
-                        <button className="p-2 rounded-full bg-gray-100 text-gray-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
+  const handleNext = useCallback(() => {
+    setCurrentSlide((prev) => (prev === items.length - 1 ? 0 : prev + 1));
+  }, [items]);
 
-                <div className="px-6 pb-6">
-                    <div className="bg-yellow-50 rounded-xl p-4 flex items-center shadow-sm">
-                        <div className="flex-grow pr-4">
-                            <div className="text-gray-800 font-bold text-lg mb-2">{foodName}</div>
-                            <button className="bg-black text-white px-4 py-2 rounded-full text-sm">Order now</button>
-                        </div>
-                        <Image src={mainFoodImage} alt="Special Hot Burger" width={150} height={100} className="rounded-md object-cover" />
-                    </div>
-                </div>
+  useEffect(() => {
+    if (items && items.length > 1) {
+      const interval = setInterval(() => {
+        handleNext();
+      }, 3000); // Change slide every 3 seconds
+      return () => clearInterval(interval);
+    }
+  }, [items, handleNext]);
 
-                <div className="px-6 py-4 flex-grow">
-                    <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-xl font-semibold text-gray-800">Best offers</h2>
-                        <span className="text-sm text-gray-500">View all</span>
-                    </div>
+  const currentItem = items && items.length > 0 ? items[currentSlide] : null;
 
-                    <div className="grid grid-cols-2 gap-4">
-                        <div className="bg-green-100 rounded-xl p-4 h-32 flex items-end justify-center">
-                            <div className="text-center">
-                                <div className="text-gray-800 font-semibold mb-1">{productData.description || "data ->"}</div> {/* Using description for generic data */}
-                                <div className="text-lg font-bold text-gray-900">{offerPrice}</div>
-                            </div>
-                        </div>
-                        {/* More offer cards can be added here if you had more productData points to map */}
-                        <div className="bg-blue-100 rounded-xl p-4 h-32 flex items-end justify-center">
-                            <div className="text-center">
-                                <div className="text-gray-800 font-semibold mb-1">Another Offer</div>
-                                <div className="text-lg font-bold text-gray-900">$12.50</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  return (
+    <div className="min-h-full w-full bg-[#4c2707] px-4 py-6 space-y-6 rounded-lg shadow-inner">
+      {/* Header Section - Displays Brand Logo and Name */}
+      <div className="text-center text-white">
+        {productLogo && (
+          <img
+            src={productLogo}
+            alt="Brand Logo"
+            className="mx-auto h-20 w-auto object-contain mb-2"
+          />
+        )}
+        <h1 className="text-2xl font-bold">{brandName}</h1>
+        <p className="mt-1 text-sm opacity-90">Quality products for your everyday needs.</p>
+      </div>
 
-                {/* Bottom Navigation */}
-                <div className="bg-white border-t border-gray-200 py-3 px-6 flex justify-around items-center">
-                    <div className="flex flex-col items-center text-teal-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-4.418 0-8 3.582-8 8s3.582 8 8 8 8-3.582 8-8-3.582-8-8-8zm0 14c-3.313 0-6-2.687-6-6s2.687-6 6-6 6 2.687 6 6-2.687 6-6 6z"/></svg>
-                        <span className="text-xs mt-1">Home</span>
-                    </div>
-                    <div className="flex flex-col items-center text-gray-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                        <span className="text-xs mt-1">Search</span>
-                    </div>
-                    <div className="flex flex-col items-center text-gray-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M17 17h.01"/></svg>
-                        <span className="text-xs mt-1">Order</span>
-                    </div>
-                    <div className="flex flex-col items-center text-gray-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                        <span className="text-xs mt-1">Profile</span>
-                    </div>
-                </div>
+      {/* Product Carousel Section */}
+      {items && items.length > 0 ? (
+        <div className="relative">
+          <div
+            key={currentSlide}
+            className="bg-white rounded-xl shadow-md p-4 space-y-2 border border-purple-200 transition-all duration-300 ease-in-out"
+          >
+            {currentItem.image && (
+              <img
+                src={currentItem.image}
+                alt={`Product ${currentSlide + 1}`}
+                className="w-full h-48 object-cover rounded-md border border-gray-100"
+              />
+            )}
+            {currentItem.heading && (
+              <h2 className="text-lg font-semibold text-gray-800">{currentItem.heading}</h2>
+            )}
+            {currentItem.description && (
+              <p className="text-gray-600 text-sm">{currentItem.description}</p>
+            )}
+            {currentItem.pageUrl && (
+              <a
+                href={currentItem.pageUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-purple-700 underline block hover:text-purple-900 transition-colors"
+              >
+                View Product Details
+              </a>
+            )}
+            {currentItem.videoUrl && (
+              <a
+                href={currentItem.videoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-purple-700 underline block hover:text-purple-900 transition-colors"
+              >
+                Watch Promo
+              </a>
+            )}
+          </div>
+
+          {items.length > 1 && (
+            <div className="flex justify-center mt-4 space-x-2">
+              {items.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentSlide(idx)}
+                  className={`h-2 w-2 rounded-full ${
+                    idx === currentSlide ? "bg-white" : "bg-purple-300"
+                  } hover:bg-white transition-colors duration-200`}
+                  aria-label={`Go to product ${idx + 1}`}
+                ></button>
+              ))}
             </div>
+          )}
         </div>
-    );
+      ) : (
+        <p className="text-center text-white opacity-80 py-8">No products added yet. Start adding from the form!</p>
+      )}
+
+      {/* Contact Section */}
+      <div className="bg-white rounded-xl shadow-md p-4 space-y-2 border border-purple-200">
+        <h3 className="text-lg font-semibold text-gray-800">Connect With Us</h3>
+        {email && (
+          <div>
+            <h1 className="font-medium">Email</h1>
+            <p className="text-gray-700 text-sm flex items-center">
+              <span className="mr-2"><MdEmail /></span> {email}
+            </p>
+          </div>
+        )}
+        {phone && (
+          <div>
+            <h1 className="font-medium">Phone No.</h1>
+            <p className="text-gray-700 text-sm flex items-center">
+              <span className="mr-2"><FaPhoneVolume /></span> {phone}
+            </p>
+          </div>
+        )}
+        {address && (
+          <div>
+            <h1 className="font-medium">Address</h1>
+            <p className="text-gray-700 text-sm flex items-center">
+              <span className="mr-2"><FaAddressCard /></span> {address}
+            </p>
+          </div>
+        )}
+        {productData.pageUrl && (
+          <a
+            href={productData.pageUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-purple-700 underline block hover:text-purple-900 transition-colors"
+          >
+            Visit Our Main Site
+          </a>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default ProductTemplateThree;

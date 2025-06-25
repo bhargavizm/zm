@@ -4,10 +4,11 @@
 import React, { useState } from "react";
 import useServicesContext from "@/components/hooks/useServiceContext"; // Adjust path
 import { Eye, EyeOff } from "lucide-react"; // Assuming lucide-react is installed
-import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
+import { IoEyeOutline, IoEyeOffOutline,IoLocation } from "react-icons/io5";
 import { MdCancel } from "react-icons/md";
 import NFCModal from "@/components/modalPopUps/nfcModal";
 import useDesignContext from "@/components/hooks/useDesignContext";
+
 
 const BusinessShopContent = () => {
   const { dynamicForms, updateDynamicForm } = useServicesContext();
@@ -49,6 +50,41 @@ const BusinessShopContent = () => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  const fetchCurrentLocation = async () => {
+  if (navigator.geolocation) {
+    try {
+      const pos = await new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject);
+      });
+      const { latitude, longitude } = pos.coords;
+
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`
+      );
+      const data = await response.json();
+      const fullAddress = data.display_name || "Address not found";
+
+      // Use handleChange instead of handleInputChange
+      handleChange(
+        "businessInfo",
+        "contact",
+        "address",
+        fullAddress
+      );
+    } catch (err) {
+      console.error("Error fetching current location:", err.message);
+      alert(
+        "Failed to fetch current location. Please enter it manually or check permissions."
+      );
+    }
+  } else {
+    console.warn("Geolocation is not supported by this browser.");
+    alert(
+      "Geolocation is not supported by your browser. Please enter address manually."
+    );
+  }
+};
 
   return (
     <>
@@ -577,20 +613,31 @@ const BusinessShopContent = () => {
               }
             />
 
-            <textarea
-              placeholder="Full Address"
-              rows={3}
-              className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200 resize-y"
-              value={businessInfo.contact.address || ""}
-              onChange={(e) =>
-                handleChange(
-                  "businessInfo",
-                  "contact",
-                  "address",
-                  e.target.value
-                )
-              }
-            />
+           <div className="relative">
+              <textarea
+                placeholder="Full Address"
+                rows={3}
+                className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200 resize-y pr-12"
+                value={businessInfo.contact.address || ""}
+                onChange={(e) =>
+                  handleChange(
+                    "businessInfo",
+                    "contact",
+                    "address",
+                    e.target.value
+                  )
+                }
+              />
+              <button
+                type="button"
+                onClick={fetchCurrentLocation}
+                className="absolute right-2 bottom-2 p-2 bg-teal-500 text-white rounded-md hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-400 text-sm"
+                title="Get current location"
+              >
+                <IoLocation/>
+              </button>
+            </div>
+            
           </div>
         </div>
 
