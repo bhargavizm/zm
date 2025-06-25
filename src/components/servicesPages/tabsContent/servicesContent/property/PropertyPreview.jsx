@@ -146,12 +146,6 @@ const PropertyPreview = () => {
               </div>
             )}
 
-            {/* Password Message */}
-            {property.password && (
-              <p className="text-xs italic text-gray-500 text-center mb-2">
-                🔒 Password Protected
-              </p>
-            )}
           </div>
         </div>
       </div>

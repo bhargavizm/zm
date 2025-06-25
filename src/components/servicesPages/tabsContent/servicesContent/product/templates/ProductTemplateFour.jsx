@@ -167,7 +167,7 @@ const ProductTemplateOne = ({ items, productData, productLogo, productImage, bgD
             {currentItem.image && (
               <img
                 src={currentItem.image}
-                alt={`Product ${currentSlide + 1}`}
+                alt={Product ${currentSlide + 1}}
                 className="w-full h-48 object-cover rounded-md border border-gray-100"
               />
             )}

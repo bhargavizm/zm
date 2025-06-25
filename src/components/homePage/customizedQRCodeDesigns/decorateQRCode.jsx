@@ -126,9 +126,10 @@ const DecorateQRCode = () => {
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? (
-                      <AiFillEyeInvisible size={20} />
+                       <AiFillEye size={20} />
+                      
                     ) : (
-                      <AiFillEye size={20} />
+                     <AiFillEyeInvisible size={20} />
                     )}
                   </div>
                 </div>

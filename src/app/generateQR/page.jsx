@@ -15,13 +15,14 @@ import QRCodeTracking from "@/components/homePage/tracking";
 const GenerateQR = () => {
   return (
     <>
-      <CustomizeQRCode />
+      {/* <CustomizeQRCode /> */}
+            <QRDesign />
       <CreateLogo />
       <ScheduleDemo />
       <Security/>
       <ImageToQR/>
       <BulkQRGenerator/>
-      <QRDesign />
+
       <CustomerReviews/>
       <MarketingFeatures/>
       <QRCodeTracking />
