@@ -29,8 +29,8 @@
 
 //   return (
 //     <section className="flex-1 p-8 flex items-center justify-center">
-//       <div className="relative max-w-[300px] max-h-[600px] w-full h-full aspect-[3/6] rounded-[40px] border-[14px] border-gray-800 shadow-2xl overflow-hidden flex flex-col">
-        
+//       <div className="relative max-w-[300px] max-h-[650px] w-full h-full aspect-[3/6] rounded-[40px] border-[14px] border-gray-800 shadow-2xl overflow-hidden flex flex-col">
+
 //         {/* 🔳 Background */}
 //         {isImage ? (
 //           <img
@@ -51,8 +51,8 @@
 
 //         {/* iPhone Preview Section */}
 //         {/* Removed fixed, right-0, h-screen for fluid positioning */}
-//         {/* Changed w-[300px] h-[600px] to max-w and max-h for responsiveness while maintaining shape */}
-//         <div className="relative max-w-[300px] max-h-[600px] w-full h-full hide-scrollbar aspect-[3/6] bg-white rounded-[40px] border-[14px] border-gray-800 shadow-2xl flex flex-col">
+//         {/* Changed w-[300px] h-[650px] to max-w and max-h for responsiveness while maintaining shape */}
+//         <div className="relative max-w-[300px] max-h-[650px] w-full h-full hide-scrollbar aspect-[3/6] bg-white rounded-[40px] border-[14px] border-gray-800 shadow-2xl flex flex-col">
 //           {/* iPhone notch */}
 //           <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-6 bg-gray-800 rounded-b-xl z-10"></div>
 //         {/* ⬛ Notch */}
@@ -171,11 +171,11 @@
 
 // export default EventPreview;
 
-'use client';
+"use client";
 
-import React from 'react';
-import useServicesContext from '@/components/hooks/useServiceContext';
-import useDesignContext from '@/components/hooks/useDesignContext';
+import React, { useEffect } from "react";
+import useServicesContext from "@/components/hooks/useServiceContext";
+import useDesignContext from "@/components/hooks/useDesignContext";
 import {
   FiCalendar,
   FiMapPin,
@@ -184,31 +184,42 @@ import {
   FiPhone,
   FiGlobe,
   FiPlus,
-} from 'react-icons/fi';
+} from "react-icons/fi";
+import Image from "next/image";
 
 const EventPreview = () => {
   const { eventsFormData } = useServicesContext();
-  const { bgDesign } = useDesignContext();
+  const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
 
-  const hasBasicInfo = eventsFormData.title || eventsFormData.organizer || eventsFormData.summary;
+  const defaultBg = "/services-service/event.jpg";
+
+  useEffect(() => {
+    setIsLoading(true);
+    setBgDesign(defaultBg);
+  }, []);
+
+  const hasBasicInfo =
+    eventsFormData.title || eventsFormData.organizer || eventsFormData.summary;
   const hasSchedule = eventsFormData.fromDate || eventsFormData.toDate;
   const hasLocation = eventsFormData.venue || eventsFormData.address;
   const hasContact =
-    eventsFormData.contactName || eventsFormData.contactEmail || eventsFormData.contactPhone;
+    eventsFormData.contactName ||
+    eventsFormData.contactEmail ||
+    eventsFormData.contactPhone;
   const hasLinks = eventsFormData.buttonLink || eventsFormData.webUrl;
 
-  const isVideo = bgDesign?.endsWith('.mp4');
+  const isVideo = bgDesign?.endsWith(".mp4");
   const isImage = bgDesign && !isVideo;
 
   return (
     <section className="flex justify-center items-center p-4">
-      <div className="relative w-[350px] h-[600px] rounded-[40px] border-[14px] border-gray-800 shadow-2xl overflow-hidden bg-white">
-
+      <div className="relative w-[350px] h-[650px] rounded-[40px] border-[14px] border-gray-800 shadow-2xl overflow-hidden bg-white">
         {/* Background Media */}
-               {isImage && (
+        {isImage && (
           <img
             src={bgDesign}
             alt="Background"
+            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
             className="absolute inset-0 w-full h-full object-cover z-0"
           />
         )}
@@ -219,32 +230,56 @@ const EventPreview = () => {
             loop
             muted
             playsInline
+            onLoadedData={() => setTimeout(() => setIsLoading(false), 300)}
             className="absolute inset-0 w-full h-full object-cover z-0"
           />
         )}
         {!bgDesign && (
-           <img
-            src='/services-service/event.jpg'
+          <img
+            src={defaultBg}
             alt="Background"
+            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
             className="absolute inset-0 w-full h-full object-cover z-0"
           />
         )}
 
+        {/* ⏳ Loader */}
+        {isLoading && (
+          <div className="absolute inset-0 z-50 bg-mainGreen backdrop-blur-sm flex justify-center items-center">
+            <Image
+              src="/logos/ZM LOGO.png"
+              alt="Loading"
+              width={100}
+              height={100}
+              className="w-20 h-20 animate-bounce"
+            />
+          </div>
+        )}
 
         {/* Notch */}
         <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-24 h-6 bg-gray-800 rounded-b-xl z-10" />
 
         {/* Scrollable Content */}
         <div className="relative z-20 bg-white/70 m-2 rounded-xl  overflow-y-auto px-4 pt-8 pb-6 hide-scrollbar text-sm">
-          {hasBasicInfo || hasSchedule || hasLocation || hasContact || hasLinks || eventsFormData.about ? (
+          {hasBasicInfo ||
+          hasSchedule ||
+          hasLocation ||
+          hasContact ||
+          hasLinks ||
+          eventsFormData.about ? (
             <div className="space-y-4">
               {eventsFormData.title && (
-                <h2 className="text-xl font-bold text-center">{eventsFormData.title}</h2>
+                <h2 className="text-xl font-bold text-center">
+                  {eventsFormData.title}
+                </h2>
               )}
 
               {eventsFormData.organizer && (
                 <p className="text-gray-500 text-center">
-                  Hosted by <span className="font-medium">{eventsFormData.organizer}</span>
+                  Hosted by{" "}
+                  <span className="font-medium">
+                    {eventsFormData.organizer}
+                  </span>
                 </p>
               )}
 
@@ -261,10 +296,16 @@ const EventPreview = () => {
                     <span className="font-medium">When</span>
                   </div>
                   {eventsFormData.fromDate && (
-                    <p><span className="font-medium">From:</span> {new Date(eventsFormData.fromDate).toLocaleString()}</p>
+                    <p>
+                      <span className="font-medium">From:</span>{" "}
+                      {new Date(eventsFormData.fromDate).toLocaleString()}
+                    </p>
                   )}
                   {eventsFormData.toDate && (
-                    <p><span className="font-medium">To:</span> {new Date(eventsFormData.toDate).toLocaleString()}</p>
+                    <p>
+                      <span className="font-medium">To:</span>{" "}
+                      {new Date(eventsFormData.toDate).toLocaleString()}
+                    </p>
                   )}
                 </div>
               )}
@@ -275,8 +316,12 @@ const EventPreview = () => {
                     <FiMapPin className="mr-2" />
                     <span className="font-medium">Where</span>
                   </div>
-                  {eventsFormData.venue && <p className="font-medium">{eventsFormData.venue}</p>}
-                  {eventsFormData.address && <p className="text-gray-600">{eventsFormData.address}</p>}
+                  {eventsFormData.venue && (
+                    <p className="font-medium">{eventsFormData.venue}</p>
+                  )}
+                  {eventsFormData.address && (
+                    <p className="text-gray-600">{eventsFormData.address}</p>
+                  )}
                 </div>
               )}
 
@@ -293,7 +338,9 @@ const EventPreview = () => {
                     <FiUser className="mr-2" />
                     <span className="font-medium">Contact</span>
                   </div>
-                  {eventsFormData.contactName && <p>{eventsFormData.contactName}</p>}
+                  {eventsFormData.contactName && (
+                    <p>{eventsFormData.contactName}</p>
+                  )}
                   {eventsFormData.contactEmail && (
                     <p className="flex items-center">
                       <FiMail className="mr-2" /> {eventsFormData.contactEmail}
@@ -314,7 +361,7 @@ const EventPreview = () => {
                   rel="noreferrer"
                 >
                   <button className="w-full bg-[#008080] text-white py-3 rounded-lg font-medium hover:bg-[#1c3333] transition-colors cursor-pointer">
-                    {eventsFormData.buttonLabel || 'Get Tickets'}
+                    {eventsFormData.buttonLabel || "Get Tickets"}
                   </button>
                 </a>
               )}
@@ -327,7 +374,7 @@ const EventPreview = () => {
                   rel="noreferrer"
                 >
                   <FiGlobe className="mr-2" />
-                  {eventsFormData.webLabel || 'Website'}
+                  {eventsFormData.webLabel || "Website"}
                 </a>
               )}
             </div>
@@ -335,7 +382,9 @@ const EventPreview = () => {
             <div className="h-full flex flex-col items-center justify-center text-center p-6 text-gray-400">
               <FiPlus className="text-4xl mb-4" />
               <h3 className="text-lg font-medium">Event Preview</h3>
-              <p className="mt-2">Start filling the form to see your event preview here</p>
+              <p className="mt-2">
+                Start filling the form to see your event preview here
+              </p>
             </div>
           )}
         </div>

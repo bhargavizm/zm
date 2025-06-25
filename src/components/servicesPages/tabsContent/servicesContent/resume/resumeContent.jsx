@@ -70,8 +70,8 @@ const ResumeContent = () => {
       <div className=" flex items-center justify-center ">
         <div className="flex w-full max-w-5xl gap-6">
           {/* Form Section */}
-          <div className="flex-1 bg-white shadow-xl rounded-2xl p-6 space-y-5 max-h-[600px] overflow-auto">
-            <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="flex-1 bg-white shadow-xl rounded-2xl p-6 space-y-5 max-h-[650px] overflow-auto">
+            <form  className="space-y-4">
               
               <div>
                 <label className="block text-xs font-medium text-gray-700 mb-1">
