@@ -22,7 +22,7 @@ const BusinessCardTemplateTwo = ({ businessForm, profileImage, brandLogo }) => {
             style={{ fontFamily: "Lato, Arial, sans-serif" }}
         >
             {/* Profile Photo */}
-            <div className="flex justify-center mt-8 mb-3">
+            <div className="flex justify-center mt-18 mb-3">
                 <div className="w-28 h-28 rounded-full overflow-hidden border-4 border-pink-200">
                     <Image
                         src={profileImage || "/default-user.png"}

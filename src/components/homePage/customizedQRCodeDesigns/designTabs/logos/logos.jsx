@@ -44,7 +44,7 @@ const Logos = ({ onSelectImage }) => {
         ))}
       </div>
 
-      <div className="mb-2 flex flex-col items-start">
+      {/* <div className="mb-2 flex flex-col items-start">
         <div className="flex justify-start items-center gap-9 w-full mb-4">
           <label htmlFor="logo-size" className="text-lg font-medium text-darkGreen">
             Logo Scaling:
@@ -73,7 +73,7 @@ const Logos = ({ onSelectImage }) => {
           >
             Reset
           </button>
-      </div>
+      </div> */}
     </section>
   );
 };

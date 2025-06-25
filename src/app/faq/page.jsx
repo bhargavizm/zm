@@ -213,12 +213,11 @@
 // };
 
 // export default FAQPage;
-
 "use client";
 
 import React, { useState } from "react";
 import { BackgroundBeamsWithCollision } from "@/components/ui/background-beams-with-collision";
-import { useLanguage } from '@/context/languageContext/LanguageContext';
+import { useLanguage } from "@/context/languageContext/LanguageContext";
 
 const FaqComponent = () => {
     const { dictionary } = useLanguage(); // Access multilingual data
@@ -242,7 +241,10 @@ const FaqComponent = () => {
 
                     <div className="space-y-4">
                         {faqList.map((item, index) => (
-                            <div key={item.id} className="border border-[#004d4d] rounded-xl overflow-hidden shadow-md bg-[#003e3e] transition-all duration-300">
+                            <div
+                                key={item.id}
+                                className="border border-[#004d4d] rounded-xl overflow-hidden shadow-md bg-[#003e3e] transition-all duration-300"
+                            >
                                 <button
                                     onClick={() => toggleFAQ(index)}
                                     className="w-full text-left text-base md:text-lg font-semibold text-white px-6 py-4 flex justify-between items-center hover:bg-[#2d6464] transition-colors duration-300"
@@ -250,7 +252,11 @@ const FaqComponent = () => {
                                     <span className="mr-4">
                                         {item.id}. {item.question}
                                     </span>
-                                    <span className={`transform transition-transform duration-300 min-w-4 ${activeIndex === index ? "rotate-180" : ""}`}>
+                                    <span
+                                        className={`transform transition-transform duration-300 min-w-4 ${
+                                            activeIndex === index ? "rotate-180" : ""
+                                        }`}
+                                    >
                                         ▼
                                     </span>
                                 </button>

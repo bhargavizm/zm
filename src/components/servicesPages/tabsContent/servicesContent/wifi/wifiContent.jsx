@@ -30,7 +30,7 @@ const WifiContent = () => {
     <>
       <div className="flex items-center justify-center py-8">
         <div className="bg-white rounded-2xl shadow-xl p-8 space-y-6 w-full ">
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form className="space-y-5">
             <div>
               <label className="text-sm font-medium text-gray-600 mb-1 block">
                 WiFi SSID
