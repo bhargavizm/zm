@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Search, X, Upload } from 'lucide-react';
+import { FaChevronCircleLeft } from "react-icons/fa";
+import Link from 'next/link';
 
 const allJobs = [
   {
@@ -113,41 +115,47 @@ export default function JobSearchPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would typically send the data to a server
     console.log('Form submitted:', { job: selectedJob, applicant: formData });
     setIsSubmitted(true);
-    // Reset form after 3 seconds
     setTimeout(() => {
       setShowModal(false);
     }, 3000);
   };
 
   return (
-    <div className=" w-full bg-gradient-to-b from-[#a0eaea] to-[#0da6a6] font-sans p-6">
+    <div className="w-full min-h-screen bg-gradient-to-b from-[#a0eaea] to-[#0da6a6] font-sans p-4 md:p-6 ">
       {/* Search Fields */}
-      <div className="max-w-5xl mx-auto mt-20  flex flex-col md:flex-row gap-4 justify-center items-center mb-6">
-        <input
-          type="text"
-          placeholder="Search Job Title..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="px-4 py-2 border-2 rounded-lg w-full md:w-1/3 focus:outline-none"
-        />
-        <button className="bg-[#066] text-white px-4 py-2 rounded-lg flex items-center gap-2">
-          <Search size={18} /> Search
-        </button>
+      <div className="max-w-5xl mx-auto mt-30 md:mt-20 flex flex-col md:flex-row gap-4 justify-center items-center mb-6 relative w-full px-4">
+        <div className="absolute -top-10 left-0 md:static md:mr-auto md:top-0">
+          <Link href="/career" className="flex items-center text-lg md:text-xl text-teal-800 hover:text-teal-900 transition">
+            <FaChevronCircleLeft className="mr-2" /> Back to Career
+          </Link>
+        </div>
+
+        <div className="w-full md:w-auto flex-1 flex flex-col sm:flex-row gap-2">
+          <input
+            type="text"
+            placeholder="Search Job Title..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="flex-1 px-4 py-2 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+          />
+          <button className="bg-[#066] text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-[#044] transition-colors">
+            <Search size={18} /> <span className="hidden sm:inline">Search</span>
+          </button>
+        </div>
       </div>
 
       {/* Filter and Sort Section */}
-      <div className="max-w-5xl mx-auto bg-white/70 p-4 rounded-lg">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-          <div className="flex flex-col md:flex-row gap-4">
+      <div className="max-w-5xl mx-auto bg-white/70 p-4 rounded-lg shadow-sm">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             <select
               value={experienceFilter}
               onChange={(e) => setExperienceFilter(e.target.value)}
-              className="border px-4 py-2 rounded shadow w-48"
+              className="w-full border px-4 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
             >
-              <option value="">Experience</option>
+              <option value="">Experience Level</option>
               <option>Fresher</option>
               <option>Entry Level</option>
               <option>Mid Level</option>
@@ -156,7 +164,7 @@ export default function JobSearchPage() {
             <select
               value={typeFilter}
               onChange={(e) => setTypeFilter(e.target.value)}
-              className="border px-4 py-2 rounded shadow w-48"
+              className="w-full border px-4 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
             >
               <option value="">Job Type</option>
               <option>Full-time</option>
@@ -167,7 +175,7 @@ export default function JobSearchPage() {
             <select
               value={locationFilter}
               onChange={(e) => setLocationFilter(e.target.value)}
-              className="border px-4 py-2 rounded shadow w-48"
+              className="w-full border px-4 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
             >
               <option value="">Location</option>
               <option>Guntur</option>
@@ -183,8 +191,8 @@ export default function JobSearchPage() {
               <option>Vijayawada</option>
             </select>
           </div>
-          <div className="mt-4 md:mt-0">
-            <select className="border px-4 py-2 rounded-lg">
+          <div className="w-full sm:w-auto">
+            <select className="w-full border px-4 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
               <option>Sort by: Most Relevant</option>
               <option>Newest</option>
               <option>Oldest</option>
@@ -194,39 +202,52 @@ export default function JobSearchPage() {
       </div>
 
       {/* Job Listings */}
-      <div className="max-w-5xl mx-auto mt-6 space-y-6">
+      <div className="max-w-5xl mx-auto mt-6 space-y-4 md:space-y-6 pb-10">
         <AnimatePresence>
-          {filteredJobs.map((job) => (
-            <motion.div
-              key={job.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5 }}
-              className="bg-white/70 p-6 rounded-lg shadow-md"
-            >
-              <div className="flex justify-between items-center mb-2">
-                <h2 className="text-teal-700 font-bold text-lg">{job.title}</h2>
-                <p className="text-sm text-gray-700">Posted {job.posted}</p>
-              </div>
-              <p className="text-sm text-gray-700">Job ID: {job.id}</p>
-              <p className="text-sm text-gray-700">Experience: {job.experience}</p>
-              <p className="text-sm text-gray-700">Location: {job.location}</p>
-              <p className="text-sm text-gray-700">Type: {job.type}</p>
-              <h3 className="font-semibold mt-4 mb-2 text-gray-800">Basic Qualifications:</h3>
-              <ul className="list-disc list-inside text-gray-700 space-y-1">
-                {job.qualifications.map((item, index) => (
-                  <li key={index}>{item}</li>
-                ))}
-              </ul>
-              <button 
-                onClick={() => handleApplyClick(job)}
-                className="mt-4 bg-[#066] text-white px-4 py-2 rounded-lg hover:bg-[#044] transition-colors"
+          {filteredJobs.length > 0 ? (
+            filteredJobs.map((job) => (
+              <motion.div
+                key={job.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5 }}
+                className="bg-white/70 p-4 md:p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
               >
-                Apply Now
-              </button>
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-3 gap-2">
+                  <h2 className="text-teal-700 font-bold text-lg md:text-xl">{job.title}</h2>
+                  <p className="text-sm text-gray-600">Posted {job.posted}</p>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-4">
+                  <p className="text-sm text-gray-700"><span className="font-medium">Job ID:</span> {job.id}</p>
+                  <p className="text-sm text-gray-700"><span className="font-medium">Experience:</span> {job.experience}</p>
+                  <p className="text-sm text-gray-700"><span className="font-medium">Location:</span> {job.location}</p>
+                  <p className="text-sm text-gray-700"><span className="font-medium">Type:</span> {job.type}</p>
+                </div>
+                <h3 className="font-semibold mt-3 mb-2 text-gray-800">Basic Qualifications:</h3>
+                <ul className="list-disc list-inside text-gray-700 space-y-1 text-sm md:text-base">
+                  {job.qualifications.map((item, index) => (
+                    <li key={index}>{item}</li>
+                  ))}
+                </ul>
+                <button
+                  onClick={() => handleApplyClick(job)}
+                  className="mt-4 bg-[#066] text-white px-4 py-2 rounded-lg hover:bg-[#044] transition-colors w-full sm:w-auto"
+                >
+                  Apply Now
+                </button>
+              </motion.div>
+            ))
+          ) : (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="bg-white/70 p-6 rounded-lg shadow-md text-center"
+            >
+              <h3 className="text-lg font-medium text-gray-700">No jobs found matching your criteria</h3>
+              <p className="text-gray-600 mt-2">Try adjusting your filters or search term</p>
             </motion.div>
-          ))}
+          )}
         </AnimatePresence>
       </div>
 
@@ -244,10 +265,10 @@ export default function JobSearchPage() {
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
-              className="bg-white rounded-lg p-6 w-full max-w-md relative"
+              className="bg-white rounded-lg p-6 w-full max-w-md mx-2 sm:mx-0 relative"
               onClick={(e) => e.stopPropagation()}
             >
-              <button 
+              <button
                 onClick={() => setShowModal(false)}
                 className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
               >
@@ -265,11 +286,11 @@ export default function JobSearchPage() {
                 <>
                   <h2 className="text-xl font-bold text-gray-800 mb-2">Apply for {selectedJob?.title}</h2>
                   <p className="text-gray-600 mb-6">Please fill out the form below to apply for this position.</p>
-                  
+
                   <form onSubmit={handleSubmit}>
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-gray-700 mb-1">Full Name</label>
+                        <label className="block text-gray-700 mb-1">Full Name*</label>
                         <input
                           type="text"
                           name="name"
@@ -279,9 +300,9 @@ export default function JobSearchPage() {
                           className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
                         />
                       </div>
-                      
+
                       <div>
-                        <label className="block text-gray-700 mb-1">Email</label>
+                        <label className="block text-gray-700 mb-1">Email*</label>
                         <input
                           type="email"
                           name="email"
@@ -291,9 +312,9 @@ export default function JobSearchPage() {
                           className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
                         />
                       </div>
-                      
+
                       <div>
-                        <label className="block text-gray-700 mb-1">Phone Number</label>
+                        <label className="block text-gray-700 mb-1">Phone Number*</label>
                         <input
                           type="tel"
                           name="phone"
@@ -303,9 +324,9 @@ export default function JobSearchPage() {
                           className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
                         />
                       </div>
-                      
+
                       <div>
-                        <label className="block text-gray-700 mb-1">Experience Level</label>
+                        <label className="block text-gray-700 mb-1">Experience Level*</label>
                         <select
                           name="experience"
                           value={formData.experience}
@@ -320,15 +341,19 @@ export default function JobSearchPage() {
                           <option>Senior Level (5+ years)</option>
                         </select>
                       </div>
-                      
+
                       <div>
-                        <label className="block text-gray-700 mb-1">Upload Resume</label>
+                        <label className="block text-gray-700 mb-1">Upload Resume*</label>
                         <div className="flex items-center gap-2">
                           <label className="flex-1 cursor-pointer">
                             <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:bg-gray-50 transition-colors">
                               <Upload className="mx-auto mb-2 text-gray-400" />
                               <p className="text-sm text-gray-500">
-                                {formData.resume ? formData.resume.name : 'Click to upload PDF, DOC (max 5MB)'}
+                                {formData.resume ? (
+                                  <span className="text-teal-600">{formData.resume.name}</span>
+                                ) : (
+                                  'Click to upload PDF, DOC (max 5MB)'
+                                )}
                               </p>
                             </div>
                             <input
@@ -342,7 +367,7 @@ export default function JobSearchPage() {
                         </div>
                       </div>
                     </div>
-                    
+
                     <button
                       type="submit"
                       className="mt-6 w-full bg-[#066] text-white py-3 rounded-lg hover:bg-[#044] transition-colors flex items-center justify-center gap-2"

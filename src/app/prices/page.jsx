@@ -350,9 +350,7 @@ import { CheckIcon, MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 
 export default function PricingPage() {
-  const [expandedSections, setExpandedSections] = useState({
-    
-  });
+  const [expandedSections, setExpandedSections] = useState({});
   const [billingCycle, setBillingCycle] = useState('monthly');
   const [currency, setCurrency] = useState('INR');
 
@@ -375,108 +373,307 @@ export default function PricingPage() {
       { name: "Daimond", price: 899, description: "365 Days", cta: "Buy Now", popular: false },
       { name: "Platinum", price: 1599, description: "730 Days", cta: "Buy Now", popular: false },
     ],
-
   };
 
   const specialPlans = {
     monthly: [
-      { name: "Basic", price: 999, description: "1GB", cta: "Buy Now", popular: false },
-      { name: "Starter", price:1799 , description: "2GB", cta: "Buy Now", popular: false },
-      { name: "Pro", price: 2499, description: "3GB", cta: "Buy Now", popular: true },
-      { name: "Advanced", price: 2999, description: "4GB", cta: "Buy Now", popular: false },
-      { name: "Ultima", price: 3299, description: "5GB", cta: "Buy Now", popular: false },
+      { name: "Basic", price: 999, description: "Upto 1GB", cta: "Buy Now", popular: false },
+      { name: "Starter", price:1799 , description: "Upto 2GB", cta: "Buy Now", popular: false },
+      { name: "Pro", price: 2499, description: "Upto 3GB", cta: "Buy Now", popular: true },
+      { name: "Advanced", price: 2999, description: "Upto 4GB", cta: "Buy Now", popular: false },
+      { name: "Ultima", price: 3299, description: "Upto 5GB", cta: "Buy Now", popular: false },
     ],
-   
   };
 
   const features = [
     {
       category: "QR Code Features",
       items: [
-        
-        { name: "Static QR Codes", free: true, starter: true, pro: true, business: true, platinum:true, ultima: true, custom: true, agency: true, enterprise: true },
-        { name: "Total Scans per Month", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
-        
+        { 
+          name: "Static QR Codes", 
+          values: ["Basic", "Unlimited", "Unlimited", "Unlimited", "Unlimited"] 
+        },
+        { 
+          name: "Total Scans per Month", 
+          values: ["50,000", "1,00,000", "3,00,000", "5,00,000", "Unlimited"] 
+        },
       ],
     },
-
     {
       category: "Bulk Uploads",
       items: [
-        { name: "Bulk Upload (Coming Soon )", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
-        
+        { 
+          name: "Bulk Upload (Coming Soon)", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"] 
+        },
       ],
     },
-    
-     {
+    {
       category: "Security",
       items: [
-        { name: "2-Factor Authentication (MFA)", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
-        { name: "SSO(Single Sign-On)", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
-        { name: "Data Encryption", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
-        { name: "Passcode Protection", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
-        { name: "Data Encryption", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
+        { 
+          name: "2-Factor Authentication (MFA)", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"] 
+        },
+        { 
+          name: "SSO(Single Sign-On)", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"] 
+        },
+        { 
+          name: "Data Encryption", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"]
+        },
+        { 
+          name: "Passcode Protection", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"] 
+        },
       ],
     },
     {
       category: "Analytics & Reports",
       items: [
-        
-        { name: "Tracking", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
-        { name: "Daily Analytics Report in Email", free: true , starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
-        
+        { 
+          name: "Tracking", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"]
+        },
+        { 
+          name: "Daily Analytics Report in Email", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"] 
+        },
       ],
     },
     {
       category: "Customization / White Labeling",
       items: [
-        { name: "White Branding a Domain", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
-        { name: "QR Code with Logo", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
         
+        { 
+          name: "QR Code with Logo", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"] 
+        },
       ],
     },
     {
       category: "QR Code Management / Sub Accounts",
       items: [
-        { name: "Max Folders Allowed", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
-        { name: "Total Accounts (Main & Sub)", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
-        
+        { 
+          name: "Max Folders Allowed", 
+          values: ["30MB", "30MB", "30MB", "30MB", "30MB"] 
+        },
+        { 
+          name: "Total Accounts (Main & Sub)", 
+          values: ["Unlimited", "Unlimited", "Unlimited", "Unlimited", "Unlimited"] 
+        },
       ],
     },
     {
       category: "Support",
       items: [
-        { name: "Email Support", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
-        { name: "Priority Support", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
-        
+        { 
+          name: "Email Support", 
+          values: ["Basic", "Standard", "Priority", "Priority 24/7", "Dedicated"] 
+        },
+        { 
+          name: "Priority Support", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"] 
+        },
       ],
     },
-     {
+    {
       category: "File Upload / QR Download",
       items: [
-        { name: "Max Download Resolution", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
-        { name: "Max Upload Size of a Single File / PDF", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
-        
+        { 
+          name: "Max Download Resolution", 
+          values: ["1024x1024", "1024x1024", "1024x1024", "1024x1024", "1024x1024"] 
+        },
+        { 
+          name: "Max Upload Size of a Single File / PDF", 
+          values: ["2MB", "2MB", "2MB", "2MB", "2MB"] 
+        },
       ],
     },
     {
       category: "QR Code Customization",
       items: [
-        { name: "3D QRs", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
-        { name: "QR Codes Shapes", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
-        { name: "Stickers", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
-        { name: "Pre-designed QRs", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
+        { 
+          name: "3D QRs", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"]
+        },
+        { 
+          name: "QR Codes Shapes", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"] 
+        },
+        { 
+          name: "Stickers", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"]
+        },
+        { 
+          name: "Pre-designed QRs", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"] 
+        },
       ],
     },
     {
       category: "Notifications",
       items: [
-        { name: "Email me on Scan", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
-        { name: "Email me on Form Submission", free: true, starter: true, pro: true, business: true, ultima: true, custom: true, agency: true, enterprise: true },
-        
+        { 
+          name: "Email me on Scan", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"] 
+        },
+        { 
+          name: "Email me on Form Submission", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"] 
+        },
       ],
     },
   ];
+
+  const specialfeatures = [
+    {
+      category: "QR Code Features",
+      items: [
+        { 
+          name: "Static QR Codes", 
+          values: ["Unlimited", "Unlimited", "Unlimited", "Unlimited", "Unlimited"] 
+        },
+        { 
+          name: "Total Scans per Month", 
+          values: ["1,00,000", "2,00,000", "3,00,000", "4,00,000", "Unlimited"] 
+        },
+      ],
+    },
+    {
+      category: "Bulk Uploads",
+      items: [
+        { 
+          name: "Bulk Upload (Coming Soon)", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"] 
+        },
+      ],
+    },
+    {
+      category: "Security",
+      items: [
+        { 
+          name: "2-Factor Authentication (MFA)", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"] 
+        },
+        { 
+          name: "SSO(Single Sign-On)", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"] 
+        },
+        { 
+          name: "Data Encryption", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"] 
+        },
+        { 
+          name: "Passcode Protection", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"]
+        },
+      ],
+    },
+    {
+      category: "Analytics & Reports",
+      items: [
+        { 
+          name: "Tracking", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"]
+        },
+        { 
+          name: "Daily Analytics Report in Email", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"] 
+        },
+      ],
+    },
+    {
+      category: "Customization / White Labeling",
+      items: [
+        
+        { 
+          name: "QR Code with Logo", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"] 
+        },
+      ],
+    },
+    {
+      category: "QR Code Management / Sub Accounts",
+      items: [
+        { 
+          name: "Max Folders Allowed", 
+          values: ["1GB", "2GB", "3GB", "4GB", "5GB"] 
+        },
+        { 
+          name: "Total Accounts (Main & Sub)", 
+          values: ["Unlimited", "Unlimited", "Unlimited", "Unlimited", "Unlimited"] 
+        },
+      ],
+    },
+    {
+      category: "Support",
+      items: [
+        { 
+          name: "Email Support", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"]
+        },
+        { 
+          name: "Priority Support", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"] 
+        },
+      ],
+    },
+    {
+      category: "File Upload / QR Download",
+      items: [
+        { 
+          name: "Max Download Resolution", 
+          values: ["1024x1024", "1024x1024", "1024x1024", "1024x1024", "1024x1024"] 
+        },
+        { 
+          name: "Max Upload Size of a Single File / PDF", 
+          values: ["Upto 5GB", "Upto 5GB", "Upto 5GB", "Upto 5GB", "Upto 5GB"] 
+        },
+      ],
+    },
+    {
+      category: "QR Code Customization",
+      items: [
+        { 
+          name: "3D QRs", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"]
+        },
+        { 
+          name: "QR Codes Shapes", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"] 
+        },
+        { 
+          name: "Stickers", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"] 
+        },
+        { 
+          name: "Pre-designed QRs", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"] 
+        },
+      ],
+    },
+    {
+      category: "Notifications",
+      items: [
+        { 
+          name: "Email me on Scan", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"] 
+        },
+        { 
+          name: "Email me on Form Submission", 
+          values: ["Yes", "Yes", "Yes", "Yes", "Yes"] 
+        },
+      ],
+    },
+  ];
+
+  const renderCellValue = (value) => {
+    if (value === "Yes") return <CheckIcon className="w-5 h-5 mx-auto text-green-500" />;
+    if (value === "No") return <MinusIcon className="w-5 h-5 mx-auto text-gray-400" />;
+    return <span className="text-sm text-gray-700">{value}</span>;
+  };
 
   return (
     <div className="bg-[#008080] pt-24 pb-16">
@@ -488,9 +685,8 @@ export default function PricingPage() {
             <div className="inline-flex rounded-md shadow-sm">
               <button
                 onClick={() => setBillingCycle('monthly')}
-                className="px-4 py-2 text-sm font-medium rounded-l-lg text-white  "
+                className="px-4 py-2 text-sm font-medium rounded-l-lg text-white"
               >Monthly</button>
-              
             </div>
             <button
               onClick={() => setCurrency(currency === 'INR' ? 'USD' : 'INR')}
@@ -549,7 +745,6 @@ export default function PricingPage() {
                           ) : (
                             <PlusIcon className="h-4 w-4 mr-2" />
                           )}
-                          
                         </div>
                       </td>
                     </tr>
@@ -557,21 +752,11 @@ export default function PricingPage() {
                       section.items.map(feature => (
                         <tr key={feature.name} className="hover:bg-gray-50">
                           <td className="px-4 py-3 text-sm text-gray-900 border-r border-teal-100">{feature.name}</td>
-                          <td className="text-center border-r border-teal-100">
-                            {feature.free ? <CheckIcon className="w-5 h-5 mx-auto text-green-500" /> : <MinusIcon className="w-5 h-5 mx-auto text-gray-400" />}
-                          </td>
-                          <td className="text-center border-r border-teal-100">
-                            {feature.starter ? <CheckIcon className="w-5 h-5 mx-auto text-green-500" /> : <MinusIcon className="w-5 h-5 mx-auto text-gray-400" />}
-                          </td>
-                          <td className="text-center border-r border-teal-100">
-                            {feature.pro ? <CheckIcon className="w-5 h-5 mx-auto text-green-500" /> : <MinusIcon className="w-5 h-5 mx-auto text-gray-400" />}
-                          </td>
-                          <td className="text-center">
-                            {feature.business ? <CheckIcon className="w-5 h-5 mx-auto text-green-500" /> : <MinusIcon className="w-5 h-5 mx-auto text-gray-400" />}
-                          </td>
-                          <td className="text-center">
-                            {feature.business ? <CheckIcon className="w-5 h-5 mx-auto text-green-500" /> : <MinusIcon className="w-5 h-5 mx-auto text-gray-400" />}
-                          </td>
+                          {feature.values.map((value, index) => (
+                            <td key={index} className="text-center border-r border-teal-100 py-3">
+                              {renderCellValue(value)}
+                            </td>
+                          ))}
                         </tr>
                       ))}
                   </React.Fragment>
@@ -618,7 +803,7 @@ export default function PricingPage() {
                 </tr>
               </thead>
               <tbody className="bg-white">
-                {features.map(section => (
+                {specialfeatures.map(section => (
                   <React.Fragment key={section.category}>
                     <tr onClick={() => toggleSection(section.category)} className="bg-gray-100 cursor-pointer">
                       <td colSpan={6} className="px-4 py-2 text-sm font-semibold text-gray-900">
@@ -629,7 +814,6 @@ export default function PricingPage() {
                           ) : (
                             <PlusIcon className="h-4 w-4 mr-2" />
                           )}
-                          
                         </div>
                       </td>
                     </tr>
@@ -637,21 +821,11 @@ export default function PricingPage() {
                       section.items.map(feature => (
                         <tr key={feature.name} className="hover:bg-gray-50">
                           <td className="px-4 py-3 text-sm text-gray-900 border-r border-teal-100">{feature.name}</td>
-                          <td className="text-center border-r border-teal-100">
-                            {feature.ultima ? <CheckIcon className="w-5 h-5 mx-auto text-green-500" /> : <MinusIcon className="w-5 h-5 mx-auto text-gray-400" />}
-                          </td>
-                          <td className="text-center border-r border-teal-100">
-                            {feature.custom ? <CheckIcon className="w-5 h-5 mx-auto text-green-500" /> : <MinusIcon className="w-5 h-5 mx-auto text-gray-400" />}
-                          </td>
-                          <td className="text-center border-r border-teal-100">
-                            {feature.agency ? <CheckIcon className="w-5 h-5 mx-auto text-green-500" /> : <MinusIcon className="w-5 h-5 mx-auto text-gray-400" />}
-                          </td>
-                          <td className="text-center">
-                            {feature.enterprise ? <CheckIcon className="w-5 h-5 mx-auto text-green-500" /> : <MinusIcon className="w-5 h-5 mx-auto text-gray-400" />}
-                          </td>
-                          <td className="text-center">
-                            {feature.enterprise ? <CheckIcon className="w-5 h-5 mx-auto text-green-500" /> : <MinusIcon className="w-5 h-5 mx-auto text-gray-400" />}
-                          </td>
+                          {feature.values.map((value, index) => (
+                            <td key={index} className="text-center border-r border-teal-100 py-3">
+                              {renderCellValue(value)}
+                            </td>
+                          ))}
                         </tr>
                       ))}
                   </React.Fragment>

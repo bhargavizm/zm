@@ -42,13 +42,13 @@ const ProductTemplateOne = () => {
 
         {/* Product Info Section */}
         <div className="bg-white h-[50vh] rounded-xl overflow-hidden shadow-md">
-          {/* <Image
+          <Image
             src={imageUrl}
             alt="Product"
             width={400}
             height={300}
             className="w-full h-48 object-cover"
-          /> */}
+          />
           <div className="p-4 space-y-2">
             <h3 className="text-lg font-semibold text-gray-800">{heading}</h3>
             <p className="text-gray-600">{description}</p>
