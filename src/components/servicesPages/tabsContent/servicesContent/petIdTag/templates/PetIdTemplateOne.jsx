@@ -28,7 +28,7 @@ const PetIdTemplateOne = ({ petIDFormData }) => {
 
     return (
         <div
-            className="relative  w-[350px] h-[600px] overflow-y-auto scrollbar-hide rounded-lg shadow-lg flex flex-col items-center justify-center"
+            className="relative  w-[350px] h-[650px] overflow-y-auto scrollbar-hide rounded-lg shadow-lg flex flex-col items-center justify-center"
             style={{
                 backgroundImage: `url(${backgroundImage})`,
                 backgroundSize: "cover",
@@ -36,7 +36,7 @@ const PetIdTemplateOne = ({ petIDFormData }) => {
             }}
         >
             {/* Overlay for gradient effect if needed, or adjust background image */}
-            <div className="absolute inset-0 bg-gradient-to-t from-teal-100 via-blue-100 to-purple-100 opacity-60"></div>
+            {/* <div className="absolute inset-0 bg-gradient-to-t from-teal-100 via-blue-100 to-purple-100 opacity-60 "></div> */}
 
             {/* Pet Image - Centered and Circular */}
             <div className="relative z-10 mb-8 flex justify-center">

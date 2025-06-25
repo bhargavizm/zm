@@ -11,6 +11,7 @@ import { FaCar, FaVideo } from "react-icons/fa";
 import { ImHeadphones } from "react-icons/im";
 import { GrGallery } from "react-icons/gr";
 import { FaHandsHoldingChild } from "react-icons/fa6";
+import { FiArrowLeft } from "react-icons/fi";
 
 const tabLinks = [
   { href: "/services/business-shops", label: "Business Shop", icon: <TiBusinessCard size={28} /> },
@@ -27,7 +28,18 @@ const DesignSection = () => {
   const { slug } = useParams();
 
   return (
-<div className="px-4 sm:px-8 md:px-14 py-8 mx-auto">
+    <>
+ 
+
+<div>
+  <Link href="/services" className="text-white underline flex items-center text-lg px-9 pt-9 gap-2 hover:text-darkGreen">
+    <FiArrowLeft />
+    Back to services
+  </Link>
+</div>
+
+
+<div className="px-4 sm:px-8 md:px-14 py-6 mx-auto">
   <div className="flex lg:justify-center w-full overflow-x-auto gap-x-6 border-b   border-white/40 pb-9">
     {tabLinks.map(({ href, label, icon }) => {
       const isActive = href.includes(slug);
@@ -68,7 +80,7 @@ const DesignSection = () => {
   </div>
 </div>
 
-
+</>
   );
 };
 

@@ -69,17 +69,36 @@ const PDFContent = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">
-              Choose PDF File
-            </label>
-            <input
-              type="file"
-              name="file"
-              accept="application/pdf"
-              onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:bg-teal-600 file:text-white hover:file:bg-teal-700"
-            />
-          </div>
+  <label className="block text-sm font-semibold text-gray-700 mb-1">
+    Choose PDF File
+  </label>
+  <input
+    type="file"
+    name="file"
+    accept="application/pdf"
+    onChange={handleChange}
+    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:bg-teal-600 file:text-white hover:file:bg-teal-700"
+    id="pdf-upload"
+  />
+
+  {/* Show selected file name and remove option */}
+  {pdfFormData.file && (
+    <div className="mt-2 flex items-center justify-between bg-gray-100 px-3 py-2  text-sm">
+      <span className="truncate">{pdfFormData.file.name}</span>
+      <button
+        type="button"
+        onClick={() => {
+          setPdfFormData((prev) => ({ ...prev, file: null }));
+          document.getElementById("pdf-upload").value = "";
+        }}
+        className="text-red-600 text-sm cursor-pointer "
+      >
+        ❌
+      </button>
+    </div>
+  )}
+</div>
+
 
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-1">

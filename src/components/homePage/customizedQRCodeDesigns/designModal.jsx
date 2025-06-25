@@ -70,6 +70,15 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
   };
 
   const ActiveComponent = tabComponents[activeTab];
+useEffect(() => {
+  // Lock scroll when modal is mounted
+  document.body.style.overflow = "hidden";
+
+  // Cleanup on unmount: restore scroll
+  return () => {
+    document.body.style.overflow = "auto";
+  };
+}, []);
 
   return (
     <>
@@ -111,24 +120,24 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
             {/* Grid Layout */}
             <div className="grid grid-cols-12 gap-4">
               <div className="w-full col-span-6 lg:col-span-7 overflow-y-auto px-4 py-6">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeTab}
+                {/* <AnimatePresence mode="wait"> */}
+                  <div
+                    //key={activeTab}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.3 }}
                   >
                     <ActiveComponent />
-                  </motion.div>
-                </AnimatePresence>
+                  </div>
+                {/* </AnimatePresence> */}
               </div>
 
-              <div className="col-span-6 lg:col-span-5 rounded-xl border w-full border-slate-100 shadow-lg pb-9 mx-auto">
+              <div className="col-span-6 lg:col-span-5 rounded-xl border w-full border-slate-100 shadow-lg pb-9 mx-auto h-[75vh]  overflow-y-auto scrollbar-hide">
                 <div className="flex justify-center">
                   <PreviewPanel />
                 </div>
-                <div className="pt-9 flex justify-center">
+                <div className="pt-5 flex justify-center">
                   <button
                     onClick={handleClick}
                     className="px-6 py-2 text-xl text-white font-bold rounded-lg flex items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
@@ -143,9 +152,9 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
         </div>
 
         {/* Mobile Layout */}
-        <div className="md:hidden bg-white rounded-xl shadow-xl w-full h-[95vh] relative pb-4 overflow-y-auto scrollbar-hide">
+        <div className="md:hidden bg-white rounded-xl shadow-xl w-full h-[95vh] relative pb-2 overflow-y-auto scrollbar-hide">
           {/* Close Button */}
-          <div className="text-end p-6">
+          <div className="text-end px-6 py-2">
             <button
               className="text-xl cursor-pointer font-bold text-red-600"
               onClick={() => setIsModalOpen(false)}
@@ -196,17 +205,17 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
 
           {/* Tab Content */}
           <div className="px-2">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTab}
+            {/* <AnimatePresence mode="wait"> */}
+              <div
+               // key={activeTab}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.3 }}
               >
                 <ActiveComponent />
-              </motion.div>
-            </AnimatePresence>
+              </div>
+            {/* </AnimatePresence> */}
           </div>
         </div>
       </div>

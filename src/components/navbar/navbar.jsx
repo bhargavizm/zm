@@ -6,6 +6,8 @@ import Image from "next/image";
 import { useLanguage } from "@/context/languageContext/LanguageContext";
 import LanguageSelector from "./LanguageSelector";
 import { MdKeyboardArrowDown } from "react-icons/md";
+import { usePathname } from "next/navigation";
+
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,6 +15,10 @@ const Navbar = () => {
 
   const supportRef = useRef(null);
   const { dictionary } = useLanguage();
+
+  const pathname = usePathname();
+ const isActive = (route) => pathname.startsWith(route);
+
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -40,22 +46,34 @@ const Navbar = () => {
         </Link>
 
         <div className="hidden lg:flex items-center space-x-6 font-semibold text-xl">
-          <Link href="/" className="hover:text-gray-300">
+          <Link href="/" className={`hover:text-gray-300 ${
+          pathname === "/" ? "text-darkGreen" : ""
+        }`}>
             {dictionary.home}
           </Link>
-          <Link href="/services" className="hover:text-gray-300">
+          <Link href="/services" className={`hover:text-gray-300 ${
+      pathname.startsWith("/services") ? "text-darkGreen" : ""
+    }`}>
             {dictionary.services}
           </Link>
-          <Link href="/prices" className="hover:text-gray-300">
+          <Link href="/prices" className={`hover:text-gray-300 ${
+      pathname.startsWith("/prices") ? "text-darkGreen" : ""
+    }`}>
             {dictionary.prices}
           </Link>
-          <Link href="/career" className="hover:text-gray-300">
+          <Link href="/career" className={`hover:text-gray-300 ${
+      pathname.startsWith("/career") ? "text-darkGreen" : ""
+    }`}>
             {dictionary.Career}
           </Link>
-          <Link href="/investors" className="hover:text-gray-300">
+          <Link href="/investors" className={`hover:text-gray-300 ${
+      pathname.startsWith("/investors") ? "text-darkGreen" : ""
+    }`}>
             {dictionary.Investors}
           </Link>
-          <Link href="/franchise" className="hover:text-gray-300">
+          <Link href="/franchise" className={`hover:text-gray-300 ${
+      pathname.startsWith("/franchise") ? "text-darkGreen" : ""
+    }`}>
             {dictionary.Franchise}
           </Link>
           <div className="relative" ref={supportRef}>
@@ -133,7 +151,7 @@ const Navbar = () => {
           {/* Menu (same as above) */}
           <div className="lg:hidden fixed top-[60px] py-4 right-0  w-60 bg-white text-xl font-semibold text-mainGreen z-50 shadow-lg transition-all duration-300">
             <div className="flex flex-col px-6 py- space-y-4 h-full justify-start">
-              <Link href="/" onClick={() => setIsOpen(false)}>
+              <Link href="/" onClick={() => setIsOpen(false)} franchise>
                 {dictionary.home}
               </Link>
               <Link href="/services" onClick={() => setIsOpen(false)}>

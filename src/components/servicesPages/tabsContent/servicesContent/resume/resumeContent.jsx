@@ -1,143 +1,145 @@
-"use client"; // This directive is essential for Next.js 13+ to mark this as a client component
+"use client";
 
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation"; // For navigation in Next.js App Router
-import useServicesContext from "@/components/hooks/useServiceContext"; // Assuming you have this context
+import { useRouter } from "next/navigation";
+import useServicesContext from "@/components/hooks/useServiceContext";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import NFCModal from "@/components/modalPopUps/nfcModal";
 
 const ResumeContent = () => {
-  // Destructure resumeFormData from your context
   const { resumeFormData, setResumeFormData } = useServicesContext();
-
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
 
-  const router = useRouter(); // Initialize Next.js router
-
-  // Effect to clean up the Object URL when the component unmounts
-  // or when resumeFile changes to avoid memory leaks
   useEffect(() => {
     if (resumeFormData.resumeFile) {
       const url = URL.createObjectURL(resumeFormData.resumeFile);
-      return () => URL.revokeObjectURL(url); // Clean up the URL
+      return () => URL.revokeObjectURL(url);
     }
-  }, [resumeFormData.resumeFile]); // Re-run when resumeFile changes
+  }, [resumeFormData.resumeFile]);
 
-  // Generic handleChange function for all form fields
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    setResumeFormData((prevData) => ({
-      ...prevData,
-      // If the input is a file input, store the File object (the first one)
-      // Otherwise, store the value from text/url/password inputs
+    setResumeFormData((prev) => ({
+      ...prev,
       [name]: name === "resumeFile" ? files[0] : value,
     }));
+  };
+
+  const handleFileRemove = () => {
+    setResumeFormData((prev) => ({ ...prev, resumeFile: null }));
+    document.getElementById("resume-upload").value = "";
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validate if either a resume file is uploaded OR a resume URL is provided
     if (!resumeFormData.resumeFile && !resumeFormData.resumeUrl) {
       alert("Please upload a resume file or provide a resume URL.");
       return;
     }
 
-    // In a real application, you would handle file uploads (e.g., to cloud storage)
-    // and/or generate a QR code from the resume's public URL.
-
     const submittedData = {
       title: resumeFormData.title,
       description: resumeFormData.description,
-      // Store resume file name for display
-      resumeFileName: resumeFormData.resumeFile
-        ? resumeFormData.resumeFile.name
-        : null,
-      resumeUrl: resumeFormData.resumeUrl, // The external URL
+      resumeFileName: resumeFormData.resumeFile?.name || null,
+      resumeUrl: resumeFormData.resumeUrl || "",
       password: resumeFormData.password,
     };
 
-    console.log("Submitted Resume Data:", submittedData);
-
-    // Optionally store this data in localStorage for a separate preview page
     localStorage.setItem("resumeQRData", JSON.stringify(submittedData));
-    router.push("/preview"); // Navigate to a dedicated preview page if you have one
-    // alert("Resume data submitted (check console). A real QR code would be generated here!");
+    router.push("/preview");
   };
 
   return (
-    <>
-      <div className=" flex items-center justify-center ">
-        <div className="flex w-full max-w-5xl gap-6">
-          {/* Form Section */}
-          <div className="flex-1 bg-white shadow-xl rounded-2xl p-6 space-y-5 max-h-[650px] overflow-auto">
-            <form  className="space-y-4">
-              
-              <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">
-                  Upload Resume (PDF/Doc)
-                </label>
-                <input
-                  type="file"
-                  name="resumeFile"
-                  accept=".pdf,.doc,.docx" // Accept common resume formats
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:bg-teal-600 file:text-white hover:file:bg-teal-700"
-                  onChange={handleChange}
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">
-                  Or Enter Resume URL
-                </label>
-                <input
-                  type="url"
-                  name="resumeUrl"
-                  className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
-                  value={resumeFormData.resumeUrl || ""}
-                  onChange={handleChange}
-                  placeholder="https://example.com/your-resume.pdf"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">
-                  Password 
-                </label>
-                <div className="relative">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    value={resumeFormData.password || ""}
-                    onChange={handleChange}
-                    placeholder="Set password for gallery"
-                    className="w-full px-3 py-2 pr-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
-                  />
-                  <span
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-600 hover:text-teal-600"
+    <div className="flex items-center justify-center">
+      <div className="flex w-full max-w-5xl gap-6">
+        <div className="flex-1 bg-white shadow-xl rounded-2xl p-6 space-y-5 max-h-[650px] overflow-auto">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            
+            {/* File Upload */}
+            <div>
+              <label className="block text-xs font-medium text-gray-700 mb-1">
+                Upload Resume (PDF/Doc)
+              </label>
+              <input
+                id="resume-upload"
+                type="file"
+                name="resumeFile"
+                accept=".pdf,.doc,.docx"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:bg-teal-600 file:text-white hover:file:bg-teal-700"
+                onChange={handleChange}
+              />
+              {resumeFormData.resumeFile && (
+                <div className="mt-2 flex items-center justify-between bg-gray-100 px-3 py-2 rounded-md text-sm">
+                  <span className="truncate">{resumeFormData.resumeFile.name}</span>
+                  <button
+                    type="button"
+                    onClick={handleFileRemove}
+                    className="text-red-600 cursor-pointer "
                   >
-                    {showPassword ? (
-                      <IoEyeOffOutline size={18} />
-                    ) : (
-                      <IoEyeOutline size={18} />
-                    )}
-                  </span>
+                    ❌
+                  </button>
                 </div>
+              )}
+            </div>
+
+            {/* Resume URL */}
+            <div>
+              <label className="block text-xs font-medium text-gray-700 mb-1">
+                Or Enter Resume URL
+              </label>
+              <input
+                type="url"
+                name="resumeUrl"
+                value={resumeFormData.resumeUrl || ""}
+                onChange={handleChange}
+                placeholder="https://example.com/your-resume.pdf"
+                className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
+              />
+            </div>
+
+            {/* Password */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-1">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={resumeFormData.password || ""}
+                  onChange={handleChange}
+                  placeholder="Set password for resume"
+                  className="w-full px-3 py-2 pr-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
+                />
+                <span
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-600 hover:text-teal-600"
+                >
+                  {showPassword ? (
+                    <IoEyeOffOutline size={18} />
+                  ) : (
+                    <IoEyeOutline size={18} />
+                  )}
+                </span>
               </div>
+            </div>
 
-              <NFCModal />
+            {/* NFC Modal */}
+            <NFCModal />
 
-              <button
-                type="submit"
-                className="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 rounded-lg font-semibold text-sm transition"
-              >
-                Submit
-              </button>
-            </form>
-          </div>
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 rounded-lg font-semibold text-sm transition"
+            >
+              Submit
+            </button>
+          </form>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
