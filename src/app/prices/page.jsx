@@ -682,15 +682,10 @@ export default function PricingPage() {
           <h1 className="text-4xl font-bold text-white">Plans for Everyone</h1>
           <p className="mt-2 text-white">Whether you're an individual or a growing business, choose a plan that fits your goals — simple, flexible, and affordable.</p>
           <div className="flex justify-center gap-4 mt-4">
-            <div className="inline-flex rounded-md shadow-sm">
-              <button
-                onClick={() => setBillingCycle('monthly')}
-                className="px-4 py-2 text-sm font-medium rounded-l-lg text-white"
-              >Monthly</button>
-            </div>
+            
             <button
               onClick={() => setCurrency(currency === 'INR' ? 'USD' : 'INR')}
-              className="ml-4 px-4 py-2 text-sm border bg-white border-gray-300 rounded-md text-gray-700 hover:bg-gray-100"
+              className="ml-4 px-4 py-2 text-xl border bg-white border-gray-300 rounded-md text-gray-700 hover:bg-teal-500"
             >
               {currency === 'INR' ? 'Show in USD' : 'Show in INR'}
             </button>
