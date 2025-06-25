@@ -30,27 +30,49 @@
 
 // export default Stickers
 
+
+
 import Image from "next/image";
 import React from "react";
 import { stickerConfig } from "./stickerImages";
+import useDesignContext from "@/components/hooks/useDesignContext";
 
+const Stickers = ({ onSelectImage }) => {
+  const { selectedSticker, setSelectedSticker } = useDesignContext();
 
-const Stickers = ({ onSelectImage }) => (
-  <section className="mt-6">
-    <div className="grid xl:grid-cols-7 lg:grid-cols-6 md:grid-cols-4 grid-cols-3 gap-8 h-[65vh] overflow-y-auto scrollbar-hide px-6">
-      {Object.keys(stickerConfig).map((src, index) => (
-        <Image
-          key={index}
-          src={src}
-          alt={`sticker ${index + 1}`}
-          width={60}
-          height={60}
-          className="cursor-pointer hover:scale-110 transition-transform"
-          onClick={() => onSelectImage(src)}
-        />
-      ))}
-    </div>
-  </section>
-);
+  const handleClick = (src) => {
+    setSelectedSticker(src);          
+  
+    onSelectImage(src);                
+  };
+
+  return (
+    <section>
+      <div className="pt-6 grid xl:grid-cols-7 lg:grid-cols-6 md:grid-cols-4 grid-cols-3 gap-8 h-[65vh] overflow-y-auto scrollbar-hide px-6">
+        {Object.keys(stickerConfig).map((src, index) => (
+          <Image
+            key={index}
+            src={src}
+            alt={`sticker ${index + 1}`}
+            width={60}
+            height={60}
+            className={`cursor-pointer rounded-2xl p-1 border-4 transition-all duration-200 ${
+              selectedSticker === src
+                ? "border-mainGreen scale-110 shadow-lg"
+                : "border-transparent"
+            }`}
+           onClick={(e) => {
+  e.preventDefault();  // prevents unwanted default behavior
+  e.stopPropagation(); // stops bubbling that may cause refocus
+  handleClick(src);
+}}
+
+          />
+        ))}
+      </div>
+    </section>
+  );
+};
 
 export default Stickers;
+

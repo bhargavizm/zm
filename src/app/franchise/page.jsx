@@ -449,7 +449,7 @@ const WhyFranchiseWithZMSection = () => {
                     {dictionary.franchise.whyFranchiseWithZMSection.paragraph}
                 </p>
 
-                <div className="relative overflow-hidden min-h-[300px] flex items-center justify-center">
+                <div className="relative overflow-hidden min-h-[450px] flex items-center justify-center">
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={activeIndex}

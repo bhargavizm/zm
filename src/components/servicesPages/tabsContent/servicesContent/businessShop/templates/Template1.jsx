@@ -9,7 +9,7 @@ const Template1 = ({ data }) => {
     <div
       className="relative w-full bg-cover bg-center rounded-xl overflow-y-auto scrollbar-hide  shadow-lg p-6 flex flex-col items-center justify-center text-white text-center"
       style={{
-        backgroundImage: `url('https://via.placeholder.com/400x600/333333/FFFFFF?text=Background+Image+Here')`,
+        backgroundImage: `url('/images/normal/template1Shop.jpg')`,
         minHeight: '300px',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
