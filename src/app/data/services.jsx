@@ -64,7 +64,6 @@ const services = [
         "description": "Effortlessly create vCard Plus QR Codes to share your contact information and boost networking opportunities instantly!",
         "image": "/services/vCard.webp",
     },
-   
     {
         "icon": <MdPets className="text-[#001a1a]" />,
         "serviceName": "Pet ID Tags",
@@ -86,7 +85,6 @@ const services = [
         "description": "Effortlessly transform images into QR codes, connecting visuals to digital content in an instant.",
         "image": "/services/bussiness-shop-qr.webp",
     },
-   
     {
         "icon": <GoFileDirectoryFill className="text-[#001a1a]" />,
         "serviceName": "Resume",
@@ -280,14 +278,14 @@ const services = [
 
 // const { dictionary } = useLanguage();
 const encryptedServices = [
- {
+{
         "icon": <FaFilePdf className="text-[#001a1a]" />,
         "serviceName": "PDF",
         slug: "pdf",
         "description": "Generate scannable QR Codes for PDF files, ensuring easy access and sharing of important documents digitally.",
         "image": "/services/PDF-to-qr.webp",
     },
-     {
+    {
         "icon": <ImHeadphones className="text-[#001a1a]" />,
         "serviceName": "Audio",
         slug: "audios",
