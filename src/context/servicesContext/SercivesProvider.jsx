@@ -55,10 +55,14 @@ const ServicesProvider = ({ children }) => {
     manual: null,
     email: "",
     phone: "",
+    address: "",
     password: "",
     selectedTemplate: null,
   });
+  const [productLogo,setProductLogo]=useState(null)
   const [productImage, setProductImage] = useState(null);
+  const [items, setItems] = useState([]);
+
   // Audio
   const [audioFormData, setAudioFormData] = useState({
     title: "",
@@ -498,7 +502,9 @@ const ServicesProvider = ({ children }) => {
         updateDynamicForm, addTemplateField, removeTemplateField, // Make helpers available
         showPassword, setShowPassword, // Still exposed for other components that might use it
         isAnimating, setIsAnimating,
-        pdfFormData, setPdfFormData
+        pdfFormData, setPdfFormData,
+        items,setItems,
+        productLogo,setProductLogo
       }}
     >
       {children}
