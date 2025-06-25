@@ -6,7 +6,7 @@ import ServicesProvider from "@/context/servicesContext/SercivesProvider";
 import Navbar from "@/components/navbar/navbar";
 import ScrollToTop from "@/components/scrollToTop/scrollToTop";
 import OfferScrolling from "@/components/scrolling/offerScrolling";
-//import OfferScrolling from "@/components/homePage/offerScrolling";
+
 
 export const metadata = {
   title: "Zm QR Code Services",
@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
         <LanguageProvider> {/* 👈 Wrap the app in provider */}
           <ServicesProvider>
             <DesignProvider>
-              {/* <ScrollToTop /> */}
+              <ScrollToTop />
               <Navbar />
               <OfferScrolling/>
               <main>

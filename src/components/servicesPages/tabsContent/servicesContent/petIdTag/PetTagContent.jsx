@@ -5,6 +5,9 @@ import useServicesContext from "@/components/hooks/useServiceContext";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import NFCModal from "@/components/modalPopUps/nfcModal";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { MapPin } from "lucide-react";
+
+
 
 const PetTagContent = () => {
   const { petIDFormData, setPetIDFormData } = useServicesContext();
@@ -72,6 +75,41 @@ const PetTagContent = () => {
       setTimeout(() => setIsLoading(false), 300);
     }
   };
+
+  const fetchCurrentLocation = async () => {
+  if (navigator.geolocation) {
+    try {
+      const pos = await new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0,
+        });
+      });
+
+      const { latitude, longitude } = pos.coords;
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`
+      );
+      const data = await response.json();
+      const fullAddress = data.display_name || "Address not found";
+
+      setPetIDFormData((prev) => ({
+        ...prev,
+        ownerInfo: {
+          ...prev.ownerInfo,
+          address: fullAddress,
+        },
+      }));
+    } catch (err) {
+      console.error("Error fetching current location:", err.message);
+      alert("Failed to fetch location. Please check permissions.");
+    }
+  } else {
+    alert("Geolocation not supported in your browser.");
+  }
+};
+
 
   return (
     <div className="grid grid-cols-1 gap-10">
@@ -179,20 +217,32 @@ const PetTagContent = () => {
               className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600"
             >
               {showPassword ? (
-                <AiOutlineEyeInvisible size={20} />
+               <AiOutlineEye size={20} />
               ) : (
-                <AiOutlineEye size={20} />
+                
+                 <AiOutlineEyeInvisible size={20} />
               )}
             </button>
           </div>
-          <input
-            type="text"
-            id="address"
-            value={petIDFormData.ownerInfo.address}
-            onChange={handleOwnerChange}
-            placeholder="Address"
-            className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
-          />
+        <div className="space-y-2 col-span-1 md:col-span-2">
+  <textarea
+    id="address"
+    value={petIDFormData.ownerInfo.address}
+    onChange={handleOwnerChange}
+    placeholder="Address"
+    rows={3}
+    className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080] resize-none"
+  />
+  <button
+    type="button"
+    onClick={fetchCurrentLocation}
+    className="flex items-center justify-center w-full py-2 px-3 bg-gray-100 hover:bg-gray-300 text-gray-700 text-sm rounded-lg transition-colors duration-200 cursor-pointer"
+  >
+    <MapPin size={16} className="mr-2" />
+    Use Current Location
+  </button>
+</div>
+
         </div>
 
         {/* Pet Info */}

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import { Eye, EyeOff, PlusCircle, MinusCircle, MapPin } from "lucide-react";
 import NFCModal from "@/components/modalPopUps/nfcModal";
@@ -8,6 +8,8 @@ import NFCModal from "@/components/modalPopUps/nfcModal";
 const KidsSafetyContent = () => {
   const { dynamicForms, updateDynamicForm } = useServicesContext();
   const kidsSafety = dynamicForms.kidsSafety || {};
+
+  const imageInputRef = useRef(null);
 
   const primaryFields = [
     {
@@ -199,13 +201,15 @@ const KidsSafetyContent = () => {
           <label className="block text-base font-medium text-gray-700">
             Upload Child's Photo
           </label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
-          />
-         {kidsSafety.kidsImage && (
+  <input
+  ref={imageInputRef}
+  type="file"
+  accept="image/*"
+  onChange={handleImageChange}
+  className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
+/>
+
+{kidsSafety.kidsImage && (
   <div className="relative mt-4 w-fit">
     <p className="text-sm text-gray-600 mb-2">Current Image Preview:</p>
     <img
@@ -218,11 +222,14 @@ const KidsSafetyContent = () => {
       className="w-24 h-24 object-cover rounded-2xl shadow-inner border border-gray-200"
     />
     <button
-      onClick={() => updateDynamicForm("kidsSafety", null, "kidsImage", null)}
+      onClick={() => {
+        updateDynamicForm("kidsSafety", null, "kidsImage", null);
+        if (imageInputRef.current) imageInputRef.current.value = '';
+      }}
       className="absolute top-5 right-10 bg-white text-red-600 rounded-full p-1 shadow cursor-pointer"
       aria-label="Remove image"
     >
-      ✕
+      ❌
     </button>
   </div>
 )}
@@ -294,7 +301,7 @@ const KidsSafetyContent = () => {
                         onClick={() => setShowPassword(!showPassword)}
                         className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-600 hover:text-teal-600"
                       >
-                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                        {showPassword ? <Eye size={18} /> :  <EyeOff size={18} />}
                       </span>
                     </div>
                   ) : (

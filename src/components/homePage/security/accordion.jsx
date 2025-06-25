@@ -11,7 +11,7 @@ import { useState } from 'react';
     {
       id: 2,
       title: "Data Encryption",
-      content: "our data security is our priority — it is fully encrypted during transfer and storage.",
+      content: "Your data security is our priority — it is fully encrypted during transfer and storage.",
     },
     {
       id: 3,
@@ -41,7 +41,7 @@ const Accordion = () => {
             className={`w-full px-6 py-4 flex justify-between items-center transition-all duration-300 ease-in-out cursor-pointer text-xl font-bold hover:scale-100 ${
               activeIndex === index
                 ? 'bg-mainGreen text-white shadow-lg'
-                : 'bg-white text-mainGreen hover:bg-skyBlue hover:text-white'
+                : 'bg-white text-mainGreen hover:bg-darkGreen hover:text-white'
             }`}
           >
             {item.title}
