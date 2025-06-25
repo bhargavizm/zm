@@ -185,7 +185,7 @@ const MultiUrlContent = () => {
               className="absolute right-3 top-3 text-gray-500"
               onClick={togglePasswordVisibility}
             >
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
+              {showPassword ? <FaEye /> :  <FaEyeSlash />}
             </button>
           </div>
         </div>

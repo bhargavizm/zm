@@ -5,20 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { FiSearch } from "react-icons/fi";
 
-// Simple LockIcon component (replace with actual icon component)
-function LockIcon({ className }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-      />
-    </svg>
-  );
-}
-
 const ServicesPage = () => {
   const [mainServices, setMainServices] = useState([]);
   const [specialServices, setSpecialServices] = useState([]);
@@ -64,11 +50,32 @@ const ServicesPage = () => {
     }));
   };
 
+useEffect(() => {
+  const handleHashScroll = () => {
+    const hash = window.location.hash;
+    if (hash) {
+      const element = document.getElementById(hash.slice(1));
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+  };
+
+  // Delay scroll a bit after the DOM is ready
+  const timeout = setTimeout(handleHashScroll, 500);
+
+  return () => clearTimeout(timeout);
+}, [filteredMain, filteredSpecial]);
+
+
+
   const renderServices = (services) => (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
       {services.map((service, index) => (
-        <Link key={index} href={`/services/${service.slug}`}>
-          <div className="bg-white rounded-xl shadow-lg transition duration-200 overflow-hidden p-6 hover:-translate-y-1 cursor-pointer h-85">
+        // <Link key={index} href={`/services/${service.slug}`}>
+        <Link key={index} href={`/services/${service.slug}?from=${service.slug}`}>
+
+          <div id={service.slug} className="bg-white rounded-xl shadow-lg transition duration-200 overflow-hidden p-6 hover:-translate-y-1 cursor-pointer h-85">
             <div className="flex items-start mb-3">
               <span className="text-2xl text-teal-600 mr-2">{service.icon}</span>
               <h2 className="text-xl font-bold text-gray-900">
@@ -131,10 +138,10 @@ const ServicesPage = () => {
   );
 
   return (
-    <div className="py-12 bg-[rgb(0,128,128)]">
+    <div className="py-   bg-[rgb(0,128,128)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Search */}
-        <div className="mb-10 flex justify-end pt-36 pb-10">
+        <div className="mb-10 flex justify-end pt-30 ">
           <div className="relative w-full max-w-sm group shadow-2xl">
             <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-mainGreen" />
             <input
@@ -157,7 +164,7 @@ const ServicesPage = () => {
                   width={50}
                   height={50}
                   alt="Left Logo"
-                  className="animate-bounce"
+                
                 />
                 <h2 className="md:text-3xl text-2xl font-semibold text-white">
                   Encrypted Services
@@ -167,22 +174,24 @@ const ServicesPage = () => {
                   width={50}
                   height={50}
                   alt="Right Logo"
-                  className="animate-bounce"
+               
                 />
               </div>
             </div>
 
-            <div className="py-6">
+            <div className="py-2">
               <div className="border-4 lg:px-16 md:px-10 px-6 my-6 rounded-2xl border-double py-9 shadow-3xl border-white">
+                <p className="text-white text-center text-2xl px-4 pb-9">
+                  🔐 Trust us with your data. It's not just secure — it's encrypted 🔒
+                </p>
+
                 {filteredSpecial.length > 0 ? (
                   renderServices(filteredSpecial)
                 ) : (
                   <></>
                 )}
 
-                <p className="text-white text-center text-2xl animate-bounce px-4 mt-12">
-                  🔐 Trust us with your data. It's not just secure — it's encrypted 🔒
-                </p>
+                
               </div>
             </div>
           </div>

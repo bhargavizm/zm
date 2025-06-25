@@ -104,7 +104,7 @@ const SmsContent = () => {
                     onClick={togglePasswordVisibility}
                     className="absolute right-3 top-9 text-gray-500 hover:text-[#008080]"
                   >
-                    {showPassword ? <FiEyeOff /> : <FiEye />}
+                    {showPassword ?  <FiEye /> : <FiEyeOff /> }
                   </button>
                 </div>
                 

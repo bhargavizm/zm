@@ -181,9 +181,10 @@ const MedicalAlertContent = () => {
             className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500 hover:text-[#008080]"
           >
             {showPassword ? (
-              <IoEyeOffOutline size={20} />
+               <IoEyeOutline size={20} />
             ) : (
-              <IoEyeOutline size={20} />
+            
+               <IoEyeOffOutline size={20} />
             )}
           </span>
         </div>
