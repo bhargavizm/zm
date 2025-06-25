@@ -12,7 +12,7 @@ const Termsandconditions = () => {
       <p>ZMQRCode.com ("ZMQRCodeServices", "we", "us", and "our") provides you with access to its interactive online website and associated services, subject to the following Terms of Use. Please read these Terms of Use carefully before using our website or any of the services we offer. <br/>
       By accessing or using our website or services (other than to review these Terms for the first time), you acknowledge that you have read, understood, and agree to be bound by these Terms of Use. If you do not agree with any part of these Terms, you must not use our website or services. <br/>
       These Terms of Use (also referred to as the "User Agreement"), together with our <a href="/privacy-policies/"><span className='text-[#008080]'>Privacy Policy</span> </a> and any additional terms that may apply to specific products or services, govern your use of all our websites and any other services we offer, including but not limited to surveys, reviews, newsletters, panels, communities, or other related services (collectively referred to as our "Service").
-      Our websites include sites such as, but not limited to, <Link href="/"><span className='text-[#008080]'>WWW.ZMQRCODE.IN,</span> </Link> and any other websites on which we display or link to these Terms of Use (collectively referred to as our "Site").</p> <br/>
+      Our websites include sites such as, but not limited to, <Link href="/"><span className='text-[#008080]'>ZMQRCODESERVICES,</span> </Link> and any other websites on which we display or link to these Terms of Use (collectively referred to as our "Site").</p> <br/>
       <h2 className='text-2xl font-semibold'>1. Our Services</h2><br/>
       <p>The information available through our Services is not intended for access or use by any individual or entity in jurisdictions where such access or use would violate applicable laws or regulations, or where it would require us to comply with registration or legal requirements in that jurisdiction. <br/>
       If you choose to access the Services from outside our operating region, you do so voluntarily and are solely responsible for ensuring that your use complies with any local laws that may apply.
@@ -59,7 +59,7 @@ const Termsandconditions = () => {
         <li>Other third-party money transfer services.</li>
         </ul>
         Please note that some of these payment methods may not be available in all geographical regions. More details are available on our page outlining the <span className='text-[#008080]'>[Different Payment Methods Available]</span>.<br/>
-        You represent and warrant that you have the legal right to use any payment method(s) used in connection with any transaction and that all payment information provided is accurate and complete. You agree to be solely responsible for any payments and for maintaining current billing and contact information.<br/>
+        You represent and warrant that you have the legal right to use any payment method(s) used in connection with any transaction and that all payment information provided is accurate and complete. In the event of a failed payment, the payment gateway company is responsible for any issues related to the payment failure or incorrect deductions. ZMQRCode Services will not be held liable for such issues. You agree to be solely responsible for any payments and for maintaining current billing and contact information.<br/>
         You further agree to hold ZMQRCodeServices harmless and indemnify us against any liabilities, damages, losses, claims, disputes, or legal actions that may arise directly or indirectly from any payment transactions initiated by you.<br/>
         You agree to provide current, complete, and accurate purchase and account information for all transactions conducted via the Services. You also agree to promptly update your account and payment details, including your email address, payment method, and payment card expiration date, so that we can complete your transactions and contact you as needed.<br/>
         We reserve the right to add sales tax, VAT, or similar fees to your purchase total as required by law. You are responsible for any additional taxes, fees, or duties not collected by us.<br/>
@@ -78,7 +78,7 @@ const Termsandconditions = () => {
           Cancellations take effect at the end of the current paid term. ZMQRCodeServices does not provide partial or prorated refunds for cancellations made mid-cycle. You will retain access to the Services until the conclusion of your current billing term, but no refund will be issued for any unused portion.<br/>
         </p><br/>
         <h2 className='text-1xl font-semibold'>Fee Changes</h2><br/>
-        <p>We may, from time to time, make changes to the subscription fee and if required will communicate any price changes to you in accordance with applicable law over email.<br/>
+        <p>We may, from time to time, make changes to the subscription fee and if required will or not communicate any price changes to you in accordance with applicable law over email.<br/>
         We may also change any free services or features on the Site to paid services or paid features on the Site at our sole discretion at any time.
         </p><br/>
         <h2 className='text-2xl font-semibold'>9.Email Communication Consent</h2><br/>

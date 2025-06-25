@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { IoIosSend } from "react-icons/io";
 
 const ContactUs = () => {
+    const { dictionary } = useLanguage();
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const handleFormSubmit = (e) => {
@@ -22,12 +23,10 @@ const ContactUs = () => {
         className="flex flex-col items-center justify-center w-full px-4 py-16 my-24 md:py-24"
       >
         <h1 className="text-5xl md:text-6xl font-extrabold text-teal-900 mb-4 animate-fadeInDown">
-          Get in Touch
+          {dictionary.ContactUs.heading}
         </h1>
         <p className="text-lg text-gray-700 mb-10 text-center max-w-2xl leading-relaxed animate-fadeInUp">
-          We'd love to hear from you! Whether you have a question about our
-          services, need support, or just want to chat, our team is ready to
-          help.
+          {dictionary.ContactUs.paragraph}
         </p>
 
         <div className="w-full max-w-5xl bg-white p-8 md:p-12 rounded-3xl border border-teal-200 shadow-2xl grid grid-cols-1 lg:grid-cols-2 gap-10">

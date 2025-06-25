@@ -73,8 +73,8 @@ const Footer = () => {
                         </li>
                         <li>
                             <Link href="/franchise" className="hover:underline hover:text-gray-400">
-                                {/* {dictionary.footer.investors} */}
-                                Franchise
+                                {dictionary.footer.Franchise}
+                                
                             </Link>
                         </li>
                         <li>

@@ -79,7 +79,7 @@ export default function JobSearchPage() {
       <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-4 justify-center items-center mb-6">
         <input
           type="text"
-          placeholder="Search Job Title..."
+          placeholder="Search Job"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="px-4 py-2 rounded-lg w-full md:w-1/3 focus:outline-none"

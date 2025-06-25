@@ -32,11 +32,71 @@
     },
     "security": {
         "heading": "Experience Superior Security with ZM QR Code Services",
-        "subheading": "Your peace of mind matters: we ensure data protection is integrated at every level of our system."
+        "subheading": "Your peace of mind matters: we ensure data protection is integrated at every level of our system.",
+        "items": [
+            {
+                "id": 1,
+                "title": "ISO 27001 Certified",
+                "content": "We are audited and certified for top-level data safety protocols."
+            },
+            {
+                "id": 2,
+                "title": "Data Encryption",
+                "content": "Our data security is our priority — it is fully encrypted during transfer and storage."
+            },
+            {
+                "id": 3,
+                "title": "Multi-factor Authentication",
+                "content": "Enabling Multi-factor Authentication (MFA) on your main account and any subaccounts provides an additional level of security."
+            },
+            {
+                "id": 4,
+                "title": "Passcode Protection",
+                "content": "Our exclusive 'Passcode Protection' feature allows you to secure any landing page, like Digital Business Cards, by tightly controlling access."
+            }
+        ]
     },
     "qrDesignSection": {
         "heading": "A perfect combination of QR Design, Marketing and Management",
-        "paragraph": "Customize and create QR code with logo, color, and shape to attract more scans"
+        "paragraph": "Customize and create QR code with logo, color, and shape to attract more scans",
+        "DesignCardsData": [
+            {
+                "id": 1,
+                "image": "/images/home/qrdesign.webp",
+                "title": "Unique QR Code Shapes",
+                "description": "Choose from an extensive variety of QR code designs, including circles, hearts, animals, medical symbols, retail icons, food items, and party-themed styles. Select the shape that best reflects your brand identity to boost engagement and scan rates."
+            },
+            {
+                "id": 2,
+                "image": "/images/home/stickers.webp",
+                "title": "Eye-Catching QR Code Stickers",
+                "description": "Enhance your QR codes with our vibrant stickers featuring diverse colors, catchy call-to-action (CTA) messages, and distinctive patterns. Including a strong CTA improves visibility and encourages more users to scan your code."
+            },
+            {
+                "id": 3,
+                "image": "/images/home/colours.jpg",
+                "title": "Attractive QR Code Colors",
+                "description": "Make your QR codes stand out with brand-aligned color schemes. Experiment with custom color combinations or use our pre-optimized palettes to create visually appealing and brand-consistent QR codes."
+            },
+            {
+                "id": 4,
+                "image": "/images/home/body-shapes.svg",
+                "title": "Personalized QR Elements",
+                "description": "Tailor your QR code appearance by modifying individual elements such as the eyes, inner dots, or the full pattern. These customizations help make your QR code a natural extension of your brand’s design language."
+            },
+            {
+                "id": 5,
+                "image": "/images/home/logos.webp",
+                "title": "Add Your Brand Logo",
+                "description": "Build customer trust and reinforce your branding by embedding your logo directly into your QR codes. Our generator makes it easy to create codes that look professional and on-brand."
+            },
+            {
+                "id": 6,
+                "image": "/images/home/qrbrochures.webp",
+                "title": "Integrate QRs with Brochures",
+                "description": "ZM QR Code Services provides tools to seamlessly place your customized QR codes onto brochure designs, making them print-ready and visually integrated with your promotional materials."
+            }
+        ]
     },
     "customerReviews": {
         "heading": "Hear What Our Customers Have to Say!",
@@ -143,6 +203,7 @@
         "terms": "Terms & Conditions",
         "careers": "Careers",
         "investors": "Investors",
+        "Franchise": "Franchise",
         "faq": "FAQ",
         "refundPolicy": "Refund Policy",
         "servicesTitle": "Services",
@@ -228,37 +289,198 @@
         }
     },
     "investor": {
-        "subheading": "ZM QR is transforming connections through next-generation QR technology.",
-        "cta": "Contact Our Team",
+        "title": "Invest in ZM QR Code Services | Next-Gen QR Solutions",
+        "description": "Join ZM QR's growth journey with our innovative QR technology",
+        "hero": {
+            "heading": "Invest in the Future",
+            "subheading": "of Digital Engagement",
+            "description": "ZM QR is transforming connections through next-generation QR technology.",
+            "contactButton": "Contact Our Team"
+        },
         "stats": {
-            "title": "Why ZM QR?",
-            "description": "Industry-leading QR technology with proven adoption metrics.",
+            "Why": "Why",
+            "paragraph": "Industry-leading QR technology with proven adoption metrics.",
+            "qrCodesGenerated": {
+                "value": "10M+",
+                "label": "QR Codes Generated"
+            },
+            "activeUsers": {
+                "value": "500K+",
+                "label": "Active Users"
+            },
+            "retentionRate": {
+                "value": "85%",
+                "label": "Retention Rate"
+            },
+            "annualRevenue": {
+                "value": "$5M",
+                "label": "Annual Revenue"
+            }
+        },
+        "marketOpportunity": {
+            "valueIncome": "$26B",
+            "heading": "Market Opportunity",
+            "description": "The global QR code market is growing at 18.7% CAGR through 2030.",
             "items": [
+                "Contactless payments adoption",
+                "Digital marketing transformation",
+                "Supply chain digitization"
+            ],
+            "metrics": [
                 {
-                    "value": "10M+",
-                    "label": "QR Codes Generated"
+                    "value": "18.7%",
+                    "label": "CAGR"
                 },
                 {
-                    "value": "500K+",
-                    "label": "Active Users"
+                    "value": "$8.2B",
+                    "label": "2023 Market"
                 },
                 {
-                    "value": "85%",
-                    "label": "Retention Rate"
-                },
-                {
-                    "value": "$5M",
-                    "label": "Annual Revenue"
+                    "value": "$26B",
+                    "label": "2030 Projection"
                 }
             ]
         },
-        "market_opportunity": {
-            "title": "$26B Market Opportunity",
-            "description": "The global QR code market is growing at 18.7% CAGR through 2030."
+        "traction": {
+            "Our": "Our",
+            "heading": "Our Traction",
+            "description": "Consistent growth across all key metrics.",
+            "revenueGrowth": {
+                "heading": "Expected Revenue Growth",
+                "data": [
+                    {
+                        "year": "2024",
+                        "revenue": "$0.5M"
+                    },
+                    {
+                        "year": "2025",
+                        "revenue": "$2.1M"
+                    },
+                    {
+                        "year": "2026",
+                        "revenue": "$5.3M"
+                    },
+                    {
+                        "year": "2027",
+                        "revenue": "$12M"
+                    },
+                    {
+                        "year": "2028",
+                        "revenue": "$18M"
+                    },
+                    {
+                        "year": "2029",
+                        "revenue": "$25M"
+                    },
+                    {
+                        "year": "2030P",
+                        "revenue": "$35M"
+                    }
+                ]
+            },
+            "userGrowth": {
+                "heading": "Expected User Growth",
+                "metrics": [
+                    {
+                        "metric": "500K+",
+                        "label": "Active Users"
+                    },
+                    {
+                        "metric": "85%",
+                        "label": "Retention"
+                    },
+                    {
+                        "metric": "4.8/5",
+                        "label": "Rating"
+                    }
+                ]
+            }
         },
-        "contact_section": {
-            "heading": "Let's discuss for Investment",
-            "subheading": "Contact our investment team for more information."
+        "technology": {
+            "Our": "Our",
+            "heading": "Technology",
+            "description": "Cutting-edge infrastructure powering the next generation of QR solutions",
+            "features": [
+                {
+                    "name": "Dynamic QR Generation",
+                    "description": "Real-time QR code creation with advanced customization"
+                },
+                {
+                    "name": "Analytics Dashboard",
+                    "description": "Comprehensive scan tracking and user insights"
+                },
+                {
+                    "name": "Enterprise API",
+                    "description": "Seamless integration with existing systems"
+                },
+                {
+                    "name": "AI Optimization",
+                    "description": "Machine learning for scan prediction"
+                }
+            ]
+        },
+        "investment": {
+            "Why": "Why",
+            "heading": "Invest",
+            "inUs": "in Us?",
+            "description": "Back a company that's shaping the future with real traction, scalable growth, and visionary leadership.",
+            "propositions": [
+                {
+                    "title": "Rapid Growth",
+                    "desc": "Achieved 300% revenue growth in the past 12 months."
+                },
+                {
+                    "title": "Global Reach",
+                    "desc": "Presence in over 15 countries and expanding rapidly."
+                },
+                {
+                    "title": "Innovative Tech",
+                    "desc": "Built using scalable cloud and AI-powered architecture."
+                },
+                {
+                    "title": "Trusted Partners",
+                    "desc": "Collaborated with industry leaders and unicorns."
+                }
+            ],
+            "mission": {
+                "heading": "Our Mission",
+                "text": "To transform how people connect, transact, and experience services using technology that scales with their dreams."
+            },
+            "vision": {
+                "heading": "Our Vision",
+                "text": "To be a global leader in tech innovation, empowering millions through seamless digital experiences and impactful solutions."
+            }
+        },
+        "journey": {
+            "heading": "Join Our Journey",
+            "description": "Be part of a revolution. Help us scale globally and build a future-driven ecosystem.",
+            "cta": {
+                "text": "Let's Talk Investment",
+                "link": "#contact",
+                "class": "inline-block px-6 mt-10 py-2 text-white bg-teal-500 hover:bg-teal-600 rounded-lg font-medium transition"
+            }
+        },
+        "contact": {
+            "heading": "Let's Discuss for",
+            "investment": "Investment",
+            "description": "Contact our investment team for more information",
+            "getIn": "Get In",
+            "touch": "Touch",
+            "form": {
+                "name": "Full Name",
+                "email": "Email Address",
+                "phone": "Phone Number",
+                "inquiryType": {
+                    "label": "Inquiry Type",
+                    "options": [
+                        "-- Please select an option --",
+                        "Investment Inquiry",
+                        "Ready to Invest"
+                    ]
+                },
+                "message": "Describe your interest",
+                "submit": "Submit"
+            }
         }
     },
     "about": {
@@ -305,190 +527,310 @@
         },
         "footer": "© ZMQR Code Services. All rights reserved."
     },
-    "reselling": {
-        "header": {
-            "title": "Unlock Digital Business Growth: Own a ZM QR Code Services Franchise!",
-            "subtitle": "Join the Future of Connectivity – Your Path to a Thriving Digital Business Starts Here.",
-            "ctaPrimary": "Get Started Today",
-            "ctaSecondary": "Schedule a Discovery Call"
+    "franchise": {
+        "siteColors": {
+            "primaryDarkBg": "#001a1a",
+            "accentTeal": "#008080",
+            "accentTealLight": "#339999",
+            "accentTealDark": "#006666",
+            "textLight": "#f0fafa",
+            "textDark": "#1a202c",
+            "textMuted": "#64748b",
+            "sectionBgLight": "#ffffff",
+            "sectionBgSubtle": "#f8fafc",
+            "border": "#e2e8f0"
         },
-        "whyZMQr": {
+        "heroSection": {
+            "title": "Unlock Digital Business Growth: Own a ZM QR Code Services Franchise!",
+            "description": "Join the Future of Connectivity – Your Path to a Thriving Digital Business Starts Here.",
+            "buttonText": "Schedule a Discovery Call"
+        },
+        "whyZMQRSection": {
             "title": "Why ZM QR Code?",
             "features": [
                 {
+                    "icon": "FaChartLine",
                     "title": "Booming Market",
                     "description": "Tap into the exploding demand for QR Codes."
                 },
                 {
+                    "icon": "FaCheckCircle",
                     "title": "Proven Model",
                     "description": "Leverage our tested & profitable business system."
                 },
                 {
+                    "icon": "FaTools",
                     "title": "Diverse Services",
                     "description": "Offer a full spectrum of high-demand QR Solutions."
                 },
                 {
+                    "icon": "FaLaptopCode",
                     "title": "Cutting-Edge Tech",
                     "description": "Access proprietary, user-friendly platform."
                 },
                 {
+                    "icon": "FaHeadset",
                     "title": "Dedicated Support",
                     "description": "Benefit from comprehensive training & ongoing guidance."
                 },
                 {
+                    "icon": "FaMoneyBillWave",
                     "title": "Recurring Revenue",
                     "description": "Build a sustainable business with subscription models."
                 }
             ]
         },
-        "qrTransformation": {
+        "howQRCodesTransformBusinessesSection": {
             "title": "How QR Codes Transform Businesses",
+            "videoSrc": "/videos/franchise.mp4",
+            "videoPoster": "your-video-poster.jpg",
             "description": "From streamlined payments to interactive marketing, QR codes are revolutionizing industries."
         },
-        "testimonials": {
+        "testimonialsSection": {
             "title": "What Our Partners Say",
-            "quotes": [
+            "call": "Schedule a Discovery Call",
+            "testimonials": [
                 {
-                    "text": "Partnering with ZM QR Code Services has been a game-changer for our business. The support is incredible!",
+                    "quote": "Partnering with ZM QR Code Services has been a game-changer for our business. The support is incredible!",
                     "author": "Navya L., Franchisee"
                 },
                 {
-                    "text": "Their platform is so easy to use and our clients love the QR solutions. Highly recommend!",
+                    "quote": "Their platform is so easy to use and our clients love the QR solutions. Highly recommend!",
                     "author": "Joseph., Business Owner"
                 },
                 {
-                    "text": "The recurring revenue model is fantastic. ZM QR Code has helped us achieve significant growth.",
+                    "quote": "The recurring revenue model is fantastic. ZM QR Code has helped us achieve significant growth.",
                     "author": "Krishna., Entrepreneur"
+                },
+                {
+                    "quote": "ZM QR Code Services has transformed the way we connect with our customers. Combined with real-time analytics and branding tools.",
+                    "author": "Mastanvali., Business Head"
                 }
             ]
         },
-        "franchiseAdvantages": {
+        "whyFranchiseWithZMSection": {
             "title": "Your Blueprint for Success: The ZM QR Code Advantage",
-            "subtitle": "Discover the unmatched benefits of partnering with a leader in digital connectivity.",
-            "sections": [
+            "paragraph": "Discover the unmatched benefits of partnering with a leader in digital connectivity.",
+            "ctaExploreInvestment": "Ready to make your mark? Explore Our Investment Details",
+            "advantages": [
                 {
                     "title": "The Market Opportunity",
                     "description": "Tap into the explosive growth of QR code usage across various industries.",
                     "points": [
                         "QR code usage surged by X% last year.",
                         "Y% of consumers prefer QR for payments and information access.",
-                        "Diverse industries (retail, F&B, healthcare, events, marketing) demand QR solutions."
+                        "Diverse industries demand QR solutions."
                     ]
                 },
                 {
                     "title": "Our Proven Business Model",
                     "description": "Leverage a low-overhead, scalable business model designed for recurring revenue.",
                     "points": [
-                        "Recurring revenue potential from dynamic QR codes and platform subscriptions.",
+                        "Recurring revenue potential from dynamic QR codes.",
                         "Low overhead and high scalability.",
-                        "Efficient and automated system for streamlined operations."
+                        "Efficient and automated system."
+                    ]
+                },
+                {
+                    "title": "Comprehensive Service Portfolio",
+                    "description": "Offer a full spectrum of high-demand QR solutions.",
+                    "points": [
+                        "Dynamic & Static QR Codes",
+                        "Custom Design & Branding",
+                        "Advanced Management Platform & Analytics"
+                    ]
+                },
+                {
+                    "title": "Cutting-Edge Technology",
+                    "description": "Gain access to the proprietary ZM platform.",
+                    "points": [
+                        "Intuitive, user-friendly interface",
+                        "Powerful analytics dashboard",
+                        "Regular updates and new feature releases"
+                    ]
+                },
+                {
+                    "title": "Unrivaled Support & Training",
+                    "description": "Benefit from comprehensive training and ongoing guidance.",
+                    "points": [
+                        "Intensive initial training.",
+                        "Dedicated support team.",
+                        "Ready-to-use marketing & sales collateral."
                     ]
                 }
             ]
         },
-        "investment": {
+        "investmentAndSupportSection": {
             "title": "Your Zero Investment, Our Commitment: Building Success Together",
-            "subtitle": "Understand the financial roadmap and the extensive support network you'll receive.",
-            "table": {
-                "headers": [
-                    "Item",
-                    "Estimated Cost Range"
-                ],
-                "rows": [
-                    [
-                        "Initial Franchise Fee",
-                        "0/-"
-                    ],
-                    [
-                        "Training & Travel Expenses",
-                        "0/-"
-                    ],
-                    [
-                        "Initial Marketing Spend",
-                        "0/-"
-                    ],
-                    [
-                        "Technology Setup & Software",
-                        "0/-"
-                    ],
-                    [
-                        "Additional Working Capital (3 months)",
-                        "0/-"
-                    ],
-                    [
-                        "Total Estimated Initial Investment",
-                        "0/-"
-                    ],
-                    [
-                        "Marketing & Sales Toolkit",
-                        "Depends"
-                    ]
+            "financialSupportText": "Understand the financial roadmap and the extensive support network you'll receive.",
+            "franchiseInvestmentOverview": "Franchise Investment Overview",
+            "totalEstimate": "Total Estimated Initial Investment",
+            "marketingSales": "Marketing & Sales Toolkit",
+            "depends": "Depends",
+            "franchiseDisclaimer": "* This is an estimated range. Please refer to our Franchise Disclosure Document (FDD) for detailed financial requirements and legal disclosures.",
+            "investmentOverview": {
+                "description": "The estimated initial investment for a ZM QR Code Services franchise ranges from:",
+                "items": [
+                    {
+                        "item": "Initial Franchise Fee",
+                        "cost": "0/-"
+                    },
+                    {
+                        "item": "Training & Travel Expenses",
+                        "cost": "0/-"
+                    },
+                    {
+                        "item": "Initial Marketing Spend",
+                        "cost": "0/-"
+                    },
+                    {
+                        "item": "Technology Setup & Software",
+                        "cost": "0/-"
+                    },
+                    {
+                        "item": "Additional Working Capital (3 months)",
+                        "cost": "0/-"
+                    }
                 ]
             },
-            "support": {
+            "whatYouGetSection": {
                 "title": "What You Get with Your ZM Franchise",
-                "points": [
-                    "Comprehensive Training Program: Initial intensive training covering sales, technology, and operations.",
-                    "Dedicated Support Team: Ongoing assistance and guidance, and extensive resource library.",
-                    "ZM Proprietary Platform Access: Cutting-edge software and analytics dashboard."
+                "items": [
+                    {
+                        "label": "Comprehensive Training Program",
+                        "description": "Initial intensive training covering sales, technology, and operations."
+                    },
+                    {
+                        "label": "Dedicated Support Team",
+                        "description": "Ongoing assistance and guidance, and extensive resource library."
+                    },
+                    {
+                        "label": "ZM Proprietary Platform Access",
+                        "description": "Cutting-edge software and analytics dashboard."
+                    },
+                    {
+                        "label": "Operational Manuals & Best Practices",
+                        "description": "Detailed guides for day-to-day management."
+                    },
+                    {
+                        "label": "Research & Development Updates",
+                        "description": "Continuous innovation to keep you ahead."
+                    }
                 ]
             }
         },
-        "process": {
+        "idealCandidateSection": {
+            "title": "Ideal Candidate Profile",
+            "intro": "ZM QR Code Services is looking for individuals who are:",
+            "qualities": [
+                "Entrepreneurial and driven",
+                "Sales-oriented with strong communication skills",
+                "Tech-curious and adaptable to new technologies",
+                "Customer-focused with a commitment to service excellence"
+            ],
+            "callToAction": "Do you have what it takes? Learn more about who succeeds with ZM."
+        },
+        "ourProcessSection": {
             "title": "Your Journey to Becoming a ZM Franchisee",
-            "subtitle": "A simple, transparent process to launch your own successful QR Code business.",
             "steps": [
                 {
+                    "number": 1,
                     "title": "Inquiry & Information Request",
                     "description": "Fill out the online form and download our comprehensive Franchise Info Packet."
                 },
                 {
+                    "number": 2,
                     "title": "Initial Discovery Call",
                     "description": "Engage in a brief, no-obligation chat with our Franchise Development Team."
                 },
                 {
+                    "number": 3,
                     "title": "Review Franchise Disclosure Document (FDD)",
-                    "description": "Dive deep into the legal and financial details of the opportunity."
+                    "description": "Dive deep into the legal and financial details."
                 },
                 {
+                    "number": 4,
                     "title": "Territory Agreement & Franchise Agreement",
                     "description": "Finalize your exclusive territory and sign the official franchise agreement."
                 },
                 {
+                    "number": 5,
                     "title": "Comprehensive Training",
-                    "description": "Participate in our intensive training program designed for successful launch."
+                    "description": "Participate in our intensive training program."
                 },
                 {
+                    "number": 6,
                     "title": "Grand Opening & Ongoing Support",
-                    "description": "Launch your ZM franchise with our continued guidance and support."
+                    "description": "Launch your ZM franchise with our continued guidance."
                 }
             ]
         },
-        "contact": {
-            "title": "Connect with Our Franchise Development Team",
-            "subtitle": "We're here to answer your questions and guide you through the ZM opportunity.",
-            "form": {
-                "labels": {
-                    "name": "Name",
-                    "email": "Email",
-                    "phone": "Phone Number",
-                    "region": "Preferred Region/City for Franchise",
-                    "bestTime": "Best Time to Call",
-                    "message": "Message/Questions"
+        "ourProcessSection": {
+            "title": "Your Journey to Becoming a ZM Franchisee",
+            "subtitle": "A simple, transparent process to launch your own successful QR Code business.",
+            "steps": [
+                {
+                    "number": 1,
+                    "title": "Inquiry & Information Request",
+                    "description": "Fill out the online form and download our comprehensive Franchise Info Packet."
                 },
-                "placeholders": {
-                    "bestTime": "e.g., Weekdays, 10 AM - 2 PM"
+                {
+                    "number": 2,
+                    "title": "Initial Discovery Call",
+                    "description": "Engage in a brief, no‑obligation chat with our Franchise Development Team to answer your preliminary questions."
+                },
+                {
+                    "number": 3,
+                    "title": "Review Franchise Disclosure Document (FDD)",
+                    "description": "Dive deep into the legal and financial details of the ZM QR Code Services franchise opportunity."
+                },
+                {
+                    "number": 4,
+                    "title": "Territory Agreement & Franchise Agreement",
+                    "description": "Finalize your exclusive territory and sign the official franchise agreement."
+                },
+                {
+                    "number": 5,
+                    "title": "Comprehensive Training",
+                    "description": "Participate in our intensive training program designed to prepare you for a successful launch."
+                },
+                {
+                    "number": 6,
+                    "title": "Grand Opening & Ongoing Support",
+                    "description": "Launch your ZM franchise with our continued guidance and support every step of the way."
                 }
-            },
-            "footer": {
-                "email": "franchise@zmqrcodeservices.com",
-                "phone": "[Your Franchise Contact Number]",
-                "links": [
-                    "Privacy Policy",
-                    "Terms of Service",
-                    "Franchise Disclaimer"
-                ]
-            }
+            ],
+            "buttonText": "Ready to start your journey? Contact Our Franchise Team"
+        },
+        "contactUsSection": {
+            "title": "Connect with Our Franchise Development Team",
+            "submit": "Submit Inquiry",
+            "formFields": [
+                {
+                    "name": "name",
+                    "label": "Name",
+                    "type": "text",
+                    "required": true
+                },
+                {
+                    "name": "email",
+                    "label": "Email",
+                    "type": "email",
+                    "required": true
+                },
+                {
+                    "name": "phone",
+                    "label": "Phone Number",
+                    "type": "tel",
+                    "required": true
+                },
+                {
+                    "name": "message",
+                    "label": "Message/Questions",
+                    "type": "textarea",
+                    "required": false
+                }
+            ]
         }
     },
     "refund_policy": {
@@ -504,5 +846,148 @@
         "contact_prompt": "For inquiries, visit our",
         "contact_link": "Contact Us",
         "contact_suffix": "page."
+    },
+    "contactUs": {
+        "heading": "Get In Touch",
+        "paragraph": "We'd love to hear from you! Whether you have a question about our services, need support, or just want to chat, our team is ready to help.",
+        "FAQ": "FAQ's",
+        "Contact_Us": "Contact Us"
+    },
+    "faq": {
+        "heading": "Frequently Asked Questions",
+        "faqs": [
+            {
+                "id": 1,
+                "question": "What is the refund policy?",
+                "answer": "You can request a refund within 7 days of purchase if the service hasn't been used or activated.",
+                "videoUrl": "https://www.youtube.com/zm/zmqrcode"
+            },
+            {
+                "id": 2,
+                "question": "How do I update my profile?",
+                "answer": "Log in to your dashboard, go to 'My Profile', and click 'Edit' to update your personal information.",
+                "videoUrl": "https://www.youtube.com/zm/zmqrcode"
+            },
+            {
+                "id": 3,
+                "question": "How can I contact support?",
+                "answer": "You can contact support through the 'Contact Us' page or by emailing support@zmqrcode.com.",
+                "videoUrl": "https://www.youtube.com/zm/zmqrcode"
+            },
+            {
+                "id": 4,
+                "question": "After a QR code is generated, is it possible to add other content to it?",
+                "answer": "Yes, you can update or add additional content through the dynamic QR code management section.",
+                "videoUrl": "https://www.youtube.com/zm/zmqrcode"
+            },
+            {
+                "id": 5,
+                "question": "Using a single mobile number or email, how many QR codes can we generate?",
+                "answer": "You can generate unlimited QR codes using a single account, depending on your subscription plan.",
+                "videoUrl": "https://www.youtube.com/zm/zmqrcode"
+            },
+            {
+                "id": 6,
+                "question": "Can we generate a QR code without a password?",
+                "answer": "Yes, password protection is optional. You can create public QR codes without a password.",
+                "videoUrl": "https://www.youtube.com/zm/zmqrcode"
+            },
+            {
+                "id": 7,
+                "question": "Can we download an invoice through a QR code?",
+                "answer": "Yes, you can link invoices to your QR code for users to download them instantly.",
+                "videoUrl": "https://www.youtube.com/zm/zmqrcode"
+            },
+            {
+                "id": 8,
+                "question": "How can I contact customer support for QR codes?",
+                "answer": "Reach out via live chat, email, or through the help section on our website.",
+                "videoUrl": "https://www.youtube.com/zm/zmqrcode"
+            },
+            {
+                "id": 9,
+                "question": "Can I make payments using a QR code?",
+                "answer": "Yes, our platform supports payment-enabled QR codes using UPI and other gateways.",
+                "videoUrl": "https://www.youtube.com/zm/zmqrcode"
+            },
+            {
+                "id": 10,
+                "question": "Can I delete my saved data on a QR code?",
+                "answer": "Yes, you can delete or update the content linked to any dynamic QR code via your dashboard.",
+                "videoUrl": "https://www.youtube.com/zm/zmqrcode"
+            },
+            {
+                "id": 11,
+                "question": "Will I get a refund if I cancel my subscription?",
+                "answer": "Refunds are provided based on our refund policy. Generally, cancellations within 7 days are eligible.",
+                "videoUrl": "https://www.youtube.com/zm/zmqrcode"
+            },
+            {
+                "id": 12,
+                "question": "If I delete my QR account, will my data get erased?",
+                "answer": "Yes, once your account is deleted, all your QR codes and related data will be permanently removed.",
+                "videoUrl": "https://www.youtube.com/zm/zmqrcode"
+            },
+            {
+                "id": 13,
+                "question": "After the plan expires, what should I do?",
+                "answer": "You can renew your plan to retain full access. Otherwise, your QR codes may be deactivated.",
+                "videoUrl": "https://www.youtube.com/zm/zmqrcode"
+            },
+            {
+                "id": 14,
+                "question": "What is the validity of a QR code?",
+                "answer": "Static QR codes are valid permanently. Dynamic codes are valid as long as your subscription is active.",
+                "videoUrl": "https://www.youtube.com/zm/zmqrcode"
+            },
+            {
+                "id": 15,
+                "question": "How much does it cost to renew my QR code annually?",
+                "answer": "Pricing varies by plan. Visit our pricing page to see the latest renewal charges.",
+                "videoUrl": "https://www.youtube.com/zm/zmqrcode"
+            },
+            {
+                "id": 16,
+                "question": "Will I lose my data if I don’t renew my QR code?",
+                "answer": "Yes, dynamic QR code data will become inaccessible unless the plan is renewed within the grace period.",
+                "videoUrl": "https://www.youtube.com/zm/zmqrcode"
+            },
+            {
+                "id": 17,
+                "question": "Can I use my QR code for multiple services?",
+                "answer": "Yes, you can link your QR code to multiple services or update the destination anytime for dynamic codes.",
+                "videoUrl": "https://www.youtube.com/zm/zmqrcode"
+            },
+            {
+                "id": 18,
+                "question": "How do I create an account with ZMQRCode Services?",
+                "answer": "Click on 'Sign Up' on the homepage and fill in the required details to create your account.",
+                "videoUrl": "https://www.youtube.com/zm/zmqrcode"
+            },
+            {
+                "id": 19,
+                "question": "What information do I need to provide to create an account?",
+                "answer": "You'll need a valid email address, mobile number, and a strong password.",
+                "videoUrl": "https://www.youtube.com/zm/zmqrcode"
+            },
+            {
+                "id": 20,
+                "question": "I forgot my password. How can I reset it?",
+                "answer": "Click 'Forgot Password' on the login page and follow the instructions sent to your email.",
+                "videoUrl": "https://www.youtube.com/zm/zmqrcode"
+            },
+            {
+                "id": 21,
+                "question": "How do I update my account information?",
+                "answer": "Log in to your account and navigate to the 'Settings' section to update your details.",
+                "videoUrl": "https://www.youtube.com/zm/zmqrcode"
+            },
+            {
+                "id": 22,
+                "question": "Can I change my email address associated with my account?",
+                "answer": "Yes, go to 'Account Settings' and update your email. A verification email will be sent.",
+                "videoUrl": "https://www.youtube.com/zm/zmqrcode"
+            }
+        ]
     }
 }
