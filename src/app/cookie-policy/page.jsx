@@ -9,12 +9,12 @@ const Cookiespolicy = () => {
 
                     <h1 className="text-3xl  font-bold underline">Cookie Policy</h1><br />
                     <p className="mb-6">
-                        This Cookie Policy describes how <strong>zmqrcode.com</strong> ("ZMQRCodeServices", the "Company," "we," "us," or "our") uses cookies and similar tracking technologies to recognize you when you visit our website at{" "}
+                        This Cookie Policy describes how <strong>zmqrcodeservices</strong> ("ZMQRCodeServices", the "Company," "we," "us," or "our") uses cookies and similar tracking technologies to recognize you when you visit our website at{" "}
                         <Link
                             href="https://www.zmqrcode.in" target='_blank'
-                            className="text-blue-300 underline hover:text-black"
+                            className="text-teal-500-300 underline hover:text-black"
                         >
-                            https://www.zmqrcode.in
+                            ZMQRCODESERVICES
                         </Link>{" "}
                         ("Website"). It explains what these technologies are, why we use them, and your choices regarding their use. <br /> <br />In certain cases, cookies may collect personal data, or data that becomes personally identifiable when combined with other information.
                     </p>
@@ -59,15 +59,7 @@ const Cookiespolicy = () => {
                         <li className="hover:text-black underline"><a href="https://help.opera.com/en/latest/web-preferences/#cookies" target="_blank">Opera</a></li>
                     </ul>
 
-                    <p className="mb-4">
-                        Many advertising networks also allow you to opt out of targeted advertising. For more information, visit:
-                    </p>
-                    <ul className="list-disc list-inside text-blue-300 mb-8 space-y-1 underline">
-                        <li className="hover:text-black underline"><a href="https://optout.aboutads.info" target="_blank">Digital Advertising Alliance</a></li>
-                        <li className="hover:text-black underline"><a href="https://youradchoices.ca/" target="_blank">Digital Advertising Alliance of Canada</a></li>
-                        <li className="hover:text-black underline"><a href="https://www.youronlinechoices.com/" target="_blank">European Interactive Digital Advertising Alliance</a></li>
-                    </ul>
-
+                    
                     <h3 className="text-1xl font-semibold text-white-700 mb-3">
                         Do You Use Other Tracking Technologies Like Web Beacons?
                     </h3>
@@ -113,13 +105,7 @@ const Cookiespolicy = () => {
                     </p>
 
                     {/* Legal Basis */}
-                    <h3 className="text-1xl font-bold text-white-700 mb-4">
-                        What Is the Legal Basis for Using Cookies?
-                    </h3>
-                    <p className="mb-6">
-                        If you are located in the European Economic Area (EEA), the UK, or any jurisdiction where cookie consent is legally required,
-                        we process your personal data collected through cookies only with your consent. You may withdraw this consent at any time.
-                    </p>
+                   
 
                     {/* Policy Updates */}
                     <h3 className="text-1xl font-bold text-white-700 mb-4">
