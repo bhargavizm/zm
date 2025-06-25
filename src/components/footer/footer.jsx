@@ -15,7 +15,7 @@ const serviceLinks = [
     { name: "Generate QR Code for Business Cards", url: "/services/business-cards" },
     { name: "Generate QR Code for Products", url: "/services/product-cards" },
     { name: "Generate QR Code for V Cards", url: "/services/v-cards" },
-    { name: "Generate QR Code for Form QR Code", url: "/services/form-qr" },
+    { name: "Generate QR Code for Forms", url: "/services/forms" },
     { name: "Generate QR Code for Pet Id Tag", url: "/services/Pet-ID-tags" },
     { name: "Generate QR Code for PDF", url: "/services/pdf" },
     { name: "Generate QR Code for Audio", url: "/services/audios" },

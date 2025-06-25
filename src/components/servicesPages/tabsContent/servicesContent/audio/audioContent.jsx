@@ -4,11 +4,14 @@ import { useRouter } from "next/navigation";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import NFCModal from "@/components/modalPopUps/nfcModal";
+import { useRef } from "react";
 
 const AudioContent = () => {
   const {audioFormData, setAudioFormData } = useServicesContext();
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+
+  const fileInputRef = useRef(null);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -78,11 +81,12 @@ const AudioContent = () => {
     Choose File
   </label>
   <input
+    ref={fileInputRef}
     type="file"
     name="file"
     accept="audio/*"
     onChange={handleChange}
-    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:bg-teal-600 file:text-white hover:file:bg-teal-700"
+    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:bg-teal-600 file:text-white hover:file:bg-teal-700 cursor-pointer"
   />
 
   {audioFormData.file && (
@@ -90,9 +94,12 @@ const AudioContent = () => {
       <span className="truncate max-w-[80%]">{audioFormData.file.name}</span>
       <button
         type="button"
-        onClick={() =>
-          setAudioFormData((prev) => ({ ...prev, file: null }))
-        }
+        onClick={() => {
+          setAudioFormData((prev) => ({ ...prev, file: null }));
+          if (fileInputRef.current) {
+            fileInputRef.current.value = ""; // 👈 this clears the input
+          }
+        }}
         className="text-red-600 hover:text-red-800 font-bold ml-4"
         aria-label="Remove file"
       >
@@ -122,7 +129,7 @@ const AudioContent = () => {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 focus:outline-none"
               >
-                {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+                {showPassword ?  <FiEye size={18} /> : <FiEyeOff size={18} />}
               </button>
             </div>
           </div>

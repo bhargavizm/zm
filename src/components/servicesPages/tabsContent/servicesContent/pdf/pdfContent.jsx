@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react"; // ← include useRef
 import { useRouter } from "next/navigation";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import useServicesContext from "@/components/hooks/useServiceContext";
@@ -9,6 +9,9 @@ const PDFContent = () => {
   const { pdfFormData, setPdfFormData } = useServicesContext();
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+
+  // 👇 Ref to reset file input
+  const fileInputRef = useRef(null);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -39,7 +42,8 @@ const PDFContent = () => {
   return (
     <div className="flex w-full max-w-3xl gap-6">
       <div className="flex-1 bg-white shadow-lg rounded-2xl p-6 space-y-5 max-h-[650px] overflow-auto">
-        <form className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Title */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-1">
               Title
@@ -54,6 +58,7 @@ const PDFContent = () => {
             />
           </div>
 
+          {/* Description */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-1">
               Description
@@ -68,38 +73,40 @@ const PDFContent = () => {
             />
           </div>
 
+          {/* PDF File Upload */}
           <div>
-  <label className="block text-sm font-semibold text-gray-700 mb-1">
-    Choose PDF File
-  </label>
-  <input
-    type="file"
-    name="file"
-    accept="application/pdf"
-    onChange={handleChange}
-    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:bg-teal-600 file:text-white hover:file:bg-teal-700"
-    id="pdf-upload"
-  />
+            <label className="block text-sm font-semibold text-gray-700 mb-1">
+              Choose PDF File
+            </label>
+            <input
+              ref={fileInputRef}
+              type="file"
+              name="file"
+              accept="application/pdf"
+              onChange={handleChange}
+              className="w-full px-3 py-2 cursor-pointer border border-gray-300 rounded-lg text-sm file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:bg-teal-600 file:text-white hover:file:bg-teal-700"
+            />
 
-  {/* Show selected file name and remove option */}
-  {pdfFormData.file && (
-    <div className="mt-2 flex items-center justify-between bg-gray-100 px-3 py-2  text-sm">
-      <span className="truncate">{pdfFormData.file.name}</span>
-      <button
-        type="button"
-        onClick={() => {
-          setPdfFormData((prev) => ({ ...prev, file: null }));
-          document.getElementById("pdf-upload").value = "";
-        }}
-        className="text-red-600 text-sm cursor-pointer "
-      >
-        ❌
-      </button>
-    </div>
-  )}
-</div>
+            {pdfFormData.file && (
+              <div className="mt-2 flex items-center justify-between bg-gray-100 px-3 py-2 text-sm">
+                <span className="truncate">{pdfFormData.file.name}</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setPdfFormData((prev) => ({ ...prev, file: null }));
+                    if (fileInputRef.current) {
+                      fileInputRef.current.value = ""; // 👈 reset file input
+                    }
+                  }}
+                  className="text-red-600 text-sm cursor-pointer"
+                >
+                  ❌
+                </button>
+              </div>
+            )}
+          </div>
 
-
+          {/* Password */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-1">
               Password
@@ -118,13 +125,15 @@ const PDFContent = () => {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 focus:outline-none"
               >
-                {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+                {showPassword ? <FiEye size={18} />  : <FiEyeOff size={18} />}
               </button>
             </div>
           </div>
 
+          {/* NFC Modal */}
           <NFCModal />
 
+          {/* Submit */}
           <button
             type="submit"
             className="w-full cursor-pointer bg-teal-600 hover:bg-teal-700 text-white py-2 rounded-lg font-semibold text-sm transition"

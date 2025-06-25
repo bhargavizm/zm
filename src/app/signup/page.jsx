@@ -199,16 +199,27 @@ export default function LoginPage() {
     const [active, setActive] = useState('new');
     const modalRef = useRef(null);
 
-    useEffect(() => {
-        function handleClickOutside(event) {
-            if (modalRef.current && !modalRef.current.contains(event.target)) {
-                router.push('/');
-            }
+  useEffect(() => {
+    function handleClickOutside(event) {
+        if (modalRef.current && !modalRef.current.contains(event.target)) {
+            router.push('/');
         }
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, [router]);
+    }
 
+    function handleEscapeKey(event) {
+        if (event.key === 'Escape') {
+            router.push('/');
+        }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleEscapeKey);
+
+    return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+        document.removeEventListener('keydown', handleEscapeKey);
+    };
+}, [router]);
     const toggleVisibility = (id) => {
         setVisiblePasswords((prev) => ({ ...prev, [id]: !prev[id] }));
     };
@@ -289,9 +300,10 @@ export default function LoginPage() {
                                         className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
                                     >
                                         {visiblePasswords[input.id] ? (
-                                            <FiEyeOff size={18} />
-                                        ) : (
                                             <FiEye size={18} />
+                                        ) : (
+                                           
+                                             <FiEyeOff size={18} />
                                         )}
                                     </button>
                                 )}

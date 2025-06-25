@@ -104,7 +104,8 @@ const ProductTemplateFour = () => {
                             <div className="text-sm font-semibold text-gray-700 mb-1">[{productData.pageUrl || "Category"}]</div> {/* Using pageUrl for category */}
                             <div className="text-base font-bold text-gray-900 mb-1">{productData.heading || "[name]"}</div>
                             <div className="text-xs text-gray-500 mb-2">{productData.description || "[Description]"}</div>
-                            <div className="text-lg font-bold text-gray-900">{productData.password ? `$${productData.password}` : "Price"}</div> {/* Using password for price */}
+                            {/* <div className="text-lg font-bold text-gray-900">{productData.password ? `$${productData.password}` : "Price"}</div>  */}
+                            {/* Using password for price */}
                         </div>
                         <div className="bg-white rounded-lg shadow-sm p-3 border border-gray-200">
                             <div className="w-full h-24 flex items-center justify-center bg-gray-50 rounded-md mb-2 overflow-hidden">

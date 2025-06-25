@@ -144,9 +144,10 @@ const ProductContent = () => {
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600"
                   >
                     {showPassword ? (
-                      <AiOutlineEyeInvisible size={20} />
-                    ) : (
                       <AiOutlineEye size={20} />
+                    ) : (
+                     
+                       <AiOutlineEyeInvisible size={20} />
                     )}
                   </button>
                 </div>

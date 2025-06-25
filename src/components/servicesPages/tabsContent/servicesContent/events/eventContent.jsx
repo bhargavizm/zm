@@ -29,32 +29,63 @@ const EventContent = () => {
     setEventsFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleGetCurrentLocation = () => {
-    setIsLoadingLocation(true);
-    setShowLocationOptions(false);
+  // const handleGetCurrentLocation = () => {
+  //   setIsLoadingLocation(true);
+  //   setShowLocationOptions(false);
 
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setEventsFormData((prev) => ({
-            ...prev,
-            address: `Latitude: ${latitude.toFixed(
-              4
-            )}, Longitude: ${longitude.toFixed(4)}`,
-          }));
-          setIsLoadingLocation(false);
-        },
-        (error) => {
-          console.error("Error getting location:", error);
-          setIsLoadingLocation(false);
-        }
-      );
-    } else {
-      alert("Geolocation is not supported by this browser.");
-      setIsLoadingLocation(false);
-    }
-  };
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         const { latitude, longitude } = position.coords;
+  //         setEventsFormData((prev) => ({
+  //           ...prev,
+  //           address: `Latitude: ${latitude.toFixed(
+  //             4
+  //           )}, Longitude: ${longitude.toFixed(4)}`,
+  //         }));
+  //         setIsLoadingLocation(false);
+  //       },
+  //       (error) => {
+  //         console.error("Error getting location:", error);
+  //         setIsLoadingLocation(false);
+  //       }
+  //     );
+  //   } else {
+  //     alert("Geolocation is not supported by this browser.");
+  //     setIsLoadingLocation(false);
+  //   }
+  // };
+
+  const fetchCurrentLocation = async () => {
+  setIsLoadingLocation(true);
+  try {
+    const position = await new Promise((resolve, reject) =>
+      navigator.geolocation.getCurrentPosition(resolve, reject, {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0,
+      })
+    );
+
+    const { latitude, longitude } = position.coords;
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`
+    );
+    const data = await response.json();
+    const fullAddress = data.display_name || "Address not found";
+
+    setEventsFormData((prev) => ({
+      ...prev,
+      address: fullAddress,
+    }));
+  } catch (error) {
+    console.error("Location fetch failed:", error);
+    alert("Failed to fetch address. Please check location permissions.");
+  } finally {
+    setIsLoadingLocation(false);
+  }
+};
+
 
   return (
     <>
@@ -167,63 +198,28 @@ const EventContent = () => {
                     className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#59c1c1] focus:border-[#226161]"
                   />
                 </div>
+<div>
+  <label className="block text-sm font-medium text-gray-700 mb-1">
+    Address
+  </label>
+  <textarea
+    name="address"
+    rows={3}
+    placeholder="Enter full event address"
+    value={eventsFormData.address || ""}
+    onChange={handleChange}
+    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#59c1c1] focus:border-[#226161]"
+  />
+  <button
+    type="button"
+    onClick={fetchCurrentLocation}
+    disabled={isLoadingLocation}
+    className="mt-2 w-full flex items-center justify-center px-4 py-2 bg-[#0e7b7b] text-white rounded-lg hover:bg-[#066666] transition-colors"
+  >
+    {isLoadingLocation ? "Fetching location..." : "Use Current Location"}
+  </button>
+</div>
 
-                <div className="relative">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Address
-                  </label>
-                  <div className="flex">
-                    <textarea
-                      name="address"
-                      placeholder="Enter address"
-                      value={eventsFormData.address || ""}
-                      onChange={handleChange}
-                      rows={2}
-                      className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#59c1c1] focus:border-[#226161]"
-                    />
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setShowLocationOptions(!showLocationOptions)
-                      }
-                      className="ml-2 p-2 bg-indigo-100 text-[#0e7b7b] rounded-lg hover:bg-indigo-200 transition-colors"
-                    >
-                      <FiMapPin />
-                    </button>
-                  </div>
-
-                  {showLocationOptions && (
-                    <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 z-10 p-3">
-                      <div className="flex justify-between items-center mb-2">
-                        <h3 className="font-medium">Location Options</h3>
-                        <button
-                          onClick={() => setShowLocationOptions(false)}
-                          className="text-gray-500 hover:text-gray-700"
-                        >
-                          <FiX />
-                        </button>
-                      </div>
-                      <button
-                        onClick={handleGetCurrentLocation}
-                        disabled={isLoadingLocation}
-                        className="w-full flex items-center justify-center px-4 py-2 bg-[#0e7b7b] text-white rounded-lg hover:bg-indigo-700 transition-colors mb-2"
-                      >
-                        {isLoadingLocation
-                          ? "Detecting..."
-                          : "Use Current Location"}
-                      </button>
-                      <button
-                        onClick={() => {
-                          setShowLocationOptions(false);
-                          document.getElementsByName("address")[0].focus();
-                        }}
-                        className="w-full flex items-center justify-center px-4 py-2 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 transition-colors"
-                      >
-                        Enter Manually
-                      </button>
-                    </div>
-                  )}
-                </div>
               </div>
             </div>
 

@@ -184,7 +184,7 @@ const QRDesign = () => {
 
   return (
     <>
-      <section className="bg-darkGreen py-18">
+      <section className="bg-mainGreen py-28">
         {/* <h2 className="text-white font-bold text-2xl md:text-4xl text-center pb-5">
           A perfect combination of QR Design, Marketing and Management
         </h2> */}
@@ -193,7 +193,7 @@ const QRDesign = () => {
           Customize and create QR code with logo, color, and shape to attract
           more scans
         </p> */}
-        <p className='text-slate-500 pb-9 text-center text-lg'>{dictionary.qrDesignSection.paragraph}</p>
+        <p className='text-white/70 pb-9 text-center text-lg'>{dictionary.qrDesignSection.paragraph}</p>
         <div className="max-w-6xl  mx-auto relative px-4">
           <Swiper
             modules={[EffectCoverflow, Navigation]}
@@ -237,7 +237,7 @@ const QRDesign = () => {
                     </p>
                   </div>
                 </SwiperSlide>
-              ))}
+              ))} 
 
             {/* Navigation Arrows */}
             <div className="swiper-button-prev absolute left-0 top-1/2 -translate-y-1/2 z-10 text-white p-2 rounded-full">

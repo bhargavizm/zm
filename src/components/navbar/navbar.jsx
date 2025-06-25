@@ -151,7 +151,7 @@ const Navbar = () => {
           {/* Menu (same as above) */}
           <div className="lg:hidden fixed top-[60px] py-4 right-0  w-60 bg-white text-xl font-semibold text-mainGreen z-50 shadow-lg transition-all duration-300">
             <div className="flex flex-col px-6 py- space-y-4 h-full justify-start">
-              <Link href="/" onClick={() => setIsOpen(false)} franchise>
+              <Link href="/" onClick={() => setIsOpen(false)} >
                 {dictionary.home}
               </Link>
               <Link href="/services" onClick={() => setIsOpen(false)}>
