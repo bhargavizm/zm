@@ -6,7 +6,7 @@ const Privacypolicy = () => {
         <div className=" flex items-center justify-center font-serif bg-[#219595] pt-20 ">
       <div className="max-w-5xl bg-[#f2f6f6] !text-[#001a1a] p-14 my-20 rounded-lg shadow-lg">
 
-        <h1 className="text-3xl text-black  font-bold underline">Privacy Policy:</h1><br/>    
+        <h1 className="text-3xl text-black  font-bold underline">Privacy Policy</h1><br/>    
         <p>
             last updated on date <br/><br/>
             Please take a moment to read this Privacy Policy thoroughly before using our sites or services. By accessing or utilizing our site or services (other than for the initial purpose of reviewing this Privacy Policy), you consent to the terms outlined in this Privacy Policy.<br/>
@@ -18,19 +18,16 @@ const Privacypolicy = () => {
           {" "}
         <a target='_blank'
           href="/"
-          className="text-black hover:text-mainGreen underline font-bold"
+          className="text-teal-800 hover:text-mainGreen underline font-bold"
         >
-          https://www.zmqrcode.in
+          zmqrcodeservices
         </a> (website home page link), any related services, or any site that references this policy.</li>
         <li>Interacting with us through other means, such as sales, marketing, or events.</li>
         </ul>
         <p>If you have any questions or concerns regarding our privacy practices, please contact us at support@zmqrcodeservices.com.<br/><br/>
         ZMqrcodeservices provides a variety of online services, including SaaS (Software as a Service) products and other websites (“Sites”), offering features such as QR code generation, digital business cards, and product information. Your information will be processed in accordance with this Privacy Policy. Please note that some Services may be delivered in multiple countries through our affiliates, technology partners, and sales partners, who may have their own terms and privacy policies.<br/><br/>
         If you are located in the European Union (EU), you will be asked to provide explicit consent for the collection, processing, and sharing of your information through cookies and similar technologies.<br/><br/>
-        <h2 className='text-1xl font-semibold'>Notice to EU Individuals: </h2>This Privacy Policy is intended to comply with the General Data Protection Regulation (GDPR) and ensures appropriate protection and handling of your personal data in accordance with GDPR requirements.<br/>
-        As most of our servers are located outside the EU, please refer to our Data Processing Agreement (DPA) or the UK-DPA if you are in the United Kingdom. You may request these documents by emailing support@zmqrcode.com.<br/><br/>
-        <h2 className='text-1xl font-semibold'>California Resident-Specific Rights</h2>
-        If you are a California resident and qualify as a "consumer" under the California Consumer Privacy Act (CCPA), and ZMqrcodeservices is considered a "business" under the CCPA, you are entitled to the following rights:<br/><br/>
+        
         <h2 className='text-1xl font-semibold'>Right to Request Information:</h2>
         You may request details regarding:
         The categories of personal data ZMqrcodeservices has collected about you.
@@ -56,7 +53,7 @@ const Privacypolicy = () => {
         <li>We process this information ourselves.</li>
         <li>Your information is used to provide our sites and related services, as well as to generate reports and insights on activities such as QR Code services, digital business cards, and online purchasing patterns.</li>
         <li>We may share this information with third parties, including merchants, advertising partners, and service providers.</li>
-        <li>Through the use of cookies, we collaborate with advertising networks to collect anonymous data for advertising purposes (see Section 4 below).</li>
+        <li>Through the use of cookies, we collaborate with advertising networks to collect anonymous data for advertising purposes.</li>
         <li>You have the option to opt out of certain activities, as described in this policy.</li>
         <li>We use Secure Sockets Layer (SSL) technology to encrypt some data and implement reasonable security measures to protect your information.</li>
         <li>If you have an account with us, you can update or correct your information through your account settings.</li>
@@ -102,7 +99,7 @@ const Privacypolicy = () => {
         >
           Razorpay
         </a>{"  "}
-        . You can find their privacy policies here: Stripe, PayPal, RazorPay.(links has to be added to the privacy policies)<br/><br/>
+        . You can find their privacy policies here: Stripe, PayPal, RazorPay.<br/>
 
         <h2 className='text-1xl font-bold p-5'><li className="list-disc list-inside">Non-Personally Identifiable Information (Non-PII): </li></h2>This is information that does not personally identify you. We may collect Non-PII separately or in conjunction with your PII. This includes:
         <ul className="list-disc list-inside p-7">
@@ -127,7 +124,7 @@ const Privacypolicy = () => {
         {" "}
         <a
           href="/cookie-policy"
-          className="text-black hover:text-mainGreen underline font-bold"
+          className="text-teal-600 hover:text-mainGreen underline font-bold"
         >
           Cookie Policy
         </a> (divert to cookies policy page).<br/><br/>
@@ -181,60 +178,7 @@ const Privacypolicy = () => {
         delivery of our services, fulfillment of contracts, protection of
         rights, or our legitimate business interests.
       </p><br/>
-      <h3 className="text-1xl font-bold mt-4 ">If You Are in the EU or UK:</h3><br/>
-      <p>
-        Under the General Data Protection Regulation (GDPR) and UK GDPR, we must
-        explain the lawful bases we rely on to process your personal data. These
-        include:
-      </p><br/><br/>
-      <ul className="list-disc list-inside space-y-1">
-        <li>
-          <span className="font-semibold">Consent:</span> We may use your
-          information when you have clearly agreed to it for a specific purpose.
-          You have the right to withdraw your consent at any time.
-        </li>
-        <li>
-          <span className="font-semibold">Contractual Necessity:</span> We may
-          process your data as required to carry out a contract with you or to
-          take steps at your request before entering into a contract.
-        </li>
-        <li>
-          <span className="font-semibold">Legal Compliance:</span> We may
-          process your data if it is necessary to meet our legal obligations,
-          such as cooperating with law enforcement or responding to legal
-          claims.
-        </li>
-        <li>
-          <span className="font-semibold">Vital Interests:</span> We may process
-          your data if necessary to protect your vital interests or those of
-          another person, for example, in emergency situations.
-        </li>
-      </ul>
-      <h3 className="text-1xl font-bold mt-6">If You Are in Canada:</h3><br/>
-      <p>
-        We may process your personal information with your explicit (express) or
-        implied consent, depending on the context. In some cases, the law allows
-        us to process your data without consent, including when:
-      </p><br/>
-      <ul className="list-disc list-inside space-y-1">
-        <li>It is in your interest and consent cannot be obtained in time.</li>
-        <li>It is needed for investigations, fraud detection, or prevention.</li>
-        <li>It relates to certain business transactions.</li>
-        <li>
-          It is required to evaluate, process, or settle an insurance claim.
-        </li>
-        <li>We reasonably suspect financial abuse.</li>
-        <li>
-          We must comply with legal obligations like subpoenas or court orders.
-        </li>
-        <li>
-          The information was created in a professional or employment context
-          and aligns with the original purpose of collection.
-        </li>
-        <li>
-          The information is publicly available, as defined by law.
-        </li>
-      </ul><br/>
+      
       <h2 className="text-2xl font-bold">
         4. Do We Use Cookies and Other Tracking Technologies?
       </h2><br/>
@@ -415,37 +359,16 @@ const Privacypolicy = () => {
         privacy settings accordingly.
       </p><br/>
 
-      <h2 className="text-2xl font-bold">6. Is Your Information Transferred Internationally?</h2><br/>
-      <p>
-        <strong>In Short:</strong> Yes, your data may be transferred, stored, or processed
-        outside your home country.
-      </p><br/>
-      <p>
-        Our primary servers are in the United States. If you access our services from another
-        country, your data may be transferred to and processed in the U.S. or in countries
-        where we or our partners operate.
-      </p><br/>
-      <p>
-        For residents of the European Economic Area (EEA), the UK, or Switzerland, we take
-        appropriate measures to comply with applicable data protection laws, including the
-        use of the European Commission’s Standard Contractual Clauses (SCCs) to ensure
-        adequate protection during cross-border transfers.
-      </p><br/>
-      <p>
-        To request a copy of our Data Processing Agreement (DPA), please contact us at
-        support@zmqrcodeservices.com.
-      </p><br/>
 
-      <h2 className="text-2xl font-bold">7. How Long Do We Keep Your Information?</h2><br/>
+      <h2 className="text-2xl font-bold">6. How Long Do We Keep Your Information?</h2><br/>
       <p>
         <strong>In Short:</strong> We retain your information only as long as necessary to
         fulfill the purposes outlined in this policy.
       </p><br/>
       <p>
         We store your data only as long as needed to deliver services, comply with legal
-        requirements, or resolve disputes. Typically, no data is retained more than 14 days
-        after account termination unless required by law. Certain server and access logs may
-        be kept for up to 180 days or longer, especially for security and auditing purposes.
+        requirements, or resolve disputes. Certain server and access logs may
+        be kept for up to 90 days or longer, especially for security and auditing purposes.
       </p><br/>
       <p>
         When your data is no longer needed, we will delete or anonymize it. If deletion is
@@ -453,7 +376,7 @@ const Privacypolicy = () => {
         can be removed.
       </p><br/>
 
-      <h2 className="text-2xl font-bold">8. How Do We Keep Your Information Safe?</h2><br/>
+      <h2 className="text-2xl font-bold">7. How Do We Keep Your Information Safe?</h2><br/>
       <p>
         <strong>In Short:</strong> We implement industry-standard security measures to protect
         your personal data.
@@ -473,7 +396,7 @@ const Privacypolicy = () => {
         If you suspect your information has been compromised, please contact us immediately.
       </p><br/>
 
-      <h2 className="text-2xl font-bold">9. Do We Collect Information From Minors?</h2><br/>
+      <h2 className="text-2xl font-bold">8. Do We Collect Information From Minors?</h2><br/>
       <p>
         <strong>In Short:</strong> No, we do not knowingly collect data from users under 18
         years of age.
@@ -490,7 +413,7 @@ const Privacypolicy = () => {
         if you believe a minor's data has been collected.
       </p><br/>
 
-      <h2 className="text-2xl font-bold">10. Sale of Business and Legal Disclosures</h2><br/>
+      <h2 className="text-2xl font-bold">9. Sale of Business and Legal Disclosures</h2><br/>
       <h3 className="text-1xl font-semibold">(a) Business Transactions:</h3>
       <p>
         If our company is sold or merged, personal and non-personal data may be transferred as
@@ -508,7 +431,7 @@ const Privacypolicy = () => {
         <li>Address a breach of our Terms and Conditions.</li>
       </ul><br/>
 
-      <h2 className="text-2xl font-bold">11. What Are Your Privacy Rights?</h2><br/>
+      <h2 className="text-2xl font-bold">10. What Are Your Privacy Rights?</h2><br/>
       <p>
         <strong>In Short:</strong> Depending on your location, you may have rights to access,
         correct, delete, or limit how we use your personal information.
@@ -528,66 +451,31 @@ const Privacypolicy = () => {
         <li>Delete cookies from your browser.</li>
         <li>Use choices provided when submitting data via our site.</li>
       </ul><br/>
-      <h3 className="text-1xl font-semibold">(c) Deleting Data Under CCPA:</h3>
-      <p>
-        To delete your personal data under the California Consumer Privacy Act (CCPA), go to
-        Dashboard → Profile → Delete Account.
-      </p><br/>
+      
 
-      <h2 className="text-2xl font-bold">12. Controls for Do-Not-Track Features</h2><br/>
+      <h2 className="text-2xl font-bold">11. Controls for Do-Not-Track Features</h2><br/>
       <p>
         Most browsers and mobile platforms offer Do-Not-Track (DNT) settings. However, since
         no standard exists for DNT, we do not respond to these signals currently. If a legal
         standard emerges that requires us to recognize DNT, we will update this policy accordingly.
       </p><br/>
 
-      <h2 className="text-2xl font-bold">13. Privacy Rights for United States Residents</h2><br/>
-      <p>
-        <strong>In Short:</strong> Depending on your state, you may have specific legal rights
-        over your personal data.
-      </p><br/>
-      <ul className="list-disc list-inside space-y-1">
-        <li>Know if we are processing your data.</li>
-        <li>Access, correct, or delete your personal data.</li>
-        <li>Receive a copy of your data.</li>
-        <li>Opt out of targeted advertising or profiling.</li>
-        <li>Limit the use of sensitive personal information.</li>
-      </ul><br/>
-      <p>
-        To exercise your rights, email
-        support@zmqrcodeservices.com.
-        You may also authorize a representative to act on your behalf, but we may request verification.
-      </p><br/>
-      <p>
-        We do not sell your personal data and only use sensitive personal data as permitted by law.
-      </p><br/>
+     
 
-      <h2 className="text-2xl font-bold">14. Do Other Regions Have Specific Privacy Rights?</h2><br/>
-      <p>
-        <strong>In Short:</strong> Yes. If you are located in countries like Australia, New Zealand,
-        or South Africa, you may have additional rights.
-      </p>
-      <p>
-        You can request access to or corrections of your personal data. For any concerns or requests,
-        please contact us directly.
-      </p><br/>
-
-      <h2 className="text-2xl font-bold">15. Do We Make Updates to This Policy?</h2><br/>
-      <p>
-        <strong>In Short:</strong> Yes, we may update this policy to stay compliant with laws and practices.
-      </p><br/>
+      <h2 className="text-2xl font-bold">12. Do We Make Updates to This Policy?</h2><br/>
+      
       <p>
         Any changes will be reflected by an updated “Revised” date. If changes are significant, we’ll notify
         you via our website or email. Please check this policy regularly to stay informed.
       </p><br/>
 
-      <h2 className="text-2xl font-bold">16. Sole Statement</h2><br/>
+      <h2 className="text-2xl font-bold">13. Sole Statement</h2><br/>
       <p>
         This Privacy Policy, along with our Terms of Use, outlines the complete terms governing your use
         of our Sites and Services. Any other summaries or versions not posted on our official platforms are not valid.
       </p><br/>
 
-      <h2 className="text-2xl font-bold">17. How Can You Contact Us About This Policy?</h2><br/>
+      <h2 className="text-2xl font-bold">14. How Can You Contact Us About This Policy?</h2><br/>
       <p>
         If you have any questions or concerns about this Privacy Policy, please reach out to us at:
         </p><br/>
