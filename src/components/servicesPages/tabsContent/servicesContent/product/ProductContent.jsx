@@ -389,8 +389,8 @@ const ProductContent = () => {
                   }`}
                 >
                   <Image
-                    src={/product-templates/${filename}}
-                    alt={Template ${idx + 1}}
+                    src={`/product-templates/${filename}`}
+                    alt={`Template ${idx + 1}`}
                     width={300}
                     height={180}
                     className="object-cover rounded w-full h-auto"
@@ -481,7 +481,7 @@ const ProductContent = () => {
                     <div className="relative w-fit">
                       <img
                         src={item.image}
-                        alt={Uploaded ${index}}
+                        alt={`Uploaded ${index}`}
                         className="mt-4 rounded object-cover w-24 h-24 border border-gray-300 shadow-sm"
                       />
                       <button
