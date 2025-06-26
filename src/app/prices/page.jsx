@@ -369,7 +369,7 @@ export default function PricingPage() {
     monthly: [
       { name: "Free", price: 0, description: "90 Days Free Trail", cta: "Start Trial", popular: false },
       { name: "Silver", price: 99, description: "30 Days", cta: "Buy Now", popular: false },
-      { name: "Gold", price: 499, description: "180 Days", cta: "Buy Now", popular: true },
+      { name: "Gold", price: 499, description: "180 Days", cta: "Buy Now", popular: false },
       { name: "Daimond", price: 899, description: "365 Days", cta: "Buy Now", popular: false },
       { name: "Platinum", price: 1599, description: "730 Days", cta: "Buy Now", popular: false },
     ],
@@ -379,7 +379,7 @@ export default function PricingPage() {
     monthly: [
       { name: "Basic", price: 999, description: "Upto 1GB", cta: "Buy Now", popular: false },
       { name: "Starter", price:1799 , description: "Upto 2GB", cta: "Buy Now", popular: false },
-      { name: "Pro", price: 2499, description: "Upto 3GB", cta: "Buy Now", popular: true },
+      { name: "Pro", price: 2499, description: "Upto 3GB", cta: "Buy Now", popular: false },
       { name: "Advanced", price: 2999, description: "Upto 4GB", cta: "Buy Now", popular: false },
       { name: "Ultima", price: 3299, description: "Upto 5GB", cta: "Buy Now", popular: false },
     ],
@@ -695,6 +695,7 @@ export default function PricingPage() {
         {/* Basic Plans Table */}
         <div className="mb-16 bg-white p-10">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Basic Plans ( Secure )</h2>
+          
           <div className="overflow-x-auto rounded-lg border border-teal-600">
             <table className="min-w-full border-collapse">
               <thead>
@@ -718,7 +719,7 @@ export default function PricingPage() {
                           className={`mt-1 inline-block px-3 py-1 rounded-md text-xs font-semibold ${
                             plan.popular
                               ? 'bg-teal-600 text-white hover:bg-teal-700'
-                              : 'text-teal-600 ring-1 ring-inset ring-teal-400 hover:bg-teal-50'
+                              : 'text-teal-600 ring-1 ring-inset ring-teal-400 hover:bg-teal-500 hover:text-white'
                           }`}
                         >
                           {plan.cta}
@@ -787,7 +788,7 @@ export default function PricingPage() {
                           className={`mt-1 inline-block px-3 py-1 rounded-md text-xs font-semibold ${
                             plan.popular
                               ? 'bg-teal-600 text-white hover:bg-teal-700'
-                              : 'text-teal-600 ring-1 ring-inset ring-teal-400 hover:bg-teal-50'
+                              : 'text-teal-600 ring-1 ring-inset ring-teal-400 hover:bg-teal-500 hover:text-white'
                           }`}
                         >
                           {plan.cta}
