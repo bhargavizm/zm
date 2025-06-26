@@ -187,7 +187,7 @@ const HowQRCodesTransformBusinessesSection = () => {
                         loop
                         muted
                         playsInline
-                        controls
+                        
                         poster="your-video-poster.jpg"
                     >
                         Your browser does not support the video tag.
@@ -352,7 +352,7 @@ const WhyFranchiseWithZMSection = () => {
                 </div>
 
                 <div className="text-center mt-12">
-                    <PrimaryButton>Ready to make your mark? Explore Our Investment Details</PrimaryButton>
+                    <SecondaryButton href="investment">Ready to make your mark? Explore Our Investment Details</SecondaryButton>
                 </div>
             </div>
         </section>
@@ -361,7 +361,7 @@ const WhyFranchiseWithZMSection = () => {
 
 const InvestmentAndSupportSection = () => {
     return (
-        <section className="py-20 px-8" style={{ backgroundColor: SITE_COLORS.sectionBgLight, color: SITE_COLORS.textDark }}>
+        <section id="investment" className="py-20 px-8" style={{ backgroundColor: SITE_COLORS.sectionBgLight, color: SITE_COLORS.textDark }}>
             <div className="container mx-auto max-w-4xl">
                 <h2 className="text-3xl lg:text-4xl font-bold text-center mb-6">
                     Your Zero Investment, Our Commitment: <br /> Building Success Together
