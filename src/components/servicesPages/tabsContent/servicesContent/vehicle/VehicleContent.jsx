@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import useServicesContext from "@/components/hooks/useServiceContext"; // Adjust path as needed
 import { Eye, EyeOff } from "lucide-react"; // Assuming lucide-react is installed
 import NFCModal from "@/components/modalPopUps/nfcModal";
+ import { MapPin } from "lucide-react"; // Already imported Eye/EyeOff
 
 const VehicleContent = () => {
   const { dynamicForms, updateDynamicForm } = useServicesContext();
@@ -109,6 +110,39 @@ const VehicleContent = () => {
       </div>
     );
   };
+
+ 
+
+// inside VehicleContent component
+const fetchCurrentLocation = async () => {
+  if (navigator.geolocation) {
+    try {
+      const pos = await new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0,
+        });
+      });
+
+      const { latitude, longitude } = pos.coords;
+
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`
+      );
+      const data = await response.json();
+      const fullAddress = data.display_name || "Address not found";
+
+      updateDynamicForm("vehicle", "contact", "address", fullAddress);
+    } catch (err) {
+      console.error("Error fetching location:", err.message);
+      alert("Failed to fetch location. Please check permissions.");
+    }
+  } else {
+    alert("Geolocation not supported in your browser.");
+  }
+};
+
 
   return (
     <>
@@ -342,7 +376,7 @@ const VehicleContent = () => {
                 )
               }
             />
-          </div>
+          </div>  
         </div>
 
         {/* Contact Section */}
@@ -351,7 +385,7 @@ const VehicleContent = () => {
             Location Information
           </h3>
           <div className="space-y-4 sm:space-y-5">
-            <textarea
+            {/* <textarea
               placeholder="Full Address (e.g., owner's address or parking location)"
               rows={3}
               className="w-full px-4 sm:px-5 py-2 sm:py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200 resize-y"
@@ -359,7 +393,27 @@ const VehicleContent = () => {
               onChange={(e) =>
                 handleChange("vehicle", "contact", "address", e.target.value)
               }
-            />
+            /> */}
+            <div className="space-y-2">
+  <textarea
+    placeholder="Full Address (e.g., owner's address or parking location)"
+    rows={3}
+    className="w-full px-4 sm:px-5 py-2 sm:py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200 resize-y"
+    value={vehicleInfo.contact.address || ""}
+    onChange={(e) =>
+      handleChange("vehicle", "contact", "address", e.target.value)
+    }
+  />
+  <button
+    type="button"
+    onClick={fetchCurrentLocation}
+    className="flex items-center justify-center w-full py-2 px-3 bg-gray-100 hover:bg-gray-300 text-gray-700 text-sm rounded-lg transition-colors duration-200 cursor-pointer"
+  >
+    <MapPin className="mr-2 w-4 h-4" />
+    Use Current Location
+  </button>
+</div>
+{/* 
             <input
               type="text"
               placeholder="Map Link (Google Maps, etc.)"
@@ -368,7 +422,7 @@ const VehicleContent = () => {
               onChange={(e) =>
                 handleChange("vehicle", "contact", "mapLink", e.target.value)
               }
-            />
+            /> */}
           </div>
         </div>
 
@@ -446,7 +500,7 @@ const VehicleContent = () => {
               onClick={togglePasswordVisibility}
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
-              {showPassword ? <EyeOff size={18} className="sm:w-5 sm:h-5 w-4 h-4" /> : <Eye size={18} className="sm:w-5 sm:h-5 w-4 h-4" />}
+              {showPassword ? <Eye size={18} className="sm:w-5 sm:h-5 w-4 h-4" /> :  <EyeOff size={18} className="sm:w-5 sm:h-5 w-4 h-4" />}
             </button>
           </div>
         </div>

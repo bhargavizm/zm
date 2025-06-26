@@ -49,6 +49,26 @@ const WifiContent = () => {
 
             <div>
               <label className="text-sm font-medium text-gray-600 mb-1 block">
+                Security Type
+              </label>
+              <div className="relative">
+                <select
+                  value={wifiFormData[0].security}
+                  onChange={(e) => handleChange(0, "security", e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 border rounded-lg text-sm border-gray-300 bg-white focus:ring-2 focus:ring-teal-500"
+                >
+                  <option value="WPA">WPA/WPA2</option>
+                  <option value="WEP">WEP</option>
+                  <option value="nopass">No Password</option>
+                </select>
+                <Shield className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
+              </div>
+
+             
+            </div>
+
+            <div>
+              <label className="text-sm font-medium text-gray-600 mb-1 block">
                 Password
               </label>
               <div className="relative">
@@ -66,39 +86,21 @@ const WifiContent = () => {
                   className="absolute right-3 top-2.5"
                 >
                   {showPassword ? (
-                    <EyeOff className="w-5 h-5" />
-                  ) : (
                     <Eye className="w-5 h-5" />
+                  ) : (
+                    <EyeOff className="w-5 h-5" />
                   )}
                 </button>
               </div>
             </div>
 
-            <div>
-              <label className="text-sm font-medium text-gray-600 mb-1 block">
-                Security Type
-              </label>
-              <div className="relative">
-                <select
-                  value={wifiFormData[0].security}
-                  onChange={(e) => handleChange(0, "security", e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border rounded-lg text-sm border-gray-300 bg-white focus:ring-2 focus:ring-teal-500"
-                >
-                  <option value="WPA">WPA/WPA2</option>
-                  <option value="WEP">WEP</option>
-                  <option value="nopass">No Password</option>
-                </select>
-                <Shield className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
-              </div>
+             <NFCModal />
 
-              <NFCModal />
-            </div>
-
-           <button
+            <button
               type="submit"
               className="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 rounded-lg font-semibold text-sm transition"
             >
-             Submit
+              Submit
             </button>
           </form>
         </div>

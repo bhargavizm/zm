@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import { FiEye, FiEyeOff } from "react-icons/fi";
@@ -10,6 +10,9 @@ const VideoContent = () => {
   const { videoFormData, setVideoFormData } = useServicesContext();
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+
+  // 👇 Add ref for file input
+  const fileInputRef = useRef(null);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -21,7 +24,9 @@ const VideoContent = () => {
 
   const handleFileRemove = () => {
     setVideoFormData((prev) => ({ ...prev, file: null }));
-    document.getElementById("video-upload").value = "";
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""; // 👈 Reset file input
+    }
   };
 
   const handleSubmit = (e) => {
@@ -82,7 +87,7 @@ const VideoContent = () => {
               Choose Video File
             </label>
             <input
-              id="video-upload"
+              ref={fileInputRef}
               type="file"
               name="file"
               accept="video/*"
@@ -122,8 +127,8 @@ const VideoContent = () => {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 focus:outline-none"
               >
-                {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
-              </button>
+                {showPassword ?  <FiEye size={18} /> :  <FiEyeOff size={18} />}
+              </button> 
             </div>
           </div>
 

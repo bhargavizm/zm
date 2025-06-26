@@ -50,7 +50,6 @@ const teamTestimonials = [
     name: 'Mastan vali.Sk',
     role: 'Product Manager',
     quote: 'The collaborative environment at ZM is unmatched. Every team member\'s voice is heard and valued in our product development process.',
-   
   },
   {
     id: 3,
@@ -315,8 +314,11 @@ export default function Career() {
   <div className="max-w-6xl mx-auto flex flex-col items-center">
     
     {/* Section Heading */}
-    <h2 className="text-3xl font-bold text-center text-[#128888] mb-12">
+    {/* <h2 className="text-3xl font-bold text-center text-[#128888] mb-12">
       Life at ZM – What Our Team Says
+    </h2> */}
+    <h2 className="text-3xl font-bold text-center text-[#128888] mb-12">
+      {dictionary.career.testimonials.title}
     </h2>
 
     {/* Group Image */}

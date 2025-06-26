@@ -13,8 +13,9 @@ const OfferScrolling = () => {
 
     // Set timeout to re-show after 10 seconds
     timeoutRef.current = setTimeout(() => {
-      setIsVisible(true);
-    }, 10000);
+  setIsVisible(true);
+}, 10 * 60 * 1000); // 10 minutes
+
   };
 
   // Cleanup timeout on unmount
@@ -27,7 +28,7 @@ const OfferScrolling = () => {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed top-8 right-0 z-[50]">
+    <div className="fixed top-8 left-0 z-[40]">
       <div className="relative">
         {/* Close Button */}
         <button

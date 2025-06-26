@@ -80,6 +80,12 @@
   height: 300px;
 }
 
+.swiper-button-prev,
+.swiper-button-next {
+  color: #fff;
+}
+
+
 @keyframes textPulse {
   0%, 100% { opacity: 0.9; text-shadow: 0 0 10px theme('colors.blue.500'); }
   50% { opacity: 1; text-shadow: 0 0 20px theme('colors.cyan.500'), 0 0 30px theme('colors.blue.700'); }
