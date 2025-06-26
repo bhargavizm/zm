@@ -63,8 +63,8 @@
 //                   }`}
 //                 >
 //                   <Image
-//                     src={`/product-templates/${filename}`}
-//                     alt={`Template ${idx + 1}`}
+//                     src={/product-templates/${filename}}
+//                     alt={Template ${idx + 1}}
 //                     width={300}
 //                     height={180}
 //                     className="object-cover rounded w-full h-auto"
@@ -98,7 +98,7 @@
 //       <div key={idx} className="relative">
 //         <img
 //           src={src}
-//           alt={`Uploaded ${idx}`}
+//           alt={Uploaded ${idx}}
 //           className="rounded object-cover w-24 h-24 border border-gray-300 shadow-sm"
 //         />
 //         <button
@@ -316,7 +316,7 @@ const ProductContent = () => {
 
   /**
    * Handles selection of a product template.
-   * Updates `selectedTemplate` in `productData` and manages loading state.
+   * Updates selectedTemplate in productData and manages loading state.
    * @param {string} filename - The filename of the selected template image.
    * @param {number} index - The index of the selected template.
    */

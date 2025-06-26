@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
@@ -10,6 +10,7 @@ const ResumeContent = () => {
   const { resumeFormData, setResumeFormData } = useServicesContext();
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     if (resumeFormData.resumeFile) {
@@ -27,9 +28,11 @@ const ResumeContent = () => {
   };
 
   const handleFileRemove = () => {
-    setResumeFormData((prev) => ({ ...prev, resumeFile: null }));
-    document.getElementById("resume-upload").value = "";
-  };
+  setResumeFormData((prev) => ({ ...prev, resumeFile: null }));
+  if (fileInputRef.current) {
+    fileInputRef.current.value = ""; // <-- clears file input field
+  }
+};
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -63,11 +66,12 @@ const ResumeContent = () => {
                 Upload Resume (PDF/Doc)
               </label>
               <input
+               ref={fileInputRef}
                 id="resume-upload"
                 type="file"
                 name="resumeFile"
                 accept=".pdf,.doc,.docx"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:bg-teal-600 file:text-white hover:file:bg-teal-700"
+                className="w-full px-3 py-2 border cursor-pointer border-gray-300 rounded-lg text-sm file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:bg-teal-600 file:text-white hover:file:bg-teal-700"
                 onChange={handleChange}
               />
               {resumeFormData.resumeFile && (
@@ -118,9 +122,10 @@ const ResumeContent = () => {
                   className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-600 hover:text-teal-600"
                 >
                   {showPassword ? (
-                    <IoEyeOffOutline size={18} />
-                  ) : (
                     <IoEyeOutline size={18} />
+                  ) : (
+                    
+                    <IoEyeOffOutline size={18} />
                   )}
                 </span>
               </div>

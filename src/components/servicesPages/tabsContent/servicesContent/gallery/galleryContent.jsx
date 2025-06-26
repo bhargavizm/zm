@@ -150,9 +150,10 @@ const GalleryContent = () => {
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-600 hover:text-teal-600"
                 >
                   {showPassword ? (
-                    <IoEyeOffOutline size={18} />
-                  ) : (
                     <IoEyeOutline size={18} />
+                  ) : (
+                   
+                     <IoEyeOffOutline size={18} />
                   )}
                 </span>
               </div>

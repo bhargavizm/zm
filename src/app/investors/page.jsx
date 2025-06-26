@@ -343,15 +343,21 @@ const InvestorsPage = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-5xl md:text-7xl font-bold mb-6"
           >
-            <span className="bg-gradient-to-r from-teal-600 to-teal-800 bg-clip-text text-transparent">
+            {/* <span className="bg-gradient-to-r from-teal-600 to-teal-800 bg-clip-text text-transparent">
               Invest in the Future
+            </span> */}
+            <span className="bg-gradient-to-r from-teal-600 to-teal-800 bg-clip-text text-transparent">
+              {dictionary.investor.hero.heading}
             </span>
             <br />
-            <span className="bg-gradient-to-r from-teal-600 to-teal-800 bg-clip-text text-transparent">
+            {/* <span className="bg-gradient-to-r from-teal-600 to-teal-800 bg-clip-text text-transparent">
               of Digital Engagement
+            </span> */}
+            <span className="bg-gradient-to-r from-teal-600 to-teal-800 bg-clip-text text-transparent">
+              {dictionary.investor.hero.subheading}
             </span>
           </motion.h1>
-          <motion.p
+          {/* <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
@@ -359,15 +365,31 @@ const InvestorsPage = () => {
           >
             ZM QR is transforming connections through next-generation QR
             technology.
+          </motion.p> */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="text-xl md:text-2xl text-gray-600 mb-10 max-w-3xl mx-auto"
+          >
+            {dictionary.investor.hero.description}
           </motion.p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <motion.a
+            {/* <motion.a
               href="#contact"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="bg-transparent border-2 border-teal-500 px-8 py-4 rounded-full font-semibold text-lg hover:bg-teal-900/30 transition-all text-teal-600"
             >
               Contact Our Team
+            </motion.a> */}
+            <motion.a
+              href="#contact"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-transparent border-2 border-teal-500 px-8 py-4 rounded-full font-semibold text-lg hover:bg-teal-900/30 transition-all text-teal-600"
+            >
+              {dictionary.investor.hero.contactButton}
             </motion.a>
           </div>
         </div>
@@ -381,11 +403,17 @@ const InvestorsPage = () => {
             whileInView={{ opacity: 1, y: 0 }}
             className="text-center mb-20"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            {/* <h2 className="text-4xl md:text-5xl font-bold mb-6">
               Why <span className="text-teal-400">ZM QR</span>?
+            </h2> */}
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              {dictionary.investor.stats.Why} <span className="text-teal-400">ZM QR</span>?
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            {/* <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Industry-leading QR technology with proven adoption metrics.
+            </p> */}
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              {dictionary.investor.stats.paragraph}
             </p>
           </motion.div>
 
@@ -417,17 +445,36 @@ const InvestorsPage = () => {
               className="lg:w-1/2"
             >
               <h2 className="text-4xl md:text-5xl font-bold mb-8">
-                <span className="text-teal-400">$26B</span> Market Opportunity
+                <span className="text-teal-400">{dictionary.investor.marketOpportunity.valueIncome}</span> {dictionary.investor.marketOpportunity.heading}
               </h2>
-              <p className="text-xl text-gray-600 mb-8">
+              {/* <p className="text-xl text-gray-600 mb-8">
                 The global QR code market is growing at 18.7% CAGR through 2030.
+              </p> */}
+              <p className="text-xl text-gray-600 mb-8">
+                {dictionary.investor.marketOpportunity.description}
               </p>
-              <ul className="space-y-4">
+              {/* <ul className="space-y-4">
                 {[
                   "Contactless payments adoption",
                   "Digital marketing transformation",
                   "Supply chain digitization",
                 ].map((item, index) => (
+                  <motion.li
+                    key={index}
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ delay: index * 0.1 }}
+                    className="flex items-start"
+                  >
+                    <span className="text-teal-400 mr-3 mt-1">
+                      <ArrowRightIcon className="h-5 w-5" />
+                    </span>
+                    <span className="text-lg">{item}</span>
+                  </motion.li>
+                ))}
+              </ul> */}
+              <ul className="space-y-4">
+                {dictionary.investor.marketOpportunity.items.map((item, index) => (
                   <motion.li
                     key={index}
                     initial={{ opacity: 0 }}
@@ -482,11 +529,17 @@ const InvestorsPage = () => {
             whileInView={{ opacity: 1 }}
             className="text-center mb-20"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            {/* <h2 className="text-4xl md:text-5xl font-bold mb-6">
               Our <span className="text-teal-400">Traction</span>
+            </h2> */}
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              {dictionary.investor.traction.Our} <span className="text-teal-400">{dictionary.investor.traction.heading}</span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            {/* <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Consistent growth across all key metrics.
+            </p> */}
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              {dictionary.investor.traction.description}
             </p>
           </motion.div>
 
@@ -496,8 +549,11 @@ const InvestorsPage = () => {
               whileInView={{ opacity: 1, y: 0 }}
               className="bg-white backdrop-blur-md rounded-2xl p-8 border border-teal-300 shadow-lg"
             >
-              <h3 className="text-2xl font-bold mb-6">
+              {/* <h3 className="text-2xl font-bold mb-6">
                 Expected Revenue Growth
+              </h3> */}
+              <h3 className="text-2xl font-bold mb-6">
+                {dictionary.investor.traction.userGrowth.heading}
               </h3>
               <div className="h-64 w-full">
                 <RevenueChart />
@@ -531,7 +587,8 @@ const InvestorsPage = () => {
               transition={{ delay: 0.2 }}
               className="bg-white backdrop-blur-md rounded-2xl p-8 border border-teal-300 shadow-lg"
             >
-              <h3 className="text-2xl font-bold mb-6">Expected User Growth</h3>
+              {/* <h3 className="text-2xl font-bold mb-6">Expected User Growth</h3> */}
+              <h3 className="text-2xl font-bold mb-6">{dictionary.investor.traction.userGrowth.heading}</h3>
               <div className="h-64 w-full">
                 <UserGrowthChart />
               </div>
@@ -567,16 +624,22 @@ const InvestorsPage = () => {
             whileInView={{ opacity: 1 }}
             className="text-center mb-20"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            {/* <h2 className="text-4xl md:text-5xl font-bold mb-6">
               Our <span className="text-teal-400">Technology</span>
+            </h2> */}
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              {dictionary.investor.technology.Our} <span className="text-teal-400">{dictionary.investor.technology.heading}</span>
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              {dictionary.investor.technology.description}
+            </p>
+            {/* <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Cutting-edge infrastructure powering the next generation of QR
               solutions
-            </p>
+            </p> */}
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {technologies.map((tech, index) => (
               <motion.div
                 key={index}
@@ -586,6 +649,25 @@ const InvestorsPage = () => {
                 className="bg-white backdrop-blur-md rounded-2xl p-8 border border-teal-300 hover:border-teal-400 transition-all shadow-lg"
               >
                 <div className="text-teal-400 mb-4">{tech.icon}</div>
+                <h3 className="text-2xl font-bold mb-3">{tech.name}</h3>
+                <p className="text-gray-600">{tech.description}</p>
+              </motion.div>
+            ))}
+          </div> */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {dictionary.investor.technology.features.map((tech, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-white backdrop-blur-md rounded-2xl p-8 border border-teal-300 hover:border-teal-400 transition-all shadow-lg"
+              >
+                {/* Optional icon placeholder if needed */}
+                <div className="text-teal-400 mb-4">
+                  {/* You can insert a default icon here if desired */}
+                  {/* Example: <YourIconComponent /> */}
+                </div>
                 <h3 className="text-2xl font-bold mb-3">{tech.name}</h3>
                 <p className="text-gray-600">{tech.description}</p>
               </motion.div>
@@ -603,17 +685,23 @@ const InvestorsPage = () => {
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            {/* <h2 className="text-4xl md:text-5xl font-bold mb-4">
               Why <span className="text-teal-400">Invest</span> in Us?
+            </h2> */}
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              {dictionary.investor.investment.Why} <span className="text-teal-400">{dictionary.investor.investment.heading}</span> {dictionary.investor.investment.inUs}
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            {/* <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Back a company that's shaping the future with real traction,
               scalable growth, and visionary leadership.
+            </p> */}
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              {dictionary.investor.investment.description}
             </p>
           </motion.div>
 
           {/* Value Propositions */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+          {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
             {[
               {
                 icon: "🚀",
@@ -648,7 +736,26 @@ const InvestorsPage = () => {
                 <p className="text-sm text-gray-600">{item.desc}</p>
               </motion.div>
             ))}
+          </div> */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+            {dictionary.investor.investment.propositions.map((item, i) => {
+              const icons = ["🚀", "🌍", "💡", "🤝"]; // static icons matching order
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: i * 0.1 }}
+                  className="p-6 rounded-xl border shadow-lg text-center bg-white border-teal-300"
+                >
+                  <div className="text-4xl mb-4">{icons[i]}</div>
+                  <h4 className="text-xl font-bold mb-2">{item.title}</h4>
+                  <p className="text-sm text-gray-600">{item.desc}</p>
+                </motion.div>
+              );
+            })}
           </div>
+
 
           {/* Mission & Vision */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-20">
@@ -658,10 +765,14 @@ const InvestorsPage = () => {
               transition={{ duration: 0.5 }}
               className="bg-white border-teal-300 p-8 rounded-xl border shadow-md"
             >
-              <h3 className="text-2xl font-bold mb-4">Our Mission</h3>
+              {/* <h3 className="text-2xl font-bold mb-4">Our Mission</h3>
               <p className="text-gray-600">
                 To transform how people connect, transact, and experience
                 services using technology that scales with their dreams.
+              </p> */}
+              <h3 className="text-2xl font-bold mb-4">{dictionary.investor.investment.mission.heading}</h3>
+              <p className="text-gray-600">
+                {dictionary.investor.investment.mission.text}
               </p>
             </motion.div>
 
@@ -671,16 +782,20 @@ const InvestorsPage = () => {
               transition={{ duration: 0.5 }}
               className="bg-white border-teal-300 p-8 rounded-xl border shadow-md"
             >
-              <h3 className="text-2xl font-bold mb-4">Our Vision</h3>
-              <p className="text-gray-600">
+              {/* <h3 className="text-2xl font-bold mb-4">Our Vision</h3> */}
+              {/* <p className="text-gray-600">
                 To be a global leader in tech innovation, empowering millions
                 through seamless digital experiences and impactful solutions.
+              </p> */}
+              <h3 className="text-2xl font-bold mb-4">{dictionary.investor.investment.vision.heading}</h3>
+              <p className="text-gray-600">
+                {dictionary.investor.investment.vision.text}
               </p>
             </motion.div>
           </div>
 
           {/* CTA */}
-          <motion.div
+          {/* <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4 }}
@@ -697,6 +812,23 @@ const InvestorsPage = () => {
             >
               Let's Talk Investment
             </a>
+          </motion.div> */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4 }}
+            className="text-center"
+          >
+            <h4 className="text-2xl font-bold mb-4">{dictionary.investor.journey.heading}</h4>
+            <p className="mb-6 max-w-xl mx-auto text-gray-600">
+              {dictionary.investor.journey.descrption}
+            </p>
+            <a
+              href="#contact"
+              className="inline-block px-6 mt-10 py-2 text-white bg-teal-500 hover:bg-teal-600 rounded-lg font-medium transition"
+            >
+              {dictionary.investor.journey.cta.text}
+            </a>
           </motion.div>
         </div>
       </section>
@@ -704,8 +836,11 @@ const InvestorsPage = () => {
       {/* Contact Section */}
       <section id="contact" className="py-24 bg-white">
         <div className="container mx-auto px-6">
-          <h1 className="text-3xl lg:text-4xl font-bold mb-20 text-center">
+          {/* <h1 className="text-3xl lg:text-4xl font-bold mb-20 text-center">
             Let discuss for <span className="text-teal-500">Investment</span>
+          </h1> */}
+          <h1 className="text-3xl lg:text-4xl font-bold mb-20 text-center">
+            {dictionary.investor.contact.heading} <span className="text-teal-500">{dictionary.investor.contact.investment}</span>
           </h1>
           <div className="flex flex-col lg:flex-row gap-16">
             <motion.div
@@ -725,10 +860,10 @@ const InvestorsPage = () => {
               </video>
 
               <h2 className="text-2xl md:text-2xl font-bold mb-8">
-                Get in <span className="text-teal-400">Touch</span>
+                {dictionary.investor.contact.getIn}<span className="text-teal-400">{dictionary.investor.contact.touch}</span>
               </h2>
               <p className="text-xl text-gray-600 mb-8">
-                Contact our investment team for more information.
+                {dictionary.investor.contact.description}
               </p>
             </motion.div>
 

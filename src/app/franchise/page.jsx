@@ -84,6 +84,8 @@ const FeatureItem = ({ icon, title, description }) => (
 
 // --- Section Components ---
 const HeroSection = () => {
+    const { dictionary } = useLanguage();
+
     return (
         <section className="pt-40 flex items-center justify-center p-8 relative overflow-hidden" style={{ background: SITE_COLORS.primaryDarkBg }}>
             <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between z-10 text-center lg:text-left">
@@ -93,14 +95,23 @@ const HeroSection = () => {
                     transition={{ duration: 0.8 }}
                     className="lg:w-1/2 mb-10 lg:mb-0"
                 >
-                    <h1 className="text-4xl lg:text-5xl font-extrabold leading-tight" style={{ color: SITE_COLORS.textLight }}>
+                    {/* <h1 className="text-4xl lg:text-5xl font-extrabold leading-tight" style={{ color: SITE_COLORS.textLight }}>
                         Unlock Digital Business Growth: <br /> Own a <span style={{ color: SITE_COLORS.accentTealLight }}>ZM QR Code Services</span> Franchise!
+                    </h1> */}
+                    <h1 className="text-4xl lg:text-5xl font-extrabold leading-tight" style={{ color: SITE_COLORS.textLight }}>
+                        {dictionary.franchise.heroSection.title}
                     </h1>
-                    <p className="mt-6 text-lg lg:text-xl" style={{ color: SITE_COLORS.sectionBgLight }}>
+                    {/* <p className="mt-6 text-lg lg:text-xl" style={{ color: SITE_COLORS.sectionBgLight }}>
                         Join the Future of Connectivity – Your Path to a Thriving Digital Business Starts Here.
+                    </p> */}
+                    <p className="mt-6 text-lg lg:text-xl" style={{ color: SITE_COLORS.sectionBgLight }}>
+                        {dictionary.franchise.heroSection.description}
                     </p>
-                    <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-10 justify-center lg:justify-start">
+                    {/* <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-10 justify-center lg:justify-start">
                         <SecondaryButton href="contact">Schedule a Discovery Call</SecondaryButton>
+                    </div> */}
+                    <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-10 justify-center lg:justify-start">
+                        <SecondaryButton href="contact">{dictionary.franchise.heroSection.buttonText}</SecondaryButton>
                     </div>
                 </motion.div>
 
@@ -122,13 +133,17 @@ const HeroSection = () => {
 };
 
 const WhyZMQRSection = () => {
+    const { dictionary } = useLanguage();
     return (
         <section className="py-20 px-8" style={{ backgroundColor: SITE_COLORS.sectionBgLight, color: SITE_COLORS.textDark }}>
             <div className="container mx-auto max-w-4xl text-center">
-                <h2 className="text-3xl lg:text-4xl font-bold mb-12">
+                {/* <h2 className="text-3xl lg:text-4xl font-bold mb-12">
                     Why <span style={{ color: SITE_COLORS.accentTealDark }}>ZM QR Code</span>?
+                </h2> */}
+                <h2 className="text-3xl lg:text-4xl font-bold mb-12">
+                    <span style={{ color: SITE_COLORS.accentTealDark }}>{dictionary.franchise.whyZMQRSection.title}</span>?
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <FeatureItem
                         icon={<FaChartLine size={24} />}
                         title="Booming Market"
@@ -159,6 +174,38 @@ const WhyZMQRSection = () => {
                         title="Recurring Revenue"
                         description="Build a sustainable business with subscription models."
                     />
+                </div> */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <FeatureItem
+                        icon={<FaChartLine size={24} />}
+                        title={dictionary.franchise.whyZMQRSection.features[0].title}
+                        description={dictionary.franchise.whyZMQRSection.features[0].description}
+                    />
+                    <FeatureItem
+                        icon={<FaCheckCircle size={24} />}
+                        title={dictionary.franchise.whyZMQRSection.features[1].title}
+                        description={dictionary.franchise.whyZMQRSection.features[1].description}
+                    />
+                    <FeatureItem
+                        icon={<FaTools size={24} />}
+                        title={dictionary.franchise.whyZMQRSection.features[2].title}
+                        description={dictionary.franchise.whyZMQRSection.features[2].description}
+                    />
+                    <FeatureItem
+                        icon={<FaLaptopCode size={24} />}
+                        title={dictionary.franchise.whyZMQRSection.features[3].title}
+                        description={dictionary.franchise.whyZMQRSection.features[3].description}
+                    />
+                    <FeatureItem
+                        icon={<FaHeadset size={24} />}
+                        title={dictionary.franchise.whyZMQRSection.features[4].title}
+                        description={dictionary.franchise.whyZMQRSection.features[4].description}
+                    />
+                    <FeatureItem
+                        icon={<FaMoneyBillWave size={24} />}
+                        title={dictionary.franchise.whyZMQRSection.features[5].title}
+                        description={dictionary.franchise.whyZMQRSection.features[5].description}
+                    />
                 </div>
             </div>
         </section>
@@ -166,11 +213,15 @@ const WhyZMQRSection = () => {
 };
 
 const HowQRCodesTransformBusinessesSection = () => {
+    const { dictionary } = useLanguage();
     return (
         <section className="py-20 px-8" >
             <div className=" mx-auto max-w-4xl text-center">
-                <h2 className="text-3xl lg:text-4xl font-bold mb-12">
+                {/* <h2 className="text-3xl lg:text-4xl font-bold mb-12">
                     How QR Codes Transform Businesses
+                </h2> */}
+                <h2 className="text-3xl lg:text-4xl font-bold mb-12">
+                    {dictionary.franchise.howQRCodesTransformBusinessesSection.title}
                 </h2>
                 <motion.div
                     initial={{ opacity: 0, scale: 0.5 }}
@@ -192,8 +243,11 @@ const HowQRCodesTransformBusinessesSection = () => {
                     >
                         Your browser does not support the video tag.
                     </video>
-                    <p className="mt-6 text-lg" style={{ color: SITE_COLORS.accentTeal }}>
+                    {/* <p className="mt-6 text-lg" style={{ color: SITE_COLORS.accentTeal }}>
                         From streamlined payments to interactive marketing, QR codes are revolutionizing industries.
+                    </p> */}
+                    <p className="mt-6 text-lg" style={{ color: SITE_COLORS.accentTeal }}>
+                        {dictionary.franchise.howQRCodesTransformBusinessesSection.description}
                     </p>
                 </motion.div>
             </div>
@@ -202,6 +256,8 @@ const HowQRCodesTransformBusinessesSection = () => {
 };
 
 const TestimonialsSection = () => {
+    const { dictionary } = useLanguage();
+
     const testimonials = [
         { quote: "Partnering with ZM QR Code Services has been a game-changer for our business. The support is incredible!", author: "Navya L., Franchisee" },
         { quote: "Their platform is so easy to use and our clients love the QR solutions. Highly recommend!", author: "Joseph., Business Owner" },
@@ -221,8 +277,11 @@ const TestimonialsSection = () => {
     return (
         <section className="py-20 px-8" style={{ backgroundColor: SITE_COLORS.sectionBgLight, color: SITE_COLORS.textDark }}>
             <div className="container mx-auto max-w-4xl text-center">
-                <h2 className="text-3xl lg:text-4xl font-bold mb-12">
+                {/* <h2 className="text-3xl lg:text-4xl font-bold mb-12">
                     What Our <span style={{ color: SITE_COLORS.accentTealDark }}>Partners</span> Say
+                </h2> */}
+                <h2 className="text-3xl lg:text-4xl font-bold mb-12">
+                    <span style={{ color: SITE_COLORS.accentTealDark }}>{dictionary.franchise.testimonialsSection.title}</span>
                 </h2>
                 <div className="relative overflow-hidden w-full max-w-2xl mx-auto h-48 flex items-center justify-center">
                     <AnimatePresence mode="wait">
@@ -242,75 +301,139 @@ const TestimonialsSection = () => {
                     </AnimatePresence>
                 </div>
                 <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-10 justify-center">
-                    <SecondaryButton  href="contact">Schedule a Discovery Call</SecondaryButton>
+                    <SecondaryButton href="contact">{dictionary.franchise.testimonialsSection.call}</SecondaryButton>
                 </div>
             </div>
         </section>
     );
 };
 
-const WhyFranchiseWithZMSection = () => {
-    const [activeIndex, setActiveIndex] = useState(0);
+// const WhyFranchiseWithZMSection = () => {
+//     const { dictionary } = useLanguage();
+//     const [activeIndex, setActiveIndex] = useState(0);
 
-    const advantageBlocks = [
-        {
-            title: "The Market Opportunity",
-            description: "Tap into the explosive growth of QR code usage across various industries. Consumers are increasingly relying on QR codes for everything from contactless payments to interactive content.",
-            points: [
-                "QR code usage surged by X% last year.",
-                "Y% of consumers prefer QR for payments and information access.",
-                "Diverse industries (retail, F&B, healthcare, events, marketing) demand QR solutions."
-            ]
-        },
-        {
-            title: "Our Proven Business Model",
-            description: "Leverage a low-overhead, scalable business model designed for recurring revenue. Our system focuses on efficiency and automation to maximize your profitability.",
-            points: [
-                "Recurring revenue potential from dynamic QR codes and platform subscriptions.",
-                "Low overhead and high scalability.",
-                "Efficient and automated system for streamlined operations."
-            ]
-        },
-        {
-            title: "Comprehensive Service Portfolio",
-            description: "Offer a full spectrum of high-demand QR solutions to cater to diverse client needs.",
-            points: [
-                "Dynamic & Static QR Codes",
-                "Custom Design & Branding",
-                "Advanced Management Platform & Analytics",
-                "API Integration for seamless workflows",
-                "Industry-Specific Solutions (e.g., Digital Menus, Event Check-in)"
-            ]
-        },
-        {
-            title: "Cutting-Edge Technology",
-            description: "Gain access to the proprietary ZM platform, designed for ease of use, robust features, and continuous innovation.",
-            points: [
-                "Intuitive, user-friendly interface",
-                "Powerful analytics dashboard",
-                "Secure and reliable infrastructure",
-                "Regular updates and new feature releases"
-            ]
-        },
-        {
-            title: "Unrivaled Support & Training",
-            description: "Benefit from comprehensive training and ongoing guidance to ensure your success.",
-            points: [
-                "Intensive initial training: sales, tech, operations, marketing.",
-                "Dedicated support team and extensive resource library.",
-                "Ready-to-use marketing & sales collateral.",
-                "Exclusive territory and a strong community network."
-            ]
-        }
-    ];
+//     const advantageBlocks = [
+//         {
+//             title: "The Market Opportunity",
+//             description: "Tap into the explosive growth of QR code usage across various industries. Consumers are increasingly relying on QR codes for everything from contactless payments to interactive content.",
+//             points: [
+//                 "QR code usage surged by X% last year.",
+//                 "Y% of consumers prefer QR for payments and information access.",
+//                 "Diverse industries (retail, F&B, healthcare, events, marketing) demand QR solutions."
+//             ]
+//         },
+//         {
+//             title: "Our Proven Business Model",
+//             description: "Leverage a low-overhead, scalable business model designed for recurring revenue. Our system focuses on efficiency and automation to maximize your profitability.",
+//             points: [
+//                 "Recurring revenue potential from dynamic QR codes and platform subscriptions.",
+//                 "Low overhead and high scalability.",
+//                 "Efficient and automated system for streamlined operations."
+//             ]
+//         },
+//         {
+//             title: "Comprehensive Service Portfolio",
+//             description: "Offer a full spectrum of high-demand QR solutions to cater to diverse client needs.",
+//             points: [
+//                 "Dynamic & Static QR Codes",
+//                 "Custom Design & Branding",
+//                 "Advanced Management Platform & Analytics",
+//                 "API Integration for seamless workflows",
+//                 "Industry-Specific Solutions (e.g., Digital Menus, Event Check-in)"
+//             ]
+//         },
+//         {
+//             title: "Cutting-Edge Technology",
+//             description: "Gain access to the proprietary ZM platform, designed for ease of use, robust features, and continuous innovation.",
+//             points: [
+//                 "Intuitive, user-friendly interface",
+//                 "Powerful analytics dashboard",
+//                 "Secure and reliable infrastructure",
+//                 "Regular updates and new feature releases"
+//             ]
+//         },
+//         {
+//             title: "Unrivaled Support & Training",
+//             description: "Benefit from comprehensive training and ongoing guidance to ensure your success.",
+//             points: [
+//                 "Intensive initial training: sales, tech, operations, marketing.",
+//                 "Dedicated support team and extensive resource library.",
+//                 "Ready-to-use marketing & sales collateral.",
+//                 "Exclusive territory and a strong community network."
+//             ]
+//         }
+//     ];
+
+//     useEffect(() => {
+//         const interval = setInterval(() => {
+//             setActiveIndex((prevIndex) =>
+//                 (prevIndex + 1) % advantageBlocks.length
+//             );
+//         }, 5000);
+
+//         return () => clearInterval(interval);
+//     }, [advantageBlocks.length]);
+
+//     const currentBlock = advantageBlocks[activeIndex];
+
+//     return (
+//         <section className="py-30 px-8" style={{ backgroundColor: SITE_COLORS.sectionBgSubtle, color: SITE_COLORS.textDark }}>
+//             <div className="container mx-auto max-w-6xl">
+//                 {/* <h2 className="text-3xl lg:text-4xl font-bold text-center mb-6">
+//                     Your Blueprint for Success: The <span style={{ color: SITE_COLORS.accentTealDark }}>ZM QR Code</span> Advantage
+//                 </h2> */}
+//                 <h2 className="text-3xl lg:text-4xl font-bold text-center mb-6">
+//                     <span style={{ color: SITE_COLORS.accentTealDark }}>{dictionary.franchise.whyFranchiseWithZMSection.title}</span> 
+//                 </h2>
+//                 {/* <p className="text-lg leading-relaxed text-center mb-12" style={{ color: SITE_COLORS.textMuted }}>
+//                     Discover the unmatched benefits of partnering with a leader in digital connectivity.
+//                 </p> */}
+//                 <p className="text-lg leading-relaxed text-center mb-12" style={{ color: SITE_COLORS.textMuted }}>
+//                     {dictionary.franchise.whyFranchiseWithZMSection.paragraph}
+//                 </p>
+
+//                 <div className="relative overflow-hidden min-h-[300px] flex items-center justify-center">
+//                     <AnimatePresence mode="wait">
+//                         <motion.div
+//                             key={activeIndex}
+//                             initial={{ opacity: 0, x: 100 }}
+//                             animate={{ opacity: 1, x: 0 }}
+//                             exit={{ opacity: 0, x: -100 }}
+//                             transition={{ duration: 0.8 }}
+//                             className="absolute w-full px-4"
+//                         >
+//                             <div className="bg-white p-8 rounded-lg shadow-lg">
+//                                 <h3 className="text-2xl font-bold mb-4" style={{ color: SITE_COLORS.accentTealDark }}>{currentBlock.title}</h3>
+//                                 <p className="mb-4" style={{ color: SITE_COLORS.textDark }}>
+//                                     {currentBlock.description}
+//                                 </p>
+//                                 <ul className="list-disc list-inside space-y-2" style={{ color: SITE_COLORS.textMuted }}>
+//                                     {currentBlock.points.map((point, idx) => (
+//                                         <li key={idx}>{point}</li>
+//                                     ))}
+//                                 </ul>
+//                             </div>
+//                         </motion.div>
+//                     </AnimatePresence>
+//                 </div>
+
+//                 <div className="text-center mt-12">
+//                     <PrimaryButton>Ready to make your mark? Explore Our Investment Details</PrimaryButton>
+//                 </div>
+//             </div>
+//         </section>
+//     );
+// };
+
+const WhyFranchiseWithZMSection = () => {
+    const { dictionary } = useLanguage();
+    const advantageBlocks = dictionary.franchise.whyFranchiseWithZMSection.advantages;
+    const [activeIndex, setActiveIndex] = useState(0);
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setActiveIndex((prevIndex) =>
-                (prevIndex + 1) % advantageBlocks.length
-            );
+            setActiveIndex((prevIndex) => (prevIndex + 1) % advantageBlocks.length);
         }, 5000);
-
         return () => clearInterval(interval);
     }, [advantageBlocks.length]);
 
@@ -320,10 +443,10 @@ const WhyFranchiseWithZMSection = () => {
         <section className="py-30 px-8" style={{ backgroundColor: SITE_COLORS.sectionBgSubtle, color: SITE_COLORS.textDark }}>
             <div className="container mx-auto max-w-6xl">
                 <h2 className="text-3xl lg:text-4xl font-bold text-center mb-6">
-                    Your Blueprint for Success: The <span style={{ color: SITE_COLORS.accentTealDark }}>ZM QR Code</span> Advantage
+                    <span style={{ color: SITE_COLORS.accentTealDark }}>{dictionary.franchise.whyFranchiseWithZMSection.title}</span>
                 </h2>
                 <p className="text-lg leading-relaxed text-center mb-12" style={{ color: SITE_COLORS.textMuted }}>
-                    Discover the unmatched benefits of partnering with a leader in digital connectivity.
+                    {dictionary.franchise.whyFranchiseWithZMSection.paragraph}
                 </p>
 
                 <div className="relative overflow-hidden min-h-[450px] flex items-center justify-center">
@@ -338,9 +461,7 @@ const WhyFranchiseWithZMSection = () => {
                         >
                             <div className="bg-white p-8 rounded-lg shadow-lg">
                                 <h3 className="text-2xl font-bold mb-4" style={{ color: SITE_COLORS.accentTealDark }}>{currentBlock.title}</h3>
-                                <p className="mb-4" style={{ color: SITE_COLORS.textDark }}>
-                                    {currentBlock.description}
-                                </p>
+                                <p className="mb-4" style={{ color: SITE_COLORS.textDark }}>{currentBlock.description}</p>
                                 <ul className="list-disc list-inside space-y-2" style={{ color: SITE_COLORS.textMuted }}>
                                     {currentBlock.points.map((point, idx) => (
                                         <li key={idx}>{point}</li>
@@ -351,23 +472,31 @@ const WhyFranchiseWithZMSection = () => {
                     </AnimatePresence>
                 </div>
 
+                {/* <div className="text-center mt-12">
+                    <PrimaryButton>Ready to make your mark? Explore Our Investment Details</PrimaryButton>
+                </div> */}
                 <div className="text-center mt-12">
-                    <SecondaryButton href="investment">Ready to make your mark? Explore Our Investment Details</SecondaryButton>
+                    <SecondaryButton href="investment">{dictionary.franchise.whyFranchiseWithZMSection.ctaExploreInvestment}</SecondaryButton>
                 </div>
             </div>
         </section>
     );
 };
 
+
 const InvestmentAndSupportSection = () => {
+    const { dictionary } = useLanguage();
     return (
         <section id="investment" className="py-20 px-8" style={{ backgroundColor: SITE_COLORS.sectionBgLight, color: SITE_COLORS.textDark }}>
             <div className="container mx-auto max-w-4xl">
                 <h2 className="text-3xl lg:text-4xl font-bold text-center mb-6">
-                    Your Zero Investment, Our Commitment: <br /> Building Success Together
+                    {dictionary.franchise.investmentAndSupportSection.title}
                 </h2>
-                <p className="text-lg leading-relaxed text-center mb-12" style={{ color: SITE_COLORS.textMuted }}>
+                {/* <p className="text-lg leading-relaxed text-center mb-12" style={{ color: SITE_COLORS.textMuted }}>
                     Understand the financial roadmap and the extensive support network you'll receive.
+                </p> */}
+                <p className="text-lg leading-relaxed text-center mb-12" style={{ color: SITE_COLORS.textMuted }}>
+                    {dictionary.franchise.investmentAndSupportSection.financialSupportText}
                 </p>
 
                 <motion.div
@@ -378,9 +507,10 @@ const InvestmentAndSupportSection = () => {
                     className="bg-white rounded-lg shadow-md p-6 mb-10"
                     style={{ border: `1px solid ${SITE_COLORS.border}` }}
                 >
-                    <h3 className="text-2xl font-bold mb-4" style={{ color: SITE_COLORS.accentTealDark }}>Franchise Investment Overview</h3>
+                    {/* <h3 className="text-2xl font-bold mb-4" style={{ color: SITE_COLORS.accentTealDark }}>Franchise Investment Overview</h3> */}
+                    <h3 className="text-2xl font-bold mb-4" style={{ color: SITE_COLORS.accentTealDark }}>{dictionary.franchise.investmentAndSupportSection.franchiseInvestmentOverview}</h3>
                     <p className="mb-4" style={{ color: SITE_COLORS.textDark }}>
-                        The estimated initial investment for a ZM QR Code Services franchise ranges from:
+                        {dictionary.franchise.investmentAndSupportSection.investmentOverview.description}
                     </p>
                     <div className="overflow-x-auto">
                         <table className="min-w-full bg-white rounded-lg">
@@ -390,7 +520,7 @@ const InvestmentAndSupportSection = () => {
                                     <th className="py-2 px-0 text-left text-sm font-semibold">Estimated Cost Range</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            {/* <tbody>
                                 <tr className="border-b" style={{ borderColor: SITE_COLORS.border }}>
                                     <td className="py-2 px-6">Initial Franchise Fee</td>
                                     <td className="py-2 px-10">0/-</td>
@@ -421,11 +551,43 @@ const InvestmentAndSupportSection = () => {
                                     <td className="py-2 px-4">Marketing & Sales Toolkit</td>
                                     <td className="py-2 px-2 text-center">Depends</td>
                                 </tr>
+                            </tbody> */}
+                            <tbody>
+                                <tr className="border-b" style={{ borderColor: SITE_COLORS.border }}>
+                                    <td className="py-2 px-6">{dictionary.franchise.investmentAndSupportSection.investmentOverview.items[0].item}</td>
+                                    <td className="py-2 px-10">0/-</td>
+                                </tr>
+                                <tr className="border-b" style={{ borderColor: SITE_COLORS.border }}>
+                                    <td className="py-2 px-4">{dictionary.franchise.investmentAndSupportSection.investmentOverview.items[1].item}</td>
+                                    <td className="py-2 px-10">0/-</td>
+                                </tr>
+                                <tr className="border-b" style={{ borderColor: SITE_COLORS.border }}>
+                                    <td className="py-2 px-4">{dictionary.franchise.investmentAndSupportSection.investmentOverview.items[2].item}</td>
+                                    <td className="py-2 px-10">0/-</td>
+                                </tr>
+                                <tr className="border-b" style={{ borderColor: SITE_COLORS.border }}>
+                                    <td className="py-2 px-4">{dictionary.franchise.investmentAndSupportSection.investmentOverview.items[3].item}</td>
+                                    <td className="py-2 px-10">0/-</td>
+                                </tr>
+                                <tr className="border-b" style={{ borderColor: SITE_COLORS.border }}>
+                                    <td className="py-2 px-4">{dictionary.franchise.investmentAndSupportSection.investmentOverview.items[0].item}</td>
+                                    <td className="py-2 px-10">0/-</td>
+                                </tr>
+
+                                <tr style={{ backgroundColor: SITE_COLORS.primaryBg, color: SITE_COLORS.textPrimary, fontWeight: 'bold' }}>
+                                    <td className="py-2 px-4">{dictionary.franchise.investmentAndSupportSection.totalEstimate}</td>
+                                    <td className="py-2 px-10">0/-</td>
+                                </tr>
+
+                                <tr className="border-b " style={{ borderColor: SITE_COLORS.border, fontWeight: 'bold' }}>
+                                    <td className="py-2 px-4">{dictionary.franchise.investmentAndSupportSection.marketingSales}</td>
+                                    <td className="py-2 px-2 text-center">{dictionary.franchise.investmentAndSupportSection.depends}</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
                     <p className="mt-6 text-sm italic" style={{ color: SITE_COLORS.textMuted }}>
-                        * This is an estimated range. Please refer to our Franchise Disclosure Document (FDD) for detailed financial requirements and legal disclosures.
+                        {dictionary.franchise.investmentAndSupportSection.franchiseDisclaimer}
                     </p>
                 </motion.div>
 
@@ -437,16 +599,38 @@ const InvestmentAndSupportSection = () => {
                     className="bg-white rounded-lg shadow-md p-6 mb-10"
                     style={{ border: `1px solid ${SITE_COLORS.border}` }}
                 >
-                    <h3 className="text-2xl font-bold mb-4" style={{ color: SITE_COLORS.accentTealDark }}>What You Get with Your ZM Franchise</h3>
+                    <h3 className="text-2xl font-bold mb-4" style={{ color: SITE_COLORS.accentTealDark }}>{dictionary.franchise.investmentAndSupportSection.whatYouGetSection.title}</h3>
                     <ul className="list-disc list-inside space-y-2" style={{ color: SITE_COLORS.textDark }}>
-                        <li><span className="font-semibold">Comprehensive Training Program:</span> Initial intensive training covering sales, technology, and operations.</li>
-                        <li><span className="font-semibold">Dedicated Support Team:</span> Ongoing assistance and guidance, and extensive resource library.</li>
-                        <li><span className="font-semibold">ZM Proprietary Platform Access:</span> Cutting-edge software and analytics dashboard.</li>
-                        <li><span className="font-semibold">Operational Manuals & Best Practices:</span> Detailed guides for day-to-day management.</li>
-                        <li><span className="font-semibold">Research & Development Updates:</span> Continuous innovation to keep you ahead.</li>
+                        <li><span className="font-semibold">{dictionary.franchise.investmentAndSupportSection.whatYouGetSection.items[0].label}</span> {dictionary.franchise.investmentAndSupportSection.whatYouGetSection.items[0].description}</li>
+                        <li><span className="font-semibold">{dictionary.franchise.investmentAndSupportSection.whatYouGetSection.items[1].label}</span> {dictionary.franchise.investmentAndSupportSection.whatYouGetSection.items[1].description}</li>
+                        <li><span className="font-semibold">{dictionary.franchise.investmentAndSupportSection.whatYouGetSection.items[2].label}</span> {dictionary.franchise.investmentAndSupportSection.whatYouGetSection.items[2].description}</li>
+                        <li><span className="font-semibold">{dictionary.franchise.investmentAndSupportSection.whatYouGetSection.items[3].label}</span> {dictionary.franchise.investmentAndSupportSection.whatYouGetSection.items[3].description}</li>
+                        <li><span className="font-semibold">{dictionary.franchise.investmentAndSupportSection.whatYouGetSection.items[4].label}</span> {dictionary.franchise.investmentAndSupportSection.whatYouGetSection.items[4].description}</li>
                     </ul>
                 </motion.div>
 
+                {/* <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.5 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    className="bg-white rounded-lg shadow-md p-6"
+                    style={{ border: `1px solid ${SITE_COLORS.border}` }}
+                >
+                    <h3 className="text-2xl font-bold mb-4" style={{ color: SITE_COLORS.accentTealDark }}>{dictionary.franchise.investmentAndSupportSection.idealCandidateSection.title}</h3>
+                    <p className="mb-4" style={{ color: SITE_COLORS.textDark }}>
+                        {dictionary.franchise.investmentAndSupportSection.idealCandidateSection.intro}
+                    </p>
+                    <ul className="list-disc list-inside space-y-2" style={{ color: SITE_COLORS.textMuted }}>
+                        <li>{dictionary.franchise.investmentAndSupportSection.idealCandidateSection.qualities[0]}</li>
+                        <li>{dictionary.franchise.investmentAndSupportSection.idealCandidateSection.qualities[1]}</li>
+                        <li>{dictionary.franchise.investmentAndSupportSection.idealCandidateSection.qualities[2]}</li>
+                        <li>{dictionary.franchise.investmentAndSupportSection.idealCandidateSection.qualities[3]}</li>
+                    </ul>
+                    <p className="mt-4 text-md font-semibold" style={{ color: SITE_COLORS.accentTeal }}>
+                        {dictionary.franchise.investmentAndSupportSection.idealCandidateSection.callToAction}
+                    </p>
+                </motion.div> */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -455,18 +639,19 @@ const InvestmentAndSupportSection = () => {
                     className="bg-white rounded-lg shadow-md p-6"
                     style={{ border: `1px solid ${SITE_COLORS.border}` }}
                 >
-                    <h3 className="text-2xl font-bold mb-4" style={{ color: SITE_COLORS.accentTealDark }}>Ideal Candidate Profile</h3>
+                    <h3 className="text-2xl font-bold mb-4" style={{ color: SITE_COLORS.accentTealDark }}>
+                        {dictionary.franchise.idealCandidateSection.title}
+                    </h3>
                     <p className="mb-4" style={{ color: SITE_COLORS.textDark }}>
-                        ZM QR Code Services is looking for individuals who are:
+                        {dictionary.franchise.idealCandidateSection.intro}
                     </p>
                     <ul className="list-disc list-inside space-y-2" style={{ color: SITE_COLORS.textMuted }}>
-                        <li>Entrepreneurial and driven</li>
-                        <li>Sales-oriented with strong communication skills</li>
-                        <li>Tech-curious and adaptable to new technologies</li>
-                        <li>Customer-focused with a commitment to service excellence</li>
+                        {dictionary.franchise.idealCandidateSection.qualities.map((quality, index) => (
+                            <li key={index}>{quality}</li>
+                        ))}
                     </ul>
                     <p className="mt-4 text-md font-semibold" style={{ color: SITE_COLORS.accentTeal }}>
-                        Do you have what it takes? Learn more about who succeeds with ZM.
+                        {dictionary.franchise.idealCandidateSection.callToAction}
                     </p>
                 </motion.div>
             </div>
@@ -474,24 +659,73 @@ const InvestmentAndSupportSection = () => {
     );
 };
 
+// const OurProcessSection = () => {
+//     const { dictionary } = useLanguage();
+//     const steps = [
+//         { number: 1, title: "Inquiry & Information Request", description: "Fill out the online form and download our comprehensive Franchise Info Packet." },
+//         { number: 2, title: "Initial Discovery Call", description: "Engage in a brief, no-obligation chat with our Franchise Development Team to answer your preliminary questions." },
+//         { number: 3, title: "Review Franchise Disclosure Document (FDD)", description: "Dive deep into the legal and financial details of the ZM QR Code Services franchise opportunity." },
+//         { number: 4, title: "Territory Agreement & Franchise Agreement", description: "Finalize your exclusive territory and sign the official franchise agreement." },
+//         { number: 5, title: "Comprehensive Training", description: "Participate in our intensive training program designed to prepare you for a successful launch." },
+//         { number: 6, title: "Grand Opening & Ongoing Support", description: "Launch your ZM franchise with our continued guidance and support every step of the way." },
+//     ];
+
+//     return (
+//         <section className="py-20 px-8" style={{ backgroundColor: SITE_COLORS.sectionBgSubtle, color: SITE_COLORS.textDark }}>
+//             <div className="container mx-auto max-w-4xl">
+//                 <h2 className="text-3xl lg:text-4xl font-bold text-center mb-6">
+//                     <span style={{ color: SITE_COLORS.accentTealDark }}>{dictionary.franchise.investmentAndSupportSection.ourProcessSection.title}</span>
+//                 </h2>
+//                 <p className="text-lg leading-relaxed text-center mb-12" style={{ color: SITE_COLORS.textMuted }}>
+//                     {dictionary.franchise.investmentAndSupportSection.ourProcessSection.subtitle}
+//                 </p>
+
+//                 <div className="space-y-6">
+//                     {steps.map((step) => (
+//                         <motion.div
+//                             key={step.number}
+//                             initial={{ opacity: 0, x: -20 }}
+//                             whileInView={{ opacity: 1, x: 0 }}
+//                             viewport={{ once: true, amount: 0.4 }}
+//                             transition={{ duration: 0.6, delay: (step.number - 1) * 0.1 }}
+//                             className="flex items-start bg-white p-6 rounded-lg shadow-md transition-all duration-300 hover:shadow-lg hover:scale-[1.01]"
+//                             style={{ border: `1px solid ${SITE_COLORS.border}` }}
+//                         >
+//                             <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full font-bold text-lg mr-4" style={{ backgroundColor: SITE_COLORS.accentTeal, color: SITE_COLORS.textLight }}>
+//                                 {step.number}
+//                             </div>
+//                             <div>
+//                                 <h3 className="text-xl font-semibold mb-1" style={{ color: SITE_COLORS.accentTealDark }}>{step.title}</h3>
+//                                 <p style={{ color: SITE_COLORS.textMuted }}>{step.description}</p>
+//                             </div>
+//                         </motion.div>
+//                     ))}
+//                 </div>
+
+//                 <div className="text-center mt-12">
+
+//                     <SecondaryButton className='bg-teal-600' href="contact">{dictionary.franchise.investmentAndSupportSection.ourProcessSection.buttonText}</SecondaryButton>
+//                 </div>
+//             </div>
+//         </section>
+//     );
+// };
+
+
 const OurProcessSection = () => {
-    const steps = [
-        { number: 1, title: "Inquiry & Information Request", description: "Fill out the online form and download our comprehensive Franchise Info Packet." },
-        { number: 2, title: "Initial Discovery Call", description: "Engage in a brief, no-obligation chat with our Franchise Development Team to answer your preliminary questions." },
-        { number: 3, title: "Review Franchise Disclosure Document (FDD)", description: "Dive deep into the legal and financial details of the ZM QR Code Services franchise opportunity." },
-        { number: 4, title: "Territory Agreement & Franchise Agreement", description: "Finalize your exclusive territory and sign the official franchise agreement." },
-        { number: 5, title: "Comprehensive Training", description: "Participate in our intensive training program designed to prepare you for a successful launch." },
-        { number: 6, title: "Grand Opening & Ongoing Support", description: "Launch your ZM franchise with our continued guidance and support every step of the way." },
-    ];
+    const { dictionary } = useLanguage();
+    const steps = dictionary.franchise.ourProcessSection.steps;
 
     return (
         <section className="py-20 px-8" style={{ backgroundColor: SITE_COLORS.sectionBgSubtle, color: SITE_COLORS.textDark }}>
             <div className="container mx-auto max-w-4xl">
                 <h2 className="text-3xl lg:text-4xl font-bold text-center mb-6">
-                    Your Journey to Becoming a <span style={{ color: SITE_COLORS.accentTealDark }}>ZM Franchisee</span>
+                    <span style={{ color: SITE_COLORS.accentTealDark }}>
+                        {dictionary.franchise.ourProcessSection.title}
+                    </span>
                 </h2>
                 <p className="text-lg leading-relaxed text-center mb-12" style={{ color: SITE_COLORS.textMuted }}>
-                    A simple, transparent process to launch your own successful QR Code business.
+                    {dictionary.franchise.ourProcessSection.subtitle}
                 </p>
 
                 <div className="space-y-6">
@@ -505,11 +739,16 @@ const OurProcessSection = () => {
                             className="flex items-start bg-white p-6 rounded-lg shadow-md transition-all duration-300 hover:shadow-lg hover:scale-[1.01]"
                             style={{ border: `1px solid ${SITE_COLORS.border}` }}
                         >
-                            <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full font-bold text-lg mr-4" style={{ backgroundColor: SITE_COLORS.accentTeal, color: SITE_COLORS.textLight }}>
+                            <div
+                                className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full font-bold text-lg mr-4"
+                                style={{ backgroundColor: SITE_COLORS.accentTeal, color: SITE_COLORS.textLight }}
+                            >
                                 {step.number}
                             </div>
                             <div>
-                                <h3 className="text-xl font-semibold mb-1" style={{ color: SITE_COLORS.accentTealDark }}>{step.title}</h3>
+                                <h3 className="text-xl font-semibold mb-1" style={{ color: SITE_COLORS.accentTealDark }}>
+                                    {step.title}
+                                </h3>
                                 <p style={{ color: SITE_COLORS.textMuted }}>{step.description}</p>
                             </div>
                         </motion.div>
@@ -517,8 +756,9 @@ const OurProcessSection = () => {
                 </div>
 
                 <div className="text-center mt-12">
-                    
-                    <SecondaryButton className='bg-teal-600' href="contact">Ready to start your journey? Contact Our Franchise Team</SecondaryButton>
+                    <SecondaryButton className="bg-teal-600" href="contact">
+                        {dictionary.franchise.ourProcessSection.buttonText}
+                    </SecondaryButton>
                 </div>
             </div>
         </section>
@@ -527,6 +767,7 @@ const OurProcessSection = () => {
 
 
 const ContactUsSection = () => {
+    const { dictionary } = useLanguage();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -577,7 +818,7 @@ const ContactUsSection = () => {
                             className="absolute inset-0 bg-black"
                             onClick={closePopup}
                         />
-                        
+
                         <motion.div
                             initial={{ scale: 0.9, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
@@ -594,38 +835,38 @@ const ContactUsSection = () => {
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                                 </svg>
                             </button>
-                            
+
                             <div className="text-center">
                                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                     </svg>
                                 </div>
-                                
+
                                 <h3 className="text-2xl font-bold mb-4" style={{ color: SITE_COLORS.accentTealDark }}>
                                     Thank You!
                                 </h3>
-                                
+
                                 <div className="space-y-3 text-left">
                                     <p className="text-gray-700 leading-relaxed">
-                                        Thank you for expressing your interest in Franchise in our organization. 
+                                        Thank you for expressing your interest in Franchise in our organization.
                                     </p>
                                     <p className="text-gray-700 leading-relaxed">
                                         We truly appreciate your confidence in our vision and commitment. Our development team will contact you within 48 hours to:
                                     </p>
                                     <ul className="list-disc list-inside pl-4 space-y-1 text-gray-700">
                                         <li>Discuss the next steps</li>
-                                        
+
                                     </ul>
                                 </div>
-                                
+
                                 <div className="mt-6">
                                     <button
                                         onClick={closePopup}
                                         className="px-6 py-2 rounded-full font-medium transition-colors"
-                                        style={{ 
-                                            backgroundColor: SITE_COLORS.accentTeal, 
-                                            color: SITE_COLORS.textLight 
+                                        style={{
+                                            backgroundColor: SITE_COLORS.accentTeal,
+                                            color: SITE_COLORS.textLight
                                         }}
                                     >
                                         Close
@@ -638,10 +879,13 @@ const ContactUsSection = () => {
             </AnimatePresence>
 
             <div className="container mx-auto max-w-4xl text-center">
-                <h2 className="text-3xl lg:text-4xl font-bold mb-6">
+                {/* <h2 className="text-3xl lg:text-4xl font-bold mb-6">
                     Connect with Our <span style={{ color: SITE_COLORS.accentTealDark }}>Franchise Development Team</span>
+                </h2> */}
+                <h2 className="text-3xl lg:text-4xl font-bold mb-6">
+                    <span style={{ color: SITE_COLORS.accentTealDark }}>{dictionary.franchise.contactUsSection.title}</span>
                 </h2>
-                
+
                 <motion.form
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -679,8 +923,11 @@ const ContactUsSection = () => {
                             style={{ borderColor: SITE_COLORS.border, outlineColor: SITE_COLORS.accentTeal, '--tw-ring-color': SITE_COLORS.accentTeal }}
                         ></textarea>
                     </div>
-                    <div className="text-center">
+                    {/* <div className="text-center">
                         <PrimaryButton type="submit" className="w-full sm:w-auto">Submit Inquiry</PrimaryButton>
+                    </div> */}
+                    <div className="text-center">
+                        <PrimaryButton type="submit" className="w-full sm:w-auto">{dictionary.franchise.contactUsSection.submit}</PrimaryButton>
                     </div>
                 </motion.form>
             </div>
