@@ -259,10 +259,10 @@ const TestimonialsSection = () => {
     const { dictionary } = useLanguage();
 
     const testimonials = [
-        { quote: "Partnering with ZM QR Code Services has been a game-changer for our business. The support is incredible!", author: "Navya L., Franchisee" },
+        { quote: "Partnering with ZM QR Code Services has been a game-changer for our business.", author: "Navya L., Franchisee" },
         { quote: "Their platform is so easy to use and our clients love the QR solutions. Highly recommend!", author: "Joseph., Business Owner" },
         { quote: "The recurring revenue model is fantastic. ZM QR Code has helped us achieve significant growth.", author: "Krishna., Entrepreneur" },
-        { quote: "ZM QR Code Services has transformed the way we connect with our customers. Combined with real-time analytics and branding tools.", author: "Mastanvali., Business Head" }
+        { quote: "ZM QR Code Services has transformed the way we connect with our customers.", author: "Mastanvali., Business Head" }
     ];
 
     const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
