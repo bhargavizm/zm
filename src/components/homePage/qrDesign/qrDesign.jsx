@@ -276,6 +276,7 @@ const QRDesign = () => {
 
   return (
     <section className="bg-mainGreen py-32">
+
       <h2 className="text-white font-bold text-2xl md:text-4xl text-center pb-5">
         {heading}
       </h2>

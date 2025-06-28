@@ -238,7 +238,7 @@ const HowQRCodesTransformBusinessesSection = () => {
                         loop
                         muted
                         playsInline
-                        controls
+                        
                         poster="your-video-poster.jpg"
                     >
                         Your browser does not support the video tag.
@@ -259,10 +259,10 @@ const TestimonialsSection = () => {
     const { dictionary } = useLanguage();
 
     const testimonials = [
-        { quote: "Partnering with ZM QR Code Services has been a game-changer for our business. The support is incredible!", author: "Navya L., Franchisee" },
+        { quote: "Partnering with ZM QR Code Services has been a game-changer for our business.", author: "Navya L., Franchisee" },
         { quote: "Their platform is so easy to use and our clients love the QR solutions. Highly recommend!", author: "Joseph., Business Owner" },
         { quote: "The recurring revenue model is fantastic. ZM QR Code has helped us achieve significant growth.", author: "Krishna., Entrepreneur" },
-        { quote: "ZM QR Code Services has transformed the way we connect with our customers. Combined with real-time analytics and branding tools.", author: "Mastanvali., Business Head" }
+        { quote: "ZM QR Code Services has transformed the way we connect with our customers.", author: "Mastanvali., Business Head" }
     ];
 
     const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
@@ -476,7 +476,7 @@ const WhyFranchiseWithZMSection = () => {
                     <PrimaryButton>Ready to make your mark? Explore Our Investment Details</PrimaryButton>
                 </div> */}
                 <div className="text-center mt-12">
-                    <PrimaryButton>{dictionary.franchise.whyFranchiseWithZMSection.ctaExploreInvestment}</PrimaryButton>
+                    <SecondaryButton href="investment">{dictionary.franchise.whyFranchiseWithZMSection.ctaExploreInvestment}</SecondaryButton>
                 </div>
             </div>
         </section>
@@ -487,7 +487,7 @@ const WhyFranchiseWithZMSection = () => {
 const InvestmentAndSupportSection = () => {
     const { dictionary } = useLanguage();
     return (
-        <section className="py-20 px-8" style={{ backgroundColor: SITE_COLORS.sectionBgLight, color: SITE_COLORS.textDark }}>
+        <section id="investment" className="py-20 px-8" style={{ backgroundColor: SITE_COLORS.sectionBgLight, color: SITE_COLORS.textDark }}>
             <div className="container mx-auto max-w-4xl">
                 <h2 className="text-3xl lg:text-4xl font-bold text-center mb-6">
                     {dictionary.franchise.investmentAndSupportSection.title}

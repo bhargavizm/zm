@@ -11,16 +11,28 @@ import {
 import { FaXTwitter } from "react-icons/fa6";
 import { useLanguage } from "@/context/languageContext/LanguageContext";
 
-const serviceLinks = [
-    { name: "Generate QR Code for Business Cards", url: "/services/business-cards" },
-    { name: "Generate QR Code for Products", url: "/services/product-cards" },
-    { name: "Generate QR Code for V Cards", url: "/services/v-cards" },
-    { name: "Generate QR Code for Forms", url: "/services/forms" },
-    { name: "Generate QR Code for Pet Id Tag", url: "/services/Pet-ID-tags" },
+
+const encryptedServices = [
     { name: "Generate QR Code for PDF", url: "/services/pdf" },
     { name: "Generate QR Code for Audio", url: "/services/audios" },
     { name: "Generate QR Code for Video", url: "/services/videos" },
     { name: "Generate QR Code for Image Gallery", url: "/services/gallery" },
+    { name: "Generate QR Code for Business Shop", url: "/services/business-shops" },
+    { name: "Generate QR Code for Business Cards", url: "/services/business-cards" },
+    { name: "Generate QR Code for Products", url: "/services/product-cards" },
+    { name: "Generate QR Code for V Cards", url: "/services/v-cards" }
+]
+
+const serviceLinks = [
+    { name: "Generate QR Code for Pet Id Tag", url: "/services/Pet-ID-tags" },
+    { name: "Generate QR Code for Kids Safety", url: "/services/kids-safety-qr-tags" },
+    { name: "Generate QR Code for Vehicle", url: "/services/vehicles" },
+    { name: "Generate QR Code for Property", url: "/services/property-qr" },
+    { name: "Generate QR Code for Medical Alert", url: "/services/medical-alerts" },
+    { name: "Generate QR Code for Location", url: "/services/location" },
+    { name: "Generate QR Code for Event", url: "/services/events" },
+    { name: "Generate QR Code for Forms", url: "/services/forms" },
+
 ];
 
 const Footer = () => {
@@ -28,7 +40,7 @@ const Footer = () => {
 
     return (
         <footer className="py-16 text-white bg-mainGreen">
-            <div className="px-6 md:px-10 lg:px-40 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div className="px-6 md:px-10 lg:px-40 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-10">
                 {/* Column 1: Logo + Links */}
                 <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
                     <Link href="/" className="flex items-center justify-center gap-3">
@@ -74,7 +86,7 @@ const Footer = () => {
                         <li>
                             <Link href="/franchise" className="hover:underline hover:text-gray-400">
                                 {dictionary.footer.Franchise}
-                                
+
                             </Link>
                         </li>
                         <li>
@@ -93,6 +105,24 @@ const Footer = () => {
                 {/* Column 2: Services */}
                 <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
                     <h3 className="text-2xl font-bold pt-2">
+                        {dictionary.footer.encryptedServices}
+                    </h3>
+                    <ul className="space-y-2 pt-6 text-md">
+                        {dictionary.footer.encryptedServicesList.map((service, idx) => (
+                            <li key={service}>
+                                <Link
+                                    href={serviceLinks[idx]?.url || "#"}
+                                    className="hover:underline hover:text-gray-400"
+                                >
+                                    {service}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+                {/* Column 3: Services */}
+                <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
+                    <h3 className="text-2xl font-bold pt-2">
                         {dictionary.footer.servicesTitle}
                     </h3>
                     <ul className="space-y-2 pt-6 text-md">
@@ -109,7 +139,7 @@ const Footer = () => {
                     </ul>
                 </div>
 
-                {/* Column 3: Socials + Contact */}
+                {/* Column 4: Socials + Contact */}
                 <div className="flex flex-col items-center text-center">
                     <h3 className="text-2xl font-bold pt-2 pb-4">
                         {dictionary.footer.followUs}
