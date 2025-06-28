@@ -136,8 +136,8 @@ const ResumeContent = () => {
 
             {/* Submit Button */}
             <button
-              type="submit"
-              className="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 rounded-lg font-semibold text-sm transition"
+              type="button"
+              className="w-full cursor-pointer bg-teal-600 hover:bg-teal-700 text-white py-2 rounded-lg font-semibold text-sm transition"
             >
               Submit
             </button>

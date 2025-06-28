@@ -1,1170 +1,724 @@
-// export const stickers = [
-//   '/images/stickers/stickers-1.svg',
-//   '/images/stickers/stickers-2.svg',
-//   '/images/stickers/stickers-3.svg',
-//   '/images/stickers/stickers-4.svg',
-//   '/images/stickers/stickers-5.svg',
-//   '/images/stickers/stickers-6.svg',
-//   '/images/stickers/stickers-7.svg',
-//   '/images/stickers/stickers-8.svg',
-//   '/images/stickers/stickers-9.svg',
-//   '/images/stickers/stickers-10.svg',
-//   '/images/stickers/stickers-11.svg',
-//   '/images/stickers/stickers-12.svg',
-//   '/images/stickers/stickers-13.svg',
-//   '/images/stickers/stickers-14.svg',
-//   '/images/stickers/stickers-15.svg',
-//   '/images/stickers/stickers-16.svg',
-//   '/images/stickers/stickers-17.svg',
-//   '/images/stickers/stickers-18.svg',
-//   '/images/stickers/stickers-19.svg',
-//   '/images/stickers/stickers-20.svg',
-//   '/images/stickers/stickers-21.svg',
-//   '/images/stickers/stickers-22.svg',
-//   '/images/stickers/stickers-23.svg',
-//   '/images/stickers/stickers-24.svg',
-//   '/images/stickers/stickers-25.svg',
-//   '/images/stickers/stickers-26.svg',
-//   '/images/stickers/stickers-27.svg',
-//   '/images/stickers/stickers-28.svg',
-//   '/images/stickers/stickers-29.svg',
-//   '/images/stickers/stickers-30.svg',
-//   '/images/stickers/stickers-31.svg',
-//   '/images/stickers/stickers-32.svg',
-//   '/images/stickers/stickers-33.svg',
-//   '/images/stickers/stickers-34.svg',
-//   '/images/stickers/stickers-35.svg',
-//   '/images/stickers/stickers-36.svg',
-//   '/images/stickers/stickers-37.svg',
-//   '/images/stickers/stickers-38.svg',
-//   '/images/stickers/stickers-39.svg',
-//   '/images/stickers/stickers-40.svg',
-//   '/images/stickers/stickers-41.svg',
-//   '/images/stickers/stickers-42.svg',
-//   '/images/stickers/stickers-43.svg',
-//   '/images/stickers/stickers-44.svg',
-//   '/images/stickers/stickers-45.svg',
-//   '/images/stickers/stickers-46.svg',
-//   '/images/stickers/stickers-47.svg',
-//   '/images/stickers/stickers-48.svg',
-//   '/images/stickers/stickers-49.svg',
-//   '/images/stickers/stickers-50.svg',
-//   '/images/stickers/stickers-51.svg',
-//   '/images/stickers/stickers-52.svg',
-//   '/images/stickers/stickers-53.svg',
-//   '/images/stickers/stickers-54.svg',
-//   '/images/stickers/stickers-55.svg',
-//   '/images/stickers/stickers-56.svg',
-//   '/images/stickers/stickers-57.svg',
-//   '/images/stickers/stickers-58.svg',
-//   '/images/stickers/stickers-59.svg',
-//   '/images/stickers/stickers-60.svg',
-//   '/images/stickers/stickers-61.svg',
-//   '/images/stickers/stickers-62.svg',
-//   '/images/stickers/stickers-63.svg',
-//   '/images/stickers/stickers-64.svg',
-//   '/images/stickers/stickers-65.svg',
-//   '/images/stickers/stickers-66.svg',
-//   '/images/stickers/stickers-67.svg',
-//   '/images/stickers/stickers-68.svg',
-//   '/images/stickers/stickers-69.svg',
-//   '/images/stickers/stickers-70.svg',
-//   '/images/stickers/stickers-71.svg',
-//   '/images/stickers/stickers-72.svg',
-//   '/images/stickers/stickers-73.svg',
-//   '/images/stickers/stickers-74.svg',
-//   '/images/stickers/stickers-75.svg',
-//   '/images/stickers/stickers-76.svg',
-//   '/images/stickers/stickers-77.svg',
-//   '/images/stickers/stickers-78.svg',
-//   '/images/stickers/stickers-79.svg',
-//   '/images/stickers/stickers-80.svg',
-//   '/images/stickers/stickers-81.svg',
-//   '/images/stickers/stickers-82.svg',
-//   '/images/stickers/stickers-83.svg',
-//   '/images/stickers/stickers-84.svg',
-//   '/images/stickers/stickers-85.svg',
-//   '/images/stickers/stickers-86.svg',
-//   '/images/stickers/stickers-87.svg',
-//   '/images/stickers/stickers-88.svg',
-//   '/images/stickers/stickers-89.svg',
-//   '/images/stickers/stickers-90.svg',
-//   '/images/stickers/stickers-91.svg',
-//   '/images/stickers/stickers-92.svg',
-//   '/images/stickers/stickers-93.webp',
-//   '/images/stickers/stickers-94.webp',
-//   '/images/stickers/stickers-95.webp',
-//   '/images/stickers/stickers-96.webp',
-//   '/images/stickers/stickers-97.webp',
-//   '/images/stickers/stickers-98.webp',
-//   '/images/stickers/stickers-99.webp',
-//   '/images/stickers/stickers-100.webp',
-//   '/images/stickers/stickers-101.webp',
-//   '/images/stickers/stickers-102.webp',
-//   '/images/stickers/stickers-103.webp',
-//   '/images/stickers/stickers-104.webp',
-//   '/images/stickers/stickers-106.svg',
-//   '/images/stickers/stickers-107.svg',
-//   '/images/stickers/stickers-108.svg',
-//   '/images/stickers/stickers-109.svg',
-//   '/images/stickers/stickers-110.svg',
-//   '/images/stickers/stickers-111.svg',
-//   '/images/stickers/stickers-112.webp',
-//   '/images/stickers/stickers-113.webp',
-//   '/images/stickers/stickers-114.webp',
-//   '/images/stickers/stickers-115.webp',
-//   '/images/stickers/stickers-116.webp',
-//   '/images/stickers/stickers-117.webp',
-//   '/images/stickers/stickers-118.webp',
-//   '/images/stickers/stickers-119.webp',
-//   '/images/stickers/stickers-120.webp',
-//   '/images/stickers/stickers-121.webp',
-//   '/images/stickers/stickers-122.webp',
-//   '/images/stickers/stickers-123.svg',
-//   '/images/stickers/stickers-124.svg',
-//   '/images/stickers/stickers-125.webp',
-// ];
-
 
 export const stickerConfig = {
-  "/images/stickers/a.png": {
+  "/images/stickers/a.webp": {
     qrTop: "50%",
     qrLeft: "50%",
-    scale: 180,
+    scale: {
+      default: 220, // desktop
+      tablet: 150,
+      mobile: 150,
+    },
     logoTop: "50%",
     logoLeft: "50%",
-    logoSize: 35,
+    logoSize: {
+      default: 25,
+      tablet: 30,
+      mobile: 40,
+    },
   },
-  "/images/stickers/b.png": {
+  "/images/stickers/b.webp": {
     qrTop: "50%",
     qrLeft: "50%",
-    scale: 180,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
+    scale: {
+      default: 220, // desktop
+      tablet: 150,
+      mobile: 150,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-  "/images/stickers/c.png": {
-    qrTop: "45%",
-    qrLeft: "50%",
-    scale: 150,
-    logoTop: "48%",
-    logoLeft: "51%",
-    logoSize: 35,
-  },
+  // "/images/stickers/c.webp": {
+  //   qrTop: "46%",
+  //   qrLeft: "50%",
+  //   scale: {
+  //     default: 130, // desktop
+  //     tablet: 150,
+  //     mobile: 90,
+  //   },
+  //   logoTop: "65%", // Added
+  //   logoLeft: "50%", // Added
+  //   logoSize: {
+  //     default: 30,
+  //     tablet: 30,
+  //     mobile: 40,
+  //   }, // Added
+  // },
   "/images/stickers/d.webp": {
     qrTop: "40%",
-    qrLeft: "50%",
-    scale: 180,
-    logoTop: "43%",
-    logoLeft: "50%",
-    logoSize: 35,
+    qrLeft: "48%",
+    scale: {
+      default: 178, // desktop
+      tablet: 150,
+      mobile: 120,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-  "/images/stickers/e.png": {
+  "/images/stickers/e.webp": {
     qrTop: "50%",
     qrLeft: "50%",
-    scale: 180,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
+    scale: {
+      default: 180, // desktop
+      tablet: 150,
+      mobile: 120,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-  //  "/images/stickers/f.webp": {
-  //   qrTop: "50%",
-  //   qrLeft: "50%",
-  //   scale: 180,
-  //   logoTop: "50%",
-  //   logoLeft: "50%",
-  //   logoSize: 35,
-  // },
-  "/images/stickers/g.jpg": {
+  "/images/stickers/f.webp": {
+    qrTop: "20%",
+    qrLeft: "80%",
+    scale: {
+      default: 140, // desktop
+      tablet: 120,
+      mobile: 90,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
+  },
+  "/images/stickers/g.webp": {
     qrTop: "50%",
     qrLeft: "50%",
-    scale: 180,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
+    scale: {
+      default: 180, // desktop
+      tablet: 120,
+      mobile: 130,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
   "/images/stickers/h.webp": {
     qrTop: "45%",
     qrLeft: "50%",
-    scale: 180,
-    logoTop: "45%",
-    logoLeft: "50%",
-    logoSize: 35,
+    scale: {
+      default: 180, // desktop
+      tablet: 120,
+      mobile: 130,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
   "/images/stickers/i.webp": {
     qrTop: "50%",
     qrLeft: "50%",
-    scale: 180,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
+    scale: {
+      default: 180, // desktop
+      tablet: 120,
+      mobile: 100,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
   "/images/stickers/j.webp": {
     qrTop: "50%",
     qrLeft: "50%",
-    scale: 180,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
+    scale: {
+      default: 180, // desktop
+      tablet: 120,
+      mobile: 130,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-   "/images/stickers/k.webp": {
+  "/images/stickers/k.webp": {
     qrTop: "68%",
     qrLeft: "41%",
-    scale: 120,
-    logoTop: "68%",
-    logoLeft: "42%",
-    logoSize: 26,
+    scale: {
+      default: 120, // desktop
+      tablet: 120,
+      mobile: 90,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-   "/images/stickers/l.webp": {
+  "/images/stickers/l.webp": {
     qrTop: "44%",
     qrLeft: "52%",
-    scale: 120,
-    logoTop: "45%",
-    logoLeft: "53%",
-    logoSize: 26,
+    scale: {
+      default: 120, // desktop
+      tablet: 120,
+      mobile: 90,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-   "/images/stickers/m.webp": {
+  "/images/stickers/m.webp": {
     qrTop: "50%",
     qrLeft: "50%",
-    scale: 120,
-    logoTop: "50%",
-    logoLeft: "50 %",
-    logoSize: 26,
+    scale: {
+      default: 110, // desktop
+      tablet: 120,
+      mobile: 70,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-   "/images/stickers/n.webp": {
+  "/images/stickers/n.webp": {
     qrTop: "45%",
     qrLeft: "54%",
-    scale: 160,
-    logoTop: "45%",
-    logoLeft: "55%",
-    logoSize: 26,
+    scale: {
+      default: 160, // desktop
+      tablet: 120,
+      mobile: 120,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-   "/images/stickers/o.webp": {
+  "/images/stickers/o.webp": {
     qrTop: "45%",
     qrLeft: "54%",
-    scale: 140,
-    logoTop: "45%",
-    logoLeft: "55%",
-    logoSize: 26,
+    scale: {
+      default: 140, // desktop
+      tablet: 120,
+      mobile: 100,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-  
-   "/images/stickers/p.webp": {
+  "/images/stickers/p.webp": {
     qrTop: "55%",
     qrLeft: "45%",
-    scale: 140,
-    logoTop: "56%",
-    logoLeft: "45%",
-    logoSize: 26,
+    scale: {
+      default: 140, // desktop
+      tablet: 120,
+      mobile: 100,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-  "/images/stickers/stickers-1.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 180,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-2.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-3.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-4.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-5.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-6.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-7.svg": {
-    qrTop: "55%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "55%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-8.svg": {
-    qrTop: "64%",
-    qrLeft: "55%",
-    scale: 150,
-    logoTop: "65%",
-    logoLeft: "55%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-9.svg": {
-    qrTop: "67%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "67%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-10.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 180,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-11.svg": {
-    qrTop: "42%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "44%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-12.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-13.svg": {
-    qrTop: "67%",
-    qrLeft: "50%",
-    scale: 150,
-    logoTop: "66%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-14.svg": {
-    qrTop: "65%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "63%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-15.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-16.svg": {
-    qrTop: "75%",
-    qrLeft: "50%",
-    scale: 120,
-    logoTop: "75%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-17.svg": {
-    qrTop: "65%",
-    qrLeft: "64%",
-    scale: 160,
-    logoTop: "64%",
-    logoLeft: "65%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-18.png": {
-    qrTop: "70%",
-    qrLeft: "50%",
-    scale: 120,
-    logoTop: "70%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-//   "/images/stickers/stickers-19.png": {
-//     qrTop: "50%",
-//     qrLeft: "38%",
-//     scale: 120,
-//     logoTop: "50%",
-//     logoLeft: "38%",
-//     logoSize: 32,
-//   },
-
-  "/images/stickers/stickers-20.jpg": {
-    qrTop: "62%",
-    qrLeft: "40%",
-    scale: 250,
-    logoTop: "60%",
-    logoLeft: "40%",
-    logoSize: 30,
-  },
-  "/images/stickers/stickers-21.png": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-22.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-23.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-24.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-25.svg": {
-    qrTop: "68%",
-    qrLeft: "50%",
-    scale: 150,
-    logoTop: "68%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-26.png": {
-    qrTop: "55%",
+  "/images/stickers/q.webp": {
+    qrTop: "22%",
     qrLeft: "42%",
-    scale: 160,
-    logoTop: "55%",
-    logoLeft: "42%",
-    logoSize: 35,
+    scale: {
+      default: 120, // desktop
+      tablet: 120,
+      mobile: 100,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-  "/images/stickers/stickers-27.png": {
-    qrTop: "45%",
+  "/images/stickers/r.webp": {
+    qrTop: "37%",
     qrLeft: "50%",
-    scale: 200,
-    logoTop: "45%",
-    logoLeft: "50%",
-    logoSize: 35,
+    scale: {
+      default: 110, // desktop
+      tablet: 120,
+      mobile: 90,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-  "/images/stickers/stickers-28.png": {
-    qrTop: "55%",
-    qrLeft: "53%",
-    scale: 160,
-    logoTop: "57%",
-    logoLeft: "53%",
-    logoSize: 35,
+  "/images/stickers/s.webp": {
+    qrTop: "50%",
+    qrLeft: "56%",
+    scale: {
+      default: 140, // desktop
+      tablet: 120,
+      mobile: 120,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-  "/images/stickers/stickers-29.png": {
+  "/images/stickers/t.webp": {
     qrTop: "50%",
     qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
+    scale: {
+      default: 180, // desktop
+      tablet: 150,
+      mobile: 150,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-  "/images/stickers/stickers-30.svg": {
+  "/images/stickers/u.webp": {
     qrTop: "50%",
     qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
+    scale: {
+      default: 140, // desktop
+      tablet: 120,
+      mobile: 100,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-  "/images/stickers/stickers-31.svg": {
-    qrTop: "58%",
+  "/images/stickers/v.webp": {
+    qrTop: "50%",
     qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
+    scale: {
+      default: 180, // Explicitly converted to object
+      tablet: 30, // Defaulted, adjust as needed
+      mobile: 40, // Defaulted, adjust as needed
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-  "/images/stickers/stickers-32.svg": {
+  "/images/stickers/w.webp": {
+    qrTop: "50%",
+    qrLeft: "50%",
+    scale: {
+      default: 200, // Explicitly converted to object
+      tablet: 30, // Defaulted, adjust as needed
+      mobile: 40, // Defaulted, adjust as needed
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
+  },
+  "/images/stickers/x.webp": {
+    qrTop: "48%",
+    qrLeft: "50%",
+    scale: {
+      default: 150, // Explicitly converted to object
+      tablet: 30, // Defaulted, adjust as needed
+      mobile: 40, // Defaulted, adjust as needed
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
+  },
+  "/images/stickers/y.webp": {
+    qrTop: "40%",
+    qrLeft: "60%",
+    scale: {
+      default: 160, // Explicitly converted to object
+      tablet: 30, // Defaulted, adjust as needed
+      mobile: 40, // Defaulted, adjust as needed
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
+  },
+  "/images/stickers/z.webp": {
+    qrTop: "50%",
+    qrLeft: "50%",
+    scale: {
+      default: 160, // Explicitly converted to object
+      tablet: 30, // Defaulted, adjust as needed
+      mobile: 40, // Defaulted, adjust as needed
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
+  },
+  "/images/stickers/1.webp": {
     qrTop: "55%",
     qrLeft: "50%",
-    scale: 160,
-    logoTop: "57%",
-    logoLeft: "50%",
-    logoSize: 35,
+    scale: {
+      default: 160, // desktop
+      tablet: 120,
+      mobile: 120,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-  "/images/stickers/stickers-33.svg": {
-    qrTop: "66%",
-    qrLeft: "47%",
-    scale: 160,
-    logoTop: "68%",
-    logoLeft: "48%",
-    logoSize: 35,
-  },
-  // "/images/stickers/stickers-34.svg": { qrTop: "50%", qrLeft: "50%", scale: 160, logoTop: "50%", logoLeft: "50%", logoSize: 35 },
-  "/images/stickers/stickers-35.svg": {
-    qrTop: "62%",
+  "/images/stickers/2.webp": {
+    qrTop: "55%",
     qrLeft: "50%",
-    scale: 160,
-    logoTop: "62%",
-    logoLeft: "50%",
-    logoSize: 35,
+    scale: {
+      default: 160, // desktop
+      tablet: 120,
+      mobile: 120,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-  "/images/stickers/stickers-36.svg": {
+  "/images/stickers/3.webp": {
+    qrTop: "50%",
+    qrLeft: "50%",
+    scale: {
+      default: 190, // desktop
+      tablet: 120,
+      mobile: 90,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
+  },
+  "/images/stickers/4.webp": {
+    qrTop: "55%",
+    qrLeft: "50%",
+    scale: {
+      default: 160, // desktop
+      tablet: 120,
+      mobile: 120,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
+  },
+  "/images/stickers/5.webp": {
+    qrTop: "28%",
+    qrLeft: "50%",
+    scale: {
+      default: 160, // desktop
+      tablet: 120,
+      mobile: 100,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
+  },
+  "/images/stickers/6.webp": {
+    qrTop: "47%",
+    qrLeft: "62%",
+    scale: {
+      default: 140, // desktop
+      tablet: 120,
+      mobile: 100,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
+  },
+  "/images/stickers/7.webp": {
+    qrTop: "36%",
+    qrLeft: "45%",
+    scale: {
+      default: 140, // desktop
+      tablet: 120,
+      mobile: 120,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
+  },
+  "/images/stickers/8.webp": {
     qrTop: "40%",
     qrLeft: "50%",
-    scale: 160,
-    logoTop: "42%",
-    logoLeft: "50%",
-    logoSize: 35,
+    scale: {
+      default: 150, // desktop
+      tablet: 120,
+      mobile: 120,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-  "/images/stickers/stickers-37.svg": {
-    qrTop: "55%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "55%",
-    logoLeft: "50%",
-    logoSize: 35,
+  "/images/stickers/9.webp": {
+    qrTop: "56%",
+    qrLeft: "58%",
+    scale: {
+      default: 140, // desktop
+      tablet: 120,
+      mobile: 120,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-  "/images/stickers/stickers-38.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-39.svg": {
+  "/images/stickers/10.webp": {
     qrTop: "40%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "42%",
-    logoLeft: "50%",
-    logoSize: 35,
+    qrLeft: "45%",
+    scale: {
+      default: 140, // desktop
+      tablet: 120,
+      mobile: 120,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-  // "/images/stickers/stickers-40.svg": {
-  //   qrTop: "40%",
-  //   qrLeft: "50%",
-  //   scale: 160,
-  //   logoTop: "42%",
-  //   logoLeft: "50%",
-  //   logoSize: 35,
-  // },
-  "/images/stickers/stickers-41.svg": {
+  "/images/stickers/11.webp": {
+    qrTop: "42%",
+    qrLeft: "48%",
+    scale: {
+      default: 160, // desktop
+      tablet: 100,
+      mobile: 100,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
+  },
+  "/images/stickers/12.webp": {
     qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
+    qrLeft: "48%",
+    scale: {
+      default: 160, // desktop
+      tablet: 120,
+      mobile: 120,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-  "/images/stickers/stickers-42.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-43.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-44.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-45.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-46.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-47.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-48.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-49.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-50.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-51.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-52.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-53.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-54.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-55.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-56.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-57.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-58.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-59.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-60.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-61.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-62.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-63.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-64.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-65.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-66.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-67.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-68.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-69.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-70.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  // "/images/stickers/stickers-71.svg": {
-  //   qrTop: "50%",
-  //   qrLeft: "50%",
-  //   scale: 160,
-  //   logoTop: "50%",
-  //   logoLeft: "50%",
-  //   logoSize: 35,
-  // },
-  "/images/stickers/stickers-72.svg": {
+  "/images/stickers/13.webp": {
     qrTop: "65%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "65%",
-    logoLeft: "50%",
-    logoSize: 35,
+    qrLeft: "28%",
+    scale: {
+      default: 120, // desktop
+      tablet: 100,
+      mobile: 100,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-  "/images/stickers/stickers-73.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
+  "/images/stickers/14.webp": {
+    qrTop: "60%",
+    qrLeft: "52%",
+    scale: {
+      default: 140, // desktop
+      tablet: 120,
+      mobile: 100,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-  "/images/stickers/stickers-74.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
+  "/images/stickers/15.webp": {
+    qrTop: "42%",
+    qrLeft: "62%",
+    scale: {
+      default: 140, // desktop
+      tablet: 120,
+      mobile: 120,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-  // "/images/stickers/stickers-75.svg": {
-  //   qrTop: "58%",
-  //   qrLeft: "50%",
-  //   scale: 160,
-  //   logoTop: "50%",
-  //   logoLeft: "50%",
-  //   logoSize: 35,
-  // },
-  "/images/stickers/stickers-76.svg": {
-    qrTop: "50%",
+  "/images/stickers/16.webp": {
+    qrTop: "52%",
     qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
+    scale: {
+      default: 140, // desktop
+      tablet: 120,
+      mobile: 120,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-  // "/images/stickers/stickers-77.svg": {
-  //   qrTop: "50%",
-  //   qrLeft: "50%",
-  //   scale: 160,
-  //   logoTop: "50%",
-  //   logoLeft: "50%",
-  //   logoSize: 35,
-  // },
-  "/images/stickers/stickers-78.svg": {
-    qrTop: "50%",
+  "/images/stickers/17.webp": {
+    qrTop: "61%",
     qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
+    scale: {
+      default: 120, // desktop
+      tablet: 85,
+      mobile: 85,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-  "/images/stickers/stickers-79.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
+  "/images/stickers/18.webp": {
+    qrTop: "75%",
+    qrLeft: "28%",
+    scale: {
+      default: 110, // desktop
+      tablet: 100,
+      mobile: 90,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-  "/images/stickers/stickers-80.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-81.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  // "/images/stickers/stickers-82.svg": {
-  //   qrTop: "50%",
-  //   qrLeft: "50%",
-  //   scale: 160,
-  //   logoTop: "50%",
-  //   logoLeft: "50%",
-  //   logoSize: 35,
-  // },
-  "/images/stickers/stickers-83.svg": {
-    qrTop: "65%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "65%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-84.svg": {
-    qrTop: "58%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "55%",
-    logoLeft: "50%",
-    logoSize: 33,
-  },
-  "/images/stickers/stickers-85.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-86.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-87.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-88.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-89.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-90.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-91.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-92.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  // "/images/stickers/stickers-93.webp": { qrTop: "50%", qrLeft: "50%", scale: 160, logoTop: "50%", logoLeft: "50%", logoSize: 35 },
-  // "/images/stickers/stickers-94.webp": { qrTop: "50%", qrLeft: "50%", scale: 160, logoTop: "50%", logoLeft: "50%", logoSize: 35 },
-  "/images/stickers/stickers-95.webp": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-96.webp": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-97.webp": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-98.webp": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-99.webp": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  // "/images/stickers/stickers-100.webp": {
-  //   qrTop: "50%",
-  //   qrLeft: "50%",
-  //   scale: 160,
-  //   logoTop: "50%",
-  //   logoLeft: "50%",
-  //   logoSize: 35,
-  // },
-  "/images/stickers/stickers-101.webp": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-102.webp": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-103.webp": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-104.webp": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  // "/images/stickers/stickers-105.svg": { qrTop: "50%", qrLeft: "50%", scale: 160, logoTop: "50%", logoLeft: "50%", logoSize: 35 },
-  "/images/stickers/stickers-106.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-107.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-108.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-109.svg": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "50%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-110.svg": {
+  "/images/stickers/19.webp": {
     qrTop: "40%",
-    qrLeft: "50%",
-    scale: 200,
-    logoTop: "40%",
-    logoLeft: "50%",
-    logoSize: 35,
+    qrLeft: "54%",
+    scale: {
+      default: 180, // desktop
+      tablet: 100,
+      mobile: 120,
+    },
+    logoTop: "65%", // Added
+    logoLeft: "50%", // Added
+    logoSize: {
+      default: 30,
+      tablet: 30,
+      mobile: 40,
+    }, // Added
   },
-  "/images/stickers/stickers-111.svg": {
-    qrTop: "62%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "62%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  // "/images/stickers/stickers-112.webp": { qrTop: "50%", qrLeft: "50%", scale: 160, logoTop: "50%", logoLeft: "50%", logoSize: 35 },
-  // "/images/stickers/stickers-113.webp": { qrTop: "50%", qrLeft: "50%", scale: 160, logoTop: "50%", logoLeft: "50%", logoSize: 35 },
-  // "/images/stickers/stickers-114.webp": { qrTop: "50%", qrLeft: "50%", scale: 160, logoTop: "50%", logoLeft: "50%", logoSize: 35 },
-  // "/images/stickers/stickers-115.webp": { qrTop: "50%", qrLeft: "50%", scale: 160, logoTop: "50%", logoLeft: "50%", logoSize: 35 },
-  // "/images/stickers/stickers-116.webp": { qrTop: "50%", qrLeft: "50%", scale: 160, logoTop: "50%", logoLeft: "50%", logoSize: 35 },
-  // "/images/stickers/stickers-117.webp": { qrTop: "50%", qrLeft: "50%", scale: 160, logoTop: "50%", logoLeft: "50%", logoSize: 35 },
-  // "/images/stickers/stickers-118.webp": { qrTop: "50%", qrLeft: "50%", scale: 160, logoTop: "50%", logoLeft: "50%", logoSize: 35 },
-  // "/images/stickers/stickers-119.webp": { qrTop: "50%", qrLeft: "50%", scale: 160, logoTop: "50%", logoLeft: "50%", logoSize: 35 },
-  // "/images/stickers/stickers-120.webp": {
-  //   qrTop: "50%",
-  //   qrLeft: "50%",
-  //   scale: 160,
-  //   logoTop: "50%",
-  //   logoLeft: "50%",
-  //   logoSize: 35,
-  // },
-  // "/images/stickers/stickers-121.webp": {
-  //   qrTop: "50%",
-  //   qrLeft: "50%",
-  //   scale: 160,
-  //   logoTop: "50%",
-  //   logoLeft: "50%",
-  //   logoSize: 35,
-  // },
-  // "/images/stickers/stickers-122.webp": { qrTop: "50%", qrLeft: "50%", scale: 160, logoTop: "50%", logoLeft: "50%", logoSize: 35 },
-  "/images/stickers/stickers-123.svg": {
-    qrTop: "55%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "58%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-  "/images/stickers/stickers-124.svg": {
-    qrTop: "55%",
-    qrLeft: "50%",
-    scale: 160,
-    logoTop: "58%",
-    logoLeft: "50%",
-    logoSize: 35,
-  },
-//   "/images/stickers/stickers-125.png": {
-//     qrTop: "50%",
-//     qrLeft: "50%",
-//     scale: 160,
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: 35,
-//   },
-
+  
 };

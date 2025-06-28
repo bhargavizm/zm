@@ -88,13 +88,13 @@ const Accordion = () => {
   return (
     <div className="max-w-3xl mx-auto mt-10 space-y-4">
       {items.map((item, index) => (
-        <div key={item.id} className="border border-gray-300 rounded-xl overflow-hidden shadow-sm">
+        <div key={item.id} className="border border-gray-300 transition-effects rounded-xl overflow-hidden shadow-sm">
           <button
             onClick={() => toggleItem(index)}
-            className={`w-full px-6 py-4 flex justify-between items-center transition-all duration-300 ease-in-out cursor-pointer text-xl font-bold hover:scale-100 ${
+            className={`w-full px-6 py-4 flex justify-between  items-center transition-all duration-300 ease-in-out cursor-pointer text-xl font-bold hover:scale-100 ${
               activeIndex === index
                 ? 'bg-mainGreen text-white shadow-lg'
-                : 'bg-white text-mainGreen hover:bg-skyBlue hover:text-white'
+                : 'bg-white text-mainGreen '
             }`}
           >
             {item.title}

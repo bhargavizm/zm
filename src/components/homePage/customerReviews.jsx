@@ -131,7 +131,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/context/languageContext/LanguageContext";
-
+import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 const cardVariants = {
   hidden: { opacity: 0, y: 50 },
   visible: (i) => ({
@@ -163,7 +163,14 @@ const CustomerReviews = () => {
           viewport={{ once: true }}
           className="bg-mainGreen text-white px-6 py-5 rounded-2xl backdrop-blur-sm shadow-xl"
         >
-          <div className="text-3xl mb-2">⭐⭐⭐⭐⭐ 4.5/5</div>
+           <div className="flex items-center text-3xl mb-2 text-yellow-500 gap-1">
+      <FaStar />
+      <FaStar />
+      <FaStar />
+      <FaStar />
+      <FaStarHalfAlt />
+      <span className="text-white text-xl ml-2">4.5/5</span>
+    </div>
           <p className="text-sm opacity-80">
             {dictionary.customerReviews.ratings.reviewText1}
           </p>
