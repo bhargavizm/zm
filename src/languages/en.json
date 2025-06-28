@@ -206,17 +206,28 @@
         "Franchise": "Franchise",
         "faq": "FAQ",
         "refundPolicy": "Refund Policy",
-        "servicesTitle": "Services",
-        "serviceList": [
-            "Generate QR Code for Business Cards",
-            "Generate QR Code for Products",
-            "Generate QR Code for V Cards",
-            "Generate QR Code for Form QR Code",
-            "Generate QR Code for Pet Id Tag",
+        "encryptedServices": "EncryptedServices",
+        "encryptedServicesList": [
             "Generate QR Code for PDF",
             "Generate QR Code for Audio",
             "Generate QR Code for Video",
-            "Generate QR Code for Image Gallery"
+            "Generate QR Code for Image Gallery",
+            "Generate QR Code for Business Shop",
+            "Generate QR Code for Business Cards",
+            "Generate QR Code for Products",
+            "Generate QR Code for V Cards"
+        ],
+        "servicesTitle": "Services",
+        "serviceList": [
+            "Generate QR Code for Pet Id Tag",
+            "Generate QR Code for Kids Safety",
+            "Generate QR Code for Vehicle",
+            "Generate QR Code for Property",
+            "Generate QR Code for Medical Alert",
+            "Generate QR Code for Location",
+            "Generate QR Code for Event",
+            "Generate QR Code for Forms"
+            
         ],
         "followUs": "Follow Us",
         "getInTouch": "Get In Touch",
