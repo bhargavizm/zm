@@ -21,28 +21,16 @@ const PDFContent = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!pdfFormData.file) {
-      alert("Please select a PDF file.");
-      return;
-    }
+  
 
-    const data = {
-      title: pdfFormData.title,
-      description: pdfFormData.description,
-      fileName: pdfFormData.file.name,
-      password: pdfFormData.password,
-    };
+   
+   
 
-    localStorage.setItem("pdfData", JSON.stringify(data));
-    router.push("/preview");
-  };
 
   return (
     <div className="flex w-full max-w-3xl gap-6">
       <div className="flex-1 bg-white shadow-lg rounded-2xl p-6 space-y-5 max-h-[650px] overflow-auto">
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form className="space-y-4">
           {/* Title */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-1">
@@ -135,7 +123,7 @@ const PDFContent = () => {
 
           {/* Submit */}
           <button
-            type="submit"
+            type="button"
             className="w-full cursor-pointer bg-teal-600 hover:bg-teal-700 text-white py-2 rounded-lg font-semibold text-sm transition"
           >
             Submit
