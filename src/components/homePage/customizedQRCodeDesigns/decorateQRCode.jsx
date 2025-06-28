@@ -11,7 +11,7 @@ import { FaArrowRightArrowLeft } from "react-icons/fa6";
 import ComingSoonModal from "@/components/modalPopUps/comingSoonModal";
 import NFCModal from "@/components/modalPopUps/nfcModal";
 
-const tabs = ["QR Shapes","Stickers", "Colors", "Shapes", "Logos","Personalized Image"];
+const tabs = ["QR Shapes","Stickers", "Colors", "QR Frames", "Logos","Personalized Image"];
 
 const DecorateQRCode = () => {
   const { slug } = useParams();
@@ -200,7 +200,7 @@ const DecorateQRCode = () => {
 
             <div className=" flex justify-center items-center gap-2 py-4">
               <button  className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)] transition-effects">
-                Download Large Files <FaLongArrowAltDown />
+                Download  <FaLongArrowAltDown />
               </button>
             </div>
           </div>

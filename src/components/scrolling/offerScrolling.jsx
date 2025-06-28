@@ -28,7 +28,7 @@ const OfferScrolling = () => {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed top-8 left-0 z-[40]">
+    <div className="fixed top-10 left-0 z-[40]">
       <div className="relative">
         {/* Close Button */}
         <button

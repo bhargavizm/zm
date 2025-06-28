@@ -281,7 +281,7 @@ const EventContent = () => {
 
             <NFCModal />
 
-            <button className="w-full py-2 cursor-pointer bg-[#008080] text-white font-semibold rounded hover:bg-[#006666] transition">
+            <button type="button" className="w-full py-2 cursor-pointer bg-[#008080] text-white font-semibold rounded hover:bg-[#006666] transition">
               Submit
             </button>
           </form>

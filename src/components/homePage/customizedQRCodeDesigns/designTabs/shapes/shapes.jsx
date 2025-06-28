@@ -5,7 +5,7 @@ import { bodyFrames, eyeBalls, eyeFrames } from "./shapeImages";
 const Shapes = ({ onSelectImage }) => {
 
   return (
-    <section className="h-[65vh] overflow-y-auto scrollbar-hide">
+    <section className="mt-4 px-4">
       
  <h4 className="text-2xl font-bold text-mainGreen mb-4">Body Frames</h4>
         <div className="flex gap-6 flex-wrap">

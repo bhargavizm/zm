@@ -233,7 +233,7 @@ const FaqComponent = () => {
     return (
         <div className="bg-[#001a1a] w-full overflow-x-hidden relative">
             {/* Main Content Area */}
-            <div className="py-48 relative z-10 min-h-[calc(100vh-4rem)]">
+            <div className="py-32 relative z-10 min-h-[calc(100vh-4rem)]">
                 <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                     <h1 className="text-3xl md:text-5xl font-bold text-white text-center mb-10">
                         {heading}

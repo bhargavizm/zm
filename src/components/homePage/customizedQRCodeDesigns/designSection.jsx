@@ -4,7 +4,7 @@ import React from "react";
 import { TiBusinessCard } from "react-icons/ti";
 import { MdPets, MdArrowForwardIos } from "react-icons/md";
 import Link from "next/link";
-import { useParams, useSearchParams  } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import clsx from "clsx";
 import { FaCar, FaVideo } from "react-icons/fa";
 import { ImHeadphones } from "react-icons/im";
@@ -46,18 +46,18 @@ const tabLinks = [
 const DesignSection = () => {
   const { slug } = useParams();
   const searchParams = useSearchParams();
-const from = searchParams.get("from");
+  const from = searchParams.get("from");
 
   return (
     <>
       <div>
-     <Link
-  href={`/services#${from || slug}`}
-  className="text-white underline flex items-center text-lg px-9 pt-9 gap-2 hover:text-darkGreen"
->
-  <FiArrowLeft />
-  Back to services
-</Link>
+        <Link
+          href={`/services#${from || slug}`}
+          className="text-white underline flex items-center text-lg px-9 pt-9 gap-2 hover:text-darkGreen"
+        >
+          <FiArrowLeft />
+          Back to services
+        </Link>
       </div>
 
       <div className="px-4 sm:px-8 md:px-14 py-6 mx-auto">
