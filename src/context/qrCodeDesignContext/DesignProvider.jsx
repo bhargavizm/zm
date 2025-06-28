@@ -33,11 +33,11 @@ const DesignProvider = ({ children }) => {
         "/images/qr-shapes/qrshapes-15.webp"
     );
     setSelectedLogo(
-      localStorage.getItem("selectedLogo") || "/images/logos/zm-logo.png"
+      localStorage.getItem("selectedLogo") || "/images/logos/wifi.webp"
     );
     setSelectedSticker(
       localStorage.getItem("selectedSticker") ||
-        "/images/stickers/e.png"
+        "/images/stickers/e.webp"
     );
     // setSelectedColor(localStorage.getItem("selectedColor") || "#000000");
     // setSelectedShape(localStorage.getItem("selectedShape") || "square");

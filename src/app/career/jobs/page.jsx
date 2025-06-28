@@ -218,7 +218,7 @@ export default function JobSearchPage() {
                   <h2 className="text-teal-700 font-bold text-lg md:text-xl">{job.title}</h2>
                   <p className="text-sm text-gray-600">Posted {job.posted}</p>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-4">
+                <div className="grid-cols-2 mgrid d:grid-cols-3 gap-2 mb-4">
                   <p className="text-sm text-gray-700"><span className="font-medium">Job ID:</span> {job.id}</p>
                   <p className="text-sm text-gray-700"><span className="font-medium">Experience:</span> {job.experience}</p>
                   <p className="text-sm text-gray-700"><span className="font-medium">Location:</span> {job.location}</p>

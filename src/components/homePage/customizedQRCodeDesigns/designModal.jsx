@@ -17,13 +17,14 @@ const tabs = [
   "QR Shapes",
   "Stickers",
   "Colors",
-  "Shapes",
+  "QR Frames",
   "Logos",
   "Personalized Image",
 ];
 
 const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
-  const { setSelectedQRShape, setSelectedLogo, setSelectedSticker } = useDesignContext();
+  const { setSelectedQRShape, setSelectedLogo, setSelectedSticker } =
+    useDesignContext();
   const [showModal, setShowModal] = useState(false);
   const handleClick = () => setShowModal(true);
 
@@ -36,7 +37,7 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
     if (savedSticker) setSelectedSticker(savedSticker);
   }, []);
 
-   useEffect(() => {
+  useEffect(() => {
     const handleEsc = (e) => {
       if (e.key === "Escape") {
         setIsModalOpen(false);
@@ -48,37 +49,38 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
   }, [setIsModalOpen]);
 
   const handleImageSelect = (imagePath) => {
-    if (imagePath.includes("qrshapes")) {
-      setSelectedQRShape(imagePath);
-      localStorage.setItem("selectedQRShape", imagePath);
-    } else if (imagePath.includes("stickers")) {
-      setSelectedSticker(imagePath);
-      localStorage.setItem("selectedSticker", imagePath);
-    } else {
-      setSelectedLogo(imagePath);
-      localStorage.setItem("selectedLogo", imagePath);
-    }
-  };
+  if (imagePath.includes("/qr-shapes/")) {
+    setSelectedQRShape(imagePath);
+    localStorage.setItem("selectedQRShape", imagePath);
+  } else if (imagePath.includes("/stickers/")) {
+    setSelectedSticker(imagePath);
+    localStorage.setItem("selectedSticker", imagePath);
+  } else if (imagePath.includes("/logos/")) {
+    setSelectedLogo(imagePath);
+    localStorage.setItem("selectedLogo", imagePath);
+  }
+};
+
 
   const tabComponents = {
     "QR Shapes": () => <QRShapes onSelectImage={handleImageSelect} />,
     Stickers: () => <Stickers onSelectImage={handleImageSelect} />,
     Colors: () => <Colors onSelectImage={handleImageSelect} />,
-    Shapes: () => <Shapes onSelectImage={handleImageSelect} />,
+    "QR Frames": () => <Shapes onSelectImage={handleImageSelect} />,
     Logos: () => <Logos onSelectImage={handleImageSelect} />,
     "Personalized Image": () => <ImageToQRDesign />,
   };
 
   const ActiveComponent = tabComponents[activeTab];
-useEffect(() => {
-  // Lock scroll when modal is mounted
-  document.body.style.overflow = "hidden";
+  useEffect(() => {
+    // Lock scroll when modal is mounted
+    document.body.style.overflow = "hidden";
 
-  // Cleanup on unmount: restore scroll
-  return () => {
-    document.body.style.overflow = "auto";
-  };
-}, []);
+    // Cleanup on unmount: restore scroll
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
 
   return (
     <>
@@ -88,7 +90,9 @@ useEffect(() => {
           <div className="bg-white rounded-xl shadow-xl w-full max-w-6xl h-[95vh] relative px-6 py-6 overflow-y-auto scrollbar-hide">
             {/* Header */}
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-bold text-darkGreen">Customize QR Code</h2>
+              <h2 className="text-xl font-bold text-darkGreen">
+                Customize QR Code
+              </h2>
               <button
                 className="text-xl cursor-pointer font-bold"
                 onClick={() => setIsModalOpen(false)}
@@ -105,10 +109,11 @@ useEffect(() => {
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`px-4 py-2 text-md rounded-xl cursor-pointer ${activeTab === tab
-                    ? "bg-mainGreen text-white font-bold"
-                    : "bg-white text-gray-800"
-                    }`}
+                  className={`px-4 py-2 text-md rounded-xl cursor-pointer ${
+                    activeTab === tab
+                      ? "bg-mainGreen text-white font-bold"
+                      : "bg-white text-gray-800"
+                  }`}
                 >
                   {tab}
                 </button>
@@ -119,10 +124,10 @@ useEffect(() => {
 
             {/* Grid Layout */}
             <div className="grid grid-cols-12 gap-4">
-              <div className="w-full col-span-6 lg:col-span-7 overflow-y-auto px-4 py-6">
-                {/* <AnimatePresence mode="wait"> */}
+              <div className="w-full col-span-6 lg:col-span-7 px-4 py-6 h-[65vh] overflow-y-auto scrollbar-hide">
+                <AnimatePresence mode="wait">
                   <div
-                    //key={activeTab}
+                    key={activeTab}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
@@ -130,10 +135,10 @@ useEffect(() => {
                   >
                     <ActiveComponent />
                   </div>
-                {/* </AnimatePresence> */}
+                </AnimatePresence>
               </div>
 
-              <div className="col-span-6 lg:col-span-5 rounded-xl border w-full border-slate-100 shadow-lg pb-9 mx-auto h-[75vh]  overflow-y-auto scrollbar-hide">
+              <div className="col-span-6 lg:col-span-5 rounded-xl border w-full border-slate-100 shadow-lg pb-9 mx-auto h-[73vh]  overflow-y-auto scrollbar-hide">
                 <div className="flex justify-center">
                   <PreviewPanel />
                 </div>
@@ -142,7 +147,7 @@ useEffect(() => {
                     onClick={handleClick}
                     className="px-6 py-2 text-xl text-white font-bold rounded-lg flex items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
                   >
-                    Download Large Files
+                    Download 
                     <FaLongArrowAltDown />
                   </button>
                 </div>
@@ -154,6 +159,7 @@ useEffect(() => {
         {/* Mobile Layout */}
         <div className="md:hidden bg-white rounded-xl shadow-xl w-full h-[95vh] relative pb-2 overflow-y-auto scrollbar-hide">
           {/* Close Button */}
+          <div  className="sticky top-0 z-50 bg-white pb-2">
           <div className="text-end px-6 py-2">
             <button
               className="text-xl cursor-pointer font-bold text-red-600"
@@ -165,13 +171,13 @@ useEffect(() => {
           </div>
 
           {/* Preview Section */}
-          <div className="sticky top-0 z-50 bg-white pb-2">
+     
             <div className="flex justify-center items-center">
-              <div className="w-full max-w-xs h-72 overflow-y-auto scrollbar-hide rounded-md">
+              <div className="w-full max-w-xs h-64 overflow-y-auto scrollbar-hide rounded-md">
                 <PreviewPanel />
               </div>
             </div>
-            <div className="flex justify-center pt-2">
+            <div className="flex justify-center pt-4">
               <button
                 onClick={handleClick}
                 className="px-4 py-2 text-sm text-white font-semibold rounded-lg flex items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
@@ -180,10 +186,10 @@ useEffect(() => {
                 <FaLongArrowAltDown className="text-base" />
               </button>
             </div>
-          </div>
-
+         
+</div>
           {/* Heading */}
-          <div className="mt-6 mb-2 text-center font-bold text-lg text-darkGreen">
+          <div className="mt-4 mb-2 text-center font-bold text-lg text-darkGreen">
             Customize QR Code
           </div>
 
@@ -193,10 +199,11 @@ useEffect(() => {
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-3 py-1 text-sm rounded-lg ${activeTab === tab
-                  ? "bg-mainGreen text-white font-semibold"
-                  : "bg-white text-gray-800 border"
-                  }`}
+                className={`px-3 py-1 text-sm rounded-lg ${
+                  activeTab === tab
+                    ? "bg-mainGreen text-white font-semibold"
+                    : "bg-white text-gray-800 border"
+                }`}
               >
                 {tab}
               </button>
@@ -206,15 +213,15 @@ useEffect(() => {
           {/* Tab Content */}
           <div className="px-2">
             {/* <AnimatePresence mode="wait"> */}
-              <div
-               // key={activeTab}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3 }}
-              >
-                <ActiveComponent />
-              </div>
+            <div
+              // key={activeTab}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+            >
+              <ActiveComponent />
+            </div>
             {/* </AnimatePresence> */}
           </div>
         </div>
@@ -222,10 +229,24 @@ useEffect(() => {
 
       {/* Coming Soon Modal */}
       {showModal && (
-        <ComingSoonModal isOpen={showModal} onClose={() => setShowModal(false)} />
+        <ComingSoonModal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+        />
       )}
     </>
   );
 };
 
 export default DesignModal;
+
+
+
+
+
+
+
+
+
+
+

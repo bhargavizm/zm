@@ -13,11 +13,11 @@ const cardItems = [
   {
     id: 2,
     title: "Stickers",
-    image: "/images/stickers/stickers.png",
+    image: "/images/stickers/stickers.webp",
   },
   {
     id: 3,  
-    title: "Shapes",
+    title: "QR Frames",
     extraImages: [
       "/images/shapes/body-frames/shapes.png",
       "/images/shapes/eye-balls/eye-ball-1.svg",
@@ -63,7 +63,7 @@ const QRCodeTab = () => {
               <Image
                 src={item.image}
                 alt={item.title}
-                width={60}
+                width={80}
                 height={60}
                 className="mb-2 object-cover"
               />

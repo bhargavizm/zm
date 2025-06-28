@@ -107,7 +107,7 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
                         onClick={handleClick}
                         className="  px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
                       >
-                        Download Large Files <FaLongArrowAltDown />
+                        Download  <FaLongArrowAltDown />
                       </button>
                     </div>
                   </>
@@ -170,7 +170,7 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
                           onClick={handleClick}
                           className="  px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
                         >
-                          Download Large Files <FaLongArrowAltDown />
+                          Download  <FaLongArrowAltDown />
                         </button>
                       </div>
                     </div>
@@ -374,7 +374,7 @@ export default DesignLayout;
 //                         onClick={handleClick}
 //                         className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
 //                       >
-//                         Download Large Files <FaLongArrowAltDown />
+//                         Download  <FaLongArrowAltDown />
 //                       </button>
 //                     </div>
 //                   </>
@@ -454,7 +454,7 @@ export default DesignLayout;
 //                     onClick={handleClick}
 //                     className="px-6 py-2 text-xl text-white font-bold rounded-lg bg-[linear-gradient(to_right,#008080,#001a1a)] flex items-center gap-2"
 //                   >
-//                     Download Large Files <FaLongArrowAltDown />
+//                     Download  <FaLongArrowAltDown />
 //                   </button>
 //                 </div>
 //               </>

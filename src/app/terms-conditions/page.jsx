@@ -52,13 +52,13 @@ const Termsandconditions = () => {
         </p><br/>
         <h2 className='text-2xl font-semibold'>7. PURCHASES AND PAYMENT</h2><br/>
         <p>You may be required to pay to access or use certain parts of our Site, Services, or specific features available on the Site.<br/>
-        We accept the following forms of payment:<br/>
+        We accept the following forms of payment:<br/></p>
         <ul className="list-disc list-inside text-[#001a1a]">
         <li>Online via Credit Card, Debit Card, NetBanking, or other payment gateways provided by our processors such as <span className='text-[#008080]'>Stripe</span>, <span className='text-[#008080]'>PayPal</span>, and <span className='text-[#008080]'>RazorPay</span>.</li>
         <li>Direct bank transfers, SWIFT transfers, or payments made via eCheck or Check.</li>
         <li>Other third-party money transfer services.</li>
         </ul>
-        Please note that some of these payment methods may not be available in all geographical regions. More details are available on our page outlining the <span className='text-[#008080]'>[Different Payment Methods Available]</span>.<br/>
+        <p>Please note that some of these payment methods may not be available in all geographical regions. More details are available on our page outlining the <span className='text-[#008080]'>[Different Payment Methods Available]</span>.<br/>
         You represent and warrant that you have the legal right to use any payment method(s) used in connection with any transaction and that all payment information provided is accurate and complete. In the event of a failed payment, the payment gateway company is responsible for any issues related to the payment failure or incorrect deductions. ZMQRCode Services will not be held liable for such issues. You agree to be solely responsible for any payments and for maintaining current billing and contact information.<br/>
         You further agree to hold ZMQRCodeServices harmless and indemnify us against any liabilities, damages, losses, claims, disputes, or legal actions that may arise directly or indirectly from any payment transactions initiated by you.<br/>
         You agree to provide current, complete, and accurate purchase and account information for all transactions conducted via the Services. You also agree to promptly update your account and payment details, including your email address, payment method, and payment card expiration date, so that we can complete your transactions and contact you as needed.<br/>
@@ -92,7 +92,9 @@ const Termsandconditions = () => {
           <h2 className='text-2xl font-semibold'>10. Prohibited Activities</h2><br/>
           <p>You may not access or use the Services for any purpose other than that for which we make the Services available. The Services may not be used in connection with any commercial endeavors except those that are specifically endorsed or approved by us.
           As a user of the Services, you agree not to:
-          <ul className="list-disc list-inside text-[#001a1a]">
+         
+          </p><br/>
+           <ul className="list-disc list-inside text-[#001a1a]">
           <li>Systematically retrieve data or other content from the Services to create or compile, directly or indirectly, a collection, compilation, database, or directory without written permission from us.</li>
           <li>Trick, defraud, or mislead us and other users, especially in any attempt to learn sensitive account information, such as but not limited to user passwords.</li>
           <li>Engage in any form of spam or fraudulent activities, including but not limited to, phishing, sending unsolicited messages, or transmitting misleading information.</li>
@@ -129,8 +131,7 @@ const Termsandconditions = () => {
           <li>Engage in any conduct that restricts or inhibits any other user from using or enjoying our Site or Service.</li>
           <li>You agree to fully cooperate with us to investigate any suspected or actual activity that is in breach of these Terms of Use. Violation of any of these prohibitions may result in the termination of your access to the Services and may expose you to civil and/or criminal liability.</li>
           </ul>
-          </p><br/>
-          <h2 className='text-2xl font-semibold'>11. USER CONTENT</h2><br/>
+          <h2 className='text-2xl font-semibold pt-6'>11. USER CONTENT</h2><br/>
           <p>(a) You may submit various types of content through the Site or Service, including messages, reviews, files, images, videos, or other materials ("User Content").</p><br/>
           <p><h2 className='text-2xl font-semibold'>(b)Standards for Submitting Content</h2><br/>
            You agree not to post any content protected by intellectual property rights unless you have authorization. You are solely responsible for damages arising from unauthorized submissions and agree to indemnify ZMqrcodeservices. You also warrant that your User Content:
