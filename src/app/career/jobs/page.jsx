@@ -141,7 +141,7 @@ export default function JobSearchPage() {
             className="flex-1 px-4 py-2 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
           />
           <button className="bg-[#066] text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-[#044] transition-colors">
-            <Search size={18} /> <span className="hidden sm:inline">Search</span>
+            <Search size={18} /> <span className="">Search</span>
           </button>
         </div>
       </div>
