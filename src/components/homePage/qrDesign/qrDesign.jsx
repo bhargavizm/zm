@@ -272,7 +272,7 @@ const QRDesign = () => {
   const { heading, paragraph, DesignCardsData } = dictionary.qrDesignSection;
 
   return (
-    <section className="bg-darkGreen py-18">
+    <section className="bg-mainGreen py-18">
       <h2 className="text-white font-bold text-2xl md:text-4xl text-center pb-5">
         {heading}
       </h2>
