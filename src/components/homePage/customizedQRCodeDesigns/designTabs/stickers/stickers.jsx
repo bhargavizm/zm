@@ -21,53 +21,74 @@
 //                  />
 //                ))}
 //              </div>
-       
-       
+
 //            </section>
- 
+
 //   )
 // }
 
 // export default Stickers
 
-
+"use client";
 
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { stickerConfig } from "./stickerImages";
 import useDesignContext from "@/components/hooks/useDesignContext";
 
 const Stickers = ({ onSelectImage }) => {
   const { selectedSticker, setSelectedSticker } = useDesignContext();
+  const containerRef = useRef(null);
+
+  // Restore scroll position on mount
+  useEffect(() => {
+    const savedScroll = localStorage.getItem("stickersScroll");
+    if (containerRef.current && savedScroll) {
+      containerRef.current.scrollTop = parseInt(savedScroll, 100);
+    }
+  }, []);
+
+  // Save scroll position on scroll
+  const handleScroll = (e) => {
+    localStorage.setItem("stickersScroll", e.target.scrollTop);
+  };
 
   const handleClick = (src) => {
-    setSelectedSticker(src);          
-  
-    onSelectImage(src);                
+    setSelectedSticker(src);
+    localStorage.setItem("selectedSticker", src); // persist selection
+    onSelectImage(src);
   };
 
   return (
-    <section>
-      <div className="pt-6 grid xl:grid-cols-7 lg:grid-cols-6 md:grid-cols-4 grid-cols-3 gap-8 h-[65vh] overflow-y-auto scrollbar-hide px-6">
+    <section className="mt-4 px-4">
+      <div
+        ref={containerRef}
+        onScroll={handleScroll}
+        className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-5 pr-2"
+      >
         {Object.keys(stickerConfig).map((src, index) => (
-          <Image
+          <div
             key={index}
-            src={src}
-            alt={`sticker ${index + 1}`}
-            width={60}
-            height={60}
-            className={`cursor-pointer rounded-2xl p-1 border-4 transition-all duration-200 ${
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleClick(src);
+            }}
+            className={`aspect-square flex items-center justify-center rounded-xl border-4 cursor-pointer transition-transform duration-200 ${
               selectedSticker === src
-                ? "border-mainGreen scale-110 shadow-lg"
-                : "border-transparent"
+                ? "border-mainGreen scale-105 shadow-md"
+                : "border-transparent hover:border-gray-300"
             }`}
-           onClick={(e) => {
-  e.preventDefault();  // prevents unwanted default behavior
-  e.stopPropagation(); // stops bubbling that may cause refocus
-  handleClick(src);
-}}
-
-          />
+          >
+            <Image
+              src={src}
+              alt={`sticker ${index + 1}`}
+              width={60}
+              height={60}
+              className="object-contain w-16 h-16"
+              priority
+            />
+          </div>
         ))}
       </div>
     </section>
@@ -75,4 +96,3 @@ const Stickers = ({ onSelectImage }) => {
 };
 
 export default Stickers;
-

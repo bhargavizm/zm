@@ -63,7 +63,7 @@
                   onClick={handleClick}
                   className="mx-auto  px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
                 >
-                  Download Large Files
+                  Download 
                   <FaLongArrowAltDown />
                 </button>
               </div>

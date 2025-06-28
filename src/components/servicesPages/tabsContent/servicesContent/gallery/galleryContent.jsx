@@ -162,8 +162,8 @@ const GalleryContent = () => {
             <NFCModal />
 
           <button
-            type="submit"
-            className="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 rounded-lg font-semibold text-sm transition"
+            type="button"
+            className="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 rounded-lg font-semibold text-sm transition cursor-pointer"
           >
             Submit
           </button>

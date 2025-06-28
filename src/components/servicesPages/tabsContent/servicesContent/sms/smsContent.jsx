@@ -114,8 +114,8 @@ const SmsContent = () => {
 
               {/* Submit Button */}
               <button
-               // type="submit"
-                className="w-full bg-[#008080] hover:bg-[#006666] text-white py-3 rounded-lg font-medium transition-colors shadow-lg"
+                type="button"
+                className="w-full cursor-pointer bg-[#008080] hover:bg-[#006666] text-white py-3 rounded-lg font-medium transition-colors shadow-lg"
               >
               Submit
               </button>

@@ -206,6 +206,7 @@ const ProductContent = () => {
 
   // Destructure design-related state from DesignContext
   const { setIsLoading, setBgDesign } = useDesignContext();
+  const [isLoadingLocation, setIsLoadingLocation] = useState(false);
 
   // Local state for password visibility
   const [showPassword, setShowPassword] = useState(false);
@@ -213,7 +214,12 @@ const ProductContent = () => {
   const [isNFCModalOpen, setIsNFCModalOpen] = useState(false);
 
   // Array of template image filenames
-  const templateImages = ["temp1.webp", "temp2.webp", "temp3.webp", "temp4.webp"];
+  const templateImages = [
+    "temp1.webp",
+    "temp2.webp",
+    "temp3.webp",
+    "temp4.webp",
+  ];
 
   /**
    * Initializes the 'items' array in context if it's empty, ensuring
@@ -221,7 +227,9 @@ const ProductContent = () => {
    */
   useEffect(() => {
     if (!items || items.length === 0) {
-      setItems([{ image: "", heading: "", description: "", videoUrl: "", pageUrl: "" }]);
+      setItems([
+        { image: "", heading: "", description: "", videoUrl: "", pageUrl: "" },
+      ]);
     }
   }, [items, setItems]); // Dependencies to re-run only when items or setItems change
 
@@ -352,20 +360,55 @@ const ProductContent = () => {
 
   // Prepares data for the NFC Modal
   const getNFCData = () => {
-    const allProductDetails = items.map(item => ({
+    const allProductDetails = items.map((item) => ({
       heading: item.heading,
       description: item.description,
       pageUrl: item.pageUrl,
       videoUrl: item.videoUrl,
     }));
-    return JSON.stringify({
-      brandName: productData.brandName || "N/A",
-      contactEmail: productData.email || "N/A",
-      contactPhone: productData.phone || "N/A",
-      contactAddress: productData.address || "N/A",
-      qrPassword: productData.password || "N/A",
-      products: allProductDetails
-    }, null, 2); // Pretty print JSON
+    return JSON.stringify(
+      {
+        brandName: productData.brandName || "N/A",
+        contactEmail: productData.email || "N/A",
+        contactPhone: productData.phone || "N/A",
+        contactAddress: productData.address || "N/A",
+        qrPassword: productData.password || "N/A",
+        products: allProductDetails,
+      },
+      null,
+      2
+    ); // Pretty print JSON
+  };
+
+  const fetchCurrentLocation = async () => {
+    setIsLoadingLocation(true);
+    try {
+      const position = await new Promise((resolve, reject) =>
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0,
+        })
+      );
+
+      const { latitude, longitude } = position.coords;
+
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`
+      );
+      const data = await response.json();
+      const fullAddress = data.display_name || "Address not found";
+
+      setProductData((prev) => ({
+        ...prev,
+        address: fullAddress,
+      }));
+    } catch (error) {
+      console.error("Location fetch failed:", error);
+      alert("Failed to fetch address. Please check location permissions.");
+    } finally {
+      setIsLoadingLocation(false);
+    }
   };
 
   return (
@@ -433,7 +476,12 @@ const ProductContent = () => {
                 </button>
               </div>
             )}
-            <label htmlFor="brandName" className="block font-medium text-gray-700 mb-2 mt-4">Brand Name</label>
+            <label
+              htmlFor="brandName"
+              className="block font-medium text-gray-700 mb-2 mt-4"
+            >
+              Brand Name
+            </label>
             <input
               id="brandName"
               type="text"
@@ -469,7 +517,9 @@ const ProductContent = () => {
                   <input
                     type="file"
                     accept="image/*"
-                    onChange={(e) => handleItemImageUpload(index, e.target.files[0])}
+                    onChange={(e) =>
+                      handleItemImageUpload(index, e.target.files[0])
+                    }
                     className="w-full text-sm text-gray-700
                       file:mr-4 file:py-2 file:px-4
                       file:rounded-full file:border-0
@@ -501,35 +551,45 @@ const ProductContent = () => {
                     type="text"
                     placeholder="Product Name"
                     value={item.heading}
-                    onChange={(e) => handleItemChange(index, "heading", e.target.value)}
+                    onChange={(e) =>
+                      handleItemChange(index, "heading", e.target.value)
+                    }
                     className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
                   />
                   <input
                     type="text"
                     placeholder="Product Description"
                     value={item.description}
-                    onChange={(e) => handleItemChange(index, "description", e.target.value)}
+                    onChange={(e) =>
+                      handleItemChange(index, "description", e.target.value)
+                    }
                     className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
                   />
                   <input
                     type="url"
                     placeholder="Product Page URL"
                     value={item.pageUrl}
-                    onChange={(e) => handleItemChange(index, "pageUrl", e.target.value)}
+                    onChange={(e) =>
+                      handleItemChange(index, "pageUrl", e.target.value)
+                    }
                     className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
                   />
                   <input
                     type="url"
                     placeholder="Product Video URL"
                     value={item.videoUrl}
-                    onChange={(e) => handleItemChange(index, "videoUrl", e.target.value)}
+                    onChange={(e) =>
+                      handleItemChange(index, "videoUrl", e.target.value)
+                    }
                     className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
                   />
                 </div>
               </div>
             ))
           ) : (
-            <p className="text-gray-500 text-center py-4">Add your first product to get started!</p>
+            <p className="text-gray-500 text-center py-4">
+              Add your first product to get started!
+            </p>
           )}
 
           {/* Button to Add Another Product */}
@@ -559,36 +619,51 @@ const ProductContent = () => {
               placeholder="Phone Number"
               className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
             />
-            <input
+          </div>
+          <div className="md:col-span-1">
+            <textarea
               id="address"
-              type="text"
+              rows={3}
               value={productData.address || ""}
               onChange={handleCommonChange}
-              placeholder="Address"
+              placeholder="Enter full address"
               className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
             />
-            {/* QR Code Password Field with Toggle */}
-            <div className="relative">
-              <input
-                id="password"
-                type={showPassword ? "text" : "password"}
-                value={productData.password || ""}
-                onChange={handleCommonChange}
-                placeholder="QR Code Password"
-                className="border p-2 pr-10 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword((prev) => !prev)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600"
-                aria-label={showPassword ? "Hide password" : "Show password"}
-              >
-                {showPassword ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={fetchCurrentLocation}
+              disabled={isLoadingLocation}
+              className="mt-2 w-full flex items-center justify-center px-4 py-2 bg-[#008080] text-white rounded-lg hover:bg-[#006666] transition-colors"
+            >
+              {isLoadingLocation
+                ? "Detecting Location..."
+                : "Use Current Location"}
+            </button>
           </div>
 
-          
+          {/* QR Code Password Field with Toggle */}
+          <div className="relative">
+            <input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              value={productData.password || ""}
+              onChange={handleCommonChange}
+              placeholder="QR Code Password"
+              className="border p-2 pr-10 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600"
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? (
+                <AiOutlineEye size={20} />
+              ) : (
+                <AiOutlineEyeInvisible size={20} />
+              )}
+            </button>
+          </div>
 
           {/* NFC Modal Component */}
           <NFCModal
