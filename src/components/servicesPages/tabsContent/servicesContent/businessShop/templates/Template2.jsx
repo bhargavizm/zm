@@ -49,7 +49,8 @@ const Template2 = ({ data }) => {
           </div>
 
           <div className="flex items-center justify-center text-sm text-blue-600 hover:underline">
-            <img src="https://via.placeholder.com/16x16/CCCCCC/333333?text=🌐" alt="website" className="w-4 h-4 mr-1" />
+            {/* <img src="https://via.placeholder.com/16x16/CCCCCC/333333?text=🌐" alt="website" className="w-4 h-4 mr-1" /> */}
+            <p className="w-4 h-4 mr-1">🌐</p>
             <a href={`https://${data.website}`} target="_blank" rel="noopener noreferrer">
               {data.website || "www.reallygreatsite.com"}
             </a>
