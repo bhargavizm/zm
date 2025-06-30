@@ -40,28 +40,29 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
         <div className="hidden md:block">
           <div className="grid md:grid-cols-12  grid-cols-1 gap-4 mx-2 sm:mx-6 md:mx-4">
             {/* Left Panel */}
-            <div className="col-span-6 lg:col-span-7 bg-white rounded-3xl shadow-lg">
+            <div className="col-span-7 bg-white rounded-3xl shadow-lg">
               <h1 className="text-2xl font-bold py-4 px-6 text-mainGreen ">
                 {formatServiceName(slug)}
               </h1>
               {/* ...rest of your layout */}
 
-              {/* Tabs */}
-              <div className="grid lg:grid-cols-3 md:grid-cols-2 md:px-6 bg-[#58b8b8]  shadow-lg py-2 mb-4">
-                {tabs.map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    className={`px-4 py-2 text-xl rounded-xl cursor-pointer ${
-                      activeTab === tab
-                        ? "bg-white text-mainGreen font-bold"
-                        : "text-darkGreen"
-                    }`}
-                  >
-                    {tab}
-                  </button>
-                ))}
-              </div>
+          {/* Tabs */}
+<div className="flex justify-center items-center text-center gap-9 bg-[#58b8b8] px-6 shadow-lg py-3 mb-4">
+  {tabs.map((tab) => (
+    <button
+      key={tab}
+      onClick={() => setActiveTab(tab)}
+      className={`px-2 py-1 text-lg whitespace-nowrap rounded-xl transition-all duration-200 ${
+        activeTab === tab
+          ? "bg-white text-mainGreen font-bold"
+          : "text-white hover:bg-white hover:text-mainGreen"
+      }`}
+    >
+      {tab}
+    </button>
+  ))}
+</div>
+
 
               {/* Tab Content */}
               <div className="px-4 pb-6 h-[100vh] overflow-y-auto scrollbar-hide">
@@ -74,7 +75,7 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
             </div>
 
             {/* Right Preview Panel */}
-            <div className="col-span-6 lg:col-span-5 bg-white rounded-3xl shadow-lg py-8  lg:mt-0">
+            <div className="col-span-5 bg-white rounded-3xl shadow-lg py-8  lg:mt-0">
               <div className="flex justify-center gap-4 px-4 mb-4 bg-[#58b8b8] shadow-lg py-2 mt-7 ">
                 <div
                   onClick={() => setActivePreview("scan")}
