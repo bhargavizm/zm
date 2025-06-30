@@ -74,8 +74,10 @@ const qrScaleFactor = shape.scale || 1.6; // increase for better scan
       top: qrShapeTop,
       left: qrShapeLeft,
       transform: "translate(-50%, -50%)",
-      width: ${qrShapeSize}px,
-      height: ${qrShapeSize}px,
+      width: `${qrShapeSize}px`,
+      height: `${qrShapeSize}px`,
+
+     
     }}
   >
     <Image
@@ -111,7 +113,8 @@ const qrScaleFactor = shape.scale || 1.6; // increase for better scan
   style={{
     top: shape.qrTop || "50%",
     left: shape.qrLeft || "50%",
-    transform: translate(-50%, -50%) scale(${qrScaleFactor}),
+    transform: `translate(-50%, -50%) scale(${qrScaleFactor})`,
+
   }}
 >
   <QRCodeSVG
@@ -147,8 +150,8 @@ const qrScaleFactor = shape.scale || 1.6; // increase for better scan
             <div
               className="absolute z-40 p-1 rounded-full shadow-md"
               style={{
-                top: calc(${logoTop} + 9px),
-                left: calc(${logoLeft} + 0px),
+                top: `calc(${logoTop} + 9px)`,
+                left: `calc(${logoLeft} + 0px)`,
                 transform: "translate(-50%, -50%)",
               }}
             >
@@ -217,7 +220,9 @@ export default PreviewPanel;
 //   const logoTop = sticker.logoTop ?? "50%";
 //   const logoLeft = sticker.logoLeft ?? "50%";
 //   const logoPixelSize = getValue(sticker.logoSize, logoSize || 40);
-//   const qrTransformScale = scale(${qrScaleFactor});
+
+//   const qrTransformScale = `scale(${qrScaleFactor})`;
+
 
 //   return (
 //     <div className="flex justify-center items-center md:py-4">
@@ -264,7 +269,7 @@ export default PreviewPanel;
 //           style={{
 //             top: qrTop,
 //             left: qrLeft,
-//             transform: translate(-50%, -50%) ${qrTransformScale},
+//             transform: `translate(-50%, -50%) ${qrTransformScale}`,
 //           }}
 //         >
 //           <QRCodeSVG
@@ -290,8 +295,10 @@ export default PreviewPanel;
 //           <div
 //             className="absolute z-30 bg-white rounded-full shadow-md"
 //             style={{
-//               top: calc(${logoTop} + 12px),
-//               left: calc(${logoLeft} + 1px),
+
+//               top: `calc(${logoTop} + 12px)`,
+//               left: `calc(${logoLeft} + 1px)`,
+
 //               transform: "translate(-50%, -50%)",
 //             }}
 //           >
@@ -415,8 +422,10 @@ export default PreviewPanel;
 //             <div
 //               className="absolute z-40 bg-white rounded-full shadow-md"
 //               style={{
-//                 top: calc(${config.logoTop ?? "50%"} + 12px),
-//                 left: calc(${config.logoLeft ?? "50%"} + 1px),
+
+//                 top: `calc(${config.logoTop ?? "50%"} + 12px)`,
+//                 left: `calc(${config.logoLeft ?? "50%"} + 1px)`,
+
 //                 transform: "translate(-50%, -50%)",
 //               }}
 //             >
@@ -553,8 +562,10 @@ export default PreviewPanel;
 //             <div
 //               className="absolute z-50 p-1 rounded-full shadow-md"
 //               style={{
-//                 top: calc(${config.logoTop ?? "50%"} + 10px),
-//                 left: calc(${config.logoLeft ?? "50%"} + 20px),
+
+//                 top: `calc(${config.logoTop ?? "50%"} + 10px)`,
+//                 left: `calc(${config.logoLeft ?? "50%"} + 20px)`,
+
 //                 transform: "translate(-50%, -50%)",
 //               }}
 //             >
