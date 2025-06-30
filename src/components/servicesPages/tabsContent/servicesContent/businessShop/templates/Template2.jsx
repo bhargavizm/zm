@@ -49,7 +49,9 @@ const Template2 = ({ data }) => {
           </div>
 
           <div className="flex items-center justify-center text-sm text-blue-600 hover:underline">
+
             <p className="w-4 h-4 mr-1">🌐</p> 
+
             <a href={`https://${data.website}`} target="_blank" rel="noopener noreferrer">
               {data.website || "www.reallygreatsite.com"}
             </a>
