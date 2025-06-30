@@ -9,7 +9,7 @@
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export', // Enable static export
+  //output: 'export', // Enable static export
   trailingSlash: true, // ✅ Needed so routes like /about export as /about/index.html
   images: {
     unoptimized: true, // ✅ Required: disables Image Optimization (not supported in static export)
