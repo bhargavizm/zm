@@ -12,7 +12,6 @@
 // import DesignCardsData from './designCardsData';
 // import { useLanguage } from '@/context/languageContext/LanguageContext';
 
-
 // const QRDesign = () => {
 //     const { dictionary } = useLanguage();
 //   return (
@@ -46,7 +45,7 @@
 //       {DesignCardsData && DesignCardsData.map((card, index) => (
 //         <SwiperSlide key={index} className="w-[300px] !h-auto">
 //   <div className="bg-white rounded-xl shadow-xl p-5 flex flex-col h-full border-2 border-dashed border-darkGreen">
-    
+
 //     {/* Image Wrapper with fixed aspect ratio */}
 //     <div className="w-full aspect-[4/3] overflow-hidden rounded-md">
 //       <img
@@ -124,8 +123,6 @@
 
 // export default QRDesign;
 
-
-
 // "use client";
 
 // import React from "react";
@@ -137,7 +134,6 @@
 // import { ChevronLeft, ChevronRight } from "lucide-react";
 // // import DesignCardsData from "./designCardsData";
 // import { useLanguage } from '@/context/languageContext/LanguageContext';
-
 
 // const DesignCardsData = [
 //     {
@@ -177,7 +173,6 @@
 //         description:'  ZM QR Code Services provides tools to seamlessly place your customized QR codes onto brochure designs, making them print-ready and visually integrated with your promotional materials.'
 //     },
 // ]
-
 
 // const QRDesign = () => {
 //     const { dictionary } = useLanguage();
@@ -255,7 +250,6 @@
 
 // export default QRDesign;
 
-
 "use client";
 
 import React from "react";
@@ -269,33 +263,31 @@ import { useLanguage } from "@/context/languageContext/LanguageContext";
 import { Autoplay } from "swiper/modules";
 import "swiper/css/autoplay";
 
-
 const QRDesign = () => {
   const { dictionary } = useLanguage();
   const { heading, paragraph, DesignCardsData } = dictionary.qrDesignSection;
 
   return (
     <section className="bg-mainGreen py-32">
-
       <h2 className="text-white font-bold text-2xl md:text-4xl text-center pb-5">
         {heading}
       </h2>
       <p className="text-white pb-12 text-center text-lg">{paragraph}</p>
 
       <div className="max-w-6xl mx-auto relative px-4">
-<Swiper
-  modules={[EffectCoverflow, Navigation, Autoplay]}
-  autoplay={{
-    delay: 1000,
-    disableOnInteraction: false,
-    pauseOnMouseEnter: true,
-  }}
-  loop={true}
-  speed={2000}
-  effect="coverflow"    grabCursor
+        <Swiper
+          modules={[EffectCoverflow, Navigation, Autoplay]}
+          autoplay={{
+            delay: 1000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
+          loop={true}
+          speed={2000}
+          effect="coverflow"
+          grabCursor
           centeredSlides
           slidesPerView="auto"
-          
           navigation={{
             nextEl: ".swiper-button-next",
             prevEl: ".swiper-button-prev",
@@ -313,11 +305,11 @@ const QRDesign = () => {
             <SwiperSlide key={index} className="w-[300px] !h-auto">
               <div className="bg-white rounded-xl shadow-xl p-5 flex flex-col h-full border-4 border-dashed border-mainGreen">
                 {/* Image Wrapper */}
-                <div className="w-full aspect-[4/3]  rounded-md pt-4">
+                <div className="w-full   rounded-md pt-4">
                   <img
                     src={card.image}
                     alt={card.title}
-                    className="w-full h-36 object-cover"
+                    className="w-full h-40 object-cover"
                   />
                 </div>
 
