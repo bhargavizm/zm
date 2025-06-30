@@ -49,245 +49,246 @@ export const images = [
   "/images/qr-shapes/car.png",
 
 ];
-// export const qrShapeConfigs = {
-//   "/images/qr-shapes/qrshapes-15.webp": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/circle.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/bottle.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/cat.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/cup.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/lovesymbol.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/flower.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/pine.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/rabbit.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/shirt.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/ice.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/tree.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/lotus.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/oct.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/cloud.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/frock.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/palm.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/guitar.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/fish.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/glass.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/laptop.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/cat with mustach.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/gift.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/ice cream in cone.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/like.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/umbrella.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/waterdrop.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/goun.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/traingle.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/apple.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/mango.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/hat.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/house.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/biryani.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/lock.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/spider.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/boxing gloves.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/moon-star.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/dou .png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/handbag.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/mirror.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/bike.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/tv.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/cap.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/cooldrink.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/coco.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/auto.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-//   "/images/qr-shapes/car.png": {
-//     logoTop: "50%",
-//     logoLeft: "50%",
-//     logoSize: { default: 60, tablet: 50, mobile: 40 },
-//   },
-// };
+
+export const qrShapeConfigs = {
+  "/images/qr-shapes/qrshapes-15.webp": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/circle.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/bottle.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/cat.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/cup.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/lovesymbol.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/flower.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/pine.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/rabbit.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/shirt.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/ice.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/tree.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/lotus.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/oct.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/cloud.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/frock.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/palm.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/guitar.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/fish.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/glass.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/laptop.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/cat with mustach.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/gift.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/ice cream in cone.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/like.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/umbrella.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/waterdrop.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/goun.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/traingle.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/apple.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/mango.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/hat.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/house.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/biryani.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/lock.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/spider.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/boxing gloves.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/moon-star.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/dou .png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/handbag.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/mirror.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/bike.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/tv.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/cap.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/cooldrink.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/coco.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/auto.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+  "/images/qr-shapes/car.png": {
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: { default: 60, tablet: 50, mobile: 40 },
+  },
+};

@@ -91,7 +91,7 @@ const PreviewPanel = () => {
         )}
 
         {/* Logo and ZM Badge */}
-        {/* {selectedLogo && (
+        {selectedLogo && (
           <>
             <Image
               src={selectedLogo}
@@ -121,7 +121,7 @@ const PreviewPanel = () => {
               />
             </div>
           </>
-        )} */}
+        )}
       </div>
     </div>
   );
