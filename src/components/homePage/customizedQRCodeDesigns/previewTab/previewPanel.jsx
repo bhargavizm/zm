@@ -74,8 +74,8 @@ const qrScaleFactor = shape.scale || 1.6; // increase for better scan
       top: qrShapeTop,
       left: qrShapeLeft,
       transform: "translate(-50%, -50%)",
-      width: ${qrShapeSize}px,
-      height: ${qrShapeSize}px,
+      width: `${qrShapeSize}px`,
+      height: `${qrShapeSize}px`,
     }}
   >
     <Image
@@ -106,7 +106,7 @@ const qrScaleFactor = shape.scale || 1.6; // increase for better scan
 
         {/* QR Scan (scaled inside shape) */}
         {/* {selectedQRShape && (
-         <div
+        <div
   className="absolute z-20"
   style={{
     top: shape.qrTop || "50%",
