@@ -308,7 +308,7 @@ const InvestorsPage = () => {
   };
 
   return (
-    <div className="bg-gray-50 text-gray-900 md:pt-18 pt-14 overflow-x-hidden" ref={containerRef}>
+    <div className="bg-gray-50 text-gray-900 md:pt-12 pt-14 overflow-x-hidden" ref={containerRef}>
       <Head>
         <title>Invest in ZM QR Code Services | Next-Gen QR Solutions</title>
         <meta

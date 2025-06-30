@@ -8,7 +8,7 @@ const cardItems = [
   {
     id: 1,
     title: "QR Shapes",
-    image: "/images/qr-shapes/qrshapes-15.webp",
+    image: "/images/qr-shapes/circle.png",
   },
   {
     id: 2,
@@ -32,7 +32,7 @@ const cardItems = [
   {
     id: 5,
     title: "Logos",
-    image: "/images/logos/cloud.svg",
+    image: "/images/logos/google.webp",
   },
 ];
 
