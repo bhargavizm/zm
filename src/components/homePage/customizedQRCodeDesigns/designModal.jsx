@@ -138,7 +138,7 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
                 </AnimatePresence>
               </div>
 
-              <div className="col-span-6 lg:col-span-5 rounded-xl border w-full border-slate-100 shadow-lg pb-9 mx-auto h-[73vh]  overflow-y-auto scrollbar-hide">
+              <div className="col-span-6 lg:col-span-5 rounded-xl  w-full shadow-lg pb-9 mx-auto h-[72vh]  overflow-y-auto scrollbar-hide">
                 <div className="flex justify-center">
                   <PreviewPanel />
                 </div>

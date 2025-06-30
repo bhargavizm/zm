@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import DemoForm from "./demoForm/demoForm";
 import { useLanguage } from '@/context/languageContext/LanguageContext';
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 
 const ScheduleDemo = () => {
@@ -40,12 +41,12 @@ const ScheduleDemo = () => {
             <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold leading-snug text-white px-6">
               {heading}
             </h2>
-            <button
-              onClick={() => router.push('/contactUs')}
+            <Link href='/contactUs'
+             // onClick={() => router.push('/contactUs')}
               className="px-6 py-2 text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)] mx-6 cursor-pointer"
             >
               {buttonText}
-            </button>
+            </Link>
           </div>
         </div>
       </section>
