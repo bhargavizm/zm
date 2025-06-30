@@ -1,5 +1,5 @@
+import ServicesDataFlow from "@/components/servicesPages/layouts/servicesDataFlow/page";
 
-import ServicesDataFlow from "@/components/servicesPages/layouts/servicesDataFlow";
 
 export default function Page() {
   return <ServicesDataFlow />;
