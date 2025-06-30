@@ -6,6 +6,7 @@ import ServicesProvider from "@/context/servicesContext/SercivesProvider";
 import Navbar from "@/components/navbar/navbar";
 import ScrollToTop from "@/components/scrollToTop/scrollToTop";
 import OfferScrolling from "@/components/scrolling/offerScrolling";
+import PremiumProvider from "@/context/premiumContext/PremiumProvider";
 
 
 export const metadata = {
@@ -18,17 +19,19 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <LanguageProvider> {/* 👈 Wrap the app in provider */}
+        <PremiumProvider>
           <ServicesProvider>
             <DesignProvider>
               <ScrollToTop />
               <Navbar />
-              <OfferScrolling/>
+              {/* <OfferScrolling/> */}
               <main>
                 {children}
               </main>
               <Footer />
             </DesignProvider>
           </ServicesProvider>
+          </PremiumProvider>
         </LanguageProvider>
       </body>
     </html>
