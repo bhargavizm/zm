@@ -11,7 +11,7 @@ const GalleryPreview = () => {
   const { title, description, files } = imagesFormData || {};
   const [imagePreviews, setImagePreviews] = useState([]);
 
-  const defaultBg = "/services-service/image-gallery.jpg";
+  const defaultBg = "/services-service/image-gallery.webp";
 
   // ✅ Set default background on mount
   useEffect(() => {

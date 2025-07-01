@@ -9,7 +9,7 @@ const PropertyPreview = () => {
   const { dynamicForms } = useServicesContext();
    const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
 
-  const defaultBg = '/services-service/property.jpg'
+  const defaultBg = '/services-service/property.webp'
 
   useEffect(() => {
     setIsLoading(true);
