@@ -21,7 +21,7 @@ const ScheduleDemo = () => {
       <section
         className="relative overflow-hidden w-full text-white bg-scroll-contained bg-cover bg-center"
         style={{
-          backgroundImage: "url('/images/home/bg-demo-image.png')",
+          backgroundImage: "url('/images/home/bg-demo-image.webp')",
         }}
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 items-center justify-center gap-8 bg-[rgba(0,128,128,0.6)] padding-lr py-10 text-center lg:text-left ">
