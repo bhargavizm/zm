@@ -104,7 +104,7 @@ const services = [
         "serviceName": "SMS",
         slug: "sms",
         "description": "Generate QR Codes for SMS notifications, allowing instant communication and seamless engagement with your audience.",
-        "image": "/services/sms-qr.png",
+        "image": "/services/sms-qr.webp",
     },
     {
         "icon": <FaLink className="text-[#001a1a]" />,
@@ -118,7 +118,7 @@ const services = [
         "serviceName": "Forms",
         slug: "forms",
         "description": "Design intuitive QR Code forms that streamline data collection, enhance user engagement, and simplify analysis effortlessly.",
-        "image": "/services/forms-qr.png",
+        "image": "/services/forms-qr.webp",
     },
     // {
     //     "icon": <MdDiversity3 className="text-[#001a1a]" />,
@@ -139,14 +139,14 @@ const services = [
         "serviceName": "Zoom Meet",
         slug: "zoom-meets",
         "description": "Generate a Zoom Meet QR Code for instant access to meetings, enhancing convenience and seamless participation.",
-        "image": "/services/Zoom.png",
+        "image": "/services/zoom-qr.webp",
     },
     {
         "icon": <BsMicrosoftTeams className="text-[#001a1a]" />,
         "serviceName": "MS Teams",
         slug: "microsoft-teams",
         "description": "Generate QR Codes for MS Teams to connect instantly, enhancing collaboration and communication in your organization.",
-        "image": "/services/ms-teams-qr.png",
+        "image": "/services/ms-teams-qr.webp",
     },
     {
         "icon": <FaYoutube className="text-[#001a1a]" />,
@@ -174,7 +174,7 @@ const services = [
         "serviceName": "Twitter",
         slug: "twitter",
         "description": "Generate Twitter QR Codes effortlessly, allowing instant connections and sharing of your profile with everyone.",
-        "image": "/services/twitter-qr.png",
+        "image": "/services/twitter-qr.webp",
     },
     {
         "icon": <FaLinkedin className="text-[#001a1a]" />,
@@ -202,14 +202,14 @@ const services = [
         "serviceName": "Discount",
         slug: "discounts",
         "description": "Unlock exclusive discounts with our QR Code generator—share savings and elevate your customer engagement effortlessly!",
-        "image": "/services/discount-qr.png",
+        "image": "/services/discount-qr.webp",
     },
     {
         "icon": <MdEventNote className="text-[#001a1a]" />,
         "serviceName": "Event",
         slug: "events",
         "description": "Generate event QR Codes to effortlessly share details, enhance attendance, and engage participants with instant access.",
-        "image": "/services/event-qr.png",
+        "image": "/services/event-qr.webp",
     },
     {
         "icon": <FaHandsHoldingChild className="text-[#001a1a]" />,
@@ -290,7 +290,7 @@ const encryptedServices = [
         "serviceName": "Audio",
         slug: "audios",
         "description": "Generate QR Codes that link to audio content, experiences with instant access to captivating sound.",
-        "image": "/services/audio-qr.png",
+        "image": "/services/audio-qr.webp",
     },
     {
         "icon": <GrGallery className="text-[#001a1a]" />,

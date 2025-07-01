@@ -13,7 +13,7 @@ const MedicalAlertPreview = () => {
   const { dynamicForms } = useServicesContext();
   const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
 
-  const defaultBg = "/services-service/medical-alert.jpg";
+  const defaultBg = "/services-service/medical-alert.webp";
 
   useEffect(() => {
     setIsLoading(true);

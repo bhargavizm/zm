@@ -875,5 +875,4 @@ export const qrShapeConfig = {
 //   "/images/qr-shapes/coco.png",
 //   "/images/qr-shapes/auto.png",
 //   "/images/qr-shapes/car.png",
-
 // ];
