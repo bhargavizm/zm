@@ -1,6 +1,5 @@
 import { connectDB } from "@/lib/mongoDB";
 
-// app/api/test/route.js
 export const dynamic = "force-dynamic";
 
 
