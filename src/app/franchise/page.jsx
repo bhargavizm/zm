@@ -122,7 +122,7 @@ const HeroSection = () => {
                     className="flex justify-center items-center bg-white rounded-2xl h-130"
                 >
                     <img
-                        src="/images/normal/reGrowth.png"
+                        src="/images/normal/reGrowth.webp"
                         alt="Showcasing modern QR code applications"
                         className="rounded-xl  transform hover:scale-105 transition-transform duration-300"
                     />
@@ -231,7 +231,7 @@ const HowQRCodesTransformBusinessesSection = () => {
                     className="mb-2 max-w-sm mx-auto"
                 >
                     <video
-                        src="/videos/franchise.mp4"
+                        src="/videos/franchise.webm"
                         alt="Video demonstrating various QR code use cases for ZM QR Code Services"
                         className="rounded-xl  w-full h-auto"
                         autoPlay

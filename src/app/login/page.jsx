@@ -228,12 +228,12 @@ export default function LoginPage() {
 
                 {/* Left Section - Hidden on small screens */}
                 <div className="hidden md:flex bg-mainGreen md:w-1/2 flex-col justify-center items-center text-white p-6 rounded-l-2xl">
-                    <Image src="/logo.svg" alt="logo" width={100} height={100} className="m-4 w-24 md:w-32" />
+                    <Image src="/logos/zm-full.webp" alt="logo" width={100} height={100} className="m-4 w-24 md:w-32" />
                     <h1 className="text-lg md:text-xl font-semibold text-center px-4 animate-bounce">
                         🔐 Trust us with your data. It's not just secure — it's encrypted 🔐
                     </h1>
                     <Image
-                        src="/qr-image-login.png"
+                        src="/qr-image-login.webp"
                         alt="qr-image"
                         width={300}
                         height={300}

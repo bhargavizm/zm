@@ -39,7 +39,7 @@ const KidsSafetyPreview = () => {
   const { dynamicForms } = useServicesContext();
   const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
 
-  const defaultBg = "/services-service/kid-safety.jpg";
+  const defaultBg = "/services-service/kid-safety.webp";
 
   useEffect(() => {
     setIsLoading(true);

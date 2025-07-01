@@ -11,7 +11,7 @@ const DiscountCouponPreview = () => {
 
   const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
 
-  const defaultBg ="/services-service/discount.jpg"
+  const defaultBg ="/services-service/discount.webp"
 
   useEffect(() => {
     setIsLoading(true);
