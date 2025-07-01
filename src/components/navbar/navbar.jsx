@@ -36,7 +36,7 @@ const Navbar = () => {
         <Link href="/" className="flex items-center gap-3">
         <div className="w-full h-auto">
           <Image
-            src="/logos/zm-full.jpg"
+            src="/logos/zm-full.webp"
             alt="logo"
             width={170}
             height={50}
