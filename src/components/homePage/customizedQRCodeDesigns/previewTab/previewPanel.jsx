@@ -76,6 +76,8 @@ const qrScaleFactor = shape.scale || 1.6; // increase for better scan
       transform: "translate(-50%, -50%)",
       width: `${qrShapeSize}px`,
       height: `${qrShapeSize}px`,
+
+     
     }}
   >
     <Image
@@ -112,6 +114,7 @@ const qrScaleFactor = shape.scale || 1.6; // increase for better scan
     top: shape.qrTop || "50%",
     left: shape.qrLeft || "50%",
     transform: `translate(-50%, -50%) scale(${qrScaleFactor})`,
+
   }}
 >
   <QRCodeSVG
@@ -217,7 +220,9 @@ export default PreviewPanel;
 //   const logoTop = sticker.logoTop ?? "50%";
 //   const logoLeft = sticker.logoLeft ?? "50%";
 //   const logoPixelSize = getValue(sticker.logoSize, logoSize || 40);
+
 //   const qrTransformScale = `scale(${qrScaleFactor})`;
+
 
 //   return (
 //     <div className="flex justify-center items-center md:py-4">
@@ -290,8 +295,10 @@ export default PreviewPanel;
 //           <div
 //             className="absolute z-30 bg-white rounded-full shadow-md"
 //             style={{
+
 //               top: `calc(${logoTop} + 12px)`,
 //               left: `calc(${logoLeft} + 1px)`,
+
 //               transform: "translate(-50%, -50%)",
 //             }}
 //           >
@@ -415,8 +422,10 @@ export default PreviewPanel;
 //             <div
 //               className="absolute z-40 bg-white rounded-full shadow-md"
 //               style={{
+
 //                 top: `calc(${config.logoTop ?? "50%"} + 12px)`,
 //                 left: `calc(${config.logoLeft ?? "50%"} + 1px)`,
+
 //                 transform: "translate(-50%, -50%)",
 //               }}
 //             >
@@ -553,8 +562,10 @@ export default PreviewPanel;
 //             <div
 //               className="absolute z-50 p-1 rounded-full shadow-md"
 //               style={{
+
 //                 top: `calc(${config.logoTop ?? "50%"} + 10px)`,
 //                 left: `calc(${config.logoLeft ?? "50%"} + 20px)`,
+
 //                 transform: "translate(-50%, -50%)",
 //               }}
 //             >
@@ -664,8 +675,8 @@ export default PreviewPanel;
 //             <div
 //               className="absolute z-40 p-1 rounded-full shadow-md"
 //               style={{
-//                 top: `calc(${stickerStyle.logoTop} + 20px)`,
-//                 left: `calc(${stickerStyle.logoLeft} + 0px)`,
+//                 top: calc(${stickerStyle.logoTop} + 20px),
+//                 left: calc(${stickerStyle.logoLeft} + 0px),
 //                 transform: "translate(-50%, -50%)",
 //               }}
 //             >
