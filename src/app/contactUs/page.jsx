@@ -34,7 +34,7 @@ const ContactUs = () => {
         <div className="w-full max-w-5xl bg-white p-8 md:p-12 rounded-3xl border border-teal-200 shadow-2xl grid grid-cols-1 lg:grid-cols-2 gap-10">
           {/* Left Section: Image */}
           <div>
-            <img src="/images/normal/customerCare2.png" alt="Customer Care" />
+            <img src="/images/normal/customerCare2.webp" alt="Customer Care" />
           </div>
 
           {/* Right Section: Form */}

@@ -112,7 +112,7 @@ const BusinessShopContent = () => {
                 onClick={() => handleTemplateSelect("template1")}
               >
                 <img
-                  src="/images/templates/businessShop1.jpg"
+                  src="/images/templates/businessShop1.webp"
                   alt="Template 1: Opening Hours"
                   className="w-full h-auto object-cover"
                 />
@@ -128,7 +128,7 @@ const BusinessShopContent = () => {
                 onClick={() => handleTemplateSelect("template2")}
               >
                 <img
-                  src="/images/templates/businessShop2.jpg"
+                  src="/images/templates/businessShop2.webp"
                   alt="Template 2: We're Open"
                   className="w-full h-auto object-cover"
                 />
@@ -144,7 +144,7 @@ const BusinessShopContent = () => {
                 onClick={() => handleTemplateSelect("template3")}
               >
                 <img
-                  src="/images/templates/businessShop3.jpg"
+                  src="/images/normal/businessShop3.webp"
                   alt="Template 2: We're Open"
                   className="w-full h-auto object-cover"
                 />
@@ -160,7 +160,7 @@ const BusinessShopContent = () => {
                 onClick={() => handleTemplateSelect("template4")}
               >
                 <img
-                  src="/images/templates/businessShop4.jpg"
+                  src="/images/templates/businessShop4.webp"
                   alt="Template 2: We're Open"
                   className="w-full h-auto object-cover"
                 />
