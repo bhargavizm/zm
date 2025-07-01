@@ -191,7 +191,7 @@ const EventPreview = () => {
   const { eventsFormData } = useServicesContext();
   const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
 
-  const defaultBg = "/services-service/event.jpg";
+  const defaultBg = "/services-service/event.webp";
 
   useEffect(() => {
     setIsLoading(true);

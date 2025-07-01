@@ -11,7 +11,7 @@ const VideoPreview = () => {
   const { title, description, file } = videoFormData || {};
   const fileName = file ? file.name : "No file selected";
 
-  const defaultBg = "/services-service/video.jpg";
+  const defaultBg = "/services-service/video.webp";
 
   const isVideo = bgDesign?.endsWith(".mp4");
   const isImage = bgDesign && !isVideo;

@@ -9,7 +9,7 @@ const ResumePreview = () => {
   const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
   const { title, description, resumeFile, resumeUrl } = resumeFormData || {};
 
-   const defaultBg = "/services-service/resume.jpg";
+   const defaultBg = "/services-service/resume.webp";
 
      useEffect(() => {
        setIsLoading(true);

@@ -92,7 +92,7 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
   "/images/qr-shapes/circle.png": {
