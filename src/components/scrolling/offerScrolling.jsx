@@ -13,9 +13,8 @@ const OfferScrolling = () => {
 
     // Set timeout to re-show after 10 seconds
     timeoutRef.current = setTimeout(() => {
-  setIsVisible(true);
-}, 10 * 60 * 1000); // 10 minutes
-
+      setIsVisible(true);
+    }, 10 * 60 * 1000); // 10 minutes
   };
 
   // Cleanup timeout on unmount
@@ -39,24 +38,13 @@ const OfferScrolling = () => {
         </button>
 
         {/* GIF */}
-        <img
-          src="/free.gif"
-          alt="Free Trial Gif"
-          className="w-52 h-full"
-        />
+        <img src="/free.gif" alt="Free Trial Gif" className="w-52 h-full" />
       </div>
     </div>
   );
 };
 
 export default OfferScrolling;
-
-
-
-
-
-
-
 
 // // "use client";
 
@@ -136,9 +124,8 @@ export default OfferScrolling;
 // //       alt="Free Trial Gif"
 // //       className="w-52 h-full rounded-2xl "
 // //     />
-   
-// //   </div>
 
+// //   </div>
 
 // //     </>
 // //   );
@@ -162,7 +149,7 @@ export default OfferScrolling;
 //     }, 10000);
 //   };
 
-//   if (!showGif) return null;  
+//   if (!showGif) return null;
 
 //   return (
 //     <div className="fixed top-8 right-0 z-[50]">

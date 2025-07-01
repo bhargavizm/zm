@@ -12,8 +12,7 @@ const PDFPreview = () => {
   const fileName = file ? file.name : "No file selected";
 
   const defaultBg = "/services-service/pdf.webp";
-
-  const isVideo = bgDesign?.endsWith(".mp4");
+const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
   const isImage = bgDesign && !isVideo;
 
   // ✅ Set PDF service’s default background on mount
@@ -59,7 +58,7 @@ const PDFPreview = () => {
         {isLoading && (
           <div className="absolute inset-0 z-50 bg-mainGreen backdrop-blur-sm flex justify-center items-center">
             <Image
-              src="/logos/ZM LOGO.png"
+              src="/logos/ZM LOGO.webp"
               alt="Loading"
               width={100}
               height={100}
