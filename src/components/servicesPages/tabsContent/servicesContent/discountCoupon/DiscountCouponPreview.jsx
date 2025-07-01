@@ -18,7 +18,7 @@ const DiscountCouponPreview = () => {
     setBgDesign(defaultBg);
   }, []);
 
-  const isVideo = bgDesign?.endsWith(".mp4");
+  const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
   const isImage = bgDesign && !isVideo;
 
   const formattedDiscountValue =
@@ -75,7 +75,7 @@ const DiscountCouponPreview = () => {
         {isLoading && (
           <div className="absolute inset-0 z-50 bg-mainGreen backdrop-blur-sm flex justify-center items-center">
             <Image
-              src="/logos/ZM LOGO.png"
+              src="/logos/ZM LOGO.webp"
               alt="Loading"
               width={100}
               height={100}

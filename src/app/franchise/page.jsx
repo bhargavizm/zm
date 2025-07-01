@@ -87,7 +87,7 @@ const HeroSection = () => {
     const { dictionary } = useLanguage();
 
     return (
-        <section className="pt-40 flex items-center justify-center p-8 relative overflow-hidden" style={{ background: SITE_COLORS.primaryDarkBg }}>
+        <section className="pt-40 flex items-center justify-center p-8 relative overflow-hidden bg-white" >
             <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between z-10 text-center lg:text-left">
                 <motion.div
                     initial={{ opacity: 0, x: -50 }}
@@ -98,13 +98,13 @@ const HeroSection = () => {
                     {/* <h1 className="text-4xl lg:text-5xl font-extrabold leading-tight" style={{ color: SITE_COLORS.textLight }}>
                         Unlock Digital Business Growth: <br /> Own a <span style={{ color: SITE_COLORS.accentTealLight }}>ZM QR Code Services</span> Franchise!
                     </h1> */}
-                    <h1 className="text-4xl lg:text-5xl font-extrabold leading-tight" style={{ color: SITE_COLORS.textLight }}>
+                    <h1 className="text-4xl lg:text-5xl font-extrabold leading-tight text-mainGreen" >
                         {dictionary.franchise.heroSection.title}
                     </h1>
                     {/* <p className="mt-6 text-lg lg:text-xl" style={{ color: SITE_COLORS.sectionBgLight }}>
                         Join the Future of Connectivity – Your Path to a Thriving Digital Business Starts Here.
                     </p> */}
-                    <p className="mt-6 text-lg lg:text-xl" style={{ color: SITE_COLORS.sectionBgLight }}>
+                    <p className="mt-6 text-lg lg:text-xl text-mainGreen" >
                         {dictionary.franchise.heroSection.description}
                     </p>
                     {/* <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-10 justify-center lg:justify-start">

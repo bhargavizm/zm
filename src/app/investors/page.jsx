@@ -324,7 +324,7 @@ const InvestorsPage = () => {
       >
         {/* Video Background */}
         <motion.div className="absolute inset-0 z-0" style={{ opacity: 1 }}>
-          <video
+          {/* <video
             autoPlay
             muted
             loop
@@ -334,7 +334,8 @@ const InvestorsPage = () => {
           >
             <source src="/videos/investmentbg.mp4" type="video/mp4" />
             Your browser does not support the video tag.
-          </video>
+          </video> */}
+          <img src="/investors.webp" alt=""  className="w-full object-center"/>
         </motion.div>
 
         <div className="relative z-10 text-center px-4 max-w-6xl mx-auto">
