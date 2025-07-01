@@ -61,7 +61,7 @@ const Carousel = ({ items = [] }) => {
               className="bg-white border border-gray-200 shadow-md rounded-xl flex flex-col items-center justify-center p-6 h-64 hover:shadow-xl transition duration-300 cursor-pointer"
             >
               <img
-                src={job.icon || '/placeholder.png'}
+                src={job.icon || '/placeholder.webp'}
                 alt={job.title}
                 className="w-full h-40 mb-4 object-contain rounded-md"
               />
