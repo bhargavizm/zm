@@ -9,7 +9,7 @@ const Template1 = ({ data }) => {
     <div
       className="relative w-full bg-cover bg-center rounded-xl overflow-y-auto scrollbar-hide  shadow-lg p-6 flex flex-col items-center justify-center text-white text-center"
       style={{
-        backgroundImage: `url('/images/normal/template1Shop.jpg')`,
+        backgroundImage: `url('/images/normal/template1Shop.webp')`,
         minHeight: '300px',
         backgroundSize: 'cover',
         backgroundPosition: 'center',

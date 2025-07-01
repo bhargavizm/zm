@@ -99,10 +99,10 @@ const VehiclePreview = () => {
   const isImage = bgDesign && !isVideo;
 
   const templateBgMap = {
-    templateV1: "/images/back/bgcar.png",
-    templateV2: "/images/back/bgauto.png",
-    templateV3: "/images/back/bglorry.png",
-    templateV4: "/images/back/bgbike.png",
+    templateV1: "/images/back/bgcar.webp",
+    templateV2: "/images/back/bgauto.webp",
+    templateV3: "/images/back/bglorry.webp",
+    templateV4: "/images/back/bgbike.webp",
   };
 
 

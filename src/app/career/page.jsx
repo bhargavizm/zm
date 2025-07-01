@@ -156,7 +156,7 @@ export default function Career() {
       {/* Hero Search Section */}
       <section className="relative h-screen overflow-hidden flex items-center justify-center px-4 md:px-16 pt-28 md:pt-0">
         <video autoPlay muted loop playsInline className="absolute top-0 left-0 w-full h-full object-cover z-0">
-          <source src="/videos/careerEarth.mp4" type="video/mp4" />
+          <source src="/videos/careerEarth.webm" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         <div className="absolute inset-0 bg-black/40 z-0" />
@@ -227,7 +227,7 @@ export default function Career() {
           {premiumSectionDictionary.description}
         </p>
         <div className="flex justify-center mb-6">
-          <Image src="/images/normal/careerPa.png" alt="Team Working Illustration" width={280} height={200} className='bg-white rounded-2xl'/>
+          <Image src="/images/normal/careerPa.webp" alt="Team Working Illustration" width={280} height={200} className='bg-white rounded-2xl'/>
         </div>
         <div className='flex justify-center pt-8'>
           <button className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]" onClick={handleSearch}>
@@ -324,7 +324,7 @@ export default function Career() {
     {/* Group Image */}
     <div className="mb-10">
       <Image
-        src="/images/normal/empGroup.png"
+        src="/images/normal/empGroup.webp"
         alt="Team Member Group"
         width={400}
         height={400}
