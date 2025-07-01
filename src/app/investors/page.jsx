@@ -332,7 +332,7 @@ const InvestorsPage = () => {
             className="w-full h-full object-cover"
             style={{ backgroundColor: "#f3f4f6" }}
           >
-            <source src="/videos/investmentbg.mp4" type="video/mp4" />
+            <source src="/videos/investmentbg.webm" type="video/mp4" />
             Your browser does not support the video tag.
           </video> */}
           <img src="/investors.webp" alt=""  className="w-full object-center"/>
@@ -856,7 +856,7 @@ const InvestorsPage = () => {
                 muted
                 playsInline
               >
-                <source src="/videos/HandShaking.mp4" type="video/mp4" />
+                <source src="/videos/HandShaking.webm" type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
 

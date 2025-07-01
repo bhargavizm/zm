@@ -106,7 +106,7 @@ const TextMessagePreview = () => {
   const { textMessageForm } = useServicesContext();
   const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
 
-  const defaultBg = "/services-service/text-message.jpg";
+  const defaultBg = "/services-service/text-message.webp";
 
   useEffect(() => {
     setIsLoading(true);
