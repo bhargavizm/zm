@@ -87,8 +87,8 @@ const HeroSection = () => {
     const { dictionary } = useLanguage();
 
     return (
-        <section className="pt-40 flex items-center justify-center p-8 relative overflow-hidden bg-white" >
-            <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between z-10 text-center lg:text-left">
+        <section className="pt-28 flex items-start justify-center p-8 relative overflow-hidden bg-white" >
+            <div className="container mx-auto flex flex-col lg:flex-row items-start justify-between z-10 text-center lg:text-left">
                 <motion.div
                     initial={{ opacity: 0, x: -50 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -124,7 +124,7 @@ const HeroSection = () => {
                     <img
                         src="/images/normal/reGrowth.png"
                         alt="Showcasing modern QR code applications"
-                        className="rounded-xl shadow-2xl transform hover:scale-105 transition-transform duration-300"
+                        className="rounded-xl  transform hover:scale-105 transition-transform duration-300"
                     />
                 </motion.div>
             </div>
