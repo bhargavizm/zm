@@ -42,7 +42,7 @@ const BusinessCardTemplateOne = ({ businessForm, profileImage, brandLogo }) => {
             <div className="flex justify-center -mt-12 mb-2">
                 <div className="my-15 w-24 h-24 rounded-full border-4 border-yellow-500 overflow-hidden">
                     <Image
-                        src={profileImage || "/default-user.png"}
+                        src={profileImage || "/default-user.webp"}
                         alt={"Profile"}
                         width={96}
                         height={96}

@@ -30,11 +30,11 @@ const Carousel = dynamic(() => import('@/components/Carousel'), {
 });
 
 const jobOpenings = [
-  { title: 'Frontend Developer', icon: '/icons/frontend.png' },
-  { title: 'Backend Developer', icon: '/icons/backend.png' },
-  { title: 'QA Engineer', icon: '/icons/qa.png' },
-  { title: 'DevOps Engineer', icon: '/icons/devops.png' },
-  { title: 'Product Manager', icon: '/icons/pm.png' },
+  { title: 'Frontend Developer', icon: '/icons/frontend.webp' },
+  { title: 'Backend Developer', icon: '/icons/backend.webp' },
+  { title: 'QA Engineer', icon: '/icons/qa.webp' },
+  { title: 'DevOps Engineer', icon: '/icons/devops.webp' },
+  { title: 'Product Manager', icon: '/icons/pm.webp' },
 ];
 
 const teamTestimonials = [
@@ -96,7 +96,7 @@ const teamTestimonials = [
 ];
 
 const officeImages = [
-  '/images/office/office1.jpg',
+  '/images/office/office1.webp',
   '/images/office/office2.jpg',
   '/images/office/office3.jpg',
   '/images/office/office4.jpg',
@@ -299,7 +299,7 @@ export default function Career() {
           </div>
           <div className="flex-1">
             <Image
-              src="/images/people-8577398_1280.jpg"
+              src="/images/people-8577398_1280.webp"
               alt="ZM Careers Team"
               width={500}
               height={400}
