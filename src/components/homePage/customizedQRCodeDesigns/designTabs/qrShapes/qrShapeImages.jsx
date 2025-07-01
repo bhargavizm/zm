@@ -1,5 +1,5 @@
 export const qrShapeConfig = {
-  //  "/images/qr-shapes/clouds.png": {
+  // "/images/qr-shapes/clouds.png": {
   //   qrTop: "50%",
   //   qrLeft: "50%",
   //   scale: 0.6,
@@ -8,10 +8,10 @@ export const qrShapeConfig = {
   //   logoSize: {
   //     default: 22,
   //     tablet: 20,
-  //    mobile: 20,
+  //     mobile: 20,
   //   },
   // },
-   "/images/qr-shapes/traingle.png": {
+  "/images/qr-shapes/traingle.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -20,10 +20,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-    "/images/qr-shapes/mirror.png": {
+  "/images/qr-shapes/mirror.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -32,10 +32,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-    "/images/qr-shapes/cat with mustach.png": {
+  "/images/qr-shapes/cat with mustach.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -44,34 +44,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
-    },
-  }, 
-    "/images/qr-shapes/oct.png": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 1.0,
-    logoTop: "65%",
-    logoLeft: "50%",
-    logoSize: {
-      default: 22,
-      tablet: 20,
-     mobile: 20,
-    },
-  }, 
-    "/images/qr-shapes/cloud.png": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 1.0,
-    logoTop: "65%",
-    logoLeft: "50%",
-    logoSize: {
-      default: 22,
-      tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-    "/images/qr-shapes/hat.png": {
+  "/images/qr-shapes/oct.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -80,10 +56,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-    "/images/qr-shapes/spider.png": {
+  "/images/qr-shapes/cloud.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -92,10 +68,34 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/circle.png": {
+  "/images/qr-shapes/hat.webp": {
+    qrTop: "50%",
+    qrLeft: "50%",
+    scale: 1.0,
+    logoTop: "65%",
+    logoLeft: "50%",
+    logoSize: {
+      default: 22,
+      tablet: 20,
+      mobile: 20,
+    },
+  },
+  "/images/qr-shapes/spider.webp": {
+    qrTop: "50%",
+    qrLeft: "50%",
+    scale: 1.0,
+    logoTop: "65%",
+    logoLeft: "50%",
+    logoSize: {
+      default: 22,
+      tablet: 20,
+      mobile: 20,
+    },
+  },
+  "/images/qr-shapes/circle.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.2,
@@ -104,10 +104,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/bottle.png": {
+  "/images/qr-shapes/bottle.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -116,10 +116,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/cat.png": {
+  "/images/qr-shapes/cat.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -128,10 +128,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/cup.png": {
+  "/images/qr-shapes/cup.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -140,10 +140,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/lovesymbol.png": {
+  "/images/qr-shapes/lovesymbol.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -152,10 +152,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/flower.png": {
+  "/images/qr-shapes/flower.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -164,10 +164,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/pine.png": {
+  "/images/qr-shapes/pine.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -176,10 +176,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/rabbit.png": {
+  "/images/qr-shapes/rabbit.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -188,10 +188,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/shirt.png": {
+  "/images/qr-shapes/shirt.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -200,10 +200,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/ice.png": {
+  "/images/qr-shapes/ice.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -212,10 +212,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/tree.png": {
+  "/images/qr-shapes/tree.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -224,10 +224,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/lotus.png": {
+  "/images/qr-shapes/lotus.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -236,12 +236,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-
-
-  "/images/qr-shapes/frock.png": {
+  "/images/qr-shapes/frock.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -250,10 +248,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/palm.png": {
+  "/images/qr-shapes/palm.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -262,10 +260,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/guitar.png": {
+  "/images/qr-shapes/guitar.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -274,10 +272,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/fish.png": {
+  "/images/qr-shapes/fish.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -286,10 +284,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/glass.png": {
+  "/images/qr-shapes/glass.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -298,10 +296,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/laptop.png": {
+  "/images/qr-shapes/laptop.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -310,11 +308,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-
-  "/images/qr-shapes/gift.png": {
+  "/images/qr-shapes/gift.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -323,10 +320,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/ice cream in cone.png": {
+  "/images/qr-shapes/ice cream in cone.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -335,10 +332,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/like.png": {
+  "/images/qr-shapes/like.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -347,10 +344,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/umbrella.png": {
+  "/images/qr-shapes/umbrella.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -359,10 +356,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/waterdrop.png": {
+  "/images/qr-shapes/waterdrop.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -371,10 +368,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/goun.png": {
+  "/images/qr-shapes/goun.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -383,11 +380,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
- 
-  "/images/qr-shapes/apple.png": {
+  "/images/qr-shapes/apple.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -396,10 +392,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/mango.png": {
+  "/images/qr-shapes/mango.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -408,11 +404,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-
-  "/images/qr-shapes/house.png": {
+  "/images/qr-shapes/house.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -421,10 +416,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/biryani.png": {
+  "/images/qr-shapes/biryani.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -433,10 +428,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/lock.png": {
+  "/images/qr-shapes/lock.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -445,11 +440,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-
-  "/images/qr-shapes/boxing gloves.png": {
+  "/images/qr-shapes/boxing gloves.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -458,10 +452,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/moon-star.png": {
+  "/images/qr-shapes/moon-star.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -470,10 +464,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/dou .png": {
+  "/images/qr-shapes/dou .webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -482,10 +476,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/handbag.png": {
+  "/images/qr-shapes/handbag.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -494,11 +488,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-
-  "/images/qr-shapes/bike.png": {
+  "/images/qr-shapes/bike.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -507,10 +500,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/tv.png": {
+  "/images/qr-shapes/tv.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -519,10 +512,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/cap.png": {
+  "/images/qr-shapes/cap.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -531,10 +524,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/cooldrink.png": {
+  "/images/qr-shapes/cooldrink.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -543,10 +536,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/coco.png": {
+  "/images/qr-shapes/coco.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -555,10 +548,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/auto.png": {
+  "/images/qr-shapes/auto.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -567,10 +560,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
-  "/images/qr-shapes/car.png": {
+  "/images/qr-shapes/car.webp": {
     qrTop: "50%",
     qrLeft: "50%",
     scale: 1.0,
@@ -579,11 +572,10 @@ export const qrShapeConfig = {
     logoSize: {
       default: 22,
       tablet: 20,
-     mobile: 20,
+      mobile: 20,
     },
   },
 };
-
 // export const qrShapeConfig = {
 //   "/images/qr-shapes/circle.png": {
 //     qrTop: "50%",

@@ -4,50 +4,49 @@ import Image from "next/image";
 import React from "react";
 
 const bgImages = [
-  "/bg-images/7.png",
-  "/bg-images/8.png",
-  "/bg-images/9.png",
-  "/bg-images/10.png",
-  "/bg-images/11.png",
-  "/bg-images/12.png",
-  "/bg-images/13.png",
-  "/bg-images/14.png",
-  "/bg-images/15.png",
-  "/bg-images/16.png",
-  "/bg-images/17.png",
-  "/bg-images/18.png",
-  "/bg-images/19.png",
-  "/bg-images/21.png",
-  "/bg-images/22.png",
-  "/bg-images/23.png",
-  "/bg-images/24.png",
-  "/bg-images/25.png",
-  "/bg-images/26.png",
-  "/bg-images/27.png",
-  "/bg-images/28.jpg",
-  "/bg-images/29.jpg",
-  "/bg-images/30.jpg",
-  "/bg-images/31.jpg",
+  "/bg-images/7.webp",
+  "/bg-images/8.webp",
+  "/bg-images/9.webp",
+  "/bg-images/10.webp",
+  "/bg-images/11.webp",
+  "/bg-images/12.webp",
+  "/bg-images/13.webp",
+  "/bg-images/14.webp",
+  "/bg-images/15.webp",
+  "/bg-images/16.webp",
+  "/bg-images/17.webp",
+  "/bg-images/18.webp",
+  "/bg-images/19.webp",
+  "/bg-images/21.webp",
+  "/bg-images/22.webp",
+  "/bg-images/23.webp",
+  "/bg-images/24.webp",
+  "/bg-images/25.webp",
+  "/bg-images/26.webp",
+  "/bg-images/27.webp",
+  "/bg-images/28.webp",
+  "/bg-images/29.webp",
+  "/bg-images/30.webp",
+  "/bg-images/31.webp",
 ];
 
 const bgVideos = [
-  "/bg-images/c.mp4",
-  "/bg-images/d.mp4",
-  "/bg-images/e.mp4",
-  "/bg-images/g.mp4",
-  "/bg-images/h.mp4",
-  "/bg-images/i.mp4",
-  "/bg-images/j.mp4",
-  "/bg-images/m.mp4",
-  "/bg-images/n.mp4",
-  "/bg-images/o.mp4",
-  "/bg-images/s.mp4",
-  "/bg-images/t.mp4",
-  "/bg-images/f.mp4",
-  "/bg-images/l.mp4",
-  "/bg-images/r.mp4",
+  "/bg-images/c.webm",
+  "/bg-images/d.webm",
+  "/bg-images/e.webm",
+  "/bg-images/g.webm",
+  "/bg-images/h.webm",
+  "/bg-images/i.webm",
+  "/bg-images/j.webm",
+  "/bg-images/m.webm",
+  "/bg-images/n.webm",
+  "/bg-images/o.webm",
+  "/bg-images/s.webm",
+  "/bg-images/t.webm",
+  "/bg-images/f.webm",
+  "/bg-images/l.webm",
+  "/bg-images/r.webm",
 ];
-
 const BackdropDesigns = () => {
   const { setIsLoading, setBgDesign, bgDesign } = useDesignContext();
 
@@ -55,7 +54,7 @@ const BackdropDesigns = () => {
     setIsLoading(true); // Start loader
     setBgDesign(src);
   };
-
+console.log(bgDesign);
   return (
     <section className="space-y-4 text-center">
       {/* Image grid */}
@@ -102,6 +101,10 @@ const BackdropDesigns = () => {
               muted
               loop
               playsInline
+              autoPlay
+              type='video/webm'
+               preload="metadata"
+              //  controls
             />
 
           </div>

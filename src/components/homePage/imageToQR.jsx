@@ -26,7 +26,7 @@ const ImageToQR = () => {
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 w-full max-w-7xl">
         <div className="md:col-span-8 flex justify-center">
           <Image
-            src="/images/home/image-qr.png"
+            src="/images/home/image-qr.webp"
             alt="Main QR Code"
             width={1000}
             height={1000}
@@ -35,7 +35,7 @@ const ImageToQR = () => {
         </div>
         <div className="md:col-span-4 flex justify-center">
           <Image
-            src="/images/home/image-qr-1.png"
+            src="/images/home/image-qr-1.webp"
             alt="Secondary QR Code"
             width={500}
             height={500}
@@ -50,7 +50,7 @@ const ImageToQR = () => {
           <div className="relative">
             <div className="absolute -inset-2 rounded-lg bg-amber-700 blur-lg opacity-75 animate-pulse"></div>
             <Image
-              src="/images/home/image-qr-2.png"
+              src="/images/home/image-qr-2.webp"
               alt="Image to QR Code"
               width={200}
               height={200}
@@ -63,7 +63,7 @@ const ImageToQR = () => {
         <div className="flex justify-center items-center">
           <div className="relative floating-tiles-animation rounded-xl">
             <Image
-              src="/images/home/image-qr-3.png"
+              src="/images/home/image-qr-3.webp"
               alt="Floating QR"
               width={200}
               height={200}
@@ -78,7 +78,7 @@ const ImageToQR = () => {
         {/* Gentle pulse */}
         <div className="flex justify-center items-center animate-pulse-gentle">
           <Image
-            src="/images/home/image-qr-4.png"
+            src="/images/home/image-qr-4.webp"
             alt="Pulsing QR"
             width={200}
             height={200}
@@ -90,7 +90,7 @@ const ImageToQR = () => {
         <div className="flex justify-center items-center">
           <div className="animate-bounce-slow">
             <Image
-              src="/images/home/scan.png"
+              src="/images/home/scan.webp"
               alt="Bounce QR"
               width={200}
               height={200}
@@ -103,7 +103,7 @@ const ImageToQR = () => {
         <div className="flex justify-center items-center">
           <div className="p-1 rounded-lg bg-gradient-to-r from-amber-700 via-yellow-500 to-amber-700 bg-size-200 animate-gradient-border">
             <Image
-              src="/images/home/image-qr-5.png"
+              src="/images/home/image-qr-5.webp"
               alt="Gradient QR"
               width={200}
               height={200}

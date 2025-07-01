@@ -21,7 +21,7 @@ const BusinessPreview = () => {
   const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
 
   const SelectedTemplate = templateComponentMap[businessForm.selectedTemplate || "bc.webp"];
-  const isVideo = bgDesign?.endsWith(".mp4");
+ const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
   const isImage = bgDesign && !isVideo;
 
   useEffect(() => {
@@ -62,7 +62,7 @@ const BusinessPreview = () => {
         {isLoading && (
           <div className="absolute inset-0 z-50 bg-mainGreen backdrop-blur-sm flex justify-center items-center">
             <Image
-              src="/logos/ZM LOGO.png"
+              src="/logos/ZM LOGO.webp"
               alt="Loading Logo"
               width={300}
               height={150}
