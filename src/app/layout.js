@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
             <DesignProvider>
               <ScrollToTop />
               <Navbar />
-              {/* <OfferScrolling/> */}
+              <OfferScrolling/>
               <main>
                 {children}
               </main>

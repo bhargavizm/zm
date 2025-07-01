@@ -1,14 +1,21 @@
+import mongoose from "mongoose";
 
-const mongoose = require("mongoose");
 
 const URLServicesSchema = new mongoose.Schema(
   {
-    serviceName: { type: String, required: true, unique: true },
+    serviceName: { type: String, required: true,  }, 
     url: { type: String, required: true },
     password: { type: String, required: true },
   },
   { timestamps: true }
 );
 
-const serviceModel = mongoose.models.Service || mongoose.model("URL-Services", URLServicesSchema);
-module.exports = { serviceModel };
+// Create index on userId + serviceName to speed up queries
+//URLServicesSchema.index({ userId: 1, serviceName: 1 }, { unique: true });
+
+
+// Use camelCase model name and match with models[ModelName]
+const URLServiceModel =
+  mongoose.models.URLService || mongoose.model("URLService", URLServicesSchema);
+
+export default URLServiceModel;
