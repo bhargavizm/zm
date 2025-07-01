@@ -171,7 +171,7 @@ const fetchCurrentLocation = async () => {
                 onClick={() => handleTemplateSelect("templateV1")}
               >
                 <img
-                  src="/images/background/carbg.png"
+                  src="/images/background/carbg.webp"
                   alt="Template V1: Modern Vehicle Card"
                   className="w-full h-auto object-cover"
                 />
@@ -186,7 +186,7 @@ const fetchCurrentLocation = async () => {
                 onClick={() => handleTemplateSelect("templateV2")}
               >
                 <img
-                  src="/images/background/autobg.png"
+                  src="/images/background/autobg.webp"
                   alt="Template V2: Modern Vehicle Card"
                   className="w-full h-auto object-cover"
                 />
@@ -202,7 +202,7 @@ const fetchCurrentLocation = async () => {
                 onClick={() => handleTemplateSelect("templateV3")}
               >
                 <img
-                 src="/images/background/lorrybg.png"
+                 src="/images/background/lorrybg.webp"
                   alt="Template V2: Modern Vehicle Card"
                   className="w-full h-auto object-cover"
                 />
@@ -218,7 +218,7 @@ const fetchCurrentLocation = async () => {
                 onClick={() => handleTemplateSelect("templateV4")}
               >
                 <img
-                  src="/images/background/bikebg.png"
+                  src="/images/background/bikebg.webp"
                   alt="Template V1: Modern Vehicle Card"
                   className="w-full h-auto object-cover"
                 />
