@@ -10,7 +10,7 @@ const PetIdTemplateTwo = ({ petIDFormData }) => {
         <div
             className="relative w-[350px] h-[650px] overflow-y-auto scrollbar-hide rounded-lg shadow-lg flex flex-col items-center justify-start p-6"
             style={{
-                backgroundImage: "url(/pet-id/pet2.jpg)", // Using pet2.webp for background
+                backgroundImage: "url(/pet-id/pet2.webp)", // Using pet2.webp for background
                 backgroundSize: "cover",
                 backgroundPosition: "center",
             }}
@@ -30,7 +30,7 @@ const PetIdTemplateTwo = ({ petIDFormData }) => {
                     />
                 ) : (
                     <div className="w-[150px] h-[150px] bg-gray-200 rounded-full flex items-center justify-center text-gray-500">
-                         <img src="/pet-id/dog1.png"/>
+                         <img src="/pet-id/dog1.webp"/>
                     </div>
                 )}
             </div>

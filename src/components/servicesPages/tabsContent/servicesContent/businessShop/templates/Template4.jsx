@@ -10,7 +10,7 @@ const Template4 = ({ data }) => {
       <div 
         className="absolute inset-0 z-0"
          style={{
-        backgroundImage: `url('/images/normal/template4Shop.jpg')`,
+        backgroundImage: `url('/images/normal/template4Shop.webp')`,
         minHeight: '300px',
         backgroundSize: 'cover',
         backgroundPosition: 'center',

@@ -11,19 +11,19 @@ const PetIdTemplateOne = ({ petIDFormData }) => {
     switch (petIDFormData.selectedTemplate) {
         case "pet1.webp":
         case "pet2.webp":
-            backgroundImage = "/pet-id/pet1.jpg"; // Both pet1 and pet2 use similar dog image backgrounds, assuming pet1.webp as the base
+            backgroundImage = "/pet-id/pet1.webp"; // Both pet1 and pet2 use similar dog image backgrounds, assuming pet1.webp as the base
             break;
         case "pet3.webp":
-            backgroundImage = "/pet-id/pet3.jpg";
+            backgroundImage = "/pet-id/pet3.webp";
             break;
         case "pet4.webp":
-            backgroundImage = "/pet-id/pet4.jpg";
+            backgroundImage = "/pet-id/pet4.webp";
             break;
         case "PET6.webp":
-            backgroundImage = "/pet-id/PET6.jpg";
+            backgroundImage = "/pet-id/PET6.webp";
             break;
         default:
-            backgroundImage = "/pet-id/pet1.jpg"; // Default to pet1.webp if no template is selected or found
+            backgroundImage = "/pet-id/pet1.webp"; // Default to pet1.webp if no template is selected or found
     }
 
     return (
@@ -50,7 +50,7 @@ const PetIdTemplateOne = ({ petIDFormData }) => {
                     />
                 ) : (
                     <div className="w-[150px] h-[150px] bg-gray-200 rounded-full flex items-center justify-center text-gray-500">
-                        <img src="/pet-id/dog1.png"/>
+                        <img src="/pet-id/dog1.webp"/>
                     </div>
                 )}
             </div>

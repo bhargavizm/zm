@@ -91,7 +91,7 @@ const Template3 = ({ data }) => {
     <div
       className="relative w-full bg-cover bg-center rounded-xl overflow-hidden shadow-lg p-6 flex flex-col items-center justify-center text-white text-center"
       style={{
-        backgroundImage: `url('/images/templates/businessShop3.jpg')`, // Use a gold showroom-style background
+        backgroundImage: `url('/images/normal/businessShop3.webp')`, // Use a gold showroom-style background
         minHeight: '300px',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
