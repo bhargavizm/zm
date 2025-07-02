@@ -5,6 +5,8 @@ import { combineReducers } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // localStorage
 import servicesReducer from "../slices/servicesSlice";
+import authReducer from "../slices/authSlice";
+//import urlServiceReducer from '../slices/urlServicesSlice'
 
 // ⛔ Do NOT import thunk manually — it's already included by Redux Toolkit
 // import { thunk } from "redux-thunk";
@@ -12,8 +14,9 @@ import servicesReducer from "../slices/servicesSlice";
 import urlServiceReducer from "../slices/urlServicesSlice";
 
 const rootReducer = combineReducers({
-  urlService: urlServiceReducer,
-  services:servicesReducer
+  authentication: authReducer,
+  services:servicesReducer,
+  urlService: urlServiceReducer
 });
 
 const persistConfig = {
@@ -29,7 +32,7 @@ export const myStore = configureStore({
     getDefaultMiddleware({
       serializableCheck: false,
     }),
-  // ⛔ Don't add `.concat(thunk)` — already included
+  // ⛔ Don't add .concat(thunk) — already included
 });
 
 export const myPersistor = persistStore(myStore);
