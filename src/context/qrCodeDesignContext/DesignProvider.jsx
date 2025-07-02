@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { DesignContext } from "../qrCodeDesignContext/DesignContext";
 
-const DEFAULT_QR_SHAPE = "/images/qr-shapes/circle.png";
+const DEFAULT_QR_SHAPE = "/images/qr-shapes/circle.webp";
 const DEFAULT_LOGO = "/images/logos/insta.webp";
 const DEFAULT_STICKER = "/images/stickers/water.webp";
 

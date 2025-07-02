@@ -1,12 +1,13 @@
-import Footer from "@/components/footer/footer";
 import "./globals.css";
-import { LanguageProvider } from "@/context/languageContext/LanguageContext"; // 👈 Import your provider
-import DesignProvider from "@/context/qrCodeDesignContext/DesignProvider";
-import ServicesProvider from "@/context/servicesContext/SercivesProvider";
+import Footer from "@/components/footer/footer";
 import Navbar from "@/components/navbar/navbar";
 import ScrollToTop from "@/components/scrollToTop/scrollToTop";
 import OfferScrolling from "@/components/scrolling/offerScrolling";
+import { LanguageProvider } from "@/context/languageContext/LanguageContext";
+import DesignProvider from "@/context/qrCodeDesignContext/DesignProvider";
+import ServicesProvider from "@/context/servicesContext/SercivesProvider";
 import PremiumProvider from "@/context/premiumContext/PremiumProvider";
+import ReduxProvider from "@/redux/reduxProvider/reduxProvider";
 
 
 export const metadata = {
@@ -18,21 +19,21 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <LanguageProvider> {/* 👈 Wrap the app in provider */}
-        <PremiumProvider>
-          <ServicesProvider>
-            <DesignProvider>
-              <ScrollToTop />
-              <Navbar />
-              <OfferScrolling/>
-              <main>
-                {children}
-              </main>
-              <Footer />
-            </DesignProvider>
-          </ServicesProvider>
-          </PremiumProvider>
-        </LanguageProvider>
+        <ReduxProvider> {/* ✅ Wrap entire app with Redux */}
+          <LanguageProvider>
+            <PremiumProvider>
+              <ServicesProvider>
+                <DesignProvider>
+                  <ScrollToTop />
+                  <Navbar />
+                  <OfferScrolling />
+                  <main>{children}</main>
+                  <Footer />
+                </DesignProvider>
+              </ServicesProvider>
+            </PremiumProvider>
+          </LanguageProvider>
+        </ReduxProvider>
       </body>
     </html>
   );
