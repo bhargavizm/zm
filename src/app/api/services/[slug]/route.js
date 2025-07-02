@@ -1,34 +1,46 @@
 import { connectDB } from "@/lib/mongoDB";
 import URLServiceModel from "@/models/services/urlServicesSchema";
+import { passwordValidationSchema } from "@/utils/validators";
 
-// POST /api/services/landing-page
 export const POST = async (req, { params }) => {
   try {
     await connectDB();
 
-    const { slug } = params; // dynamic service name from URL
-    const { url, password } = await req.json();
+    const { slug } = params;
+    const body = await req.json();
 
-    if (!slug || !url || !password) {
+    const { url } = body; // ✅ Get url directly from body
+
+    // ✅ Only validate password using Zod
+    const parsed = passwordValidationSchema.safeParse(body);
+    if (!parsed.success) {
+      const errorMessages = parsed.error.errors.map((e) => e.message);
       return Response.json(
-        { success: false, error: "Missing required fields" },
+        { success: false, error: errorMessages.join(", ") },
         { status: 400 }
       );
     }
 
-    // Save the document with dynamic serviceName
+    const { password } = parsed.data;
+
     const saved = await URLServiceModel.create({
       serviceName: slug,
       url,
       password,
     });
 
-    return Response.json({ success: true, URLServicesData: saved }, { status: 201 });
-  } catch (error) {
-    console.error("POST error:", error);
     return Response.json(
-      { success: false, error: error.message },
+      {
+        success: true,
+        message: `${slug} Service Data submitted Successfully`,
+        URLServicesData: saved,
+      },
+      { status: 201 }
+    );
+  } catch (error) {
+    return Response.json(
+      { success: false, error: error.message || "Server error" },
       { status: 500 }
     );
   }
-}
+};

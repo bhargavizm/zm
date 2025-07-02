@@ -83,6 +83,18 @@ export const qrShapeConfig = {
       mobile: 20,
     },
   },
+   "/images/qr-shapes/ice cream in cone.webp": {
+    qrTop: "50%",
+    qrLeft: "50%",
+    scale: 1.0,
+    logoTop: "65%",
+    logoLeft: "50%",
+    logoSize: {
+      default: 22,
+      tablet: 20,
+      mobile: 20,
+    },
+  },
   "/images/qr-shapes/spider.webp": {
     qrTop: "50%",
     qrLeft: "50%",
@@ -323,18 +335,7 @@ export const qrShapeConfig = {
       mobile: 20,
     },
   },
-  "/images/qr-shapes/ice cream in cone.webp": {
-    qrTop: "50%",
-    qrLeft: "50%",
-    scale: 1.0,
-    logoTop: "65%",
-    logoLeft: "50%",
-    logoSize: {
-      default: 22,
-      tablet: 20,
-      mobile: 20,
-    },
-  },
+ 
   "/images/qr-shapes/like.webp": {
     qrTop: "50%",
     qrLeft: "50%",

@@ -319,7 +319,7 @@ const InvestorsPage = () => {
 
       {/* Hero Section with Video Background */}
       <motion.section
-        className="relative h-screen w-full overflow-hidden flex items-center justify-center bg-gray-50"
+        className="relative w-full h-screen overflow-hidden flex items-center justify-center bg-gray-50"
         style={{ y: backgroundY }}
       >
         {/* Video Background */}
@@ -335,7 +335,7 @@ const InvestorsPage = () => {
             <source src="/videos/investmentbg.webm" type="video/mp4" />
             Your browser does not support the video tag.
           </video> */}
-          <img src="/investors.webp" alt=""  className="w-full object-center"/>
+          <img src="/investor.webp" alt=""  className="w-full h-full object-center"/>
         </motion.div>
 
         <div className="relative z-10 text-center px-4 max-w-6xl mx-auto">
@@ -371,7 +371,7 @@ const InvestorsPage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="text-xl md:text-2xl text-gray-600 mb-10 max-w-3xl mx-auto"
+            className="text-xl md:text-2xl text-white mb-10 max-w-3xl mx-auto"
           >
             {dictionary.investor.hero.description}
           </motion.p>
@@ -388,7 +388,7 @@ const InvestorsPage = () => {
               href="#contact"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-transparent border-2 border-teal-500 px-8 py-4 rounded-full font-semibold text-lg hover:bg-teal-900/30 transition-all text-teal-600"
+              className="bg-transparent border-2 border-teal-500 px-8 py-4 rounded-full font-semibold text-lg hover:bg-teal-900/30 transition-all text-white"
             >
               {dictionary.investor.hero.contactButton}
             </motion.a>
