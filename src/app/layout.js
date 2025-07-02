@@ -8,7 +8,7 @@ import DesignProvider from "@/context/qrCodeDesignContext/DesignProvider";
 import ServicesProvider from "@/context/servicesContext/SercivesProvider";
 import PremiumProvider from "@/context/premiumContext/PremiumProvider";
 import ReduxProvider from "@/redux/reduxProvider/reduxProvider";
-
+import { Toaster } from "react-hot-toast";
 
 export const metadata = {
   title: "Zm QR Code Services",
@@ -19,6 +19,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
+         <Toaster position="top-center" reverseOrder={false} /> 
         <ReduxProvider> {/* ✅ Wrap entire app with Redux */}
           <LanguageProvider>
             <PremiumProvider>
