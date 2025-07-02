@@ -7,7 +7,7 @@ import useDesignContext from "@/components/hooks/useDesignContext";
 const ResumePreview = () => {
   const { resumeFormData } = useServicesContext();
   const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
-  const { title, description, resumeFile, resumeUrl } = resumeFormData || {};
+  const { resumeFile, resumeUrl } = resumeFormData || {};
 
    const defaultBg = "/services-service/resume.webp";
 
@@ -69,19 +69,7 @@ const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
         <div className="relative z-20 rounded-xl p-9 bg-white/70  flex flex-col items-center justify-center overflow-y-auto no-scrollbar text-center space-y-4 m-2">
           {/* <h2 className="text-base font-bold ">📱 Resume Preview</h2> */}
 
-          {title && (
-            <div className="w-full text-darkGreen">
-              <p className="  mb-1">Title</p>
-              <p className="text-sm font-semibold">{title}</p>
-            </div>
-          )}
-
-          {description && (
-            <div className="w-full text-darkGreen">
-              <p className=" mb-1">Description</p>
-              <p className="text-sm whitespace-pre-wrap">{description}</p>
-            </div>
-          )}
+          
 
           {resumeFile && (
             <div className="w-full text-darkGreen">
