@@ -15,10 +15,8 @@ import urlServiceReducer from "../slices/urlServicesSlice";
 
 const rootReducer = combineReducers({
   authentication: authReducer,
-  urlService: urlServiceReducer,
-  services:servicesReducer
-  urlService: urlServiceReducer,
-services:servicesReducer
+  services:servicesReducer,
+  urlService: urlServiceReducer
 });
 
 const persistConfig = {

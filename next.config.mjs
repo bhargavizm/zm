@@ -15,6 +15,7 @@ const nextConfig = {
     unoptimized: true, // ✅ Required: disables Image Optimization (not supported in static export)
     domains: ['images.unsplash.com'], // ✅ Only needed if you're using <Image> with remote images
   },
+
 };
 
 export default nextConfig;
