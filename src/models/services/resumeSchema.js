@@ -2,15 +2,7 @@ import mongoose from "mongoose";
 
 const resumeSchema = new mongoose.Schema(
   {
-    title: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    description: {
-      type: String,
-      trim: true,
-    },
+    
     resumeFileName: {
       type: String,
       default: null, // if user provides file
@@ -21,7 +13,6 @@ const resumeSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
     },
   },
   {

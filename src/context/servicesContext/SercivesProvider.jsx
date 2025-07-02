@@ -97,10 +97,8 @@ const ServicesProvider = ({ children }) => {
 
   // Resume (Original structure)
   const [resumeFormData, setResumeFormData] = useState({
-    title: "",
-    description: "",
-    documentFile: null,
-    documentUrl: "",
+    resumeFile: null,
+    resumeUrl: "",
     password: "",
   });
 
