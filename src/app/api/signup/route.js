@@ -53,7 +53,6 @@
 
 
 import { NextResponse } from 'next/server';
-import jwt from 'jsonwebtoken';
 import { connectDB } from '@/lib/mongoDB';
 import { UserModel } from '@/models/auth/userSchema';
 
@@ -116,11 +115,7 @@ export async function POST(req) {
         const newUser = new UserModel({ name, email, phone, password });
         await newUser.save();
 
-        const token = jwt.sign(
-            { id: newUser._id, email: newUser.email },
-            process.env.JWT_SECRET || 'your_jwt_secret',
-            { expiresIn: '7d' }
-        );
+        
 
         return NextResponse.json(
             {
