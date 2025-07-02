@@ -79,7 +79,7 @@ const SignUpRight = () => {
                 <div className="relative w-[20rem] mt-3">
                     <input
                         type="password"
-                        id="cpassword"
+                        id="confirmPassword"
                         placeholder=" "
                         className="peer w-full border-2 border-gray-300 rounded-sm px-1 pt-2 pb-2 text-gray-800 focus:outline-none focus:border-[#008080]"
                     />
