@@ -166,50 +166,79 @@
 // }
 
 
+
+
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { FcGoogle } from 'react-icons/fc';
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserData } from '@/redux/slices/authSlice';
 
 export default function LoginPage() {
     const router = useRouter();
+    const dispatch = useDispatch();
     const [active, setActive] = useState('existing');
     const modalRef = useRef(null);
     const [showPassword, setShowPassword] = useState(false);
 
-    // useEffect(() => {
-    //     function handleClickOutside(event) {
-    //         if (modalRef.current && !modalRef.current.contains(event.target)) {
-    //             router.push('/');
-    //         }
-    //     }
-    //     document.addEventListener('mousedown', handleClickOutside);
-    //     return () => document.removeEventListener('mousedown', handleClickOutside);
-    // }, [router]);
+
+    // Form state
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     useEffect(() => {
-    function handleClickOutside(event) {
-        if (modalRef.current && !modalRef.current.contains(event.target)) {
-            router.push('/');
+        function handleClickOutside(event) {
+            if (modalRef.current && !modalRef.current.contains(event.target)) {
+                router.push('/');
+            }
         }
-    }
 
-    function handleEscapeKey(event) {
-        if (event.key === 'Escape') {
-            router.push('/');
+        function handleEscapeKey(event) {
+            if (event.key === 'Escape') {
+                router.push('/');
+            }
         }
-    }
 
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('keydown', handleEscapeKey);
+        document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener('keydown', handleEscapeKey);
 
-    return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-        document.removeEventListener('keydown', handleEscapeKey);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('keydown', handleEscapeKey);
+        };
+    }, [router]);
+
+    // Handle form submission
+    const handleLogin = async (e) => {
+        e.preventDefault();
+
+        try {
+            const res = await fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                // Navigate to dashboard or show success
+                dispatch(setUserData(data.user)); // Assuming data.user contains user info
+                console.log('Login successful', data.user);
+                router.push('/'); // change to your route
+            } else {
+                alert(data.message || 'Login failed');
+            }
+        } catch (error) {
+            console.error('Error logging in:', error);
+            alert('Something went wrong. Please try again.');
+        }
     };
-}, [router]);
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
@@ -226,7 +255,7 @@ export default function LoginPage() {
                     &times;
                 </button>
 
-                {/* Left Section - Hidden on small screens */}
+                {/* Left Section */}
                 <div className="hidden md:flex bg-mainGreen md:w-1/2 flex-col justify-center items-center text-white p-6 rounded-l-2xl">
                     <Image src="/logos/zm-full.webp" alt="logo" width={100} height={100} className="m-4 w-24 md:w-32" />
                     <h1 className="text-lg md:text-xl font-semibold text-center px-4 animate-bounce">
@@ -244,14 +273,14 @@ export default function LoginPage() {
                     </h4>
                 </div>
 
-                {/* Right Section - Full form rounded on all sides */}
+                {/* Right Section */}
                 <div className="w-full md:w-1/2 flex flex-col justify-center items-center bg-white text-[#001a1a] p-6 rounded-2xl md:rounded-r-2xl">
                     <h1 className="text-2xl md:text-3xl text-loginBlue font-semibold text-center">Welcome Back!</h1>
                     <h4 className="font-light text-sm md:text-base text-loginBlue text-center mt-1">
                         Sign in to your ZM QR Code account
                     </h4>
 
-                    <form className="flex flex-col items-center mt-6 w-full max-w-sm">
+                    <form onSubmit={handleLogin} className="flex flex-col items-center mt-6 w-full max-w-sm">
                         {/* Buttons Row */}
                         <div className="flex flex-col sm:flex-row justify-between w-full gap-2 mb-4">
                             <button
@@ -278,43 +307,51 @@ export default function LoginPage() {
                         </div>
 
                         {/* Input Fields */}
-                        {[
-                            { id: 'email', label: 'Official Email / Login ID*', type: 'text' },
-                            { id: 'password', label: 'Password*', type: 'password' }
-                        ].map((input) => (
-                            <div className="relative w-full mt-3" key={input.id}>
-                                <input
-                                    type={input.type === 'password' && showPassword ? 'text' : input.type}
-                                    id={input.id}
-                                    placeholder=" "
-                                    className="peer w-full border-2 border-gray-300 rounded-sm px-2 pt-4 pb-2 text-gray-800 focus:outline-none focus:border-[#008080]"
-                                />
-                                <label
-                                    htmlFor={input.id}
-                                    className="absolute left-3 -top-2 bg-white px-1 text-sm text-gray-500 transition-all 
-                                        peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
-                                        peer-focus:-top-2 peer-focus:text-sm peer-focus:text-[#001a1a] peer-focus:bg-white"
-                                >
-                                    {input.label}
-                                </label>
+                        <div className="relative w-full mt-3">
+                            <input
+                                type="text"
+                                id="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder=" "
+                                required
+                                className="peer w-full border-2 border-gray-300 rounded-sm px-2 pt-4 pb-2 text-gray-800 focus:outline-none focus:border-[#008080]"
+                            />
+                            <label htmlFor="email" className="absolute left-3 -top-2 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-2 peer-focus:text-sm peer-focus:text-[#001a1a] peer-focus:bg-white">
+                                Official Email / Login ID*
+                            </label>
+                        </div>
 
-                                {input.type === 'password' && (
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowPassword((prev) => !prev)}
-                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 focus:outline-none"
-                                    >
-                                        {showPassword ? <FiEye size={18} /> : <FiEyeOff size={18} />}
-                                    </button>
-                                )}
-                            </div>
-                        ))}
+                        <div className="relative w-full mt-3">
+                            <input
+                                type={showPassword ? 'text' : 'password'}
+                                id="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder=" "
+                                required
+                                className="peer w-full border-2 border-gray-300 rounded-sm px-2 pt-4 pb-2 text-gray-800 focus:outline-none focus:border-[#008080]"
+                            />
+                            <label htmlFor="password" className="absolute left-3 -top-2 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-2 peer-focus:text-sm peer-focus:text-[#001a1a] peer-focus:bg-white">
+                                Password*
+                            </label>
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword((prev) => !prev)}
+                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 focus:outline-none"
+                            >
+                                {showPassword ? <FiEye size={18} /> : <FiEyeOff size={18} />}
+                            </button>
+                        </div>
 
-                        {/* Checkboxes */}
+                        {/* Checkbox */}
                         <div className="flex items-start mt-3 w-full gap-2 text-sm">
                             <input type="checkbox" defaultChecked className="border-2 border-mainGreen mt-1" />
-                            <label>I agree to <a href="/terms-conditions" target="_blank"><span className="text-mainGreen">terms</span></a> and <a href="/privacy-policies" target="_blank"><span className="text-mainGreen">privacy</span></a> policy</label>
+                            <label>
+                                I agree to <a href="/terms-conditions" target="_blank"><span className="text-mainGreen">terms</span></a> and <a href="/privacy-policies" target="_blank"><span className="text-mainGreen">privacy</span></a> policy
+                            </label>
                         </div>
+
                         {/* Submit */}
                         <button
                             type="submit"
@@ -328,7 +365,7 @@ export default function LoginPage() {
                             />
                         </button>
 
-                        {/* Alternative login */}
+                        {/* Social Login */}
                         <p className="text-sm text-[#001a1a] mt-4">or</p>
                         <div className="flex gap-4 mt-2">
                             <FcGoogle size={30} className="cursor-pointer hover:scale-105 transition" />
