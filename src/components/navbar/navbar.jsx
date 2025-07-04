@@ -6,24 +6,32 @@ import Image from "next/image";
 import { useLanguage } from "@/context/languageContext/LanguageContext";
 import LanguageSelector from "./LanguageSelector";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { usePathname } from "next/navigation";
-
+import { usePathname, useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "@/redux/slices/authSlice"; // make sure this exists
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [supportOpen, setSupportOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // for mobile menu
+  const [openDropdown, setOpenDropdown] = useState(null); // 'support' | 'user' | null
 
   const supportRef = useRef(null);
+  const userDropdownRef = useRef(null);
+
+  const userData = useSelector((state) => state?.authentication?.userData);
+  const dispatch = useDispatch();
+  const router = useRouter();
   const { dictionary } = useLanguage();
-
   const pathname = usePathname();
- const isActive = (route) => pathname.startsWith(route);
+  const isActive = (route) => pathname.startsWith(route);
 
-
+  // Close dropdowns on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (supportRef.current && !supportRef.current.contains(event.target)) {
-        setSupportOpen(false);
+      if (
+        !supportRef.current?.contains(event.target) &&
+        !userDropdownRef.current?.contains(event.target)
+      ) {
+        setOpenDropdown(null);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -33,63 +41,57 @@ const Navbar = () => {
   return (
     <nav className="bg-mainGreen h-[10vh] py-2 text-white fixed top-0 left-0 right-0 w-full z-50">
       <div className="flex justify-between items-center mx-auto md:px-10 px-6">
+        {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
-        <div className="w-full h-auto">
-          <Image
-            src="/logos/zm-full.webp"
-            alt="logo"
-            width={170}
-            height={50}
-            priority
-          />
+          <div className="w-full h-auto">
+            <Image
+              src="/logos/zm-full.webp"
+              alt="logo"
+              width={170}
+              height={50}
+              priority
+            />
           </div>
         </Link>
 
+        {/* Desktop Menu */}
         <div className="hidden xl:flex items-center space-x-6 font-semibold text-xl">
-          <Link href="/" className={`hover:text-gray-300 ${
-          pathname === "/" ? "text-darkGreen" : ""
-        }`}>
-            {dictionary.home}
-          </Link>
-          <Link href="/services" className={`hover:text-gray-300 ${
-      pathname.startsWith("/services") ? "text-darkGreen" : ""
-    }`}>
-            {dictionary.services}
-          </Link>
-          <Link href="/prices" className={`hover:text-gray-300 ${
-      pathname.startsWith("/prices") ? "text-darkGreen" : ""
-    }`}>
-            {dictionary.prices}
-          </Link>
-          <Link href="/career" className={`hover:text-gray-300 ${
-      pathname.startsWith("/career") ? "text-darkGreen" : ""
-    }`}>
-            {dictionary.Career}
-          </Link>
-          <Link href="/investors" className={`hover:text-gray-300 ${
-      pathname.startsWith("/investors") ? "text-darkGreen" : ""
-    }`}>
-            {dictionary.Investors}
-          </Link>
-          <Link href="/franchise" className={`hover:text-gray-300 ${
-      pathname.startsWith("/franchise") ? "text-darkGreen" : ""
-    }`}>
-            {dictionary.Franchise}
-          </Link>
+          {[
+            { href: "/", label: dictionary.home },
+            { href: "/services", label: dictionary.services },
+            { href: "/prices", label: dictionary.prices },
+            { href: "/career", label: dictionary.Career },
+            { href: "/investors", label: dictionary.Investors },
+            { href: "/franchise", label: dictionary.Franchise },
+          ].map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              className={`hover:text-gray-300 ${
+                isActive(href) ? "text-darkGreen" : ""
+              }`}
+            >
+              {label}
+            </Link>
+          ))}
+
+          {/* Support Dropdown */}
           <div className="relative" ref={supportRef}>
             <button
-              onClick={() => setSupportOpen(!supportOpen)}
-              className="hover:text-gray-300 flex items-center gap-1"
+              onClick={() =>
+                setOpenDropdown(openDropdown === "support" ? null : "support")
+              }
+              className="hover:text-gray-300 flex items-center gap-1 cursor-pointer"
             >
               {dictionary.support}
               <MdKeyboardArrowDown
                 className={`transition-transform ${
-                  supportOpen ? "rotate-180" : "rotate-0"
+                  openDropdown === "support" ? "rotate-180" : "rotate-0"
                 }`}
               />
             </button>
 
-            {supportOpen && (
+            {openDropdown === "support" && (
               <div className="absolute top-full left-0 mt-2 bg-white text-mainGreen rounded-md shadow-md w-48 z-50">
                 <Link
                   href="/faq"
@@ -106,15 +108,54 @@ const Navbar = () => {
               </div>
             )}
           </div>
+
           <LanguageSelector />
-          <Link
-            href="/login"
-            className="border border-white px-5 py-2 rounded-lg transition-effects bg-[linear-gradient(to_right,#008080,#001a1a)]"
-          >
-            {dictionary.login}
-          </Link>
+
+          {/* User Dropdown */}
+          {/* USER DROPDOWN (DESKTOP) */}
+          {userData ? (
+            <div className="relative" ref={userDropdownRef}>
+              <button
+                onClick={() =>
+                  setOpenDropdown(openDropdown === "user" ? null : "user")
+                }
+                className="hover:text-gray-300 flex items-center gap-1 cursor-pointer"
+              >
+                {userData.name.charAt(0).toUpperCase() + userData.name.slice(1)}
+
+                <MdKeyboardArrowDown
+                  className={`transition-transform ${
+                    openDropdown === "user" ? "rotate-180" : "rotate-0"
+                  }`}
+                />
+              </button>
+
+              {openDropdown === "user" && (
+                <div className="absolute top-full right-0 mt-2 bg-white text-mainGreen rounded-md shadow-md w-40 z-50">
+                  <button
+                    onClick={() => {
+                      dispatch(logoutUser());
+                      setOpenDropdown(null);
+                      router.push("/");
+                    }}
+                    className="block cursor-pointer w-full text-left px-4 py-2 hover:bg-mainGreen hover:text-white transition"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              className="border border-white px-5 py-2 rounded-lg transition bg-[linear-gradient(to_right,#008080,#001a1a)]"
+            >
+              {dictionary.login}
+            </Link>
+          )}
         </div>
 
+        {/* Hamburger for Mobile */}
         <button
           className="xl:hidden flex flex-col gap-[3px]"
           onClick={() => setIsOpen(!isOpen)}
@@ -126,50 +167,58 @@ const Navbar = () => {
         </button>
       </div>
 
+      {/* Mobile Menu */}
       {isOpen && (
         <>
-          {/* Backdrop */}
           <div
             onClick={() => setIsOpen(false)}
             className="fixed inset-0 bg-opacity-40 z-40"
           />
 
-          {/* Menu (same as above) */}
-          <div className="xl:hidden fixed top-[60px] py-4 right-0  w-60 bg-white text-xl font-semibold text-mainGreen z-50 shadow-lg transition-all duration-300">
-            <div className="flex flex-col px-6 py- space-y-4 h-full justify-start">
-              <Link href="/" onClick={() => setIsOpen(false)} >
-                {dictionary.home}
-              </Link>
-              <Link href="/services" onClick={() => setIsOpen(false)}>
-                {dictionary.services}
-              </Link>
-              <Link href="/prices" onClick={() => setIsOpen(false)}>
-                {dictionary.prices}
-              </Link>
-              <Link href="/career" onClick={() => setIsOpen(false)}>
-                {dictionary.Career}
-              </Link>
-              <Link href="/investors" onClick={() => setIsOpen(false)}>
-                {dictionary.Investors}
-              </Link>
-              <Link href="/franchise" onClick={() => setIsOpen(false)}>
-                {dictionary.Franchise}
-              </Link>
-              <Link href="/faq" onClick={() => setIsOpen(false)}>
-                {/* {dictionary.support} */}
-                FAQ
-              </Link>
-              <Link href="/contactUs" onClick={() => setIsOpen(false)}>
-                {/* {dictionary.support} */}
-                Contact Us
-              </Link>
+          <div className="xl:hidden fixed top-[60px] py-4 right-0 w-60 bg-white text-xl font-semibold text-mainGreen z-50 shadow-lg transition-all duration-300">
+            <div className="flex flex-col px-6 space-y-4 h-full justify-start">
+              {[
+                { href: "/", label: dictionary.home },
+                { href: "/services", label: dictionary.services },
+                { href: "/prices", label: dictionary.prices },
+                { href: "/career", label: dictionary.Career },
+                { href: "/investors", label: dictionary.Investors },
+                { href: "/franchise", label: dictionary.Franchise },
+                { href: "/faq", label: "FAQ" },
+                { href: "/contactUs", label: "Contact Us" },
+              ].map(({ href, label }) => (
+                <Link key={href} href={href} onClick={() => setIsOpen(false)}>
+                  {label}
+                </Link>
+              ))}
+
               <LanguageSelector isOpen={isOpen} />
-              <Link
-                href="/login"
-                className="border border-white px-5 py-2 rounded-lg w-26 transition-effects bg-[linear-gradient(to_right,#008080,#001a1a)] text-white"
-              >
-                {dictionary.login}
-              </Link>
+
+              {userData ? (
+                <div className="flex flex-col items-start gap-2">
+                  <span className="text-mainGreen font-semibold px-2">
+                    Hello, {userData.name}
+                  </span>
+                  <button
+                    onClick={() => {
+                      dispatch(logoutUser());
+                      setIsOpen(false);
+                      router.push("/");
+                    }}
+                    className="border border-white px-5 py-2 rounded-lg w-full transition-effects bg-[linear-gradient(to_right,#008080,#001a1a)] text-white"
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  href="/login"
+                  onClick={() => setIsOpen(false)}
+                  className="border border-white px-5 py-2 rounded-lg transition bg-[linear-gradient(to_right,#008080,#001a1a)] text-white"
+                >
+                  {dictionary.login}
+                </Link>
+              )}
             </div>
           </div>
         </>

@@ -12,11 +12,14 @@ import { setPDFServices } from "@/redux/slices/servicesSlice";
 const PDFContent = () => {
   const { pdfFormData, setPdfFormData } = useServicesContext();
   const [showPassword, setShowPassword] = useState(false);
+  const [showPreviewModal, setShowPreviewModal] = useState(false);
+const [previewFile, setPreviewFile] = useState(null); // for blob URL before upload
 
-  const pdfData = useSelector((state) => state?.services?.pdfServiceData)
-  console.log('redux data',pdfData)
 
-  const dispatch = useDispatch()
+  const pdfData = useSelector((state) => state?.services?.pdfServiceData);
+  console.log("redux data", pdfData);
+
+  const dispatch = useDispatch();
   const router = useRouter();
 
   // 👇 Ref to reset file input
@@ -30,58 +33,96 @@ const PDFContent = () => {
     }));
   };
 
+  const handleSubmit = (e) => {
+  e.preventDefault();
 
+  // show modal instead of uploading
+  if (pdfFormData.file) {
+    const blobURL = URL.createObjectURL(pdfFormData.file);
+    setPreviewFile(blobURL);
+  }
 
+  setShowPreviewModal(true); // open modal
+};
+const confirmUpload = async () => {
+  const formData = new FormData();
+  formData.append("title", pdfFormData.title);
+  formData.append("description", pdfFormData.description);
+  formData.append("password", pdfFormData.password);
+  if (pdfFormData.file) {
+    formData.append("file", pdfFormData.file);
+  }
 
-  const handleSubmit = async (e) => {
-    console.log('submit')
-
-    e.preventDefault()
-    const formData = new FormData();
-    formData.append("title", pdfFormData.title);
-    formData.append("description", pdfFormData.description);
-    formData.append("password", pdfFormData.password);
-    if (pdfFormData.file) {
-      formData.append("file", pdfFormData.file);
+  try {
+    const response = await axios.post("/api/services/pdf", formData);
+    if (response.data.success) {
+      dispatch(setPDFServices(response.data.fileData));
+      toast.success("✅ File uploaded successfully!");
+      setPdfFormData({
+        title: "",
+        description: "",
+        password: "",
+        file: null,
+      });
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      setShowPreviewModal(false); // close modal
+    } else {
+      toast.error("❌ Upload failed: " + response.data.error);
     }
-    console.log('submit', formData)
-    try {
-      const response = await axios.post("http://localhost:3000/api/services/pdf", formData); // ✅ Make sure it's a valid API path
-      console.log('submit', response)
-      if (response.data.success) {
-        dispatch(setPDFServices(response.data.fileData));
-        toast.success("✅ File uploaded successfully!");
+  } catch (error) {
+    const errMsg = error?.response?.data?.error || "Unexpected error";
+    toast.error(`❌ ${errMsg}`);
+  }
+};
 
 
-        // Reset form
-        setPdfFormData({
-          title: "",
-          description: "",
-          password: "",
-          file: null,
-        });
+  // const handleSubmit = async (e) => {
+  //   console.log("submit");
 
-        if (fileInputRef.current) fileInputRef.current.value = "";
-      } else {
-        toast.error("❌ Upload failed: " + response.data.error);
-      }
-    } catch (error) {
-      const errMsg =
-        error?.response?.data?.error || "An unexpected error occurred.";
-      toast.error(`❌ ${errMsg}`);
-      console.error("Submit Error:", error);
-    }
-  };
+  //   e.preventDefault();
+  //   const formData = new FormData();
+  //   formData.append("title", pdfFormData.title);
+  //   formData.append("description", pdfFormData.description);
+  //   formData.append("password", pdfFormData.password);
+  //   if (pdfFormData.file) {
+  //     formData.append("file", pdfFormData.file);
+  //   }
+  //   console.log("submit", formData);
+  //   try {
+  //     const response = await axios.post(
+  //       "http://localhost:3000/api/services/pdf",
+  //       formData
+  //     ); // ✅ Make sure it's a valid API path
+  //     console.log("submit", response);
+  //     if (response.data.success) {
+  //       dispatch(setPDFServices(response.data.fileData));
+  //       toast.success("✅ File uploaded successfully!");
 
+  //       // Reset form
+  //       setPdfFormData({
+  //         title: "",
+  //         description: "",
+  //         password: "",
+  //         file: null,
+  //       });
 
-
-
+  //       if (fileInputRef.current) fileInputRef.current.value = "";
+  //     } else {
+  //       toast.error("❌ Upload failed: " + response.data.error);
+  //     }
+  //   } catch (error) {
+  //     const errMsg =
+  //       error?.response?.data?.error || "An unexpected error occurred.";
+  //     toast.error(`❌ ${errMsg}`);
+  //     console.error("Submit Error:", error);
+  //   }
+  // };
 
   return (
     <>
       <div className="flex w-full max-w-3xl gap-6">
         <div className="flex-1 bg-white shadow-lg rounded-2xl p-6 space-y-5 max-h-[650px] overflow-auto">
-          <form className="space-y-4" >
+          <form className="space-y-4">
             {/* Title */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1">
@@ -184,56 +225,49 @@ const PDFContent = () => {
         </div>
       </div>
 
-{pdfData?.title && (
-  <div className="mt-8 space-y-4">
-    <h2 className="text-lg font-semibold text-gray-800">Uploaded PDF</h2>
-    <div className="p-4 border border-gray-200 rounded-lg shadow-sm bg-gray-50">
-      <div className="flex justify-between items-center">
-        <div>
-          <p className="font-medium text-sm text-gray-900">📄 {pdfData.title}</p>
-          <p className="text-xs text-gray-500 mt-1">{pdfData.description}</p>
-   <iframe
- src={`${pdfData.pdfFileName}?fl_attachment:false`}
-  width="100%"
-  height="60px"
-  title="PDF Viewer"
-/>
+      {showPreviewModal && (
+   <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
+        <div className="bg-white rounded-xl shadow-xl p-6 max-w-sm w-full border border-teal-200 relative">
+        
+   
+      <h2 className="text-lg font-semibold">📄 Confirm Submission</h2>
 
-{/* <a
-  href={pdfData.pdfFileName}
-  target="_blank"
-  rel="noopener noreferrer"
-  className="text-teal-600 text-sm font-medium hover:underline"
->
-  Open in New Tab
-</a> */}
+      <div className="space-y-1 text-sm text-gray-700">
+        <p><strong>Title:</strong> {pdfFormData.title}</p>
+        <p><strong>Description:</strong> {pdfFormData.description}</p>
+        <p><strong>Password:</strong> {pdfFormData.password}</p>
+        {previewFile && (
+          <a
+            href={previewFile}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-teal-600 underline text-sm"
+          >
+            🔗 Open Selected File
+          </a>
+        )}
+      </div>
 
-
-
-    <p className="text-xs text-gray-400 mt-1">🔐 {pdfData.password}</p>
-        </div>
-       
-     <a
-  href={pdfData.pdfFileName}
-  target="_blank"
-  rel="noopener noreferrer"
-  className="text-teal-600 text-sm font-medium hover:underline"
->
-  View PDF
-</a>
-
-
-
-
-
+      <div className="flex justify-end gap-3 pt-4">
+        <button
+          onClick={() => setShowPreviewModal(false)}
+          className="px-4 py-1.5 rounded-lg text-sm border border-gray-300 text-gray-700 hover:bg-gray-100"
+        >
+          Back
+        </button>
+        <button
+          onClick={confirmUpload}
+          className="px-4 py-1.5 rounded-lg text-sm bg-teal-600 text-white hover:bg-teal-700"
+        >
+          Confirm & Submit
+        </button>
       </div>
     </div>
   </div>
 )}
 
 
-
-{/* {pdfData.title} */}
+      {/* {pdfData.title} */}
 
       {/* <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
         <div className="bg-white rounded-xl shadow-xl p-6 max-w-sm w-full border border-teal-200 relative">
@@ -246,8 +280,3 @@ const PDFContent = () => {
 };
 
 export default PDFContent;
-
-
-
-
-
