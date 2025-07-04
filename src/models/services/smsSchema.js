@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
 const smsMessageSchema = new mongoose.Schema({
+  user: {
+         id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+        name: String,
+      },
   genderName: {
     type: String,
     trim: true,
