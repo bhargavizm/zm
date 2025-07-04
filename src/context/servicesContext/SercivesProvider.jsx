@@ -121,7 +121,6 @@ const ServicesProvider = ({ children }) => {
     genderName: "",
     messageType: "",
     textMessage: "",
-    date: "",
     password: "",
   };
 
@@ -131,15 +130,29 @@ const ServicesProvider = ({ children }) => {
     password: '',
   };
 
-  const initialMenuBookFormData = {
-    restaurantName: "",
-    menuItems: [{ image: "", name: "menu items", }],
-    extras: [
-      { type: "phone", label: "Phone", value: "", visible: true, placeholder: "+91-0000000000" },
-      { type: "email", label: "Email", value: "", visible: true, placeholder: "example@mail.com" },
-      { type: "link", label: "Link", value: "", visible: true, placeholder: "https://yourlink.com" },
-    ],
-  };
+
+  // Menu Book (Original structure)
+  // Inside your ServiceContextProvider
+const [menuBookFormData, setMenuBookFormData] = useState({
+  restaurantName: '',
+  menuItems: [], // array of { image: "blob-url" }
+  phone: '',
+  email: '',
+  link: '',
+  password:''
+});
+
+  // const [menuBookFormData, setMenuBookFormData] = useState({
+  //   restaurantName: "",
+  //   menuItems: [{ image: "", name: "menu items", }],
+  //   extras: [
+  //     { type: "phone", label: "Phone", value: "", visible: true, placeholder: "+91-0000000000" },
+  //     { type: "email", label: "Email", value: "", visible: true, placeholder: "example@mail.com" },
+  //     { type: "link", label: "Link", value: "", visible: true, placeholder: "https://yourlink.com" },
+  //   ],
+  // });
+
+
 
   const initialPetIDFormData = {
     tagTitle: "",
@@ -423,7 +436,7 @@ const ServicesProvider = ({ children }) => {
   const [eventsFormData, setEventsFormData] = useState(initialEventsFormData);
   const [smsFormData, setSmsFormData] = useState(initialSmsFormData);
   const [textMessageForm, setTextMessageForm] = useState(initialTextMessageForm);
-  const [menuBookFormData, setMenuBookFormData] = useState(initialMenuBookFormData);
+  //const [menuBookFormData, setMenuBookFormData] = useState(initialMenuBookFormData);
   const [petIDFormData, setPetIDFormData] = useState(initialPetIDFormData);
   const [dynamicForms, setDynamicForms] = useState(initialDynamicForms); // For medicalAlert, propertyDetails, etc.
 

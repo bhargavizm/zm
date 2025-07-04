@@ -15,6 +15,7 @@ const customLinkSchema = new mongoose.Schema({
 }, { _id: false });
 
 const multiUrlSchema = new mongoose.Schema({
+  
   socialLinks: socialLinksSchema,
   customLinks: [customLinkSchema],
   password: { type: String }
