@@ -9,6 +9,7 @@ const initialState = {
     textMessageData:[],
     smsServiceData:[],
     vehicleServiceData:[],
+    multiUrlServiceData:[],
 
     error: null
 }
@@ -63,7 +64,13 @@ const servicesSlice = createSlice({
                 error:null
             }
         },
-
+        setMultiUrlServices:(state,action)=>{
+            return{
+                ...state,
+                multiUrlServiceData:action.payload,
+                error:null
+            }
+        },
         clearError: (state) => {
             state.error = null;
         },
@@ -81,6 +88,7 @@ export const {
     setSmsServices,
 
     setVehicleServices,
+    setMultiUrlServices,
 
     clearError
 }
