@@ -274,7 +274,7 @@ const [previewFile, setPreviewFile] = useState(null); // for blob URL before upl
   const [pdfPreviewUrl, setPdfPreviewUrl] = useState(null);
 
 
-  const pdfData = useSelector((state) => state?.services?.pdfServiceData);
+  //const pdfData = useSelector((state) => state?.services?.pdfServiceData);
 
   const dispatch = useDispatch();
   const router = useRouter();
