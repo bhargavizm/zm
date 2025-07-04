@@ -190,10 +190,30 @@ const SmsContent = () => {
         
             <h2 className="text-lg font-semibold text-gray-800">Confirm Submission</h2>
             <div className="text-sm text-gray-700 space-y-2">
-              <p><strong>genderName:</strong> {smsFormData.genderName}</p>
-              <p><strong>messageType:</strong> {smsFormData.messageType}</p>
-              <p><strong>textMessage:</strong> {smsFormData.textMessage}</p>
-              <p><strong>Password:</strong> {smsFormData.password}</p>
+               {smsFormData.genderName && (
+                <p>
+                  <strong>
+                  <span className="font-semibold">genderName:</span> </strong>{smsFormData.genderName}
+                </p>
+              )}
+               {smsFormData.messageType && (
+                <p>
+                  <strong>
+                  <span className="font-semibold">messageType:</span> </strong>{smsFormData.messageType}
+                </p>
+              )}
+               {smsFormData.textMessage && (
+                <p>
+                  <strong>
+                  <span className="font-semibold">textMessage:</span> </strong>{smsFormData.textMessage}
+                </p>
+              )}
+               {smsFormData.password && (
+                <p>
+                  <strong>
+                  <span className="font-semibold">Password:</span> </strong>{smsFormData.password}
+                </p>
+              )}
         </div>
         <div className="flex justify-end gap-4 pt-4">
               <button
