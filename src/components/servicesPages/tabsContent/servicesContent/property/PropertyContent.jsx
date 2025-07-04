@@ -191,7 +191,7 @@ const PropertyContent = () => {
         ))}
 
       {/* Dropdown to Add Deleted Fields */}
-      {/* {deletedFields[section].length > 0 && (
+      {deletedFields[section].length > 0 && (
         <div className="flex items-center space-x-2">
           <select
             onChange={(e) => {
@@ -209,7 +209,7 @@ const PropertyContent = () => {
             ))}
           </select>
         </div>
-      )} */}
+      )}
     </div>
   ))}
 
