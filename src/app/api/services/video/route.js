@@ -1,6 +1,6 @@
 import { connectDB } from "@/lib/mongoDB";
 import { authUser } from "@/middlewares/authMiddleware";
-import AudioServiceModel from "@/models/services/audioSchema";
+import videoServiceModel from "@/models/services/videoSchema";
 import bcrypt from "bcryptjs";
 
 // Plan limits (in bytes)
@@ -12,14 +12,13 @@ const planLimits = {
   Ultima: 5 * 1024 * 1024 * 1024,     // 5 GB
 };
 
-// Allowed audio MIME types
-const allowedAudioTypes = [
-  "audio/mpeg",
-  "audio/mp3",
-  "audio/wav",
-  "audio/x-wav",
-  "audio/ogg",
-  "audio/webm",
+// Allowed video MIME types
+const allowedVideoTypes = [
+  "video/mp4",
+  "video/webm",
+  "video/ogg",
+  "video/x-matroska",
+  "video/quicktime",
 ];
 
 export async function POST(request) {
@@ -39,16 +38,16 @@ export async function POST(request) {
     await connectDB();
 
     const formData = await request.formData();
-    const title = formData.get("title") 
-    const description = formData.get("description") 
-    let password = formData.get("password") 
-    const files = formData.getAll("file")
+    const title = formData.get("title");
+    const description = formData.get("description");
+    let password = formData.get("password");
+    const files = formData.getAll("file");
 
     if (!files.length) {
-      return new Response(JSON.stringify({ success: false, error: "No audio files uploaded" }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ success: false, error: "No video files uploaded" }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
     }
 
     if (password) {
@@ -62,17 +61,13 @@ export async function POST(request) {
     for (const file of files) {
       if (!file || typeof file.arrayBuffer !== "function") continue;
 
-      // ✅ Validate audio type
-      if (!allowedAudioTypes.includes(file.type)) {
+      if (!allowedVideoTypes.includes(file.type)) {
         return new Response(
           JSON.stringify({
             success: false,
-            error: `🚫 Invalid file type "${file.type}". Only audio files (MP3, WAV, OGG, WEBM) are allowed.`,
+            error: `🚫 Invalid file type "${file.type}". Only video files (MP4, WEBM, OGG, MKV, MOV) are allowed.`,
           }),
-          {
-            status: 400,
-            headers: { "Content-Type": "application/json" },
-          }
+          { status: 400, headers: { "Content-Type": "application/json" } }
         );
       }
 
@@ -81,7 +76,9 @@ export async function POST(request) {
       totalSize += fileSize;
 
       if (fileSize > maxAllowedSize) {
-        const nextPlan = Object.entries(planLimits).find(([_, limit]) => fileSize <= limit);
+        const nextPlan = Object.entries(planLimits).find(
+          ([_, limit]) => fileSize <= limit
+        );
         const readableSize = (fileSize / (1024 * 1024)).toFixed(2); // MB
         const readableLimit = (maxAllowedSize / (1024 * 1024)).toFixed(2); // MB
 
@@ -93,16 +90,16 @@ export async function POST(request) {
           upgradeMessage += ` Even the highest plan cannot support this file size.`;
         }
 
-        return new Response(JSON.stringify({ success: false, error: upgradeMessage }), {
-          status: 413,
-          headers: { "Content-Type": "application/json" },
-        });
+        return new Response(
+          JSON.stringify({ success: false, error: upgradeMessage }),
+          { status: 413, headers: { "Content-Type": "application/json" } }
+        );
       }
 
       filesToSave.push({
-        //fileData: buffer,
-        fileName: file.name || `audio-${Date.now()}`,
-        fileType: file.type || "audio/mpeg",
+        // fileData: buffer, // uncomment if you want to store in DB
+        fileName: file.name || `video-${Date.now()}`,
+        fileType: file.type || "video/mp4",
       });
     }
 
@@ -115,14 +112,11 @@ export async function POST(request) {
           success: false,
           error: `🚫 Total upload is ${totalReadable} MB which exceeds your ${userPlan} plan (${planReadable} MB). Please upgrade your plan.`,
         }),
-        {
-          status: 413,
-          headers: { "Content-Type": "application/json" },
-        }
+        { status: 413, headers: { "Content-Type": "application/json" } }
       );
     }
 
-    const newDoc = new AudioServiceModel({
+    const newDoc = new videoServiceModel({
       title,
       description,
       password,
@@ -138,25 +132,19 @@ export async function POST(request) {
     return new Response(
       JSON.stringify({
         success: true,
-        message: `${filesToSave.length} audio file(s) uploaded successfully.`,
-        audioData: newDoc,
+        message: `${filesToSave.length} video file(s) uploaded successfully.`,
+        videoData: newDoc,
       }),
-      {
-        status: 201,
-        headers: { "Content-Type": "application/json" },
-      }
+      { status: 201, headers: { "Content-Type": "application/json" } }
     );
   } catch (error) {
-    console.error("Audio Upload Error:", error);
+    console.error("Video Upload Error:", error);
     return new Response(
       JSON.stringify({
         success: false,
         error: error.message || "Internal server error",
       }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      }
+      { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
 }

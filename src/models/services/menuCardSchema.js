@@ -1,26 +1,28 @@
 import mongoose from "mongoose";
 
-
-const menuCardsSchema = new mongoose.Schema({
-  restaurantName: String,
-  phone: String,
-  email: String,
-  link: String,
-  password: String,
-images: [
+const menuCardsSchema = new mongoose.Schema(
   {
-    url: String,
-    name: String,
-  }
-],
+    restaurantName: String,
+    phone: String,
+    email: String,
+    link: String,
+    password: String,
+    images: [
+      {
+        url: String,
+        name: String,
+      },
+    ],
 
-  user: {
-     id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    name: String,
+    user: {
+      id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+      name: String,
+    },
   },
-}, { timestamps: true });
+  { timestamps: true }
+);
 
- const MenuCardsServiceModel =
-   mongoose.models.MenuCards || mongoose.model("MenuCards", menuCardsSchema);
+const MenuCardsServiceModel =
+  mongoose.models.MenuCards || mongoose.model("MenuCards", menuCardsSchema);
 
- export default MenuCardsServiceModel;
+export default MenuCardsServiceModel;

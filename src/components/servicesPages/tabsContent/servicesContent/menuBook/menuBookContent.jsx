@@ -248,31 +248,48 @@ const handleSubmit = async () => {
 
     </div>
 </form>
-    {showConfirmModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
-          <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-xl border border-teal-200 mx-4 sm:mx-auto">
-      <h2 className="text-2xl pb-4 font-semibold text-center text-teal-700">Confirm Your Details</h2>
-      <div className="text-xl space-y-2">
-        <p><b>Restaurant:</b> {menuBookFormData.restaurantName}</p>
-        <p><b>Phone:</b> {menuBookFormData.phone}</p>
-        <p><b>Email:</b> {menuBookFormData.email}</p>
-        <p><b>Link:</b> {menuBookFormData.link}</p>
-        <div>
-  <p className="font-medium mb-1">Uploaded Images:</p>
-  <div className="grid grid-cols-3 gap-2">
-    {menuBookFormData.menuItems.map((item, index) => (
-      <img
-        key={index}
-        src={item.image}
-        alt={`Image ${index + 1}`}
-        className="w-full h-24 object-cover rounded border"
-      />
-    ))}
-  </div>
-</div>
+{showConfirmModal && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
+    <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-xl border border-teal-200 mx-4 sm:mx-auto">
+      <h2 className="text-2xl pb-4 font-semibold text-center text-teal-700">
+        Confirm Your Details
+      </h2>
 
+      <div className="text-base space-y-2 text-gray-800">
+        {menuBookFormData.restaurantName && (
+          <p><b>Restaurant:</b> {menuBookFormData.restaurantName}</p>
+        )}
+        {menuBookFormData.phone && (
+          <p><b>Phone:</b> {menuBookFormData.phone}</p>
+        )}
+        {menuBookFormData.email && (
+          <p><b>Email:</b> {menuBookFormData.email}</p>
+        )}
+        {menuBookFormData.link && (
+          <p><b>Link:</b> {menuBookFormData.link}</p>
+        )}
+        {menuBookFormData.password && (
+          <p><b>Password:</b> {menuBookFormData.password}</p>
+        )}
+
+        {Array.isArray(menuBookFormData.menuItems) && menuBookFormData.menuItems.length > 0 && (
+          <div>
+            <p className="font-medium mb-1">Uploaded Images:</p>
+            <div className="grid grid-cols-3 gap-2">
+              {menuBookFormData.menuItems.map((item, index) => (
+                <img
+                  key={index}
+                  src={item.image}
+                  alt={`Image ${index + 1}`}
+                  className="w-full h-24 object-cover rounded border"
+                />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
+      {/* Action Buttons */}
       <div className="flex justify-end gap-3 pt-4">
         <button
           className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 text-sm cursor-pointer"
@@ -280,20 +297,20 @@ const handleSubmit = async () => {
         >
           Back
         </button>
-       <button
-  className="px-4 py-2 bg-teal-600 text-white rounded cursor-pointer hover:bg-teal-700 text-sm"
-  onClick={() => {
-    setShowConfirmModal(false); // 👈 Closes modal
-    handleSubmit();             // 👈 Submits the form
-  }}
->
-  Confirm & Submit
-</button>
-
+        <button
+          className="px-4 py-2 bg-teal-600 text-white rounded cursor-pointer hover:bg-teal-700 text-sm"
+          onClick={() => {
+            setShowConfirmModal(false);
+            handleSubmit();
+          }}
+        >
+          Confirm & Submit
+        </button>
       </div>
     </div>
   </div>
 )}
+
 
     </>
   );
