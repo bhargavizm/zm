@@ -1,46 +1,110 @@
+// import { connectDB } from "@/lib/mongoDB";
+// import { authUser } from "@/middlewares/authMiddleware";
+// import URLServiceModel from "@/models/services/urlServicesSchema";
+
+
+// export async function POST(req, context) {
+   
+
+//   const auth = await authUser(req);
+//   if (auth.status !== 200) {
+//     return new Response(JSON.stringify(auth.json), {
+//       status: auth.status,
+//       headers: { "Content-Type": "application/json" },
+//     });
+//   }
+
+
+// const slug = context?.params?.slug;
+
+//   const currentUser = auth.user;
+//   try {
+//     await connectDB();
+
+//     const body = await req.json(); // ✅ No params here
+//     const { url, password } = body;
+
+//     const saved = await URLServiceModel.create({
+//       serviceName: slug,
+//       url,
+//       password,
+//       user: {
+//         id: currentUser._id,
+//         name: currentUser.name,
+//       },
+//     });
+
+//     return Response.json(
+//       {
+//         success: true,
+//         message: `${slug} Service Data submitted Successfully`,
+//         URLServicesData: saved
+//       },
+//       { status: 201 }
+//     );
+//   } catch (error) {
+//     return Response.json(
+//       { success: false, error: error.message || "Server error" },
+//       { status: 500 }
+//     );
+//   }
+// }
+
+import { cookies } from "next/headers";
 import { connectDB } from "@/lib/mongoDB";
+import { authUser } from "@/middlewares/authMiddleware";
 import URLServiceModel from "@/models/services/urlServicesSchema";
-import { passwordValidationSchema } from "@/utils/validators";
+import { verifyToken } from "@/utils/verifyToken";
+import bcrypt from "bcrypt";
 
-export const POST = async (req, { params }) => {
+export async function POST(req, context) {
   try {
-    await connectDB();
+    console.log("🚀 Request received");
 
-    const { slug } = params;
-    const body = await req.json();
-
-    const { url } = body; // ✅ Get url directly from body
-
-    // ✅ Only validate password using Zod
-    const parsed = passwordValidationSchema.safeParse(body);
-    if (!parsed.success) {
-      const errorMessages = parsed.error.errors.map((e) => e.message);
-      return Response.json(
-        { success: false, error: errorMessages.join(", ") },
-        { status: 400 }
-      );
+    const auth = await authUser(req);
+    
+    if (auth.status !== 200) {
+      return new Response(JSON.stringify(auth.json), {
+        status: auth.status,
+        headers: { "Content-Type": "application/json" },
+      });
     }
+    
+    const user = auth.user; 
+    const { slug } = context.params;
+    const body = await req.json();
+    const { url, password } = body;
+    console.log("📦 Payload:", { url, password, slug });
 
-    const { password } = parsed.data;
+    await connectDB();
+    console.log("✅ Connected to DB");
 
-    const saved = await URLServiceModel.create({
-      serviceName: slug,
+    // Hash password before saving
+    const saltRounds = 10;
+    const hashedPassword = password ? await bcrypt.hash(password, saltRounds) : null;
+
+    const result = await URLServiceModel.create({
+      user: {
+        id: user._id,
+        name: user.name,
+      },
       url,
-      password,
+      password: hashedPassword,
+      serviceName: slug,
     });
 
-    return Response.json(
+    return new Response(
+      JSON.stringify({ success: true, message: `${slug} Service Data submitted Successfully`, URLServicesData: result }),
       {
-        success: true,
-        message: `${slug} Service Data submitted Successfully`,
-        URLServicesData: saved,
-      },
-      { status: 201 }
+        status: 201,
+        headers: { "Content-Type": "application/json" },
+      }
     );
   } catch (error) {
-    return Response.json(
-      { success: false, error: error.message || "Server error" },
-      { status: 500 }
-    );
+    console.error("❌ API error:", error);
+    return new Response(JSON.stringify({ error: error.message || "Something went wrong" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
-};
+}

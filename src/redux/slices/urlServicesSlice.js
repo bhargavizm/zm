@@ -10,15 +10,13 @@ const urlServicesSlice = createSlice({
     name: 'urlServices',
     initialState,
     reducers: {
-        setEmployeeFullDetails: (state, action) => {
+   setURLServices: (state, action) => {
             return {
                 ...state,
-                employeeFullDetails: action.payload,
+                urlServicesData: action.payload,
                 error: null
             }
         },
-
-
         clearError: (state) => {
             state.error = null;
         },
@@ -26,7 +24,7 @@ const urlServicesSlice = createSlice({
 })
 
 export const {
-    setEmployeeFullDetails,
+    setURLServices,
     clearError
 }
 

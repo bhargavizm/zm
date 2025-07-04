@@ -1,56 +1,58 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-const businessShopSchema = new mongoose.Schema(
-  {
-    shopName: {
-      type: String,
-      trim: true,
-    },
-    category: {
-      type: String,
-      trim: true,
-    },
-    ownerName: {
-      type: String,
-      trim: true,
-    },
-    contactNumber: {
-      type: String,
-      trim: true,
-    },
-    email: {
-      type: String,
-      trim: true,
-      lowercase: true,
-    },
-    address: {
-      street: String,
-      city: String,
-      state: String,
-      pincode: String,
-      country: {
-        type: String,
-        default: "India",
-      },
-    },
-    website: {
-      type: String,
-      trim: true,
-    },
-    shopLogo: {
-      type: String, // Cloudinary URL or image link
-    },
-    password: {
-      type: String, // Optional password for protected data
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
+const dayScheduleSchema = new mongoose.Schema({
+  day: String,
+  time: String
+});
+
+const template1DataSchema = new mongoose.Schema({
+  title: String,
+  days: [dayScheduleSchema],
+  aboutUsLink: String,
+  siteLink: String
+});
+
+const template2DataSchema = new mongoose.Schema({
+  logoText: String,
+  mainHeading: String,
+  subHeading: String,
+  timeRange: String,
+  closedDay: String,
+  addressLine1: String,
+  addressLine2: String,
+  website: String
+});
+
+const BusinessInfoSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
   },
-  { collection: "businessShops" }
-);
+  general: {
+    businessName: String,
+    businessType: String,
+    description: String,
+    shopTimings: String
+  },
+  contact: {
+    phone: String,
+    altPhone: String,
+    email: String,
+    address: String
+  },
+  media: {
+    logo: String,
+    galleryImages: [String]
+  },
+  security: {
+    password: String
+  },
+  shopTimingsTemplate: {
+    selectedTemplate: String,
+    template1Data: template1DataSchema,
+    template2Data: template2DataSchema
+  }
+}, { timestamps: true });
 
-const BusinessShopModal = mongoose.models.BusinessShop || mongoose.model("BusinessShop", businessShopSchema);
-
-export default BusinessShopModal
+export default mongoose.models.BusinessInfo || mongoose.model('BusinessInfo', BusinessInfoSchema);

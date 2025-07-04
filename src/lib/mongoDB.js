@@ -11,8 +11,8 @@ export const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URL, {
       dbName: "zmqr", // optional if included in URL
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+      // useNewUrlParser: true,
+      // useUnifiedTopology: true,
     });
     isConnected = true;
     console.log(" MongoDB connected");

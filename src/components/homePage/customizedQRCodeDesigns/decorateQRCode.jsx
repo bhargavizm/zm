@@ -10,12 +10,26 @@ import Image from "next/image";
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
 import ComingSoonModal from "@/components/modalPopUps/comingSoonModal";
 import NFCModal from "@/components/modalPopUps/nfcModal";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { setURLServices } from "@/redux/slices/urlServicesSlice";
+import { useDispatch } from "react-redux";
 
-const tabs = ["QR Shapes","Stickers", "Colors", "QR Frames", "Logos","Personalized Image"];
+const tabs = [
+  "QR Shapes",
+  "Stickers",
+  "Colors",
+  "QR Frames",
+  "Logos",
+  "Personalized Image",
+];
 
 const DecorateQRCode = () => {
   const { slug } = useParams();
-  const [serviceOpen, setServiceOpen] = useState(false);
+  const [url, setUrl] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const [basicInfoOpen, setBasicInfoOpen] = useState(true);
   const [passwordOpen, setPasswordOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,8 +37,42 @@ const DecorateQRCode = () => {
   const [activeTab, setActiveTab] = useState("QR Shapes");
 
   const [showModal, setShowModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  const dispatch = useDispatch();
 
   const handleClick = () => setShowModal(true);
+  const handleSubmit = async () => {
+    if (!url.trim()) {
+      toast.error("URL is required!");
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+
+      const res = await axios.post(`/api/services/${slug}`, {
+        url,
+        password,
+      });
+
+      if (res.data.success) {
+        dispatch(setURLServices(res.data.URLServicesData));
+        toast.success(res.data.message || "Data submitted successfully");
+        setUrl("");
+        setPassword("");
+      } else {
+        toast.error(res.data.error || "Failed to submit data");
+      }
+    } catch (error) {
+      const errorMessage =
+        error?.response?.data?.error || "Something went wrong";
+      toast.error(errorMessage);
+      console.error("❌ Submit error:", errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
@@ -51,7 +99,7 @@ const DecorateQRCode = () => {
                 <span className="font-bold text-white text-base sm:text-lg">
                   Enter an URL
                 </span>
-                {/* <svg
+                <svg
                   className={`w-5 h-5 text-white transform transition-transform duration-300 ${
                     basicInfoOpen ? "rotate-180" : ""
                   }`}
@@ -65,7 +113,7 @@ const DecorateQRCode = () => {
                     strokeWidth={2}
                     d="M19 9l-7 7-7-7"
                   />
-                </svg> */}
+                </svg>
               </button>
 
               {basicInfoOpen && (
@@ -76,7 +124,9 @@ const DecorateQRCode = () => {
                     </label>
                     <input
                       required
-                      type="text"
+                      type="url"
+                      value={url}
+                      onChange={(e) => setUrl(e.target.value)}
                       className="w-full border border-gray-300 rounded-md px-3 py-2"
                       placeholder="https://yourSite.com"
                     />
@@ -116,20 +166,21 @@ const DecorateQRCode = () => {
               {passwordOpen && (
                 <div className="px-4 py-4 bg-white text-gray-700 border border-gray-200 rounded-b-md relative">
                   <input
-                    required
+                    
                     type={showPassword ? "text" : "password"}
                     className="w-full border border-gray-300 rounded-md px-4 py-2 pr-10"
                     placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                   <div
                     className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-500 cursor-pointer px-6"
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? (
-                       <AiFillEye size={20} />
-                      
+                      <AiFillEye size={20} />
                     ) : (
-                     <AiFillEyeInvisible size={20} />
+                      <AiFillEyeInvisible size={20} />
                     )}
                   </div>
                 </div>
@@ -140,8 +191,12 @@ const DecorateQRCode = () => {
               // onClick={handleClick}
               className="mt-8 max-w-xl mx-auto flex justify-center items-center"
             >
-              <button className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center transition-effects gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]">
-                Submit 
+              <button
+                onClick={() => setShowConfirmModal(true)}
+                disabled={isLoading}
+                className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center transition-effects gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
+              >
+                submit
               </button>
             </div>
 
@@ -169,16 +224,14 @@ const DecorateQRCode = () => {
                 </svg>
               </button>
             </div>
-
-            
           </div>
 
           {/* Preview Panel and Modal Tabs */}
           {/* <div className="col-span-12 lg:col-span-5 bg-white rounded-3xl shadow-lg px-6 py-9 mt-6 lg:mt-0"> */}
           <div className="cursor-pointer col-span-12 lg:col-span-5 bg-white rounded-3xl shadow-lg px-6 py-9 mt-0 ">
-<div className="flex justify-center">
-            <PreviewPanel />
-</div>
+            <div className="flex justify-center">
+              <PreviewPanel />
+            </div>
 
             <hr className="my-2 border border-slate-200" />
             <div className="flex justify-center items-center gap-3 flex-wrap ">
@@ -199,8 +252,8 @@ const DecorateQRCode = () => {
             <hr className="mb-4 border border-slate-200" />
 
             <div className=" flex justify-center items-center gap-2 py-4">
-              <button  className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)] transition-effects">
-                Download  <FaLongArrowAltDown />
+              <button className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)] transition-effects">
+                Download <FaLongArrowAltDown />
               </button>
             </div>
           </div>
@@ -222,6 +275,63 @@ const DecorateQRCode = () => {
           isOpen={showModal}
           onClose={() => setShowModal(false)}
         />
+      )}
+      {showConfirmModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
+          <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-xl border border-teal-200 mx-4 sm:mx-auto">
+            <h3 className="text-2xl sm:text-3xl font-semibold text-mainGreen mb-6">
+              Confirm Submission
+            </h3>
+
+            <div className="space-y-4 md:text-xl text-lg text-gray-800 mb-8">
+              {/* URL Row */}
+              <div className="flex flex-col sm:flex-row sm:items-start sm:gap-3">
+                <div className="font-semibold min-w-fit">URL:</div>
+                <div className="break-words overflow-hidden">
+                  <a
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 underline break-all"
+                  >
+                    {url}
+                  </a>
+                </div>
+              </div>
+
+              {/* Password Row */}
+              <div className="flex flex-col sm:flex-row sm:items-start sm:gap-3">
+                <div className="font-semibold min-w-fit">Password:</div>
+                <div>
+                  {password || (
+                    <span className="italic text-gray-500">
+                      No password set
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Buttons */}
+            <div className="flex justify-end gap-4">
+              <button
+                onClick={() => setShowConfirmModal(false)}
+                className="px-4 py-2 cursor-pointer bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition"
+              >
+                Back
+              </button>
+              <button
+                onClick={async () => {
+                  await handleSubmit();
+                  setShowConfirmModal(false);
+                }}
+                className="px-4 py-2 cursor-pointer bg-teal-700 text-white rounded hover:bg-teal-800 transition"
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </>
   );
