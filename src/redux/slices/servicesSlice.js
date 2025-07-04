@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
     resumeServiceData:[],
     pdfServiceData:[],
+    menuCardServiceData:[],
     error: null
 }
 
@@ -25,6 +26,13 @@ const servicesSlice = createSlice({
                 error: null
             }
         },
+        setMenuCardServices: (state, action) => {
+            return {
+                ...state,
+                menuCardServiceData: action.payload,
+                error: null
+            }
+        },
         clearError: (state) => {
             state.error = null;
         },
@@ -34,6 +42,7 @@ const servicesSlice = createSlice({
 export const {
     setResumeServices,
     setPDFServices,
+    setMenuCardServices,
     clearError
 }
     = servicesSlice.actions
