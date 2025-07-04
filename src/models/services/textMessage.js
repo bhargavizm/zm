@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 const textMessageSchema = new mongoose.Schema(
   {
+    user: {
+         id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+        name: String,
+      },
     sender: {
       type: String,
       trim: true,
