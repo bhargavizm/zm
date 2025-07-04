@@ -33,7 +33,11 @@
 //     if (!user) {
 //       return {
 //         status: 401,
+
+//         json: { error: `User not found` },
+
 //         json: { error: User not found },
+
 //       };
 //     }
 
@@ -88,4 +92,6 @@
         json: { error: "Token expired or invalid" },
       };
     }
+
   };
+

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -8,17 +8,43 @@ import "slick-carousel/slick/slick-theme.css";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import useDesignContext from "@/components/hooks/useDesignContext";
 
+// ✅ Custom Arrows
+const CustomPrevArrow = ({ onClick }) => (
+  <button
+    onClick={onClick}
+    className="absolute left-1 top-1/2 z-30 transform -translate-y-1/2 bg-white text-black w-6 h-6 rounded-full shadow flex items-center justify-center text-xl"
+    aria-label="Previous"
+  >
+    ‹
+  </button>
+);
+
+const CustomNextArrow = ({ onClick }) => (
+  <button
+    onClick={onClick}
+    className="absolute right-1 top-1/2 z-30 transform -translate-y-1/2 bg-white text-black w-6 h-6 rounded-full shadow flex items-center justify-center text-xl"
+    aria-label="Next"
+  >
+    ›
+  </button>
+);
+
 const MenuBookPreview = () => {
   const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
-const {menuBookFormData} = useServicesContext()
+  const { menuBookFormData } = useServicesContext();
 
-    const defaultBg = '/services-service/menu.webp'
-    
-         useEffect(() => {
-           setIsLoading(true);
-           setBgDesign(defaultBg);
-         }, []);
-const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
+  const [isMounted, setIsMounted] = useState(false);
+  const defaultBg = "/services-service/menu.webp";
+
+  useEffect(() => {
+    setIsMounted(true);
+    setIsLoading(true);
+    setBgDesign(defaultBg);
+    const timeout = setTimeout(() => setIsLoading(false), 1000);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
   const isImage = bgDesign && !isVideo;
 
   const sliderSettings = {
@@ -27,130 +53,98 @@ const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: false,
+    arrows: true,
+    prevArrow: <CustomPrevArrow />,
+    nextArrow: <CustomNextArrow />,
   };
 
   return (
-    <>
-      <section className="flex justify-center items-start">
-        <div className="relative w-[350px] h-[650px] border-[12px] border-gray-900 rounded-[40px] shadow-xl overflow-hidden">
-          {/* Background */}
-          {isImage ? (
-            <img
-              src={bgDesign}
-              alt="Background"
-               onLoad={() => setTimeout(() => setIsLoading(false), 300)}
-              className="absolute top-0 left-0 w-full h-full object-cover z-0"
+    <section className="flex justify-center items-start p-4 md:p-8">
+      <div className="relative w-[320px] sm:w-[350px] h-[600px] sm:h-[650px] border-[10px] sm:border-[12px] border-gray-900 rounded-[36px] sm:rounded-[40px] shadow-xl overflow-hidden bg-white">
+        {/* Background */}
+        {isImage ? (
+          <img
+            src={bgDesign}
+            alt="Background"
+            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
+            className="absolute top-0 left-0 w-full h-full object-cover z-0"
+          />
+        ) : isVideo ? (
+          <video
+            src={bgDesign}
+            autoPlay
+            loop
+            muted
+            playsInline
+            onLoadedData={() => setTimeout(() => setIsLoading(false), 300)}
+            className="absolute top-0 left-0 w-full h-full object-cover z-0"
+          />
+        ) : (
+          <img
+            src={defaultBg}
+            alt="Default Background"
+            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
+            className="absolute top-0 left-0 w-full h-full object-cover z-0"
+          />
+        )}
+
+        {/* Loader */}
+        {isLoading && (
+          <div className="absolute inset-0 z-50 bg-mainGreen backdrop-blur-sm flex justify-center items-center">
+            <Image
+              src="/logos/ZM LOGO.webp"
+              alt="Loading"
+              width={100}
+              height={100}
+              className="w-20 h-20 animate-bounce"
             />
-          ) : isVideo ? (
-            <video
-              src={bgDesign}
-              autoPlay
-              loop
-              muted
-              playsInline
-               onLoadedData={() => setTimeout(() => setIsLoading(false), 300)}
-              className="absolute top-0 left-0 w-full h-full object-cover z-0"
-            />
-          ) : (
-            <img
-              src={defaultBg}
-              alt="Background"
-               onLoad={() => setTimeout(() => setIsLoading(false), 300)}
-              className="absolute top-0 left-0 w-full h-full object-cover z-0"
-            />
+          </div>
+        )}
+
+        {/* Foreground Content */}
+        <div className="absolute inset-0 p-4 z-20 bg-white/70 m-2 text-black overflow-y-auto scrollbar-hidden space-y-4 rounded-[28px]">
+          {/* Restaurant Name */}
+          {menuBookFormData.restaurantName && (
+            <h2 className="text-xl font-bold text-center text-[#004d4d]">
+              {menuBookFormData.restaurantName}
+            </h2>
           )}
 
-           {/* ⏳ Loader */}
-                          {isLoading && (
-                            <div className="absolute inset-0 z-50 bg-mainGreen backdrop-blur-sm flex justify-center items-center">
-                              <Image
-                                src="/logos/ZM LOGO.webp"
-                                alt="Loading"
-                                width={100}
-                                height={100}
-                                className="w-20 h-20 animate-bounce"
-                              />
-                            </div>
-                          )}
-
-          {/* Overlay */}
-          {/* <div className="absolute inset-0 bg-white/90 backdrop-blur-sm z-10 rounded-[28px]" /> */}
-
-          {/* Foreground content */}
-          <div className="absolute inset-0 p-4 z-20 bg-white/70 m-2 text-black overflow-y-auto scrollbar-hidden space-y-4 rounded-[28px]">
-            <h3 className="text-lg font-bold text-[#008080]">
-              {menuBookFormData.restaurantName}
-            </h3>
-
-            {menuBookFormData.menuItems.filter(
-              (i) => i.visible !== false && i.image
-            ).length > 0 && (
+          {/* Menu Slider */}
+          {isMounted && menuBookFormData.menuItems?.length > 0 && (
+            <div className="relative min-h-[200px]">
               <Slider {...sliderSettings}>
-                {menuBookFormData.menuItems
-                  .filter((i) => i.visible !== false && i.image)
-                  .map((item, i) => (
-                    <div key={i} className="pb-2 mt-2">
-                      <img
-                        src={item.image}
-                        alt={`menu-${i}`}
-                        className="w-full h-[180px] object-cover rounded"
-                      />
-                      <div className="pt-2">
-                        <h4 className="font-semibold">{item.name}</h4>
-                        <p className="text-sm">{item.description}</p>
-                        <p className="text-sm text-[#008080] font-bold">
-                          ₹{item.price}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-              </Slider>
-            )}
-
-            {menuBookFormData.extras
-              .filter((i) => i.visible && i.value?.trim())
-              .map((field, i) => (
-                <div key={i}>
-                  {field.type === "link" && (
-                    <a
-                      href={field.value}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-500 text-sm underline"
-                    >
-                      {field.value}
-                    </a>
-                  )}
-
-                  {field.type === "form" && field.value && (
-                    <iframe
-                      src={field.value}
-                      title={`form-${i}`}
-                      className="w-full h-40 mt-2 border rounded"
+                {menuBookFormData.menuItems.map((item, idx) => (
+                  <div key={idx} className="px-4">
+                    <img
+                      src={item.image || "/fallback-image.webp"}
+                      alt={`Menu ${idx}`}
+                      className="w-full h-44 object-cover rounded-md border border-gray-300 shadow"
                     />
-                  )}
+                  </div>
+                ))}
+              </Slider>
+            </div>
+          )}
 
-                  {field.type === "video" && field.value && (
-                    <video controls className="w-full rounded mt-2">
-                      <source src={field.value} />
-                    </video>
-                  )}
-
-                  {["phone", "email"].includes(field.type) && (
-                    <p className="text-sm">
-                      {field.label}: {field.value}
-                    </p>
-                  )}
-                </div>
-              ))}
+          {/* Contact Info */}
+          <div className="text-lg space-y-1 mt-3">
+            {menuBookFormData.phone && (
+              <p>📞 <span>{menuBookFormData.phone}</span></p>
+            )}
+            {menuBookFormData.email && (
+              <p>📧 <span>{menuBookFormData.email}</span></p>
+            )}
+            {menuBookFormData.link && (
+              <p>🔗 <span>{menuBookFormData.link}</span></p>
+            )}
           </div>
-
-          {/* Notch */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-black rounded-b-xl z-30" />
         </div>
-      </section>
-    </>
+
+        {/* Notch */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-black rounded-b-xl z-30 sm:w-24 sm:h-6" />
+      </div>
+    </section>
   );
 };
 
