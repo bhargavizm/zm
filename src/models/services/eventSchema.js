@@ -3,6 +3,10 @@
 import mongoose from "mongoose";
 
 const eventSchema = new mongoose.Schema({
+  user: {
+           id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+          name: String,
+        },
   organizer: { type: String,  },
   title: { type: String, },
   summary: { type: String },
