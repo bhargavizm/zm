@@ -1,80 +1,315 @@
-// src/components/VehicleContent.jsx
 "use client";
 
-import React, { useState } from "react";
-import useServicesContext from "@/components/hooks/useServiceContext"; // Adjust path as needed
-import { Eye, EyeOff } from "lucide-react"; // Assuming lucide-react is installed
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { Eye, EyeOff, MapPin, X, Check } from "lucide-react";
 import NFCModal from "@/components/modalPopUps/nfcModal";
- import { MapPin } from "lucide-react"; // Already imported Eye/EyeOff
+import useServicesContext from "@/components/hooks/useServiceContext";
+import { setVehicleServices } from "@/redux/slices/servicesSlice";
+import { useDispatch } from "react-redux";
 
 const VehicleContent = () => {
   const { dynamicForms, updateDynamicForm } = useServicesContext();
   const vehicleInfo = dynamicForms.vehicle;
   const vehicleTemplate = dynamicForms.vehicleTemplate;
+  const dispatch = useDispatch();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [totalFileSize, setTotalFileSize] = useState(0);
 
-  // Consolidated handleChange for all dynamic forms
+  // Constants for file size limits
+  const MAX_SINGLE_FILE_SIZE = 2 * 1024 * 1024; // 2MB
+  const MAX_TOTAL_FILE_SIZE = 30 * 1024 * 1024; // 30MB
+
+  // Calculate total file size whenever media changes
+  useEffect(() => {
+    let totalSize = 0;
+    
+    // Single files
+    ['vehicleImage', 'licenseFront', 'licenseBack', 'rcFront', 'rcBack'].forEach(field => {
+      if (vehicleInfo.media[field]?.size) {
+        totalSize += vehicleInfo.media[field].size;
+      }
+    });
+
+    // Gallery images
+    if (vehicleInfo.media.galleryImages?.length > 0) {
+      vehicleInfo.media.galleryImages.forEach(file => {
+        if (file?.size) totalSize += file.size;
+      });
+    }
+
+    setTotalFileSize(totalSize);
+  }, [vehicleInfo.media]);
+
+  // Validate form fields
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!vehicleInfo.general.vehicleModel?.trim()) {
+      newErrors.vehicleModel = 'Vehicle model is required';
+    }
+    
+    if (!vehicleInfo.registration.rcNumber?.trim()) {
+      newErrors.rcNumber = 'RC number is required';
+    }
+    
+    if (!vehicleInfo.media.vehicleImage) {
+      newErrors.vehicleImage = 'Vehicle image is required';
+    }
+    
+    if (!vehicleInfo.security.password?.trim()) {
+      newErrors.password = 'Password is required';
+    } else if (vehicleInfo.security.password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    }
+    
+    // Check file sizes
+    if (totalFileSize > MAX_TOTAL_FILE_SIZE) {
+      newErrors.fileSize = `Total file size exceeds ${MAX_TOTAL_FILE_SIZE / (1024 * 1024)}MB limit`;
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // Check file size before adding
+  const validateFileSize = (file) => {
+    if (file.size > MAX_SINGLE_FILE_SIZE) {
+      toast.error(`File ${file.name} exceeds ${MAX_SINGLE_FILE_SIZE / (1024 * 1024)}MB limit`);
+      return false;
+    }
+    return true;
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
+      toast.error("Please fix the errors in the form");
+      return;
+    }
+    
+    setShowConfirmation(true);
+  };
+
+  // Confirm submission
+  const confirmSubmission = async () => {
+    setShowConfirmation(false);
+    setIsSubmitting(true);
+    
+    try {
+      const formData = new FormData();
+      
+      // Add all text fields
+      formData.append('selectedTemplate', vehicleTemplate.selectedTemplate || '');
+      formData.append('vehicleModel', vehicleInfo.general.vehicleModel || '');
+      formData.append('vehicleType', vehicleInfo.general.vehicleType || '');
+      formData.append('description', vehicleInfo.general.description || '');
+      formData.append('rcNumber', vehicleInfo.registration.rcNumber || '');
+      formData.append('driverName', vehicleInfo.registration.driverName || '');
+      formData.append('contact', vehicleInfo.contact.contact || '');
+      formData.append('ownerName', vehicleInfo.registration.ownerName || '');
+      formData.append('altContact', vehicleInfo.contact.altContact || '');
+      formData.append('address', vehicleInfo.contact.address || '');
+      formData.append('password', vehicleInfo.security.password || '');
+
+      // Add single files
+      if (vehicleInfo.media.vehicleImage) {
+        formData.append('vehicleImage', vehicleInfo.media.vehicleImage);
+      }
+      if (vehicleInfo.media.licenseFront) {
+        formData.append('licenseFront', vehicleInfo.media.licenseFront);
+      }
+      if (vehicleInfo.media.licenseBack) {
+        formData.append('licenseBack', vehicleInfo.media.licenseBack);
+      }
+      if (vehicleInfo.media.rcFront) {
+        formData.append('rcFront', vehicleInfo.media.rcFront);
+      }
+      if (vehicleInfo.media.rcBack) {
+        formData.append('rcBack', vehicleInfo.media.rcBack);
+      }
+
+      // Add gallery images
+      if (vehicleInfo.media.galleryImages?.length > 0) {
+        vehicleInfo.media.galleryImages.forEach((file) => {
+          formData.append('galleryImages', file);
+        });
+      }
+
+      // Submit to backend
+      const response = await axios.post('/api/services/vehicle', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      dispatch(setVehicleServices(response.data));
+      toast.success('Vehicle details saved successfully!');
+      
+      // Reset form after successful submission
+      resetForm();
+
+    } catch (error) {
+      console.error('Error submitting vehicle:', error);
+      const errorMessage = error.response?.data?.error || 
+                         error.response?.data?.message || 
+                         'Failed to save vehicle details';
+      toast.error(errorMessage);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Reset all form fields
+  const resetForm = () => {
+    updateDynamicForm('vehicle', null, null, {
+      general: {
+        vehicleModel: '',
+        vehicleType: '',
+        description: ''
+      },
+      registration: {
+        rcNumber: '',
+        driverName: '',
+        ownerName: ''
+      },
+      contact: {
+        contact: '',
+        altContact: '',
+        address: ''
+      },
+      media: {
+        vehicleImage: null,
+        licenseFront: null,
+        licenseBack: null,
+        rcFront: null,
+        rcBack: null,
+        galleryImages: []
+      },
+      security: {
+        password: ''
+      },
+    });
+    updateDynamicForm('vehicleTemplate', null, 'selectedTemplate', '');
+  };
+
+  // Handle form field changes
   const handleChange = (formKey, sectionKey, fieldKey, value) => {
     updateDynamicForm(formKey, sectionKey, fieldKey, value);
+    // Clear error when field is edited
+    if (errors[fieldKey]) {
+      setErrors(prev => ({ ...prev, [fieldKey]: undefined }));
+    }
   };
 
-  // Handler for single file upload
+  // Handle single file upload with size validation
   const handleFileChange = (section, field, files) => {
-    const file = files[0] || null; // Get the first file or null if none
-    updateDynamicForm("vehicle", section, field, file);
+    const file = files[0] || null;
+    if (file && !validateFileSize(file)) return;
+    handleChange("vehicle", section, field, file);
   };
 
-  // Handler to remove a single file
-  const handleRemoveFile = (section, field) => {
-    updateDynamicForm("vehicle", section, field, null);
-  };
-
-  // Handler for multiple file uploads (gallery)
+  // Handle multiple file uploads with size validation
   const handleGalleryFileChange = (section, field, files) => {
-    const newFiles = Array.from(files);
-    // Append new files to existing ones
+    const newFiles = Array.from(files).filter(file => {
+      if (!validateFileSize(file)) return false;
+      return true;
+    });
+    
     const currentFiles = vehicleInfo[section][field] || [];
-    updateDynamicForm("vehicle", section, field, [...currentFiles, ...newFiles]);
+    const combinedFiles = [...currentFiles, ...newFiles];
+    
+    // Check total size
+    const newTotalSize = totalFileSize + newFiles.reduce((sum, file) => sum + file.size, 0);
+    if (newTotalSize > MAX_TOTAL_FILE_SIZE) {
+      toast.error(`Total file size exceeds ${MAX_TOTAL_FILE_SIZE / (1024 * 1024)}MB limit`);
+      return;
+    }
+    
+    handleChange("vehicle", section, field, combinedFiles);
   };
 
-  // Handler to remove an individual image from the gallery
+  // Remove a single file
+  const handleRemoveFile = (section, field) => {
+    handleChange("vehicle", section, field, null);
+  };
+
+  // Remove an image from gallery
   const handleRemoveGalleryImage = (section, field, indexToRemove) => {
     const currentFiles = vehicleInfo[section][field] || [];
     const updatedFiles = currentFiles.filter((_, index) => index !== indexToRemove);
-    updateDynamicForm("vehicle", section, field, updatedFiles);
+    handleChange("vehicle", section, field, updatedFiles);
   };
 
-  // Handler for template selection
+  // Handle template selection
   const handleTemplateSelect = (templateName) => {
-    updateDynamicForm(
-      "vehicleTemplate",
-      null, // No nested section for selectedTemplate
-      "selectedTemplate",
-      templateName
-    );
+    handleChange("vehicleTemplate", null, "selectedTemplate", templateName);
   };
 
+  // Toggle password visibility
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  // Helper function to render file input with preview and remove button
-  const renderFileInput = (section, field, label, accept) => {
+  // Fetch current location
+  const fetchCurrentLocation = async () => {
+    if (navigator.geolocation) {
+      try {
+        const pos = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject, {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0,
+          });
+        });
+
+        const { latitude, longitude } = pos.coords;
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`
+        );
+        const data = await response.json();
+        const fullAddress = data.display_name || "Address not found";
+
+        handleChange("vehicle", "contact", "address", fullAddress);
+      } catch (err) {
+        console.error("Error fetching location:", err.message);
+        toast.error("Failed to fetch location. Please check permissions.");
+      }
+    } else {
+      toast.error("Geolocation not supported in your browser.");
+    }
+  };
+
+  // Render file input with preview and size info
+  const renderFileInput = (section, field, label, accept, required = false) => {
     const file = vehicleInfo[section][field];
     const fileName = file ? file.name : "No file chosen";
+    const fileSize = file ? `(${(file.size / (1024 * 1024)).toFixed(2)} MB)` : '';
+    const error = errors[field];
 
     return (
       <div className="space-y-2">
         <label className="block text-base font-medium text-gray-700">
-          {label}
+          {label} {required && <span className="text-red-500">*</span>}
+          <span className="block text-xs text-gray-500 mt-1">
+            Max single file: 2MB | Total max: 30MB | Current total: {(totalFileSize / (1024 * 1024)).toFixed(2)}MB
+          </span>
         </label>
         <div className="flex flex-col sm:flex-row sm:items-center gap-3">
           <div className="flex-1 min-w-0">
             <input
               type="file"
               accept={accept}
-              className="w-full text-gray-700 file:mr-4 file:py-2 sm:file:py-3 file:px-4 sm:file:px-6 file:rounded-full file:border-0 file:text-xs sm:file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2 truncate"
+              className={`w-full text-gray-700 file:mr-4 file:py-2 sm:file:py-3 file:px-4 sm:file:px-6 file:rounded-full file:border-0 file:text-xs sm:file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border ${
+                error ? 'border-red-500' : 'border-gray-300'
+              } rounded-lg py-2 truncate`}
               onChange={(e) => handleFileChange(section, field, e.target.files)}
             />
           </div>
@@ -88,9 +323,12 @@ const VehicleContent = () => {
             </button>
           )}
         </div>
+        {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
         {file && (
           <div className="mt-2 flex flex-col items-start space-y-2">
-            <span className="text-sm text-gray-600 truncate w-full">Selected: {fileName}</span>
+            <span className="text-sm text-gray-600 truncate w-full">
+              Selected: {fileName} {fileSize}
+            </span>
             {file.type.startsWith("image/") && (
               <img
                 src={URL.createObjectURL(file)}
@@ -111,163 +349,106 @@ const VehicleContent = () => {
     );
   };
 
- 
+  // Confirmation Modal
+  const ConfirmationModal = () => {
+    if (!showConfirmation) return null;
 
-// inside VehicleContent component
-const fetchCurrentLocation = async () => {
-  if (navigator.geolocation) {
-    try {
-      const pos = await new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject, {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 0,
-        });
-      });
-
-      const { latitude, longitude } = pos.coords;
-
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`
-      );
-      const data = await response.json();
-      const fullAddress = data.display_name || "Address not found";
-
-      updateDynamicForm("vehicle", "contact", "address", fullAddress);
-    } catch (err) {
-      console.error("Error fetching location:", err.message);
-      alert("Failed to fetch location. Please check permissions.");
-    }
-  } else {
-    alert("Geolocation not supported in your browser.");
-  }
-};
-
+    return (
+      <div className="fixed inset-0  bg-opacity-50 flex items-center justify-center z-50 p-4  bg-black/10 backdrop-blur-sm">
+        <div className="bg-white rounded-xl shadow-xl p-6 max-w-md w-full">
+          <h3 className="text-xl font-semibold text-gray-800 mb-4">
+            Confirm Submission
+          </h3>
+          <p className="text-gray-600 mb-6">
+            Are you sure you want to submit this vehicle information? Please review all details before confirming.
+          </p>
+          <div className="flex justify-end space-x-3">
+            <button
+              type="button"
+              onClick={() => setShowConfirmation(false)}
+              className="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition-colors duration-200 flex items-center"
+            >
+              <X className="mr-2 w-4 h-4" />
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={confirmSubmission}
+              className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors duration-200 flex items-center"
+            >
+              <Check className="mr-2 w-4 h-4" />
+              Confirm
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <>
-      <div className="space-y-8 p-4 md:p-8 lg:p-12 bg-gray-50 rounded-xl shadow-lg overflow-auto hide-scrollbar h-150">
-        {/* Vehicle Template Selection and Editing Section */}
-        <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
+      <form onSubmit={handleSubmit}>
+        <div className="space-y-8 p-4 md:p-8 lg:p-12 bg-gray-50 rounded-xl shadow-lg overflow-auto hide-scrollbar h-150">
+          <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
           <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 border-b pb-2 sm:pb-3 border-gray-200">
             Vehicle Profile Template
           </h3>
-
           <div className="space-y-5">
             <label className="block text-base font-medium text-gray-700 mb-2">
               Choose a Template:
             </label>
-
-            {/* Template Image/Video Selection Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-6">
-                {/* Template V2 Image */}
-              <div
-                className={`relative cursor-pointer rounded-lg overflow-hidden border-2 
-                  ${vehicleTemplate.selectedTemplate === "templateV1"
-                    ? "border-teal-500 ring-2 ring-teal-300"
-                    : "border-gray-300 hover:border-gray-400"
-                  }`}
-                 
-                onClick={() => handleTemplateSelect("templateV1")}
-              >
-                <img
-                  src="/images/background/carbg.webp"
-                  alt="Template V1: Modern Vehicle Card"
-                  className="w-full h-auto object-cover"
-                />
-                
-              </div>
-              {/* Template V2 Image */}
-              <div
-                className={`relative cursor-pointer rounded-lg overflow-hidden border-2 ${vehicleTemplate.selectedTemplate === "templateV2"
-                    ? "border-teal-500 ring-2 ring-teal-300"
-                    : "border-gray-300 hover:border-gray-400"
+              {['templateV1', 'templateV2', 'templateV3', 'templateV4', 'none'].map((template) => (
+                <div
+                  key={template}
+                  className={`relative cursor-pointer rounded-lg overflow-hidden border-2 ${
+                    vehicleTemplate.selectedTemplate === template
+                      ? "border-teal-500 ring-2 ring-teal-300"
+                      : "border-gray-300 hover:border-gray-400"
                   } transition-all duration-200 shadow-sm hover:shadow-md`}
-                onClick={() => handleTemplateSelect("templateV2")}
-              >
-                <img
-                  src="/images/background/autobg.webp"
-                  alt="Template V2: Modern Vehicle Card"
-                  className="w-full h-auto object-cover"
-                />
-
-              </div>
-
-              {/* Template V2 Image */}
-              <div
-                className={`relative cursor-pointer rounded-lg overflow-hidden border-2 ${vehicleTemplate.selectedTemplate === "templateV3"
-                    ? "border-teal-500 ring-2 ring-teal-300"
-                    : "border-gray-300 hover:border-gray-400"
-                  } transition-all duration-200 shadow-sm hover:shadow-md`}
-                onClick={() => handleTemplateSelect("templateV3")}
-              >
-                <img
-                 src="/images/background/lorrybg.webp"
-                  alt="Template V2: Modern Vehicle Card"
-                  className="w-full h-auto object-cover"
-                />
-
-              </div>
-
-              {/* Template V2 Image */}
-              <div
-                className={`relative cursor-pointer rounded-lg overflow-hidden border-2 ${vehicleTemplate.selectedTemplate === "templateV4"
-                    ? "border-teal-500 ring-2 ring-teal-300"
-                    : "border-gray-300 hover:border-gray-400"
-                  } transition-all duration-200 shadow-sm hover:shadow-md`}
-                onClick={() => handleTemplateSelect("templateV4")}
-              >
-                <img
-                  src="/images/background/bikebg.webp"
-                  alt="Template V1: Modern Vehicle Card"
-                  className="w-full h-auto object-cover"
-                />
-
-              </div>
-
-              {/* Add more templates here if needed */}
-              {/* Clear Selection / No Template Option */}
-              <div
-                className={`relative cursor-pointer rounded-lg overflow-hidden border-2 ${vehicleTemplate.selectedTemplate === "none"
-                    ? "border-teal-500 ring-2 ring-teal-300"
-                    : "border-gray-300 hover:border-gray-400"
-                  } transition-all duration-200 shadow-sm hover:shadow-md`}
-                onClick={() => handleTemplateSelect("none")}
-              >
-                <div className="w-full h-auto object-cover flex items-center justify-center bg-gray-100 py-6">
-                  <span className="text-gray-500 text-sm font-semibold">Manual Input</span>
+                  onClick={() => handleTemplateSelect(template)}
+                >
+                  {template === 'none' ? (
+                    <div className="w-full h-auto object-cover flex items-center justify-center bg-gray-100 py-6">
+                      <span className="text-gray-500 text-sm font-semibold">Manual Input</span>
+                    </div>
+                  ) : (
+                    <img
+                      src={`/images/background/${template.replace('template', '').toLowerCase()}bg.webp`}
+                      alt={`${template} Vehicle Card`}
+                      className="w-full h-auto object-cover"
+                    />
+                  )}
                 </div>
-                <div className="absolute inset-0 flex items-center justify-center text-center text-xs font-semibold text-gray-800 bg-white bg-opacity-70 opacity-0 hover:opacity-100 transition-opacity duration-200">
-                  Manual Input
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
 
-        {/* General Section */}
+        {/* General Vehicle Information */}
         <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
           <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 border-b pb-2 sm:pb-3 border-gray-200">
             General Vehicle Information
           </h3>
           <div className="space-y-4 sm:space-y-5">
-            {/* Vehicle Image - Moved to top and made the main image */}
-            {renderFileInput("media", "vehicleImage", "Vehicle Image", "image/*")}
-
-            <input
-              type="text"
-              placeholder="Vehicle Name"
-              className="w-full px-4 sm:px-5 py-2 sm:py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
-              value={vehicleInfo.general.vehicleModel || ""}
-              onChange={(e) =>
-                handleChange(
-                  "vehicle",
-                  "general",
-                  "vehicleModel",
-                  e.target.value
-                )
-              }
-            />
+            {renderFileInput("media", "vehicleImage", "Vehicle Image", "image/*", true)}
+            
+            <div>
+              <input
+                type="text"
+                placeholder="Vehicle Name *"
+                className={`w-full px-4 sm:px-5 py-2 sm:py-3 border ${
+                  errors.vehicleModel ? 'border-red-500' : 'border-gray-300'
+                } rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200`}
+                value={vehicleInfo.general.vehicleModel || ""}
+                onChange={(e) =>
+                  handleChange("vehicle", "general", "vehicleModel", e.target.value)
+                }
+              />
+              {errors.vehicleModel && (
+                <p className="text-red-500 text-sm mt-1">{errors.vehicleModel}</p>
+              )}
+            </div>
 
             <input
               type="text"
@@ -275,12 +456,7 @@ const fetchCurrentLocation = async () => {
               className="w-full px-4 sm:px-5 py-2 sm:py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
               value={vehicleInfo.general.vehicleType || ""}
               onChange={(e) =>
-                handleChange(
-                  "vehicle",
-                  "general",
-                  "vehicleType",
-                  e.target.value
-                )
+                handleChange("vehicle", "general", "vehicleType", e.target.value)
               }
             />
 
@@ -290,37 +466,34 @@ const fetchCurrentLocation = async () => {
               className="w-full px-4 sm:px-5 py-2 sm:py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200 resize-y"
               value={vehicleInfo.general.description || ""}
               onChange={(e) =>
-                handleChange(
-                  "vehicle",
-                  "general",
-                  "description",
-                  e.target.value
-                )
+                handleChange("vehicle", "general", "description", e.target.value)
               }
             />
           </div>
         </div>
 
-        {/* Registration Section */}
+        {/* Registration Details */}
         <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
           <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 border-b pb-2 sm:pb-3 border-gray-200">
             Registration Details
           </h3>
           <div className="space-y-4 sm:space-y-5">
-            <input
-              type="text"
-              placeholder="RC Number"
-              className="w-full px-4 sm:px-5 py-2 sm:py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
-              value={vehicleInfo.registration.rcNumber || ""}
-              onChange={(e) =>
-                handleChange(
-                  "vehicle",
-                  "registration",
-                  "rcNumber",
-                  e.target.value
-                )
-              }
-            />
+            <div>
+              <input
+                type="text"
+                placeholder="RC Number *"
+                className={`w-full px-4 sm:px-5 py-2 sm:py-3 border ${
+                  errors.rcNumber ? 'border-red-500' : 'border-gray-300'
+                } rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200`}
+                value={vehicleInfo.registration.rcNumber || ""}
+                onChange={(e) =>
+                  handleChange("vehicle", "registration", "rcNumber", e.target.value)
+                }
+              />
+              {errors.rcNumber && (
+                <p className="text-red-500 text-sm mt-1">{errors.rcNumber}</p>
+              )}
+            </div>
 
             <input
               type="text"
@@ -328,18 +501,13 @@ const fetchCurrentLocation = async () => {
               className="w-full px-4 sm:px-5 py-2 sm:py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
               value={vehicleInfo.registration.driverName || ""}
               onChange={(e) =>
-                handleChange(
-                  "vehicle",
-                  "registration",
-                  "driverName",
-                  e.target.value
-                )
+                handleChange("vehicle", "registration", "driverName", e.target.value)
               }
             />
 
-             <input
+            <input
               type="text"
-              placeholder=" Driver Contact Number"
+              placeholder="Driver Contact Number"
               className="w-full px-4 sm:px-5 py-2 sm:py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
               value={vehicleInfo.contact.contact || ""}
               onChange={(e) =>
@@ -353,39 +521,29 @@ const fetchCurrentLocation = async () => {
               className="w-full px-4 sm:px-5 py-2 sm:py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
               value={vehicleInfo.registration.ownerName || ""}
               onChange={(e) =>
-                handleChange(
-                  "vehicle",
-                  "registration",
-                  "ownerName",
-                  e.target.value
-                )
+                handleChange("vehicle", "registration", "ownerName", e.target.value)
               }
             />
 
-             <input
+            <input
               type="text"
               placeholder="Owner Contact Number"
               className="w-full px-4 sm:px-5 py-2 sm:py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
               value={vehicleInfo.contact.altContact || ""}
               onChange={(e) =>
-                handleChange(
-                  "vehicle",
-                  "contact",
-                  "altContact",
-                  e.target.value
-                )
+                handleChange("vehicle", "contact", "altContact", e.target.value)
               }
             />
           </div>  
         </div>
 
-        {/* Contact Section */}
+        {/* Location Information */}
         <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
           <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 border-b pb-2 sm:pb-3 border-gray-200">
             Location Information
           </h3>
-          <div className="space-y-4 sm:space-y-5">
-            {/* <textarea
+          <div className="space-y-2">
+            <textarea
               placeholder="Full Address (e.g., owner's address or parking location)"
               rows={3}
               className="w-full px-4 sm:px-5 py-2 sm:py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200 resize-y"
@@ -393,36 +551,15 @@ const fetchCurrentLocation = async () => {
               onChange={(e) =>
                 handleChange("vehicle", "contact", "address", e.target.value)
               }
-            /> */}
-            <div className="space-y-2">
-  <textarea
-    placeholder="Full Address (e.g., owner's address or parking location)"
-    rows={3}
-    className="w-full px-4 sm:px-5 py-2 sm:py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200 resize-y"
-    value={vehicleInfo.contact.address || ""}
-    onChange={(e) =>
-      handleChange("vehicle", "contact", "address", e.target.value)
-    }
-  />
-  <button
-    type="button"
-    onClick={fetchCurrentLocation}
-    className="flex items-center justify-center w-full py-2 px-3 bg-gray-100 hover:bg-gray-300 text-gray-700 text-sm rounded-lg transition-colors duration-200 cursor-pointer"
-  >
-    <MapPin className="mr-2 w-4 h-4" />
-    Use Current Location
-  </button>
-</div>
-{/* 
-            <input
-              type="text"
-              placeholder="Map Link (Google Maps, etc.)"
-              className="w-full px-4 sm:px-5 py-2 sm:py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
-              value={vehicleInfo.contact.mapLink || ""}
-              onChange={(e) =>
-                handleChange("vehicle", "contact", "mapLink", e.target.value)
-              }
-            /> */}
+            />
+            <button
+              type="button"
+              onClick={fetchCurrentLocation}
+              className="flex items-center justify-center w-full py-2 px-3 bg-gray-100 hover:bg-gray-300 text-gray-700 text-sm rounded-lg transition-colors duration-200 cursor-pointer"
+            >
+              <MapPin className="mr-2 w-4 h-4" />
+              Use Current Location
+            </button>
           </div>
         </div>
 
@@ -434,8 +571,8 @@ const fetchCurrentLocation = async () => {
           <div className="space-y-4 sm:space-y-6">
             {renderFileInput("media", "licenseFront", "License Front Image", "image/*")}
             {renderFileInput("media", "licenseBack", "License Back Image", "image/*")}
-            {renderFileInput("media", "rcFront", "Rc Front Image", "image/*")}
-            {renderFileInput("media", "rcBack", "Rc Back Image", "image/*")}
+            {renderFileInput("media", "rcFront", "RC Front Image", "image/*")}
+            {renderFileInput("media", "rcBack", "RC Back Image", "image/*")}
 
             <div className="space-y-2">
               <label className="block text-base font-medium text-gray-700">
@@ -487,8 +624,10 @@ const fetchCurrentLocation = async () => {
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
-              placeholder="Password"
-              className="w-full px-4 sm:px-5 py-2 sm:py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 pr-12 transition-all duration-200"
+              placeholder="Password *"
+              className={`w-full px-4 sm:px-5 py-2 sm:py-3 border ${
+                errors.password ? 'border-red-500' : 'border-gray-300'
+              } rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 pr-12 transition-all duration-200`}
               value={vehicleInfo.security.password || ""}
               onChange={(e) =>
                 handleChange("vehicle", "security", "password", e.target.value)
@@ -500,20 +639,32 @@ const fetchCurrentLocation = async () => {
               onClick={togglePasswordVisibility}
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
-              {showPassword ? <Eye size={18} className="sm:w-5 sm:h-5 w-4 h-4" /> :  <EyeOff size={18} className="sm:w-5 sm:h-5 w-4 h-4" />}
+              {showPassword ? <Eye size={18} className="sm:w-5 sm:h-5 w-4 h-4" /> : <EyeOff size={18} className="sm:w-5 sm:h-5 w-4 h-4" />}
             </button>
           </div>
+          {errors.password && (
+            <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+          )}
         </div>
 
+        {/* NFC Section */}
         <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
           <NFCModal/>
         </div>
-      </div>
+        </div>
 
+        <button 
+          type="submit"
+          disabled={isSubmitting}
+          className={`w-full py-3 cursor-pointer bg-[#008080] text-white font-semibold rounded-lg hover:bg-[#006666] transition-all duration-200 mt-6 ${
+            isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+          }`}
+        >
+          {isSubmitting ? 'Submitting...' : 'Submit Vehicle Details'}
+        </button>
+      </form>
 
-      <button className="w-full py-3 cursor-pointer bg-[#008080] text-white font-semibold rounded-lg hover:bg-[#006666] transition-all duration-200 mt-6">
-        Submit Vehicle Details
-      </button>
+      <ConfirmationModal />
     </>
   );
 };
