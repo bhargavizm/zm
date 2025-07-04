@@ -2,18 +2,67 @@
 
 import useServicesContext from '@/components/hooks/useServiceContext'
 import NFCModal from '@/components/modalPopUps/nfcModal'
+import { setSmsServices } from '@/redux/slices/servicesSlice'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
+import toast from 'react-hot-toast'
 import { FiMessageSquare, FiUser, FiCalendar, FiLock, FiEye, FiEyeOff } from 'react-icons/fi'
+import { useDispatch } from 'react-redux'
 
 const SmsContent = () => {
   const { smsFormData, setSmsFormData } = useServicesContext()
   const [showPassword, setShowPassword] = useState(false)
-
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   const handleChange = (e) => {
     const { name, value } = e.target
     setSmsFormData({ ...smsFormData, [name]: value })
   }
+  const handleInitialSubmit = (e) => {
+      e.preventDefault();
+      setShowConfirmModal(true);
+    };
+
+  const handleConfirmedSubmit = async () => {
+  const payload = {
+    genderName: smsFormData.genderName,
+    messageType: smsFormData.messageType,
+    textMessage: smsFormData.textMessage,
+    password: smsFormData.password,
+  };
+
+  try {
+    const response = await axios.post("/api/services/sms", payload, {
+      headers: {
+        "Content-Type": "application/json", // ✅ Important for JSON
+      },
+    });
+
+    console.log(response);
+
+    if (response.data.success) {
+      dispatch(setSmsServices(response.data.fileData));
+      toast.success("Text submitted successfully!");
+      setShowConfirmModal(false);
+
+      // Reset form
+      setSmsFormData({
+        genderName: "",
+        messageType: "",
+        textMessage: "",
+        password: "",
+      });
+    }
+  } catch (error) {
+    const errMsg = error?.response?.data?.error || "An unexpected error occurred.";
+    toast.error(`❌ ${errMsg}`);
+    console.error("Submit Error:", errMsg);
+  }
+};
+
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword)
@@ -115,6 +164,7 @@ const SmsContent = () => {
               {/* Submit Button */}
               <button
                 type="button"
+                onClick={handleInitialSubmit}
                 className="w-full cursor-pointer bg-[#008080] hover:bg-[#006666] text-white py-3 rounded-lg font-medium transition-colors shadow-lg"
               >
               Submit
@@ -134,6 +184,34 @@ const SmsContent = () => {
           scrollbar-width: none;
         }
       `}</style>
+      {showConfirmModal && (
+         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
+        <div className="bg-white rounded-xl shadow-xl p-6 max-w-sm w-full border border-teal-200 relative">
+        
+            <h2 className="text-lg font-semibold text-gray-800">Confirm Submission</h2>
+            <div className="text-sm text-gray-700 space-y-2">
+              <p><strong>genderName:</strong> {smsFormData.genderName}</p>
+              <p><strong>messageType:</strong> {smsFormData.messageType}</p>
+              <p><strong>textMessage:</strong> {smsFormData.textMessage}</p>
+              <p><strong>Password:</strong> {smsFormData.password}</p>
+        </div>
+        <div className="flex justify-end gap-4 pt-4">
+              <button
+                onClick={() => setShowConfirmModal(false)}
+                className="px-4 py-2 rounded-lg text-gray-600 border border-gray-300 hover:bg-gray-100"
+              >
+                Back
+              </button>
+              <button
+                onClick={handleConfirmedSubmit}
+                className="px-4 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700"
+              >
+                Confirm Submit
+              </button>
+            </div>
+            </div>
+            </div>
+      )}
 
     </div>
   )
