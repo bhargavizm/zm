@@ -131,7 +131,6 @@ const ServicesProvider = ({ children }) => {
     genderName: "",
     messageType: "",
     textMessage: "",
-    date: "",
     password: "",
   });
 
