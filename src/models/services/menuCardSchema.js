@@ -1,27 +1,26 @@
 import mongoose from "mongoose";
 
-const extraFieldSchema = new mongoose.Schema({
-  label: { type: String, required: true },
-  type: { type: String, enum: ["text", "video"], default: "text" },
-  value: { type: String }, // could be text or video URL
-  placeholder: { type: String },
-  visible: { type: Boolean, default: true },
-}, { _id: false });
 
-const menuItemSchema = new mongoose.Schema({
-  name: { type: String },
-  description: { type: String },
-  price: { type: String },
-  image: { type: String }, // base64 or uploaded URL
-  visible: { type: Boolean, default: true },
-}, { _id: false });
+const menuCardsSchema = new mongoose.Schema({
+  restaurantName: String,
+  phone: String,
+  email: String,
+  link: String,
+  password: String,
+images: [
+  {
+    url: String,
+    name: String,
+  }
+],
 
-const menuBookSchema = new mongoose.Schema({
-  restaurantName: { type: String, required: true },
-  menuItems: [menuItemSchema],
-  extras: [extraFieldSchema],
+  user: {
+     id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    name: String,
+  },
 }, { timestamps: true });
 
-const MenuBookModal = mongoose.models.MenuBook || mongoose.model("MenuBook",menuBookSchema)
+ const MenuCardsServiceModel =
+   mongoose.models.MenuCards || mongoose.model("MenuCards", menuCardsSchema);
 
-export default MenuBookModal
+ export default MenuCardsServiceModel;

@@ -130,15 +130,29 @@ const ServicesProvider = ({ children }) => {
     password: '',
   };
 
-  const initialMenuBookFormData = {
-    restaurantName: "",
-    menuItems: [{ image: "", name: "menu items", }],
-    extras: [
-      { type: "phone", label: "Phone", value: "", visible: true, placeholder: "+91-0000000000" },
-      { type: "email", label: "Email", value: "", visible: true, placeholder: "example@mail.com" },
-      { type: "link", label: "Link", value: "", visible: true, placeholder: "https://yourlink.com" },
-    ],
-  };
+
+  // Menu Book (Original structure)
+  // Inside your ServiceContextProvider
+const [menuBookFormData, setMenuBookFormData] = useState({
+  restaurantName: '',
+  menuItems: [], // array of { image: "blob-url" }
+  phone: '',
+  email: '',
+  link: '',
+  password:''
+});
+
+  // const [menuBookFormData, setMenuBookFormData] = useState({
+  //   restaurantName: "",
+  //   menuItems: [{ image: "", name: "menu items", }],
+  //   extras: [
+  //     { type: "phone", label: "Phone", value: "", visible: true, placeholder: "+91-0000000000" },
+  //     { type: "email", label: "Email", value: "", visible: true, placeholder: "example@mail.com" },
+  //     { type: "link", label: "Link", value: "", visible: true, placeholder: "https://yourlink.com" },
+  //   ],
+  // });
+
+
 
   const initialPetIDFormData = {
     tagTitle: "",
