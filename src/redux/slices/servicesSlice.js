@@ -5,7 +5,7 @@ const initialState = {
 
     menuCardServiceData:[],
 
-    pdfServiceData:[]
+    pdfServiceData:[],
     textMessageData:[],
     smsServiceData:[],
     vehicleServiceData:[],
@@ -54,6 +54,8 @@ const servicesSlice = createSlice({
                 ...state,
                 smsServiceData: action.payload,
                 error: null
+            }
+        },
         setVehicleServices:(state,action)=>{
             return{
                 ...state,
