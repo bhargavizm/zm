@@ -152,7 +152,6 @@
 
 // export default ResumeContent;
 
-
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -163,15 +162,16 @@ import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import NFCModal from "@/components/modalPopUps/nfcModal";
 import toast from "react-hot-toast";
 import { setResumeServices } from "@/redux/slices/servicesSlice";
-
-import { useDispatch } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
 
 const ResumeContent = () => {
   const { resumeFormData, setResumeFormData } = useServicesContext();
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+
   const router = useRouter();
-  const dispatch=useDispatch()
+  
+  const dispatch = useDispatch();
   const fileInputRef = useRef(null);
 
   useEffect(() => {
@@ -196,14 +196,19 @@ const ResumeContent = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!resumeFormData.resumeFile && !resumeFormData.resumeUrl) {
-      toast.error("Please upload a resume file or provide a resume URL.");
-      return;
-    }
+  toast.error("Please upload a resume file or provide a resume URL.");
+  return;
+}
 
+
+    setShowConfirmModal(true);
+  };
+
+  const submitToServer = async () => {
     const formData = new FormData();
     if (resumeFormData.resumeFile) {
       formData.append("resumeFile", resumeFormData.resumeFile);
@@ -218,20 +223,22 @@ const ResumeContent = () => {
         },
       });
 
-      console.log(res)
-
       if (res.data.success) {
-
-        dispatch(setResumeServices(res.data.resumeData))
-
+        dispatch(setResumeServices(res.data.resumeData));
         toast.success("Resume uploaded successfully");
 
         setResumeFormData({
           resumeFile: null,
           resumeUrl: "",
           password: "",
-        })
+        });
 
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
+
+
+        setShowConfirmModal(false);
       } else {
         toast.error("Upload failed.");
       }
@@ -255,6 +262,7 @@ const ResumeContent = () => {
                 ref={fileInputRef}
                 id="resume-upload"
                 type="file"
+                multiple
                 name="resumeFile"
                 accept=".pdf,.doc,.docx"
                 className="w-full px-3 py-2 border cursor-pointer border-gray-300 rounded-lg text-sm file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:bg-teal-600 file:text-white hover:file:bg-teal-700"
@@ -325,8 +333,80 @@ const ResumeContent = () => {
           </form>
         </div>
       </div>
+
+      {/* Confirm Modal */}
+      {showConfirmModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/10 backdrop-blur-sm">
+          <div className="bg-white rounded-lg p-6 w-full max-w-md shadow-xl space-y-4">
+            <h2 className="text-lg font-semibold text-gray-800">Confirm Submission</h2>
+            <div className="text-md text-gray-700 space-y-2">
+              {resumeFormData.resumeFile && (
+                <p>
+                  <strong>File:</strong> {resumeFormData.resumeFile.name}
+                </p>
+              )}
+              {resumeFormData.resumeUrl && (
+                <p>
+                  <strong>URL:</strong> {resumeFormData.resumeUrl}
+                </p>
+              )}
+              {resumeFormData.password && (
+                <p>
+                  <strong>Password:</strong> {resumeFormData.password}
+                </p>
+              )}
+            </div>
+
+            <div className="flex justify-end gap-3 pt-4">
+              <button
+                onClick={() => setShowConfirmModal(false)}
+                className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 cursor-pointer"
+              >
+                Back
+              </button>
+              <button
+                onClick={submitToServer}
+                className="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 cursor-pointer transition duration-150"
+
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
 
 export default ResumeContent;
+
+
+// import ConfirmModal from "@/components/common/ConfirmModal";
+
+// const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+// // Prepare data to pass
+// const confirmFields = [
+//   {
+//     label: "Resume File",
+//     value: resumeFormData.resumeFile?.name,
+//   },
+//   {
+//     label: "Resume URL",
+//     value: resumeFormData.resumeUrl,
+//   },
+//   {
+//     label: "Password",
+//     value: resumeFormData.password,
+//   },
+// ];
+
+// <ConfirmModal
+//   open={showConfirmModal}
+//   onClose={() => setShowConfirmModal(false)}
+//   onConfirm={submitToServer}
+//   title="Confirm Resume Upload"
+//   fields={confirmFields}
+// />
