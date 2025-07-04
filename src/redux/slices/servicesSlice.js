@@ -4,6 +4,7 @@ const initialState = {
     resumeServiceData:[],
     pdfServiceData:[],
     vehicleServiceData:[],
+    wifiServiceData:[],
     error: null
 }
 
@@ -19,7 +20,7 @@ const servicesSlice = createSlice({
                 error: null
             }
         },
-         setPDFServices: (state, action) => {
+        setPDFServices: (state, action) => {
             return {
                 ...state,
                 pdfServiceData: action.payload,
@@ -33,6 +34,13 @@ const servicesSlice = createSlice({
                 error:null
             }
         },
+        setWifiServices: (state, action) => {
+            return {
+                ...state,
+                wifiServiceData: action.payload,
+                error: null
+            }
+        },
         clearError: (state) => {
             state.error = null;
         },
@@ -43,6 +51,7 @@ export const {
     setResumeServices,
     setPDFServices,
     setVehicleServices,
+    setWifiServices,
     clearError
 }
     = servicesSlice.actions
