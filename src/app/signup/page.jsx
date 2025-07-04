@@ -581,7 +581,9 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { FcGoogle } from 'react-icons/fc';
+import { FaFacebook } from "react-icons/fa";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { signIn } from 'next-auth/react';
 
 export default function SignupPage() {
     const [formData, setFormData] = useState({
@@ -747,7 +749,7 @@ export default function SignupPage() {
                             { id: "email", name: "email", label: "Official Email / Login ID*", type: "text" },
                             { id: "phone", name: "phone", label: "Phone Number*", type: "text" },
                             { id: "password", name: "password", label: "Password*", type: "password" },
-                          { id: "confirmPassword", name: "confirmPassword", label: "Confirm password*", type: "password" }
+                            { id: "confirmPassword", name: "confirmPassword", label: "Confirm password*", type: "password" }
 
                         ].map((input) => (
                             <div className="relative w-full mt-3" key={input.id}>
@@ -811,14 +813,23 @@ export default function SignupPage() {
                         {/* Social Logins */}
                         <p className="text-sm text-[#001a1a] mt-4">or</p>
                         <div className="flex gap-4 mt-2">
-                            <FcGoogle size={30} className="cursor-pointer hover:scale-105 transition" />
-                            <Image
-                                src="/microsoft-logo.jpeg"
-                                alt="ms-logo"
-                                width={30}
-                                height={30}
-                                className="rounded-full cursor-pointer hover:scale-105 transition"
-                            />
+                            {/* <FcGoogle size={30} className="cursor-pointer hover:scale-105 transition" />
+                            <FaFacebook size={30} className="text-blue-500 cursor-pointer hover:scale-105 transition"/> */}
+                            {/* Google Login Button */}
+                            <button
+                                onClick={() => signIn("google")}
+                                className="flex items-center justify-center gap-3 rounded-md hover:bg-gray-100 transition"
+                            >
+                                <FcGoogle size={30} />
+                            </button>
+
+                            {/* Facebook Login Button */}
+                            <button
+                                onClick={() => signIn("facebook")}
+                                className="flex items-center justify-center gap-3 rounded-md  hover:bg-gray-100 transition"
+                            >
+                                <FaFacebook size={30} color="#1877F2" />
+                            </button>
                         </div>
                     </form>
                 </div>

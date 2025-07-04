@@ -2,9 +2,10 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     resumeServiceData:[],
-    pdfServiceData:[],
+    pdfServiceData:[]
     textMessageData:[],
     smsServiceData:[],
+    vehicleServiceData:[],
     error: null
 }
 
@@ -27,6 +28,7 @@ const servicesSlice = createSlice({
                 error: null
             }
         },
+
         setTextMessageServices: (state, action) => {
             return {
                 ...state,
@@ -39,6 +41,11 @@ const servicesSlice = createSlice({
                 ...state,
                 smsServiceData: action.payload,
                 error: null
+        setVehicleServices:(state,action)=>{
+            return{
+                ...state,
+                vehicleServiceData:action.payload,
+                error:null
             }
         },
         clearError: (state) => {
@@ -50,8 +57,11 @@ const servicesSlice = createSlice({
 export const {
     setResumeServices,
     setPDFServices,
+
     setTextMessageServices,
     setSmsServices,
+
+    setVehicleServices,
     clearError
 }
     = servicesSlice.actions
