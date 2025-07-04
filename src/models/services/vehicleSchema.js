@@ -1,60 +1,91 @@
-// models/services/vehicleSchema.js
+import mongoose from 'mongoose';
 
-import mongoose from "mongoose";
-
-const vehicleSchema = new mongoose.Schema(
-  {
-    vehicleNumber: {
+const vehicleSchema = new mongoose.Schema({
+  template: {
+    selectedTemplate: {
       type: String,
-      unique: true,
+      enum: ['templateV1', 'templateV2', 'templateV3', 'templateV4', 'none'],
+      default: 'none'
+    }
+  },
+  general: {
+    vehicleModel: {
+      type: String,
+      required: [true, 'Vehicle model is required'],
+      trim: true
+    },
+    vehicleType: {
+      type: String,
+      trim: true
+    },
+    description: {
+      type: String,
+      trim: true
+    }
+  },
+  registration: {
+    rcNumber: {
+      type: String,
+      required: [true, 'RC number is required'],
       trim: true,
+      uppercase: true
     },
-    model: {
+    driverName: {
       type: String,
-      trim: true,
-    },
-    manufacturer: {
-      type: String,
-      trim: true,
-    },
-    year: {
-      type: Number,
-    },
-    color: {
-      type: String,
-      default: "Unknown",
-    },
-    type: {
-      type: String,
-      enum: ["Car", "Bike", "Auto", "Lorry", "Other"],
-      default: "Other",
+      trim: true
     },
     ownerName: {
       type: String,
-      required: true,
-    },
-    registrationDate: {
-      type: Date,
-      default: Date.now,
-    },
-    isActive: {
-      type: Boolean,
-      default: true,
-    },
-    location: {
-      type: String,
-      default: "Not Assigned",
-    },
-    notes: {
-      type: String,
-      default: "",
-    },
+      trim: true
+    }
   },
-  {
-    timestamps: true,
+  contact: {
+    contact: {
+      type: String,
+      trim: true
+    },
+    altContact: {
+      type: String,
+      trim: true
+    },
+    address: {
+      type: String,
+      trim: true
+    }
+  },
+  media: {
+    vehicleImage: {
+      type: String,
+      required: [true, 'Vehicle image is required']
+    },
+    licenseFront: String,
+    licenseBack: String,
+    rcFront: String,
+    rcBack: String,
+    galleryImages: [String]
+  },
+  security: {
+    password: {
+      type: String,
+      required: [true, 'Password is required'],
+      minlength: [6, 'Password must be at least 6 characters']
+    }
   }
-);
+}, {
+  timestamps: true,
+  toJSON: {
+    transform: function(doc, ret) {
+      delete ret.security.password;
+      delete ret.__v;
+      return ret;
+    }
+  }
+});
 
-const VehicleModal =  mongoose.models.Vehicle || mongoose.model("Vehicle", vehicleSchema);
+// Add indexes for better performance
+vehicleSchema.index({ 'general.vehicleModel': 'text' });
+vehicleSchema.index({ 'registration.rcNumber': 1 }, { unique: true });
 
-export default VehicleModal
+const VehicleModel = mongoose.models.Vehicle || mongoose.model('Vehicle', vehicleSchema);
+
+export default VehicleModel;
