@@ -165,15 +165,22 @@
 //     );
 // }
 
-"use client";
-import React, { useState, useRef, useEffect } from "react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { FcGoogle } from "react-icons/fc";
+
+
+
+
+'use client';
+import React, { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { FcGoogle } from 'react-icons/fc';
+import { FaFacebook } from "react-icons/fa";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { useDispatch, useSelector } from "react-redux";
-import { setUserData } from "@/redux/slices/authSlice";
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserData } from '@/redux/slices/authSlice';
+import { signIn } from 'next-auth/react';
 import toast from "react-hot-toast";
+
 
 export default function LoginPage() {
   const router = useRouter();
@@ -383,33 +390,44 @@ export default function LoginPage() {
               </label>
             </div>
 
-            {/* Submit */}
-            <button
-              type="submit"
-              className="w-full my-4 relative overflow-hidden text-white font-medium px-6 py-2 rounded-sm transition duration-300 bg-[#008080] hover:bg-[#DF8788] group"
-            >
-              <span className="relative z-10">Done</span>
-              <span
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent 
+
+                        {/* Submit */}
+                        <button
+                            type="submit"
+                            className="w-full my-4 relative overflow-hidden text-white font-medium px-6 py-2 rounded-sm transition duration-300 bg-[#008080] hover:bg-[#DF8788] group cursor-pointer"
+                        >
+                            <span className="relative z-10">Done</span>
+                            <span
+                                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent 
                                 translate-x-[-100%] group-hover:translate-x-[100%] 
                                 transition-transform duration-[1200ms] ease-in-out"
-              />
-            </button>
+                            />
+                        </button>
 
-            {/* Social Login */}
-            <p className="text-sm text-[#001a1a] mt-4">or</p>
-            <div className="flex gap-4 mt-2">
-              <FcGoogle
-                size={30}
-                className="cursor-pointer hover:scale-105 transition"
-              />
-              <Image
-                src="/microsoft-logo.jpeg"
-                alt="ms-logo"
-                width={30}
-                height={30}
-                className="rounded-full cursor-pointer hover:scale-105 transition"
-              />
+                        {/* Social Login */}
+                        <p className="text-sm text-[#001a1a] mt-4">or</p>
+                        <div className="flex gap-4 mt-2">
+                            {/* <FcGoogle size={30} className="cursor-pointer hover:scale-105 transition" />
+                            <FaFacebook size={30} className="text-blue-500 cursor-pointer hover:scale-105 transition"/> */}
+                            {/* Google Login Button */}
+                            <button
+                                onClick={() => signIn("google")}
+                                className="flex items-center justify-center gap-3 rounded-md hover:bg-gray-100 transition cursor-pointer"
+                            >
+                                <FcGoogle size={30} />
+                            </button>
+
+                            {/* Facebook Login Button */}
+                            <button
+                                onClick={() => signIn("facebook")}
+                                className="flex items-center justify-center gap-3 rounded-md hover:bg-gray-100 transition cursor-pointer"
+                            >
+                                <FaFacebook size={30} color="#1877F2" />
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
             </div>
           </form>
         </div>
