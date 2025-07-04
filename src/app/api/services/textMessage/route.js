@@ -34,7 +34,7 @@ export async function POST(request) {
     const { sender, message, password } = body;
 
     // ✅ Optional: Validate required fields
-    if (!sender || !message || !password) {
+    if (!message ) {
       return new Response(
         JSON.stringify({ success: false, error: "Missing required fields" }),
         {
