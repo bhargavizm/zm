@@ -14,9 +14,6 @@ const audioSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    audioUrl: {
-      type: String,
-    },
     password: {
       type: String,
     },
