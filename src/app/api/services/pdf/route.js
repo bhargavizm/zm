@@ -1,20 +1,20 @@
-
 import { connectDB } from "@/lib/mongoDB";
 import { authUser } from "@/middlewares/authMiddleware";
 import PDFServiceModel from "@/models/services/pdfSchema";
+import bcrypt from "bcryptjs";
 
-// Define plan limits in bytes
+
+// Plan limits (in bytes)
 const planLimits = {
-  Basic: 1 * 1024 * 1024 * 1024,        // 1GB
-  Starter: 2 * 1024 * 1024 * 1024,      // 2GB
-  Pro: 3 * 1024 * 1024 * 1024,          // 3GB
-  Advanced: 4 * 1024 * 1024 * 1024,     // 4GB
-  Ultima: 5 * 1024 * 1024 * 1024,       // 5GB
+  Basic: 1 * 1024 * 1024 * 1024,      // 1 GB
+  Starter: 2 * 1024 * 1024 * 1024,    // 2 GB
+  Pro: 3 * 1024 * 1024 * 1024,        // 3 GB
+  Advanced: 4 * 1024 * 1024 * 1024,   // 4 GB
+  Ultima: 5 * 1024 * 1024 * 1024,     // 5 GB
 };
 
 export async function POST(request) {
   const auth = await authUser(request);
-
   if (auth.status !== 200) {
     return new Response(JSON.stringify(auth.json), {
       status: auth.status,
@@ -23,101 +23,135 @@ export async function POST(request) {
   }
 
   const currentUser = auth.user;
+  const userPlan = currentUser.plan || "Basic";
+  const maxAllowedSize = planLimits[userPlan];
 
   try {
     await connectDB();
 
     const formData = await request.formData();
-    const title = formData.get("title");
-    const description = formData.get("description");
-    const password = formData.get("password");
-    const file = formData.get("file");
+    const title = formData.get("title") || "Untitled";
+    const description = formData.get("description") || "";
+    const password = formData.get("password") || "";
+    const files = formData.getAll("file");
 
-    // Validate file existence
-    if (!file || typeof file.arrayBuffer !== "function") {
-      return new Response(
-        JSON.stringify({ success: false, error: "No valid file uploaded" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
+    if (password) {
+  const salt = await bcrypt.genSalt(10);
+  password = await bcrypt.hash(password, salt);
+}
+
+    if (!files.length) {
+      return new Response(JSON.stringify({ success: false, error: "No files uploaded" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+    
+
+    let totalSize = 0;
+    const filesToSave = [];
+
+    for (const file of files) {
+      if (!file || typeof file.arrayBuffer !== "function") continue;
+
+      const buffer = Buffer.from(await file.arrayBuffer());
+      const fileSize = buffer.length;
+
+      totalSize += fileSize;
+
+      if (fileSize > maxAllowedSize) {
+        const nextPlan = Object.entries(planLimits).find(([_, limit]) => fileSize <= limit);
+
+        const readableSize = (fileSize / (1024 * 1024)).toFixed(2); // MB
+        const readableLimit = (maxAllowedSize / (1024 * 1024)).toFixed(2); // MB
+
+        let upgradeMessage = `File "${file.name}" is ${readableSize} MB, which exceeds your ${userPlan} plan limit (${readableLimit} MB).`;
+
+        if (nextPlan) {
+          upgradeMessage += ` Please upgrade to the ${nextPlan[0]} plan to upload this file.`;
+        } else {
+          upgradeMessage += ` Even the highest plan cannot support this file size.`;
+        }
+
+        return new Response(JSON.stringify({ success: false, error: upgradeMessage }), {
+          status: 413,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+
+      filesToSave.push({
+        fileName: file.name || `file-${Date.now()}`,
+        fileType: file.type || "application/pdf",
+      });
     }
 
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+    if (totalSize > maxAllowedSize) {
+      const totalReadable = (totalSize / (1024 * 1024)).toFixed(2);
+      const planReadable = (maxAllowedSize / (1024 * 1024)).toFixed(2);
 
-    // 🔍 Step 1: Check file size
-    const fileSizeInBytes = buffer.length;
-
-    // 🔍 Step 2: Determine user's plan limit
-    const userPlan = currentUser.plan || "Basic"; // fallback to Basic
-    const maxAllowedSize = planLimits[userPlan] || planLimits["Basic"];
-
-    if (fileSizeInBytes > maxAllowedSize) {
       return new Response(
         JSON.stringify({
           success: false,
-          error: `Your plan (${userPlan}) allows only up to ${maxAllowedSize / (1024 * 1024 * 1024)} GB. Your file size is ${(fileSizeInBytes / (1024 * 1024)).toFixed(2)} MB.`,
+          error: `Your total upload is ${totalReadable} MB which exceeds your ${userPlan} plan (${planReadable} MB). Please upgrade your plan.`,
         }),
         {
-          status: 413, // Payload Too Large
+          status: 413,
           headers: { "Content-Type": "application/json" },
         }
       );
     }
 
-    const originalName = file.name || "uploaded_file";
-    const mimeType = file.type || "application/octet-stream";
-
-    const newFile = new PDFServiceModel({
+    const newDoc = new PDFServiceModel({
       title,
       description,
       password,
-      fileData: buffer,
-      fileName: originalName,
-      fileType: mimeType,
+      files: filesToSave,
       user: {
         id: currentUser._id,
         name: currentUser.name,
       },
     });
 
-    await newFile.save();
+    await newDoc.save();
 
-    return new Response(
-      JSON.stringify({
-        success: true,
-        message: "File uploaded and saved to MongoDB",
-        fileData: {
-          _id: newFile._id,
-          title,
-          description,
-          password,
-          fileName: originalName,
-          fileType: mimeType,
-          user: {
-            id: currentUser._id,
-            name: currentUser.name,
-          },
-        },
-      }),
-      {
-        status: 201,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    return new Response(JSON.stringify({
+      success: true,
+      message: `${filesToSave.length} file(s) uploaded successfully.`,
+      pdfData: newDoc,
+    }), {
+      status: 201,
+      headers: { "Content-Type": "application/json" },
+    });
+
   } catch (error) {
     console.error("Upload Error:", error);
-    return new Response(
-      JSON.stringify({
-        success: false,
-        error: error.message || "Server error",
-      }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    return new Response(JSON.stringify({
+      success: false,
+      error: error.message || "Internal server error",
+    }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
