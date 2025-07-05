@@ -43,6 +43,10 @@ import mongoose from "mongoose";
 
 const propertySchema = new mongoose.Schema(
   {
+     user: {
+             id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+            name: String,
+          },
     basicInfo: {
       propertyName: String,
       propertyType: String,
@@ -62,13 +66,14 @@ const propertySchema = new mongoose.Schema(
     },
     password: String,
     images: {
-      mainImage: String,
-      galleryImages: [String],
+      galleryImages: [String], // Main image removed
     },
   },
   { timestamps: true }
 );
 
 export default mongoose.models.Property || mongoose.model("Property", propertySchema);
+
+
 
 
