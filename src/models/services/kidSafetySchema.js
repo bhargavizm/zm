@@ -1,28 +1,78 @@
 import mongoose from "mongoose";
 
+const phoneRegex = /^\+?[0-9]{10,15}$/; // Supports 10–15 digits, optional +country code
+
 const kidsSafetySchema = new mongoose.Schema({
-  childName: { type: String, },
-  dob: { type: Date,  },
+  user: {
+    id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    name: String,
+  },
+  childName: { type: String },
+  dob: { type: Date },
   classGrade: { type: String },
-  
-  schoolName: { type: String,  },
-  schoolAddress: { type: String,  },
-  schoolContact: { type: String, },
-  
-  parentName: { type: String,  },
-  contact: { type: String, },
-  contact2: { type: String },
-  altContact: [{ type: String }], // dynamic list of extra contacts
-  
-  homeAddress: { type: String,  },
-  mapLink: { type: String }, // optional Google Maps URL
 
-  password: { type: String,  },
+  schoolName: { type: String },
+  schoolAddress: { type: String },
+  schoolContact: {
+    type: String,
+    validate: {
+      validator: (v) => phoneRegex.test(v),
+      message: (props) => `${props.value} is not a valid phone number`,
+    },
+  },
 
-  kidsImage: { type: String }, // Cloudinary or local URL
+  parentName: { type: String },
+  contact: {
+    type: String,
+    validate: {
+      validator: (v) => phoneRegex.test(v),
+      message: (props) => `${props.value} is not a valid phone number`,
+    },
+  },
+  contact2: {
+    type: String,
+    validate: {
+      validator: (v) => phoneRegex.test(v),
+      message: (props) => `${props.value} is not a valid phone number`,
+    },
+  },
+  altContact: [
+    {
+      type: String,
+      validate: {
+        validator: (v) => phoneRegex.test(v),
+        message: (props) => `${props.value} is not a valid phone number`,
+      },
+    },
+  ],
 
+  homeAddress: { type: String },
+
+  mapLink: {
+    type: String,
+    validate: {
+      validator: function (v) {
+        return (
+          !v || /^https:\/\/(www\.)?(google\.[a-z.]+\/maps|maps\.google\.[a-z.]+)\//.test(v)
+        );
+      },
+      message: (props) =>
+        `${props.value} is not a valid Google Maps link`,
+    },
+  },
+
+  password: { type: String },
+
+  kidsImage: [
+    {
+      url: String,
+      name: String,
+    },
+  ],
 }, { timestamps: true });
 
-const KidsSafetyModal = mongoose.models.KidsSafety || mongoose.model('KidsSafety', kidsSafetySchema)
+const KidsSafetyModal =
+  mongoose.models.KidsSafety ||
+  mongoose.model("KidsSafety", kidsSafetySchema);
 
-export default KidsSafetyModal
+export default KidsSafetyModal;

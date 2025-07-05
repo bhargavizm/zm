@@ -2,8 +2,10 @@ import { NextResponse } from 'next/server';
 import { v2 as cloudinary } from 'cloudinary';
 import { connectDB } from '@/lib/mongoDB';
 import KidsSafetyModal from '@/models/services/kidSafetySchema';
+import { authUser } from '@/middlewares/authMiddleware';
+import streamifier from 'streamifier';
 
-// Cloudinary configuration
+// Configure Cloudinary
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
@@ -11,135 +13,134 @@ cloudinary.config({
     secure: true,
 });
 
-// Cloudinary upload helper
-async function uploadImageToCloudinary(file) {
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+// Upload helper
+const uploadImageToCloudinary = (file) => {
+    return new Promise(async (resolve, reject) => {
+        const buffer = Buffer.from(await file.arrayBuffer());
 
-    return new Promise((resolve, reject) => {
-        const uploadStream = cloudinary.uploader.upload_stream(
+        const stream = cloudinary.uploader.upload_stream(
             {
                 folder: 'kids-safety',
-                resource_type: 'auto',
+                resource_type: 'image',
             },
             (error, result) => {
                 if (error) {
-                    console.error('Cloudinary upload error:', error);
                     reject(error);
                 } else {
-                    resolve(result.secure_url);
+                    resolve({
+                        url: result.secure_url,
+                        name: file.name,
+                    });
                 }
             }
         );
-        uploadStream.end(buffer);
-    });
-}
 
-// POST handler
+        streamifier.createReadStream(buffer).pipe(stream);
+    });
+};
+
 export async function POST(req) {
     try {
-        await connectDB();
+        const auth = await authUser(req);
+        if (auth.status !== 200) {
+            return NextResponse.json(auth.json, { status: auth.status });
+        }
 
+        await connectDB();
+        const user = auth.user;
         const formData = await req.formData();
-        const imageFile = formData.get('kidsImage');
+        const files = formData.getAll('kidsImage');
+
         const data = {};
 
-        // Extract all text fields
+        // Extract all fields except images
         for (const [key, value] of formData.entries()) {
             if (key !== 'kidsImage') {
                 data[key] = value;
             }
         }
 
-        // Handle altContact as array
+        // Handle parsing of JSON/Array fields
         if (data.altContact) {
             try {
                 const parsed = JSON.parse(data.altContact);
                 data.altContact = Array.isArray(parsed) ? parsed : [parsed];
-            } catch (err) {
+            } catch {
                 data.altContact = [data.altContact];
             }
-        } else {
-            data.altContact = [];
         }
 
-        // Convert dob to Date object
         if (data.dob) {
             data.dob = new Date(data.dob);
         }
 
-        // Upload image if exists
-        if (imageFile && typeof imageFile.arrayBuffer === 'function') {
-            try {
-                const imageUrl = await uploadImageToCloudinary(imageFile);
-                data.kidsImage = imageUrl;
-            } catch (error) {
+        // Validate and Upload Images
+        const maxFileSize = 2 * 1024 * 1024;
+        const maxTotalSize = 30 * 1024 * 1024;
+
+        let totalSize = 0;
+        const validImages = [];
+
+        for (const file of files) {
+            if (!file.type.startsWith('image/')) {
                 return NextResponse.json(
-                    { message: 'Image upload failed', error: error.message },
+                    { message: `Invalid file type: ${file.name}` },
+                    { status: 400 }
+                );
+            }
+
+            if (file.size > maxFileSize) {
+                return NextResponse.json(
+                    { message: `${file.name} exceeds 2MB limit.` },
+                    { status: 400 }
+                );
+            }
+
+            totalSize += file.size;
+            if (totalSize > maxTotalSize) {
+                return NextResponse.json(
+                    { message: `Total upload size exceeds 30MB.` },
+                    { status: 400 }
+                );
+            }
+
+            validImages.push(file);
+        }
+
+        const uploadedImages = [];
+        for (const file of validImages) {
+            try {
+                const uploaded = await uploadImageToCloudinary(file);
+                uploadedImages.push(uploaded);
+            } catch (err) {
+                return NextResponse.json(
+                    { message: `Failed to upload ${file.name}`, error: err.message },
                     { status: 500 }
                 );
             }
         }
 
-        // Clean empty/null/undefined
+        data.kidsImage = uploadedImages;
+        data.user = {
+            id: user._id,
+            name: user.name || user.email,
+        };
+
+        // Remove undefined or empty fields
         for (const key in data) {
-            if (
-                data[key] === '' ||
-                data[key] === null ||
-                data[key] === 'undefined'
-            ) {
+            if (!data[key] || data[key] === 'undefined') {
                 delete data[key];
             }
         }
 
-        // Save to DB (upsert: update existing or create new)
-        const existing = await KidsSafetyModal.findOne().sort({ createdAt: -1 });
-        let result;
+        const existing = await KidsSafetyModal.findOne({ 'user.id': user._id }).sort({ createdAt: -1 });
+        const saved = existing
+            ? await KidsSafetyModal.findByIdAndUpdate(existing._id, { $set: data }, { new: true, runValidators: true })
+            : await KidsSafetyModal.create(data);
 
-        if (existing) {
-            result = await KidsSafetyModal.findByIdAndUpdate(
-                existing._id,
-                { $set: data },
-                { new: true, runValidators: true }
-            );
-        } else {
-            result = await KidsSafetyModal.create(data);
-        }
-
-        return NextResponse.json(
-            {
-                success: true,
-                message: 'Kids safety data saved successfully',
-                data: result,
-            },
-            { status: 200 }
-        );
-    } catch (error) {
-        console.error('POST Error:', error);
-        return NextResponse.json(
-            {
-                success: false,
-                message: 'Failed to save kids safety data',
-                error: error.message,
-            },
-            { status: 500 }
-        );
-    }
-}
-
-// Optional GET for debug/testing
-export async function GET() {
-    try {
-        await connectDB();
-        const latest = await KidsSafetyModal.findOne().sort({ createdAt: -1 });
-        if (!latest) {
-            return NextResponse.json({ message: 'No data found' }, { status: 404 });
-        }
-        return NextResponse.json(latest);
-    } catch (error) {
-        return NextResponse.json(
-            { message: 'Error fetching data', error: error.message },
-            { status: 500 }
-        );
+        return NextResponse.json({ success: true, data: saved }, { status: 200 });
+    } catch (err) {
+        console.error('POST Error:', err);
+        return NextResponse.json({ success: false, error: err.message }, { status: 500 });
     }
 }
