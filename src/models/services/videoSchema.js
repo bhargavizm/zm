@@ -1,17 +1,18 @@
 import mongoose from "mongoose";
 
-const fileItemSchema = new mongoose.Schema({
-  fileData: Buffer,
-  fileName: String,
-  fileType: String,
-});
+
 
 const videoSchema = new mongoose.Schema({
   title: String,
   description: String,
   password: String,
 
-  files: [fileItemSchema], // multiple file support
+  videos: [
+      {
+        url: String,
+        name: String,
+      },
+    ],
 
   user: {
     id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
@@ -19,7 +20,7 @@ const videoSchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
-const videoServiceModel =
-  mongoose.models.videoService || mongoose.model("videoService", videoSchema);
+const VideoServiceModel =
+  mongoose.models.VideoService || mongoose.model("VideoService", videoSchema);
 
-export default videoServiceModel;
+export default VideoServiceModel;
