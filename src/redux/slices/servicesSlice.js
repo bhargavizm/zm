@@ -1,74 +1,92 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  // Regular (secured) services
   resumeServiceData: [],
-
+  wifiServicesData: [],
   menuCardServiceData: [],
-  audioServiceData: [],
-  pdfServiceData: [],
   textMessageData: [],
   smsServiceData: [],
   vehicleServiceData: [],
+  eventServiceData: [],
+  multiServicesData: [],
+  petIDServicesData: [],
+  kidsSafetyServicesData: [],
+
+  // Encrypted services
+  audioServiceData: [],
+  pdfServiceData: [],
+  videoServiceData: [],
+  galleryServiceData: [],
 
   error: null,
 };
 
 const servicesSlice = createSlice({
-  name: "Services",
+  name: "services",
   initialState,
   reducers: {
+    // ✅ Regular service reducers
     setResumeServices: (state, action) => {
-      return {
-        ...state,
-        resumeServiceData: action.payload,
-        error: null,
-      };
+      state.resumeServiceData = action.payload;
+      state.error = null;
     },
-    setPDFServices: (state, action) => {
-      return {
-        ...state,
-        pdfServiceData: action.payload,
-        error: null,
-      };
-    },
-
     setMenuCardServices: (state, action) => {
-      return {
-        ...state,
-        menuCardServiceData: action.payload,
-        error: null,
-      };
+      state.menuCardServiceData = action.payload;
+      state.error = null;
     },
-
     setTextMessageServices: (state, action) => {
-      return {
-        ...state,
-        textMessageData: action.payload,
-        error: null,
-      };
+      state.textMessageData = action.payload;
+      state.error = null;
     },
     setSmsServices: (state, action) => {
-      return {
-        ...state,
-        smsServiceData: action.payload,
-        error: null,
-      };
+      state.smsServiceData = action.payload;
+      state.error = null;
     },
     setVehicleServices: (state, action) => {
-      return {
-        ...state,
-        vehicleServiceData: action.payload,
-        error: null,
-      };
+      state.vehicleServiceData = action.payload;
+      state.error = null;
     },
-    setAudioServices: (state, action) => {
-      return {
-        ...state,
-        audioServiceData: action.payload,
-        error: null,
-      };
+    setEventServices: (state, action) => {
+      state.eventServiceData = action.payload;
+      state.error = null;
+    },
+    setMultiUrlServices: (state, action) => {
+      state.multiServicesData = action.payload;
+      state.error = null;
+    },
+    setWifiServices: (state, action) => {
+      state.wifiServicesData = action.payload;
+      state.error = null;
+    },
+    setPetIdServices: (state, action) => {
+      state.petIDServicesData = action.payload;
+      state.error = null;
+    },
+    setKidsSafetyServices: (state, action) => {
+      state.kidsSafetyServicesData = action.payload;
+      state.error = null;
     },
 
+    // ✅ Encrypted service reducers
+    setPDFServices: (state, action) => {
+      state.pdfServiceData = action.payload;
+      state.error = null;
+    },
+    setAudioServices: (state, action) => {
+      state.audioServiceData = action.payload;
+      state.error = null;
+    },
+    setVideoServices: (state, action) => {
+      state.videoServiceData = action.payload;
+      state.error = null;
+    },
+    setGalleryServices: (state, action) => {
+      state.galleryServiceData = action.payload;
+      state.error = null;
+    },
+
+    // Clear error globally
     clearError: (state) => {
       state.error = null;
     },
@@ -77,14 +95,20 @@ const servicesSlice = createSlice({
 
 export const {
   setResumeServices,
-  setPDFServices,
-setAudioServices,
   setMenuCardServices,
-
   setTextMessageServices,
   setSmsServices,
-
   setVehicleServices,
+  setEventServices,
+  setMultiUrlServices,
+  setWifiServices,
+  setPetIdServices,
+  setKidsSafetyServices,
+
+  setPDFServices,
+  setAudioServices,
+  setVideoServices,
+  setGalleryServices,
 
   clearError,
 } = servicesSlice.actions;

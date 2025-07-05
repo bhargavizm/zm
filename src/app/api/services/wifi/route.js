@@ -33,6 +33,17 @@ import WifiModel from "@/models/services/wifiSchema";
 
 export async function POST(req) {
     try {
+        // ✅ Step 1: Authenticate User
+        const auth = await authUser(request);
+        if (auth.status !== 200) {
+            return new Response(JSON.stringify(auth.json), {
+                status: auth.status,
+                headers: { "Content-Type": "application/json" },
+            });
+        }
+
+        const user = auth.user;
+
         const body = await req.json();
         const { ssid, security, password } = body;
 
