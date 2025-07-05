@@ -18,6 +18,17 @@ const DesignProvider = ({ children }) => {
   const [bgDesign, setBgDesign] = useState(null);
   const [qrColor, setQrColor] = useState("#000000"); 
 
+  const [activeTabs, setActiveTabs] = useState({}); // { slug: tab }
+
+const setActiveTab = (slug, tab) => {
+  setActiveTabs((prev) => ({ ...prev, [slug]: tab }));
+};
+
+const getActiveTab = (slug) => {
+  return activeTabs[slug] || "Content";
+};
+
+
   // Load persisted values on mount
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -53,7 +64,9 @@ const DesignProvider = ({ children }) => {
         isLoading,
         setIsLoading,
         bgDesign, setBgDesign,
-        qrColor, setQrColor
+        qrColor, setQrColor,
+       activeTabs, setActiveTab, getActiveTab
+
       }}
     >
       {children}
