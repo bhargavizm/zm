@@ -2,13 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   resumeServiceData: [],
-
+  wifiServicesData: [],
   menuCardServiceData: [],
-  audioServiceData: [],
-  pdfServiceData: [],
   textMessageData: [],
   smsServiceData: [],
   vehicleServiceData: [],
+  eventServiceData: [],
+  multiServicesData: [],
 
   error: null,
 };
@@ -21,13 +21,6 @@ const servicesSlice = createSlice({
       return {
         ...state,
         resumeServiceData: action.payload,
-        error: null,
-      };
-    },
-    setPDFServices: (state, action) => {
-      return {
-        ...state,
-        pdfServiceData: action.payload,
         error: null,
       };
     },
@@ -61,10 +54,25 @@ const servicesSlice = createSlice({
         error: null,
       };
     },
-    setAudioServices: (state, action) => {
+
+    setEventServices: (state, action) => {
       return {
         ...state,
-        audioServiceData: action.payload,
+        eventServiceData: action.payload,
+        error: null,
+      };
+    },
+    setMultiUrlServices: (state, action) => {
+      return {
+        ...state,
+        multiServicesData: action.payload,
+        error: null,
+      };
+    },
+    setWifiServices: (state, action) => {
+      return {
+        ...state,
+        wifiServicesData: action.payload,
         error: null,
       };
     },
@@ -77,15 +85,13 @@ const servicesSlice = createSlice({
 
 export const {
   setResumeServices,
-  setPDFServices,
-setAudioServices,
   setMenuCardServices,
-
+  setEventServices,
   setTextMessageServices,
   setSmsServices,
-
+  setMultiUrlServices,
   setVehicleServices,
-
+  setWifiServices,
   clearError,
 } = servicesSlice.actions;
 
