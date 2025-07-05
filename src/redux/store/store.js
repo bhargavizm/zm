@@ -6,6 +6,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // localStorage
 import servicesReducer from "../slices/servicesSlice";
 import authReducer from "../slices/authSlice";
+import encryptedServicesReducer from "../slices/encryptedServicesSlice";
 //import urlServiceReducer from '../slices/urlServicesSlice'
 
 // ⛔ Do NOT import thunk manually — it's already included by Redux Toolkit
@@ -16,7 +17,8 @@ import urlServiceReducer from "../slices/urlServicesSlice";
 const rootReducer = combineReducers({
   authentication: authReducer,
   services:servicesReducer,
-  urlService: urlServiceReducer
+  urlService: urlServiceReducer,
+  encryptedServices: encryptedServicesReducer,
 });
 
 const persistConfig = {
