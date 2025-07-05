@@ -1,9 +1,8 @@
 import { connectDB } from "@/lib/mongoDB";
+import { authUser } from "@/middlewares/authMiddleware";
 import PropertyModal from "@/models/services/propertySchema";
-import { writeFile } from "fs/promises";
-import fs from "fs";
-import path from "path";
-import { v4 as uuidv4 } from "uuid";
+import { cloudinary } from "@/utils/cloudinary";
+import bcrypt from "bcryptjs"; // 🔐 Import bcrypt
 
 export const config = {
   api: {
@@ -14,6 +13,17 @@ export const config = {
 
 export async function POST(request) {
   try {
+    // ✅ Step 1: Authenticate User
+    const auth = await authUser(request);
+    if (auth.status !== 200) {
+      return new Response(JSON.stringify(auth.json), {
+        status: auth.status,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    const user = auth.user;
+
     await connectDB();
 
     const contentType = request.headers.get("content-type") || "";
@@ -26,8 +36,7 @@ export async function POST(request) {
 
     const formData = await request.formData();
 
-    // Extract form fields
-    const basicInfoRaw = {
+    const basicInfo = {
       propertyName: formData.get("propertyName") || "",
       propertyType: formData.get("propertyType") || "",
       ownerName: formData.get("ownerName") || "",
@@ -36,153 +45,99 @@ export async function POST(request) {
       propertyDescription: formData.get("propertyDescription") || "",
     };
 
-    const addressInfoRaw = {
+    const addressInfo = {
       address: formData.get("address") || "",
       mapLink: formData.get("mapLink") || "",
     };
 
-    const pricingInfoRaw = {
+    const pricingInfo = {
       price: formData.get("price") || "",
       area: formData.get("area") || "",
       amenities: formData.getAll("amenities").map((item) => String(item)),
     };
 
-    const password = formData.get("password") || "";
+    let password = formData.get("password") || "";
 
-    // Create uploads directory if not exists
-    const uploadDir = path.join(process.cwd(), "public/uploads");
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
+    // ✅ Step 2: Validate password
+    if (!password || password.length < 4) {
+      return new Response(
+        JSON.stringify({ success: false, error: "Password must be at least 4 characters" }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
     }
 
-    // Handle mainImage
-    let mainImageUrl = null;
-    const mainImageFile = formData.get("mainImage");
-    if (mainImageFile && typeof mainImageFile.name === "string") {
-      const buffer = Buffer.from(await mainImageFile.arrayBuffer());
-      const filename = `${uuidv4()}-${mainImageFile.name}`;
-      const filepath = path.join(uploadDir, filename);
-      await writeFile(filepath, buffer);
-      mainImageUrl = `/uploads/${filename}`;
-    }
+    // ✅ Step 3: Hash password with bcrypt
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Handle galleryImages
-    const galleryImageUrls = [];
+    // ✅ Step 4: Handle file uploads
     const galleryImages = formData.getAll("galleryImages");
+    let totalSize = 0;
+
     for (const file of galleryImages) {
-      if (file && typeof file.name === "string") {
-        const buffer = Buffer.from(await file.arrayBuffer());
-        const filename = `${uuidv4()}-${file.name}`;
-        const filepath = path.join(uploadDir, filename);
-        await writeFile(filepath, buffer);
-        galleryImageUrls.push(`/uploads/${filename}`);
+      totalSize += file.size;
+      if (file.size > 2 * 1024 * 1024) {
+        return new Response(
+          JSON.stringify({ success: false, error: `Each file must be ≤ 2MB. File ${file.name} is too large.` }),
+          { status: 400, headers: { "Content-Type": "application/json" } }
+        );
       }
     }
 
-    // Save property to DB
+    if (totalSize > 30 * 1024 * 1024) {
+      return new Response(
+        JSON.stringify({ success: false, error: "Total file size must be ≤ 30MB" }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    const galleryImageUrls = [];
+    for (const file of galleryImages) {
+      const buffer = Buffer.from(await file.arrayBuffer());
+      const base64 = buffer.toString("base64");
+      const dataUri = `data:${file.type};base64,${base64}`;
+
+      try {
+        const uploadResult = await cloudinary.uploader.upload(dataUri, {
+          folder: "property-gallery",
+          resource_type: "auto",
+        });
+        galleryImageUrls.push(uploadResult.secure_url);
+      } catch (err) {
+        console.error(`Cloudinary upload failed for file ${file.name}:`, err);
+        return new Response(
+          JSON.stringify({ success: false, error: `Upload failed for ${file.name}: ${err.message}` }),
+          { status: 500, headers: { "Content-Type": "application/json" } }
+        );
+      }
+    }
+
+    // ✅ Step 5: Save to DB
     const newProperty = new PropertyModal({
-      basicInfo: basicInfoRaw,
-      addressInfo: addressInfoRaw,
-      pricingInfo: pricingInfoRaw,
-      password,
+      user: {
+        id: user._id,
+        name: user.name,
+      },
+      basicInfo,
+      addressInfo,
+      pricingInfo,
+      password: hashedPassword, // ✅ Save hashed password
       images: {
-        mainImage: mainImageUrl,
         galleryImages: galleryImageUrls,
       },
     });
 
-    const savedProperty = await newProperty.save();
+    const saved = await newProperty.save();
 
     return new Response(
-      JSON.stringify({ success: true, fileData: savedProperty.toObject() }),
+      JSON.stringify({ success: true, data: saved }),
       { status: 201, headers: { "Content-Type": "application/json" } }
     );
   } catch (error) {
-    console.error("Property upload error:", error);
+    console.error("Server error:", error);
     return new Response(
       JSON.stringify({ success: false, error: error.message }),
       { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
 }
-
-
-
-
-
-
-
-// import { NextResponse } from "next/server";
-// import { connectDB } from "@/lib/mongoDB";
-// import Property from "@/models/services/propertySchema";
-// import { v2 as cloudinary } from "cloudinary";
-
-// cloudinary.config({
-//   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-//   api_key: process.env.CLOUDINARY_API_KEY,
-//   api_secret: process.env.CLOUDINARY_API_SECRET,
-// });
-
-// export async function POST(req) {
-//   await connectDB();
-
-//   const formData = await req.formData();
-//   const propertyDetails = {
-//     basicInfo: {},
-//     addressInfo: {},
-//     pricingInfo: {},
-//     images: {},
-//     password: "",
-//   };
-
-//   for (const [key, value] of formData.entries()) {
-//     if (key === "password") {
-//       propertyDetails.password = value;
-//       continue;
-//     }
-
-//     const [section, field] = key.split(".");
-//     if (!section || !field) continue;
-
-//     if (value instanceof File) {
-//       const bytes = await value.arrayBuffer();
-//       const buffer = Buffer.from(bytes);
-//       const base64 = buffer.toString("base64");
-//       const dataUrl = `data:${value.type};base64,${base64}`;
-
-//       const upload = await cloudinary.uploader.upload(dataUrl, {
-//         folder: "property_uploads",
-//       });
-
-//       if (field === "galleryImages") {
-//         propertyDetails[section][field] ||= [];
-//         propertyDetails[section][field].push(upload.secure_url);
-//       } else {
-//         propertyDetails[section][field] = upload.secure_url;
-//       }
-//     } else {
-//       propertyDetails[section][field] = value;
-//     }
-//   }
-
-//   try {
-//     const newProperty = new Property(propertyDetails);
-//     await newProperty.save();
-
-//     return NextResponse.json({
-//       success: true,
-//       message: "Property saved successfully",
-//       data: newProperty,
-//     });
-//   } catch (err) {
-//     console.error("Save error:", err);
-//     return NextResponse.json(
-//       { success: false, error: "Failed to save property" },
-//       { status: 500 }
-//     );
-//   }
-// }
-
-
-
-
