@@ -10,16 +10,15 @@ const initialState = {
   vehicleServiceData: [],
   eventServiceData: [],
   multiServicesData: [],
-
+  propertyServiceData:[],
   petIDServicesData: [],
   kidsSafetyServicesData: [],
+  
   // Encrypted services
   audioServiceData: [],
   pdfServiceData: [],
   videoServiceData: [],
   galleryServiceData: [],
-
-
   error: null,
 };
 
@@ -29,6 +28,8 @@ const servicesSlice = createSlice({
   reducers: {
     // ✅ Regular service reducers
     setResumeServices: (state, action) => {
+      state.resumeServiceData = action.payload;
+      state.error = null;
 
       return {
         ...state,
@@ -38,7 +39,6 @@ const servicesSlice = createSlice({
     },
 
     },
-
     setMenuCardServices: (state, action) => {
       state.menuCardServiceData = action.payload;
       state.error = null;
@@ -50,6 +50,33 @@ const servicesSlice = createSlice({
     setSmsServices: (state, action) => {
       state.smsServiceData = action.payload;
       state.error = null;
+    },
+    setVehicleServices: (state, action) => {
+      state.vehicleServiceData = action.payload;
+      state.error = null;
+    },
+    setEventServices: (state, action) => {
+      state.eventServiceData = action.payload;
+      state.error = null;
+    },
+    setMultiUrlServices: (state, action) => {
+      state.multiServicesData = action.payload;
+      state.error = null;
+    },
+    setWifiServices: (state, action) => {
+      state.wifiServicesData = action.payload;
+      state.error = null;
+    },
+    setPropertyServices:(state, action) => {
+      state.propertyServiceData = action.payload;
+      state.error=null;
+    },
+
+    // ✅ Encrypted service reducers
+    setPDFServices: (state, action) => {
+      state.pdfServiceData = action.payload;
+      state.error = null;
+    },
     },
     setVehicleServices: (state, action) => {
       state.vehicleServiceData = action.payload;
@@ -110,7 +137,6 @@ const servicesSlice = createSlice({
     setVideoServices: (state, action) => {
       state.videoServiceData = action.payload;
       state.error = null;
-
     },
     setGalleryServices: (state, action) => {
       state.galleryServiceData = action.payload;
@@ -136,6 +162,18 @@ const servicesSlice = createSlice({
 export const {
   setResumeServices,
   setMenuCardServices,
+  setTextMessageServices,
+  setSmsServices,
+  setVehicleServices,
+  setEventServices,
+  setMultiUrlServices,
+  setWifiServices,
+  setPropertyServices,
+
+  setPDFServices,
+  setAudioServices,
+  setVideoServices,
+  setGalleryServices,
 
   setEventServices,
   setTextMessageServices,
