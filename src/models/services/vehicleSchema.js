@@ -1,6 +1,10 @@
 import mongoose from 'mongoose';
 
 const vehicleSchema = new mongoose.Schema({
+   user: {
+        id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+        name: String,
+      },
   template: {
     selectedTemplate: {
       type: String,
