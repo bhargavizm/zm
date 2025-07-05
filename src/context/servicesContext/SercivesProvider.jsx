@@ -90,7 +90,7 @@ const ServicesProvider = ({ children }) => {
   };
 
   const initialResumeFormData = {
-    resumeFile: null,
+    resumeFile: [],
     resumeUrl: "",
     password: "",
   };
