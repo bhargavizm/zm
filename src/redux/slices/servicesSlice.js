@@ -12,7 +12,6 @@ const initialState = {
   multiServicesData: [],
   petIDServicesData: [],
   kidsSafetyServicesData: [],
-
   // Encrypted services
   audioServiceData: [],
   pdfServiceData: [],
@@ -67,7 +66,6 @@ const servicesSlice = createSlice({
       state.kidsSafetyServicesData = action.payload;
       state.error = null;
     },
-
     // ✅ Encrypted service reducers
     setPDFServices: (state, action) => {
       state.pdfServiceData = action.payload;
@@ -85,6 +83,15 @@ const servicesSlice = createSlice({
       state.galleryServiceData = action.payload;
       state.error = null;
     },
+    setVideoServices: (state, action) => {
+      state.videoServiceData = action.payload;
+      state.error = null;
+    },
+    setGalleryServices: (state, action) => {
+      state.galleryServiceData = action.payload;
+      state.error = null;
+    },
+   
 
     // Clear error globally
     clearError: (state) => {
@@ -102,9 +109,6 @@ export const {
   setEventServices,
   setMultiUrlServices,
   setWifiServices,
-  setPetIdServices,
-  setKidsSafetyServices,
-
   setPDFServices,
   setAudioServices,
   setVideoServices,

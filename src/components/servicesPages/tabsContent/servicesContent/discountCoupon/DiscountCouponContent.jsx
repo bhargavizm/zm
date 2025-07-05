@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useRef, useState } from 'react';
@@ -10,10 +9,10 @@ const DiscountCouponContent = () => {
   const { dynamicForms, updateDynamicForm } = useServicesContext();
   const discountCoupon = dynamicForms.discountCoupon || {};
   const [showPassword, setShowPassword] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
 
   const brandLogoInputRef = useRef(null);
-const couponImageInputRef = useRef(null);
-
+  const couponImageInputRef = useRef(null);
 
   const handleChange = (fieldKey, value) => {
     updateDynamicForm('discountCoupon', null, fieldKey, value);
@@ -26,15 +25,14 @@ const couponImageInputRef = useRef(null);
   };
 
   const removeImage = (fieldKey) => {
-  handleChange(fieldKey, null);
-  if (fieldKey === 'brandLogo' && brandLogoInputRef.current) {
-    brandLogoInputRef.current.value = '';
-  }
-  if (fieldKey === 'couponImage' && couponImageInputRef.current) {
-    couponImageInputRef.current.value = '';
-  }
-};
-
+    handleChange(fieldKey, null);
+    if (fieldKey === 'brandLogo' && brandLogoInputRef.current) {
+      brandLogoInputRef.current.value = '';
+    }
+    if (fieldKey === 'couponImage' && couponImageInputRef.current) {
+      couponImageInputRef.current.value = '';
+    }
+  };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -47,19 +45,44 @@ const couponImageInputRef = useRef(null);
     return null;
   };
 
+  const handleSubmit = () => {
+    setShowPreview(true);
+  };
+
+  const handleConfirm = async () => {
+    const payload = {
+      nameOfBusiness: discountCoupon.nameOfBusiness,
+      code: discountCoupon.code,
+      password: discountCoupon.password || '',
+      brandLogo: getPreviewUrl(discountCoupon.brandLogo),
+      couponImage: getPreviewUrl(discountCoupon.couponImage),
+    };
+
+    const res = await fetch('/api/discount', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    if (res.ok) {
+      setShowPreview(false);
+      alert('Coupon saved successfully');
+    } else {
+      alert('Failed to save coupon');
+    }
+  };
+
   return (
     <div className="space-y-8 p-4 md:p-8 lg:p-12 bg-gray-50 rounded-xl shadow-lg">
-      {/* BRAND LOGO */}
       <div className="space-y-2">
         <label className="block text-base font-medium text-gray-700">Brand Logo</label>
         <input
-         ref={brandLogoInputRef}
+          ref={brandLogoInputRef}
           type="file"
           accept="image/*"
           onChange={(e) => handleFileChange('brandLogo', e.target.files)}
           className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
         />
-
         {discountCoupon.brandLogo && (
           <div className="relative w-32 mt-2">
             <img
@@ -78,7 +101,6 @@ const couponImageInputRef = useRef(null);
         )}
       </div>
 
-      {/* COUPON DETAILS */}
       <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100">
         <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200">Coupon Details</h3>
         <div className="space-y-5">
@@ -97,19 +119,15 @@ const couponImageInputRef = useRef(null);
             onChange={(e) => handleChange('code', e.target.value)}
           />
 
-          {/* ...Other fields remain the same... */}
-
-          {/* COUPON IMAGE */}
           <div className="space-y-2">
             <label className="block text-base font-medium text-gray-700">Coupon Image</label>
             <input
-             ref={couponImageInputRef}
+              ref={couponImageInputRef}
               type="file"
               accept="image/*"
               onChange={(e) => handleFileChange('couponImage', e.target.files)}
               className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
             />
-
             {discountCoupon.couponImage && (
               <div className="relative w-32 mt-2">
                 <img
@@ -130,12 +148,11 @@ const couponImageInputRef = useRef(null);
         </div>
       </div>
 
-      {/* SECURITY SECTION */}
       <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100">
         <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200">Security</h3>
         <div className="relative">
           <input
-            type={showPassword ? "text" : "password"}
+            type={showPassword ? 'text' : 'password'}
             placeholder="Password"
             className="w-full px-5 py-3 border border-gray-300 rounded-lg pr-12"
             value={discountCoupon.password || ''}
@@ -145,9 +162,9 @@ const couponImageInputRef = useRef(null);
             type="button"
             className="absolute inset-y-0 right-0 pr-4 flex items-center text-teal-600"
             onClick={togglePasswordVisibility}
-            aria-label={showPassword ? "Hide password" : "Show password"}
+            aria-label={showPassword ? 'Hide password' : 'Show password'}
           >
-            {showPassword ?  <Eye size={20} /> : <EyeOff size={20} />}
+            {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
           </button>
         </div>
       </div>
@@ -156,12 +173,65 @@ const couponImageInputRef = useRef(null);
 
       <div className="text-center my-6">
         <button
-          type="submit"
+          type="button"
           className="w-full bg-[#008080] hover:bg-[#006666] text-white py-3 rounded-lg font-medium shadow-lg transition-colors"
+          onClick={handleSubmit}
         >
           Submit
         </button>
       </div>
+
+{showPreview && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 overflow-y-auto px-4">
+    <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg space-y-4">
+      <h2 className="text-xl font-semibold text-gray-800">Preview Coupon</h2>
+
+      <div className="space-y-2 text-sm text-gray-700">
+        <p><strong>Name of Business:</strong> {discountCoupon.nameOfBusiness || 'N/A'}</p>
+        <p><strong>Coupon Code:</strong> {discountCoupon.code || 'N/A'}</p>
+        <p><strong>Password:</strong> {discountCoupon.password ? '••••••' : 'N/A'}</p>
+
+        {discountCoupon.brandLogo && (
+          <div>
+            <p className="font-semibold mt-2">Brand Logo:</p>
+            <img
+              src={getPreviewUrl(discountCoupon.brandLogo)}
+              alt="Brand Logo"
+              className="w-32 h-auto rounded border shadow"
+            />
+          </div>
+        )}
+
+        {discountCoupon.couponImage && (
+          <div>
+            <p className="font-semibold mt-2">Coupon Image:</p>
+            <img
+              src={getPreviewUrl(discountCoupon.couponImage)}
+              alt="Coupon"
+              className="w-32 h-auto rounded border shadow"
+            />
+          </div>
+        )}
+      </div>
+
+      <div className="flex justify-end gap-4 mt-6">
+        <button
+          className="px-4 py-2 border border-gray-300 rounded-md text-gray-600 hover:bg-gray-100"
+          onClick={() => setShowPreview(false)}
+        >
+          Edit
+        </button>
+        <button
+          className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700"
+          onClick={handleConfirm}
+        >
+          Confirm
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };
