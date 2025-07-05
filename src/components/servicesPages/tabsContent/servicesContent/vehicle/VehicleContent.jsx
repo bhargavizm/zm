@@ -50,23 +50,15 @@ const VehicleContent = () => {
   const validateForm = () => {
     const newErrors = {};
     
-    if (!vehicleInfo.general.vehicleModel?.trim()) {
-      newErrors.vehicleModel = 'Vehicle model is required';
-    }
     
-    if (!vehicleInfo.registration.rcNumber?.trim()) {
-      newErrors.rcNumber = 'RC number is required';
-    }
+    
+    
     
     if (!vehicleInfo.media.vehicleImage) {
       newErrors.vehicleImage = 'Vehicle image is required';
     }
     
-    if (!vehicleInfo.security.password?.trim()) {
-      newErrors.password = 'Password is required';
-    } else if (vehicleInfo.security.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
-    }
+    
     
     // Check file sizes
     if (totalFileSize > MAX_TOTAL_FILE_SIZE) {
@@ -360,7 +352,7 @@ const VehicleContent = () => {
             Confirm Submission
           </h3>
           <p className="text-gray-600 mb-6">
-            Are you sure you want to submit this vehicle information? Please review all details before confirming.
+            Are you sure you want to submit? Please review all details before confirming.
           </p>
           <div className="flex justify-end space-x-3">
             <button
