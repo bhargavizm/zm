@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongoDB";
 import PetTagModal from "@/models/services/petIdSchema";
+import { authUser } from "@/middlewares/authMiddleware"; // ✅ make sure this is imported
 import { v2 as cloudinary } from "cloudinary";
 
 // 🔐 Cloudinary Configuration
@@ -12,16 +13,30 @@ cloudinary.config({
 
 export async function POST(req) {
   try {
-    await connectDB();
+    // Step 1: Auth
+    const auth = await authUser(req);
+    if (auth.status !== 200) {
+      return NextResponse.json(auth.json, { status: auth.status });
+    }
 
+    await connectDB();
+    const user = auth.user;
     const body = await req.json();
     const { image, ...rest } = body;
 
     let imageUrl = "";
     let publicId = "";
 
+    // Step 2: Upload image if provided
     if (image) {
-      // Upload to Cloudinary
+      // Optional: Validate image base64 format
+      if (!image.startsWith("data:image/")) {
+        return NextResponse.json(
+          { message: "Invalid image format. Must be a base64 image string." },
+          { status: 400 }
+        );
+      }
+
       const uploadResponse = await cloudinary.uploader.upload(image, {
         folder: "pet-id-tags",
       });
@@ -30,11 +45,15 @@ export async function POST(req) {
       publicId = uploadResponse.public_id;
     }
 
-    // Create new document with image details
+    // Step 3: Create document
     const newPetTag = new PetTagModal({
       ...rest,
-      imageUrl,     // ✅ Save the Cloudinary URL
-      publicId,     // ✅ Optional: store public_id for future deletion
+      user: {
+        id: user._id,
+        name: user.name || user.email,
+      },
+      imageUrl,
+      publicId,
     });
 
     await newPetTag.save();

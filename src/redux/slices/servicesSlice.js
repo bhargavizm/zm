@@ -10,8 +10,8 @@ const initialState = {
   vehicleServiceData: [],
   eventServiceData: [],
   multiServicesData: [],
-  
-
+  petIDServicesData: [],
+  kidsSafetyServicesData: [],
   // Encrypted services
   audioServiceData: [],
   pdfServiceData: [],
@@ -58,7 +58,14 @@ const servicesSlice = createSlice({
       state.wifiServicesData = action.payload;
       state.error = null;
     },
-   
+    setPetIdServices: (state, action) => {
+      state.petIDServicesData = action.payload;
+      state.error = null;
+    },
+    setKidsSafetyServices: (state, action) => {
+      state.kidsSafetyServicesData = action.payload;
+      state.error = null;
+    },
     // ✅ Encrypted service reducers
     setPDFServices: (state, action) => {
       state.pdfServiceData = action.payload;
@@ -66,6 +73,14 @@ const servicesSlice = createSlice({
     },
     setAudioServices: (state, action) => {
       state.audioServiceData = action.payload;
+      state.error = null;
+    },
+    setVideoServices: (state, action) => {
+      state.videoServiceData = action.payload;
+      state.error = null;
+    },
+    setGalleryServices: (state, action) => {
+      state.galleryServiceData = action.payload;
       state.error = null;
     },
     setVideoServices: (state, action) => {
@@ -94,8 +109,6 @@ export const {
   setEventServices,
   setMultiUrlServices,
   setWifiServices,
-  
-
   setPDFServices,
   setAudioServices,
   setVideoServices,
