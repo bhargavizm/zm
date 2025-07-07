@@ -13,7 +13,7 @@ const VideoContent = () => {
       <EncryptedServicesForm
         formData={videoFormData}
         setFormData={setVideoFormData}
-        apiRoute="/api/services/video"
+        apiRoute="/api/encryptedServices/video"
         reduxAction={setVideoServices}
         dispatch={dispatch}
         accept="video/*" // Accepts any video format

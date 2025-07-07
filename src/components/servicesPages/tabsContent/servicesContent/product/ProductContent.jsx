@@ -416,6 +416,39 @@ const ProductContent = () => {
     }
   };
 
+
+  return (
+    <div>
+      <div className="grid grid-cols-1 gap-10">
+        <div className="bg-white shadow-xl rounded-xl p-6 space-y-6">
+          {/* Template Selection Section */}
+          <div>
+            <h2 className="text-xl font-semibold mb-4">
+              Select a Template (click to choose)
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {templateImages.map((filename, idx) => (
+                <div
+                  key={idx}
+                  onClick={() => handleTemplateSelect(filename, idx)}
+                  className={`relative rounded-md border-2 cursor-pointer transition-all p-1 ${
+                    productData.selectedTemplate === idx
+                      ? "border-[#008080] ring-2 ring-[#008080]"
+                      : "border-gray-300"
+                  }`}
+                >
+                  <Image
+                    src={`/product-templates/${filename}`}
+                    alt={`Template ${idx + 1}`}
+                    width={300}
+                    height={180}
+                    className="object-cover rounded w-full h-auto"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -425,6 +458,7 @@ const ProductContent = () => {
     
     setIsPreviewModalOpen(true);
   };
+
 
   const convertImageToBase64 = async (imageUrl) => {
     try {
@@ -598,7 +632,32 @@ const ProductContent = () => {
                     title="Remove logo"
                   >
                     <MdDeleteForever size={18} />
-                  </button>
+                  </button
+                )}
+                {/* Image Upload for individual product item */}
+                <div>
+                  <label className="block font-medium text-gray-700 mb-2">
+                    Product Image (500x500)
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) =>
+                      handleItemImageUpload(index, e.target.files[0])
+                    }
+                    className="w-full text-sm text-gray-700
+                      file:mr-4 file:py-2 file:px-4
+                      file:rounded-full file:border-0
+                      file:text-sm file:font-semibold
+                      file:bg-[#008080] file:text-white
+                      hover:file:bg-[#006666] transition duration-200 cursor-pointer"
+                  />
+                  {item.image && (
+                    <div className="relative w-fit">
+                      <img
+                        src={item.image}
+                        alt={`Uploaded ${index}`}
+                        className="mt-4 rounded object-cover w-24 h-24 border border-gray-300 shadow-sm"
                 </div>
               )}
               <label
@@ -692,6 +751,7 @@ const ProductContent = () => {
                         className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080] ${
                           formErrors[`item_${index}_heading`] ? "border-red-500" : ""
                         }`}
+
                       />
                       {formErrors[`item_${index}_heading`] && (
                         <p className="text-red-500 text-sm mt-1">
