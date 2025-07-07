@@ -1,3 +1,5 @@
+// FRONTEND: DiscountCouponContent.jsx
+
 'use client';
 
 import React, { useRef, useState } from 'react';
@@ -15,13 +17,13 @@ const DiscountCouponContent = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
-  const [fileSizeError, setFileSizeError] = useState(false); // NEW STATE
+  const [fileSizeError, setFileSizeError] = useState(false);
   const dispatch = useDispatch();
 
   const brandLogoInputRef = useRef(null);
   const couponImageInputRef = useRef(null);
 
-  const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
+  const MAX_FILE_SIZE = 2 * 1024 * 1024;
 
   const handleChange = (fieldKey, value) => {
     updateDynamicForm('discountCoupon', null, fieldKey, value);
@@ -31,7 +33,7 @@ const DiscountCouponContent = () => {
     if (files && files[0]) {
       const file = files[0];
       if (file.size > MAX_FILE_SIZE) {
-        setFileSizeError(true); // Show modal instead of alert
+        setFileSizeError(true);
         return;
       }
       handleChange(fieldKey, file);
@@ -40,23 +42,17 @@ const DiscountCouponContent = () => {
 
   const removeImage = (fieldKey) => {
     handleChange(fieldKey, null);
-    if (fieldKey === 'brandLogo' && brandLogoInputRef.current) {
-      brandLogoInputRef.current.value = '';
-    }
-    if (fieldKey === 'couponImage' && couponImageInputRef.current) {
-      couponImageInputRef.current.value = '';
-    }
+    if (fieldKey === 'brandLogo' && brandLogoInputRef.current) brandLogoInputRef.current.value = '';
+    if (fieldKey === 'couponImage' && couponImageInputRef.current) couponImageInputRef.current.value = '';
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   const getPreviewUrl = (fileOrUrl) => {
     if (!fileOrUrl) return null;
     if (fileOrUrl instanceof File) return URL.createObjectURL(fileOrUrl);
     if (typeof fileOrUrl === 'string') return fileOrUrl;
-    return null;  
+    return null;
   };
 
   const fileToBase64 = (file) => {
@@ -69,9 +65,7 @@ const DiscountCouponContent = () => {
     });
   };
 
-  const handleSubmit = () => {
-    setShowPreview(true);
-  };
+  const handleSubmit = () => setShowPreview(true);
 
   const handleConfirm = async () => {
     const brandLogoBase64 = await fileToBase64(discountCoupon.brandLogo);
@@ -98,6 +92,7 @@ const DiscountCouponContent = () => {
         dispatch(setDiscountServices(response.data.data));
         setShowPreview(false);
         setShowSuccessPopup(true);
+        updateDynamicForm('discountCoupon', null, null, {});
       } else {
         alert(response.data.message || 'Failed to save coupon');
       }
@@ -109,6 +104,9 @@ const DiscountCouponContent = () => {
 
   return (
     <div className="relative">
+<<<<<<< HEAD
+      {/* ... Include your form UI here ... */}
+=======
       {/* Main Form UI */}
       <div className="space-y-8 p-4 md:p-8 lg:p-12 bg-gray-50 rounded-xl shadow-lg">
 
@@ -306,8 +304,71 @@ const DiscountCouponContent = () => {
           </div>
         </div>
       )}
+>>>>>>> cdfc43aff5d46f1f1b57abe0fb0e810879b734ff
     </div>
   );
 };
 
 export default DiscountCouponContent;
+
+// BACKEND: /api/services/discount/route.js
+
+import { connectDB } from '@/lib/mongoDB';
+import DiscountModal from '@/models/services/discountSchema';
+import { NextResponse } from 'next/server';
+
+export async function POST(req) {
+  try {
+    await connectDB();
+    const body = await req.json();
+    const { nameOfBusiness, code, brandLogo, couponImage, password } = body;
+
+    if (!nameOfBusiness || !code) {
+      return NextResponse.json({
+        success: false,
+        message: 'Missing required fields: nameOfBusiness, code',
+      }, { status: 400 });
+    }
+
+    const newCoupon = new DiscountModal({
+      nameOfBusiness,
+      code,
+      brandLogo,
+      couponImage,
+      password,
+    });
+
+    await newCoupon.save();
+
+    return NextResponse.json({
+      success: true,
+      message: 'Coupon saved',
+      data: newCoupon,
+    }, { status: 201 });
+
+  } catch (err) {
+    console.error('Error saving coupon:', err);
+    return NextResponse.json({
+      success: false,
+      message: 'Server error',
+    }, { status: 500 });
+  }
+}
+
+// SCHEMA: models/services/discountSchema.js
+
+import mongoose from 'mongoose';
+
+const discountCouponSchema = new mongoose.Schema({
+  brandLogo: { type: String, required: false },
+  nameOfBusiness: { type: String, required: true, trim: true },
+  code: { type: String, required: true, trim: true, uppercase: true },
+  couponImage: { type: String, required: false },
+  password: { type: String, required: false },
+}, {
+  timestamps: true,
+});
+
+const DiscountModal = mongoose.models.DiscountCoupon || mongoose.model('DiscountCoupon', discountCouponSchema);
+
+export default DiscountModal;
