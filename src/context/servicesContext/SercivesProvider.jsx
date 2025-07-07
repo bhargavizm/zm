@@ -205,9 +205,9 @@ const [menuBookFormData, setMenuBookFormData] = useState({
         emergencyInstructions: "",
         insuranceProvider: "",
         policyNumber: "",
-        medicalReports: null,
-        prescription: null,
-        insuranceImage: null,
+        medicalReports:[],
+        prescription: [],
+        insuranceImage: [],
         preferredHospital: "",
         location: ""
       },
