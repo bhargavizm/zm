@@ -13,7 +13,7 @@ const GalleryContent = () => {
       <EncryptedServicesForm
         formData={imagesFormData}
         setFormData={setImagesFormData}
-        apiRoute="/api/services/gallery"
+        apiRoute="/api/encryptedServices/gallery"
         reduxAction={setGalleryServices}
         dispatch={dispatch}
         accept="image/*"

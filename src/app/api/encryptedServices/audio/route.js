@@ -1,64 +1,94 @@
-
-
-import { NextResponse } from "next/server";
-
-import { connectDB } from "@/lib/mongoDB";
-import { authUser } from "@/middlewares/authMiddleware";
 import AudioServiceModel from "@/models/services/audioSchema";
+import { HandleEncryptedServices } from "../common/encryptedServicesRoute";
 
-// POST handler
+
+export const audioMimeTypes = [
+  "audio/mpeg",
+  "audio/wav",
+  "audio/ogg",
+  "audio/webm",
+  "audio/mp3",
+  "audio/flac",
+  "audio/x-wav",
+  "audio/aiff",
+   "audio/x-aiff",
+   "audio/aac",
+   "audio/mp4", 
+   "audio/x-m4a",
+   "audio/x-ms-wma",
+   "audio/opus"
+];
+
 export async function POST(request) {
-  try {
-     // ✅ Step 1: Authenticate User
-        const auth = await authUser(request);
-        if (auth.status !== 200) {
-          return new Response(JSON.stringify(auth.json), {
-            status: auth.status,
-            headers: { "Content-Type": "application/json" },
-          });
-        }
-    
-        const user = auth.user;
-    await connectDB();
-
-    const formData = await request.formData();
-    const title = formData.get("title");
-    const description = formData.get("description");
-    const password = formData.get("password") || "";
-
-    // const userId = formData.get("userId"); // Required from frontend
-    // const userName = formData.get("userName");
-
-    // Collect multiple files
-    const files = [];
-    for (const [key, value] of formData.entries()) {
-      if (key === "files" && value instanceof File) {
-        const arrayBuffer = await value.arrayBuffer();
-        files.push({
-          //fileData: Buffer.from(arrayBuffer),
-          fileName: value.name,
-          fileType: value.type,
-        });
-      }
-    }
-
-    const newPDF = await AudioServiceModel.create({
-       user: {
-        id: user._id,
-        name: user.name,
-      },
-      title,
-      description,
-      password,
-      files
-    });
-
-    return NextResponse.json({ success: true, data: newPDF }, { status: 201 });
-  } catch (error) {
-    console.error("PDF Upload Error:", error);
-    return NextResponse.json({ success: false, message: "Failed to upload PDFs." }, { status: 500 });
-  }
+  return HandleEncryptedServices({
+    request,
+    model: AudioServiceModel,
+    useCloudinary: false,
+    mediaField: "files",
+    allowedMimeTypes: audioMimeTypes, // allow all audio formats
+  });
 }
+
+
+// import { NextResponse } from "next/server";
+
+// import { connectDB } from "@/lib/mongoDB";
+// import { authUser } from "@/middlewares/authMiddleware";
+// import AudioServiceModel from "@/models/services/audioSchema";
+
+// // POST handler
+// export async function POST(request) {
+//   try {
+//      // ✅ Step 1: Authenticate User
+//         const auth = await authUser(request);
+//         if (auth.status !== 200) {
+//           return new Response(JSON.stringify(auth.json), {
+//             status: auth.status,
+//             headers: { "Content-Type": "application/json" },
+//           });
+//         }
+    
+//         const user = auth.user;
+//     await connectDB();
+
+//     const formData = await request.formData();
+//     const title = formData.get("title");
+//     const description = formData.get("description");
+//     const password = formData.get("password") || "";
+
+//     // const userId = formData.get("userId"); // Required from frontend
+//     // const userName = formData.get("userName");
+
+//     // Collect multiple files
+//     const files = [];
+//     for (const [key, value] of formData.entries()) {
+//       if (key === "files" && value instanceof File) {
+//         const arrayBuffer = await value.arrayBuffer();
+//         files.push({
+//           //fileData: Buffer.from(arrayBuffer),
+//           fileName: value.name,
+//           fileType: value.type,
+//         });
+//       }
+//     }
+
+//     const newPDF = await AudioServiceModel.create({
+//        user: {
+//         id: user._id,
+//         name: user.name,
+//       },
+//       title,
+//       description,
+//       password,
+//       files
+//     });
+
+//     return NextResponse.json({ success: true, data: newPDF }, { status: 201 });
+//   } catch (error) {
+//     console.error("PDF Upload Error:", error);
+//     return NextResponse.json({ success: false, message: "Failed to upload PDFs." }, { status: 500 });
+//   }
+// }
 
 
 // import { connectDB } from "@/lib/mongoDB";

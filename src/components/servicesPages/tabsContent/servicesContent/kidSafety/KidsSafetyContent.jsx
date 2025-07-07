@@ -961,7 +961,7 @@ const KidsSafetyContent = () => {
                 className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? 'Submitting...' : 'Confirm'}
+                Confirm & Submit
               </button>
             </div>
           </div>

@@ -393,7 +393,7 @@ const ResumeContent = () => {
                 onClick={submitToServer}
                 className="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 cursor-pointer transition duration-150"
               >
-                Confirm
+                Confirm & Submit
               </button>
             </div>
           </div>
