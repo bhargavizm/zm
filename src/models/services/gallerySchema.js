@@ -1,32 +1,24 @@
 import mongoose from "mongoose";
 
-const gallerySchema = new mongoose.Schema(
-  {
-    title: {
-      type: String,
-      trim: true,
-    },
-    description: {
-      type: String,
-      trim: true,
-    },
-    fileNames: {
-      type: [String], // Array of image file names or URLs
-    },
-    password: {
-      type: String,
-      // If you hash the password before saving, keep it plain here
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
+
+const GallerySchema = new mongoose.Schema({
+  title: String,
+  description: String,
+  password: String,
+ images: [
+      {
+        url: String,
+        name: String,
+      },
+    ],
+
+  user: {
+    id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    name: String,
   },
-  {
-    collection: "galleries",
-  }
-);
+}, { timestamps: true });
 
-const GalleryModal = mongoose.models.Gallery || mongoose.model("Gallery", gallerySchema);
+const GalleryServiceModel =
+  mongoose.models.GalleryService || mongoose.model("GalleryService", GallerySchema);
 
-export default GalleryModal
+export default GalleryServiceModel;
