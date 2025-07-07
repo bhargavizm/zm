@@ -325,7 +325,7 @@ const ConfirmationModal = ({ show, onClose, onConfirm }) => {
             onClick={onConfirm}
             className="px-4 py-2 rounded-md bg-[#008080] text-white hover:bg-[#006666] transition-colors duration-200"
           >
-            Confirm
+            Confirm & Submit
           </button>
         </div>
       </div>

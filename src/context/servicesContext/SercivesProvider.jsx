@@ -11,6 +11,8 @@ const ServicesProvider = ({ children }) => {
   // to prevent re-creation on every render, but for clarity, defining them here
   // is fine for now.
 
+  const [servicesDataLoading, setServicesDataLoading] = useState(false)
+
   const initialBusinessShopFormData = {
     shopName: "",
     ownerName: "",
@@ -141,17 +143,6 @@ const [menuBookFormData, setMenuBookFormData] = useState({
   link: '',
   password:''
 });
-
-  // const [menuBookFormData, setMenuBookFormData] = useState({
-  //   restaurantName: "",
-  //   menuItems: [{ image: "", name: "menu items", }],
-  //   extras: [
-  //     { type: "phone", label: "Phone", value: "", visible: true, placeholder: "+91-0000000000" },
-  //     { type: "email", label: "Email", value: "", visible: true, placeholder: "example@mail.com" },
-  //     { type: "link", label: "Link", value: "", visible: true, placeholder: "https://yourlink.com" },
-  //   ],
-  // });
-
 
 
   const initialPetIDFormData = {
@@ -436,7 +427,6 @@ const [menuBookFormData, setMenuBookFormData] = useState({
   const [eventsFormData, setEventsFormData] = useState(initialEventsFormData);
   const [smsFormData, setSmsFormData] = useState(initialSmsFormData);
   const [textMessageForm, setTextMessageForm] = useState(initialTextMessageForm);
-  //const [menuBookFormData, setMenuBookFormData] = useState(initialMenuBookFormData);
   const [petIDFormData, setPetIDFormData] = useState(initialPetIDFormData);
   const [dynamicForms, setDynamicForms] = useState(initialDynamicForms); // For medicalAlert, propertyDetails, etc.
 
@@ -591,6 +581,7 @@ const [menuBookFormData, setMenuBookFormData] = useState({
         // UI Toggles
         showPassword, setShowPassword,
         isAnimating, setIsAnimating,
+        servicesDataLoading, setServicesDataLoading
       }}
     >
       {children}

@@ -6,14 +6,34 @@ import { toast } from "react-hot-toast";
 import NFCModal from "@/components/modalPopUps/nfcModal";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import { useParams } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
+import useServicesContext from "@/components/hooks/useServiceContext";
+import LoadingSpinner from "@/components/common/spinner";
+
+const planPrices = {
+  Basic: "₹999",
+  Starter: "₹1799",
+  Pro: "₹2499",
+  Advanced: "₹2999",
+  Ultima: "₹3299",
+};
 
 const planLimits = {
-  Basic: 1 * 1024 * 1024 * 1024,      // 1 GB
-  Starter: 2 * 1024 * 1024 * 1024,    // 2 GB
-  Pro: 3 * 1024 * 1024 * 1024,        // 3 GB
-  Advanced: 4 * 1024 * 1024 * 1024,
-  Ultima: 5 * 1024 * 1024 * 1024,
+  Basic: 1 * 1024 * 1024 * 1024, // 1 GB
+  Starter: 2 * 1024 * 1024 * 1024, // 2 GB
+  Pro: 3 * 1024 * 1024 * 1024, // 3 GB
+  Advanced: 4 * 1024 * 1024 * 1024, // 4 GB
+  Ultima: 5 * 1024 * 1024 * 1024, // 5 GB
 };
+
+const getRequiredPlan = (size) => {
+  const matchedPlan = Object.entries(planLimits).find(
+    ([_, limit]) => size <= limit
+  );
+  return matchedPlan ? matchedPlan[0] : "Exceeds all plans";
+};
+
 
 const EncryptedServicesForm = ({
   formData,
@@ -33,6 +53,7 @@ const EncryptedServicesForm = ({
   const [showConfirm, setShowConfirm] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const fileInputRef = useRef(null);
+  const { servicesDataLoading, setServicesDataLoading } = useServicesContext();
   const { setActiveTab } = useDesignContext();
   const { slug } = useParams();
 
@@ -50,7 +71,9 @@ const EncryptedServicesForm = ({
 
     const totalReadable = formatBytes(size);
     const currentReadable = formatBytes(currentLimit);
-    const nextPlan = Object.entries(planLimits).find(([plan, limit]) => size <= limit);
+    const nextPlan = Object.entries(planLimits).find(
+      ([plan, limit]) => size <= limit
+    );
 
     let msg = `🚫 Total size (${totalReadable}) exceeds your ${userPlan} plan (${currentReadable}).`;
     if (nextPlan) {
@@ -64,8 +87,18 @@ const EncryptedServicesForm = ({
   const handleChange = (e) => {
     const { name, value, files } = e.target;
 
-    if (name === "file" && files.length) {
+    if (name === "files" && files.length) {
       const newFiles = Array.from(files);
+
+      // ✅ Check MIME type here
+      const invalidFile = newFiles.find(
+        (file) => accept && !file.type.match(accept)
+      );
+      if (invalidFile) {
+        toast.error(`Unsupported file type: ${invalidFile.name}`);
+        return;
+      }
+
       const updatedFiles = [...(formData.file || []), ...newFiles];
       const updatedSize = updatedFiles.reduce((acc, f) => acc + f.size, 0);
 
@@ -74,24 +107,38 @@ const EncryptedServicesForm = ({
       setSizeWarning(warning);
 
       setFormData((prev) => ({ ...prev, file: updatedFiles }));
-
-      if (warning) {
-        setShowUpgradeModal(true); // show modal on exceeding plan
-      }
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
     }
+
+    // if (name === "files" && files.length) {
+    //   const newFiles = Array.from(files);
+    //   const updatedFiles = [...(formData.file || []), ...newFiles];
+    //   const updatedSize = updatedFiles.reduce((acc, f) => acc + f.size, 0);
+
+    //   setTotalSize(updatedSize);
+    //   const warning = getPlanErrorMessage(updatedSize);
+    //   setSizeWarning(warning);
+
+    //   setFormData((prev) => ({ ...prev, file: updatedFiles }));
+
+    //   // if (warning) {
+    //   //   setShowUpgradeModal(true); // show modal on exceeding plan
+    //   // }
+    // } else {
+    //   setFormData((prev) => ({ ...prev, [name]: value }));
+    // }
   };
 
   const confirmUpload = async () => {
     const fd = new FormData();
-    Object.entries(formData).forEach(([key, value]) => {
-      if (key === "file" && Array.isArray(value)) {
-        value.forEach((f) => fd.append("files", f)); // ✅ must match backend key
-      } else {
-        fd.append(key, value);
-      }
+    // ✅ Always upload files under key "files"
+    if (Array.isArray(formData.file)) {
+      formData.file.forEach((f) => fd.append("files", f));
+    }
+    ["title", "description", "password"].forEach((key) => {
+      if (formData[key]) fd.append(key, formData[key]);
     });
+
+    setServicesDataLoading(true);
 
     try {
       const res = await fetch(apiRoute, {
@@ -100,13 +147,8 @@ const EncryptedServicesForm = ({
       });
 
       const data = await res.json();
-
       if (data.success) {
-        dispatch(
-          reduxAction(
-            data?.pdfData || data?.videoData || data?.audioData || data?.galleryData
-          )
-        );
+        dispatch(reduxAction(data));
         toast.success(successMessage);
         setActiveTab(slug, "QR Code");
         setFormData({ title: "", description: "", password: "", file: [] });
@@ -121,6 +163,8 @@ const EncryptedServicesForm = ({
       }
     } catch (error) {
       toast.error("❌ Upload error");
+    } finally {
+      setServicesDataLoading(false); // ✅ End loader
     }
   };
 
@@ -143,6 +187,8 @@ const EncryptedServicesForm = ({
 
   return (
     <>
+      {servicesDataLoading && <LoadingSpinner />}
+
       <div className="bg-white rounded-xl p-6 shadow-lg">
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Title */}
@@ -158,38 +204,45 @@ const EncryptedServicesForm = ({
             />
           </div>
 
-          {/* Description */}
-          <div>
-            <label className="text-sm font-semibold">Description</label>
-            <textarea
-              name="description"
-              rows="2"
-              value={formData.description}
-              onChange={handleChange}
-              className="w-full border px-3 py-2 rounded-md text-sm"
-              placeholder="Enter description"
-            />
-          </div>
+          
 
           {/* File Upload */}
           <div>
             <label className="text-sm font-semibold">{fileLabel}</label>
-            <input
-              type="file"
-              name="file"
-              multiple
-              ref={fileInputRef}
-              onChange={handleChange}
-              accept={accept}
-              className="w-full mt-1 text-sm border px-4 py-2 file:bg-teal-600 file:text-white file:px-3 file:py-1 file:rounded-md"
-            />
+            <div className="relative mt-1 w-full py-2 px-4 border">
+              <input
+                type="file"
+                name="files"
+                multiple
+                ref={fileInputRef}
+                onChange={handleChange}
+                accept={accept}
+                className="absolute inset-0 opacity-0 cursor-pointer z-10"
+              />
+              <button
+                type="button"
+                className="bg-teal-600  text-white text-sm px-4 py-2 rounded-md font-medium pointer-events-none"
+              >
+                Choose Files
+              </button>
+              <span className="ml-3 text-sm text-gray-500">
+                {formData.file?.length > 0
+                  ? `${formData.file.length} file${
+                      formData.file.length > 1 ? "s" : ""
+                    } selected`
+                  : "No file selected"}
+              </span>
+            </div>
 
             {totalSize > 0 && (
-              <p className="text-xs mt-1">📦 Total Size: {formatBytes(totalSize)}</p>
+             <p className="text-sm mt-2 font-semibold text-teal-700">
+  📦 Total Upload Size: <span className="font-bold">{formatBytes(totalSize)}</span>
+</p>
+
             )}
-            {sizeWarning && (
+            {/* {sizeWarning && (
               <p className="text-sm text-red-600 mt-1">{sizeWarning}</p>
-            )}
+            )} */}
 
             {formData.file?.map((f, i) => (
               <div
@@ -205,13 +258,19 @@ const EncryptedServicesForm = ({
                   onClick={() => {
                     const updatedFiles = [...formData.file];
                     updatedFiles.splice(i, 1);
-                    const newSize = updatedFiles.reduce((acc, f) => acc + f.size, 0);
+                    const newSize = updatedFiles.reduce(
+                      (acc, f) => acc + f.size,
+                      0
+                    );
                     setFormData((prev) => ({ ...prev, file: updatedFiles }));
                     setTotalSize(newSize);
                     setSizeWarning(getPlanErrorMessage(newSize));
-                    if (!updatedFiles.length && fileInputRef.current) {
-                      fileInputRef.current.value = "";
-                    }
+                    // if (!updatedFiles.length && fileInputRef.current) {
+                    //   fileInputRef.current.value = "";
+                    // }
+                    //                     if (fileInputRef.current) {
+                    //   fileInputRef.current.value = "";
+                    // }
                   }}
                   className="text-red-600"
                 >
@@ -219,6 +278,19 @@ const EncryptedServicesForm = ({
                 </button>
               </div>
             ))}
+          </div>
+
+          {/* Description */}
+          <div>
+            <label className="text-sm font-semibold">Description</label>
+            <textarea
+              name="description"
+              rows="2"
+              value={formData.description}
+              onChange={handleChange}
+              className="w-full border px-3 py-2 rounded-md text-sm"
+              placeholder="Enter description"
+            />
           </div>
 
           {/* Password */}
@@ -258,14 +330,44 @@ const EncryptedServicesForm = ({
       {/* Confirm Modal */}
       {showConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-3xl max-h-[80vh] overflow-y-auto scrollbar-hide p-9 border border-teal-200 mx-auto">
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[80vh] overflow-y-auto scrollbar-hide p-6 border border-teal-200 mx-auto">
+            <div className="flex justify-between items-center pb-4">
+              <button
+                onClick={() => {
+                  setShowConfirm(false);
+                  setShowUpgradeModal(true);
+                }}
+                className="text-md  text-darkGreen hover:underline font-semibold hover:text-mainGreen cursor-pointer  transition"
+              >
+                ← Back to storage limit check
+              </button>
+
+              <button
+                onClick={() => setShowConfirm(false)}
+                className="text-md pb-4 cursor-pointer  text-gray-600 hover:text-red-600"
+              >
+                ❌
+              </button>
+            </div>
             <h2 className="text-2xl font-bold text-mainGreen text-center">
               Confirm Submission
             </h2>
             <div className="mt-4 space-y-2 text-lg text-gray-800">
-              {formData.title && <p><strong>Title:</strong> {formData.title}</p>}
-              {formData.description && <p><strong>Description:</strong> {formData.description}</p>}
-              {formData.password && <p><strong>Password:</strong> {formData.password}</p>}
+              {formData.title && (
+                <p>
+                  <strong>Title:</strong> {formData.title}
+                </p>
+              )}
+              {formData.description && (
+                <p>
+                  <strong>Description:</strong> {formData.description}
+                </p>
+              )}
+              {formData.password && (
+                <p>
+                  <strong>Password:</strong> {formData.password}
+                </p>
+              )}
 
               <p className="pt-2 font-semibold">Uploaded Files:</p>
               <ul className="list-none grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3 mt-2">
@@ -273,27 +375,50 @@ const EncryptedServicesForm = ({
                   const previewUrl = URL.createObjectURL(f);
                   const fileType = f.type;
                   return (
-                    <li key={i} className="relative group cursor-pointer" onClick={() => window.open(previewUrl, "_blank")}>
-                      <div className="w-full h-32 border rounded-lg flex items-center justify-center bg-gray-100 overflow-hidden">
+                    <li key={i} className="relative group cursor-pointer">
+                      <a
+                        href={previewUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block w-full h-28 border rounded-lg flex items-center justify-center bg-gray-100 overflow-hidden"
+                      >
                         {fileType.startsWith("image") ? (
-                          <img src={previewUrl} alt={f.name} className="h-full w-full object-cover" />
+                          <img
+                            src={previewUrl}
+                            alt={f.name}
+                            className="h-full w-full object-cover"
+                          />
                         ) : fileType.startsWith("video") ? (
                           <video src={previewUrl} className="h-full" controls />
                         ) : fileType.startsWith("audio") ? (
                           <audio src={previewUrl} className="w-full" controls />
                         ) : (
-                          <div className="text-center px-2 text-sm text-gray-700">📄 {f.name}</div>
+                          <div className="text-center px-2 text-sm text-gray-700">
+                            📄 {f.name}
+                          </div>
                         )}
-                      </div>
-                      <p className="text-xs text-center mt-1 truncate">{f.name}</p>
+                      </a>
+                      <p className="text-xs text-center mt-1 truncate">
+                        {f.name}
+                      </p>
                     </li>
                   );
                 })}
               </ul>
             </div>
-            <div className="flex justify-end gap-3 pt-4 text-xl">
-              <button onClick={() => setShowConfirm(false)} className="px-4 py-1.5 border rounded-lg">Back</button>
-              <button onClick={confirmUpload} className="px-4 py-1.5 bg-teal-600 text-white rounded-lg">Confirm</button>
+            <div className="flex justify-end flex-wrap gap-3 pt-4 text-lg">
+              <button
+                onClick={() => setShowConfirm(false)}
+                className="px-4 py-1.5 border rounded-lg cursor-pointer"
+              >
+                Back To Form
+              </button>
+              <button
+                onClick={confirmUpload}
+                className="px-4 py-1.5 bg-teal-600 text-white rounded-lg cursor-pointer"
+              >
+                Confirm & Submit
+              </button>
             </div>
           </div>
         </div>
@@ -301,6 +426,144 @@ const EncryptedServicesForm = ({
 
       {/* Upgrade Modal */}
       {showUpgradeModal && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+    <div className="bg-white relative rounded-xl p-6 w-full max-w-md shadow-xl border border-teal-200 animate-fade-in">
+      <button
+        onClick={() => setShowUpgradeModal(false)}
+        className="absolute cursor-pointer top-2 right-3 text-md pb-4 text-gray-600 hover:text-red-600"
+      >
+        ❌
+      </button>
+
+      <h2 className="text-xl font-bold text-center  text-red-600">
+        ⚠️ Storage Limit Exceeded
+      </h2>
+
+      <div className="my-6 space-y-4 text-gray-800 text-md  leading-relaxed">
+        <p>
+          Your total upload size is <b>{formatBytes(totalSize)}</b>.
+        </p>
+        <p>
+  {/* You are currently on the <b>{userPlan}</b> plan. */}
+</p>
+<p>
+  You are currently on the {"  "}
+  <b className="text-green-700">{getRequiredPlan(totalSize)} Plan</b>
+</p>
+
+      </div>
+
+      <div className=" mt-4 text-end">
+        {/* <button
+          onClick={() => setShowUpgradeModal(false)}
+          className="px-5 py-2 text-lg border rounded-lg"
+        >
+          Cancel
+        </button> */}
+        <button
+          onClick={() => {
+            setShowUpgradeModal(false);
+            setShowConfirm(true);
+          }}
+          className="px-5 py-2 bg-teal-600 text-white text-md rounded-lg hover:bg-teal-700 transition"
+        >
+          Continue 
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+      {/* {showUpgradeModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="bg-white relative rounded-xl p-9 w-full max-w-xl shadow-xl border border-teal-200 animate-fade-in">
+            <button
+              onClick={() => setShowUpgradeModal(false)}
+              className="absolute top-2 right-3 text-xl pb-4 text-gray-600 hover:text-red-600"
+            >
+              ❌
+            </button>
+
+            <h2 className="text-2xl font-bold text-center text-red-600">
+              ⚠️ Storage Limit Exceeded
+            </h2>
+
+            <div className="my-6 space-y-3 text-gray-800 text-lg leading-relaxed">
+              <p>
+                Your uploaded files <b>exceed the allowed storage</b> for your
+                current plan:
+              </p>
+
+              <ul className="list-disc list-inside space-y-1 text-lg">
+                <li>
+                  <b>Current Plan:</b> {userPlan} (
+                  {formatBytes(planLimits[userPlan])})
+                </li>
+                <li>
+                  <b>Total Upload Size:</b> {formatBytes(totalSize)}
+                </li>
+              </ul>
+
+              {(() => {
+                const nextPlan = Object.entries(planLimits).find(
+                  ([_, limit]) => totalSize <= limit
+                );
+                if (nextPlan) {
+                  return (
+                    <p className="text-green-600 font-medium">
+                      You can upgrade to <b>{nextPlan[0]}</b> Plan which allows
+                      up to <b>{formatBytes(nextPlan[1])}</b>.
+                    </p>
+                    //                     <p className="text-green-600 font-medium">
+                    //   You can upgrade to <b>{nextPlan[0]}</b> Plan for{" "}
+                    //   <b>{planPrices[nextPlan[0]]}</b> which allows up to{" "}
+                    //   <b>{formatBytes(nextPlan[1])}</b>.
+                    // </p>
+                  );
+                } else {
+                  return (
+                    <p className="text-red-500">
+                      Even the highest plan (<b>Ultima</b>) cannot support this
+                      file size. Please reduce your upload size or contact
+                      support.
+                    </p>
+                  );
+                }
+              })()}
+            </div>
+
+            <Link
+              href="/prices"
+              target="_blank"
+              className="text-xl hover:text-mainGreen  text-fuchsia-600 font-bold underline"
+            >
+              💵 View Pricing Plans
+            </Link>
+
+            <div className="flex justify-end items-center my-6">
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setShowUpgradeModal(false)}
+                  className="px-4 py-1.5 text-lg border rounded-lg"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    setShowUpgradeModal(false);
+                    setShowConfirm(true);
+                  }}
+                  className="px-4 py-1.5 bg-teal-600 text-white text-lg rounded-lg hover:bg-teal-700 transition"
+                >
+                  Continue Anyway
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )} */}
+
+      {/* {showUpgradeModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
           <div className="bg-white rounded-xl p-8 w-full max-w-lg border shadow-lg">
             <h2 className="text-2xl font-bold text-red-600 text-center">Upgrade Plan Suggestion</h2>
@@ -319,12 +582,18 @@ const EncryptedServicesForm = ({
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </>
   );
 };
 
 export default EncryptedServicesForm;
+
+
+
+
+
+
 // "use client";
 
 // import { useState, useRef } from "react";
@@ -580,7 +849,7 @@ export default EncryptedServicesForm;
 //             Submit
 //           </button>
 //         </form>
-//       </div>  
+//       </div>
 
 //       {/* Confirm Modal */}
 //       {showConfirm && (

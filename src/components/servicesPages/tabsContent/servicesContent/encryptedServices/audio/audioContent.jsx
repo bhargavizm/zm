@@ -12,7 +12,7 @@ const AudioContent = () => {
       <EncryptedServicesForm
         formData={audioFormData}
         setFormData={setAudioFormData}
-        apiRoute="/api/services/audio"
+        apiRoute="/api/encryptedServices/audio"
         reduxAction={setAudioServices}
         dispatch={dispatch}
         accept="audio/*"

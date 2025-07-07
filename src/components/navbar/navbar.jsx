@@ -125,7 +125,7 @@ const isActive = (route) => {
                 }
                 className="hover:text-gray-300 flex items-center gap-1 cursor-pointer"
               >
-                {userData &&userData.name.charAt(0).toUpperCase() + userData.name.slice(1)}
+                {userData && userData?.name && userData?.name?.charAt(0)?.toUpperCase() + userData.name.slice(1)}
 
                 <MdKeyboardArrowDown
                   className={`transition-transform ${

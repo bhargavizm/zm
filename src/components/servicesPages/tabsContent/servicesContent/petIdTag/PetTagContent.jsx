@@ -10,6 +10,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setPetIdServices } from "@/redux/slices/servicesSlice";
 import { useParams, useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const PetTagContent = () => {
   const { setActiveTab } = useDesignContext();
@@ -128,10 +129,23 @@ const PetTagContent = () => {
       reader.onerror = (err) => reject(err);
     });
 
-  const handlePreviewSubmit = (e) => {
-    e.preventDefault();
+const handlePreviewSubmit = (e) => {
+  e.preventDefault();
+
+  const { selectedTemplate, mainImage, ownerInfo, pet } = petIDFormData;
+
+  const isAnyOwnerInfoFilled = Object.values(ownerInfo).some((v) => v && v.trim() !== "");
+  const isAnyPetInfoFilled = Object.values(pet).some((v) => v && v.trim() !== "");
+  const isTemplateSelected = !!selectedTemplate;
+  const isImageUploaded = !!mainImage;
+
+  if (isAnyOwnerInfoFilled || isAnyPetInfoFilled || isTemplateSelected || isImageUploaded) {
     setShowPreviewModal(true);
-  };
+  } else {
+    toast.error("Please fill at least one field before submitting.");
+  }
+};
+
 
   const handleFinalSubmit = async () => {
     setSubmitting(true);
