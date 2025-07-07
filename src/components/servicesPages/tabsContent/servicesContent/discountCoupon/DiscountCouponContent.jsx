@@ -4,12 +4,16 @@ import React, { useRef, useState } from 'react';
 import useServicesContext from '@/components/hooks/useServiceContext';
 import { Eye, EyeOff, X } from 'lucide-react';
 import NFCModal from '@/components/modalPopUps/nfcModal';
+import { useDispatch } from "react-redux";
+
 
 const DiscountCouponContent = () => {
   const { dynamicForms, updateDynamicForm } = useServicesContext();
   const discountCoupon = dynamicForms.discountCoupon || {};
   const [showPassword, setShowPassword] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
+    const dispatch = useDispatch();
+  
 
   const brandLogoInputRef = useRef(null);
   const couponImageInputRef = useRef(null);
@@ -45,30 +49,54 @@ const DiscountCouponContent = () => {
     return null;
   };
 
+  const fileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      if (!file) return resolve(null);
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
+
   const handleSubmit = () => {
+        
     setShowPreview(true);
   };
 
   const handleConfirm = async () => {
+    const brandLogoBase64 = await fileToBase64(discountCoupon.brandLogo);
+    const couponImageBase64 = await fileToBase64(discountCoupon.couponImage);
+
     const payload = {
       nameOfBusiness: discountCoupon.nameOfBusiness,
       code: discountCoupon.code,
       password: discountCoupon.password || '',
-      brandLogo: getPreviewUrl(discountCoupon.brandLogo),
-      couponImage: getPreviewUrl(discountCoupon.couponImage),
+      brandLogo: brandLogoBase64,
+      couponImage: couponImageBase64,
     };
 
-    const res = await fetch('/api/discount', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
+    try {
+      const res = await fetch('/api/services/discount', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
 
-    if (res.ok) {
-      setShowPreview(false);
-      alert('Coupon saved successfully');
-    } else {
-      alert('Failed to save coupon');
+      const result = await res.json();
+      
+      if (res.ok) {
+        alert('Coupon saved successfully');
+          dispatch(setdiscountServices(result.discount.data));
+    
+        setShowPreview(false);
+      } else {
+        console.error("Server responded with:", result);
+        alert('Failed to save coupon');
+      }
+    } catch (err) {
+      console.error("Failed to send request:", err);
+      alert('Something went wrong');
     }
   };
 
@@ -181,57 +209,56 @@ const DiscountCouponContent = () => {
         </button>
       </div>
 
-{showPreview && (
-  <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 overflow-y-auto px-4">
-    <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg space-y-4">
-      <h2 className="text-xl font-semibold text-gray-800">Preview Coupon</h2>
+      {showPreview && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 overflow-y-auto px-4">
+          <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg space-y-4">
+            <h2 className="text-xl font-semibold text-gray-800">Preview Coupon</h2>
 
-      <div className="space-y-2 text-sm text-gray-700">
-        <p><strong>Name of Business:</strong> {discountCoupon.nameOfBusiness || 'N/A'}</p>
-        <p><strong>Coupon Code:</strong> {discountCoupon.code || 'N/A'}</p>
-        <p><strong>Password:</strong> {discountCoupon.password ? '••••••' : 'N/A'}</p>
+            <div className="space-y-2 text-sm text-gray-700">
+              <p><strong>Name of Business:</strong> {discountCoupon.nameOfBusiness || 'N/A'}</p>
+              <p><strong>Coupon Code:</strong> {discountCoupon.code || 'N/A'}</p>
+              <p><strong>Password:</strong> {discountCoupon.password ? '••••••' : 'N/A'}</p>
 
-        {discountCoupon.brandLogo && (
-          <div>
-            <p className="font-semibold mt-2">Brand Logo:</p>
-            <img
-              src={getPreviewUrl(discountCoupon.brandLogo)}
-              alt="Brand Logo"
-              className="w-32 h-auto rounded border shadow"
-            />
+              {discountCoupon.brandLogo && (
+                <div>
+                  <p className="font-semibold mt-2">Brand Logo:</p>
+                  <img
+                    src={getPreviewUrl(discountCoupon.brandLogo)}
+                    alt="Brand Logo"
+                    className="w-32 max-h-32 rounded border shadow"
+                  />
+                </div>
+              )}
+
+              {discountCoupon.couponImage && (
+                <div>
+                  <p className="font-semibold mt-2">Coupon Image:</p>
+                  <img
+                    src={getPreviewUrl(discountCoupon.couponImage)}
+                    alt="Coupon"
+                    className="w-32  max-h-32 rounded border shadow"
+                  />
+                </div>
+              )}
+            </div>
+
+            <div className="flex justify-end gap-4 mt-6">
+              <button
+                className="px-4 py-2 border border-gray-300 rounded-md text-gray-600 hover:bg-gray-100"
+                onClick={() => setShowPreview(false)}
+              >
+                Edit
+              </button>
+              <button
+                className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700"
+                onClick={handleConfirm}
+              >
+                Confirm
+              </button>
+            </div>
           </div>
-        )}
-
-        {discountCoupon.couponImage && (
-          <div>
-            <p className="font-semibold mt-2">Coupon Image:</p>
-            <img
-              src={getPreviewUrl(discountCoupon.couponImage)}
-              alt="Coupon"
-              className="w-32 h-auto rounded border shadow"
-            />
-          </div>
-        )}
-      </div>
-
-      <div className="flex justify-end gap-4 mt-6">
-        <button
-          className="px-4 py-2 border border-gray-300 rounded-md text-gray-600 hover:bg-gray-100"
-          onClick={() => setShowPreview(false)}
-        >
-          Edit
-        </button>
-        <button
-          className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700"
-          onClick={handleConfirm}
-        >
-          Confirm
-        </button>
-      </div>
-    </div>
-  </div>
-)}
-
+        </div>
+      )}
     </div>
   );
 };
