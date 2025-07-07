@@ -1,10 +1,11 @@
 'use client'
 
+import useDesignContext from '@/components/hooks/useDesignContext'
 import useServicesContext from '@/components/hooks/useServiceContext'
 import NFCModal from '@/components/modalPopUps/nfcModal'
 import { setSmsServices } from '@/redux/slices/servicesSlice'
 import axios from 'axios'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import { FiMessageSquare, FiUser, FiCalendar, FiLock, FiEye, FiEyeOff } from 'react-icons/fi'
@@ -14,6 +15,8 @@ const SmsContent = () => {
   const { smsFormData, setSmsFormData } = useServicesContext()
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const { setActiveTab } = useDesignContext();
+  const { slug } =useParams();
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -46,6 +49,7 @@ const SmsContent = () => {
     if (response.data.success) {
       dispatch(setSmsServices(response.data.fileData));
       toast.success("Text submitted successfully!");
+      setActiveTab(slug, "QR Code");
       setShowConfirmModal(false);
 
       // Reset form
