@@ -8,6 +8,7 @@ const initialState = {
     pdfServiceData:[],
     textMessageData:[],
     smsServiceData:[],
+    medicalServiceData:[],
     vehicleServiceData:[],
 
     error: null
@@ -63,6 +64,13 @@ const servicesSlice = createSlice({
                 error:null
             }
         },
+        setmedicalServices:(state,action)=>{
+            return{
+                ...state,
+                medicalServiceData:action.payload,
+                error:null
+            }
+        },
 
         clearError: (state) => {
             state.error = null;
@@ -81,6 +89,7 @@ export const {
     setSmsServices,
 
     setVehicleServices,
+    setmedicalServices,
 
     clearError
 }

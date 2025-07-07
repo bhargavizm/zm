@@ -121,7 +121,7 @@ const Navbar = () => {
                 }
                 className="hover:text-gray-300 flex items-center gap-1 cursor-pointer"
               >
-                {userData.name.charAt(0).toUpperCase() + userData.name.slice(1)}
+                {/*userData.name.charAt(0).toUpperCase() + userData.name.slice(1)*/}
 
                 <MdKeyboardArrowDown
                   className={`transition-transform ${
