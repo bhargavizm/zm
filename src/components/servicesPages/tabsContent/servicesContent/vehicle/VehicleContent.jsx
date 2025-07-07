@@ -8,13 +8,17 @@ import NFCModal from "@/components/modalPopUps/nfcModal";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import { setVehicleServices } from "@/redux/slices/servicesSlice";
 import { useDispatch } from "react-redux";
+import { useParams } from "next/navigation";
+import useDesignContext from "@/components/hooks/useDesignContext";
 
 const VehicleContent = () => {
   const { dynamicForms, updateDynamicForm } = useServicesContext();
   const vehicleInfo = dynamicForms.vehicle;
   const vehicleTemplate = dynamicForms.vehicleTemplate;
   const dispatch = useDispatch();
+   const { slug } = useParams();
 
+    const { setActiveTab } = useDesignContext();
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
@@ -142,8 +146,12 @@ const VehicleContent = () => {
         },
       });
 
+     
+
       dispatch(setVehicleServices(response.data));
       toast.success('Vehicle details saved successfully!');
+
+       setActiveTab(slug, "QR Code");
       
       // Reset form after successful submission
       resetForm();
