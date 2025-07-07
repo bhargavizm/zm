@@ -8,7 +8,7 @@ const fileItemSchema = new mongoose.Schema({
 
 const pdfSchema = new mongoose.Schema({
   title: String,
-  description: String,
+  description: String, 
   password: String,
 
   files: [fileItemSchema], // multiple file support

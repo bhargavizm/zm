@@ -5,18 +5,20 @@ import { combineReducers } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // localStorage
 import servicesReducer from "../slices/servicesSlice";
+import urlServiceReducer from "../slices/urlServicesSlice";
 import authReducer from "../slices/authSlice";
-//import urlServiceReducer from '../slices/urlServicesSlice'
+import encryptedServicesReducer from '../slices/encryptedServicesSlice'
 
 // ⛔ Do NOT import thunk manually — it's already included by Redux Toolkit
 // import { thunk } from "redux-thunk";
 
-import urlServiceReducer from "../slices/urlServicesSlice";
+
 
 const rootReducer = combineReducers({
   authentication: authReducer,
   services:servicesReducer,
-  urlService: urlServiceReducer
+  urlService: urlServiceReducer,
+  encryptedServices: encryptedServicesReducer,
 });
 
 const persistConfig = {

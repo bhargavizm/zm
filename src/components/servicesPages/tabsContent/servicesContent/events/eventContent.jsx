@@ -384,7 +384,7 @@ const EventContent = () => {
                   onClick={handleConfirmedSubmit}
                   className="px-4 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700"
                 >
-                  Confirm Submit
+                  Confirm & Submit
                 </button>
               </div>
             </div>

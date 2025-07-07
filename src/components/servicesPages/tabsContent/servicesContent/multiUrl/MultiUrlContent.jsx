@@ -15,6 +15,9 @@ import {
 import NFCModal from "@/components/modalPopUps/nfcModal";
 import { useDispatch } from "react-redux";
 import { setMultiUrlServices } from "@/redux/slices/servicesSlice";
+import toast from "react-hot-toast";
+import useDesignContext from "@/components/hooks/useDesignContext";
+import { useParams } from "next/navigation";
 
 const platformIcons = {
   youtube: <FaYoutube className="text-red-600" />,
@@ -32,6 +35,8 @@ const MultiUrlContent = () => {
     addTemplateField,
     removeTemplateField,
   } = useServicesContext();
+    const { setActiveTab } = useDesignContext();
+  const { slug } = useParams();
 
   const [customLabel, setCustomLabel] = useState("");
   const [customUrl, setCustomUrl] = useState("");
@@ -65,7 +70,6 @@ const MultiUrlContent = () => {
   };
 
   const handleSubmit = () => {
-    // Just open the preview modal
     setShowPreviewModal(true);
   };
 
@@ -86,19 +90,21 @@ const MultiUrlContent = () => {
       });
 
       const result = await response.json();
-      console.log(response, result)
-      dispatch(setMultiUrlServices(result?.multiUrldata))
       if (!response.ok) {
-        
         alert(`Error: ${result.error}`);
         return;
       }
 
+      dispatch(setMultiUrlServices(result.multiUrldata));
       setShowPreviewModal(false);
-      setShowSuccessModal(true);
+     toast.success(result.message)
+ setActiveTab(slug, "QR Code");
+      // Reset form after submission
+      updateDynamicForm("multiUrl", null, null, {});
+      setPassword("");
     } catch (error) {
       console.error("Submission failed", error);
-      alert("An unexpected error occurred");
+      toast.error("An unexpected error occurred");
     }
   };
 
@@ -211,7 +217,7 @@ const MultiUrlContent = () => {
       {/* 🔍 Preview Modal */}
       {showPreviewModal && (
         <div
-          className="fixed inset-0 z-50 bg-white/30 backdrop-blur-sm flex items-center justify-center"
+          className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center"
           onClick={() => setShowPreviewModal(false)}
         >
           <div
@@ -262,7 +268,7 @@ const MultiUrlContent = () => {
                 className="px-4 py-2 rounded bg-[#008080] hover:bg-[#006666] text-white"
                 onClick={confirmSubmit}
               >
-                Confirm
+                Confirm & Submit
               </button>
             </div>
           </div>
@@ -272,7 +278,7 @@ const MultiUrlContent = () => {
       {/* ✅ Success Popup */}
       {showSuccessModal && (
         <div
-          className="fixed inset-0 z-50 bg-white/30 backdrop-blur-sm flex items-center justify-center"
+          className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center"
           onClick={() => setShowSuccessModal(false)}
         >
           <div

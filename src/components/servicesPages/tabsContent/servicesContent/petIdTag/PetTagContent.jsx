@@ -7,16 +7,22 @@ import NFCModal from "@/components/modalPopUps/nfcModal";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { MapPin, Check, X } from "lucide-react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setPetIdServices } from "@/redux/slices/servicesSlice";
+import { useParams, useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const PetTagContent = () => {
+  const { setActiveTab } = useDesignContext();
+  const { slug } = useParams();
   const { petIDFormData, setPetIDFormData } = useServicesContext();
   const { setIsLoading, setBgDesign } = useDesignContext();
-
   const [showPassword, setShowPassword] = useState(false);
   const [file, setFile] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const dispatch = useDispatch();
   const templateImages = ["pet1.webp", "pet2.webp", "pet3.webp", "pet4.webp"];
 
   const handleInputChange = (e) => {
@@ -123,10 +129,23 @@ const PetTagContent = () => {
       reader.onerror = (err) => reject(err);
     });
 
-  const handlePreviewSubmit = (e) => {
-    e.preventDefault();
+const handlePreviewSubmit = (e) => {
+  e.preventDefault();
+
+  const { selectedTemplate, mainImage, ownerInfo, pet } = petIDFormData;
+
+  const isAnyOwnerInfoFilled = Object.values(ownerInfo).some((v) => v && v.trim() !== "");
+  const isAnyPetInfoFilled = Object.values(pet).some((v) => v && v.trim() !== "");
+  const isTemplateSelected = !!selectedTemplate;
+  const isImageUploaded = !!mainImage;
+
+  if (isAnyOwnerInfoFilled || isAnyPetInfoFilled || isTemplateSelected || isImageUploaded) {
     setShowPreviewModal(true);
-  };
+  } else {
+    toast.error("Please fill at least one field before submitting.");
+  }
+};
+
 
   const handleFinalSubmit = async () => {
     setSubmitting(true);
@@ -144,6 +163,9 @@ const PetTagContent = () => {
 
       if (res.status === 201) {
         setShowSuccessModal(true);
+        setActiveTab(slug, "QR Code");
+        dispatch(setPetIdServices(res.data));
+        console.log("Pet ID Tag created successfully:", res.data);
         setTimeout(() => {
           setShowSuccessModal(false);
           // Reset form
@@ -205,11 +227,10 @@ const PetTagContent = () => {
                   <div
                     key={idx}
                     onClick={() => handleTemplateSelect(filename)}
-                    className={`relative rounded-md border-2 cursor-pointer transition-all p-1 ${
-                      petIDFormData.selectedTemplate === filename
-                        ? "border-[#008080] ring-2 ring-[#008080]"
-                        : "border-gray-300"
-                    }`}
+                    className={`relative rounded-md border-2 cursor-pointer transition-all p-1 ${petIDFormData.selectedTemplate === filename
+                      ? "border-[#008080] ring-2 ring-[#008080]"
+                      : "border-gray-300"
+                      }`}
                   >
                     <Image
                       src={`/pet-id/${filename}`}
@@ -279,27 +300,7 @@ const PetTagContent = () => {
                 placeholder="Email Address"
                 className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
               />
-              <div className="relative w-full">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  id="password"
-                  value={petIDFormData.ownerInfo.password}
-                  onChange={handleOwnerChange}
-                  placeholder="QR Password"
-                  className="border p-2 pr-10 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword((prev) => !prev)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600"
-                >
-                  {showPassword ? (
-                    <AiOutlineEye size={20} />
-                  ) : (
-                    <AiOutlineEyeInvisible size={20} />
-                  )}
-                </button>
-              </div>
+
               <div className="space-y-2 col-span-1 md:col-span-2">
                 <textarea
                   id="address"
@@ -338,6 +339,27 @@ const PetTagContent = () => {
                   />
                 ))}
               </div>
+            </div>
+            <div className="relative w-full">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                value={petIDFormData.ownerInfo.password}
+                onChange={handleOwnerChange}
+                placeholder="QR Password"
+                className="border p-2 pr-10 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600"
+              >
+                {showPassword ? (
+                  <AiOutlineEye size={20} />
+                ) : (
+                  <AiOutlineEyeInvisible size={20} />
+                )}
+              </button>
             </div>
 
             <NFCModal />
@@ -382,7 +404,7 @@ const PetTagContent = () => {
                   {renderPreviewField("Pet Name", petIDFormData.pet.name)}
                   {renderPreviewField("Breed", petIDFormData.pet.breed)}
                   {renderPreviewField("Color", petIDFormData.pet.color)}
-                  
+
                   {petIDFormData.mainImage && (
                     <div className="mt-4">
                       <h4 className="text-sm font-medium text-gray-500 mb-2">Pet Image</h4>
