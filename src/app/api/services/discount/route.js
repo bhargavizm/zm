@@ -1,7 +1,7 @@
 import { connectDB } from '@/lib/mongoDB';
 import DiscountModal from '@/models/services/discountSchema';
 import { NextResponse } from 'next/server';
-import cloudinary from '@/uyils/cloudinary';
+import cloudinary from '@/utils/cloudinary';
 
 export async function POST(req) {
   try {

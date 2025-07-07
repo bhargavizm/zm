@@ -1,10 +1,11 @@
 "use client";
 
+import useDesignContext from "@/components/hooks/useDesignContext";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import NFCModal from "@/components/modalPopUps/nfcModal";
 import { setEventServices } from "@/redux/slices/servicesSlice";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import {
@@ -28,6 +29,8 @@ const EventContent = () => {
   const [showLocationOptions, setShowLocationOptions] = useState(false);
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const { setActiveTab } = useDesignContext();
+    const { slug } =useParams();
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -87,6 +90,7 @@ const EventContent = () => {
       contactName: eventsFormData.contactName,
       contactEmail: eventsFormData.contactEmail,
       contactPhone: eventsFormData.contactPhone,
+      password:eventsFormData.password
     };
 
     try {
@@ -99,6 +103,7 @@ const EventContent = () => {
       if (response.data.success) {
         dispatch(setEventServices(response.data.fileData));
         toast.success("Text submitted successfully!");
+        setActiveTab(slug, "QR Code");
         setShowConfirmModal(false);
 
         // Reset form
@@ -312,7 +317,7 @@ const EventContent = () => {
                 onClick={handlePassword}
                 className="absolute right-3 top-9 text-gray-600"
               >
-                {showPassword ? <FiEyeOff /> : <FiEye />}
+                {!showPassword ? <FiEyeOff /> : <FiEye />}
               </button>
             </div>
 
@@ -379,7 +384,7 @@ const EventContent = () => {
                   onClick={handleConfirmedSubmit}
                   className="px-4 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700"
                 >
-                  Confirm Submit
+                  Confirm & Submit
                 </button>
               </div>
             </div>

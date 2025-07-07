@@ -275,14 +275,17 @@ const PropertyContent = () => {
     showPassword,
     setShowPassword,
   } = useServicesContext();
+
   const { setActiveTab } = useDesignContext();
-const { slug } =useParams();
+  const { slug } = useParams();
+  const router = useRouter();
+  const dispatch = useDispatch();
 
   const [password, setPassword] = useState("");
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [galleryPreview, setGalleryPreview] = useState([]);
 
-  const dispatch = useDispatch();
-  const router = useRouter();
+  const galleryInputRef = useRef(null);
 
   const [deletedFields, setDeletedFields] = useState({
     basicInfo: [],
@@ -290,8 +293,6 @@ const { slug } =useParams();
     pricingInfo: [],
     images: [],
   });
-
-  const galleryInputRef = useRef(null);
 
   const propertyData = dynamicForms.propertyDetails || {
     basicInfo: {},
@@ -328,7 +329,23 @@ const { slug } =useParams();
   };
 
   const handleImageChange = (section, key, files) => {
+    const previews = files.map((file) => ({
+      file,
+      url: URL.createObjectURL(file),
+    }));
+
     updateDynamicForm("propertyDetails", section, key, files);
+    setGalleryPreview(previews);
+  };
+
+  const handleDeleteImage = (index) => {
+    const newPreview = [...galleryPreview];
+    newPreview.splice(index, 1);
+    setGalleryPreview(newPreview);
+
+    const remainingFiles = newPreview.map((item) => item.file);
+    updateDynamicForm("propertyDetails", "images", "galleryImages", remainingFiles);
+    if (galleryInputRef.current) galleryInputRef.current.value = "";
   };
 
   const fetchCurrentLocation = async () => {
@@ -370,7 +387,6 @@ const { slug } =useParams();
 
     const formData = new FormData();
     const data = dynamicForms.propertyDetails;
-
     formData.append("password", password);
 
     const { images, ...otherSections } = data;
@@ -386,6 +402,23 @@ const { slug } =useParams();
     }
 
     const galleryImages = images?.galleryImages || [];
+
+    let totalSize = 0;
+    for (const file of galleryImages) {
+      if (!(file instanceof File)) continue;
+      totalSize += file.size;
+
+      if (file.size > 2 * 1024 * 1024) {
+        toast.error(`❌ Each file must be ≤ 2MB. "${file.name}" is too large.`);
+        return;
+      }
+    }
+
+    if (totalSize > 30 * 1024 * 1024) {
+      toast.error("❌ Total image size must be ≤ 30MB");
+      return;
+    }
+
     galleryImages.forEach((file) => {
       if (file instanceof File) {
         formData.append("galleryImages", file);
@@ -398,20 +431,10 @@ const { slug } =useParams();
         toast.success("Property submitted successfully!");
         setActiveTab(slug, "QR Code");
         resetForm();
-        resetDynamicForm();                         // ✅ Clear form state
-        setPassword("");                            // ✅ Clear password
-        dispatch(setPropertyServices(null));        // ✅ Clear Redux data
-
-        if (galleryInputRef.current) {
-          galleryInputRef.current.value = "";       // ✅ Clear input file manually
-        }
-
-        setDeletedFields({                          // ✅ Reset deleted fields
-          basicInfo: [],
-          addressInfo: [],
-          pricingInfo: [],
-          images: [],
-        });
+        resetDynamicForm();
+        setPassword("");
+        dispatch(setPropertyServices(null));
+        setDeletedFields({ basicInfo: [], addressInfo: [], pricingInfo: [], images: [] });
       } else {
         throw new Error(response.data.error || "Upload failed");
       }
@@ -445,6 +468,8 @@ const { slug } =useParams();
         galleryImages: [],
       },
     });
+    setGalleryPreview([]);
+    if (galleryInputRef.current) galleryInputRef.current.value = "";
   };
 
   return (
@@ -460,20 +485,44 @@ const { slug } =useParams();
           {fields
             .filter((key) => propertyData[section]?.[key] !== undefined)
             .map((key) => (
-              <div key={key} className="flex items-start md:items-center space-x-2">
+              <div key={key} className="flex flex-col space-y-2">
                 {key === "galleryImages" ? (
-                  <input
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    ref={galleryInputRef}
-                    onChange={(e) =>
-                      handleImageChange(section, key, Array.from(e.target.files))
-                    }
-                    className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
-                  />
+                  <>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      ref={galleryInputRef}
+                      onChange={(e) =>
+                        handleImageChange(section, key, Array.from(e.target.files))
+                      }
+                      className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
+                    />
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {galleryPreview.map((item, idx) => (
+                        <div key={idx} className="relative w-24 h-24 rounded border overflow-hidden shadow-sm">
+                          <img
+                            src={item.url}
+                            alt={`Preview ${idx + 1}`}
+                            className="object-cover w-full h-full"
+                          />
+                          <button
+                            onClick={() => handleDeleteImage(idx)}
+                            
+                            className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center hover:bg-red-600"
+                            title="Remove"
+                          >
+                            &times;
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-sm text-gray-500 mt-1">
+                      {galleryPreview.length} file{galleryPreview.length !== 1 ? "s" : ""} selected
+                    </p>
+                  </>
                 ) : key === "address" ? (
-                  <div className="flex-1 space-y-2">
+                  <div className="space-y-2">
                     <textarea
                       rows={3}
                       name={key}
@@ -485,30 +534,31 @@ const { slug } =useParams();
                     <button
                       type="button"
                       onClick={fetchCurrentLocation}
-                      className="flex items-center justify-center w-full py-2 px-3 bg-gray-100 hover:bg-gray-300 text-gray-700 text-sm rounded-lg transition-colors duration-200 cursor-pointer"
+                      className="flex items-center justify-center w-full py-2 px-3 bg-[#008080] hover:bg-[#006666] text-white text-sm rounded-lg transition-colors duration-200 cursor-pointer"
                     >
                       <MapPin size={16} className="mr-2" />
                       Use Current Location
                     </button>
                   </div>
                 ) : (
-                  <input
-                    type="text"
-                    name={key}
-                    placeholder={key.replace(/([A-Z])/g, " $1")}
-                    value={propertyData[section][key]}
-                    onChange={(e) => handleChange(section, key, e.target.value)}
-                    className="border p-2 rounded flex-1"
-                  />
+                  <div className="flex items-start md:items-center space-x-2">
+                    <input
+                      type="text"
+                      name={key}
+                      placeholder={key.replace(/([A-Z])/g, " $1")}
+                      value={propertyData[section][key]}
+                      onChange={(e) => handleChange(section, key, e.target.value)}
+                      className="border p-2 rounded flex-1"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveField(section, key)}
+                      className="hover:bg-red-200 mt-1"
+                    >
+                      <FiTrash2 className="text-red-700" />
+                    </button>
+                  </div>
                 )}
-
-                <button
-                  type="button"
-                  onClick={() => handleRemoveField(section, key)}
-                  className="hover:bg-red-200 mt-1"
-                >
-                  <FiTrash2 className="text-red-700" />
-                </button>
               </div>
             ))}
 
@@ -580,7 +630,7 @@ const { slug } =useParams();
                 onClick={handleConfirmedSubmit}
                 className="px-4 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700"
               >
-                Confirm Submit
+                Confirm & Submit
               </button>
             </div>
           </div>
@@ -591,6 +641,8 @@ const { slug } =useParams();
 };
 
 export default PropertyContent;
+
+
 
 
 

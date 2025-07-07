@@ -8,13 +8,17 @@ import NFCModal from "@/components/modalPopUps/nfcModal";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import { setVehicleServices } from "@/redux/slices/servicesSlice";
 import { useDispatch } from "react-redux";
+import { useParams } from "next/navigation";
+import useDesignContext from "@/components/hooks/useDesignContext";
 
 const VehicleContent = () => {
   const { dynamicForms, updateDynamicForm } = useServicesContext();
   const vehicleInfo = dynamicForms.vehicle;
   const vehicleTemplate = dynamicForms.vehicleTemplate;
   const dispatch = useDispatch();
+   const { slug } = useParams();
 
+    const { setActiveTab } = useDesignContext();
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
@@ -142,8 +146,12 @@ const VehicleContent = () => {
         },
       });
 
+     
+
       dispatch(setVehicleServices(response.data));
       toast.success('Vehicle details saved successfully!');
+
+       setActiveTab(slug, "QR Code");
       
       // Reset form after successful submission
       resetForm();
@@ -369,7 +377,7 @@ const VehicleContent = () => {
               className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors duration-200 flex items-center"
             >
               <Check className="mr-2 w-4 h-4" />
-              Confirm
+              Confirm & Submit
             </button>
           </div>
         </div>
