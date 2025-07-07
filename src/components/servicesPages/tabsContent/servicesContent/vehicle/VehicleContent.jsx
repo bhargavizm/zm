@@ -8,13 +8,17 @@ import NFCModal from "@/components/modalPopUps/nfcModal";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import { setVehicleServices } from "@/redux/slices/servicesSlice";
 import { useDispatch } from "react-redux";
+import { useParams } from "next/navigation";
+import useDesignContext from "@/components/hooks/useDesignContext";
 
 const VehicleContent = () => {
   const { dynamicForms, updateDynamicForm } = useServicesContext();
   const vehicleInfo = dynamicForms.vehicle;
   const vehicleTemplate = dynamicForms.vehicleTemplate;
   const dispatch = useDispatch();
+   const { slug } = useParams();
 
+    const { setActiveTab } = useDesignContext();
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
@@ -50,23 +54,15 @@ const VehicleContent = () => {
   const validateForm = () => {
     const newErrors = {};
     
-    if (!vehicleInfo.general.vehicleModel?.trim()) {
-      newErrors.vehicleModel = 'Vehicle model is required';
-    }
     
-    if (!vehicleInfo.registration.rcNumber?.trim()) {
-      newErrors.rcNumber = 'RC number is required';
-    }
+    
+    
     
     if (!vehicleInfo.media.vehicleImage) {
       newErrors.vehicleImage = 'Vehicle image is required';
     }
     
-    if (!vehicleInfo.security.password?.trim()) {
-      newErrors.password = 'Password is required';
-    } else if (vehicleInfo.security.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
-    }
+    
     
     // Check file sizes
     if (totalFileSize > MAX_TOTAL_FILE_SIZE) {
@@ -150,8 +146,12 @@ const VehicleContent = () => {
         },
       });
 
+     
+
       dispatch(setVehicleServices(response.data));
       toast.success('Vehicle details saved successfully!');
+
+       setActiveTab(slug, "QR Code");
       
       // Reset form after successful submission
       resetForm();
@@ -360,7 +360,7 @@ const VehicleContent = () => {
             Confirm Submission
           </h3>
           <p className="text-gray-600 mb-6">
-            Are you sure you want to submit this vehicle information? Please review all details before confirming.
+            Are you sure you want to submit? Please review all details before confirming.
           </p>
           <div className="flex justify-end space-x-3">
             <button
@@ -377,7 +377,7 @@ const VehicleContent = () => {
               className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors duration-200 flex items-center"
             >
               <Check className="mr-2 w-4 h-4" />
-              Confirm
+              Confirm & Submit
             </button>
           </div>
         </div>

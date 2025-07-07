@@ -1,98 +1,118 @@
-import { createSlice } from '@reduxjs/toolkit'
+
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    resumeServiceData:[],
+  resumeServiceData: [],
+  wifiServicesData: [],
+  menuCardServiceData: [],
+  textMessageData: [],
+  smsServiceData: [],
+  vehicleServiceData: [],
+  discountServicesData: [],
+  eventServiceData: [],
+  multiServicesData: [],
+  propertyServiceData: [],
+  petIDServicesData: [],
+  kidsSafetyServicesData: [],
+  pdfServiceData: [],
+  audioServiceData: [],
+  videoServiceData: [],
+  galleryServiceData: [],
+  error: null,
+};
 
-    menuCardServiceData:[],
-
-    pdfServiceData:[],
-    textMessageData:[],
-    smsServiceData:[],
-    medicalServiceData:[],
-    vehicleServiceData:[],
-
-    error: null
-}
-
-    
 const servicesSlice = createSlice({
-    name: 'Services',
-    initialState,
-    reducers: {
-        setResumeServices: (state, action) => {
-            return {
-                ...state,
-                resumeServiceData: action.payload,
-                error: null
-            }
-        },
-         setPDFServices: (state, action) => {
-            return {
-                ...state,
-                pdfServiceData: action.payload,
-                error: null
-            }
-        },
+  name: "services",
+  initialState,
+  reducers: {
+    // Regular Services
+    setResumeServices: (state, action) => ({
+      ...state,
+      resumeServiceData: action.payload,
+      error: null,
+    }),
+    setMenuCardServices: (state, action) => ({
+      ...state,
+      menuCardServiceData: action.payload,
+      error: null,
+    }),
+    setTextMessageServices: (state, action) => ({
+      ...state,
+      textMessageData: action.payload,
+      error: null,
+    }),
+    setSmsServices: (state, action) => ({
+      ...state,
+      smsServiceData: action.payload,
+      error: null,
+    }),
+    setVehicleServices: (state, action) => ({
+      ...state,
+      vehicleServiceData: action.payload,
+      error: null,
+    }),
+    setEventServices: (state, action) => ({
+      ...state,
+      eventServiceData: action.payload,
+      error: null,
+    }),
+    setMultiUrlServices: (state, action) => ({
+      ...state,
+      multiServicesData: action.payload,
+      error: null,
+    }),
+    setWifiServices: (state, action) => ({
+      ...state,
+      wifiServicesData: action.payload,
+      error: null,
+    }),
+    setPropertyServices: (state, action) => ({
+      ...state,
+      propertyServiceData: action.payload,
+      error: null,
+    }),
+     setDiscountServices: (state, action) => ({
+      ...state,
+      discountServicesData : action.payload,
+      error : null,
+    }),
 
-        setMenuCardServices: (state, action) => {
-            return {
-                ...state,
-                menuCardServiceData: action.payload,
-                error: null
-            }
-        },
 
+    // Encrypted Services
+    setPetIdServices: (state, action) => ({
+      ...state,
+      petIDServicesData: action.payload,
+      error: null,
+    }),
+    setKidsSafetyServices: (state, action) => ({
+      ...state,
+      kidsSafetyServicesData: action.payload,
+      error: null,
+    }),
 
-        setTextMessageServices: (state, action) => {
-            return {
-                ...state,
-                textMessageData: action.payload,
-                error: null
-            }
-        },
-        setSmsServices: (state, action) => {
-            return{
-                ...state,
-                smsServiceData: action.payload,
-                error: null
-            }
-        },
-        setVehicleServices:(state,action)=>{
-            return{
-                ...state,
-                vehicleServiceData:action.payload,
-                error:null
-            }
-        },
-        setmedicalServices:(state,action)=>{
-            return{
-                ...state,
-                medicalServiceData:action.payload,
-                error:null
-            }
-        },
-
-        clearError: (state) => {
-            state.error = null;
-        },
-    }
-})
+    // Error handling
+    clearError: (state) => ({
+      ...state,
+      error: null,
+    }),
+  },
+});
 
 export const {
-    setResumeServices,
-    setPDFServices,
+  setResumeServices,
+  setMenuCardServices,
+  setTextMessageServices,
+  setSmsServices,
+  setVehicleServices,
+  setEventServices,
+  setMultiUrlServices,
+  setWifiServices,
+  setPropertyServices,
+  setPetIdServices,
+  setKidsSafetyServices,
+  setDiscountServices,
 
-    setMenuCardServices,
+  clearError,
+} = servicesSlice.actions;
 
-
-    setTextMessageServices,
-    setSmsServices,
-
-    setVehicleServices,
-    setmedicalServices,
-
-    clearError
-}
-    = servicesSlice.actions
-
-export default servicesSlice.reducer
+export default servicesSlice.reducer;

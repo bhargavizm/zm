@@ -91,7 +91,7 @@ const Template3 = ({ data }) => {
     <div
       className="relative w-full bg-cover bg-center rounded-xl overflow-hidden shadow-lg p-6 flex flex-col items-center justify-center text-white text-center"
       style={{
-        backgroundImage: `url('/images/normal/businessShop3.webp')`, // Use a gold showroom-style background
+        backgroundImage: `url('/images/normal/template3Shop.webp')`, // Use a gold showroom-style background
         minHeight: '300px',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -117,19 +117,16 @@ const Template3 = ({ data }) => {
 
       {/* Subheading */}
       <p className="relative z-10 text-md font-semibold text-[#fffaf0] tracking-widest mb-4">
-        {data.subtitle || 'EXQUISITE JEWELLERY COLLECTION'}
+        {data.description || 'EXQUISITE JEWELLERY COLLECTION'}
       </p>
 
-      {/* Jewelry Showcase Image */}
-      <div className="relative z-30 w-36 h-36 mx-auto mb-4">
-        <Image
-          src="/images/templates/businessShop3.jpg" // Replace with actual jewelry image
-          alt="Jewelry"
-          layout="fill"
-          objectFit="contain"
-          priority
-        />
-      </div>
+<p className="relative z-10 text-md font-semibold text-[#fffaf0] tracking-widest mb-4">
+        {data.timings || '10AM - 10PM'}
+      </p>
+      
+      <p className="relative z-10 text-md font-semibold text-[#fffaf0] tracking-widest mb-4">
+        {data.day || '10AM - 10PM'}
+      </p>
 
       {/* Timings */}
       <div className="relative z-10 w-full max-h-[160px] overflow-y-auto hide-scrollbar space-y-2">
@@ -144,7 +141,7 @@ const Template3 = ({ data }) => {
             </div>
           ))
         ) : (
-          <p className="text-white text-sm italic">No timing info provided</p>
+          <p className="text-white text-sm italic"></p>
         )}
       </div>
 
@@ -152,6 +149,10 @@ const Template3 = ({ data }) => {
       <div className="relative z-10 w-full mt-4 text-[#ffefdb] bg-[#3b2316]/80 py-3 rounded-lg font-semibold tracking-wide">
         {data.footerText || 'OPEN ALL WEEK | TRADITION MEETS ELEGANCE'}
       </div>
+      <p className="relative z-10 text-md font-semibold text-[#fffaf0] tracking-widest mt-10 mb-4">
+        {data.addressLine1 || '123 Anywhere St., Any City, ST 12345'}
+      </p>
+      
     </div>
   );
 };

@@ -3,6 +3,10 @@
 import mongoose from "mongoose";
 
 const eventSchema = new mongoose.Schema({
+  user: {
+           id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+          name: String,
+        },
   organizer: { type: String,  },
   title: { type: String, },
   summary: { type: String },
@@ -13,6 +17,7 @@ const eventSchema = new mongoose.Schema({
   contactName: { type: String },
   contactEmail: { type: String },
   contactPhone: { type: String },
+  password:{type:String},
 }, {
   timestamps: true, // optional: adds createdAt and updatedAt fields
 });

@@ -1,27 +1,25 @@
 import mongoose from "mongoose";
 
-const audioSchema = new mongoose.Schema(
-  {
-    title: {
-      type: String,
-      trim: true,
-    },
-    description: {
-      type: String,
-      trim: true,
-    },
-    audioFileName: {
-      type: String,
-      required: true,
-    },
-    password: {
-      type: String,
-    },
+const fileItemSchema = new mongoose.Schema({
+  fileData: Buffer,
+  fileName: String,
+  fileType: String,
+});
+
+const audioSchema = new mongoose.Schema({
+  title: String,
+  description: String,
+  password: String,
+
+  files: [fileItemSchema], // multiple file support
+
+  user: {
+    id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    name: String,
   },
-  { timestamps: true }
-);
+}, { timestamps: true });
 
-// Prevent model overwrite issue in Next.js hot reloading
-const AudioModal = mongoose.models.Audio || mongoose.model("Audio", audioSchema);
+const AudioServiceModel =
+  mongoose.models.AudioService || mongoose.model("AudioService", audioSchema);
 
-export default AudioModal;
+export default AudioServiceModel;

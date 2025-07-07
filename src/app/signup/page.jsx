@@ -16,7 +16,6 @@
 //     });
 
 //     const [visiblePasswords, setVisiblePasswords] = useState({
-
 //         password: false,
 //         confirmPassword: false,
 //     });

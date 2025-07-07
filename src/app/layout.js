@@ -2,7 +2,7 @@ import "./globals.css";
 import Footer from "@/components/footer/footer";
 import Navbar from "@/components/navbar/navbar";
 import ScrollToTop from "@/components/scrollToTop/scrollToTop";
-import OfferScrolling from "@/components/scrolling/offerScrolling";
+//import OfferScrolling from "@/components/scrolling/offerScrolling";
 import { LanguageProvider } from "@/context/languageContext/LanguageContext";
 import DesignProvider from "@/context/qrCodeDesignContext/DesignProvider";
 import ServicesProvider from "@/context/servicesContext/SercivesProvider";
@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
                 <DesignProvider>
                   <ScrollToTop />
                   <Navbar />
-                  {/* <OfferScrolling /> */}
+                  {/* <OfferScrolling />  */}
                   <main>{children}</main>
                   <Footer />
                 </DesignProvider>
