@@ -8,6 +8,22 @@ export const directToCustomize = [
 ];
 
 export    const componentMap = {
+   audios: {
+    content: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/encryptedServices/audio/audioContent')),
+    preview: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/encryptedServices/audio/audioPreview')),
+  },
+   "pdf": {
+    content: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/encryptedServices/pdf/pdfContent')),
+    preview: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/encryptedServices/pdf/pdfPreview')),
+  },
+  videos: {
+    content: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/encryptedServices/video/videoContent')),
+    preview: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/encryptedServices/video/videoPreview')),
+  },
+    gallery: {
+    content: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/encryptedServices/gallery/galleryContent')),
+    preview: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/encryptedServices/gallery/galleryPreview')),
+  },
   "business-cards": {
     content: dynamic(() => import("@/components/servicesPages/tabsContent/servicesContent/business/businessContent")),
     preview: dynamic(() => import("@/components/servicesPages/tabsContent/servicesContent/business/businessPreview")),
@@ -20,26 +36,11 @@ export    const componentMap = {
     content: dynamic(() => import("@/components/servicesPages/tabsContent/servicesContent/product/ProductContent")),
     preview: dynamic(() => import("@/components/servicesPages/tabsContent/servicesContent/product/productPreview")),
   },
-  audios: {
-    content: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/audio/audioContent')),
-    preview: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/audio/audioPreview')),
-  },
-   "pdf": {
-    content: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/pdf/pdfContent')),
-    preview: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/pdf/pdfPreview')),
-  },
-  videos: {
-    content: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/video/videoContent')),
-    preview: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/video/videoPreview')),
-  },
   "Pet-ID-tags": {
     content: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/petIdTag/PetTagContent')),
     preview: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/petIdTag/petIDTagPreview')),
   },
-  gallery: {
-    content: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/gallery/galleryContent')),
-    preview: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/gallery/galleryPreview')),
-  },
+
   resumes: {
     content: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/resume/resumeContent')),
     preview: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/resume/resumePreview')),

@@ -230,6 +230,25 @@ const DiscountCouponContent = () => {
                 </div>
               )}
 
+
+      <div className="flex justify-end gap-4 mt-6">
+        <button
+          className="px-4 py-2 border border-gray-300 rounded-md text-gray-600 hover:bg-gray-100"
+          onClick={() => setShowPreview(false)}
+        >
+          Edit
+        </button>
+        <button
+          className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700"
+          onClick={handleConfirm}
+        >
+          Confirm & Submit
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
               {discountCoupon.couponImage && (
                 <div>
                   <p className="font-semibold mt-2">Coupon Image:</p>
@@ -241,6 +260,7 @@ const DiscountCouponContent = () => {
                 </div>
               )}
             </div>
+
 
             <div className="flex justify-end gap-4 mt-6">
               <button
