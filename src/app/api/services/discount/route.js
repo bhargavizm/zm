@@ -1,5 +1,5 @@
-import { connectDB } from '@/lib/db';
-import DiscountModal from '@/models/services/discountCouponSchema';
+import { connectDB } from '@/lib/mongoDB';
+import DiscountModal from '@/models/services/discountSchema';
 import { NextResponse } from 'next/server';
 
 export async function POST(req) {

@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 const businessSchema = new mongoose.Schema(
   {
+    user: {
+          id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+          name: String,
+        },
     name: {
       type: String,
       trim: true,
@@ -12,7 +16,6 @@ const businessSchema = new mongoose.Schema(
     },
     mobile: {
       type: String,
-      required: true,
       trim: true,
     },
     designation: {
