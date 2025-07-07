@@ -148,7 +148,7 @@ function validateVehicleData(data) {
   };
 }
 
-export async function POST(req) {
+export async function POST(request) {
 
   const auth = await authUser(request);
       if (auth.status !== 200) {
@@ -161,7 +161,7 @@ export async function POST(req) {
 
   try {
     // Parse form data
-    const fields = await parseFormData(req);
+    const fields = await parseFormData(request);
 
     
 
@@ -189,10 +189,12 @@ export async function POST(req) {
     // Handle file uploads
     const mediaUrls = await handleFileUploads(fields);
 
-    if (fields.password) {
-          const salt = await bcrypt.genSalt(10);
-          hashedPassword = await bcrypt.hash(fields.password, salt);
-        }
+  let hashedPassword = '';
+if (fields.password) {
+  const salt = await bcrypt.genSalt(10);
+  hashedPassword = await bcrypt.hash(fields.password, salt);
+}
+
 
     // Prepare vehicle data for database
     const vehicleData = {

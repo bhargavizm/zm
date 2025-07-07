@@ -1,0 +1,11 @@
+# robots.txt for https://www.zmqrcode.com
+
+User-agent: *
+Disallow: /login
+Disallow: /signup
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /admin-dashboard
+Disallow: /user-dashboard
+
+Sitemap: https://www.zmqrcode.com/sitemap.xml
