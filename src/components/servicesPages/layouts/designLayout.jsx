@@ -18,7 +18,7 @@ const encryptedSlugs = ["audios", "videos", "gallery", "pdf"];
 const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
   const { slug } = useParams();
   const { getActiveTab, setActiveTab } = useDesignContext();
-const activeTab = getActiveTab(slug);
+  const activeTab = getActiveTab(slug);
 
   const [activePreview, setActivePreview] = useState("eye");
 
@@ -49,28 +49,26 @@ const activeTab = getActiveTab(slug);
               </h1>
               {/* ...rest of your layout */}
 
-          {/* Tabs */}
-<div className="flex justify-center items-center text-center gap-9 bg-[#58b8b8] px-6 shadow-lg py-3 mb-4">
-  {tabs.map((tab) => (
-    <button
-      key={tab}
-     // onClick={() => setActiveTab(tab)}
-     onClick={() => setActiveTab(slug, tab)}
-
-      className={`px-2 py-1 text-lg whitespace-nowrap rounded-xl transition-all duration-200 ${
-        activeTab === tab
-          ? "bg-white text-mainGreen font-bold"
-          : "text-white hover:bg-white hover:text-mainGreen"
-      }`}
-    >
-      {tab}
-    </button>
-  ))}
-</div>
-
+              {/* Tabs */}
+              <div className="flex justify-center items-center text-center gap-9 bg-[#58b8b8] px-6 shadow-lg py-3 mb-4">
+                {tabs.map((tab) => (
+                  <button
+                    key={tab}
+                    // onClick={() => setActiveTab(tab)}
+                    onClick={() => setActiveTab(slug, tab)}
+                    className={`px-2 py-1 text-lg whitespace-nowrap rounded-xl transition-all duration-200 ${
+                      activeTab === tab
+                        ? "bg-white text-mainGreen font-bold"
+                        : "text-white hover:bg-white hover:text-mainGreen"
+                    }`}
+                  >
+                    {tab}
+                  </button>
+                ))}
+              </div>
 
               {/* Tab Content */}
-              <div className="px-4 pb-6 h-[100vh] overflow-y-auto scrollbar-hide">
+              <div className="px-4 pb-6 h-[90vh] overflow-y-auto scrollbar-hide">
                 {activeTab === "Content" && <ContentTabComponent />}
 
                 {activeTab === "Backdrop Designs" && <BackdropDesigns />}
@@ -113,7 +111,7 @@ const activeTab = getActiveTab(slug);
                         onClick={handleClick}
                         className="  px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
                       >
-                        Download  <FaLongArrowAltDown />
+                        Download <FaLongArrowAltDown />
                       </button>
                     </div>
                   </>
@@ -136,11 +134,10 @@ const activeTab = getActiveTab(slug);
 
         {/* mobile layout */}
         <div className="md:hidden bg-white rounded-xl shadow-xl w-full  relative pb-4 overflow-y-auto scrollbar-hide">
-
           <div className="grid md:grid-cols-12  grid-cols-1 gap-4 md:mx-9">
-                      <h1 className="text-xl font-bold px-6 pt-4 text-mainGreen ">
-                {formatServiceName(slug)}
-              </h1>
+            <h1 className="text-xl font-bold px-6 pt-4 text-mainGreen ">
+              {formatServiceName(slug)}
+            </h1>
             {/* left Preview Panel */}
             <div className="col-span-6 lg:col-span-5 bg-white rounded-3xl shadow-lg lg:mt-0">
               <div className="flex justify-center gap-4  mb-4 bg-[#58b8b8] shadow-lg py-2 mt-4 ">
@@ -166,7 +163,7 @@ const activeTab = getActiveTab(slug);
                 </div>
               </div>
 
-              <div className="px-4 " >
+              <div className="px-4 ">
                 {activePreview === "scan" && (
                   <>
                     <div className="h-[40vh] overflow-y-auto scrollbar-hide ">
@@ -176,7 +173,7 @@ const activeTab = getActiveTab(slug);
                           onClick={handleClick}
                           className="  px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
                         >
-                          Download  <FaLongArrowAltDown />
+                          Download <FaLongArrowAltDown />
                         </button>
                       </div>
                     </div>
@@ -196,8 +193,6 @@ const activeTab = getActiveTab(slug);
                   </div>
                 )}
               </div>
-                
-                
             </div>
 
             {/* right Panel */}
@@ -210,9 +205,8 @@ const activeTab = getActiveTab(slug);
                 {tabs.map((tab) => (
                   <button
                     key={tab}
-                  //  onClick={() => setActiveTab(tab)}
-                  onClick={() => setActiveTab(slug, tab)}
-
+                    //  onClick={() => setActiveTab(tab)}
+                    onClick={() => setActiveTab(slug, tab)}
                     className={`px-4 py-2 text-xl rounded-xl cursor-pointer ${
                       activeTab === tab
                         ? "bg-white text-mainGreen font-bold"
@@ -248,8 +242,6 @@ const activeTab = getActiveTab(slug);
 };
 
 export default DesignLayout;
-
-
 
 // "use client";
 // import React, { useEffect, useRef, useState } from "react";

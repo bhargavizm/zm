@@ -2,9 +2,11 @@
 // Or: pages/api/services/vehicle.js (Pages Router)
 
 import { connectDB } from "@/lib/mongoDB";
+import { authUser } from "@/middlewares/authMiddleware";
 import VehicleModel from "@/models/services/vehicleSchema";
 import { v2 as cloudinary } from 'cloudinary';
 import { Readable } from 'stream';
+import bcrypt from "bcryptjs";
 
 // Configure Cloudinary
 cloudinary.config({
@@ -146,12 +148,22 @@ function validateVehicleData(data) {
   };
 }
 
-export async function POST(req) {
+export async function POST(request) {
+
+  const auth = await authUser(request);
+      if (auth.status !== 200) {
+        return Response.json(auth.json, { status: auth.status });
+      }
+  
+      const user = auth.user;
+
   await connectDB();
 
   try {
     // Parse form data
-    const fields = await parseFormData(req);
+    const fields = await parseFormData(request);
+
+    
 
     // Validate data
     const { isValid, errors } = validateVehicleData({
@@ -177,8 +189,19 @@ export async function POST(req) {
     // Handle file uploads
     const mediaUrls = await handleFileUploads(fields);
 
+  let hashedPassword = '';
+if (fields.password) {
+  const salt = await bcrypt.genSalt(10);
+  hashedPassword = await bcrypt.hash(fields.password, salt);
+}
+
+
     // Prepare vehicle data for database
     const vehicleData = {
+       user: {
+        id: user._id,
+        name: user.name,
+      },
       template: {
         selectedTemplate: fields.selectedTemplate || 'none',
       },
@@ -199,7 +222,7 @@ export async function POST(req) {
       },
       media: mediaUrls,
       security: {
-        password: fields.password, // In production, hash this password
+        password: hashedPassword, // In production, hash this password
       },
     };
 

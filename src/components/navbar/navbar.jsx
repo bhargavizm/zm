@@ -22,7 +22,11 @@ const Navbar = () => {
   const router = useRouter();
   const { dictionary } = useLanguage();
   const pathname = usePathname();
-  const isActive = (route) => pathname.startsWith(route);
+const isActive = (route) => {
+  if (route === "/") return pathname === "/";
+  return pathname.startsWith(route);
+};
+
 
   // Close dropdowns on outside click
   useEffect(() => {
@@ -121,7 +125,7 @@ const Navbar = () => {
                 }
                 className="hover:text-gray-300 flex items-center gap-1 cursor-pointer"
               >
-                {/*userData.name.charAt(0).toUpperCase() + userData.name.slice(1)*/}
+                {userData && userData?.name && userData?.name?.charAt(0)?.toUpperCase() + userData.name.slice(1)}
 
                 <MdKeyboardArrowDown
                   className={`transition-transform ${
