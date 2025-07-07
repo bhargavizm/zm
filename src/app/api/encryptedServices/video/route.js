@@ -1,69 +1,104 @@
 import VideoServiceModel from "@/models/services/videoSchema";
-import { cloudinary } from "@/utils/cloudinary";
-import { authUser } from "@/middlewares/authMiddleware";
+import { HandleEncryptedServices } from "../common/encryptedServicesRoute";
+
+ const videoMimeTypes = [
+  "video/mp4",
+  "video/webm",
+  "video/ogg",
+  "video/x-matroska",
+  "video/quicktime",
+  "video/x-msvideo",
+  "video/x-ms-wmv",
+  "video/x-matroska",
+  "video/webm",
+  "video/x-flv",
+  "video/mpeg",
+  "video/MP2T",
+  "video/MP2T"
+];
 
 export async function POST(request) {
-  try {
-    const auth = await authUser(request);
-    if (auth.status !== 200) {
-      return new Response(JSON.stringify(auth.json), {
-        status: auth.status,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
-
-    const currentUser = auth.user;
-    await connectDB();
-
-    const formData = await request.formData();
-    const title = formData.get("title");
-    const description = formData.get("description");
-    const password = formData.get("password") || "";
-
-    const files = formData.getAll("files");
-    if (!files.length) {
-      return NextResponse.json({ success: false, error: "No video files uploaded" }, { status: 400 });
-    }
-
-    const uploadedVideos = [];
-
-    for (const file of files) {
-      if (!file || typeof file.arrayBuffer !== "function") continue;
-
-      const buffer = Buffer.from(await file.arrayBuffer());
-      const base64Data = `data:${file.type};base64,${buffer.toString("base64")}`;
-
-      const result = await cloudinary.uploader.upload(base64Data, {
-        folder: "video_uploads",
-        resource_type: "video",
-      });
-
-      uploadedVideos.push({
-        url: result.secure_url,
-        name: file.name || result.original_filename,
-      });
-    }
-
-    const newVideo = await VideoServiceModel.create({
-      title,
-      description,
-      password,
-      videos: uploadedVideos,
-      user: {
-        id: currentUser._id,
-        name: currentUser.name,
-      },
-    });
-
-    return NextResponse.json(
-      { success: true, message: "Videos uploaded successfully", data: newVideo },
-      { status: 201 }
-    );
-  } catch (error) {
-    console.error("Video Upload Error:", error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
-  }
+  return HandleEncryptedServices({
+    request,
+    model: VideoServiceModel,
+    useCloudinary: true,
+    folder: "video_uploads",
+    resourceType: "video",
+    mediaField: "videos",
+    allowedMimeTypes: videoMimeTypes, // allow all video types
+  });
 }
+
+
+
+// import VideoServiceModel from "@/models/services/videoSchema";
+// import { cloudinary } from "@/utils/cloudinary";
+// import { authUser } from "@/middlewares/authMiddleware";
+// import { connectDB } from "@/lib/mongoDB";
+// import { NextResponse } from "next/server";
+
+// export async function POST(request) {
+//   try {
+//     const auth = await authUser(request);
+//     if (auth.status !== 200) {
+//       return new Response(JSON.stringify(auth.json), {
+//         status: auth.status,
+//         headers: { "Content-Type": "application/json" },
+//       });
+//     }
+
+//     const currentUser = auth.user;
+//     await connectDB();
+
+//     const formData = await request.formData();
+//     const title = formData.get("title");
+//     const description = formData.get("description");
+//     const password = formData.get("password") || "";
+
+//     const files = formData.getAll("files");
+//     if (!files.length) {
+//       return NextResponse.json({ success: false, error: "No video files uploaded" }, { status: 400 });
+//     }
+
+//     const uploadedVideos = [];
+
+//     for (const file of files) {
+//       if (!file || typeof file.arrayBuffer !== "function") continue;
+
+//       const buffer = Buffer.from(await file.arrayBuffer());
+//       const base64Data = `data:${file.type};base64,${buffer.toString("base64")}`;
+
+//       const result = await cloudinary.uploader.upload(base64Data, {
+//         folder: "video_uploads",
+//         resource_type: "video",
+//       });
+
+//       uploadedVideos.push({
+//         url: result.secure_url,
+//         name: file.name || result.original_filename,
+//       });
+//     }
+
+//     const newVideo = await VideoServiceModel.create({
+//       title,
+//       description,
+//       password,
+//       videos: uploadedVideos,
+//       user: {
+//         id: currentUser._id,
+//         name: currentUser.name,
+//       },
+//     });
+
+//     return NextResponse.json(
+//       { success: true, message: "Videos uploaded successfully", data: newVideo },
+//       { status: 201 }
+//     );
+//   } catch (error) {
+//     console.error("Video Upload Error:", error);
+//     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+//   }
+// }
 
 // import { connectDB } from "@/lib/mongoDB";
 // import { cloudinary } from "@/utils/cloudinary";

@@ -11,6 +11,8 @@ const ServicesProvider = ({ children }) => {
   // to prevent re-creation on every render, but for clarity, defining them here
   // is fine for now.
 
+  const [servicesDataLoading, setServicesDataLoading] = useState(false)
+
   const initialBusinessShopFormData = {
     shopName: "",
     ownerName: "",
@@ -142,17 +144,6 @@ const [menuBookFormData, setMenuBookFormData] = useState({
   password:''
 });
 
-  // const [menuBookFormData, setMenuBookFormData] = useState({
-  //   restaurantName: "",
-  //   menuItems: [{ image: "", name: "menu items", }],
-  //   extras: [
-  //     { type: "phone", label: "Phone", value: "", visible: true, placeholder: "+91-0000000000" },
-  //     { type: "email", label: "Email", value: "", visible: true, placeholder: "example@mail.com" },
-  //     { type: "link", label: "Link", value: "", visible: true, placeholder: "https://yourlink.com" },
-  //   ],
-  // });
-
-
 
   const initialPetIDFormData = {
     tagTitle: "",
@@ -280,8 +271,10 @@ const [menuBookFormData, setMenuBookFormData] = useState({
         description: "",
         establishedDate: "",
         shopTimings: "",
+        discount:"",
       },
       contact: {
+        owner:"",
         phone: "",
         altPhone: "",
         email: "",
@@ -300,15 +293,14 @@ const [menuBookFormData, setMenuBookFormData] = useState({
       selectedTemplate: "none",
       template1Data: {
         title: "Opening Hours",
-        days: [
-          { day: "MONDAY", time: "10AM - 10PM" },
-          { day: "TUESDAY", time: "10AM - 10PM" },
-          { day: "WEDNESDAY", time: "10AM - 10PM" },
-          { day: "THURSDAY", time: "10AM - 10PM" },
-          { day: "FRIDAY", time: "10AM - 10PM" },
-          { day: "SATURDAY", time: "10AM - 10PM" },
-          { day: "SUNDAY", time: "10AM - 10PM" },
-        ],
+       
+        day1:"MONDAY , 10AM - 10PM",
+        day2:"TUESDAY , 10AM - 10PM",
+        day3:"WEDNESDAY , 10AM - 10PM",
+        day4:"THURSDAY , 10AM - 10PM",
+        day5:"FRIDAY , 10AM - 10PM",
+        day6:"SATURDAY , 10AM - 10PM",
+        day7:"SUNDAY , 10AM - 10PM",
         aboutUsLink: "about us",
         siteLink: "@reallygreatsite",
       },
@@ -323,20 +315,27 @@ const [menuBookFormData, setMenuBookFormData] = useState({
         website: "www.reallygreatsite.com",
       },
       template3Data: {
-        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+        siteLink: "@GoldGlam.com",
         title: "OUR STORY",
         description: "Experience the best at our shop!",
+        day:"MONDAY - SUNDAY",
+        timings:"10AM - 10PM",
+        footerText:"OPEN ALL WEEK | TRADITION MEETS ELEGANCE",
+        addressLine1: "123 Anywhere St., Any City, ST 12345",
+        
+        
       },
       template4Data: {
-        brandName: "HANOVER AND TYKE",
-        highlightText: "ENJOY A SPECIAL 10% OFF",
-        tagline: "Elevate",
-        subTagline: "Your Look",
-        offerMessage: "AVAILABLE UNTIL 8 NOVEMBER 2030",
-        backgroundColor: "#000000",
-        textColor: "#ffffff",
-        fontFamily: "Montserrat, sans-serif",
+        logoText: "HANVOLK",
+        mainHeading: "WE'RE OPEN",
+        subHeading: "MONDAY TO SUNDAY",
+        timeRange: "10 AM - 10 PM",
+        closedDay: "CLOSED TUESDAY",
+        addressLine1: "123 Anywhere St., Any City, ST 12345",
+        addressLine2: "123 Anywhere St., Any City",
+        website: "www.reallygreatsite.com",
       },
+      
       password: "",
     },
     discountCoupon: {
@@ -436,7 +435,6 @@ const [menuBookFormData, setMenuBookFormData] = useState({
   const [eventsFormData, setEventsFormData] = useState(initialEventsFormData);
   const [smsFormData, setSmsFormData] = useState(initialSmsFormData);
   const [textMessageForm, setTextMessageForm] = useState(initialTextMessageForm);
-  //const [menuBookFormData, setMenuBookFormData] = useState(initialMenuBookFormData);
   const [petIDFormData, setPetIDFormData] = useState(initialPetIDFormData);
   const [dynamicForms, setDynamicForms] = useState(initialDynamicForms); // For medicalAlert, propertyDetails, etc.
 
@@ -591,6 +589,7 @@ const [menuBookFormData, setMenuBookFormData] = useState({
         // UI Toggles
         showPassword, setShowPassword,
         isAnimating, setIsAnimating,
+        servicesDataLoading, setServicesDataLoading
       }}
     >
       {children}

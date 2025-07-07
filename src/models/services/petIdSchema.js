@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const ownerInfoSchema = new mongoose.Schema({
 
-  name: { type: String, required: true },
+  name: { type: String, },
   phone: { type: String },
   email: { type: String },
   password: { type: String }, // Consider hashing this if used for protection
@@ -11,7 +11,7 @@ const ownerInfoSchema = new mongoose.Schema({
 
 const petSchema = new mongoose.Schema({
   
-  name: { type: String, required: true },
+  name: { type: String, },
   breed: { type: String },
   color: { type: String }
 }, { _id: false });
