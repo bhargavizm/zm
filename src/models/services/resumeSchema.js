@@ -1,16 +1,27 @@
-import mongoose from "mongoose";
+// models/services/resumeSchema.js
+
+import mongoose from "mongoose"; // ✅ REQUIRED
+
 
 const resumeSchema = new mongoose.Schema(
   {
-    
-    resumeFileName: {
-      type: String,
-      default: null, // if user provides file
+    user: {
+      id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+      name: String,
     },
+
+    resumeFiles: [
+      {
+        fileName: String,
+        url: String,
+      },
+    ],
+
     resumeUrl: {
       type: String,
-      default: "", // if user provides URL instead of file
+      default: "",
     },
+
     password: {
       type: String,
     },
@@ -20,7 +31,5 @@ const resumeSchema = new mongoose.Schema(
   }
 );
 
-// Prevent model overwrite issue in development
-const ResumeModal = mongoose.models.Resume || mongoose.model("Resume", resumeSchema);
-
-export default ResumeModal;
+const ResumeModel = mongoose.models.Resume || mongoose.model("Resume", resumeSchema);
+export default ResumeModel;

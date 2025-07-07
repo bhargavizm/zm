@@ -85,12 +85,12 @@ const ServicesProvider = ({ children }) => {
   const initialImagesFormData = {
     title: "",
     description: "",
-    files: [],
+    images: [],
     password: "",
   };
 
   const initialResumeFormData = {
-    resumeFile: null,
+    resumeFile: [],
     resumeUrl: "",
     password: "",
   };

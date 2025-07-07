@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const ownerInfoSchema = new mongoose.Schema({
+
   name: { type: String, required: true },
   phone: { type: String },
   email: { type: String },
@@ -9,12 +10,17 @@ const ownerInfoSchema = new mongoose.Schema({
 }, { _id: false });
 
 const petSchema = new mongoose.Schema({
+  
   name: { type: String, required: true },
   breed: { type: String },
   color: { type: String }
 }, { _id: false });
 
 const petTagSchema = new mongoose.Schema({
+    user: {
+    id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    name: String,
+  },
   mainImage: { type: String }, // URL or path to uploaded image
   selectedTemplate: { type: String }, // Filename of selected template
   ownerInfo: ownerInfoSchema,
