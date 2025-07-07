@@ -10,13 +10,13 @@ import { setMenuCardServices } from "@/redux/slices/servicesSlice";
 import { useDispatch } from "react-redux";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import { useParams } from "next/navigation";
+import LoadingSpinner from "@/components/common/spinner";
 
 const MenuBookContent = () => {
   const { setActiveTab } = useDesignContext();
 const { slug } = useParams();
-  const { menuBookFormData, setMenuBookFormData } = useServicesContext();
+  const { menuBookFormData, setMenuBookFormData, servicesDataLoading, setServicesDataLoading } = useServicesContext();
   const [showPassword, setShowPassword] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [totalSizeMB, setTotalSizeMB] = useState(0);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
@@ -68,8 +68,8 @@ const { slug } = useParams();
   };
 
   const handleSubmit = async () => {
+      setServicesDataLoading(true);
     try {
-      setIsSubmitting(true);
       const formData = new FormData();
       formData.append("restaurantName", menuBookFormData.restaurantName);
       formData.append("phone", menuBookFormData.phone);
@@ -106,7 +106,7 @@ const { slug } = useParams();
       console.error(err);
       toast.error(err?.response?.data?.error || "Something went wrong!");
     } finally {
-      setIsSubmitting(false);
+      setServicesDataLoading(false); // ✅ End loader
     }
   };
 
@@ -118,6 +118,10 @@ const { slug } = useParams();
 
   return (
     <>
+     {servicesDataLoading && (
+       <LoadingSpinner/>
+      )}
+
       <form>
         <div className="max-w-xl mx-auto p-6 space-y-6 bg-white rounded">
           <h2 className="text-2xl font-bold text-[#008080]">Create QR Menu</h2>
@@ -275,8 +279,14 @@ const { slug } = useParams();
       </form>
       {showConfirmModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
-          <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-xl border border-teal-200 mx-4 sm:mx-auto">
-            <h2 className="text-2xl pb-4 font-semibold text-center text-teal-700">
+          <div className="bg-white relative rounded-xl shadow-xl p-6 w-full max-w-xl border border-teal-200 mx-4 sm:mx-auto">
+             <button
+              onClick={() => setShowConfirmModal(false)}
+              className="text-xl absolute right-4 pb-9 text-gray-600 hover:text-red-600"
+            >
+              ❌
+            </button>
+            <h2 className="text-2xl py-4 font-semibold text-center text-teal-700">
               Confirm Your Details
             </h2>
 
