@@ -9,7 +9,11 @@ const productItemSchema = new mongoose.Schema({
 }, { _id: false });
 
 const productSchema = new mongoose.Schema({
-  brandName: { type: String, required: true },
+  user: {
+    id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    name: String,
+  },
+  brandName: { type: String},
   email: { type: String },
   phone: { type: String },
   address: { type: String },
