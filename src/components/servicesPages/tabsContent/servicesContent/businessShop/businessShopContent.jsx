@@ -810,6 +810,7 @@ import { MdCancel } from "react-icons/md";
 import NFCModal from "@/components/modalPopUps/nfcModal";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const BusinessShopContent = () => {
   const { dynamicForms, updateDynamicForm } = useServicesContext();
@@ -925,6 +926,7 @@ const BusinessShopContent = () => {
     });
 
     if (response.data.success) {
+      toast.success("Business data saved successfully")
       console.log("Business data saved successfully");
       // router.refresh(); // uncomment if needed
     }
@@ -966,28 +968,7 @@ const BusinessShopContent = () => {
               ))}
             </div>
 
-            {/* Template Content Editing */}
-            {shopTimingsTemplate.selectedTemplate && (
-              <div className="mt-6 p-4 border border-gray-200 rounded-lg bg-gray-50 space-y-4">
-                {Object.entries(shopTimingsTemplate[`${shopTimingsTemplate.selectedTemplate}Data`] || {}).map(([field, value]) => (
-                  <input
-                    key={field}
-                    type="text"
-                    placeholder={field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-teal-200"
-                    value={value || ""}
-                    onChange={(e) =>
-                      handleChange(
-                        "shopTimingsTemplate",
-                        `${shopTimingsTemplate.selectedTemplate}Data`,
-                        field,
-                        e.target.value
-                      )
-                    }
-                  />
-                ))}
-              </div>
-            )}
+            
           </div>
         </div>
 
@@ -996,8 +977,39 @@ const BusinessShopContent = () => {
           <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200">
             General Information
           </h3>
-          <div className="space-y-5">
-            {['businessName', 'businessType', 'description', 'shopTimings'].map((field) => (
+          <div className="space-y-2">
+              <label className="block text-base font-medium text-gray-700">
+                Business Logo
+              </label>
+              {businessInfo.media.logo && (
+                <div className="flex items-center gap-4">
+                  <div className="relative">
+                    <img
+                      src={typeof businessInfo.media.logo === 'string' 
+                        ? businessInfo.media.logo 
+                        : URL.createObjectURL(businessInfo.media.logo)}
+                      alt="Business Logo"
+                      className="h-20 w-20 object-cover rounded-lg"
+                    />
+                    <button
+                      onClick={() => removeImage("media", "logo")}
+                      className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                      aria-label="Remove logo"
+                    >
+                      <MdCancel/>
+                    </button>
+                  </div>
+                </div>
+              )}
+              <input
+                type="file"
+                accept="image/*"
+                className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
+                onChange={(e) => handleFileChange("media", "logo", e.target.files)}
+              />
+            </div>
+          <div className="space-y-5 mt-10">
+            {['businessName', 'businessType', 'description', 'shopTimings', 'discount'].map((field) => (
               field === 'description' ? (
                 <textarea
                   key={field}
@@ -1031,7 +1043,7 @@ const BusinessShopContent = () => {
             Contact Information
           </h3>
           <div className="space-y-5">
-            {['phone', 'altPhone', 'email'].map((field) => (
+            {['owner','phone', 'altPhone', 'email'].map((field) => (
               <input
                 key={field}
                 type={field.includes('email') ? 'email' : 'text'}
@@ -1072,37 +1084,7 @@ const BusinessShopContent = () => {
           </h3>
           <div className="space-y-6">
             {/* Business Logo */}
-            <div className="space-y-2">
-              <label className="block text-base font-medium text-gray-700">
-                Business Logo
-              </label>
-              {businessInfo.media.logo && (
-                <div className="flex items-center gap-4">
-                  <div className="relative">
-                    <img
-                      src={typeof businessInfo.media.logo === 'string' 
-                        ? businessInfo.media.logo 
-                        : URL.createObjectURL(businessInfo.media.logo)}
-                      alt="Business Logo"
-                      className="h-20 w-20 object-cover rounded-lg"
-                    />
-                    <button
-                      onClick={() => removeImage("media", "logo")}
-                      className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
-                      aria-label="Remove logo"
-                    >
-                      <MdCancel/>
-                    </button>
-                  </div>
-                </div>
-              )}
-              <input
-                type="file"
-                accept="image/*"
-                className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
-                onChange={(e) => handleFileChange("media", "logo", e.target.files)}
-              />
-            </div>
+            
 
             {/* Gallery Images */}
             <div className="space-y-2">
@@ -1139,6 +1121,29 @@ const BusinessShopContent = () => {
             </div>
           </div>
         </div>
+
+        {/* Template Content Editing */}
+            {shopTimingsTemplate.selectedTemplate && (
+              <div className="mt-6 p-4 border border-gray-200 rounded-lg bg-gray-50 space-y-4">
+                {Object.entries(shopTimingsTemplate[`${shopTimingsTemplate.selectedTemplate}Data`] || {}).map(([field, value]) => (
+                  <input
+                    key={field}
+                    type="text"
+                    placeholder={field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-teal-200"
+                    value={value || ""}
+                    onChange={(e) =>
+                      handleChange(
+                        "shopTimingsTemplate",
+                        `${shopTimingsTemplate.selectedTemplate}Data`,
+                        field,
+                        e.target.value
+                      )
+                    }
+                  />
+                ))}
+              </div>
+            )}
 
         {/* Security Section */}
         <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
