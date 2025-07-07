@@ -1,77 +1,225 @@
+
+
+import { NextResponse } from "next/server";
+
 import { connectDB } from "@/lib/mongoDB";
-import ResumeModel from "@/models/services/resumeSchema";
-import fs from "fs";
-import path from "path";
-import { v4 as uuidv4 } from "uuid";
+import { authUser } from "@/middlewares/authMiddleware";
+import AudioServiceModel from "@/models/services/audioSchema";
 
-// Disable default body parser
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
-// Utility to parse form data manually
-async function parseFormData(request) {
-  const formData = await request.formData();
-  const title = formData.get("title");
-  const description = formData.get("description");
-  const password = formData.get("password");
-  const file = formData.get("file");
-  return { title, description, password, file };
-}
-
+// POST handler
 export async function POST(request) {
-  console.log("1. Resume upload request received");
-
   try {
+     // ✅ Step 1: Authenticate User
+        const auth = await authUser(request);
+        if (auth.status !== 200) {
+          return new Response(JSON.stringify(auth.json), {
+            status: auth.status,
+            headers: { "Content-Type": "application/json" },
+          });
+        }
+    
+        const user = auth.user;
     await connectDB();
-    console.log("2. MongoDB connected");
 
-    const { title, description, password, file } = await parseFormData(request);
-    if (!file || !file.name) {
-      return new Response("Resume file missing", { status: 400 });
+    const formData = await request.formData();
+    const title = formData.get("title");
+    const description = formData.get("description");
+    const password = formData.get("password") || "";
+
+    // const userId = formData.get("userId"); // Required from frontend
+    // const userName = formData.get("userName");
+
+    // Collect multiple files
+    const files = [];
+    for (const [key, value] of formData.entries()) {
+      if (key === "files" && value instanceof File) {
+        const arrayBuffer = await value.arrayBuffer();
+        files.push({
+          //fileData: Buffer.from(arrayBuffer),
+          fileName: value.name,
+          fileType: value.type,
+        });
+      }
     }
 
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-
-    // Save the file to local /public/uploads/resumes folder
-    const uploadsDir = path.join(process.cwd(), "public", "uploads", "resumes");
-    if (!fs.existsSync(uploadsDir)) {
-      fs.mkdirSync(uploadsDir, { recursive: true });
-    }
-
-    const uniqueFileName = `${uuidv4()}-${file.name}`;
-    const filePath = path.join(uploadsDir, uniqueFileName);
-    fs.writeFileSync(filePath, buffer);
-    console.log("3. File saved locally at:", filePath);
-
-    // Construct the URL to access the file
-    const resumeUrl = `/uploads/resumes/${uniqueFileName}`;
-
-    // Save metadata to MongoDB
-    const newResume = new ResumeModel({
+    const newPDF = await AudioServiceModel.create({
+       user: {
+        id: user._id,
+        name: user.name,
+      },
       title,
       description,
       password,
-      resumeFileName: file.name,
-      resumeUrl,
+      files
     });
 
-    await newResume.save();
-    console.log("4. Resume metadata saved to MongoDB");
-
-    return new Response(
-      JSON.stringify({
-        success: true,
-        message: "Resume uploaded and saved locally",
-        resumeData: newResume,
-      }),
-      { status: 201, headers: { "Content-Type": "application/json" } }
-    );
+    return NextResponse.json({ success: true, data: newPDF }, { status: 201 });
   } catch (error) {
-    console.error("Resume Upload Error:", error);
-    return new Response("Internal Server Error", { status: 500 });
+    console.error("PDF Upload Error:", error);
+    return NextResponse.json({ success: false, message: "Failed to upload PDFs." }, { status: 500 });
   }
 }
+
+
+// import { connectDB } from "@/lib/mongoDB";
+// import { authUser } from "@/middlewares/authMiddleware";
+// import AudioServiceModel from "@/models/services/audioSchema";
+// import bcrypt from "bcryptjs";
+
+// // Plan limits (in bytes)
+// const planLimits = {
+//   Basic: 1 * 1024 * 1024 * 1024,      // 1 GB
+//   Starter: 2 * 1024 * 1024 * 1024,    // 2 GB
+//   Pro: 3 * 1024 * 1024 * 1024,        // 3 GB
+//   Advanced: 4 * 1024 * 1024 * 1024,   // 4 GB
+//   Ultima: 5 * 1024 * 1024 * 1024,     // 5 GB
+// };
+
+// // Allowed audio MIME types
+// const allowedAudioTypes = [
+//   "audio/mpeg",
+//   "audio/mp3",
+//   "audio/wav",
+//   "audio/x-wav",
+//   "audio/ogg",
+//   "audio/webm",
+// ];
+
+// export async function POST(request) {
+//   const auth = await authUser(request);
+//   if (auth.status !== 200) {
+//     return new Response(JSON.stringify(auth.json), {
+//       status: auth.status,
+//       headers: { "Content-Type": "application/json" },
+//     });
+//   }
+
+//   const currentUser = auth.user;
+//   const userPlan = currentUser.plan || "Basic";
+//   const maxAllowedSize = planLimits[userPlan];
+
+//   try {
+//     await connectDB();
+
+//     const formData = await request.formData();
+//     const title = formData.get("title") 
+//     const description = formData.get("description") 
+//     let password = formData.get("password") 
+//     const files = formData.getAll("file")
+
+//     if (!files.length) {
+//       return new Response(JSON.stringify({ success: false, error: "No audio files uploaded" }), {
+//         status: 400,
+//         headers: { "Content-Type": "application/json" },
+//       });
+//     }
+
+//     if (password) {
+//       const salt = await bcrypt.genSalt(10);
+//       password = await bcrypt.hash(password, salt);
+//     }
+
+//     let totalSize = 0;
+//     const filesToSave = [];
+
+//     for (const file of files) {
+//       if (!file || typeof file.arrayBuffer !== "function") continue;
+
+//       // ✅ Validate audio type
+//       if (!allowedAudioTypes.includes(file.type)) {
+//         return new Response(
+//           JSON.stringify({
+//             success: false,
+//             error: `🚫 Invalid file type "${file.type}". Only audio files (MP3, WAV, OGG, WEBM) are allowed.`,
+//           }),
+//           {
+//             status: 400,
+//             headers: { "Content-Type": "application/json" },
+//           }
+//         );
+//       }
+
+//       const buffer = Buffer.from(await file.arrayBuffer());
+//       const fileSize = buffer.length;
+//       totalSize += fileSize;
+
+//       if (fileSize > maxAllowedSize) {
+//         const nextPlan = Object.entries(planLimits).find(([_, limit]) => fileSize <= limit);
+//         const readableSize = (fileSize / (1024 * 1024)).toFixed(2); // MB
+//         const readableLimit = (maxAllowedSize / (1024 * 1024)).toFixed(2); // MB
+
+//         let upgradeMessage = `🚫 File "${file.name}" is ${readableSize} MB, which exceeds your ${userPlan} plan limit (${readableLimit} MB).`;
+
+//         if (nextPlan) {
+//           upgradeMessage += ` Please upgrade to the ${nextPlan[0]} plan to upload this file.`;
+//         } else {
+//           upgradeMessage += ` Even the highest plan cannot support this file size.`;
+//         }
+
+//         return new Response(JSON.stringify({ success: false, error: upgradeMessage }), {
+//           status: 413,
+//           headers: { "Content-Type": "application/json" },
+//         });
+//       }
+
+//       filesToSave.push({
+//         //fileData: buffer,
+//         fileName: file.name || `audio-${Date.now()}`,
+//         fileType: file.type || "audio/mpeg",
+//       });
+//     }
+
+//     if (totalSize > maxAllowedSize) {
+//       const totalReadable = (totalSize / (1024 * 1024)).toFixed(2);
+//       const planReadable = (maxAllowedSize / (1024 * 1024)).toFixed(2);
+
+//       return new Response(
+//         JSON.stringify({
+//           success: false,
+//           error: `🚫 Total upload is ${totalReadable} MB which exceeds your ${userPlan} plan (${planReadable} MB). Please upgrade your plan.`,
+//         }),
+//         {
+//           status: 413,
+//           headers: { "Content-Type": "application/json" },
+//         }
+//       );
+//     }
+
+//     const newDoc = new AudioServiceModel({
+//       title,
+//       description,
+//       password,
+//       files: filesToSave,
+//       user: {
+//         id: currentUser._id,
+//         name: currentUser.name,
+//       },
+//     });
+
+//     await newDoc.save();
+
+//     return new Response(
+//       JSON.stringify({
+//         success: true,
+//         message: `${filesToSave.length} audio file(s) uploaded successfully.`,
+//         audioData: newDoc,
+//       }),
+//       {
+//         status: 201,
+//         headers: { "Content-Type": "application/json" },
+//       }
+//     );
+//   } catch (error) {
+//     console.error("Audio Upload Error:", error);
+//     return new Response(
+//       JSON.stringify({
+//         success: false,
+//         error: error.message || "Internal server error",
+//       }),
+//       {
+//         status: 500,
+//         headers: { "Content-Type": "application/json" },
+//       }
+//     );
+//   }
+// }
