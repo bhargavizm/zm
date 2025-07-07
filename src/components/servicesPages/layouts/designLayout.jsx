@@ -9,6 +9,7 @@ import { useParams } from "next/navigation";
 import QRCodeTab from "../tabsContent/qrTabContent/qrcodeTab";
 import BackdropDesigns from "../tabsContent/backDropDesigns/backdropDesigns";
 import ComingSoonModal from "@/components/modalPopUps/comingSoonModal";
+import useDesignContext from "@/components/hooks/useDesignContext";
 
 const tabs = ["Content", "Backdrop Designs", "QR Code"];
 
@@ -16,7 +17,9 @@ const encryptedSlugs = ["audios", "videos", "gallery", "pdf"];
 
 const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
   const { slug } = useParams();
-  const [activeTab, setActiveTab] = useState("Content");
+  const { getActiveTab, setActiveTab } = useDesignContext();
+const activeTab = getActiveTab(slug);
+
   const [activePreview, setActivePreview] = useState("eye");
 
   const [showModal, setShowModal] = useState(false);
@@ -51,7 +54,9 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
   {tabs.map((tab) => (
     <button
       key={tab}
-      onClick={() => setActiveTab(tab)}
+     // onClick={() => setActiveTab(tab)}
+     onClick={() => setActiveTab(slug, tab)}
+
       className={`px-2 py-1 text-lg whitespace-nowrap rounded-xl transition-all duration-200 ${
         activeTab === tab
           ? "bg-white text-mainGreen font-bold"
@@ -205,7 +210,9 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
                 {tabs.map((tab) => (
                   <button
                     key={tab}
-                    onClick={() => setActiveTab(tab)}
+                  //  onClick={() => setActiveTab(tab)}
+                  onClick={() => setActiveTab(slug, tab)}
+
                     className={`px-4 py-2 text-xl rounded-xl cursor-pointer ${
                       activeTab === tab
                         ? "bg-white text-mainGreen font-bold"
@@ -241,6 +248,9 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
 };
 
 export default DesignLayout;
+
+
+
 // "use client";
 // import React, { useEffect, useRef, useState } from "react";
 // import PreviewPanel from "@/components/homePage/customizedQRCodeDesigns/previewTab/previewPanel";
