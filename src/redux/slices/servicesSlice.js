@@ -7,6 +7,7 @@ const initialState = {
   textMessageData: [],
   smsServiceData: [],
   vehicleServiceData: [],
+  discountServicesData: [],
   eventServiceData: [],
   multiServicesData: [],
   propertyServiceData: [],
@@ -69,6 +70,12 @@ const servicesSlice = createSlice({
       propertyServiceData: action.payload,
       error: null,
     }),
+     setDiscountServices: (state, action) => ({
+      ...state,
+      discountServicesData : action.payload,
+      error : null,
+    }),
+
 
     // Encrypted Services
     setPetIdServices: (state, action) => ({
@@ -102,6 +109,7 @@ export const {
   setPropertyServices,
   setPetIdServices,
   setKidsSafetyServices,
+  setDiscountServices,
 
   clearError,
 } = servicesSlice.actions;
