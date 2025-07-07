@@ -16,6 +16,7 @@ const initialState = {
   audioServiceData: [],
   videoServiceData: [],
   galleryServiceData: [],
+  businessCardData:[],
   error: null,
 };
 
@@ -69,6 +70,12 @@ const servicesSlice = createSlice({
       propertyServiceData: action.payload,
       error: null,
     }),
+    
+    setBusinessCardServices: (state, action) => ({
+      ...state,
+      businessCardData: action.payload,
+      error: null,
+    }),
 
     // Encrypted Services
     setPetIdServices: (state, action) => ({
@@ -102,6 +109,7 @@ export const {
   setPropertyServices,
   setPetIdServices,
   setKidsSafetyServices,
+  setBusinessCardServices,
 
   clearError,
 } = servicesSlice.actions;
