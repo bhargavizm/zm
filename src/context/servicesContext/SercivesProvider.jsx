@@ -85,7 +85,7 @@ const ServicesProvider = ({ children }) => {
   const initialImagesFormData = {
     title: "",
     description: "",
-    files: [],
+    images: [],
     password: "",
   };
 

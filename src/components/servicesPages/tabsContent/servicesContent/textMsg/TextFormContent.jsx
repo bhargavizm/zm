@@ -116,10 +116,25 @@ const TextMessageContent = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
           <div className="bg-white rounded-xl shadow-xl p-6 max-w-sm w-full border border-teal-200 relative">
             <h2 className="text-lg font-semibold text-gray-800">Confirm Submission</h2>
-            <div className="text-sm text-gray-700 space-y-2">
-              <p><strong>Sender:</strong> {textMessageForm.sender}</p>
-              <p><strong>Message:</strong> {textMessageForm.message}</p>
-              <p><strong>Password:</strong> {textMessageForm.password}</p>
+            <div className="text-sm text-gray-700 space-y-2 gap-2">
+              {textMessageForm.sender && (
+                <p>
+                  <strong>
+                  <span className="font-semibold">Sender:</span> </strong>{textMessageForm.sender}
+                </p>
+              )}
+              {textMessageForm.message && (
+                <p>
+                  <strong>
+                  <span className="font-semibold">Message:</span> </strong>{textMessageForm.message}
+                </p>
+              )}
+              {textMessageForm.password && (
+                <p>
+                  <strong>
+                  <span className="font-semibold">Password:</span> </strong>{textMessageForm.password}
+                </p>
+              )}
             </div>
             <div className="flex justify-end gap-4 pt-4">
               <button

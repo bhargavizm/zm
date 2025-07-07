@@ -1,65 +1,122 @@
 import { connectDB } from "@/lib/mongoDB";
-import GalleryModal from "@/models/services/gallerySchema";
 import { cloudinary } from "@/utils/cloudinary";
-import { v4 as uuidv4 } from "uuid";
+import { authUser } from "@/middlewares/authMiddleware";
+import bcrypt from "bcryptjs";
+import GalleryServiceModel from "@/models/services/gallerySchema";
 
-// POST /api/services/image
+
+// File size limits by plan
+const planLimits = {
+  Basic: 1 * 1024 * 1024 * 1024,
+  Starter: 2 * 1024 * 1024 * 1024,
+  Pro: 3 * 1024 * 1024 * 1024,
+  Advanced: 4 * 1024 * 1024 * 1024,
+  Ultima: 5 * 1024 * 1024 * 1024,
+};
+
+// Allowed image MIME types
+const allowedImageTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+
 export async function POST(request) {
+  const auth = await authUser(request);
+  if (auth.status !== 200) {
+    return new Response(JSON.stringify(auth.json), {
+      status: auth.status,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  const currentUser = auth.user;
+  const userPlan = currentUser.plan || "Basic";
+  const maxAllowedSize = planLimits[userPlan];
+
   try {
     await connectDB();
 
     const formData = await request.formData();
-
     const title = formData.get("title");
     const description = formData.get("description");
-    const password = formData.get("password");
-    const file = formData.get("file");
+    let password = formData.get("password");
+    const files = formData.getAll("file");
 
-    if (!file || !file.name) {
-      return new Response("image file not found", { status: 400 });
+    if (!files.length) {
+      return Response.json({ success: false, error: "No image files uploaded" }, { status: 400 });
     }
 
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      password = await bcrypt.hash(password, salt);
+    }
 
-    // Upload to Cloudinary
-    const uploadResult = await new Promise((resolve, reject) => {
-      cloudinary.uploader
-        .upload_stream(
+    let totalSize = 0;
+    const uploadedImages = [];
+
+    for (const file of files) {
+      if (!file || typeof file.arrayBuffer !== "function") continue;
+
+      if (!allowedImageTypes.includes(file.type)) {
+        return Response.json(
           {
-            resource_type: "auto", 
-            public_id: `images/${uuidv4()}`,
-            folder: "images",
+            success: false,
+            error: `🚫 "${file.name}" is not a supported image format.`,
           },
-          (error, result) => {
-            if (error) return reject(error);
-            resolve(result);
-          }
-        )
-        .end(buffer);
-    });
+          { status: 400 }
+        );
+      }
 
-    // Save to MongoDB
-    const newAudio = new GalleryModal({
+      const buffer = Buffer.from(await file.arrayBuffer());
+      const fileSize = buffer.length;
+      totalSize += fileSize;
+
+      if (totalSize > maxAllowedSize) {
+        return Response.json(
+          {
+            success: false,
+            error: `🚫 Total image size exceeds your plan limit (${(maxAllowedSize / 1024 / 1024).toFixed(
+              2
+            )} MB). Please upgrade your plan.`,
+          },
+          { status: 413 }
+        );
+      }
+
+      // Convert to base64 for Cloudinary upload
+      const base64Data = `data:${file.type};base64,${buffer.toString("base64")}`;
+
+      const result = await cloudinary.uploader.upload(base64Data, {
+        folder: "gallery_uploads",
+        resource_type: "image",
+      });
+
+      uploadedImages.push({
+        url: result.secure_url,
+        name: file.name || result.original_filename,
+      });
+    }
+
+    const newGallery = new GalleryServiceModel({
       title,
       description,
       password,
-      imageFileName: file.name,
-      imageUrl: uploadResult.secure_url,
+      images: uploadedImages,
+      user: {
+        id: currentUser._id,
+        name: currentUser.name,
+      },
     });
 
-    await newAudio.save();
+    await newGallery.save();
 
-    return new Response(
-      JSON.stringify({
+    return Response.json(
+      {
         success: true,
-        message: "Images uploaded and saved successfully",
-        audioData: newAudio,
-      }),
-      { status: 201, headers: { "Content-Type": "application/json" } }
+        message: `${uploadedImages.length} image(s) uploaded successfully.`,
+        galleryData: newGallery,
+      },
+      { status: 201 }
     );
   } catch (error) {
-    console.error("Images Upload Error:", error);
-    return new Response("Internal Server Error", { status: 500 });
+    console.error("Gallery Upload Error:", error);
+    return Response.json({ success: false, error: error.message }, { status: 500 });
   }
 }

@@ -8,8 +8,12 @@ import useServicesContext from "@/components/hooks/useServiceContext";
 import NFCModal from "@/components/modalPopUps/nfcModal";
 import { setMenuCardServices } from "@/redux/slices/servicesSlice";
 import { useDispatch } from "react-redux";
+import useDesignContext from "@/components/hooks/useDesignContext";
+import { useParams } from "next/navigation";
 
 const MenuBookContent = () => {
+  const { setActiveTab } = useDesignContext();
+const { slug } = useParams();
   const { menuBookFormData, setMenuBookFormData } = useServicesContext();
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -17,7 +21,7 @@ const MenuBookContent = () => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const fileInputRef = useRef(null);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
@@ -63,48 +67,48 @@ const MenuBookContent = () => {
     setTotalSizeMB(newTotal);
   };
 
-const handleSubmit = async () => {
-  try {
-    setIsSubmitting(true);
-    const formData = new FormData();
-    formData.append("restaurantName", menuBookFormData.restaurantName);
-    formData.append("phone", menuBookFormData.phone);
-    formData.append("email", menuBookFormData.email);
-    formData.append("link", menuBookFormData.link);
-    formData.append("password", menuBookFormData.password || "");
+  const handleSubmit = async () => {
+    try {
+      setIsSubmitting(true);
+      const formData = new FormData();
+      formData.append("restaurantName", menuBookFormData.restaurantName);
+      formData.append("phone", menuBookFormData.phone);
+      formData.append("email", menuBookFormData.email);
+      formData.append("link", menuBookFormData.link);
+      formData.append("password", menuBookFormData.password || "");
 
-    menuBookFormData.menuItems.forEach((item) => {
-      formData.append("images", item.file);
-    });
-
-    const res = await axios.post("/api/services/menuCards", formData);
-
-    if (res.data.success) {
-      dispatch(setMenuCardServices(res.data.menuCardData))
-      toast.success(res.data.message);
-      // Reset form only on success
-      setMenuBookFormData({
-        restaurantName: "",
-        menuItems: [],
-        phone: "",
-        email: "",
-        link: "",
-        password: "",
+      menuBookFormData.menuItems.forEach((item) => {
+        formData.append("images", item.file);
       });
-      setTotalSizeMB(0);
-      if (fileInputRef.current) fileInputRef.current.value = "";
-    } else {
-      // If success: false returned by API
-      toast.error(res.data.message || "Submission failed");
-    }
-  } catch (err) {
-    console.error(err);
-    toast.error(err?.response?.data?.error || "Something went wrong!");
-  } finally {
-    setIsSubmitting(false);
-  }
-};
 
+      const res = await axios.post("/api/services/menuCards", formData);
+
+      if (res.data.success) {
+        dispatch(setMenuCardServices(res.data.menuCardData));
+        toast.success(res.data.message);
+        setActiveTab(slug, "QR Code");
+        // Reset form only on success
+        setMenuBookFormData({
+          restaurantName: "",
+          menuItems: [],
+          phone: "",
+          email: "",
+          link: "",
+          password: "",
+        });
+        setTotalSizeMB(0);
+        if (fileInputRef.current) fileInputRef.current.value = "";
+      } else {
+        // If success: false returned by API
+        toast.error(res.data.message || "Submission failed");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error(err?.response?.data?.error || "Something went wrong!");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const isFormValid =
     menuBookFormData.restaurantName &&
@@ -114,187 +118,234 @@ const handleSubmit = async () => {
 
   return (
     <>
-    <form>
-    <div className="max-w-xl mx-auto p-6 space-y-6 bg-white rounded">
-      <h2 className="text-2xl font-bold text-[#008080]">Create QR Menu</h2>
+      <form>
+        <div className="max-w-xl mx-auto p-6 space-y-6 bg-white rounded">
+          <h2 className="text-2xl font-bold text-[#008080]">Create QR Menu</h2>
 
-      {/* Inputs */}
-      <input
-        type="text"
-        placeholder="Name of Restaurant"
-        value={menuBookFormData.restaurantName}
-        onChange={(e) =>
-          setMenuBookFormData({
-            ...menuBookFormData,
-            restaurantName: e.target.value,
-          })
-        }
-        className="w-full border px-4 py-2 rounded"
-      />
+          {/* Inputs */}
+          <input
+            type="text"
+            placeholder="Name of Restaurant"
+            value={menuBookFormData.restaurantName}
+            onChange={(e) =>
+              setMenuBookFormData({
+                ...menuBookFormData,
+                restaurantName: e.target.value,
+              })
+            }
+            className="w-full border px-4 py-2 rounded"
+          />
 
-      <input
-        type="text"
-        placeholder="Phone"
-        value={menuBookFormData.phone}
-        onChange={(e) =>
-          setMenuBookFormData({ ...menuBookFormData, phone: e.target.value })
-        }
-        className="w-full border px-4 py-2 rounded"
-      />
-      <input
-        type="email"
-        placeholder="Email"
-        value={menuBookFormData.email}
-        onChange={(e) =>
-          setMenuBookFormData({ ...menuBookFormData, email: e.target.value })
-        }
-        className="w-full border px-4 py-2 rounded"
-      />
-      <input
-        type="url"
-        placeholder="Link"
-        value={menuBookFormData.link}
-        onChange={(e) =>
-          setMenuBookFormData({ ...menuBookFormData, link: e.target.value })
-        }
-        className="w-full border px-4 py-2 rounded"
-      />
+          <input
+            type="text"
+            placeholder="Phone"
+            value={menuBookFormData.phone}
+            onChange={(e) =>
+              setMenuBookFormData({
+                ...menuBookFormData,
+                phone: e.target.value,
+              })
+            }
+            className="w-full border px-4 py-2 rounded"
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={menuBookFormData.email}
+            onChange={(e) =>
+              setMenuBookFormData({
+                ...menuBookFormData,
+                email: e.target.value,
+              })
+            }
+            className="w-full border px-4 py-2 rounded"
+          />
+          <input
+            type="url"
+            placeholder="Link"
+            value={menuBookFormData.link}
+            onChange={(e) =>
+              setMenuBookFormData({ ...menuBookFormData, link: e.target.value })
+            }
+            className="w-full border px-4 py-2 rounded"
+          />
 
-      {/* Upload Images */}
-      {/* Upload Images */}
-      <label className="font-medium">Upload Menu Images:</label>
-      <p className="text-sm text-gray-500">
-        Max Single File: <b>2MB</b> | Total Limit: <b>30MB</b> | Current:{" "}
-        <b>{totalSizeMB.toFixed(2)} MB</b>
-      </p>
+          {/* Upload Images */}
+          {/* Upload Images */}
+          <label className="font-medium">Upload Menu Images:</label>
+          <p className="text-sm text-gray-500">
+            Max Single File: <b>2MB</b> | Total Limit: <b>30MB</b> | Current:{" "}
+            <b>{totalSizeMB.toFixed(2)} MB</b>
+          </p>
 
-      <input
-      required
-        type="file"
-        accept="image/*"
-        multiple
-        ref={fileInputRef}
-        onChange={handleImageUpload}
-        className="w-full px-3 py-2 cursor-pointer border border-gray-500 rounded-lg text-sm file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:bg-teal-600 file:text-white hover:file:bg-teal-700"
-      />
+          <input
+            required
+            type="file"
+            accept="image/*"
+            multiple
+            ref={fileInputRef}
+            onChange={handleImageUpload}
+            className="w-full px-3 py-2 cursor-pointer border border-gray-500 rounded-lg text-sm file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:bg-teal-600 file:text-white hover:file:bg-teal-700"
+          />
 
-      {/* Previews */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-        {menuBookFormData.menuItems.map((item, index) => (
-          <div
-            key={index}
-            className="relative w-full h-32 border rounded overflow-hidden"
-          >
-            <img
-              src={item.image}
-              className="w-full h-full object-cover"
-              alt={`Menu ${index}`}
+          {/* Previews */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            {menuBookFormData.menuItems.map((item, index) => (
+              <div
+                key={index}
+                className="relative w-full h-32 border rounded overflow-hidden"
+              >
+                <img
+                  src={item.image}
+                  className="w-full h-full object-cover"
+                  alt={`Menu ${index}`}
+                />
+                <button
+                  onClick={() => handleRemoveImage(index)}
+                  className="absolute top-1 right-1 bg-white text-red-600 w-5 h-5 text-xs rounded-full flex items-center justify-center shadow"
+                >
+                  ❌
+                </button>
+              </div>
+            ))}
+          </div>
+
+          {/* Password */}
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              value={menuBookFormData.password || ""}
+              onChange={(e) =>
+                setMenuBookFormData({
+                  ...menuBookFormData,
+                  password: e.target.value,
+                })
+              }
+              className="w-full border px-4 py-2 rounded pr-10"
             />
             <button
-              onClick={() => handleRemoveImage(index)}
-              className="absolute top-1 right-1 bg-white text-red-600 w-5 h-5 text-xs rounded-full flex items-center justify-center shadow"
+              type="button"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+              onClick={() => setShowPassword((prev) => !prev)}
             >
-              ❌
+              {showPassword ? <FiEye /> : <FiEyeOff />}
             </button>
           </div>
-        ))}
-      </div>
 
-      {/* Password */}
-      <div className="relative">
-        <input
-          type={showPassword ? "text" : "password"}
-          placeholder="Password"
-          value={menuBookFormData.password || ""}
-          onChange={(e) =>
-            setMenuBookFormData({
-              ...menuBookFormData,
-              password: e.target.value,
-            })
-          }
-          className="w-full border px-4 py-2 rounded pr-10"
-        />
-        <button
-          type="button"
-          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-          onClick={() => setShowPassword((prev) => !prev)}
-        >
-          {showPassword ? <FiEye /> : <FiEyeOff />}
-        </button>
-      </div>
+          <NFCModal />
 
-      <NFCModal />
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
 
-   <button
-  onClick={() => {
-    if (
-      !menuBookFormData.restaurantName &&
-      !menuBookFormData.phone &&
-      !menuBookFormData.email &&
-      !menuBookFormData.link &&
-      menuBookFormData.menuItems.length === 0 &&
-      !menuBookFormData.password
-    ) {
-      toast.error("Please fill at least one field before submitting.");
-    } else {
-      setShowConfirmModal(true);
-    }
-  }}
-  className="w-full bg-[#008080] text-white py-2 rounded hover:bg-[#006666] transition disabled:opacity-50"
->
-  Submit
-</button>
+              // If all fields are empty, do not open modal
+              const {
+                restaurantName,
+                phone,
+                email,
+                link,
+                password,
+                menuItems,
+              } = menuBookFormData;
+              const allEmpty =
+                !restaurantName &&
+                !phone &&
+                !email &&
+                !link &&
+                !password &&
+                (!menuItems || menuItems.length === 0);
 
+              if (allEmpty) {
+                toast.error(
+                  "Please fill in at least one field before submitting."
+                );
+                return;
+              }
 
-    </div>
-</form>
-    {showConfirmModal && (
+              // Otherwise, open the confirm modal
+              setShowConfirmModal(true);
+            }}
+            className="w-full cursor-pointer bg-[#008080] text-white py-2 rounded hover:bg-[#006666] transition disabled:opacity-50"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+      {showConfirmModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
           <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-xl border border-teal-200 mx-4 sm:mx-auto">
-      <h2 className="text-2xl pb-4 font-semibold text-center text-teal-700">Confirm Your Details</h2>
-      <div className="text-xl space-y-2">
-        <p><b>Restaurant:</b> {menuBookFormData.restaurantName}</p>
-        <p><b>Phone:</b> {menuBookFormData.phone}</p>
-        <p><b>Email:</b> {menuBookFormData.email}</p>
-        <p><b>Link:</b> {menuBookFormData.link}</p>
-        <div>
-  <p className="font-medium mb-1">Uploaded Images:</p>
-  <div className="grid grid-cols-3 gap-2">
-    {menuBookFormData.menuItems.map((item, index) => (
-      <img
-        key={index}
-        src={item.image}
-        alt={`Image ${index + 1}`}
-        className="w-full h-24 object-cover rounded border"
-      />
-    ))}
-  </div>
-</div>
+            <h2 className="text-2xl pb-4 font-semibold text-center text-teal-700">
+              Confirm Your Details
+            </h2>
 
-      </div>
+            <div className="text-base space-y-2 text-gray-800">
+              {menuBookFormData.restaurantName && (
+                <p>
+                  <b>Restaurant:</b> {menuBookFormData.restaurantName}
+                </p>
+              )}
+              {menuBookFormData.phone && (
+                <p>
+                  <b>Phone:</b> {menuBookFormData.phone}
+                </p>
+              )}
+              {menuBookFormData.email && (
+                <p>
+                  <b>Email:</b> {menuBookFormData.email}
+                </p>
+              )}
+              {menuBookFormData.link && (
+                <p>
+                  <b>Link:</b> {menuBookFormData.link}
+                </p>
+              )}
+              {menuBookFormData.password && (
+                <p>
+                  <b>Password:</b> {menuBookFormData.password}
+                </p>
+              )}
 
-      <div className="flex justify-end gap-3 pt-4">
-        <button
-          className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 text-sm cursor-pointer"
-          onClick={() => setShowConfirmModal(false)}
-        >
-          Back
-        </button>
-       <button
-  className="px-4 py-2 bg-teal-600 text-white rounded cursor-pointer hover:bg-teal-700 text-sm"
-  onClick={() => {
-    setShowConfirmModal(false); // 👈 Closes modal
-    handleSubmit();             // 👈 Submits the form
-  }}
->
-  Confirm & Submit
-</button>
+              {Array.isArray(menuBookFormData.menuItems) &&
+                menuBookFormData.menuItems.length > 0 && (
+                  <div>
+                    <p className="font-medium mb-1">Uploaded Images:</p>
+                    <div className="grid grid-cols-3 gap-2">
+                      {menuBookFormData.menuItems.map((item, index) => (
+                        <img
+                          key={index}
+                          src={item.image}
+                          alt={`Image ${index + 1}`}
+                          className="w-full h-24 object-cover rounded border"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+            </div>
 
-      </div>
-    </div>
-  </div>
-)}
-
+            {/* Action Buttons */}
+            <div className="flex justify-end gap-3 pt-4">
+              <button
+                className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 text-sm cursor-pointer"
+                onClick={() => setShowConfirmModal(false)}
+              >
+                Back
+              </button>
+              <button
+                className="px-4 py-2 bg-teal-600 text-white rounded cursor-pointer hover:bg-teal-700 text-sm"
+                onClick={() => {
+                  setShowConfirmModal(false);
+                  handleSubmit();
+                }}
+              >
+                Confirm & Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

@@ -1,30 +1,26 @@
-// models/services/videoSchema.js
-
 import mongoose from "mongoose";
 
-const videoSchema = new mongoose.Schema(
-  {
-    title: {
-      type: String,
-      trim: true,
-    },
-    description: {
-      type: String,
-      trim: true,
-    },
-    fileName: {
-      type: String,
-      trim: true,
-    },
-    password: {
-      type: String,
-    },
+
+
+const videoSchema = new mongoose.Schema({
+  title: String,
+  description: String,
+  password: String,
+
+  videos: [
+      {
+        url: String,
+        name: String,
+      },
+    ],
+
+  user: {
+    id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    name: String,
   },
-  {
-    timestamps: true, // adds createdAt and updatedAt
-  }
-);
+}, { timestamps: true });
 
-const VideoModal = mongoose.models.Video || mongoose.model("Video", videoSchema);
+const VideoServiceModel =
+  mongoose.models.VideoService || mongoose.model("VideoService", videoSchema);
 
-export default VideoModal
+export default VideoServiceModel;

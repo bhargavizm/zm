@@ -91,6 +91,7 @@ const DecorateQRCode = () => {
             <hr className="my-2 border-gray-300" />
 
             {/* Basic Information Accordion */}
+            <form >
             <div className="max-w-full sm:max-w-xl mx-auto mt-6">
               <button
                 onClick={() => setBasicInfoOpen(!basicInfoOpen)}
@@ -192,14 +193,22 @@ const DecorateQRCode = () => {
               className="mt-8 max-w-xl mx-auto flex justify-center items-center"
             >
               <button
-                onClick={() => setShowConfirmModal(true)}
+               onClick={(e) => {
+  e.preventDefault();
+  if (!url.trim() && !password.trim()) {
+    toast.error("Please enter at least URL or Password to proceed.");
+    return;
+  }
+  setShowConfirmModal(true);
+}}
+
                 disabled={isLoading}
                 className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center transition-effects gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
               >
                 submit
               </button>
             </div>
-
+</form>
             {/* Customize QR Button */}
             <div className="max-w-full sm:max-w-xl mx-auto mt-6">
               <button
@@ -276,63 +285,61 @@ const DecorateQRCode = () => {
           onClose={() => setShowModal(false)}
         />
       )}
-      {showConfirmModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
-          <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-xl border border-teal-200 mx-4 sm:mx-auto">
-            <h3 className="text-2xl sm:text-3xl font-semibold text-mainGreen mb-6">
-              Confirm Submission
-            </h3>
+    {showConfirmModal && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
+    <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-xl border border-teal-200 mx-4 sm:mx-auto">
+      <h3 className="text-2xl sm:text-3xl font-semibold text-mainGreen mb-6">
+        Confirm Submission
+      </h3>
 
-            <div className="space-y-4 md:text-xl text-lg text-gray-800 mb-8">
-              {/* URL Row */}
-              <div className="flex flex-col sm:flex-row sm:items-start sm:gap-3">
-                <div className="font-semibold min-w-fit">URL:</div>
-                <div className="break-words overflow-hidden">
-                  <a
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 underline break-all"
-                  >
-                    {url}
-                  </a>
-                </div>
-              </div>
-
-              {/* Password Row */}
-              <div className="flex flex-col sm:flex-row sm:items-start sm:gap-3">
-                <div className="font-semibold min-w-fit">Password:</div>
-                <div>
-                  {password || (
-                    <span className="italic text-gray-500">
-                      No password set
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Buttons */}
-            <div className="flex justify-end gap-4">
-              <button
-                onClick={() => setShowConfirmModal(false)}
-                className="px-4 py-2 cursor-pointer bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition"
+      <div className="space-y-4 md:text-xl text-lg text-gray-800 mb-8">
+        {/* Conditional URL Row */}
+        {url && (
+          <div className="flex flex-col sm:flex-row sm:items-start sm:gap-3">
+            <div className="font-semibold min-w-fit">URL:</div>
+            <div className="break-words overflow-hidden">
+              <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 underline break-all"
               >
-                Back
-              </button>
-              <button
-                onClick={async () => {
-                  await handleSubmit();
-                  setShowConfirmModal(false);
-                }}
-                className="px-4 py-2 cursor-pointer bg-teal-700 text-white rounded hover:bg-teal-800 transition"
-              >
-                Confirm
-              </button>
+                {url}
+              </a>
             </div>
           </div>
-        </div>
-      )}
+        )}
+
+        {/* Conditional Password Row */}
+        {password && (
+          <div className="flex flex-col sm:flex-row sm:items-start sm:gap-3">
+            <div className="font-semibold min-w-fit">Password:</div>
+            <div>{password}</div>
+          </div>
+        )}
+      </div>
+
+      <div className="flex justify-end gap-4">
+        <button
+          onClick={() => setShowConfirmModal(false)}
+          className="px-4 py-2 cursor-pointer bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition"
+        >
+          Back
+        </button>
+        <button
+          onClick={async () => {
+            await handleSubmit();
+            setShowConfirmModal(false);
+          }}
+          className="px-4 py-2 cursor-pointer bg-teal-700 text-white rounded hover:bg-teal-800 transition"
+        >
+          Confirm
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
     </>
   );
 };
