@@ -14,6 +14,7 @@ import {
 } from "react-icons/fa";
 import NFCModal from "@/components/modalPopUps/nfcModal";
 import { useDispatch } from "react-redux";
+import CryptoJS from "crypto-js";
 import { setMultiUrlServices } from "@/redux/slices/servicesSlice";
 
 const platformIcons = {
@@ -42,6 +43,11 @@ const MultiUrlContent = () => {
 
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [previewData, setPreviewData] = useState({
+    socialLinks: {},
+    customLinks: [],
+    password: "",
+  });
 
   const socialLinks = dynamicForms?.multiUrl?.socialLinks || {};
   const customLinks = dynamicForms?.multiUrl?.customLinks || [];
@@ -65,15 +71,25 @@ const MultiUrlContent = () => {
   };
 
   const handleSubmit = () => {
+    setPreviewData({
+      socialLinks,
+      customLinks,
+      password,
+    });
     setShowPreviewModal(true);
   };
 
   const confirmSubmit = async () => {
     try {
+      const secretKey = "secret-key"; // Replace with env variable in production
+      const encryptedPassword = password
+        ? CryptoJS.AES.encrypt(password, secretKey).toString()
+        : "";
+
       const payload = {
         socialLinks,
         customLinks,
-        password,
+        password: encryptedPassword,
       };
 
       const response = await fetch("/api/services/multiurl", {
@@ -86,17 +102,19 @@ const MultiUrlContent = () => {
 
       const result = await response.json();
       if (!response.ok) {
-        alert(`Error: ${result.error}`);
+        alert(`Error: ${result.message || result.error}`);
         return;
       }
 
       dispatch(setMultiUrlServices(result.multiUrldata));
-      setShowPreviewModal(false);
-      setShowSuccessModal(true);
 
-      // Reset form after submission
+      // Reset the form
       updateDynamicForm("multiUrl", null, null, {});
       setPassword("");
+      setCustomLabel("");
+      setCustomUrl("");
+      setShowPreviewModal(false);
+      setShowSuccessModal(true);
     } catch (error) {
       console.error("Submission failed", error);
       alert("An unexpected error occurred");
@@ -106,10 +124,9 @@ const MultiUrlContent = () => {
   return (
     <>
       <div className="space-y-6">
-        {/* 🔗 Social Media Links */}
+        {/* Social Media Links */}
         <div className="p-4 border rounded-lg">
           <h2 className="text-lg font-semibold mb-4">Social Media Links</h2>
-
           {["youtube", "instagram", "twitter", "linkedin", "facebook", "custom"].map((platform) => (
             <div className="flex items-center space-x-2 mb-3" key={platform}>
               <span>{platformIcons[platform]}</span>
@@ -126,7 +143,7 @@ const MultiUrlContent = () => {
           ))}
         </div>
 
-        {/* 🔗 Custom Links */}
+        {/* Custom Links */}
         <div className="p-4 border rounded-lg">
           <h2 className="text-lg font-semibold mb-4">Custom Links</h2>
           {customLinks.map((link, index) => (
@@ -147,7 +164,6 @@ const MultiUrlContent = () => {
               />
             </div>
           ))}
-
           <div className="flex gap-2 mt-2">
             <input
               type="text"
@@ -173,7 +189,7 @@ const MultiUrlContent = () => {
           </div>
         </div>
 
-        {/* 🔒 Password Section */}
+        {/* Password Section */}
         <div className="p-4 border rounded-lg">
           <h2 className="text-lg font-semibold mb-4">Password Protection</h2>
           <div className="relative">
@@ -194,10 +210,9 @@ const MultiUrlContent = () => {
           </div>
         </div>
 
-        {/* NFC Modal */}
         <NFCModal />
 
-        {/* ✅ Submit Button */}
+        {/* Submit Button */}
         <div className="text-center mt-4 w-full">
           <button
             type="button"
@@ -209,7 +224,7 @@ const MultiUrlContent = () => {
         </div>
       </div>
 
-      {/* 🔍 Preview Modal */}
+      {/* Preview Modal */}
       {showPreviewModal && (
         <div
           className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center"
@@ -224,31 +239,35 @@ const MultiUrlContent = () => {
             <div className="mb-4">
               <h3 className="font-semibold mb-2">Social Links:</h3>
               <ul className="text-sm space-y-1">
-                {Object.entries(socialLinks).map(([platform, url]) => (
-                  url && (
+                {Object.entries(previewData.socialLinks).map(([platform, url]) =>
+                  url ? (
                     <li key={platform}>
                       <strong>{platform}:</strong> {url}
                     </li>
-                  )
-                ))}
+                  ) : null
+                )}
               </ul>
             </div>
 
-            <div className="mb-4">
-              <h3 className="font-semibold mb-2">Custom Links:</h3>
-              <ul className="text-sm space-y-1">
-                {customLinks.map((link, index) => (
-                  <li key={index}>
-                    <strong>{link.label}:</strong> {link.url}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {Array.isArray(previewData.customLinks) && previewData.customLinks.length > 0 ? (
+              <div className="mb-4">
+                <h3 className="font-semibold mb-2">Custom Links:</h3>
+                <ul className="text-sm space-y-1">
+                  {previewData.customLinks.map((link, index) => (
+                    <li key={index}>
+                      <strong>{link.label || "No Label"}:</strong> {link.url || "No URL"}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <div className="mb-4 text-sm text-gray-500">No custom links added.</div>
+            )}
 
-            {password && (
+            {previewData.password && (
               <div className="mb-4">
                 <h3 className="font-semibold mb-1">Password:</h3>
-                <p className="text-sm">🔒 {password}</p>
+                <p className="text-sm">🔒 {previewData.password}</p>
               </div>
             )}
 
@@ -270,7 +289,7 @@ const MultiUrlContent = () => {
         </div>
       )}
 
-      {/* ✅ Success Popup */}
+      {/* Success Popup */}
       {showSuccessModal && (
         <div
           className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center"
