@@ -39,6 +39,7 @@
 import { connectDB } from "@/lib/mongoDB";
 import { authUser } from "@/middlewares/authMiddleware";
 import SmsModal from "@/models/services/smsSchema";
+import bcrypt from "bcryptjs"; // ✅ Import bcrypt
 
 export async function POST(request) {
   try {
@@ -52,28 +53,26 @@ export async function POST(request) {
     }
 
     const user = auth.user;
-    
     await connectDB();
 
-    // const form = await request.formData(); // ✅ Accept multipart form-data
+    // ✅ Step 2: Parse JSON body
+    const body = await request.json();
+    const { genderName, messageType, textMessage, password } = body;
 
-    // const genderName = form.get("genderName");
-    // const messageType = form.get("messageType");
-    // const textMessage = form.get("textMessage");
-    // const password = form.get("password");
-const body = await request.json();
-const { genderName, messageType, textMessage, password } = body;
+    // ✅ Step 3: Hash the password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
+    // ✅ Step 4: Create and save the document
     const newSms = new SmsModal({
-      user:{
-        id:user._id,
-        name:user.name,
+      user: {
+        id: user._id,
+        name: user.name,
       },
       genderName,
       messageType,
       textMessage,
-      password,
-
+      password: hashedPassword, // Store hashed password
     });
 
     await newSms.save();
@@ -96,3 +95,4 @@ const { genderName, messageType, textMessage, password } = body;
     );
   }
 }
+
