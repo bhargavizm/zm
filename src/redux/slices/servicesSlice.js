@@ -10,7 +10,7 @@ const initialState = {
   vehicleServiceData: [],
   eventServiceData: [],
   multiServicesData: [],
-  
+  discountServicesData: [],
 
   // Encrypted services
   audioServiceData: [],
@@ -58,6 +58,11 @@ const servicesSlice = createSlice({
       state.wifiServicesData = action.payload;
       state.error = null;
     },
+        setdiscountServices: (state, action) => {
+      state.discountServicesData = action.payload;
+      state.error = null;
+    },
+
    
     // ✅ Encrypted service reducers
     setPDFServices: (state, action) => {
@@ -94,6 +99,7 @@ export const {
   setEventServices,
   setMultiUrlServices,
   setWifiServices,
+  setdiscountServices,
   
 
   setPDFServices,
