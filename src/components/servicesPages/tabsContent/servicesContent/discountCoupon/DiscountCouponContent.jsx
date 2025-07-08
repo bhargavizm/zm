@@ -32,9 +32,14 @@ const DiscountCouponContent = () => {
 
   const handleFileChange = (fieldKey, files) => {
     if (files && files[0]) {
+      if (files[0].size > 2 * 1024 * 1024) {
+        toast.error('File size should not exceed 2MB');
+        return;
+      }
       handleChange(fieldKey, files[0]);
     }
   };
+
 
   const removeImage = (fieldKey) => {
     handleChange(fieldKey, null);
@@ -68,8 +73,21 @@ const DiscountCouponContent = () => {
   };
 
   const handleSubmit = () => {
+    const hasData =
+      discountCoupon.nameOfBusiness ||
+      discountCoupon.code ||
+      discountCoupon.password ||
+      discountCoupon.brandLogo ||
+      discountCoupon.couponImage;
+
+    if (!hasData) {
+      toast.error('Please fill at least one field before submitting.');
+      return;
+    }
+
     setShowPreview(true);
   };
+
 
   const handleConfirm = async () => {
     try {
@@ -95,7 +113,7 @@ const DiscountCouponContent = () => {
       });
 
       if (response && response.data && response.data.success) {
-         toast.success("discount coupon saves sucessfully");
+        toast.success("discount coupon saves sucessfully");
         setActiveTab(slug, "QR Code")
         dispatch(setDiscountServices(response.data.data));
         setShowPreview(false);
@@ -113,11 +131,11 @@ const DiscountCouponContent = () => {
         setTimeout(() => setShowSuccessPopup(false), 1000);
       } else {
         console.warn('Unexpected response:', response);
-        alert(response?.data?.message || 'Failed to save coupon');
+        toast(response?.data?.message || 'Failed to save coupon');
       }
     } catch (error) {
-      console.error('Error during coupon submission:', error);
-      alert('Something went wrong while saving the coupon.');
+
+      toast('fill at least one feild.');
     }
   };
 
@@ -239,9 +257,9 @@ const DiscountCouponContent = () => {
           <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg space-y-4">
             <h2 className="text-xl font-semibold text-gray-800">Preview Coupon</h2>
             <div className="space-y-2 text-sm text-gray-700">
-              <p><strong>Name of Business:</strong> {discountCoupon.nameOfBusiness || 'N/A'}</p>
-              <p><strong>Coupon Code:</strong> {discountCoupon.code || 'N/A'}</p>
-              <p><strong>Password:</strong> {discountCoupon.password ? '••••••' : 'N/A'}</p>
+              <p><strong>Name of Business:</strong> {discountCoupon.nameOfBusiness || ''}</p>
+              <p><strong>Coupon Code:</strong> {discountCoupon.code || ''}</p>
+              <p><strong>Password:</strong> {discountCoupon.password ? '••••••' : ''}</p>
               {discountCoupon.brandLogo && (
                 <div>
                   <p className="font-semibold mt-2">Brand Logo:</p>
