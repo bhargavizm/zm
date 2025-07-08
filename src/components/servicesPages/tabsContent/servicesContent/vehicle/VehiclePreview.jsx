@@ -207,7 +207,7 @@ const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
                     <img
                       src={resolveImageUrl(media.vehicleImage)}
                       alt="Main Vehicle"
-                      className="w-full h-full object-cover rounded-full"
+                      className="w-full h-full object-contain"
                     />
                   </div>
                 </div>
@@ -328,7 +328,7 @@ const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
                       <img
                         src={resolveImageUrl(media.licenseFront)}
                         alt="License Front"
-                        className="w-full h-20 object-cover rounded border"
+                        className="w-full h-20 object-contain rounded border"
                       />
                     </div>
                   )}
@@ -338,7 +338,7 @@ const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
                       <img
                         src={resolveImageUrl(media.licenseBack)}
                         alt="License Back"
-                        className="w-full h-20 object-cover rounded border"
+                        className="w-full h-20 object-contain rounded border"
                       />
                     </div>
                   )}
@@ -353,7 +353,7 @@ const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
                           <img
                             src={src}
                             alt={`Gallery ${idx + 1}`}
-                            className="w-full h-20 object-cover rounded border"
+                            className="w-full h-20 object-contain rounded border"
                           />
                         </div>
                       ) : null;

@@ -18,12 +18,12 @@ const BusinessCardTemplateTwo = ({ businessForm, profileImage, brandLogo }) => {
 
     return (
         <div
-            className="w-full mx-auto rounded-2xl bg-[#fce7e0]/70 shadow-lg overflow-y-auto scrollbar-hide text-center"
+            className="w-full mx-auto rounded-xl bg-[#fce7e0]/70 shadow-lg overflow-y-auto scrollbar-hide text-center"
             style={{ fontFamily: "Lato, Arial, sans-serif" }}
         >
             {/* Profile Photo */}
             <div className="flex justify-center mt-18 mb-3">
-                <div className="w-28 h-28 rounded-full overflow-hidden border-4 border-pink-200">
+                <div className="w-30 h-30 rounded-full overflow-hidden border-4 border-pink-200">
                     <Image
                         src={profileImage || "/default-user.webp"}
                         alt={"Profile"}
@@ -45,7 +45,7 @@ const BusinessCardTemplateTwo = ({ businessForm, profileImage, brandLogo }) => {
             <div className="flex flex-col items-center gap-3 px-8 mb-6">
                 {/* <a
                     href={businessName || "#"}
-                    className="w-full py-2 rounded-full font-semibold bg-pink-200 text-pink-700 shadow hover:bg-pink-300 transition text-center"
+                    className="w-full py-2 rounded font-semibold bg-pink-200 text-pink-700 shadow hover:bg-pink-300 transition text-center"
                 >
                     {businessName || "BUSINESS NAME"}
                 </a> */}
@@ -53,19 +53,19 @@ const BusinessCardTemplateTwo = ({ businessForm, profileImage, brandLogo }) => {
                     href={designation || "#"}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full py-2 rounded-full font-semibold bg-white text-pink-600 shadow hover:bg-gray-50 transition text-center"
+                    className="w-full py-2 rounded font-semibold bg-white text-pink-600 shadow hover:bg-gray-50 transition text-center"
                 >
                     {designation || "DESIGNATION"}
                 </a>
                 <a
                     href={`tel:${mobile}` || "#"}
-                    className="w-full py-2 rounded-full font-semibold bg-white text-pink-600 shadow hover:bg-gray-50 transition text-center"
+                    className="w-full py-2 rounded font-semibold bg-white text-pink-600 shadow hover:bg-gray-50 transition text-center"
                 >
                     {mobile || "MOBILE"}
                 </a>
                 <a
                     href={`mailto:${email}` || "#"}
-                    className="w-full py-2 rounded-full font-semibold bg-white text-pink-600 shadow hover:bg-gray-50 transition text-center"
+                    className="w-full py-2 rounded font-semibold bg-white text-pink-600 shadow hover:bg-gray-50 transition text-center"
                 >
                     {email || "EMAIL"}
                 </a>
@@ -73,7 +73,7 @@ const BusinessCardTemplateTwo = ({ businessForm, profileImage, brandLogo }) => {
                     href={mapLink || "#"}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full py-2 rounded-full font-semibold bg-white text-pink-600 shadow hover:bg-gray-50 transition text-center"
+                    className="w-full py-2 rounded font-semibold bg-white text-pink-600 shadow hover:bg-gray-50 transition text-center"
                 >
                     {mapLink || "MAP LINK"}
                 </a>
@@ -81,7 +81,7 @@ const BusinessCardTemplateTwo = ({ businessForm, profileImage, brandLogo }) => {
                     href={socialLink || "#"}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full py-2 rounded-full font-semibold bg-white text-pink-600 shadow hover:bg-gray-50 transition text-center"
+                    className="w-full py-2 rounded font-semibold bg-white text-pink-600 shadow hover:bg-gray-50 transition text-center"
                 >
                     {socialLink || "SOCIAL LINK"}
                 </a>
@@ -89,7 +89,7 @@ const BusinessCardTemplateTwo = ({ businessForm, profileImage, brandLogo }) => {
                     href={socialLink2 || "#"}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full py-2 rounded-full font-semibold bg-white text-pink-600 shadow hover:bg-gray-50 transition text-center"
+                    className="w-full py-2 rounded font-semibold bg-white text-pink-600 shadow hover:bg-gray-50 transition text-center"
                 >
                     {socialLink2 || "SOCIAL LINK2"}
                 </a>
@@ -97,7 +97,7 @@ const BusinessCardTemplateTwo = ({ businessForm, profileImage, brandLogo }) => {
                     href={address || "#"}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full py-2 rounded-full font-semibold bg-white text-pink-600 shadow hover:bg-gray-50 transition text-center"
+                    className="w-full py-2 rounded font-semibold bg-white text-pink-600 shadow hover:bg-gray-50 transition text-center"
                 >
                     {address || "Address"}
                 </a>

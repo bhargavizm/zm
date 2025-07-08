@@ -22,6 +22,7 @@ import { useParams } from "next/navigation";
 
 
 
+
 const platformIcons = {
   youtube: <FaYoutube className="text-red-600" />,
   instagram: <FaInstagram className="text-pink-500" />,
@@ -41,8 +42,8 @@ const MultiUrlContent = () => {
 
   const [customLabel, setCustomLabel] = useState("");
   const [customUrl, setCustomUrl] = useState("");
-   const { setActiveTab } = useDesignContext();
-const { slug } = useParams();
+  const { setActiveTab } = useDesignContext();
+  const { slug } = useParams();
 
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -78,9 +79,29 @@ const { slug } = useParams();
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = () => {
-    setShowPreviewModal(true);
-  };
+const handleSubmit = () => {
+  const hasSocialLinks = Object.values(socialLinks || {}).some(
+    (url) => typeof url === "string" && url.trim().length > 0
+  );
+
+  const hasCustomLinks = Array.isArray(customLinks) && customLinks
+    .filter(link => link && (link.label || link.url))
+    .some(
+      (link) =>
+        (typeof link.label === "string" && link.label.trim().length > 0) ||
+        (typeof link.url === "string" && link.url.trim().length > 0)
+    );
+
+  const hasPassword = typeof password === "string" && password.trim().length > 0;
+
+  if (!hasSocialLinks && !hasCustomLinks && !hasPassword) {
+    toast.error("Please fill at least one field before submitting.");
+    return;
+  }
+
+  setShowPreviewModal(true);
+};
+
   const confirmSubmit = async () => {
     try {
       const encryptedPassword = password
@@ -239,20 +260,23 @@ const { slug } = useParams();
             className="bg-white p-6 rounded-lg shadow-xl max-w-xl w-full overflow-y-auto max-h-[80vh]"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-xl font-bold mb-4 text-blue-600">Preview Your Submission</h2>
+            <h2 className="text-xl font-bold mb-4 text-[#008080]">Preview Your Submission</h2>
 
-            <div className="mb-4">
-              <h3 className="font-semibold mb-2">Social Links:</h3>
-              <ul className="text-sm space-y-1">
-                {Object.entries(socialLinks).map(([platform, url]) =>
-                  url ? (
-                    <li key={platform}>
-                      <strong>{platform}:</strong> {url}
-                    </li>
-                  ) : null
-                )}
-              </ul>
-            </div>
+            {Object.values(socialLinks).some(url => url) && (
+              <div className="mb-4">
+                <h3 className="font-semibold mb-2">Social Links:</h3>
+                <ul className="text-sm space-y-1">
+                  {Object.entries(socialLinks).map(([platform, url]) =>
+                    url ? (
+                      <li key={platform}>
+                        <strong>{platform}:</strong> {url}
+                      </li>
+                    ) : null
+                  )}
+                </ul>
+              </div>
+            )}
+
 
             {customLinks.length > 0 && (
               <div className="mb-4">
