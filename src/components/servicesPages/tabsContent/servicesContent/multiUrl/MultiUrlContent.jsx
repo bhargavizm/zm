@@ -13,12 +13,14 @@ import {
   FaLink,
 } from "react-icons/fa";
 import NFCModal from "@/components/modalPopUps/nfcModal";
-import { useDispatch } from "react-redux";
 import CryptoJS from "crypto-js";
+import { useDispatch } from "react-redux";
 import { setMultiUrlServices } from "@/redux/slices/servicesSlice";
 import toast from "react-hot-toast";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import { useParams } from "next/navigation";
+
+
 
 const platformIcons = {
   youtube: <FaYoutube className="text-red-600" />,
@@ -36,11 +38,12 @@ const MultiUrlContent = () => {
     addTemplateField,
     removeTemplateField,
   } = useServicesContext();
-    const { setActiveTab } = useDesignContext();
-  const { slug } = useParams();
 
   const [customLabel, setCustomLabel] = useState("");
   const [customUrl, setCustomUrl] = useState("");
+   const { setActiveTab } = useDesignContext();
+const { slug } = useParams();
+
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
@@ -48,25 +51,25 @@ const MultiUrlContent = () => {
 
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [previewData, setPreviewData] = useState({
-    socialLinks: {},
-    customLinks: [],
-    password: "",
-  });
 
   const socialLinks = dynamicForms?.multiUrl?.socialLinks || {};
-  const customLinks = dynamicForms?.multiUrl?.customLinks || [];
+
+  const rawCustomLinks = dynamicForms?.multiUrl?.customLinks;
+  const customLinks = Array.isArray(rawCustomLinks) ? rawCustomLinks : [];
 
   const handleCustomLinkChange = (index, key, value) => {
     const updatedLinks = [...customLinks];
     updatedLinks[index][key] = value;
-    updateDynamicForm("multiUrl", "customLinks", index, updatedLinks[index]);
+    updateDynamicForm("multiUrl", null, "customLinks", updatedLinks);
   };
 
   const handleAddCustomLink = () => {
     if (!customLabel || !customUrl) return;
+
     const newLink = { label: customLabel, url: customUrl };
-    addTemplateField("multiUrl", "customLinks", "", newLink);
+    const updatedLinks = [...customLinks, newLink];
+    updateDynamicForm("multiUrl", null, "customLinks", updatedLinks);
+
     setCustomLabel("");
     setCustomUrl("");
   };
@@ -76,19 +79,12 @@ const MultiUrlContent = () => {
   };
 
   const handleSubmit = () => {
-    setPreviewData({
-      socialLinks,
-      customLinks,
-      password,
-    });
     setShowPreviewModal(true);
   };
-
   const confirmSubmit = async () => {
     try {
-      const secretKey = "secret-key"; // Replace with env variable in production
       const encryptedPassword = password
-        ? CryptoJS.AES.encrypt(password, secretKey).toString()
+        ? CryptoJS.AES.encrypt(password, "secret-key").toString()
         : "";
 
       const payload = {
@@ -99,34 +95,35 @@ const MultiUrlContent = () => {
 
       const response = await fetch("/api/services/multiurl", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
 
       const result = await response.json();
+
       if (!response.ok) {
         alert(`Error: ${result.message || result.error}`);
         return;
       }
 
+      // ✅ success actions
+      toast.success("Multi URL data successfully submitted");
+      setActiveTab(slug, "QR Code")
       dispatch(setMultiUrlServices(result.multiUrldata));
       setShowPreviewModal(false);
-     toast.success(result.message)
- setActiveTab(slug, "QR Code");
-      // Reset form after submission
+      setShowSuccessModal(true);
+
+      // ✅ reset form data
       updateDynamicForm("multiUrl", null, null, {});
-      setPassword("");
       setCustomLabel("");
       setCustomUrl("");
-      setShowPreviewModal(false);
-      setShowSuccessModal(true);
+      setPassword("");
     } catch (error) {
       console.error("Submission failed", error);
-      toast.error("An unexpected error occurred");
+      alert("An unexpected error occurred");
     }
   };
+
 
   return (
     <>
@@ -171,6 +168,7 @@ const MultiUrlContent = () => {
               />
             </div>
           ))}
+
           <div className="flex gap-2 mt-2">
             <input
               type="text"
@@ -188,7 +186,7 @@ const MultiUrlContent = () => {
             />
             <button
               type="button"
-              className="px-4 bg-green-600 text-white rounded"
+              className="px-4 bg-[#008080] text-white rounded"
               onClick={handleAddCustomLink}
             >
               Add
@@ -246,7 +244,7 @@ const MultiUrlContent = () => {
             <div className="mb-4">
               <h3 className="font-semibold mb-2">Social Links:</h3>
               <ul className="text-sm space-y-1">
-                {Object.entries(previewData.socialLinks).map(([platform, url]) =>
+                {Object.entries(socialLinks).map(([platform, url]) =>
                   url ? (
                     <li key={platform}>
                       <strong>{platform}:</strong> {url}
@@ -256,25 +254,23 @@ const MultiUrlContent = () => {
               </ul>
             </div>
 
-            {Array.isArray(previewData.customLinks) && previewData.customLinks.length > 0 ? (
+            {customLinks.length > 0 && (
               <div className="mb-4">
                 <h3 className="font-semibold mb-2">Custom Links:</h3>
                 <ul className="text-sm space-y-1">
-                  {previewData.customLinks.map((link, index) => (
+                  {customLinks.map((link, index) => (
                     <li key={index}>
                       <strong>{link.label || "No Label"}:</strong> {link.url || "No URL"}
                     </li>
                   ))}
                 </ul>
               </div>
-            ) : (
-              <div className="mb-4 text-sm text-gray-500">No custom links added.</div>
             )}
 
-            {previewData.password && (
+            {password && (
               <div className="mb-4">
                 <h3 className="font-semibold mb-1">Password:</h3>
-                <p className="text-sm">🔒 {previewData.password}</p>
+                <p className="text-sm">🔒 {password}</p>
               </div>
             )}
 
@@ -287,36 +283,18 @@ const MultiUrlContent = () => {
               </button>
               <button
                 className="px-4 py-2 rounded bg-[#008080] hover:bg-[#006666] text-white"
-                onClick={confirmSubmit}
+                onClick={() => {
+                  setShowPreviewModal(false),
+                    confirmSubmit()
+                }}
               >
-                Confirm & Submit
+                Confirm
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Success Popup */}
-      {showSuccessModal && (
-        <div
-          className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center"
-          onClick={() => setShowSuccessModal(false)}
-        >
-          <div
-            className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h2 className="text-xl font-bold mb-2 text-green-600">Success!</h2>
-            <p className="mb-4">Your Multi URL content has been saved successfully.</p>
-            <button
-              onClick={() => setShowSuccessModal(false)}
-              className="bg-[#008080] text-white px-4 py-2 rounded hover:bg-[#006666]"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
     </>
   );
 };
