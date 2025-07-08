@@ -15,6 +15,10 @@ const customLinkSchema = new mongoose.Schema({
 }, { _id: false });
 
 const multiUrlSchema = new mongoose.Schema({
+    user: {
+            id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+            name: String,
+          },
   
   socialLinks: socialLinksSchema,
   customLinks: [customLinkSchema],
