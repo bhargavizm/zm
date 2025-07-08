@@ -1,10 +1,22 @@
 import { connectDB } from '@/lib/mongoDB';
+import { authUser } from '@/middlewares/authMiddleware';
 import DiscountModal from '@/models/services/discountSchema';
+import { cloudinary } from '@/utils/cloudinary';
 import { NextResponse } from 'next/server';
-import cloudinary from '@/utils/cloudinary';
+
 
 export async function POST(req) {
   try {
+    const auth = await authUser(req);
+        
+        if (auth.status !== 200) {
+          return new Response(JSON.stringify(auth.json), {
+            status: auth.status,
+            headers: { "Content-Type": "application/json" },
+          });
+        }
+        
+        const user = auth.user; 
     await connectDB();
     const body = await req.json();
     const { nameOfBusiness, code, brandLogo, couponImage, password } = body;
@@ -29,6 +41,10 @@ export async function POST(req) {
     const couponImageUrl = await uploadImage(couponImage, 'couponImages');
 
     const newCoupon = new DiscountModal({
+      user: {
+        id: user._id,
+        name: user.name,
+      },
       nameOfBusiness,
       code,
       brandLogo: brandLogoUrl,
