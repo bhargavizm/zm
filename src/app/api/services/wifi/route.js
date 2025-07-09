@@ -48,7 +48,7 @@ export async function POST(req) {
         const user = auth.user;
 
         const body = await req.json();
-        const { ssid, security, password } = body;
+        const { ssid, security, password, qrPassword } = body;
 
         if (!ssid || !security) {
             return NextResponse.json(
@@ -69,6 +69,7 @@ export async function POST(req) {
             ssid,
             security,
             password: security === "nopass" ? "" : password,
+            qrPassword
         });
         await wifi.save();
 
