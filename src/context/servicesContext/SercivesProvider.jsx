@@ -585,7 +585,7 @@ const [propertyDetails,setPropertyDetails] = useState({
         propertyDetails,setPropertyDetails,
 
         // Dynamic forms and their handlers
-        dynamicForms,
+        dynamicForms,setDynamicForms,
         updateDynamicForm,
         resetDynamicForm, // Expose the new reset function
         addTemplateField,
