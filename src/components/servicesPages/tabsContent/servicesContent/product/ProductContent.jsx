@@ -180,17 +180,20 @@
 
 
 
-
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { MdCancel, MdDeleteForever } from "react-icons/md";
-import axios from "axios";
+import NFCModal from "@/components/modalPopUps/nfcModal";
 import useDesignContext from "@/components/hooks/useDesignContext";
+import { MdCancel, MdDeleteForever } from "react-icons/md";
+import { toast } from 'react-hot-toast';
+import { useParams } from "next/navigation";
 
 const ProductContent = () => {
+  const { setActiveTab } = useDesignContext();
+  const { slug } = useParams();
   // Context states
   const {
     productData,
@@ -201,154 +204,225 @@ const ProductContent = () => {
     items,
     setItems,
   } = useServicesContext();
+  const { setIsLoading, setBgDesign } = useDesignContext();
 
-  const { setIsLoading } = useDesignContext();
-  const [isLoadingLocation, setIsLoadingLocation] = useState(false);
+  // State variables
   const [showPassword, setShowPassword] = useState(false);
-  const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
-  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
-  const [formErrors, setFormErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isNFCModalOpen, setIsNFCModalOpen] = useState(false);
+  const [isLoadingLocation, setIsLoadingLocation] = useState(false);
+  const [validationError, setValidationError] = useState("");
+  const [showValidationModal, setShowValidationModal] = useState(false);
+  const [showSubmitModal, setShowSubmitModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState({
+    brandName: "",
+    email: "",
+    phone: "",
+    items: [],
+  });
+  const fileInputRefs = useRef([]);
 
-  const templateImages = [
-    "temp1.webp",
-    "temp2.webp",
-    "temp3.webp",
-    "temp4.webp",
-  ];
+  // Constants
+  const MAX_SINGLE_FILE_SIZE = 2 * 1024 * 1024; // 2MB
+  const MAX_TOTAL_SIZE = 30 * 1024 * 1024; // 30MB
+  const templateImages = ["temp1.webp", "temp2.webp", "temp3.webp", "temp4.webp"];
 
+  // Initialize items array if empty
   useEffect(() => {
     if (!items || items.length === 0) {
       setItems([
-        { images: [], heading: "", description: "", videoUrl: "", pageUrl: "" },
+        { image: "", heading: "", description: "", videoUrl: "", pageUrl: "" },
       ]);
+      setFieldErrors(prev => ({
+        ...prev,
+        items: [{
+          heading: "",
+          pageUrl: "",
+          videoUrl: ""
+        }]
+      }));
     }
   }, [items, setItems]);
 
-  const validateForm = () => {
-    const errors = {};
-    
-    // if (!productData.brandName?.trim()) {
-    //   errors.brandName = "Brand name is required";
-    // }
-    
-    // if (!productData.password?.trim()) {
-    //   errors.password = "Password is required";
-    // }
-
-    if (productData.phone && !/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(productData.phone)) {
-      errors.phone = "Please enter a valid phone number";
-    }
-    
-    if (!items || items.length === 0) {
-      errors.items = "At least one product item is required";
-    } 
-    // else {
-    //   items.forEach((item, index) => {
-    //     if (!item.heading?.trim()) {
-    //       errors[`item_${index}_heading`] = "Product name is required";
-    //     }
-    //     if (!item.description?.trim()) {
-    //       errors[`item_${index}_description`] = "Description is required";
-    //     }
-    //     if (item.pageUrl && !isValidUrl(item.pageUrl)) {
-    //       errors[`item_${index}_pageUrl`] = "Invalid URL format";
-    //     }
-    //     if (item.videoUrl && !isValidUrl(item.videoUrl)) {
-    //       errors[`item_${index}_videoUrl`] = "Invalid URL format";
-    //     }
-    //   });
-    // }
-    
-    setFormErrors(errors);
-    return Object.keys(errors).length === 0;
+  // Validate email format
+  const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
   };
 
-  const isValidUrl = (url) => {
+  // Validate URL format
+  const validateUrl = (url) => {
+    if (!url) return true; // Empty is valid (not required)
     try {
-      const parsed = new URL(url);
-      return ["http:", "https:"].includes(parsed.protocol);
+      new URL(url);
+      return true;
     } catch {
       return false;
     }
   };
 
+  // Validate phone number format
+  const validatePhone = (phone) => {
+    if (!phone) return true; // Empty is valid (not required)
+    const re = /^[0-9]{10,15}$/;
+    return re.test(phone);
+  };
+
+  // Handle common input changes with validation
   const handleCommonChange = (e) => {
     const { id, value } = e.target;
     setProductData((prev) => ({ ...prev, [id]: value }));
+
+    // Validate in real-time
+    if (id === "email") {
+      setFieldErrors(prev => ({
+        ...prev,
+        email: value && !validateEmail(value) ? "Invalid email format" : ""
+      }));
+    } else if (id === "phone") {
+      setFieldErrors(prev => ({
+        ...prev,
+        phone: value && !validatePhone(value) ? "Invalid phone number (10-15 digits)" : ""
+      }));
+    } else if (id === "brandName") {
+      setFieldErrors(prev => ({
+        ...prev,
+        brandName: !value.trim() ? "Brand name is required" : ""
+      }));
+    }
   };
 
+  // Handle item field changes with validation
   const handleItemChange = (index, field, value) => {
     setItems((prevItems) => {
       const updatedItems = [...prevItems];
       updatedItems[index] = { ...updatedItems[index], [field]: value };
       return updatedItems;
     });
-  };
 
-  const handleItemImagesUpload = (index, files) => {
-    if (!files || files.length === 0) return;
-    
-    for (let i = 0; i < files.length; i++) {
-      if (files[i].size > 2 * 1024 * 1024) {
-        alert(`Image ${files[i].name} exceeds 2MB limit`);
-        return;
-      }
-    }
-    
-    const imageUrls = Array.from(files).map(file => URL.createObjectURL(file));
-    setItems((prevItems) => {
-      const updatedItems = [...prevItems];
-      updatedItems[index] = { 
-        ...updatedItems[index], 
-        images: [...(updatedItems[index].images || []), ...imageUrls] 
-      };
-      return updatedItems;
-    });
-    
-    if (index === 0 && imageUrls.length > 0) {
-      setProductImage(imageUrls[0]);
-    }
-  };
-
-  const handleRemoveItemImage = (index, imageIndex) => {
-    setItems((prevItems) => {
-      const updatedItems = [...prevItems];
-      if (updatedItems[index]?.images?.[imageIndex]) {
-        URL.revokeObjectURL(updatedItems[index].images[imageIndex]);
-        updatedItems[index] = { 
-          ...updatedItems[index], 
-          images: updatedItems[index].images.filter((_, i) => i !== imageIndex) 
+    // Validate URLs in real-time
+    if (field === "pageUrl" || field === "videoUrl") {
+      const isValid = validateUrl(value);
+      setFieldErrors(prev => {
+        const newItemsErrors = [...prev.items];
+        newItemsErrors[index] = {
+          ...newItemsErrors[index],
+          [field]: !isValid ? "Invalid URL format" : ""
         };
-      }
-      return updatedItems;
-    });
-    
-    if (index === 0) {
-      setItems(prevItems => {
-        if (prevItems[0]?.images?.length > 0) {
-          setProductImage(prevItems[0].images[0]);
-        } else {
-          setProductImage(null);
-        }
-        return prevItems;
+        return { ...prev, items: newItemsErrors };
+      });
+    }
+
+    // Validate required heading
+    if (field === "heading") {
+      setFieldErrors(prev => {
+        const newItemsErrors = [...prev.items];
+        newItemsErrors[index] = {
+          ...newItemsErrors[index],
+          heading: !value.trim() ? "Product name is required" : ""
+        };
+        return { ...prev, items: newItemsErrors };
       });
     }
   };
 
-  const handleProductLogoUpload = (e) => {
+  // Convert image URL to base64 for database storage
+  const convertImageToBase64 = async (imageUrl) => {
+    if (!imageUrl) return null;
+
+    try {
+      // If it's already a base64 string (data URL), return it
+      if (imageUrl.startsWith('data:')) {
+        return imageUrl;
+      }
+
+      // If it's a blob URL, convert it to base64
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    } catch (error) {
+      console.error("Error converting image to base64:", error);
+      return null;
+    }
+  };
+
+  // Handle product logo upload with validation
+  const handleProductLogoUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    
-    if (file.size > 2 * 1024 * 1024) {
-      alert("Logo size should be less than 2MB");
+
+    if (file.size > MAX_SINGLE_FILE_SIZE) {
+      showFileSizeError();
+      e.target.value = ""; // Clear the file input
       return;
     }
-    
+
     const logoUrl = URL.createObjectURL(file);
     setProductLogo(logoUrl);
   };
 
+  // Handle item image upload with validation
+  const handleItemImageUpload = async (index, file) => {
+    if (!file) return;
+
+    // Check single file size limit
+    if (file.size > MAX_SINGLE_FILE_SIZE) {
+      showFileSizeError();
+      fileInputRefs.current[index].value = ""; // Clear the file input
+      return;
+    }
+
+    // Check total size limit (logo + all item images)
+    const totalSize = calculateTotalImageSize(file);
+    if (totalSize > MAX_TOTAL_SIZE) {
+      setValidationError("Total size of all images exceeds 30MB limit");
+      setShowValidationModal(true);
+      fileInputRefs.current[index].value = ""; // Clear the file input
+      return;
+    }
+
+    const imageUrl = URL.createObjectURL(file);
+    setItems((prevItems) => {
+      const updatedItems = [...prevItems];
+      updatedItems[index] = { ...updatedItems[index], image: imageUrl };
+      return updatedItems;
+    });
+
+    if (index === 0) {
+      setProductImage(imageUrl);
+    }
+  };
+
+  // Calculate total size of all uploaded images
+  const calculateTotalImageSize = (newFile) => {
+    let totalSize = newFile ? newFile.size : 0;
+
+    if (productLogo) {
+      totalSize += MAX_SINGLE_FILE_SIZE; // Approximate
+    }
+
+    items.forEach(item => {
+      if (item.image) {
+        totalSize += MAX_SINGLE_FILE_SIZE; // Approximate
+      }
+    });
+
+    return totalSize;
+  };
+
+  // Show file size error modal
+  const showFileSizeError = () => {
+    setValidationError("Image size exceeds 2MB limit");
+    setShowValidationModal(true);
+    setTimeout(() => setShowValidationModal(false), 500);
+  };
+
+  // Remove product logo
   const handleRemoveProductLogo = () => {
     if (productLogo) {
       URL.revokeObjectURL(productLogo);
@@ -356,6 +430,23 @@ const ProductContent = () => {
     setProductLogo(null);
   };
 
+  // Remove item image
+  const handleRemoveItemImage = (index) => {
+    setItems((prevItems) => {
+      const updatedItems = [...prevItems];
+      if (updatedItems[index].image) {
+        URL.revokeObjectURL(updatedItems[index].image);
+      }
+      updatedItems[index] = { ...updatedItems[index], image: "" };
+      return updatedItems;
+    });
+
+    if (index === 0) {
+      setProductImage(null);
+    }
+  };
+
+  // Handle template selection
   const handleTemplateSelect = (filename, index) => {
     if (productData.selectedTemplate !== index) {
       setIsLoading(true);
@@ -363,29 +454,61 @@ const ProductContent = () => {
         ...prev,
         selectedTemplate: index,
       }));
+      setBgDesign(null);
       setTimeout(() => setIsLoading(false), 300);
     }
   };
 
+  // Add new product item
   const addNewItem = () => {
     setItems((prevItems) => [
       ...prevItems,
-      { images: [], heading: "", description: "", videoUrl: "", pageUrl: "" },
+      { image: "", heading: "", description: "", videoUrl: "", pageUrl: "" },
     ]);
+    setFieldErrors(prev => ({
+      ...prev,
+      items: [
+        ...prev.items,
+        { heading: "", pageUrl: "", videoUrl: "" }
+      ]
+    }));
   };
 
+  // Remove product item
   const removeItem = (index) => {
-    setItems((prevItems) => {
-      const itemsToRemove = prevItems.filter((_, i) => i !== index);
-      if (index === 0 && itemsToRemove.length > 0 && itemsToRemove[0]?.images?.length > 0) {
-        setProductImage(itemsToRemove[0].images[0]);
-      } else if (itemsToRemove.length === 0) {
-        setProductImage(null);
-      }
-      return itemsToRemove;
-    });
+    if (items[index].image) {
+      URL.revokeObjectURL(items[index].image);
+    }
+    setItems((prevItems) => prevItems.filter((_, i) => i !== index));
+    setFieldErrors(prev => ({
+      ...prev,
+      items: prev.items.filter((_, i) => i !== index)
+    }));
   };
 
+  // Prepare NFC data
+  const getNFCData = () => {
+    const allProductDetails = items.map((item) => ({
+      heading: item.heading,
+      description: item.description,
+      pageUrl: item.pageUrl,
+      videoUrl: item.videoUrl,
+    }));
+    return JSON.stringify(
+      {
+        brandName: productData.brandName || "",
+        contactEmail: productData.email || "",
+        contactPhone: productData.phone || "",
+        contactAddress: productData.address || "",
+        qrPassword: productData.password || "",
+        products: allProductDetails,
+      },
+      null,
+      2
+    );
+  };
+
+  // Fetch current location
   const fetchCurrentLocation = async () => {
     setIsLoadingLocation(true);
     try {
@@ -416,555 +539,527 @@ const ProductContent = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    if (!validateForm()) {
-      return;
-    }
-    
-    setIsPreviewModalOpen(true);
-  };
-
-  const convertImageToBase64 = async (imageUrl) => {
-    try {
-      const response = await fetch(imageUrl);
-      const blob = await response.blob();
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result);
-        reader.onerror = reject;
-        reader.readAsDataURL(blob);
-      });
-    } catch (error) {
-      console.error("Error converting image to base64:", error);
-      return null;
-    }
-  };
-
-  const confirmSubmission = async () => {
-    setIsSubmitting(true);
-    try {
-      // Prepare the data object
-      const submissionData = {
-        brandName: productData.brandName,
-        email: productData.email || '',
-        phone: productData.phone || '',
-        address: productData.address || '',
-        password: productData.password,
-        selectedTemplate: productData.selectedTemplate || 0,
-        productLogo: productLogo ? await convertImageToBase64(productLogo) : null,
-        items: []
-      };
-
-      // Process items and their images
-      for (const item of items) {
-        const processedItem = {
-          heading: item.heading,
-          description: item.description,
-          videoUrl: item.videoUrl || '',
-          pageUrl: item.pageUrl || '',
-          images: []
-        };
-
-        // Convert images to base64
-        if (item.images && item.images.length > 0) {
-          for (const imageUrl of item.images) {
-            const base64Image = await convertImageToBase64(imageUrl);
-            if (base64Image) {
-              processedItem.images.push(base64Image);
-            }
-          }
-        }
-
-        submissionData.items.push(processedItem);
-      }
-
-      const response = await axios.post('/api/services/product', submissionData, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      
-      if (response.status === 201) {
-        setIsPreviewModalOpen(false);
-        setIsSuccessModalOpen(true);
-        resetForm();
-      }
-    } catch (error) {
-      console.error("Submission error:", error);
-      alert(`Failed to submit form: ${error.response?.data?.message || error.message}`);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const resetForm = () => {
-    setProductData({
+  // Validate form before submission
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = {
       brandName: "",
       email: "",
       phone: "",
-      address: "",
-      password: "",
-      selectedTemplate: null,
-    });
-    
-    if (productLogo) {
-      URL.revokeObjectURL(productLogo);
-      setProductLogo(null);
+      items: items.map(item => ({
+        heading: "",
+        pageUrl: "",
+        videoUrl: ""
+      }))
+    };
+
+    // Validate brand name
+    // if (!productData.brandName?.trim()) {
+    //   newErrors.brandName = "Brand name is required";
+    //   isValid = false;
+    // }
+
+    // Validate email
+    // if (!productData.email?.trim()) {
+    //   newErrors.email = "Email is required";
+    //   isValid = false;
+    // } else 
+    if (!validateEmail(productData.email)) {
+      newErrors.email = "Invalid email format";
+      isValid = false;
     }
-    
-    setItems([
-      { images: [], heading: "", description: "", videoUrl: "", pageUrl: "" },
-    ]);
-    
-    setFormErrors({});
+
+    // Validate phone
+    if (productData.phone && !validatePhone(productData.phone)) {
+      newErrors.phone = "Invalid phone number (10-15 digits)";
+      isValid = false;
+    }
+
+    // Validate items
+    items.forEach((item, index) => {
+      // if (!item.heading?.trim()) {
+      //   newErrors.items[index].heading = "Product name is required";
+      //   isValid = false;
+      // }
+      // if (item.pageUrl && !validateUrl(item.pageUrl)) {
+      //   newErrors.items[index].pageUrl = "Invalid URL format";
+      //   isValid = false;
+      // }
+      // if (item.videoUrl && !validateUrl(item.videoUrl)) {
+      //   newErrors.items[index].videoUrl = "Invalid URL format";
+      //   isValid = false;
+      // }
+    });
+
+    setFieldErrors(newErrors);
+    return isValid;
   };
 
-  const handleEdit = () => {
-    setIsPreviewModalOpen(false);
+  // Handle form submission
+const handleSubmit = async () => {
+    if (!validateForm()) {
+      setValidationError("Please fill the necessary details in the form");
+      setShowValidationModal(true);
+      return;
+    }
+
+    setShowSubmitModal(true);
+
+  };
+  // Confirm submission
+  const confirmSubmit = async () => {
+    setShowSubmitModal(false);
+
+    try {
+      // Convert all images to base64 for database storage
+      const logoBase64 = await convertImageToBase64(productLogo);
+
+      const itemsWithBase64Images = await Promise.all(
+        items.map(async (item) => ({
+          ...item,
+          image: await convertImageToBase64(item.image)
+        }))
+      );
+
+      const submissionData = {
+        brandName: productData.brandName,
+        email: productData.email,
+        phone: productData.phone,
+        address: productData.address,
+        password: productData.password,
+        selectedTemplate: productData.selectedTemplate,
+        productLogo: logoBase64,
+        items: itemsWithBase64Images,
+      };
+
+      const response = await fetch("/api/services/product", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(submissionData),
+      });
+
+
+      const responseData = await response.json();
+      console.log("Submission response:", responseData);
+      if (response.ok) {
+        toast.success("Product Data Successfully Submitted..");
+        setActiveTab(slug, "QR Code");
+        // Reset all form data
+      setProductData({
+        brandName: "",
+        email: "",
+        phone: "",
+        address: "",
+        password: "",
+        selectedTemplate: null,
+      });
+      
+      setProductLogo(null);
+      setItems([
+        { 
+          image: "", 
+          heading: "", 
+          description: "", 
+          videoUrl: "", 
+          pageUrl: "" 
+        }
+      ]);
+      
+      }
+      if (!response.ok) {
+        toast.warn("Product Data Submission Failed..");
+        throw new Error(responseData.message || "Failed to submit product");
+      }
+
+      setShowSuccessModal(true);
+      setTimeout(() => setShowSuccessModal(false), 2000);
+    } catch (error) {
+      console.error("Submission error:", error);
+      setValidationError(error.message || "Failed to submit product. Please try again.");
+      setShowValidationModal(true);
+    }
   };
 
-  const handleSuccessClose = () => {
-    setIsSuccessModalOpen(false);
+  // Modal backdrop component
+  const ModalBackdrop = ({ children, onClose }) => {
+    return (
+      <div className="fixed inset-0 bg-white-70 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50">
+        <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+          {children}
+        </div>
+      </div>
+    );
   };
 
   return (
-    <div className="relative">
-      {/* Blur effect when modals are open */}
-      {(isPreviewModalOpen || isSuccessModalOpen) && (
-        <div className="fixed inset-0 bg-white bg-opacity-70 backdrop-blur-sm z-10"></div>
+    <div>
+      {/* Validation Error Modal */}
+      {showValidationModal && (
+        <ModalBackdrop onClose={() => setShowValidationModal(false)}>
+          <div className="p-4 text-center">
+            <p className="text-red-500 font-medium">{validationError}</p>
+            <button
+              onClick={() => setShowValidationModal(false)}
+              className="mt-4 px-4 py-2 bg-[#008080] text-white rounded hover:bg-[#006666] transition"
+            >
+              OK
+            </button>
+          </div>
+        </ModalBackdrop>
       )}
 
-      <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 gap-10">
-          <div className="bg-white shadow-xl rounded-xl p-6 space-y-6">
-            {/* Template Selection Section */}
-            <div>
-              <h2 className="text-xl font-semibold mb-4">
-                Select a Template (click to choose)
-              </h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {templateImages.map((filename, idx) => (
-                  <div
-                    key={idx}
-                    onClick={() => handleTemplateSelect(filename, idx)}
-                    className={`relative rounded-md border-2 cursor-pointer transition-all p-1 ${
-                      productData.selectedTemplate === idx
-                        ? "border-[#008080] ring-2 ring-[#008080]"
-                        : "border-gray-300"
-                    }`}
-                  >
-                    <Image
-                      src={`/product-templates/${filename}`}
-                      alt={`Template ${idx + 1}`}
-                      width={300}
-                      height={180}
-                      className="object-cover rounded w-full h-auto"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Brand Logo and Brand Name Input */}
-            <div>
-              <h1 className="text-lg font-semibold mb-2">Brand Information</h1>
-              <label className="block font-medium text-gray-700 mb-2">
-                Brand Logo
-              </label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleProductLogoUpload}
-                className="w-full text-sm text-gray-700
-                  file:mr-4 file:py-2 file:px-4
-                  file:rounded-full file:border-0
-                  file:text-sm file:font-semibold
-                  file:bg-[#008080] file:text-white
-                  hover:file:bg-[#006666] transition duration-200 cursor-pointer mb-4"
-              />
-              {productLogo && (
-                <div className="relative w-fit">
-                  <img
-                    src={productLogo}
-                    alt="Brand Logo Preview"
-                    className="mt-2 rounded-md object-contain h-20 w-auto max-w-[150px] border border-gray-300 shadow-sm"
-                  />
-                  <button
-                    type="button"
-                    onClick={handleRemoveProductLogo}
-                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 text-sm hover:bg-red-600 transition"
-                    title="Remove logo"
-                  >
-                    <MdDeleteForever size={18} />
-                  </button>
-                </div>
-              )}
-              <label
-                htmlFor="brandName"
-                className="block font-medium text-gray-700 mb-2 mt-4"
+      {/* Submit Confirmation Modal */}
+      {showSubmitModal && (
+        <ModalBackdrop onClose={() => setShowSubmitModal(false)}>
+          <div className="p-4 text-center">
+            <h3 className="text-lg font-semibold mb-4">Confirm Submission</h3>
+            <p className="mb-6">Are you sure you want to submit this product information?</p>
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={() => setShowSubmitModal(false)}
+                className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 transition"
               >
-                Brand Name
-              </label>
-              <input
-                id="brandName"
-                type="text"
-                value={productData.brandName || ""}
-                onChange={handleCommonChange}
-                placeholder="Your Brand Name"
-                className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080] ${
-                  formErrors.brandName ? "border-red-500" : ""
-                }`}
-              />
-              {formErrors.brandName && (
-                <p className="text-red-500 text-sm mt-1">{formErrors.brandName}</p>
-              )}
+                Edit
+              </button>
+              <button
+                onClick={confirmSubmit}
+                className="px-4 py-2 bg-[#008080] text-white rounded hover:bg-[#006666] transition"
+              >
+                Submit
+              </button>
             </div>
+          </div>
+        </ModalBackdrop>
+      )}
 
-            {/* Dynamic Section for Multiple Product Items */}
-            {items && items.length > 0 ? (
-              items.map((item, index) => (
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <ModalBackdrop onClose={() => setShowSuccessModal(false)}>
+          <div className="p-4 text-center">
+            <p className="text-mainGreen font-medium mb-4">Product submitted successfully!</p>
+            <button
+              onClick={() => setShowSuccessModal(false)}
+              className="px-4 py-2 bg-[#008080] text-white rounded hover:bg-[#006666] transition"
+            >
+              OK
+            </button>
+          </div>
+        </ModalBackdrop>
+      )}
+
+      {/* Main Form Content */}
+      <div className="grid grid-cols-1 gap-10">
+        <div className="bg-white shadow-xl rounded-xl p-6 space-y-6">
+          {/* Template Selection */}
+          <div>
+            <h2 className="text-xl font-semibold mb-4">
+              Select a Template (click to choose)
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {templateImages.map((filename, idx) => (
                 <div
-                  key={index}
-                  className="p-4 border rounded-xl shadow-md bg-gray-50 relative space-y-4"
+                  key={idx}
+                  onClick={() => handleTemplateSelect(filename, idx)}
+                  className={`relative rounded-md border-2 cursor-pointer transition-all p-1 ${productData.selectedTemplate === idx
+                    ? "border-[#008080] ring-2 ring-[#008080]"
+                    : "border-gray-300"
+                    }`}
                 >
-                  {items.length > 1 && (
-                    <button
-                      type="button"
-                      className="absolute top-2 right-2 text-red-500 font-bold text-xl"
-                      onClick={() => removeItem(index)}
-                      title="Remove item"
-                    >
-                      <MdCancel />
-                    </button>
+                  <Image
+                    src={`/product-templates/${filename}`}
+                    alt={`Template ${idx + 1}`}
+                    width={300}
+                    height={180}
+                    className="object-cover rounded w-full h-auto"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Brand Information */}
+          <div>
+            <h1 className="text-lg font-semibold mb-2">Brand Information</h1>
+            <label className="block font-medium text-gray-700 mb-2">
+              Brand Logo
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleProductLogoUpload}
+              className="w-full text-sm text-gray-700
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-full file:border-0
+                    file:text-sm file:font-semibold
+                    file:bg-[#008080] file:text-white
+                    hover:file:bg-[#006666] transition duration-200 cursor-pointer mb-4"
+            />
+            {productLogo && (
+              <div className="relative w-fit">
+                <img
+                  src={productLogo}
+                  alt="Brand Logo Preview"
+                  className="mt-2 rounded-md object-contain h-20 w-auto max-w-[150px] border border-gray-300 shadow-sm"
+                />
+                <button
+                  onClick={handleRemoveProductLogo}
+                  className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 text-sm hover:bg-red-600 transition"
+                  title="Remove logo"
+                >
+                  <MdDeleteForever size={18} />
+                </button>
+              </div>
+            )}
+            <label
+              htmlFor="brandName"
+              className="block font-medium text-gray-700 mb-2 mt-4"
+            >
+              Brand Name *
+            </label>
+            <input
+              id="brandName"
+              type="text"
+              value={productData.brandName || ""}
+              onChange={handleCommonChange}
+              placeholder="Your Brand Name"
+              className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 ${fieldErrors.brandName ? "border-red-500 focus:ring-red-500" : "focus:ring-[#008080]"
+                }`}
+              required
+            />
+            {fieldErrors.brandName && (
+              <p className="text-red-500 text-sm mt-1">{fieldErrors.brandName}</p>
+            )}
+          </div>
+
+          {/* Product Items */}
+          {items && items.length > 0 ? (
+            items.map((item, index) => (
+              <div
+                key={index}
+                className="p-4 border rounded-xl shadow-md bg-gray-50 relative space-y-4"
+              >
+                {items.length > 1 && (
+                  <button
+                    className="absolute top-2 right-2 text-red-500 font-bold text-xl"
+                    onClick={() => removeItem(index)}
+                    title="Remove item"
+                  >
+                    <MdCancel />
+                  </button>
+                )}
+
+                {/* Product Image Upload */}
+                <div>
+                  <label className="block font-medium text-gray-700 mb-2">
+                    Product Image <span className="font-normal text-gray-700 mb-2">(Max 2MB)</span>
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleItemImageUpload(index, e.target.files[0])}
+                    ref={el => fileInputRefs.current[index] = el}
+                    className="w-full text-sm text-gray-700
+                      file:mr-4 file:py-2 file:px-4
+                      file:rounded-full file:border-0
+                      file:text-sm file:font-semibold
+                      file:bg-[#008080] file:text-white
+                      hover:file:bg-[#006666] transition duration-200 cursor-pointer"
+                  />
+                  {item.image && (
+                    <div className="relative w-fit">
+                      <img
+                        src={item.image}
+                        alt={`Uploaded ${index}`}
+                        className="mt-4 rounded object-cover w-24 h-24 border border-gray-300 shadow-sm"
+                      />
+                      <button
+                        onClick={() => handleRemoveItemImage(index)}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 text-sm hover:bg-red-600 transition"
+                        title="Remove image"
+                      >
+                        <MdDeleteForever size={18} />
+                      </button>
+                    </div>
                   )}
+                </div>
+
+                {/* Product Details */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block font-medium text-gray-700 mb-2">
-                      Product Images (500x500, max 5 images)
-                    </label>
                     <input
-                      type="file"
-                      accept="image/*"
-                      multiple
+                      type="text"
+                      placeholder="Product Name *"
+                      value={item.heading}
                       onChange={(e) =>
-                        handleItemImagesUpload(index, e.target.files)
+                        handleItemChange(index, "heading", e.target.value)
                       }
-                      className="w-full text-sm text-gray-700
-                        file:mr-4 file:py-2 file:px-4
-                        file:rounded-full file:border-0
-                        file:text-sm file:font-semibold
-                        file:bg-[#008080] file:text-white
-                        hover:file:bg-[#006666] transition duration-200 cursor-pointer"
+                      className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 ${fieldErrors.items[index]?.heading ? "border-red-500 focus:ring-red-500" : "focus:ring-[#008080]"
+                        }`}
+                      required
                     />
-                    {item.images?.length > 0 && (
-                      <div className="flex flex-wrap gap-2 mt-4">
-                        {item.images.map((image, imgIndex) => (
-                          <div key={imgIndex} className="relative">
-                            <img
-                              src={image}
-                              alt={`Product ${index + 1} image ${imgIndex + 1}`}
-                              className="rounded object-cover w-24 h-24 border border-gray-300 shadow-sm"
-                            />
-                            <button
-                              type="button"
-                              onClick={() => handleRemoveItemImage(index, imgIndex)}
-                              className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 text-sm hover:bg-red-600 transition"
-                              title="Remove image"
-                            >
-                              <MdDeleteForever size={18} />
-                            </button>
-                          </div>
-                        ))}
-                      </div>
+                    {fieldErrors.items[index]?.heading && (
+                      <p className="text-red-500 text-sm mt-1">{fieldErrors.items[index].heading}</p>
                     )}
                   </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <input
-                        type="text"
-                        placeholder="Product Name"
-                        value={item.heading}
-                        onChange={(e) =>
-                          handleItemChange(index, "heading", e.target.value)
-                        }
-                        className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080] ${
-                          formErrors[`item_${index}_heading`] ? "border-red-500" : ""
+                  <div>
+                    <input
+                      type="text"
+                      placeholder="Product Description"
+                      value={item.description}
+                      onChange={(e) =>
+                        handleItemChange(index, "description", e.target.value)
+                      }
+                      className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="url"
+                      placeholder="Product Page URL"
+                      value={item.pageUrl}
+                      onChange={(e) =>
+                        handleItemChange(index, "pageUrl", e.target.value)
+                      }
+                      className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 ${fieldErrors.items[index]?.pageUrl ? "border-red-500 focus:ring-red-500" : "focus:ring-[#008080]"
                         }`}
-                      />
-                      {formErrors[`item_${index}_heading`] && (
-                        <p className="text-red-500 text-sm mt-1">
-                          {formErrors[`item_${index}_heading`]}
-                        </p>
-                      )}
-                    </div>
-                    <div>
-                      <input
-                        type="text"
-                        placeholder="Product Description"
-                        value={item.description}
-                        onChange={(e) =>
-                          handleItemChange(index, "description", e.target.value)
-                        }
-                        className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080] ${
-                          formErrors[`item_${index}_description`] ? "border-red-500" : ""
+                    />
+                    {fieldErrors.items[index]?.pageUrl && (
+                      <p className="text-red-500 text-sm mt-1">{fieldErrors.items[index].pageUrl}</p>
+                    )}
+                  </div>
+                  <div>
+                    <input
+                      type="url"
+                      placeholder="Product Video URL"
+                      value={item.videoUrl}
+                      onChange={(e) =>
+                        handleItemChange(index, "videoUrl", e.target.value)
+                      }
+                      className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 ${fieldErrors.items[index]?.videoUrl ? "border-red-500 focus:ring-red-500" : "focus:ring-[#008080]"
                         }`}
-                      />
-                      {formErrors[`item_${index}_description`] && (
-                        <p className="text-red-500 text-sm mt-1">
-                          {formErrors[`item_${index}_description`]}
-                        </p>
-                      )}
-                    </div>
-                    <div>
-                      <input
-                        type="url"
-                        placeholder="Product Page URL"
-                        value={item.pageUrl}
-                        onChange={(e) =>
-                          handleItemChange(index, "pageUrl", e.target.value)
-                        }
-                        className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080] ${
-                          formErrors[`item_${index}_pageUrl`] ? "border-red-500" : ""
-                        }`}
-                      />
-                      {formErrors[`item_${index}_pageUrl`] && (
-                        <p className="text-red-500 text-sm mt-1">
-                          {formErrors[`item_${index}_pageUrl`]}
-                        </p>
-                      )}
-                    </div>
-                    <div>
-                      <input
-                        type="url"
-                        placeholder="Product Video URL"
-                        value={item.videoUrl}
-                        onChange={(e) =>
-                          handleItemChange(index, "videoUrl", e.target.value)
-                        }
-                        className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080] ${
-                          formErrors[`item_${index}_videoUrl`] ? "border-red-500" : ""
-                        }`}
-                      />
-                      {formErrors[`item_${index}_videoUrl`] && (
-                        <p className="text-red-500 text-sm mt-1">
-                          {formErrors[`item_${index}_videoUrl`]}
-                        </p>
-                      )}
-                    </div>
+                    />
+                    {fieldErrors.items[index]?.videoUrl && (
+                      <p className="text-red-500 text-sm mt-1">{fieldErrors.items[index].videoUrl}</p>
+                    )}
                   </div>
                 </div>
-              ))
-            ) : (
-              <p className="text-gray-500 text-center py-4">
-                Add your first product to get started!
-              </p>
-            )}
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-500 text-center py-4">
+              Add your first product to get started!
+            </p>
+          )}
 
-            <button
-              type="button"
-              onClick={addNewItem}
-              className="w-full bg-white text-[#008080] border border-[#008080] font-semibold py-2 rounded hover:bg-[#f0fdfa] transition"
-            >
-              + Add Another Product
-            </button>
+          {/* Add Another Product Button */}
+          <button
+            type="button"
+            onClick={addNewItem}
+            className="w-full bg-white text-[#008080] border border-[#008080] font-semibold py-2 rounded hover:bg-[#f0fdfa] transition"
+          >
+            + Add Another Product
+          </button>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+          {/* Contact Information */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+            <div>
+              <label className="block font-medium text-gray-700 mb-2">Contact Email *</label>
               <input
                 id="email"
                 type="email"
                 value={productData.email || ""}
                 onChange={handleCommonChange}
                 placeholder="Contact Email"
-                className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
-              />
-              <div>
-                <input
-                  id="phone"
-                  type="tel"
-                  value={productData.phone || ""}
-                  onChange={handleCommonChange}
-                  placeholder="Phone Number (e.g., +1234567890)"
-                  className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080] ${
-                    formErrors.phone ? "border-red-500" : ""
+                className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 ${fieldErrors.email ? "border-red-500 focus:ring-red-500" : "focus:ring-[#008080]"
                   }`}
-                />
-                {formErrors.phone && (
-                  <p className="text-red-500 text-sm mt-1">{formErrors.phone}</p>
-                )}
-              </div>
-            </div>
-            <div className="md:col-span-1">
-              <textarea
-                id="address"
-                rows={3}
-                value={productData.address || ""}
-                onChange={handleCommonChange}
-                placeholder="Enter full address"
-                className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
+                required
               />
-              <button
-                type="button"
-                onClick={fetchCurrentLocation}
-                disabled={isLoadingLocation}
-                className="mt-2 w-full flex items-center justify-center px-4 py-2 bg-[#008080] text-white rounded-lg hover:bg-[#006666] transition-colors"
-              >
-                {isLoadingLocation
-                  ? "Detecting Location..."
-                  : "Use Current Location"}
-              </button>
-            </div>
-
-            <div className="relative">
-              <input
-                id="password"
-                type={showPassword ? "text" : "password"}
-                value={productData.password || ""}
-                onChange={handleCommonChange}
-                placeholder="QR Code Password"
-                className={`border p-2 pr-10 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080] ${
-                  formErrors.password ? "border-red-500" : ""
-                }`}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword((prev) => !prev)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600"
-                aria-label={showPassword ? "Hide password" : "Show password"}
-              >
-                {showPassword ? (
-                  <AiOutlineEye size={20} />
-                ) : (
-                  <AiOutlineEyeInvisible size={20} />
-                )}
-              </button>
-              {formErrors.password && (
-                <p className="text-red-500 text-sm mt-1">{formErrors.password}</p>
+              {fieldErrors.email && (
+                <p className="text-red-500 text-sm mt-1">{fieldErrors.email}</p>
               )}
-            </div>  
+            </div>
+            <div>
+              <label className="block font-medium text-gray-700 mb-2">Phone Number</label>
+              <input
+                id="phone"
+                type="tel"
+                value={productData.phone || ""}
+                onChange={handleCommonChange}
+                placeholder="Phone Number"
+                className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 ${fieldErrors.phone ? "border-red-500 focus:ring-red-500" : "focus:ring-[#008080]"
+                  }`}
+              />
+              {fieldErrors.phone && (
+                <p className="text-red-500 text-sm mt-1">{fieldErrors.phone}</p>
+              )}
+            </div>
 
+          </div>
+          <div>
+            <label className="block font-medium text-gray-700 mb-2">Address</label>
+            <textarea
+              id="address"
+              rows={3}
+              value={productData.address || ""}
+              onChange={handleCommonChange}
+              placeholder="Enter full address"
+              className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
+            />
             <button
-            onClick={handleSubmit}
-              type="submit"
-              className="mt-6 w-full bg-[#008080] text-white font-semibold py-2 rounded hover:bg-[#006666] transition"
-              disabled={isSubmitting}
+              type="button"
+              onClick={fetchCurrentLocation}
+              disabled={isLoadingLocation}
+              className="mt-2 w-full flex items-center justify-center px-4 py-2 bg-[#008080] text-white rounded-lg hover:bg-[#006666] transition-colors"
             >
-              {isSubmitting ? "Submitting..." : "Submit"}
+              {isLoadingLocation
+                ? "Detecting Location..."
+                : "Use Current Location"}
             </button>
           </div>
-        </div>
-      </form>
-
-      {/* Preview Modal */}
-      {isPreviewModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-20">
-          <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-2xl mx-4 max-h-[80vh] overflow-y-auto">
-            {/* <h2 className="text-2xl font-bold text-[#008080] mb-4">Review Your Submission</h2>
-            
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-2">Brand Information</h3>
-              <p><span className="font-medium">Brand Name:</span> {productData.brandName || "Not provided"}</p>
-              {productLogo && (
-                <div className="mt-2">
-                  <p className="font-medium">Logo:</p>
-                  <img 
-                    src={productLogo} 
-                    alt="Brand Logo" 
-                    className="h-20 mt-1"
-                  />
-                </div>
+          {/* QR Code Password */}
+          <div className="relative">
+            <label className="block font-medium text-gray-700 mb-2">QR Code Password</label>
+            <input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              value={productData.password || ""}
+              onChange={handleCommonChange}
+              placeholder="QR Code Password"
+              className="border p-2 pr-10 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute right-3 top-9 text-gray-600"
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? (
+                <AiOutlineEye size={20} />
+              ) : (
+                <AiOutlineEyeInvisible size={20} />
               )}
-            </div>
-
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-2">Contact Information</h3>
-              <p><span className="font-medium">Email:</span> {productData.email || "Not provided"}</p>
-              <p><span className="font-medium">Phone:</span> {productData.phone || "Not provided"}</p>
-              <p><span className="font-medium">Address:</span> {productData.address || "Not provided"}</p>
-            </div>
-
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-2">Products ({items.length})</h3>
-              {items.map((item, index) => (
-                <div key={index} className="mb-4 p-3 border rounded">
-                  <p className="font-medium">{item.heading || "Untitled Product"}</p>
-                  <p>{item.description || "No description"}</p>
-                  {item.images?.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mt-2">
-                      {item.images.map((image, imgIndex) => (
-                        <img 
-                          key={imgIndex}
-                          src={image} 
-                          alt={`Product ${index + 1} image ${imgIndex + 1}`} 
-                          className="h-20 object-cover"
-                        />
-                      ))}
-                    </div>
-                  )}
-                  {item.pageUrl && <p className="mt-1">Page URL: {item.pageUrl}</p>}
-                  {item.videoUrl && <p className="mt-1">Video URL: {item.videoUrl}</p>}
-                </div>
-              ))}
-            </div> */}
-
-            <div className="flex justify-end space-x-4 mt-6">
-              <button
-                onClick={handleEdit}
-                className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition"
-              >
-                Edit
-              </button>
-              <button
-                onClick={confirmSubmission}
-                className="px-4 py-2 bg-[#008080] text-white rounded hover:bg-[#006666] transition"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? "Submitting..." : "Confirm"}
-              </button>
-            </div>
+            </button>
           </div>
-        </div>
-      )}
 
-      {/* Success Modal */}
-      {isSuccessModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-20">
-          <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
-            <div className="text-center">
-              <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
-                <svg
-                  className="h-6 w-6 text-green-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-              </div>
-              <h2 className="mt-3 text-xl font-bold text-gray-900">Success!</h2>
-              <div className="mt-2">
-                <p className="text-gray-600">
-                  Your product information has been successfully submitted.
-                </p>
-              </div>
-              <div className="mt-4">
-                <button
-                  onClick={handleSuccessClose}
-                  className="px-4 py-2 bg-[#008080] text-white rounded hover:bg-[#006666] transition"
-                >
-                  OK
-                </button>
-              </div>
-            </div>
-          </div>
+          {/* NFC Modal */}
+          <NFCModal
+            isOpen={isNFCModalOpen}
+            onClose={() => setIsNFCModalOpen(false)}
+            qrCodeData={getNFCData()}
+          />
+
+          {/* Submit Button */}
+          <button
+            type="button"
+            onClick={handleSubmit}
+            className="mt-6 w-full bg-[#008080] text-white font-semibold py-2 rounded hover:bg-[#006666] transition"
+          >
+            Submit
+          </button>
         </div>
-      )}
+      </div>
     </div>
   );
 };

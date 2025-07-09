@@ -8,10 +8,11 @@ import { useDispatch } from "react-redux";
 import { setWifiServices } from "@/redux/slices/servicesSlice";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import { useParams } from "next/navigation";
+import toast from "react-hot-toast";
 
 const WifiContent = () => {
   const { setActiveTab } = useDesignContext();
-    const { slug } = useParams();
+  const { slug } = useParams();
   const { wifiFormData, setWifiFormData } = useServicesContext();
   const [showPassword, setShowPassword] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -48,6 +49,7 @@ const WifiContent = () => {
 
       if (response.ok) {
         setSubmissionStep("success");
+        toast.success("WiFi data submitted successfully!");
         setActiveTab(slug, "QR Code");
         console.log("WiFi data submitted successfully:", result, response);
         // Dispatch action to update Redux state
