@@ -21,6 +21,7 @@ const initialState = {
   audioServiceData: [],
   videoServiceData: [],
   galleryServiceData: [],
+  setBusinessCardServices:[],
   error: null,
 };
 
@@ -34,6 +35,11 @@ const servicesSlice = createSlice({
       error: null,
     }),
     // Regular Services
+    setBusinessCardServices: (state, action) => ({
+      ...state,
+      resumeServiceData: action.payload,
+      error: null,
+    }),
     setResumeServices: (state, action) => ({
       ...state,
       resumeServiceData: action.payload,
