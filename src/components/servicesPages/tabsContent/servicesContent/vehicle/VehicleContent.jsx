@@ -299,7 +299,7 @@ const VehicleContent = () => {
         <label className="block text-base font-medium text-gray-700">
           {label} {required && <span className="text-red-500">*</span>}
           <span className="block text-xs text-gray-500 mt-1">
-            Max single file: 2MB | Total max: 30MB | Current total: {(totalFileSize / (1024 * 1024)).toFixed(2)}MB
+            Max single file: 2MB 
           </span>
         </label>
         <div className="flex flex-col sm:flex-row sm:items-center gap-3">
@@ -398,30 +398,25 @@ const VehicleContent = () => {
               Choose a Template:
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-6">
-              {['templateV1', 'templateV2', 'templateV3', 'templateV4', 'none'].map((template) => (
-                <div
-                  key={template}
-                  className={`relative cursor-pointer rounded-lg overflow-hidden border-2 ${
-                    vehicleTemplate.selectedTemplate === template
-                      ? "border-teal-500 ring-2 ring-teal-300"
-                      : "border-gray-300 hover:border-gray-400"
-                  } transition-all duration-200 shadow-sm hover:shadow-md`}
-                  onClick={() => handleTemplateSelect(template)}
-                >
-                  {template === 'none' ? (
-                    <div className="w-full h-auto object-cover flex items-center justify-center bg-gray-100 py-6">
-                      <span className="text-gray-500 text-sm font-semibold">Manual Input</span>
-                    </div>
-                  ) : (
-                    <img
-                      src={`/images/background/${template.replace('template', '').toLowerCase()}bg.webp`}
-                      alt={`${template} Vehicle Card`}
-                      className="w-full h-auto object-cover"
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
+  {['templateV1', 'templateV2', 'templateV3', 'templateV4'].map((template) => (
+    <div
+      key={template}
+      className={`relative cursor-pointer rounded-lg overflow-hidden border-2 ${
+        vehicleTemplate.selectedTemplate === template
+          ? "border-teal-500 ring-2 ring-teal-300"
+          : "border-gray-300 hover:border-gray-400"
+      } transition-all duration-200 shadow-sm hover:shadow-md`}
+      onClick={() => handleTemplateSelect(template)}
+    >
+      <img
+        src={`/images/background/${template.replace('template', '').toLowerCase()}bg.webp`}
+        alt={`${template} Vehicle Card`}
+        className="w-full h-auto object-cover"
+      />
+    </div>
+  ))}
+</div>
+
           </div>
         </div>
 
