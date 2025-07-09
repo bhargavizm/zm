@@ -559,9 +559,9 @@ import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { useParams, useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import NFCModal from "@/components/modalPopUps/nfcModal";
-import { setmedicalServices } from "@/redux/slices/servicesSlice";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { setMedicalServices } from "@/redux/slices/servicesSlice";
 
 const MedicalAlertContent = () => {
   const {
@@ -718,7 +718,7 @@ const MedicalAlertContent = () => {
 
       toast.success("Form submitted successfully!");
       setActiveTab(slug, "QR Code");
-      dispatch(setmedicalServices(res.data.data));
+      dispatch(setMedicalServices(res.data.data));
     } catch (error) {
       console.error("Submit error:", error);
       toast.error("Submit failed: " + (error.response?.data?.error || error.message));
