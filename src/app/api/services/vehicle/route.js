@@ -136,11 +136,7 @@ function validateVehicleData(data) {
     errors.vehicleImage = 'Vehicle image is required';
   }
 
-  if (!data.password?.trim()) {
-    errors.password = 'Password is required';
-  } else if (data.password.length < 6) {
-    errors.password = 'Password must be at least 6 characters';
-  }
+  
 
   return {
     isValid: Object.keys(errors).length === 0,
