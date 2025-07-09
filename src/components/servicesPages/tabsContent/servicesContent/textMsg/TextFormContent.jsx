@@ -5,16 +5,18 @@ import useServicesContext from "@/components/hooks/useServiceContext";
 import NFCModal from "@/components/modalPopUps/nfcModal";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useDispatch } from "react-redux";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 import { setTextMessageServices } from "@/redux/slices/servicesSlice";
 import toast from "react-hot-toast";
+import useDesignContext from "@/components/hooks/useDesignContext";
 
 const TextMessageContent = () => {
   const { textMessageForm, setTextMessageForm } = useServicesContext();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-
+  const { setActiveTab } = useDesignContext();
+  const { slug } =useParams();
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -25,6 +27,18 @@ const TextMessageContent = () => {
 
   const handleInitialSubmit = (e) => {
     e.preventDefault();
+     const { sender, message, password } = textMessageForm;
+
+  const isEmpty =
+    !sender.trim() &&
+    !message.trim() &&
+    !password.trim();
+
+  if (isEmpty) {
+    toast.error(" Enter at least one field before submitting");
+    return;
+  }
+
     setShowConfirmModal(true);
   };
 
@@ -46,6 +60,7 @@ const TextMessageContent = () => {
       if (response.data.success) {
         dispatch(setTextMessageServices(response.data.fileData));
         toast.success("Text submitted successfully!");
+        setActiveTab(slug, "QR Code");
         setShowConfirmModal(false);
         setTextMessageForm({ sender: "", message: "", password: "" });
       }

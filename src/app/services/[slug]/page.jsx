@@ -2,8 +2,11 @@
 import ServicesDataFlow from "@/components/servicesPages/layouts/servicesDataFlow/page";
 
 
+
+
 export default function Page() {
   return <ServicesDataFlow />;
+  
 }
 
 export async function generateStaticParams() {

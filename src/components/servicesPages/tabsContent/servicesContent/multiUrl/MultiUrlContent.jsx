@@ -13,11 +13,15 @@ import {
   FaLink,
 } from "react-icons/fa";
 import NFCModal from "@/components/modalPopUps/nfcModal";
+import CryptoJS from "crypto-js";
 import { useDispatch } from "react-redux";
 import { setMultiUrlServices } from "@/redux/slices/servicesSlice";
 import toast from "react-hot-toast";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import { useParams } from "next/navigation";
+
+
+
 
 const platformIcons = {
   youtube: <FaYoutube className="text-red-600" />,
@@ -35,11 +39,12 @@ const MultiUrlContent = () => {
     addTemplateField,
     removeTemplateField,
   } = useServicesContext();
-    const { setActiveTab } = useDesignContext();
-  const { slug } = useParams();
 
   const [customLabel, setCustomLabel] = useState("");
   const [customUrl, setCustomUrl] = useState("");
+  const { setActiveTab } = useDesignContext();
+  const { slug } = useParams();
+
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
@@ -49,18 +54,23 @@ const MultiUrlContent = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const socialLinks = dynamicForms?.multiUrl?.socialLinks || {};
-  const customLinks = dynamicForms?.multiUrl?.customLinks || [];
+
+  const rawCustomLinks = dynamicForms?.multiUrl?.customLinks;
+  const customLinks = Array.isArray(rawCustomLinks) ? rawCustomLinks : [];
 
   const handleCustomLinkChange = (index, key, value) => {
     const updatedLinks = [...customLinks];
     updatedLinks[index][key] = value;
-    updateDynamicForm("multiUrl", "customLinks", index, updatedLinks[index]);
+    updateDynamicForm("multiUrl", null, "customLinks", updatedLinks);
   };
 
   const handleAddCustomLink = () => {
     if (!customLabel || !customUrl) return;
+
     const newLink = { label: customLabel, url: customUrl };
-    addTemplateField("multiUrl", "customLinks", "", newLink);
+    const updatedLinks = [...customLinks, newLink];
+    updateDynamicForm("multiUrl", null, "customLinks", updatedLinks);
+
     setCustomLabel("");
     setCustomUrl("");
   };
@@ -69,52 +79,79 @@ const MultiUrlContent = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = () => {
-    setShowPreviewModal(true);
-  };
+const handleSubmit = () => {
+  const hasSocialLinks = Object.values(socialLinks || {}).some(
+    (url) => typeof url === "string" && url.trim().length > 0
+  );
+
+  const hasCustomLinks = Array.isArray(customLinks) && customLinks
+    .filter(link => link && (link.label || link.url))
+    .some(
+      (link) =>
+        (typeof link.label === "string" && link.label.trim().length > 0) ||
+        (typeof link.url === "string" && link.url.trim().length > 0)
+    );
+
+  const hasPassword = typeof password === "string" && password.trim().length > 0;
+
+  if (!hasSocialLinks && !hasCustomLinks && !hasPassword) {
+    toast.error("Please fill at least one field before submitting.");
+    return;
+  }
+
+  setShowPreviewModal(true);
+};
 
   const confirmSubmit = async () => {
     try {
+      const encryptedPassword = password
+        ? CryptoJS.AES.encrypt(password, "secret-key").toString()
+        : "";
+
       const payload = {
         socialLinks,
         customLinks,
-        password,
+        password: encryptedPassword,
       };
 
       const response = await fetch("/api/services/multiurl", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
 
       const result = await response.json();
+
       if (!response.ok) {
-        alert(`Error: ${result.error}`);
+        alert(`Error: ${result.message || result.error}`);
         return;
       }
 
+      // ✅ success actions
+      toast.success("Multi URL data successfully submitted");
+      setActiveTab(slug, "QR Code")
       dispatch(setMultiUrlServices(result.multiUrldata));
       setShowPreviewModal(false);
-     toast.success(result.message)
- setActiveTab(slug, "QR Code");
-      // Reset form after submission
+      setShowSuccessModal(true);
+
+      // ✅ reset form data
       updateDynamicForm("multiUrl", null, null, {});
+      setCustomLabel("");
+      setCustomUrl("");
       setPassword("");
     } catch (error) {
       console.error("Submission failed", error);
-      toast.error("An unexpected error occurred");
+      alert("An unexpected error occurred");
     }
   };
+
 
   return (
     <>
       <div className="space-y-6">
-        {/* 🔗 Social Media Links */}
+        {/* Social Media Links */}
         <div className="p-4 border rounded-lg">
           <h2 className="text-lg font-semibold mb-4">Social Media Links</h2>
-
           {["youtube", "instagram", "twitter", "linkedin", "facebook", "custom"].map((platform) => (
             <div className="flex items-center space-x-2 mb-3" key={platform}>
               <span>{platformIcons[platform]}</span>
@@ -131,7 +168,7 @@ const MultiUrlContent = () => {
           ))}
         </div>
 
-        {/* 🔗 Custom Links */}
+        {/* Custom Links */}
         <div className="p-4 border rounded-lg">
           <h2 className="text-lg font-semibold mb-4">Custom Links</h2>
           {customLinks.map((link, index) => (
@@ -170,7 +207,7 @@ const MultiUrlContent = () => {
             />
             <button
               type="button"
-              className="px-4 bg-green-600 text-white rounded"
+              className="px-4 bg-[#008080] text-white rounded"
               onClick={handleAddCustomLink}
             >
               Add
@@ -178,7 +215,7 @@ const MultiUrlContent = () => {
           </div>
         </div>
 
-        {/* 🔒 Password Section */}
+        {/* Password Section */}
         <div className="p-4 border rounded-lg">
           <h2 className="text-lg font-semibold mb-4">Password Protection</h2>
           <div className="relative">
@@ -199,10 +236,9 @@ const MultiUrlContent = () => {
           </div>
         </div>
 
-        {/* NFC Modal */}
         <NFCModal />
 
-        {/* ✅ Submit Button */}
+        {/* Submit Button */}
         <div className="text-center mt-4 w-full">
           <button
             type="button"
@@ -214,7 +250,7 @@ const MultiUrlContent = () => {
         </div>
       </div>
 
-      {/* 🔍 Preview Modal */}
+      {/* Preview Modal */}
       {showPreviewModal && (
         <div
           className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center"
@@ -224,31 +260,36 @@ const MultiUrlContent = () => {
             className="bg-white p-6 rounded-lg shadow-xl max-w-xl w-full overflow-y-auto max-h-[80vh]"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-xl font-bold mb-4 text-blue-600">Preview Your Submission</h2>
+            <h2 className="text-xl font-bold mb-4 text-[#008080]">Preview Your Submission</h2>
 
-            <div className="mb-4">
-              <h3 className="font-semibold mb-2">Social Links:</h3>
-              <ul className="text-sm space-y-1">
-                {Object.entries(socialLinks).map(([platform, url]) => (
-                  url && (
-                    <li key={platform}>
-                      <strong>{platform}:</strong> {url}
+            {Object.values(socialLinks).some(url => url) && (
+              <div className="mb-4">
+                <h3 className="font-semibold mb-2">Social Links:</h3>
+                <ul className="text-sm space-y-1">
+                  {Object.entries(socialLinks).map(([platform, url]) =>
+                    url ? (
+                      <li key={platform}>
+                        <strong>{platform}:</strong> {url}
+                      </li>
+                    ) : null
+                  )}
+                </ul>
+              </div>
+            )}
+
+
+            {customLinks.length > 0 && (
+              <div className="mb-4">
+                <h3 className="font-semibold mb-2">Custom Links:</h3>
+                <ul className="text-sm space-y-1">
+                  {customLinks.map((link, index) => (
+                    <li key={index}>
+                      <strong>{link.label || "No Label"}:</strong> {link.url || "No URL"}
                     </li>
-                  )
-                ))}
-              </ul>
-            </div>
-
-            <div className="mb-4">
-              <h3 className="font-semibold mb-2">Custom Links:</h3>
-              <ul className="text-sm space-y-1">
-                {customLinks.map((link, index) => (
-                  <li key={index}>
-                    <strong>{link.label}:</strong> {link.url}
-                  </li>
-                ))}
-              </ul>
-            </div>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             {password && (
               <div className="mb-4">
@@ -266,36 +307,18 @@ const MultiUrlContent = () => {
               </button>
               <button
                 className="px-4 py-2 rounded bg-[#008080] hover:bg-[#006666] text-white"
-                onClick={confirmSubmit}
+                onClick={() => {
+                  setShowPreviewModal(false),
+                    confirmSubmit()
+                }}
               >
-                Confirm & Submit
+                Confirm
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* ✅ Success Popup */}
-      {showSuccessModal && (
-        <div
-          className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center"
-          onClick={() => setShowSuccessModal(false)}
-        >
-          <div
-            className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h2 className="text-xl font-bold mb-2 text-green-600">Success!</h2>
-            <p className="mb-4">Your Multi URL content has been saved successfully.</p>
-            <button
-              onClick={() => setShowSuccessModal(false)}
-              className="bg-[#008080] text-white px-4 py-2 rounded hover:bg-[#006666]"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
     </>
   );
 };
