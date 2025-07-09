@@ -240,50 +240,57 @@ const DiscountCouponContent = () => {
         </div>
       </div>
 
-      <NFCModal />
-
-      <div className="text-center my-6">
-        <button
-          type="button"
-          className="w-full bg-[#008080] hover:bg-[#006666] text-white py-3 rounded-lg font-medium shadow-lg transition-colors"
-          onClick={handleSubmit}
-        >
-          Submit
-        </button>
-      </div>
 
       {showPreview && (
-        <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex justify-center items-center z-50 overflow-y-auto px-4">
-          <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg space-y-4">
-            <h2 className="text-xl font-semibold text-gray-800">Preview Coupon</h2>
-            <div className="space-y-2 text-sm text-gray-700">
-              <p><strong>Name of Business:</strong> {discountCoupon.nameOfBusiness || ''}</p>
-              <p><strong>Coupon Code:</strong> {discountCoupon.code || ''}</p>
-              <p><strong>Password:</strong> {discountCoupon.password ? '••••••' : ''}</p>
-              {discountCoupon.brandLogo && (
-                <div>
-                  <p className="font-semibold mt-2">Brand Logo:</p>
-                  <img src={getPreviewUrl(discountCoupon.brandLogo)} alt="Brand Logo" className="w-32 max-h-32 rounded border shadow" />
-                </div>
-              )}
-              {discountCoupon.couponImage && (
-                <div>
-                  <p className="font-semibold mt-2">Coupon Image:</p>
-                  <img src={getPreviewUrl(discountCoupon.couponImage)} alt="Coupon" className="w-32 max-h-32 rounded border shadow" />
-                </div>
-              )}
-            </div>
-            <div className="flex justify-end gap-4 mt-6">
-              <button className="px-4 py-2 border border-gray-300 rounded-md text-gray-600 hover:bg-gray-100" onClick={() => setShowPreview(false)}>
-                Edit
-              </button>
-              <button className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700" onClick={handleConfirm}>
-                Confirm
-              </button>
-            </div>
+  <div className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center">
+    <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg space-y-4">
+      <h2 className="text-xl font-semibold text-gray-800">Preview Coupon</h2>
+      <div className="space-y-2 text-sm text-gray-700">
+        <p><strong>Name of Business:</strong> {discountCoupon.nameOfBusiness || 'N/A'}</p>
+        <p><strong>Coupon Code:</strong> {discountCoupon.code || 'N/A'}</p>
+        <p><strong>Password:</strong> {discountCoupon.password ? '••••••' : 'N/A'}</p>
+
+        {discountCoupon.brandLogo && (
+          <div>
+            <p className="font-semibold mt-2">Brand Logo:</p>
+            <img
+              src={getPreviewUrl(discountCoupon.brandLogo)}
+              alt="Brand Logo"
+              className="w-32 max-h-32 rounded border shadow"
+            />
           </div>
-        </div>
-      )}
+        )}
+
+        {discountCoupon.couponImage && (
+          <div>
+            <p className="font-semibold mt-2">Coupon Image:</p>
+            <img
+              src={getPreviewUrl(discountCoupon.couponImage)}
+              alt="Coupon"
+              className="w-32 max-h-32 rounded border shadow"
+            />
+          </div>
+        )}
+      </div>
+
+      <div className="flex justify-end gap-4 mt-6">
+        <button
+          className="px-4 py-2 border border-gray-300 rounded-md text-gray-600 hover:bg-gray-100"
+          onClick={() => setShowPreview(false)}
+        >
+          Edit
+        </button>
+        <button
+          className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700"
+          onClick={handleConfirm}
+        >
+          Confirm & Submit
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
 
       {showSuccessPopup && (
         <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex justify-center items-center z-50">
