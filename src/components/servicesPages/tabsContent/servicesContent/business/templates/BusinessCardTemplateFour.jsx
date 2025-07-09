@@ -25,7 +25,7 @@ const BusinessCardTemplateFour = ({ businessForm, profileImage, brandLogo }) => 
         >
             {/* Profile Image */}
             <div className="flex justify-center mt-18">
-                <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow">
+                <div className="w-30 h-30 rounded-full overflow-hidden border-4 border-white shadow">
                     <Image
                         src={profileImage || "/default-user.webp"}
                         alt={"Profile"}
@@ -56,7 +56,7 @@ const BusinessCardTemplateFour = ({ businessForm, profileImage, brandLogo }) => 
             <div className="flex flex-col gap-3 px-8 pb-2">
                 {/* <a
                     href={businessName || "#"}
-                    className="py-3 rounded-full border border-gray-400 text-gray-900 font-semibold bg-white hover:bg-gray-100 transition"
+                    className="py-3 rounded border border-gray-400 text-gray-900 font-semibold bg-white hover:bg-gray-100 transition"
                 >
                     {businessName || "BUSINESS NAME"}
                 </a> */}
@@ -64,19 +64,19 @@ const BusinessCardTemplateFour = ({ businessForm, profileImage, brandLogo }) => 
                     href={designation || "#"}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="py-3 rounded-full border border-gray-400 text-gray-900 font-semibold bg-white hover:bg-gray-100 transition"
+                    className="py-3 rounded border border-gray-400 text-gray-900 font-semibold bg-white hover:bg-gray-100 transition"
                 >
                     {designation || "DESIGNATION"}
                 </a>
                 <a
                     href={`tel:${mobile}` || "#"}
-                    className="py-3 rounded-full border border-gray-400 text-gray-900 font-semibold bg-white hover:bg-gray-100 transition"
+                    className="py-3 rounded border border-gray-400 text-gray-900 font-semibold bg-white hover:bg-gray-100 transition"
                 >
                     {mobile || "MOBILE"}
                 </a>
                 <a
                     href={`mailto:${email}` || "#"}
-                    className="py-3 rounded-full border border-gray-400 text-gray-900 font-semibold bg-white hover:bg-gray-100 transition"
+                    className="py-3 rounded border border-gray-400 text-gray-900 font-semibold bg-white hover:bg-gray-100 transition"
                 >
                     {email || "EMAIL"}
                 </a>
@@ -84,7 +84,7 @@ const BusinessCardTemplateFour = ({ businessForm, profileImage, brandLogo }) => 
                     href={mapLink || "#"}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="py-3 rounded-full border border-gray-400 text-gray-900 font-semibold bg-white hover:bg-gray-100 transition"
+                    className="py-3 rounded border border-gray-400 text-gray-900 font-semibold bg-white hover:bg-gray-100 transition"
                 >
                     {mapLink || "MAP LINK"}
                 </a>
@@ -92,7 +92,7 @@ const BusinessCardTemplateFour = ({ businessForm, profileImage, brandLogo }) => 
                     href={socialLink || "#"}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="py-3 rounded-full border border-gray-400 text-gray-900 font-semibold bg-white hover:bg-gray-100 transition"
+                    className="py-3 rounded border border-gray-400 text-gray-900 font-semibold bg-white hover:bg-gray-100 transition"
                 >
                     {socialLink || "SOCIAL LINK"}
                 </a>
@@ -100,15 +100,15 @@ const BusinessCardTemplateFour = ({ businessForm, profileImage, brandLogo }) => 
                     href={socialLink2 || "#"}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="py-3 rounded-full border border-gray-400 text-gray-900 font-semibold bg-white hover:bg-gray-100 transition"
+                    className="py-3 rounded border border-gray-400 text-gray-900 font-semibold bg-white hover:bg-gray-100 transition"
                 >
                     {socialLink2 || "SOCIAL LINK2"}
-                </a>
+                 </a>
                 <a
                     href={address || "#"}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full py-2 rounded-full font-semibold bg-white text-gray-900 shadow hover:bg-gray-50 transition text-center"
+                    className="w-full py-2 rounded font-semibold bg-white text-black text-center shadow hover:bg-gray-100 transition"
                 >
                     {address || "Address"}
                 </a>

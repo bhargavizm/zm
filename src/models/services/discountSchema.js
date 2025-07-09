@@ -4,6 +4,10 @@ import mongoose from "mongoose";
 
 const discountCouponSchema = new mongoose.Schema(
   {
+    user: {
+          id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+          name: String,
+        },
     brandLogo: {
       type: String, // store Cloudinary URL or base64-encoded string
       required: false,
