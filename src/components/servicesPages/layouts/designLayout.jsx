@@ -56,7 +56,7 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
                     key={tab}
                     // onClick={() => setActiveTab(tab)}
                     onClick={() => setActiveTab(slug, tab)}
-                    className={`px-2 py-1 text-lg whitespace-nowrap rounded-xl transition-all duration-200 ${
+                    className={`px-2 py-1 cursor-pointer text-lg whitespace-nowrap rounded-xl transition-all duration-200 ${
                       activeTab === tab
                         ? "bg-white text-mainGreen font-bold"
                         : "text-white hover:bg-white hover:text-mainGreen"
@@ -68,7 +68,7 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
               </div>
 
               {/* Tab Content */}
-              <div className="px-4 pb-6 h-[90vh] overflow-y-auto scrollbar-hide">
+              <div className="px-4 pb-6 h-[100vh] overflow-y-auto scrollbar-hide">
                 {activeTab === "Content" && <ContentTabComponent />}
 
                 {activeTab === "Backdrop Designs" && <BackdropDesigns />}

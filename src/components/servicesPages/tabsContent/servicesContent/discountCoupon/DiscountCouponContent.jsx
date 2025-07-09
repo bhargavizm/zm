@@ -229,7 +229,8 @@ const DiscountCouponContent = () => {
       </div>
 
       {/* Preview Modal */}
-      {showPreview && (
+      {/* {showPreview && (
+        <>
         <div className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center">
           <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg space-y-4">
             <h2 className="text-xl font-semibold text-gray-800">Preview Coupon</h2>
@@ -274,7 +275,59 @@ const DiscountCouponContent = () => {
             </div>
           </div>
         </div>
-      )}
+        </div>
+        </>
+      )} */}
+      {showPreview && (
+  <div className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center">
+    <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg space-y-4">
+      <h2 className="text-xl font-semibold text-gray-800">Preview Coupon</h2>
+      <div className="space-y-2 text-sm text-gray-700">
+        <p><strong>Name of Business:</strong> {discountCoupon.nameOfBusiness || 'N/A'}</p>
+        <p><strong>Coupon Code:</strong> {discountCoupon.code || 'N/A'}</p>
+        <p><strong>Password:</strong> {discountCoupon.password ? '••••••' : 'N/A'}</p>
+
+        {discountCoupon.brandLogo && (
+          <div>
+            <p className="font-semibold mt-2">Brand Logo:</p>
+            <img
+              src={getPreviewUrl(discountCoupon.brandLogo)}
+              alt="Brand Logo"
+              className="w-32 max-h-32 rounded border shadow"
+            />
+          </div>
+        )}
+
+        {discountCoupon.couponImage && (
+          <div>
+            <p className="font-semibold mt-2">Coupon Image:</p>
+            <img
+              src={getPreviewUrl(discountCoupon.couponImage)}
+              alt="Coupon"
+              className="w-32 max-h-32 rounded border shadow"
+            />
+          </div>
+        )}
+      </div>
+
+      <div className="flex justify-end gap-4 mt-6">
+        <button
+          className="px-4 py-2 border border-gray-300 rounded-md text-gray-600 hover:bg-gray-100"
+          onClick={() => setShowPreview(false)}
+        >
+          Edit
+        </button>
+        <button
+          className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700"
+          onClick={handleConfirm}
+        >
+          Confirm & Submit
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
 
       {/* Success Modal */}
       {showSuccessPopup && (
