@@ -646,19 +646,27 @@ const handleSubmit = async () => {
       if (response.ok) {
         toast.success("Product Data Successfully Submitted..");
         setActiveTab(slug, "QR Code");
-        setProductData({
-          heading: "",
-          description: "",
-          pageUrl: "",
-          videoUrl: "",
-          manual: null,
-          email: "",
-          phone: "",
-          address: "",
-          password: "",
-          selectedTemplate: null,
-        })
-        setProductLogo(null);
+        // Reset all form data
+      setProductData({
+        brandName: "",
+        email: "",
+        phone: "",
+        address: "",
+        password: "",
+        selectedTemplate: null,
+      });
+      
+      setProductLogo(null);
+      setItems([
+        { 
+          image: "", 
+          heading: "", 
+          description: "", 
+          videoUrl: "", 
+          pageUrl: "" 
+        }
+      ]);
+      
       }
       if (!response.ok) {
         toast.warn("Product Data Submission Failed..");
@@ -845,7 +853,7 @@ const handleSubmit = async () => {
                 {/* Product Image Upload */}
                 <div>
                   <label className="block font-medium text-gray-700 mb-2">
-                    Product Image (Max 2MB)
+                    Product Image <span className="font-normal text-gray-700 mb-2">(Max 2MB)</span>
                   </label>
                   <input
                     type="file"

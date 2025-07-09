@@ -105,8 +105,8 @@ const ServicesProvider = ({ children }) => {
     organizer: "",
     title: "",
     summary: "",
-    buttonLabel: "Buy Tickets",
-    buttonLink: "www.YourWebsite.com",
+    // buttonLabel: "Buy Tickets",
+    // buttonLink: "www.YourWebsite.com",
     fromDate: "",
     toDate: "",
     venue: "",
@@ -115,8 +115,8 @@ const ServicesProvider = ({ children }) => {
     contactName: "",
     contactEmail: "",
     contactPhone: "",
-    webLabel: "My Website",
-    webUrl: "www.yourweburl.com",
+    // webLabel: "My Website",
+    // webUrl: "www.yourweburl.com",
   };
 
   const initialSmsFormData = {
@@ -143,6 +143,32 @@ const [menuBookFormData, setMenuBookFormData] = useState({
   link: '',
   password:''
 });
+
+const [propertyDetails,setPropertyDetails] = useState({
+
+      basicInfo: {
+        propertyName: "",
+        propertyType: "",
+        ownerName: "",
+        contactNumber: "",
+        alternateNumber: "",
+        propertyDescription: "",
+      },
+      addressInfo: {
+        address: "",
+        mapLink: "",
+      },
+      pricingInfo: {
+        price: "",
+        area: "",
+        amenities: "",
+      },
+      images: {
+        galleryImages: [],
+      },
+      password: "",
+    
+})
 
 
   const initialPetIDFormData = {
@@ -204,30 +230,7 @@ const [menuBookFormData, setMenuBookFormData] = useState({
       },
       password: "",
     },
-    propertyDetails: {
-      basicInfo: {
-        propertyName: "",
-        propertyType: "",
-        ownerName: "",
-        contactNumber: "",
-        alternateNumber: "",
-        propertyDescription: "",
-      },
-      addressInfo: {
-        address: "",
-        mapLink: "",
-      },
-      pricingInfo: {
-        price: "",
-        area: "",
-        amenities: "",
-      },
-      images: {
-        mainImage: null,
-        galleryImages: [],
-      },
-      password: "",
-    },
+   
     multiUrl: {
       socialLinks: {
         youtube: "",
@@ -579,8 +582,10 @@ const [menuBookFormData, setMenuBookFormData] = useState({
         menuBookFormData, setMenuBookFormData,
         petIDFormData, setPetIDFormData,
 
+        propertyDetails,setPropertyDetails,
+
         // Dynamic forms and their handlers
-        dynamicForms,
+        dynamicForms,setDynamicForms,
         updateDynamicForm,
         resetDynamicForm, // Expose the new reset function
         addTemplateField,
