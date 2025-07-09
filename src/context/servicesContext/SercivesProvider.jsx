@@ -177,7 +177,7 @@ const [menuBookFormData, setMenuBookFormData] = useState({
     medicalAlert: {
       patientInfo: {
         patientName: "",
-        birthDate: "",
+        age: "",
         bloodType: "",
       },
       medicalHistory: {
@@ -189,6 +189,8 @@ const [menuBookFormData, setMenuBookFormData] = useState({
       emergencyContact: {
         emergencyContact: "",
         contactPhone: "",
+        preferredHospital: "",
+        location: ""
       },
       additional: {
         familyDoctorName: "",
@@ -196,11 +198,10 @@ const [menuBookFormData, setMenuBookFormData] = useState({
         emergencyInstructions: "",
         insuranceProvider: "",
         policyNumber: "",
-        medicalReports: null,
-        prescription: null,
-        insuranceImage: null,
-        preferredHospital: "",
-        location: ""
+        medicalReports: [],
+        prescription: [],
+        insuranceImage: [],
+       
       },
       password: "",
     },
@@ -372,7 +373,7 @@ const [menuBookFormData, setMenuBookFormData] = useState({
       general: {
         vehicleModel: "",
         vehicleType: "",
-        buyDate: "",
+        vehicleNumber: "",
         description: "",
       },
       registration: {
@@ -392,7 +393,9 @@ const [menuBookFormData, setMenuBookFormData] = useState({
         licenseBack: null,
         rcFront: null,
         rcBack: null,
+        pollution:null,
         galleryImages: [],
+        insurance:[]
       },
       security: {
         password: "",
