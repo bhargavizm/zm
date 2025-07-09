@@ -23,7 +23,7 @@ const BusinessCardTemplateThree = ({ businessForm, profileImage, brandLogo }) =>
         >
             {/* Profile Picture */}
             <div className="flex justify-center mt-18">
-                <div className="w-20 h-20 rounded-full border-2 overflow-hidden border-gray-200 bg-white">
+                <div className="w-30 h-30 rounded-full border-2 overflow-hidden border-gray-200 bg-white">
                     <Image
                         src={profileImage || "/default-user.webp"}
                         alt={ "Profile"}
@@ -45,7 +45,7 @@ const BusinessCardTemplateThree = ({ businessForm, profileImage, brandLogo }) =>
             <div className="flex flex-col gap-3 px-8 mb-6">
                 {/* <a
                     href={businessName || "#"}
-                    className="py-3 rounded-full border border-gray-400 text-gray-800 font-semibold bg-white hover:bg-gray-50 transition"
+                    className="py-3 rounded border border-gray-400 text-gray-800 font-semibold bg-white hover:bg-gray-50 transition"
                 >
                     {businessName || "BUSINESS NAME"}
                 </a> */}
@@ -53,19 +53,19 @@ const BusinessCardTemplateThree = ({ businessForm, profileImage, brandLogo }) =>
                     href={designation || "#"}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="py-3 rounded-full border border-gray-400 text-gray-800 font-semibold bg-white hover:bg-gray-50 transition"
+                    className="py-3 rounded border border-gray-400 text-gray-800 font-semibold bg-white hover:bg-gray-50 transition"
                 >
                     {designation || "DESIGNATION"}
                 </a>
                 <a
                     href={`tel:${mobile}` || "#"}
-                    className="py-3 rounded-full border border-gray-400 text-gray-800 font-semibold bg-white hover:bg-gray-50 transition"
+                    className="py-3 rounded border border-gray-400 text-gray-800 font-semibold bg-white hover:bg-gray-50 transition"
                 >
                     {mobile || "MOBILE"}
                 </a>
                 <a
                     href={`mailto:${email}` || "#"}
-                    className="py-3 rounded-full border border-gray-400 text-gray-800 font-semibold bg-white hover:bg-gray-50 transition"
+                    className="py-3 rounded border border-gray-400 text-gray-800 font-semibold bg-white hover:bg-gray-50 transition"
                 >
                     {email || "EMAIL"}
                 </a>
@@ -73,7 +73,7 @@ const BusinessCardTemplateThree = ({ businessForm, profileImage, brandLogo }) =>
                     href={mapLink || "#"}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="py-3 rounded-full border border-gray-400 text-gray-800 font-semibold bg-white hover:bg-gray-50 transition"
+                    className="py-3 rounded border border-gray-400 text-gray-800 font-semibold bg-white hover:bg-gray-50 transition"
                 >
                     {mapLink || "MAP LINK"}
                 </a>
@@ -81,7 +81,7 @@ const BusinessCardTemplateThree = ({ businessForm, profileImage, brandLogo }) =>
                     href={socialLink || "#"}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="py-3 rounded-full border border-gray-400 text-gray-800 font-semibold bg-white hover:bg-gray-50 transition"
+                    className="py-3 rounded border border-gray-400 text-gray-800 font-semibold bg-white hover:bg-gray-50 transition"
                 >
                     {socialLink || "SOCIAL LINK"}
                 </a>
@@ -89,7 +89,7 @@ const BusinessCardTemplateThree = ({ businessForm, profileImage, brandLogo }) =>
                     href={socialLink2 || "#"}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="py-3 rounded-full border border-gray-400 text-gray-800 font-semibold bg-white hover:bg-gray-50 transition"
+                    className="py-3 rounded border border-gray-400 text-gray-800 font-semibold bg-white hover:bg-gray-50 transition"
                 >
                     {socialLink2 || "SOCIAL LINK2"}
                 </a>
@@ -97,7 +97,7 @@ const BusinessCardTemplateThree = ({ businessForm, profileImage, brandLogo }) =>
                     href={address || "#"}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full py-2 rounded-full font-semibold bg-white text-gray-800 shadow hover:bg-gray-50 transition text-center"
+                    className="w-full py-2 rounded font-semibold bg-white text-gray-800 shadow hover:bg-gray-50 transition text-center"
                 >
                     {address || "Address"}
                 </a>
