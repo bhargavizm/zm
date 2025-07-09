@@ -1,1136 +1,354 @@
-
-// "use client"; this is wroking code not include delete icon on images 
-
-// import React, { useState } from "react";
-// import useServicesContext from "@/components/hooks/useServiceContext";
-// import useDesignContext from "@/components/hooks/useDesignContext";
-// import { FiTrash2 } from "react-icons/fi";
-// import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
-// import { useParams, useRouter } from "next/navigation";
-// import { useDispatch } from "react-redux";
-// import NFCModal from "@/components/modalPopUps/nfcModal";
-// import axios from "axios";
-// import toast from "react-hot-toast";
-// import { setMedicalServices } from "@/redux/slices/servicesSlice";
-
-// const MedicalAlertContent = () => {
-//   const {
-//     dynamicForms,
-//     updateDynamicForm,
-//     addTemplateField,
-//     removeTemplateField,
-//     showPassword,
-//     setShowPassword,
-//   } = useServicesContext();
-
-//   const medicalAlert = dynamicForms.medicalAlert || {};
-//   const [showConfirmModal, setShowConfirmModal] = useState(false);
-//   const { setActiveTab } = useDesignContext();
-//   const dispatch = useDispatch();
-//   const router = useRouter();
-//   const { slug } = useParams();
-
-//   const sections = {
-//     patientInfo: ["patientName", "birthDate", "bloodType"],
-//     medicalHistory: [
-//       "medicalConditions",
-//       "allergies",
-//       "medications",
-//       "additionalNotes",
-//     ],
-//     emergencyContact: ["emergencyContact", "contactPhone"],
-//     additional: [
-//       "familyDoctorName",
-//       "familyDoctorPhone",
-//       "emergencyInstructions",
-//       "insuranceProvider",
-//       "policyNumber",
-//       "preferredHospital",
-//       "location",
-//     ],
-//   };
-
-//   const fileFields = ["medicalReports", "prescription", "insuranceImage"];
-//   const maxFileSize = 2 * 1024 * 1024;
-//   const maxTotalSize = 30 * 1024 * 1024;
-
-//   const [files, setFiles] = useState({
-//     medicalReports: [],
-//     prescription: [],
-//     insuranceImage: [],
-//   });
-
-//   const [deletedFields, setDeletedFields] = useState({
-//     patientInfo: [],
-//     medicalHistory: [],
-//     emergencyContact: [],
-//     additional: [],
-//   });
-
-//   const fieldLabel = (key) =>
-//     key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase());
-
-//   const handleInputChange = (section, key, value) => {
-//     updateDynamicForm("medicalAlert", section, key, value);
-//   };
-
-//   const handlePasswordChange = (value) => {
-//     updateDynamicForm("medicalAlert", null, "password", value);
-//   };
-
-//   const handleFileChange = (key, selectedFiles) => {
-//     setFiles((prev) => ({
-//       ...prev,
-//       [key]: Array.from(selectedFiles),
-//     }));
-//   };
-
-//   const handleAddField = (section, key) => {
-//     addTemplateField("medicalAlert", section, key, "");
-//     setDeletedFields((prev) => ({
-//       ...prev,
-//       [section]: prev[section].filter((item) => item !== key),
-//     }));
-//   };
-
-//   const handleRemoveField = (section, key) => {
-//     removeTemplateField("medicalAlert", section, key);
-//     setDeletedFields((prev) => ({
-//       ...prev,
-//       [section]: [...prev[section], key],
-//     }));
-//   };
-
-//   const handleInitialSubmit = () => {
-//     let hasData = false;
-
-//     Object.entries(sections).forEach(([section, keys]) => {
-//       keys.forEach((key) => {
-//         const value = medicalAlert[section]?.[key];
-//         if (value && value.trim() !== "") hasData = true;
-//       });
-//     });
-
-//     if (medicalAlert.password && medicalAlert.password.trim() !== "") {
-//       hasData = true;
-//     }
-
-//     for (const field of fileFields) {
-//       if (files[field]?.length > 0) {
-//         hasData = true;
-//       }
-//     }
-
-//     if (!hasData) {
-//       toast.error("At least one field must be filled before submitting.");
-//       return;
-//     }
-
-//     setShowConfirmModal(true);
-//   };
-
-//   const handleSubmit = async () => {
-//     try {
-//       const formData = new FormData();
-//       let totalSize = 0;
-
-//       Object.entries(sections).forEach(([section, keys]) => {
-//         keys.forEach((key) => {
-//           const value = medicalAlert[section]?.[key];
-//           if (value) {
-//             formData.append(key, value);
-//           }
-//         });
-//       });
-
-//       formData.append("password", medicalAlert.password || "");
-
-//       for (const field of fileFields) {
-//         const fileArray = files[field];
-//         for (const file of fileArray) {
-//           if (file.size > maxFileSize) {
-//             toast.error(`Each file must be 2MB or less. "${file.name}" is too large.`);
-//             return;
-//           }
-//           totalSize += file.size;
-//           if (totalSize > maxTotalSize) {
-//             toast.error("Total upload size exceeds 30MB.");
-//             return;
-//           }
-//           formData.append(field, file);
-//         }
-//       }
-
-//       const res = await axios.post(
-//         "http://localhost:3000/api/services/medicalAlert",
-//         formData
-//       );
-
-//       toast.success("Form submitted successfully!");
-//       setActiveTab(slug, "QR Code");
-//       dispatch(setMedicalServices(res.data.data));
-//     } catch (error) {
-//       console.error("Submit error:", error);
-//       toast.error("Submit failed: " + (error.response?.data?.error || error.message));
-//     }
-//   };
-
-//   return (
-//     <>
-//       <div className="space-y-6">
-//         <h1 className="text-3xl font-bold pb-6 text-[#008080]">Medical Alert QR Code</h1>
-
-//         {Object.entries(sections).map(([section, fields]) => (
-//           <div key={section} className="border rounded p-4 shadow-sm space-y-4">
-//             <h3 className="text-xl font-semibold capitalize text-[#008080]">
-//               {section.replace(/([A-Z])/g, " $1")}
-//             </h3>
-
-//             {fields
-//               .filter((key) => medicalAlert[section]?.[key] !== undefined)
-//               .map((key) => (
-//                 <div key={key} className="flex items-center space-x-2">
-//                   <input
-//                     type="text"
-//                     name={key}
-//                     placeholder={fieldLabel(key)}
-//                     value={medicalAlert[section][key]}
-//                     onChange={(e) => handleInputChange(section, key, e.target.value)}
-//                     className="border p-2 rounded flex-1"
-//                   />
-//                   <button
-//                     type="button"
-//                     onClick={() => handleRemoveField(section, key)}
-//                     className="hover:bg-red-200 p-2 rounded"
-//                   >
-//                     <FiTrash2 className="text-red-700" />
-//                   </button>
-//                 </div>
-//               ))}
-
-//             {deletedFields[section].length > 0 && (
-//               <div className="flex items-center space-x-2">
-//                 <select
-//                   onChange={(e) => {
-//                     const key = e.target.value;
-//                     if (key) handleAddField(section, key);
-//                     e.target.selectedIndex = 0;
-//                   }}
-//                   className="border p-2 rounded"
-//                 >
-//                   <option value="">Add field</option>
-//                   {deletedFields[section].map((field) => (
-//                     <option key={field} value={field}>
-//                       {fieldLabel(field)}
-//                     </option>
-//                   ))}
-//                 </select>
-//               </div>
-//             )}
-//           </div>
-//         ))}
-
-//         {/* File Upload Fields */}
-//         {fileFields.map((key) => (
-//           <div key={key} className="mb-4">
-//             <label className="block text-sm font-medium text-gray-700 mb-1">
-//               {fieldLabel(key)} (multiple files allowed)
-//             </label>
-//             <input
-//               type="file"
-//               accept={key === "medicalReports" ? ".pdf" : "image/*"}
-//               multiple
-//               onChange={(e) => handleFileChange(key, e.target.files)}
-//               className="w-full file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
-//             />
-//             {files[key]?.length > 0 && (
-//               <ul className="mt-2 space-y-2">
-//                 {files[key].map((file, i) => (
-//                   <li key={i} className="text-sm text-gray-600">
-//                     {file.type.startsWith("image/") ? (
-//                       <img
-//                         src={URL.createObjectURL(file)}
-//                         alt={file.name}
-//                         className="h-24 rounded border object-cover"
-//                       />
-//                     ) : (
-//                       <span>{file.name}</span>
-//                     )}
-//                   </li>
-//                 ))}
-//               </ul>
-//             )}
-//           </div>
-//         ))}
-
-//         {/* Password Field */}
-//         <div className="relative w-full">
-//           <input
-//             type={showPassword ? "text" : "password"}
-//             placeholder="Password"
-//             value={medicalAlert.password || ""}
-//             onChange={(e) => handlePasswordChange(e.target.value)}
-//             className="border p-2 pr-10 rounded w-full"
-//           />
-//           <span
-//             onClick={() => setShowPassword(!showPassword)}
-//             className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500 hover:text-[#008080]"
-//           >
-//             {showPassword ? <IoEyeOutline size={20} /> : <IoEyeOffOutline size={20} />}
-//           </span>
-//         </div>
-
-//         <NFCModal />
-
-//         <button
-//           type="button"
-//           onClick={handleInitialSubmit}
-//           className="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 rounded-lg font-semibold text-sm transition mt-6"
-//         >
-//           Submit
-//         </button>
-//       </div>
-
-//       {showConfirmModal && (
-//         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
-//           <div className="bg-white rounded-xl shadow-xl p-6 max-w-sm w-full border border-teal-200 relative">
-//             <h2 className="text-lg font-semibold text-gray-800">Confirm Submission</h2>
-//             <p className="text-gray-600 text-sm mt-2">
-//               Are you sure you want to submit this form? Please review all the details before confirming.
-//             </p>
-//             <div className="flex justify-end gap-4 pt-4">
-//               <button
-//                 onClick={() => setShowConfirmModal(false)}
-//                 className="px-4 py-2 rounded-lg text-gray-600 border border-gray-300 hover:bg-gray-100"
-//               >
-//                 Back
-//               </button>
-//               <button
-//                 onClick={handleSubmit}
-//                 className="px-4 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700"
-//               >
-//                 Confirm & Submit
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-//       )}
-//     </>
-//   );
-// };
-
-// export default MedicalAlertContent;
-
-
-
 // "use client";
 
-// import React, { useState } from "react";
+// import React, { useEffect } from "react";
+// import { FiLock } from "react-icons/fi";
 // import useServicesContext from "@/components/hooks/useServiceContext";
 // import useDesignContext from "@/components/hooks/useDesignContext";
-// import { FiTrash2 } from "react-icons/fi";
-// import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
-// import { useParams } from "next/navigation";
-// import { useDispatch } from "react-redux";
-// import NFCModal from "@/components/modalPopUps/nfcModal";
-// import axios from "axios";
-// import toast from "react-hot-toast";
-// import { setMedicalServices } from "@/redux/slices/servicesSlice";
+// import Image from "next/image";
 
-// const MedicalAlertContent = () => {
-//   const {
-//     dynamicForms,
-//     updateDynamicForm,
-//     addTemplateField,
-//     removeTemplateField,
-//     showPassword,
-//     setShowPassword,
-//   } = useServicesContext();
+// const formatLabel = (key) =>
+//   key.replace(/([A-Z])/g, " $1").replace(/^./, (s) => s.toUpperCase());
 
-//   const medicalAlert = dynamicForms.medicalAlert || {};
-//   const [showConfirmModal, setShowConfirmModal] = useState(false);
-//   const { setActiveTab } = useDesignContext();
-//   const dispatch = useDispatch();
-//   const { slug } = useParams();
+// const MedicalAlertPreview = () => {
+//   const { dynamicForms } = useServicesContext();
+//   const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
 
-//   const sections = {
-//     patientInfo: ["patientName", "age", "bloodType"], // age instead of birthDate
-//     medicalHistory: [
-//       "medicalConditions",
-//       "allergies",
-//       "medications",
-//       "additionalNotes",
-//     ],
-//     emergencyContact: ["emergencyContact", "contactPhone"],
-//     additional: [
-//       "familyDoctorName",
-//       "familyDoctorPhone",
-//       "emergencyInstructions",
-//       "insuranceProvider",
-//       "policyNumber",
-//       "preferredHospital",
-//       "location",
-//     ],
-//   };
+//   const defaultBg = "/services-service/medical-alert.webp";
 
-//   const fileFields = ["medicalReports", "prescription", "insuranceImage"];
-//   const maxFileSize = 2 * 1024 * 1024; // 2MB max per file
-//   const maxTotalSize = 30 * 1024 * 1024; // 30MB total max
+//   useEffect(() => {
+//     setIsLoading(true);
+//     setBgDesign(defaultBg);
+//   }, []);
 
-//   const [files, setFiles] = useState({
-//     medicalReports: [],
-//     prescription: [],
-//     insuranceImage: [],
-//   });
+//   const medicalAlert = dynamicForms.medicalAlert;
 
-//   const [deletedFields, setDeletedFields] = useState({
-//     patientInfo: [],
-//     medicalHistory: [],
-//     emergencyContact: [],
-//     additional: [],
-//   });
+//   const hasData = Object.entries(medicalAlert).some(
+//     ([section, fields]) =>
+//       section !== "password" &&
+//       typeof fields === "object" &&
+//       Object.values(fields).some((value) => value?.toString().trim() !== "")
+//   );
 
-//   const fieldLabel = (key) =>
-//     key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase());
+//  const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
+//   const isImage = bgDesign && !isVideo;
 
-//   const handleInputChange = (section, key, value) => {
-//     updateDynamicForm("medicalAlert", section, key, value);
-//   };
+//   const isBase64 = (str) => typeof str === "string" && str.startsWith("data:");
 
-//   const handlePasswordChange = (value) => {
-//     updateDynamicForm("medicalAlert", null, "password", value);
-//   };
+//   const isImageBase64 = (str) => isBase64(str) && str.startsWith("data:image");
 
-//   const handleUseLocation = () => {
-//     if (!navigator.geolocation) {
-//       toast.error("Geolocation is not supported by your browser");
-//       return;
-//     }
-
-//     navigator.geolocation.getCurrentPosition(
-//       async (position) => {
-//         const { latitude, longitude } = position.coords;
-
-//         try {
-//           const response = await fetch(
-//             `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`
-//           );
-//           const data = await response.json();
-
-//           if (data?.display_name) {
-//             handleInputChange("additional", "location", data.display_name);
-//           } else {
-//             handleInputChange(
-//               "additional",
-//               "location",
-//               `Lat: ${latitude.toFixed(4)}, Lon: ${longitude.toFixed(4)}`
-//             );
-//           }
-//         } catch (error) {
-//           toast.error("Reverse geolocation failed");
-//         }
-//       },
-//       (error) => {
-//         toast.error("Location permission denied or unavailable");
-//         console.error("Geolocation error:", error);
-//       },
-//       {
-//         enableHighAccuracy: true,
-//         timeout: 10000,
-//         maximumAge: 0,
-//       }
-//     );
-//   };
-
-//   const handleFileChange = (key, selectedFiles) => {
-//     const newFiles = Array.from(selectedFiles);
-//     setFiles((prev) => {
-//       const combined = [...prev[key], ...newFiles];
-//       const unique = Array.from(
-//         new Map(combined.map((f) => [f.name + f.size, f])).values()
-//       );
-//       return { ...prev, [key]: unique };
-//     });
-//   };
-
-//   const handleAddField = (section, key) => {
-//     addTemplateField("medicalAlert", section, key, "");
-//     setDeletedFields((prev) => ({
-//       ...prev,
-//       [section]: prev[section].filter((item) => item !== key),
-//     }));
-//   };
-
-//   const handleRemoveField = (section, key) => {
-//     removeTemplateField("medicalAlert", section, key);
-//     setDeletedFields((prev) => ({
-//       ...prev,
-//       [section]: [...prev[section], key],
-//     }));
-//   };
-
-//   const handleInitialSubmit = () => {
-//     let hasData = false;
-
-//     Object.entries(sections).forEach(([section, keys]) => {
-//       keys.forEach((key) => {
-//         const value = medicalAlert[section]?.[key];
-//         if (value && value.trim() !== "") hasData = true;
-//       });
-//     });
-
-//     if (medicalAlert.password && medicalAlert.password.trim() !== "") {
-//       hasData = true;
-//     }
-
-//     for (const field of fileFields) {
-//       if (files[field]?.length > 0) {
-//         hasData = true;
-//       }
-//     }
-
-//     if (!hasData) {
-//       toast.error("At least one field must be filled before submitting.");
-//       return;
-//     }
-
-//     setShowConfirmModal(true);
-//   };
-
-//   const handleSubmit = async () => {
-//     try {
-//       const formData = new FormData();
-//       let totalSize = 0;
-
-//       Object.entries(sections).forEach(([section, keys]) => {
-//         keys.forEach((key) => {
-//           const value = medicalAlert[section]?.[key];
-//           if (value) formData.append(key, value);
-//         });
-//       });
-
-//       formData.append("password", medicalAlert.password || "");
-
-//       for (const field of fileFields) {
-//         const fileArray = files[field];
-//         for (const file of fileArray) {
-//           if (file.size > maxFileSize) {
-//             toast.error(`"${file.name}" exceeds 2MB`);
-//             return;
-//           }
-//           totalSize += file.size;
-//           if (totalSize > maxTotalSize) {
-//             toast.error("Total upload size exceeds 30MB");
-//             return;
-//           }
-//           formData.append(field, file);
-//         }
-//       }
-
-//       const res = await axios.post(
-//         "http://localhost:3000/api/services/medicalAlert",
-//         formData
-//       );
-
-//       toast.success("Form submitted successfully!");
-//       setActiveTab(slug, "QR Code");
-//       dispatch(setMedicalServices(res.data.data));
-//     } catch (err) {
-//       toast.error(err.response?.data?.error || err.message);
-//     }
-//   };
+//   const isPdfBase64 = (str) =>
+//     isBase64(str) && str.startsWith("data:application/pdf");
 
 //   return (
-//     <>
-//       <div className="space-y-6">
-//         <h1 className="text-3xl font-bold pb-6 text-[#008080]">
-//           Medical Alert QR Code
-//         </h1>
-
-//         {Object.entries(sections).map(([section, keys]) => (
-//           <div key={section} className="border rounded p-4 shadow-sm space-y-4">
-//             <h3 className="text-xl font-semibold capitalize text-[#008080]">
-//               {fieldLabel(section)}
-//             </h3>
-
-//             {/* Render all keys regardless of value */}
-//             {keys.map((key) => (
-//               <div key={key} className="flex items-center space-x-2">
-//                 {key === "location" ? (
-//                   <div className="flex flex-col md:flex-row md:items-center w-full gap-2">
-//                     <input
-//                       type="text"
-//                       name={key}
-//                       placeholder={fieldLabel(key)}
-//                       value={medicalAlert[section]?.[key] || ""}
-//                       onChange={(e) =>
-//                         handleInputChange(section, key, e.target.value)
-//                       }
-//                       className="border p-2 rounded flex-1"
-//                     />
-//                     <button
-//                       type="button"
-//                       onClick={handleUseLocation}
-//                       className="bg-teal-600 hover:bg-teal-700 text-white px-3 py-2 rounded text-sm w-full md:w-auto"
-//                     >
-//                       Use Current Location
-//                     </button>
-//                   </div>
-//                 ) : (
-//                   <input
-//                     type={key === "age" ? "number" : "text"}
-//                     name={key}
-//                     placeholder={fieldLabel(key)}
-//                     value={medicalAlert[section]?.[key] || ""}
-//                     onChange={(e) =>
-//                       handleInputChange(section, key, e.target.value)
-//                     }
-//                     className="border p-2 rounded flex-1"
-//                   />
-//                 )}
-
-//                 <button
-//                   onClick={() => handleRemoveField(section, key)}
-//                   className="hover:bg-red-200 p-2 rounded"
-//                 >
-//                   <FiTrash2 className="text-red-700" />
-//                 </button>
-//               </div>
-//             ))}
-
-//             {deletedFields[section].length > 0 && (
-//               <select
-//                 onChange={(e) => {
-//                   const key = e.target.value;
-//                   if (key) handleAddField(section, key);
-//                   e.target.selectedIndex = 0;
-//                 }}
-//                 className="border p-2 rounded"
-//               >
-//                 <option value="">Add field</option>
-//                 {deletedFields[section].map((field) => (
-//                   <option key={field} value={field}>
-//                     {fieldLabel(field)}
-//                   </option>
-//                 ))}
-//               </select>
-//             )}
-//           </div>
-//         ))}
-
-//         {fileFields.map((key) => (
-//           <div key={key} className="mb-6">
-//             <label className="block text-sm font-medium text-gray-700 mb-1">
-//               {fieldLabel(key)} (multiple files allowed)
-//             </label>
-//             <input
-//               type="file"
-//               accept={key === "medicalReports" ? ".pdf" : "image/*"}
-//               multiple
-//               onChange={(e) => handleFileChange(key, e.target.files)}
-//               className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 cursor-pointer border border-gray-300 rounded-lg py-2"
-//             />
-//             <p className="mt-1 text-sm text-gray-600">
-//               {files[key]?.length
-//                 ? `${files[key].length} file(s) selected`
-//                 : "No file chosen"}
-//             </p>
-//             {files[key]?.length > 0 && (
-//               <ul className="mt-2 space-y-2">
-//                 {files[key].map((file, i) => (
-//                   <li key={i} className="flex items-center justify-between">
-//                     <span className="truncate">{file.name}</span>
-//                     <button
-//                       onClick={() =>
-//                         setFiles((prev) => ({
-//                           ...prev,
-//                           [key]: prev[key].filter((_, index) => index !== i),
-//                         }))
-//                       }
-//                       className="ml-2 text-red-600 hover:text-red-800"
-//                     >
-//                       <FiTrash2 size={16} />
-//                     </button>
-//                   </li>
-//                 ))}
-//               </ul>
-//             )}
-//           </div>
-//         ))}
-
-//         <div className="relative w-full">
-//           <input
-//             type={showPassword ? "text" : "password"}
-//             placeholder="Password"
-//             value={medicalAlert.password || ""}
-//             onChange={(e) => handlePasswordChange(e.target.value)}
-//             className="border p-2 pr-10 rounded w-full"
+//     <div className="flex justify-center">
+//       <div className="relative w-[350px] h-[650px] rounded-[40px] border-[14px] border-gray-800 shadow-xl overflow-hidden flex flex-col">
+//         {/* Background */}
+//         {isImage && (
+//           <img
+//             src={bgDesign}
+//             alt="Background"
+//             onLoad={() => setTimeout(() => setIsLoading(false), 300)}
+//             className="absolute inset-0 w-full h-full object-cover z-0"
 //           />
-//           <span
-//             onClick={() => setShowPassword(!showPassword)}
-//             className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500 hover:text-[#008080]"
-//           >
-//             {showPassword ? <IoEyeOutline size={20} /> : <IoEyeOffOutline size={20} />}
-//           </span>
-//         </div>
+//         )}
+//         {isVideo && (
+//           <video
+//             src={bgDesign}
+//             autoPlay
+//             loop
+//             muted
+//             playsInline
+//             onLoadedData={() => setTimeout(() => setIsLoading(false), 300)}
+//             className="absolute inset-0 w-full h-full object-cover z-0"
+//           />
+//         )}
+//         {!bgDesign && (
+//           <img
+//             src={defaultBg}
+//             alt="Background"
+//             onLoad={() => setTimeout(() => setIsLoading(false), 300)}
+//             className="absolute inset-0 w-full h-full object-cover z-0"
+//           />
+//         )}
 
-//         <NFCModal />
-
-//         <button
-//           type="button"
-//           onClick={handleInitialSubmit}
-//           className="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 rounded-lg font-semibold text-sm transition mt-6"
-//         >
-//           Submit
-//         </button>
-//       </div>
-
-//       {showConfirmModal && (
-//         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
-//           <div className="bg-white rounded-xl shadow-xl p-6 max-w-sm w-full border border-teal-200 relative">
-//             <h2 className="text-lg font-semibold text-gray-800">
-//               Confirm Submission
-//             </h2>
-//             <p className="text-gray-600 text-sm mt-2">
-//               Are you sure you want to submit this form?
-//             </p>
-//             <div className="flex justify-end gap-4 pt-4">
-//               <button
-//                 onClick={() => setShowConfirmModal(false)}
-//                 className="px-4 py-2 rounded-lg text-gray-600 border border-gray-300 hover:bg-gray-100"
-//               >
-//                 Back
-//               </button>
-//               <button
-//                 onClick={handleSubmit}
-//                 className="px-4 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700"
-//               >
-//                 Confirm & Submit
-//               </button>
-//             </div>
+//         {/* ⏳ Loader */}
+//         {isLoading && (
+//           <div className="absolute inset-0 z-50 bg-mainGreen backdrop-blur-sm flex justify-center items-center">
+//             <Image
+//               src="/logos/ZM LOGO.webp"
+//               alt="Loading"
+//               width={100}
+//               height={100}
+//               className="w-20 h-20 animate-bounce"
+//             />
 //           </div>
+//         )}
+
+//         {/* Top Bar */}
+//         <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-6 bg-gray-800 rounded-b-xl z-10" />
+
+//         {/* Content */}
+//         <div className="relative z-10 flex-1 overflow-y-auto bg-white/70 m-2 rounded-xl pt-8 pb-4 px-4">
+//           {hasData ? (
+//             <div className="space-y-4">
+//               <h2 className="text-xl font-bold text-center text-[#008080]">
+//                 Medical Alert
+//               </h2>
+
+//               {Object.entries(medicalAlert).map(([section, fields]) => {
+//                 if (section === "password") return null;
+
+//                 return (
+//                   typeof fields === "object" && (
+//                     <div
+//                       key={section}
+//                       className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20 space-y-2"
+//                     >
+//                       {Object.entries(fields).map(([key, value]) => {
+//                         if (!value) return null;
+
+//                         return (
+//                           <div key={key} className="text-sm">
+//                             <span className="font-medium text-[#008080]">
+//                               {formatLabel(key)}:
+//                             </span>{" "}
+//                             {/* Show uploaded file */}
+//                             {isImageBase64(value) ? (
+//                               <div className="mt-2">
+//                                 <img
+//                                   src={value}
+//                                   alt={key}
+//                                   className="w-full rounded shadow"
+//                                 />
+//                               </div>
+//                             ) : isPdfBase64(value) ? (
+//                               <a
+//                                 href={value}
+//                                 target="_blank"
+//                                 rel="noopener noreferrer"
+//                                 className="text-blue-600 underline ml-1"
+//                               >
+//                                 View PDF
+//                               </a>
+//                             ) : (
+//                               <span className="text-gray-700 ml-1">
+//                                 {value}
+//                               </span>
+//                             )}
+//                           </div>
+//                         );
+//                       })}
+//                     </div>
+//                   )
+//                 );
+//               })}
+//             </div>
+//           ) : (
+//             <div className="h-full flex flex-col items-center justify-center text-center text-gray-400">
+//               <FiLock className="text-4xl mb-4 text-[#008080]" />
+//               <h3 className="text-lg font-medium">Medical Alert Preview</h3>
+//               <p className="mt-2">Fill the form to see the preview</p>
+//             </div>
+//           )}
 //         </div>
-//       )}
-//     </>
+//       </div>
+//     </div>
 //   );
 // };
 
-// export default MedicalAlertContent;
+// export default MedicalAlertPreview;
+
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect } from "react";
+import { FiLock } from "react-icons/fi";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import useDesignContext from "@/components/hooks/useDesignContext";
-import { FiTrash2 } from "react-icons/fi";
-import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
-import { useParams } from "next/navigation";
-import { useDispatch } from "react-redux";
-import NFCModal from "@/components/modalPopUps/nfcModal";
-import axios from "axios";
-import toast from "react-hot-toast";
-import { setMedicalServices } from "@/redux/slices/servicesSlice";
+import Image from "next/image";
 
-const MedicalAlertContent = () => {
-  const {
-    dynamicForms,
-    updateDynamicForm,
-    addTemplateField,
-    removeTemplateField,
-    showPassword,
-    setShowPassword,
-  } = useServicesContext();
+const formatLabel = (key) =>
+  key.replace(/([A-Z])/g, " $1").replace(/^./, (s) => s.toUpperCase());
+
+const MedicalAlertPreview = () => {
+  const { dynamicForms } = useServicesContext();
+  const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
+
+  const defaultBg = "/services-service/medical-alert.webp";
+
+  useEffect(() => {
+    setIsLoading(true);
+    setBgDesign(defaultBg);
+  }, []);
 
   const medicalAlert = dynamicForms.medicalAlert || {};
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const { setActiveTab } = useDesignContext();
-  const dispatch = useDispatch();
-  const { slug } = useParams();
 
-  const sections = {
-    patientInfo: ["patientName", "age", "bloodType"],
-    medicalHistory: [
-      "medicalConditions",
-      "allergies",
-      "medications",
-      "additionalNotes",
-    ],
-    emergencyContact: ["emergencyContact", "contactPhone"],
-    additional: [
-      "familyDoctorName",
-      "familyDoctorPhone",
-      "emergencyInstructions",
-      "insuranceProvider",
-      "policyNumber",
-      "preferredHospital",
-      "location",
-    ],
-  };
-
-  const fileFields = ["medicalReports", "prescription", "insuranceImage"];
-  const maxFileSize = 2 * 1024 * 1024;
-  const maxTotalSize = 30 * 1024 * 1024;
-
-  const [files, setFiles] = useState({
-    medicalReports: [],
-    prescription: [],
-    insuranceImage: [],
-  });
-
-  const [deletedFields, setDeletedFields] = useState({
-    patientInfo: [],
-    medicalHistory: [],
-    emergencyContact: [],
-    additional: [],
-  });
-
-  const fieldLabel = (key) =>
-    key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase());
-
-  const isValidPhoneNumber = (phone) => {
-    const onlyDigits = /^[0-9]+$/;
-    return onlyDigits.test(phone) && phone.length >= 10 && phone.length <= 15;
-  };
-
-  const handleInputChange = (section, key, value) => {
-    updateDynamicForm("medicalAlert", section, key, value);
-  };
-
-  const handlePasswordChange = (value) => {
-    updateDynamicForm("medicalAlert", null, "password", value);
-  };
-
-  const handleUseLocation = () => {
-    if (!navigator.geolocation) {
-      toast.error("Geolocation is not supported by your browser");
-      return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        const { latitude, longitude } = position.coords;
-
-        try {
-          const response = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`
-          );
-          const data = await response.json();
-
-          if (data?.display_name) {
-            handleInputChange("additional", "location", data.display_name);
-          } else {
-            handleInputChange(
-              "additional",
-              "location",
-              `Lat: ${latitude.toFixed(4)}, Lon: ${longitude.toFixed(4)}`
-            );
-          }
-        } catch (error) {
-          toast.error("Reverse geolocation failed");
+  // Enhanced hasData check to properly detect if there's any meaningful data
+  const hasData = Object.entries(medicalAlert).some(
+    ([section, fields]) =>
+      section !== "password" &&
+      typeof fields === "object" &&
+      Object.values(fields).some((value) => {
+        if (!value) return false;
+        if (typeof value === "object" && value.files) {
+          return value.files.length > 0;
         }
-      },
-      (error) => {
-        toast.error("Location permission denied or unavailable");
-        console.error("Geolocation error:", error);
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 0,
-      }
-    );
-  };
-
-  const handleFileChange = (key, selectedFiles) => {
-    const newFiles = Array.from(selectedFiles);
-    setFiles((prev) => {
-      const combined = [...prev[key], ...newFiles];
-      const unique = Array.from(
-        new Map(combined.map((f) => [f.name + f.size, f])).values()
-      );
-      return { ...prev, [key]: unique };
-    });
-  };
-
-  const handleAddField = (section, key) => {
-    addTemplateField("medicalAlert", section, key, "");
-    setDeletedFields((prev) => ({
-      ...prev,
-      [section]: prev[section].filter((item) => item !== key),
-    }));
-  };
-
-  const handleRemoveField = (section, key) => {
-    removeTemplateField("medicalAlert", section, key);
-    setDeletedFields((prev) => ({
-      ...prev,
-      [section]: [...prev[section], key],
-    }));
-  };
-
-  const handleInitialSubmit = () => {
-    let hasData = false;
-    let invalidPhones = [];
-
-    Object.entries(sections).forEach(([section, keys]) => {
-      keys.forEach((key) => {
-        const value = medicalAlert[section]?.[key];
-
-        if (value && value.trim() !== "") {
-          hasData = true;
-
-          if (
-            (key === "contactPhone" || key === "familyDoctorPhone") &&
-            !isValidPhoneNumber(value.trim())
-          ) {
-            invalidPhones.push({ label: fieldLabel(key), value });
-          }
+        if (typeof value === "string") {
+          return value.trim() !== "";
         }
-      });
-    });
+        return true;
+      })
+  );
 
-    if (medicalAlert.password && medicalAlert.password.trim() !== "") {
-      hasData = true;
-    }
-
-    for (const field of fileFields) {
-      if (files[field]?.length > 0) {
-        hasData = true;
-      }
-    }
-
-    if (!hasData) {
-      toast.error("At least one field must be filled before submitting.");
-      return;
-    }
-
-    if (invalidPhones.length > 0) {
-      invalidPhones.forEach((p) => {
-        toast.error(
-          `${p.label}  Plz enter valid number.`
-        );
-      });
-      return;
-    }
-
-    setShowConfirmModal(true);
-  };
-
-  const handleSubmit = async () => {
-    try {
-      const formData = new FormData();
-      let totalSize = 0;
-
-      Object.entries(sections).forEach(([section, keys]) => {
-        keys.forEach((key) => {
-          const value = medicalAlert[section]?.[key];
-          if (value) formData.append(key, value);
-        });
-      });
-
-      formData.append("password", medicalAlert.password || "");
-
-      for (const field of fileFields) {
-        const fileArray = files[field];
-        for (const file of fileArray) {
-          if (file.size > maxFileSize) {
-            toast.error(`"${file.name}" exceeds 2MB`);
-            return;
-          }
-          totalSize += file.size;
-          if (totalSize > maxTotalSize) {
-            toast.error("Total upload size exceeds 30MB");
-            return;
-          }
-          formData.append(field, file);
-        }
-      }
-
-      const res = await axios.post(
-        "http://localhost:3000/api/services/medicalAlert",
-        formData
-      );
-
-      toast.success("Form submitted successfully!");
-      setActiveTab(slug, "QR Code");
-      dispatch(setMedicalServices(res.data.data));
-    } catch (err) {
-      toast.error(err.response?.data?.error || err.message);
-    }
-  };
+  const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
+  const isImage = bgDesign && !isVideo;
 
   return (
-    <>
-      <div className="space-y-6">
-        <h1 className="text-3xl font-bold pb-6 text-[#008080]">
-          Medical Alert QR Code
-        </h1>
-
-        {Object.entries(sections).map(([section, keys]) => (
-          <div key={section} className="border rounded p-4 shadow-sm space-y-4">
-            <h3 className="text-xl font-semibold capitalize text-[#008080]">
-              {fieldLabel(section)}
-            </h3>
-
-            {keys.map((key) => (
-              <div key={key} className="flex items-center space-x-2">
-                {key === "location" ? (
-                  <div className="flex flex-col md:flex-row md:items-center w-full gap-2">
-                    <input
-                      type="text"
-                      name={key}
-                      placeholder={fieldLabel(key)}
-                      value={medicalAlert[section]?.[key] || ""}
-                      onChange={(e) =>
-                        handleInputChange(section, key, e.target.value)
-                      }
-                      className="border p-2 rounded flex-1"
-                    />
-                    <button
-                      type="button"
-                      onClick={handleUseLocation}
-                      className="bg-teal-600 hover:bg-teal-700 text-white px-3 py-2 rounded text-sm w-full md:w-auto"
-                    >
-                      Use Current Location
-                    </button>
-                  </div>
-                ) : (
-                  <input
-                    type={key === "age" ? "number" : "text"}
-                    name={key}
-                    placeholder={fieldLabel(key)}
-                    value={medicalAlert[section]?.[key] || ""}
-                    onChange={(e) =>
-                      handleInputChange(section, key, e.target.value)
-                    }
-                    className="border p-2 rounded flex-1"
-                  />
-                )}
-                <button
-                  onClick={() => handleRemoveField(section, key)}
-                  className="hover:bg-red-200 p-2 rounded"
-                >
-                  <FiTrash2 className="text-red-700" />
-                </button>
-              </div>
-            ))}
-
-            {deletedFields[section].length > 0 && (
-              <select
-                onChange={(e) => {
-                  const key = e.target.value;
-                  if (key) handleAddField(section, key);
-                  e.target.selectedIndex = 0;
-                }}
-                className="border p-2 rounded"
-              >
-                <option value="">Add field</option>
-                {deletedFields[section].map((field) => (
-                  <option key={field} value={field}>
-                    {fieldLabel(field)}
-                  </option>
-                ))}
-              </select>
-            )}
-          </div>
-        ))}
-
-        {fileFields.map((key) => (
-          <div key={key} className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              {fieldLabel(key)} (multiple files allowed)
-            </label>
-            <input
-              type="file"
-              accept={key === "medicalReports" ? ".pdf" : "image/*"}
-              multiple
-              onChange={(e) => handleFileChange(key, e.target.files)}
-              className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 cursor-pointer border border-gray-300 rounded-lg py-2"
-            />
-            <p className="mt-1 text-sm text-gray-600">
-              {files[key]?.length
-                ? `${files[key].length} file(s) selected`
-                : "No file chosen"}
-            </p>
-            {files[key]?.length > 0 && (
-              <ul className="mt-2 space-y-2">
-                {files[key].map((file, i) => (
-                  <li key={i} className="flex items-center justify-between">
-                    <span className="truncate">{file.name}</span>
-                    <button
-                      onClick={() =>
-                        setFiles((prev) => ({
-                          ...prev,
-                          [key]: prev[key].filter((_, index) => index !== i),
-                        }))
-                      }
-                      className="ml-2 text-red-600 hover:text-red-800"
-                    >
-                      <FiTrash2 size={16} />
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        ))}
-
-        <div className="relative w-full">
-          <input
-            type={showPassword ? "text" : "password"}
-            placeholder="Password"
-            value={medicalAlert.password || ""}
-            onChange={(e) => handlePasswordChange(e.target.value)}
-            className="border p-2 pr-10 rounded w-full"
+    <div className="flex justify-center">
+      <div className="relative w-[350px] h-[650px] rounded-[40px] border-[14px] border-gray-800 shadow-xl scrollbar-hide overflow-y-auto ">
+        {/* Background */}
+        {isImage && (
+          <img
+            src={bgDesign}
+            alt="Background"
+            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
+            className="absolute inset-0 w-full h-full object-cover z-0"
           />
-          <span
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500 hover:text-[#008080]"
-          >
-            {showPassword ? <IoEyeOutline size={20} /> : <IoEyeOffOutline size={20} />}
-          </span>
-        </div>
+        )}
+        {isVideo && (
+          <video
+            src={bgDesign}
+            autoPlay
+            loop
+            muted
+            playsInline
+            onLoadedData={() => setTimeout(() => setIsLoading(false), 300)}
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          />
+        )}
+        {!bgDesign && (
+          <img
+            src={defaultBg}
+            alt="Background"
+            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          />
+        )}
 
-        <NFCModal />
-
-        <button
-          type="button"
-          onClick={handleInitialSubmit}
-          className="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 rounded-lg font-semibold text-sm transition mt-6"
-        >
-          Submit
-        </button>
-      </div>
-
-      {showConfirmModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
-          <div className="bg-white rounded-xl shadow-xl p-6 max-w-sm w-full border border-teal-200 relative">
-            <h2 className="text-lg font-semibold text-gray-800">
-              Confirm Submission
-            </h2>
-            <p className="text-gray-600 text-sm mt-2">
-              Are you sure you want to submit this form?
-            </p>
-            <div className="flex justify-end gap-4 pt-4">
-              <button
-                onClick={() => setShowConfirmModal(false)}
-                className="px-4 py-2 rounded-lg text-gray-600 border border-gray-300 hover:bg-gray-100"
-              >
-                Back
-              </button>
-              <button
-                onClick={handleSubmit}
-                className="px-4 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700"
-              >
-                Confirm & Submit
-              </button>
-            </div>
+        {/* Loader */}
+        {isLoading && (
+          <div className="absolute inset-0 z-50 bg-mainGreen backdrop-blur-sm flex justify-center items-center">
+            <Image
+              src="/logos/ZM LOGO.webp"
+              alt="Loading"
+              width={100}
+              height={100}
+              className="w-20 h-20 animate-bounce"
+            />
           </div>
+        )}
+
+        {/* Top Bar */}
+        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-6 bg-gray-800 rounded-b-xl z-10" />
+
+        {/* Content */}
+        <div className="relative z-10 flex-1 overflow-y-auto bg-white/70 m-2 rounded-xl pt-8 pb-4 px-4">
+          {hasData ? (
+            <div className="space-y-4">
+              <h2 className="text-xl font-bold text-center text-[#008080]">
+                Medical Alert
+              </h2>
+
+              {Object.entries(medicalAlert).map(([section, fields]) => {
+                if (section === "password" || typeof fields !== "object") return null;
+
+                // Filter out empty fields for this section
+                const nonEmptyFields = Object.entries(fields).filter(([key, value]) => {
+                  if (!value) return false;
+                  if (typeof value === "object" && value.files) {
+                    return value.files.length > 0;
+                  }
+                  if (typeof value === "string") {
+                    return value.trim() !== "";
+                  }
+                  return true;
+                });
+
+                // Don't render section if all fields are empty
+                if (nonEmptyFields.length === 0) return null;
+
+                return (
+                  <div
+                    key={section}
+                    className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20 space-y-2"
+                  >
+                    <h3 className="font-medium text-[#008080] capitalize">
+                      {section.replace(/([A-Z])/g, " $1")}
+                    </h3>
+                    
+                    {nonEmptyFields.map(([key, value]) => {
+                      let content = null;
+
+                      // Handle file uploads
+                      if (typeof value === "object" && value.files) {
+                        content = value.files.map((file, idx) => {
+                          const fileURL = URL.createObjectURL(file);
+
+                          if (file.type.startsWith("image/")) {
+                            return (
+                              <div key={idx} className="mt-2">
+                                <p className="text-xs text-gray-500 mb-1">{file.name}</p>
+                                <img
+                                  src={fileURL}
+                                  alt={file.name}
+                                  className="w-full rounded shadow"
+                                />
+                              </div>
+                            );
+                          } else if (file.type === "application/pdf") {
+                            return (
+                              <div key={idx} className="mt-2">
+                                <p className="text-xs text-gray-500 mb-1">{file.name}</p>
+                                <iframe
+                                  src={fileURL}
+                                  title={file.name}
+                                  className="w-full h-64 rounded border"
+                                />
+                              </div>
+                            );
+                          }
+                          return null;
+                        });
+                      }
+                      // Handle simple strings
+                      else if (typeof value === "string") {
+                        content = <span className="text-gray-700">{value}</span>;
+                      }
+
+                      return (
+                        <div key={key} className="text-sm w-full flex-row">
+                          <p className="font-medium w-full text-[#008080]">
+                            {formatLabel(key)} : {content}
+                          </p>
+                         
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="h-full flex flex-col items-center justify-center text-center text-gray-400">
+              <FiLock className="text-4xl mb-4 text-[#008080]" />
+              <h3 className="text-lg font-medium">Medical Alert Preview</h3>
+              <p className="mt-2">Fill the form to see the preview</p>
+            </div>
+          )}
         </div>
-      )}
-    </>
+      </div>
+    </div>
   );
 };
 
-export default MedicalAlertContent;
-
+export default MedicalAlertPreview;
