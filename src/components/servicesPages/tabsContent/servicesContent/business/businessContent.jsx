@@ -307,7 +307,6 @@ import { MapPin } from "lucide-react";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import { useParams } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { setBusinessCardServices } from "@/redux/slices/servicesSlice";
 
 // New ConfirmationModal component
 const ConfirmationModal = ({ show, onClose, onConfirm }) => {
