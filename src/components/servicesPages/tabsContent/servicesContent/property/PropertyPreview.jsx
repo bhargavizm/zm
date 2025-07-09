@@ -37,7 +37,7 @@ const PropertyPreview = () => {
 
       {/* 📱 Main Preview Content */}
       <div className="relative z-20 flex justify-center">
-        <div className="w-[350px] h-[650px] border-[12px] border-black rounded-[36px] shadow-xl overflow-hidden relative">
+        <div className="w-[350px] h-[650px] border-[12px] border-black rounded-[36px] shadow-xl  relative overflow-y-auto scrollbar-hide">
                 {isImage && (
         <img
           src={bgDesign}
@@ -68,7 +68,7 @@ const PropertyPreview = () => {
 
               {/* ⏳ Loader */}
               {isLoading && (
-                <div className="absolute inset-0 z-50 bg-mainGreen backdrop-blur-sm flex justify-center items-center">
+                <div className="absolute inset-0 z-50 bg-mainGreen backdrop-blur-sm flex justify-center items-center overflow-y-auto scrollbar-hide">
                   <Image
                     src="/logos/ZM LOGO.webp"
                     alt="Loading"

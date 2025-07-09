@@ -117,6 +117,7 @@ const MedicalAlertPreview = () => {
                               <div className="mt-2">
                                 <img
                                   src={value}
+
                                   alt={key}
                                   className="w-full rounded shadow"
                                 />
