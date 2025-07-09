@@ -118,8 +118,8 @@ const { slug } = useParams();
 
   return (
     <>
-     {servicesDataLoading && (
-       <LoadingSpinner/>
+      {servicesDataLoading && (
+        <LoadingSpinner/>
       )}
 
       <form>
