@@ -3,6 +3,8 @@
 // import { connectDB } from "@/lib/mongoDB";
 // import WifiModel from "@/models/services/wifiSchema";
 
+// import { connectDB } from "@/lib/mongoDB";
+
 // export async function POST(req) {
 //     try {
 //         const body = await req.json();
@@ -30,11 +32,12 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongoDB";
 import WifiModel from "@/models/services/wifiSchema";
+import { authUser } from "@/middlewares/authMiddleware";
 
 export async function POST(req) {
     try {
         // ✅ Step 1: Authenticate User
-        const auth = await authUser(request);
+        const auth = await authUser(req);
         if (auth.status !== 200) {
             return new Response(JSON.stringify(auth.json), {
                 status: auth.status,
@@ -80,3 +83,4 @@ export async function POST(req) {
         );
     }
 }
+
