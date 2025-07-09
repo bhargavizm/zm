@@ -65,7 +65,9 @@ const medicalAlertSchema = new mongoose.Schema(
       },
     patientInfo: {
       patientName: { type: String },
-      birthDate: { type: Date },
+      //birthDate: { type: Date },
+      age:{type:Number},
+      
       bloodType: { type: String },
     },
     medicalHistory: {

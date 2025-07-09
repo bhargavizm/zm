@@ -1,25 +1,42 @@
 import React from "react";
 import Image from "next/image";
 
-const PetIdTemplateTwo = ({ petIDFormData }) => {
+const PetIdTemplateOne = ({ petIDFormData }) => {
     if (!petIDFormData) {
         return <div className="text-center p-6">No pet tag data available.</div>;
     }
 
+    // Determine which background image to use based on the selectedTemplate
+    let backgroundImage = "";
+    switch (petIDFormData.selectedTemplate) {
+        case "pet1.webp":
+        case "pet2.webp":
+            backgroundImage = "/pet-id/pet2.webp";
+            break;
+        case "pet3.webp":
+            backgroundImage = "/pet-id/pet3.webp";
+            break;
+        case "pet4.webp":
+            backgroundImage = "/pet-id/pet4.webp";
+            break;
+        case "PET6.webp":
+            backgroundImage = "/pet-id/PET6.webp";
+            break;
+        default:
+            backgroundImage = "/pet-id/pet1.webp";
+    }
+
     return (
         <div
-            className="relative w-[350px] h-[650px] overflow-y-auto scrollbar-hide rounded-lg shadow-lg flex flex-col items-center justify-start p-6"
+            className="relative w-[350px] h-[650px] overflow-y-auto scrollbar-hide rounded-lg shadow-lg flex flex-col items-center justify-center"
             style={{
-                backgroundImage: "url(/pet-id/pet2.webp)", // Using pet2.webp for background
+                backgroundImage: `url(${backgroundImage})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
             }}
         >
-            {/* Semi-transparent overlay to ensure text readability */}
-            <div className="absolute inset-0 bg-white opacity-80"></div>
-
-            {/* Pet Image - Centered and Circular */}
-            <div className="relative z-10 mb-8">
+            {/* Pet Image */}
+            <div className="relative z-10 mb-8 flex justify-center">
                 {petIDFormData.mainImage ? (
                     <Image
                         src={petIDFormData.mainImage}
@@ -29,49 +46,53 @@ const PetIdTemplateTwo = ({ petIDFormData }) => {
                         className="rounded-full object-cover border-4 border-white shadow-md"
                     />
                 ) : (
-                    <div className="w-[150px] h-[150px] bg-gray-200 rounded-full flex items-center justify-center text-gray-500">
-                         <img src="/pet-id/dog1.webp"/>
+                    <div className="w-[150px] h-[150px] flex items-center justify-center text-gray-500">
+                        <img src="/pet-id/image-frame.webp" alt="default dog" />
                     </div>
                 )}
             </div>
 
-            {/* Pet Tag Title */}
-            <h1 className="relative z-10 text-4xl font-bold text-[#6D3C00] mb-2 drop-shadow">
-                {petIDFormData.tagTitle || "Pet Tag"}
-            </h1>
-
             {/* Pet Name */}
             <h2 className="relative z-10 text-2xl font-semibold text-[#8B4513] mb-8 drop-shadow">
-                {petIDFormData.pet.name || "Bread"}
+                {petIDFormData.pet.name}
             </h2>
 
             {/* Pet and Owner Information */}
-            <div className="relative z-10 w-full  bg-white bg-opacity-80 rounded-lg">
-                <div className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-gray-800 text-base">
-                    <p className="font-medium text-[#8B4513]">Type of Pet</p>
-                    <p>: {petIDFormData.pet.species || "Dog"}</p>
+            <div className="relative z-10 w-full bg-opacity-80 rounded-lg px-4 py-2">
+                <div className="grid grid-cols-[auto_1fr] gap-x-2 gap-y-2 text-gray-800 text-base">
+                    {/* Owner Name */}
+                    {petIDFormData.ownerInfo.name && (
+                        <>
+                            <p className="font-medium text-[#8B4513]">Name of the Owner</p>
+                            <p>: {petIDFormData.ownerInfo.name}</p>
+                        </>
+                    )}
 
-                    <p className="font-medium text-[#8B4513]">Date of Birth</p>
-                    <p>: {petIDFormData.pet.birthDate || "Nov 15, 2022"}</p>
+                    {/* Phone Number */}
+                    {petIDFormData.ownerInfo.phone && (
+                        <>
+                            <p className="font-medium text-[#8B4513]">Contact Number</p>
+                            <p>: {petIDFormData.ownerInfo.phone}</p>
+                        </>
+                    )}
 
-                    <p className="font-medium text-[#8B4513]">Name of the Owner</p>
-                    <p>: {petIDFormData.ownerInfo.name || "Ricardo Ibarra"}</p>
-
-                    <p className="font-medium text-[#8B4513]">Contact Number</p>
-                    <p>: {petIDFormData.ownerInfo.phone || "+123-456-7890"}</p>
-
+                    {/* Email */}
                     {petIDFormData.ownerInfo.email && (
                         <>
                             <p className="font-medium text-[#8B4513]">Email</p>
                             <p>: {petIDFormData.ownerInfo.email}</p>
                         </>
                     )}
+
+                    {/* Address */}
                     {petIDFormData.ownerInfo.address && (
                         <>
                             <p className="font-medium text-[#8B4513]">Address</p>
                             <p>: {petIDFormData.ownerInfo.address}</p>
                         </>
                     )}
+
+                    {/* Additional Pet Info */}
                     {petIDFormData.pet.breed && (
                         <>
                             <p className="font-medium text-[#8B4513]">Breed</p>
@@ -120,4 +141,4 @@ const PetIdTemplateTwo = ({ petIDFormData }) => {
     );
 };
 
-export default PetIdTemplateTwo;
+export default PetIdTemplateOne;
