@@ -26,6 +26,20 @@ const SmsContent = () => {
   }
   const handleInitialSubmit = (e) => {
       e.preventDefault();
+      
+  const { genderName, messageType, textMessage, password } = smsFormData;
+
+  const isEmpty =
+    !genderName.trim() &&
+    !messageType.trim() &&
+    !textMessage.trim() &&
+    !password.trim();
+
+  if (isEmpty) {
+    toast.error(" Enter at least one field before submitting");
+    return;
+  }
+
       setShowConfirmModal(true);
     };
 
