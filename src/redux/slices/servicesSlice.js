@@ -17,6 +17,7 @@ const initialState = {
   pdfServiceData: [],
   audioServiceData: [],
   videoServiceData: [],
+  setBusinessCardServices:[],
   galleryServiceData: [],
   error: null,
 };
@@ -26,6 +27,11 @@ const servicesSlice = createSlice({
   initialState,
   reducers: {
     // Regular Services
+     setBusinessCardServices: (state, action) => ({
+      ...state,
+      resumeServiceData: action.payload,
+      error: null,
+    }),
     setResumeServices: (state, action) => ({
       ...state,
       resumeServiceData: action.payload,
@@ -110,6 +116,7 @@ export const {
   setPropertyServices,
   setPetIdServices,
   setKidsSafetyServices,
+  setBusinessCardServices,
   setDiscountServices,
 
   clearError,

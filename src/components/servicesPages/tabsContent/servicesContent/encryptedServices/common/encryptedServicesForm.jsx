@@ -84,50 +84,30 @@ const EncryptedServicesForm = ({
     return msg;
   };
 
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
+ const handleChange = (e) => {
+  const { name, value, files } = e.target;
 
-    if (name === "files" && files.length) {
-      const newFiles = Array.from(files);
-
-      // ✅ Check MIME type here
-      const invalidFile = newFiles.find(
-        (file) => accept && !file.type.match(accept)
-      );
-      if (invalidFile) {
-        toast.error(`Unsupported file type: ${invalidFile.name}`);
-        return;
-      }
-
-      const updatedFiles = [...(formData.file || []), ...newFiles];
-      const updatedSize = updatedFiles.reduce((acc, f) => acc + f.size, 0);
-
-      setTotalSize(updatedSize);
-      const warning = getPlanErrorMessage(updatedSize);
-      setSizeWarning(warning);
-
-      setFormData((prev) => ({ ...prev, file: updatedFiles }));
+  if (name === "files" && files.length) {
+    const newFiles = Array.from(files);
+    const invalidFile = newFiles.find(
+      (file) => accept && !file.type.match(accept)
+    );
+    if (invalidFile) {
+      toast.error(`Unsupported file type: ${invalidFile.name}`);
+      return;
     }
 
-    // if (name === "files" && files.length) {
-    //   const newFiles = Array.from(files);
-    //   const updatedFiles = [...(formData.file || []), ...newFiles];
-    //   const updatedSize = updatedFiles.reduce((acc, f) => acc + f.size, 0);
-
-    //   setTotalSize(updatedSize);
-    //   const warning = getPlanErrorMessage(updatedSize);
-    //   setSizeWarning(warning);
-
-    //   setFormData((prev) => ({ ...prev, file: updatedFiles }));
-
-    //   // if (warning) {
-    //   //   setShowUpgradeModal(true); // show modal on exceeding plan
-    //   // }
-    // } else {
-    //   setFormData((prev) => ({ ...prev, [name]: value }));
-    // }
-  };
-
+    const updatedFiles = [...(formData.file || []), ...newFiles];
+    const updatedSize = updatedFiles.reduce((acc, f) => acc + f.size, 0);
+    setTotalSize(updatedSize);
+    const warning = getPlanErrorMessage(updatedSize);
+    setSizeWarning(warning);
+    setFormData((prev) => ({ ...prev, file: updatedFiles }));
+  } else {
+    // ✅ Add this block for other fields
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  }
+};
   const confirmUpload = async () => {
     const fd = new FormData();
     // ✅ Always upload files under key "files"
