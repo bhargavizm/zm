@@ -559,7 +559,7 @@ import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { useParams, useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import NFCModal from "@/components/modalPopUps/nfcModal";
-import { setmedicalServices } from "@/redux/slices/servicesSlice";
+import { setMedicalServices } from "@/redux/slices/servicesSlice";
 import axios from "axios";
 import toast from "react-hot-toast";
 
