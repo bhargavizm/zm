@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import { Eye, EyeOff } from "lucide-react";
-import { IoEyeOutline, IoEyeOffOutline, IoLocation } from "react-icons/io5";
+import { IoLocation } from "react-icons/io5";
 import { MdCancel } from "react-icons/md";
 import NFCModal from "@/components/modalPopUps/nfcModal";
 import useDesignContext from "@/components/hooks/useDesignContext";
@@ -22,6 +22,7 @@ const BusinessShopContent = () => {
     altPhone: "",
     email: ""
   });
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const shopTimingsTemplate = dynamicForms.shopTimingsTemplate;
 
   const validatePhone = (phone) => {
@@ -41,7 +42,6 @@ const BusinessShopContent = () => {
   const handleChange = (formKey, sectionKey, fieldKey, value) => {
     updateDynamicForm(formKey, sectionKey, fieldKey, value);
 
-    // Validate fields as user types
     if (fieldKey === 'phone') {
       setErrors(prev => ({ ...prev, phone: validatePhone(value) }));
     } else if (fieldKey === 'altPhone') {
@@ -52,8 +52,14 @@ const BusinessShopContent = () => {
   };
 
   const handleFileChange = (section, field, files, isMultiple = false) => {
-    const fileValue = isMultiple ? Array.from(files) : files[0];
-    updateDynamicForm("businessInfo", section, field, fileValue);
+    const newFiles = isMultiple ? Array.from(files) : [files[0]];
+    const existingFiles = businessInfo[section][field] || [];
+
+    const updatedFiles = isMultiple
+      ? [...existingFiles, ...newFiles]
+      : newFiles;
+
+    updateDynamicForm("businessInfo", section, field, updatedFiles);
   };
 
   const removeImage = (section, field, index = null) => {
@@ -104,24 +110,20 @@ const BusinessShopContent = () => {
       console.warn("Geolocation is not supported by this browser.");
     }
   };
+
   const isFormEmpty = () => {
-    // Check general information fields
     const generalFields = Object.values(businessInfo.general);
     const hasGeneralInfo = generalFields.some(value => value && value.toString().trim() !== "");
 
-    // Check contact information fields
     const contactFields = Object.values(businessInfo.contact);
     const hasContactInfo = contactFields.some(value => value && value.toString().trim() !== "");
 
-    // Check security field
     const hasSecurityInfo = businessInfo.security.password && businessInfo.security.password.trim() !== "";
 
-    // Check media fields
     const hasMediaInfo =
       businessInfo.media.logo ||
       (businessInfo.media.galleryImages && businessInfo.media.galleryImages.length > 0);
 
-    // Check if at least one field is filled in any section
     return !(hasGeneralInfo || hasContactInfo || hasSecurityInfo || hasMediaInfo);
   };
 
@@ -133,7 +135,6 @@ const BusinessShopContent = () => {
       return;
     }
 
-    // Validate all fields before submission
     const validationErrors = {
       phone: validatePhone(businessInfo.contact.phone),
       altPhone: validatePhone(businessInfo.contact.altPhone),
@@ -142,12 +143,48 @@ const BusinessShopContent = () => {
 
     setErrors(validationErrors);
 
-    // Check if there are any validation errors
     if (Object.values(validationErrors).some(error => error)) {
       toast.error("Please fix the validation errors before submitting");
       return;
     }
 
+    setIsModalOpen(true);
+  };
+
+  const handleModalEdit = () => {
+    setIsModalOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const resetFormFields = () => {
+    // Reset general info
+    Object.keys(businessInfo.general).forEach(key => {
+      updateDynamicForm("businessInfo", "general", key, "");
+    });
+
+    // Reset contact info
+    Object.keys(businessInfo.contact).forEach(key => {
+      updateDynamicForm("businessInfo", "contact", key, "");
+    });
+
+    // Reset security
+    updateDynamicForm("businessInfo", "security", "password", "");
+
+    // Reset media
+    updateDynamicForm("businessInfo", "media", "logo", null);
+    updateDynamicForm("businessInfo", "media", "galleryImages", []);
+
+    // Reset errors
+    setErrors({
+      phone: "",
+      altPhone: "",
+      email: ""
+    });
+  };
+  
+  const handleModalOk = async () => {
+    setIsModalOpen(false);
+    
     const formData = new FormData();
 
     // General Info
@@ -195,11 +232,11 @@ const BusinessShopContent = () => {
       if (response.data.success) {
         toast.success("Business data saved successfully");
         setActiveTab(slug, "QR Code");
-        console.log("Business data saved successfully");
-        // router.refresh(); // uncomment if needed
+        
+        resetFormFields();
       }
     } catch (error) {
-      toast.warn("Failed to submit business data. Please try again.");
+      toast.error("Failed to submit business data. Please try again.");
       console.error("Submit error:", error);
     }
   };
@@ -397,39 +434,52 @@ const BusinessShopContent = () => {
           <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200">
             Media
           </h3>
+
           <div className="space-y-6">
-            {/* Gallery Images */}
-            <div className="space-y-2">
-              <label className="block text-base font-medium text-gray-700">
-                Gallery Images
+            <div className="space-y-2 mt-6 ">
+              <div className="flex items-center justify-start gap-6 pb-4">
+                <label className="block text-base  font-medium text-gray-700">
+                  Gallery Images
+                </label>
+                <p className="text-sm text-gray-600">
+                  {businessInfo.media.galleryImages?.length > 0
+                    ? `${businessInfo.media.galleryImages.length} file(s) selected`
+                    : "No files chosen"}
+                </p>
+              </div>
+
+              <label className="bg-teal-700  text-white px-4 py-2  rounded cursor-pointer">
+                Choose Files
+                <input
+                  type="file"
+                  multiple
+                  onChange={(e) =>
+                    handleFileChange("media", "galleryImages", e.target.files, true)
+                  }
+                  className="hidden"
+                />
               </label>
-              {businessInfo.media.galleryImages?.length > 0 && (
-                <div className="grid grid-cols-3 gap-2 mb-4">
-                  {businessInfo.media.galleryImages.map((image, index) => (
+
+              <div className="flex flex-wrap gap-4 mt-6">
+                {Array.isArray(businessInfo.media.galleryImages) &&
+                  businessInfo.media.galleryImages.map((file, index) => (
                     <div key={index} className="relative">
                       <img
-                        src={typeof image === 'string' ? image : URL.createObjectURL(image)}
-                        alt={`Gallery ${index + 1}`}
-                        className="h-24 w-full object-cover rounded-lg"
+                        src={
+                          typeof file === "string" ? file : URL.createObjectURL(file)
+                        }
+                        alt={`Gallery ${index}`}
+                        className="h-20 w-20 object-cover rounded-lg"
                       />
                       <button
                         onClick={() => removeImage("media", "galleryImages", index)}
-                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
-                        aria-label={`Remove image ${index + 1}`}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white cursor-pointer rounded-full p-1 hover:bg-red-600"
                       >
                         <MdCancel />
                       </button>
                     </div>
                   ))}
-                </div>
-              )}
-              <input
-                type="file"
-                accept="image/*"
-                multiple
-                className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
-                onChange={(e) => handleFileChange("media", "galleryImages", e.target.files, true)}
-              />
+              </div>
             </div>
           </div>
         </div>
@@ -470,6 +520,34 @@ const BusinessShopContent = () => {
       >
         Submit
       </button>
+
+      {/* Custom Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-white-70 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+            <h3 className="text-xl font-semibold text-gray-800 mb-4">
+              Confirm Submission
+            </h3>
+            <p className="text-gray-600 mb-6">
+              Are you sure you want to submit this form? You can edit it now or confirm to proceed.
+            </p>
+            <div className="flex justify-end space-x-3">
+              <button
+                onClick={handleModalEdit}
+                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
+              >
+                Edit
+              </button>
+              <button
+                onClick={handleModalOk}
+                className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition-colors"
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
