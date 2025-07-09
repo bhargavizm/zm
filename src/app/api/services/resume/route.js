@@ -1,11 +1,13 @@
 // app/api/resumes/upload/route.js
 
 import { connectDB } from "@/lib/mongoDB";
-import { authUser } from "@/middlewares/authMiddleware";
-import ResumeModel from "@/models/services/resumeSchema";
+
 import { cloudinary } from "@/utils/cloudinary";
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcryptjs";
+import ResumeModel from "@/models/services/resumeSchema";
+import { authUser } from "@/middlewares/authMiddleware";
+
 
 export const config = {
   api: {
@@ -31,12 +33,12 @@ export async function POST(request) {
     const resumeFiles = formData.getAll("resumeFiles");
 
     // Validate files
-    if ((!resumeFiles || resumeFiles.length === 0) && !resumeUrl) {
-      return Response.json(
-        { error: "Please upload at least one file or provide a URL" },
-        { status: 400 }
-      );
-    }
+    // if ((!resumeFiles || resumeFiles.length === 0) && !resumeUrl) {
+    //   return Response.json(
+    //     { error: "Please upload at least one file or provide a URL" },
+    //     { status: 400 }
+    //   );
+    // }
 
     // Check total size and per-file size
     let totalSize = 0;
@@ -109,7 +111,7 @@ export async function POST(request) {
       message: "Resumes uploaded successfully",
       data: savedResume,
     });
-  } catch (error) {
+   } catch (error) {
     console.error("Resume upload error:", error);
     return Response.json(
       { error: "Internal server error" },
