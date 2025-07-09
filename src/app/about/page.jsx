@@ -266,9 +266,7 @@ const AboutUs = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-black text-center text-sm text-green-200 py-6">
-        {dictionary.about.footer}
-      </footer>
+     
     </div>
   );
 };
