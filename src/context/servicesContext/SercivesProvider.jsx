@@ -203,7 +203,7 @@ const [propertyDetails,setPropertyDetails] = useState({
     medicalAlert: {
       patientInfo: {
         patientName: "",
-        birthDate: "",
+        age: "",
         bloodType: "",
       },
       medicalHistory: {
@@ -215,6 +215,8 @@ const [propertyDetails,setPropertyDetails] = useState({
       emergencyContact: {
         emergencyContact: "",
         contactPhone: "",
+        preferredHospital: "",
+        location: ""
       },
       additional: {
         familyDoctorName: "",
@@ -222,6 +224,9 @@ const [propertyDetails,setPropertyDetails] = useState({
         emergencyInstructions: "",
         insuranceProvider: "",
         policyNumber: "",
+        medicalReports: [],
+        prescription: [],
+        insuranceImage: [],
         medicalReports:[],
         prescription: [],
         insuranceImage: [],
@@ -375,7 +380,7 @@ const [propertyDetails,setPropertyDetails] = useState({
       general: {
         vehicleModel: "",
         vehicleType: "",
-        buyDate: "",
+        vehicleNumber: "",
         description: "",
       },
       registration: {
@@ -395,7 +400,9 @@ const [propertyDetails,setPropertyDetails] = useState({
         licenseBack: null,
         rcFront: null,
         rcBack: null,
+        pollution:null,
         galleryImages: [],
+        insurance:[]
       },
       security: {
         password: "",
