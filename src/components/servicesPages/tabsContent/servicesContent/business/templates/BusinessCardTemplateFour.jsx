@@ -34,6 +34,8 @@ const BusinessCardTemplateFour = ({ businessForm, profileImage, brandLogo }) => 
                         className="object-cover w-full h-full"
                     />
                 </div>
+               
+
             </div>
 
             {/* Name and Titles */}
@@ -121,3 +123,4 @@ const BusinessCardTemplateFour = ({ businessForm, profileImage, brandLogo }) => 
 };
 
 export default BusinessCardTemplateFour;
+
