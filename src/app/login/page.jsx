@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { setUserData } from '@/redux/slices/authSlice';
 import { signIn } from 'next-auth/react';
 import toast from 'react-hot-toast';
+import Link from 'next/link';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -128,22 +129,20 @@ export default function LoginPage() {
                   setActive('new');
                   router.push('/signup');
                 }}
-                className={`flex-1 text-sm bg-[#e6e6e6] text-[#001a1a] px-4 py-2 rounded-sm hover:bg-[#d4d4d4] transition-all duration-300 ${
-                  active === 'new'
-                    ? 'border-b-4 border-[#008080]'
-                    : 'border-b-4 border-transparent cursor-pointer'
-                }`}
+                className={`flex-1 text-sm bg-[#e6e6e6] text-[#001a1a] px-4 py-2 rounded-sm hover:bg-[#d4d4d4] transition-all duration-300 ${active === 'new'
+                  ? 'border-b-4 border-[#008080]'
+                  : 'border-b-4 border-transparent cursor-pointer'
+                  }`}
               >
                 I'm a new user
               </button>
               <button
                 type="button"
                 onClick={() => setActive('existing')}
-                className={`flex-1 text-sm bg-[#e6e6e6] text-[#001a1a] px-4 py-2 rounded-sm hover:bg-[#c0c0c0] transition-all duration-300 ${
-                  active === 'existing'
-                    ? 'border-b-4 border-[#008080]'
-                    : 'border-b-4 border-transparent cursor-pointer'
-                }`}
+                className={`flex-1 text-sm bg-[#e6e6e6] text-[#001a1a] px-4 py-2 rounded-sm hover:bg-[#c0c0c0] transition-all duration-300 ${active === 'existing'
+                  ? 'border-b-4 border-[#008080]'
+                  : 'border-b-4 border-transparent cursor-pointer'
+                  }`}
               >
                 I'm an existing user
               </button>
@@ -193,6 +192,15 @@ export default function LoginPage() {
                 {showPassword ? <FiEye size={18} /> : <FiEyeOff size={18} />}
               </button>
             </div>
+            <div className="w-full flex justify-end mt-2">
+              <Link
+                href="/forgetPassword"
+                className="text-sm text-[#008080] hover:underline hover:text-[#006666] transition-colors duration-200"
+              >
+                Forgot Password?
+              </Link>
+            </div>
+
 
             {/* Terms Checkbox */}
             <div className="flex items-start mt-3 w-full gap-2 text-sm">
