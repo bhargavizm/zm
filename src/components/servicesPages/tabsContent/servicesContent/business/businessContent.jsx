@@ -341,8 +341,8 @@ const BusinessContent = () => {
   const { businessForm, setBusinessForm, profileImage, setProfileImage } =
     useServicesContext();
     const dispatch = useDispatch();
-     const { setActiveTab } = useDesignContext();
-     const { slug } = useParams();
+    const { setActiveTab } = useDesignContext();
+    const { slug } = useParams();
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false); // New state for confirmation modal
