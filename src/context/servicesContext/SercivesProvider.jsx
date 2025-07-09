@@ -580,7 +580,7 @@ const [menuBookFormData, setMenuBookFormData] = useState({
         petIDFormData, setPetIDFormData,
 
         // Dynamic forms and their handlers
-        dynamicForms,
+        dynamicForms,setDynamicForms,
         updateDynamicForm,
         resetDynamicForm, // Expose the new reset function
         addTemplateField,
