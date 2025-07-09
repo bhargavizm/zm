@@ -166,6 +166,7 @@ const MenuBookContent = () => {
     <>
       {servicesDataLoading && <LoadingSpinner />}
 
+
       <form>
         <div className="max-w-xl mx-auto p-6 space-y-6 bg-white rounded">
           <h2 className="text-2xl font-bold text-[#008080]">Create QR Menu</h2>
