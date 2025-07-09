@@ -57,22 +57,20 @@ const PetIdTemplateOne = ({ petIDFormData }) => {
 
             {/* Pet Tag Title */}
             <h1 className="relative z-10 text-4xl font-bold text-[#6D3C00] mb-2 drop-shadow">
-                {petIDFormData.tagTitle || "Pet Tag"}
+                {petIDFormData.tagTitle}
             </h1>
 
             {/* Pet Name */}
             <h2 className="relative z-10 text-2xl font-semibold text-[#8B4513] mb-8 drop-shadow">
-                {petIDFormData.pet.name || "Bread"}
+                {petIDFormData.pet.name}
             </h2>
 
             {/* Pet and Owner Information */}
             <div className="relative z-10 w-full bg-white bg-opacity-80 rounded-lg  ">
                 <div className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-gray-800 text-base">
-                    <p className="font-medium text-[#8B4513]">Type of Pet</p>
-                    <p>: {petIDFormData.pet.species || "Dog"}</p>
 
-                    <p className="font-medium text-[#8B4513]">Date of Birth</p>
-                    <p>: {petIDFormData.pet.birthDate || "Nov 15, 2022"}</p>
+                    {/* <p className="font-medium text-[#8B4513]">Date of Birth</p> */}
+                    {/* <p>{petIDFormData.pet.birthDate}</p> */}
 
                     <p className="font-medium text-[#8B4513]">Name of the Owner</p>
                     <p>: {petIDFormData.ownerInfo.name || "Ricardo Ibarra"}</p>
@@ -98,40 +96,10 @@ const PetIdTemplateOne = ({ petIDFormData }) => {
                             <p>: {petIDFormData.pet.breed}</p>
                         </>
                     )}
-                    {petIDFormData.pet.gender && (
-                        <>
-                            <p className="font-medium text-[#8B4513]">Gender</p>
-                            <p>: {petIDFormData.pet.gender}</p>
-                        </>
-                    )}
                     {petIDFormData.pet.color && (
                         <>
                             <p className="font-medium text-[#8B4513]">Color</p>
                             <p>: {petIDFormData.pet.color}</p>
-                        </>
-                    )}
-                    {petIDFormData.pet.microchip && (
-                        <>
-                            <p className="font-medium text-[#8B4513]">Microchip</p>
-                            <p>: {petIDFormData.pet.microchip}</p>
-                        </>
-                    )}
-                    {petIDFormData.pet.specialNeeds && (
-                        <>
-                            <p className="font-medium text-[#8B4513]">Special Needs</p>
-                            <p>: {petIDFormData.pet.specialNeeds}</p>
-                        </>
-                    )}
-                    {petIDFormData.pet.vetInfo && (
-                        <>
-                            <p className="font-medium text-[#8B4513]">Vet Info</p>
-                            <p>: {petIDFormData.pet.vetInfo}</p>
-                        </>
-                    )}
-                    {petIDFormData.pet.diet && (
-                        <>
-                            <p className="font-medium text-[#8B4513]">Diet</p>
-                            <p>: {petIDFormData.pet.diet}</p>
                         </>
                     )}
                 </div>

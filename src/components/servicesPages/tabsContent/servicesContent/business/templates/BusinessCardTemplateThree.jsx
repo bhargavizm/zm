@@ -26,7 +26,7 @@ const BusinessCardTemplateThree = ({ businessForm, profileImage, brandLogo }) =>
                 <div className="w-30 h-30 rounded-full border-2 overflow-hidden border-gray-200 bg-white">
                     <Image
                         src={profileImage || "/default-user.webp"}
-                        alt={ "Profile"}
+                        alt={ ""}
                         width={80}
                         height={80}
                         className="object-cover w-full h-full"
