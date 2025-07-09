@@ -215,12 +215,12 @@ const EncryptedServicesForm = ({
               </span>
             </div>
 
-            {totalSize > 0 && (
+            {/* {totalSize > 0 && (
               <p className="text-sm mt-2 font-semibold text-teal-700">
                 📦 Total Upload Size:{" "}
                 <span className="font-bold">{formatBytes(totalSize)}</span>
               </p>
-            )}
+            )} */}
             {/* {sizeWarning && (
               <p className="text-sm text-red-600 mt-1">{sizeWarning}</p>
             )} */}
