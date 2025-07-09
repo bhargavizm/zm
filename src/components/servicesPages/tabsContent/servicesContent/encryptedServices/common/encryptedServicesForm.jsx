@@ -34,7 +34,6 @@ const getRequiredPlan = (size) => {
   return matchedPlan ? matchedPlan[0] : "Exceeds all plans";
 };
 
-
 const EncryptedServicesForm = ({
   formData,
   setFormData,
@@ -89,8 +88,6 @@ const EncryptedServicesForm = ({
 
     if (name === "files" && files.length) {
       const newFiles = Array.from(files);
-
-      // ✅ Check MIME type here
       const invalidFile = newFiles.find(
         (file) => accept && !file.type.match(accept)
       );
@@ -101,31 +98,17 @@ const EncryptedServicesForm = ({
 
       const updatedFiles = [...(formData.file || []), ...newFiles];
       const updatedSize = updatedFiles.reduce((acc, f) => acc + f.size, 0);
-
       setTotalSize(updatedSize);
       const warning = getPlanErrorMessage(updatedSize);
       setSizeWarning(warning);
-
       setFormData((prev) => ({ ...prev, file: updatedFiles }));
+      if (warning) {
+         setShowUpgradeModal(true); // show modal on exceeding plan
+       }
+    } else {
+      // ✅ Add this block for other fields
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
-
-    // if (name === "files" && files.length) {
-    //   const newFiles = Array.from(files);
-    //   const updatedFiles = [...(formData.file || []), ...newFiles];
-    //   const updatedSize = updatedFiles.reduce((acc, f) => acc + f.size, 0);
-
-    //   setTotalSize(updatedSize);
-    //   const warning = getPlanErrorMessage(updatedSize);
-    //   setSizeWarning(warning);
-
-    //   setFormData((prev) => ({ ...prev, file: updatedFiles }));
-
-    //   // if (warning) {
-    //   //   setShowUpgradeModal(true); // show modal on exceeding plan
-    //   // }
-    // } else {
-    //   setFormData((prev) => ({ ...prev, [name]: value }));
-    // }
   };
 
   const confirmUpload = async () => {
@@ -177,10 +160,10 @@ const EncryptedServicesForm = ({
       return;
     }
 
-    if (sizeWarning) {
-      setShowUpgradeModal(true);
-      return;
-    }
+    // if (sizeWarning) {
+    //   setShowUpgradeModal(true);
+    //   return;
+    // }
 
     setShowConfirm(true);
   };
@@ -189,8 +172,8 @@ const EncryptedServicesForm = ({
     <>
       {servicesDataLoading && <LoadingSpinner />}
 
-      <div className="bg-white rounded-xl p-6 shadow-lg">
-        <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="bg-white rounded-xl p-6 my-6">
+        <form onSubmit={handleSubmit} className="space-y-4 ">
           {/* Title */}
           <div>
             <label className="text-sm font-semibold">{titleLabel}</label>
@@ -204,11 +187,9 @@ const EncryptedServicesForm = ({
             />
           </div>
 
-          
-
           {/* File Upload */}
           <div>
-            <label className="text-sm font-semibold">{fileLabel}</label>
+            <label className="text-sm font-semibold">{fileLabel}: {"       "}<span className="font-normal"> (Max File Size limit : 5 GB)</span></label>
             <div className="relative mt-1 w-full py-2 px-4 border">
               <input
                 type="file"
@@ -234,12 +215,12 @@ const EncryptedServicesForm = ({
               </span>
             </div>
 
-            {totalSize > 0 && (
-             <p className="text-sm mt-2 font-semibold text-teal-700">
-  📦 Total Upload Size: <span className="font-bold">{formatBytes(totalSize)}</span>
-</p>
-
-            )}
+            {/* {totalSize > 0 && (
+              <p className="text-sm mt-2 font-semibold text-teal-700">
+                📦 Total Upload Size:{" "}
+                <span className="font-bold">{formatBytes(totalSize)}</span>
+              </p>
+            )} */}
             {/* {sizeWarning && (
               <p className="text-sm text-red-600 mt-1">{sizeWarning}</p>
             )} */}
@@ -272,7 +253,7 @@ const EncryptedServicesForm = ({
                     //   fileInputRef.current.value = "";
                     // }
                   }}
-                  className="text-red-600"
+                  className="text-red-600 cursor-pointer"
                 >
                   ❌
                 </button>
@@ -288,13 +269,13 @@ const EncryptedServicesForm = ({
               rows="2"
               value={formData.description}
               onChange={handleChange}
-              className="w-full border px-3 py-2 rounded-md text-sm"
+              className="w-full border px-3 py-2 rounded-md text-sm text-black"
               placeholder="Enter description"
             />
           </div>
 
           {/* Password */}
-          <div>
+          <div className="pb-6">
             <label className="text-sm font-semibold">Password</label>
             <div className="relative">
               <input
@@ -318,21 +299,24 @@ const EncryptedServicesForm = ({
           <NFCModal />
 
           {/* Submit Button */}
+          <div className="pt-6">
           <button
             type="submit"
             className="w-full cursor-pointer bg-teal-600 text-white py-2 rounded-md font-semibold"
           >
             Submit
           </button>
+          </div>
         </form>
       </div>
 
       {/* Confirm Modal */}
       {showConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[80vh] overflow-y-auto scrollbar-hide p-6 border border-teal-200 mx-auto">
-            <div className="flex justify-between items-center pb-4">
-              <button
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-xl  overflow-y-auto scrollbar-hide p-6 border border-teal-200 mx-auto">
+            {/* <div className="flex justify-between items-center pb-4"> */}
+               <div className="text-right pb-2">
+              {/* <button
                 onClick={() => {
                   setShowConfirm(false);
                   setShowUpgradeModal(true);
@@ -340,11 +324,11 @@ const EncryptedServicesForm = ({
                 className="text-md  text-darkGreen hover:underline font-semibold hover:text-mainGreen cursor-pointer  transition"
               >
                 ← Back to storage limit check
-              </button>
+              </button> */}
 
               <button
                 onClick={() => setShowConfirm(false)}
-                className="text-md pb-4 cursor-pointer  text-gray-600 hover:text-red-600"
+                className="text-md pb-2 cursor-pointer  text-gray-600 hover:text-red-600"
               >
                 ❌
               </button>
@@ -380,7 +364,7 @@ const EncryptedServicesForm = ({
                         href={previewUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="block w-full h-28 border rounded-lg flex items-center justify-center bg-gray-100 overflow-hidden"
+                        className="block w-full h-24 border rounded-lg flex items-center justify-center bg-gray-100 overflow-hidden"
                       >
                         {fileType.startsWith("image") ? (
                           <img
@@ -406,7 +390,7 @@ const EncryptedServicesForm = ({
                 })}
               </ul>
             </div>
-            <div className="flex justify-end flex-wrap gap-3 pt-4 text-lg">
+            <div className="flex justify-end flex-wrap gap-3 pt-4 text-md">
               <button
                 onClick={() => setShowConfirm(false)}
                 className="px-4 py-1.5 border rounded-lg cursor-pointer"
@@ -426,53 +410,51 @@ const EncryptedServicesForm = ({
 
       {/* Upgrade Modal */}
       {showUpgradeModal && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-    <div className="bg-white relative rounded-xl p-6 w-full max-w-md shadow-xl border border-teal-200 animate-fade-in">
-      <button
-        onClick={() => setShowUpgradeModal(false)}
-        className="absolute cursor-pointer top-2 right-3 text-md pb-4 text-gray-600 hover:text-red-600"
-      >
-        ❌
-      </button>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="bg-white relative rounded-xl p-6 w-full max-w-md shadow-xl border border-teal-200 animate-fade-in">
+            {/* <button
+              onClick={() => setShowUpgradeModal(false)}
+              className="absolute cursor-pointer top-2 right-3 text-md pb-4 text-gray-600 hover:text-red-600"
+            >
+              ❌
+            </button> */}
 
-      <h2 className="text-xl font-bold text-center  text-red-600">
-        ⚠️ Storage Limit Exceeded
-      </h2>
+            <h2 className="text-xl font-bold text-center  text-red-600">
+              ⚠️ Storage Limit 
+            </h2>
 
-      <div className="my-6 space-y-4 text-gray-800 text-md  leading-relaxed">
-        <p>
-          Your total upload size is <b>{formatBytes(totalSize)}</b>.
-        </p>
-        <p>
-  {/* You are currently on the <b>{userPlan}</b> plan. */}
-</p>
-<p>
-  You are currently on the {"  "}
-  <b className="text-green-700">{getRequiredPlan(totalSize)} Plan</b>
-</p>
+            <div className="my-4 space-y-4 text-gray-800 text-md  leading-relaxed">
+              <p>
+                Your total upload size is <b>{formatBytes(totalSize)}</b>.
+              </p>
+              <p>{/* You are currently on the <b>{userPlan}</b> plan. */}</p>
+              <p>
+                You are currently on the {"  "}
+                <b className="text-green-700">
+                  {getRequiredPlan(totalSize)} Plan
+                </b>
+              </p>
+            </div>
 
-      </div>
-
-      <div className=" mt-4 text-end">
-        {/* <button
+            <div className=" mt-4 text-end">
+              {/* <button
           onClick={() => setShowUpgradeModal(false)}
           className="px-5 py-2 text-lg border rounded-lg"
         >
           Cancel
         </button> */}
-        <button
-          onClick={() => {
-            setShowUpgradeModal(false);
-            setShowConfirm(true);
-          }}
-          className="px-5 py-2 bg-teal-600 text-white text-md rounded-lg hover:bg-teal-700 transition"
-        >
-          Continue 
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+              <button
+                onClick={() => {
+                  setShowUpgradeModal(false)
+                }}
+                className="px-5 py-2 bg-teal-600 text-white text-md rounded-lg hover:bg-teal-700 transition"
+              >
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* {showUpgradeModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
@@ -588,11 +570,6 @@ const EncryptedServicesForm = ({
 };
 
 export default EncryptedServicesForm;
-
-
-
-
-
 
 // "use client";
 

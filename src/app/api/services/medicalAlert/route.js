@@ -1,3 +1,4 @@
+
 export const runtime = "nodejs";
 
 import { connectDB } from "@/lib/mongoDB";
@@ -5,6 +6,7 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import MedicalAlertModel from "@/models/services/medicalAlertSchema";
 import { authUser } from "@/middlewares/authMiddleware";
+
 
 export async function POST(req) {
   try {
@@ -123,4 +125,4 @@ export async function POST(req) {
       { status: 500 }
     );
   }
-}
+
