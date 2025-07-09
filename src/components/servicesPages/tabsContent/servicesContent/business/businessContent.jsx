@@ -307,7 +307,6 @@ import { MapPin } from "lucide-react";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import { useParams } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { setBusinessCardServices } from "@/redux/slices/servicesSlice";
 
 // New ConfirmationModal component
 const ConfirmationModal = ({ show, onClose, onConfirm }) => {
@@ -341,8 +340,8 @@ const BusinessContent = () => {
   const { businessForm, setBusinessForm, profileImage, setProfileImage } =
     useServicesContext();
     const dispatch = useDispatch();
-     const { setActiveTab } = useDesignContext();
-     const { slug } = useParams();
+    const { setActiveTab } = useDesignContext();
+    const { slug } = useParams();
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false); // New state for confirmation modal

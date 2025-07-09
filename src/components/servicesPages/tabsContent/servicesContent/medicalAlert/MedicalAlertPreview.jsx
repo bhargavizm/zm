@@ -158,216 +158,6 @@
 
 // export default MedicalAlertPreview;
 
-// "use client";
-
-// import React, { useEffect } from "react";
-// import { FiLock } from "react-icons/fi";
-// import useServicesContext from "@/components/hooks/useServiceContext";
-// import useDesignContext from "@/components/hooks/useDesignContext";
-// import Image from "next/image";
-
-// const formatLabel = (key) =>
-//   key.replace(/([A-Z])/g, " $1").replace(/^./, (s) => s.toUpperCase());
-
-// const MedicalAlertPreview = () => {
-//   const { dynamicForms } = useServicesContext();
-//   const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
-
-//   const defaultBg = "/services-service/medical-alert.webp";
-
-//   useEffect(() => {
-//     setIsLoading(true);
-//     setBgDesign(defaultBg);
-//   }, []);
-
-//   const medicalAlert = dynamicForms.medicalAlert || {};
-
-//   const sections = {
-//     patientInfo: ["patientName", "age", "bloodType"],
-//     medicalHistory: [
-//       "medicalConditions",
-//       "allergies",
-//       "medications",
-//       "additionalNotes",
-//     ],
-//     emergencyContact: ["emergencyContact", "contactPhone"],
-//     additional: [
-//       "familyDoctorName",
-//       "familyDoctorPhone",
-//       "emergencyInstructions",
-//       "insuranceProvider",
-//       "policyNumber",
-//       "preferredHospital",
-//       "location",
-//     ],
-//   };
-
-//   const fileFields = ["medicalReports", "prescription", "insuranceImage"];
-
-//   const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
-//   const isImage = bgDesign && !isVideo;
-
-//   const isBase64 = (str) => typeof str === "string" && str.startsWith("data:");
-//   const isImageBase64 = (str) => isBase64(str) && str.startsWith("data:image");
-//   const isPdfBase64 = (str) => isBase64(str) && str.startsWith("data:application/pdf");
-
-//   const hasData = () => {
-//     for (const [section, keys] of Object.entries(sections)) {
-//       if (keys.some((key) => medicalAlert[section]?.[key]?.toString().trim())) return true;
-//     }
-//     if (medicalAlert.password?.trim()) return true;
-//     for (const field of fileFields) {
-//       if (medicalAlert.additional?.[field]?.length) return true;
-//     }
-//     return false;
-//   };
-
-//   return (
-//     <div className="flex justify-center">
-//       <div className="relative w-[350px] h-[650px] rounded-[40px] border-[14px] border-gray-800 shadow-xl overflow-hidden flex flex-col">
-//         {/* Background */}
-//         {isImage && (
-//           <img
-//             src={bgDesign}
-//             alt="Background"
-//             onLoad={() => setTimeout(() => setIsLoading(false), 300)}
-//             className="absolute inset-0 w-full h-full object-cover z-0"
-//           />
-//         )}
-//         {isVideo && (
-//           <video
-//             src={bgDesign}
-//             autoPlay
-//             loop
-//             muted
-//             playsInline
-//             onLoadedData={() => setTimeout(() => setIsLoading(false), 300)}
-//             className="absolute inset-0 w-full h-full object-cover z-0"
-//           />
-//         )}
-//         {!bgDesign && (
-//           <img
-//             src={defaultBg}
-//             alt="Background"
-//             onLoad={() => setTimeout(() => setIsLoading(false), 300)}
-//             className="absolute inset-0 w-full h-full object-cover z-0"
-//           />
-//         )}
-
-//         {/* Loader */}
-//         {isLoading && (
-//           <div className="absolute inset-0 z-50 bg-mainGreen backdrop-blur-sm flex justify-center items-center">
-//             <Image
-//               src="/logos/ZM LOGO.webp"
-//               alt="Loading"
-//               width={100}
-//               height={100}
-//               className="w-20 h-20 animate-bounce"
-//             />
-//           </div>
-//         )}
-
-//         {/* Top Bar */}
-//         <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-6 bg-gray-800 rounded-b-xl z-10" />
-
-//         {/* Content */}
-//         <div className="relative z-10 flex-1 overflow-y-auto bg-white/70 m-2 rounded-xl pt-8 pb-4 px-4">
-//           {hasData() ? (
-//             <div className="space-y-4">
-//               <h2 className="text-xl font-bold text-center text-[#008080]">Medical Alert</h2>
-
-//               {/* Standard Fields */}
-//               {Object.entries(sections).map(([section, keys]) => (
-//                 <div
-//                   key={section}
-//                   className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20 space-y-2"
-//                 >
-//                   {keys.map((key) => {
-//                     const value = medicalAlert?.[section]?.[key];
-//                     if (!value) return null;
-
-//                     return (
-//                       <div key={key} className="text-sm">
-//                         <span className="font-medium text-[#008080]">
-//                           {formatLabel(key)}:
-//                         </span>{" "}
-//                         <span className="text-gray-700 ml-1">{value}</span>
-//                       </div>
-//                     );
-//                   })}
-//                 </div>
-//               ))}
-
-//               {/* File Previews */}
-//               {fileFields.map((field) => {
-//                 const files = medicalAlert.additional?.[field];
-//                 if (!files || !Array.isArray(files) || files.length === 0) return null;
-
-//                 return (
-//                   <div
-//                     key={field}
-//                     className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20 space-y-2"
-//                   >
-//                     <div className="text-sm font-medium text-[#008080]">
-//                       {formatLabel(field)}:
-//                     </div>
-//                     <div className="space-y-2">
-//                       {files.map((file, index) => {
-//                         if (!file || !file._id || !file.fileType || !file.fileName) return null;
-//                         const fileUrl = `/api/services/medicalAlert/file/${file._id}`;
-//                         const isImage = file.fileType.startsWith("image/");
-//                         const isPDF = file.fileType === "application/pdf";
-
-//                         return (
-//                           <div key={index}>
-//                             {isImage ? (
-//                               <img
-//                                 src={fileUrl}
-//                                 alt={file.fileName}
-//                                 className="w-full rounded shadow"
-//                               />
-//                             ) : isPDF ? (
-//                               <a
-//                                 href={fileUrl}
-//                                 target="_blank"
-//                                 rel="noopener noreferrer"
-//                                 className="text-blue-600 underline"
-//                               >
-//                                 {file.fileName}
-//                               </a>
-//                             ) : (
-//                               <a
-//                                 href={fileUrl}
-//                                 target="_blank"
-//                                 rel="noopener noreferrer"
-//                                 className="text-blue-600 underline"
-//                               >
-//                                 {file.fileName}
-//                               </a>
-//                             )}
-//                           </div>
-//                         );
-//                       })}
-//                     </div>
-//                   </div>
-//                 );
-//               })}
-//             </div>
-//           ) : (
-//             <div className="h-full flex flex-col items-center justify-center text-center text-gray-400">
-//               <FiLock className="text-4xl mb-4 text-[#008080]" />
-//               <h3 className="text-lg font-medium">Medical Alert Preview</h3>
-//               <p className="mt-2">Fill the form to see the preview</p>
-//             </div>
-//           )}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default MedicalAlertPreview;
-
 
 "use client";
 
@@ -393,46 +183,29 @@ const MedicalAlertPreview = () => {
 
   const medicalAlert = dynamicForms.medicalAlert || {};
 
-  const sections = {
-    patientInfo: ["patientName", "age", "bloodType"],
-    medicalHistory: [
-      "medicalConditions",
-      "allergies",
-      "medications",
-      "additionalNotes",
-    ],
-    emergencyContact: ["emergencyContact", "contactPhone"],
-    additional: [
-      "familyDoctorName",
-      "familyDoctorPhone",
-      "emergencyInstructions",
-      "insuranceProvider",
-      "policyNumber",
-      "preferredHospital",
-      "location",
-    ],
-  };
-
-  const fileFields = ["medicalReports", "prescription", "insuranceImage"];
+  // Enhanced hasData check to properly detect if there's any meaningful data
+  const hasData = Object.entries(medicalAlert).some(
+    ([section, fields]) =>
+      section !== "password" &&
+      typeof fields === "object" &&
+      Object.values(fields).some((value) => {
+        if (!value) return false;
+        if (typeof value === "object" && value.files) {
+          return value.files.length > 0;
+        }
+        if (typeof value === "string") {
+          return value.trim() !== "";
+        }
+        return true;
+      })
+  );
 
   const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
   const isImage = bgDesign && !isVideo;
 
-  const hasData = () => {
-    for (const [section, keys] of Object.entries(sections)) {
-      if (keys.some((key) => medicalAlert[section]?.[key]?.toString().trim()))
-        return true;
-    }
-    if (medicalAlert.password?.trim()) return true;
-    for (const field of fileFields) {
-      if (medicalAlert.additional?.[field]?.length) return true;
-    }
-    return false;
-  };
-
   return (
     <div className="flex justify-center">
-      <div className="relative w-[350px] h-[650px] rounded-[40px] border-[14px] border-gray-800 shadow-xl overflow-hidden flex flex-col">
+      <div className="relative w-[350px] h-[650px] rounded-[40px] border-[14px] border-gray-800 shadow-xl scrollbar-hide overflow-y-auto ">
         {/* Background */}
         {isImage && (
           <img
@@ -470,156 +243,108 @@ const MedicalAlertPreview = () => {
               alt="Loading"
               width={100}
               height={100}
-              className="w-20 h-20 animate-bounce "
+              className="w-20 h-20 animate-bounce"
             />
           </div>
         )}
 
         {/* Top Bar */}
-        {/* <div className="relative z-20 bg-[#008080] flex justify-center items-center h-12 text-white font-bold text-lg rounded-t-[25px]">
-          Medical Alert Preview
-          <FiLock className="ml-2" />
-        </div> */}
+        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-6 bg-gray-800 rounded-b-xl z-10" />
 
-        {/* Content Scroll */}
-        <div className="relative z-20 overflow-y-auto scrollbar-hide my-3 m-2 flex-1 p-4 py-6 space-y-6 text-[#333] bg-white/80 rounded-xl">
-          {/* Sections */}
-          {Object.entries(sections).map(([section, keys]) => {
-            // Filter keys with non-empty values
-            const filledKeys = keys.filter(
-              (key) => medicalAlert[section]?.[key]?.toString().trim() !== ""
-            );
-            if (filledKeys.length === 0) return null;
-
-            return (
-              <div key={section}>
-                <h2 className="text-lg font-semibold text-[#008080] mb-2">
-                  {formatLabel(section)}
-                </h2>
-                <ul className="pl-4 space-y-1">
-                  {filledKeys.map((key) => (
-                    <li key={key}>
-                      <strong>{formatLabel(key)}: </strong>
-                      {medicalAlert[section][key]}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            );
-          })}
-
-          {/* Password */}
-          {/* {medicalAlert.password && medicalAlert.password.trim() !== "" && (
-            <div>
-              <h2 className="text-lg font-semibold text-[#008080] mb-2">
-                Password
+        {/* Content */}
+        <div className="relative z-10 flex-1 overflow-y-auto bg-white/70 m-2 rounded-xl pt-8 pb-4 px-4">
+          {hasData ? (
+            <div className="space-y-4">
+              <h2 className="text-xl font-bold text-center text-[#008080]">
+                Medical Alert
               </h2>
-              <p className="text-sm">{medicalAlert.password}</p>
+
+              {Object.entries(medicalAlert).map(([section, fields]) => {
+                if (section === "password" || typeof fields !== "object") return null;
+
+                // Filter out empty fields for this section
+                const nonEmptyFields = Object.entries(fields).filter(([key, value]) => {
+                  if (!value) return false;
+                  if (typeof value === "object" && value.files) {
+                    return value.files.length > 0;
+                  }
+                  if (typeof value === "string") {
+                    return value.trim() !== "";
+                  }
+                  return true;
+                });
+
+                // Don't render section if all fields are empty
+                if (nonEmptyFields.length === 0) return null;
+
+                return (
+                  <div
+                    key={section}
+                    className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20 space-y-2"
+                  >
+                    <h3 className="font-medium text-[#008080] capitalize">
+                      {section.replace(/([A-Z])/g, " $1")}
+                    </h3>
+                    
+                    {nonEmptyFields.map(([key, value]) => {
+                      let content = null;
+
+                      // Handle file uploads
+                      if (typeof value === "object" && value.files) {
+                        content = value.files.map((file, idx) => {
+                          const fileURL = URL.createObjectURL(file);
+
+                          if (file.type.startsWith("image/")) {
+                            return (
+                              <div key={idx} className="mt-2">
+                                <p className="text-xs text-gray-500 mb-1">{file.name}</p>
+                                <img
+                                  src={fileURL}
+                                  alt={file.name}
+                                  className="w-full rounded shadow"
+                                />
+                              </div>
+                            );
+                          } else if (file.type === "application/pdf") {
+                            return (
+                              <div key={idx} className="mt-2">
+                                <p className="text-xs text-gray-500 mb-1">{file.name}</p>
+                                <iframe
+                                  src={fileURL}
+                                  title={file.name}
+                                  className="w-full h-64 rounded border"
+                                />
+                              </div>
+                            );
+                          }
+                          return null;
+                        });
+                      }
+                      // Handle simple strings
+                      else if (typeof value === "string") {
+                        content = <span className="text-gray-700">{value}</span>;
+                      }
+
+                      return (
+                        <div key={key} className="text-sm w-full flex-row">
+                          <p className="font-medium w-full text-[#008080]">
+                            {formatLabel(key)} : {content}
+                          </p>
+                         
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })}
             </div>
-          )} */}
-
-          {/* File Fields */}
-          {fileFields.map((field) => {
-            const fieldFiles = medicalAlert.additional?.[field];
-
-            if (!fieldFiles || fieldFiles.length === 0) return null;
-
-            // Separate backend saved files (with _id) and live files (File objects)
-            const backendFiles = fieldFiles.filter(
-              (f) => f && f._id && f.fileType && f.fileName
-            );
-            const liveFiles = fieldFiles.filter(
-              (f) => f instanceof File || (f && f.name && f.type)
-            );
-
-            return (
-              <div
-                key={field}
-                className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20 space-y-2"
-              >
-                <h3 className="text-sm font-medium text-[#008080]">
-                  {formatLabel(field)}:
-                </h3>
-
-                {/* Backend files preview */}
-                {backendFiles.map((file, i) => {
-                  const fileUrl = `/api/services/medicalAlert/file/${file._id}`;
-                  const isImage = file.fileType.startsWith("image/");
-                  const isPDF = file.fileType === "application/pdf";
-
-                  return (
-                    <div key={`backend-${i}`} className="mb-2">
-                      {isImage ? (
-                        <img
-                          src={fileUrl}
-                          alt={file.fileName}
-                          className="w-full rounded shadow max-h-48 object-contain"
-                        />
-                      ) : isPDF ? (
-                        <a
-                          href={fileUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-700 underline"
-                        >
-                          📄 {file.fileName}
-                        </a>
-                      ) : (
-                        <a
-                          href={fileUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-700 underline"
-                        >
-                          {file.fileName}
-                        </a>
-                      )}
-                    </div>
-                  );
-                })}
-
-                {/* Live uploaded files preview */}
-                {liveFiles.map((file, i) => {
-                  const isImage = file.type?.startsWith("image/");
-                  const isPDF = file.type === "application/pdf";
-                  const objectUrl = URL.createObjectURL(file);
-
-                  return (
-                    <div key={`live-${i}`} className="mb-2">
-                      {isImage ? (
-                        <img
-                          src={objectUrl}
-                          alt={file.name}
-                          className="w-full rounded shadow max-h-48 object-contain"
-                          onLoad={() => URL.revokeObjectURL(objectUrl)}
-                        />
-                      ) : isPDF ? (
-                        <a
-                          href={objectUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-700 underline"
-                          onClick={() => URL.revokeObjectURL(objectUrl)}
-                        >
-                          📄 {file.name}
-                        </a>
-                      ) : (
-                        <a
-                          href={objectUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-700 underline"
-                          onClick={() => URL.revokeObjectURL(objectUrl)}
-                        >
-                          {file.name}
-                        </a>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            );
-          })}
+          ) : (
+            <div className="h-full flex flex-col items-center justify-center text-center text-gray-400">
+              <FiLock className="text-4xl mb-4 text-[#008080]" />
+              <h3 className="text-lg font-medium">Medical Alert Preview</h3>
+              <p className="mt-2">Fill the form to see the preview</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -627,6 +352,3 @@ const MedicalAlertPreview = () => {
 };
 
 export default MedicalAlertPreview;
-
-
-

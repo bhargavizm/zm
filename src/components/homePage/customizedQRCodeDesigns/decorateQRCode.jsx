@@ -28,9 +28,12 @@ const tabs = [
 
 const DecorateQRCode = () => {
   const { slug } = useParams();
-  const [url, setUrl] = useState("");
   const urlInputRef = useRef(null);
-  const [password, setPassword] = useState("");
+const [formData, setFormData] = useState({
+  url: "",
+  password: "",
+});
+
   const [isLoading, setIsLoading] = useState(false);
 
   const [basicInfoOpen, setBasicInfoOpen] = useState(true);
@@ -47,25 +50,32 @@ const DecorateQRCode = () => {
   const dispatch = useDispatch();
 
   const handleClick = () => setShowModal(true);
+
+  const handleChange = (e) => {
+  const { name, value } = e.target;
+  setFormData((prev) => ({
+    ...prev,
+    [name]: value,
+  }));
+};
+
   const handleSubmit = async () => {
-    if (!url.trim()) {
+    if (!formData?.url.trim()) {
       toast.error("URL is required!");
       return;
     }
 
     setServicesDataLoading(true);
     try {
-      const res = await axios.post(`/api/services/${slug}`, {
-        url,
-        password,
-      });
+      const res = await axios.post(`/api/services/${slug}`, 
+       formData
+      );
 
       if (res.data.success) {
         dispatch(setURLServices(res.data.URLServicesData));
         toast.success(res.data.message || "Data submitted successfully");
         setIsModalOpen(true);
-        setUrl("");
-        setPassword("");
+        setFormData({ url: "", password: "" });
       } else {
         toast.error(res.data.error || "Failed to submit data");
       }
@@ -103,6 +113,7 @@ const DecorateQRCode = () => {
             <form>
               <div className="max-w-full sm:max-w-xl mx-auto mt-6">
                 <button
+                type="button"
                   onClick={() => setBasicInfoOpen(!basicInfoOpen)}
                   className="w-full px-4 py-3 text-left bg-[#35aeae] flex justify-between items-center cursor-pointer rounded-md"
                 >
@@ -135,10 +146,11 @@ const DecorateQRCode = () => {
                       <input
                         required
                         type="url"
-                        value={url}
+           name="url"
                         ref={urlInputRef}
 
-                        onChange={(e) => setUrl(e.target.value)}
+                         value={formData.url}
+  onChange={handleChange}
                         className="w-full border border-gray-300 rounded-md px-3 py-2"
                         placeholder="https://yourSite.com"
                       />
@@ -152,6 +164,7 @@ const DecorateQRCode = () => {
               {/* Password Accordion */}
               <div className="max-w-full sm:max-w-xl mx-auto mt-6">
                 <button
+                type="button"
                   onClick={() => setPasswordOpen(!passwordOpen)}
                   className="w-full px-4 py-3 text-left bg-[#35aeae] flex justify-between items-center cursor-pointer rounded-md"
                 >
@@ -178,11 +191,12 @@ const DecorateQRCode = () => {
                 {passwordOpen && (
                   <div className="px-4 py-4 bg-white text-gray-700 border border-gray-200 rounded-b-md relative">
                     <input
+                    name="password"
                       type={showPassword ? "text" : "password"}
                       className="w-full border border-gray-300 rounded-md px-4 py-2 pr-10"
                       placeholder="Password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      value={formData.password}
+  onChange={handleChange}
                     />
                     <div
                       className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-500 cursor-pointer px-6"
@@ -204,7 +218,7 @@ const DecorateQRCode = () => {
               >
                 <button
                   onClick={(e) => {
-      e.preventDefault();
+       e.preventDefault();
 
       // ✅ Only proceed if valid input
       if (!urlInputRef.current.checkValidity()) {
@@ -312,27 +326,27 @@ const DecorateQRCode = () => {
 
             <div className="space-y-4 md:text-xl text-lg text-gray-800 mb-8">
               {/* Conditional URL Row */}
-              {url && (
+              {formData?.url && (
                 <div className="flex flex-col sm:flex-row sm:items-start sm:gap-3">
                   <div className="font-semibold min-w-fit">URL:</div>
                   <div className="break-words overflow-hidden">
                     <a
-                      href={url}
+                      href={formData?.url}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-600 underline break-all"
                     >
-                      {url}
+                      {formData?.url}
                     </a>
                   </div>
                 </div>
               )}
 
               {/* Conditional Password Row */}
-              {password && (
+              {formData?.password && (
                 <div className="flex flex-col sm:flex-row sm:items-start sm:gap-3">
                   <div className="font-semibold min-w-fit">Password:</div>
-                  <div>{password}</div>
+                  <div>{formData?.password}</div>
                 </div>
               )}
             </div>
