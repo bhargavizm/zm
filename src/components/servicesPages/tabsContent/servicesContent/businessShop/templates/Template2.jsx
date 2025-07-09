@@ -9,7 +9,7 @@ const Template2 = ({ data }) => {
       {/* Background image container */}
       <div 
         className="absolute inset-0 z-0"
-         style={{
+        style={{
         backgroundImage: `url('/images/normal/template2Shop.webp')`,
         minHeight: '300px',
         backgroundSize: 'cover',

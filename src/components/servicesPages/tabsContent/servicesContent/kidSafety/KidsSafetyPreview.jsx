@@ -84,7 +84,7 @@ const KidsSafetyPreview = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="relative w-[350px] h-[650px] rounded-[40px] border-[14px] border-gray-800 shadow-xl overflow-hidden flex flex-col">
+      <div className="relative w-[350px] h-[650px] rounded-[40px] border-[14px] border-gray-800 shadow-xl  flex flex-col">
         {isImage && (
           <img
             src={bgDesign}
@@ -128,7 +128,7 @@ const KidsSafetyPreview = () => {
 
         <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-6 bg-gray-800 rounded-b-xl z-10" />
 
-        <div className="relative z-10 flex-1 overflow-y-auto p-6 pt-12 m-4 rounded-xl bg-white/70">
+        <div className="relative z-10 flex-1 overflow-y-auto scrollbar-hide p-6 pt-12 m-4 rounded-xl bg-white/70 ">
           {hasData ? (
             <div className="space-y-6">
               <h2 className="text-xl font-bold text-center text-[#008080]">
