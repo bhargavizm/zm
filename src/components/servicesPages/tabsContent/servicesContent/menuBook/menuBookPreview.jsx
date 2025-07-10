@@ -120,7 +120,7 @@ const MenuBookPreview = () => {
                     <img
                       src={item.image || "/fallback-image.webp"}
                       alt={`Menu ${idx}`}
-                      className="w-full h-52 object-cover rounded-md border border-gray-300 shadow"
+                      className="w-full h-52 object-center rounded-md border border-gray-300 shadow"
                     />
                   </div>
                 ))}

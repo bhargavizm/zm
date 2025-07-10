@@ -66,21 +66,21 @@ const ServicesProvider = ({ children }) => {
   const initialAudioFormData = {
     title: "",
     description: "",
-    file: null,
+    file: [],
     password: "",
   };
 
   const initialVideoFormData = {
     title: "",
     description: "",
-    file: null,
+    file: [],
     password: "",
   };
 
   const initialPdfFormData = {
     title: "",
     description: "",
-    file: null,
+    file: [],
     password: "",
   };
 

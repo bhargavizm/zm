@@ -69,7 +69,8 @@
     if (!token) {
       return {
         status: 401,
-        json: { error: "Authorization token missing in cookies" },
+        json: { error: "Session expired. Please log in again to continue." },
+        //  technical: "Authorization token missing in cookies",
       };
     }
 
@@ -81,7 +82,7 @@
       if (!user) {
         return {
           status: 401,
-          json: { error: "User not found" },
+          json: { error: "We couldn't verify your account. Please log in again." },
         };
       }
 
@@ -89,7 +90,7 @@
     } catch (err) {
       return {
         status: 401,
-        json: { error: "Token expired or invalid" },
+        json: { error: "Your session has expired or is invalid. Please log in again." },
       };
     }
 

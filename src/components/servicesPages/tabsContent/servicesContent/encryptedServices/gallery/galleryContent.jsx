@@ -17,6 +17,7 @@ const GalleryContent = () => {
         reduxAction={setGalleryServices}
         dispatch={dispatch}
         accept="image/*"
+         fileKey="images" 
         titleLabel="Gallery Title"
         fileLabel="Upload Images"
         successMessage="✅ Images uploaded successfully"

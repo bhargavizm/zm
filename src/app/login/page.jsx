@@ -192,14 +192,14 @@ export default function LoginPage() {
                 {showPassword ? <FiEye size={18} /> : <FiEyeOff size={18} />}
               </button>
             </div>
-            <div className="w-full flex justify-end mt-2">
+            {/* <div className="w-full flex justify-end mt-2">
               <Link
                 href="/forgetPassword"
                 className="text-sm text-[#008080] hover:underline hover:text-[#006666] transition-colors duration-200"
               >
                 Forgot Password?
               </Link>
-            </div>
+            </div> */}
 
 
             {/* Terms Checkbox */}

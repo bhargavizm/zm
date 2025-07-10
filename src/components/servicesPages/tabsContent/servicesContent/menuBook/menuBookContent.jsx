@@ -261,12 +261,12 @@ const MenuBookContent = () => {
               >
                 <img
                   src={item.image}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-center"
                   alt="Menu Item"
                 />
                 <button
                   onClick={() => handleRemoveImage(item.id)}
-                  className="absolute top-1 right-1 bg-white text-red-600 w-5 h-5 text-xs rounded-full flex items-center justify-center shadow"
+                  className="absolute top-1 cursor-pointer right-1 bg-white text-red-600 w-5 h-5 text-xs rounded-full flex items-center justify-center shadow"
                 >
                   ❌
                 </button>
@@ -360,7 +360,7 @@ const MenuBookContent = () => {
                         key={item.id}
                         src={item.image}
                         alt="Preview"
-                        className="w-full h-24 object-cover rounded border"
+                        className="w-full h-24 object-center rounded border"
                       />
                     ))}
                   </div>
@@ -467,7 +467,7 @@ export default MenuBookContent;
 //   };
 
 //   const handleSubmit = async () => {
-//       setServicesDataLoading(true);
+//       set  (true);
 //     try {
 //       const formData = new FormData();
 //       formData.append("restaurantName", menuBookFormData.restaurantName);
