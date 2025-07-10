@@ -133,14 +133,14 @@ const WifiContent = () => {
               >
                 <option value="WPA">WPA/WPA2</option>
                 <option value="WEP">WEP</option>
-                <option value="nopass">No Password</option>
+                <option value="NoPassword">No Password</option>
               </select>
               <Shield className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
             </div>
           </div>
 
           {/* Password */}
-          {wifiFormData[0]?.security !== "nopass" && (
+          {wifiFormData[0]?.security !== "NoPassword" && (
             <div>
               <label className="text-sm font-medium text-gray-600 mb-1 block">
                 Password *
