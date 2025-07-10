@@ -30,7 +30,7 @@ const PetIdTemplateOne = ({ petIDFormData }) => {
         <div
             className="relative w-[350px] h-[650px] overflow-y-auto scrollbar-hide rounded-lg shadow-lg flex flex-col items-center justify-center"
             style={{
-                backgroundImage: `url(${backgroundImage})`,
+                // backgroundImage: `url(${backgroundImage})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
             }}
