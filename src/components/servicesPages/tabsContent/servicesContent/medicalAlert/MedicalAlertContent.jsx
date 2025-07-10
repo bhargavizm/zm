@@ -718,7 +718,7 @@ const MedicalAlertContent = () => {
 
       toast.success("Form submitted successfully!");
       setActiveTab(slug, "QR Code");
-      dispatch(setmedicalServices(res.data.data));
+     // dispatch(setmedicalServices(res.data.data));
     } catch (error) {
       console.error("Submit error:", error);
       toast.error("Submit failed: " + (error.response?.data?.error || error.message));
