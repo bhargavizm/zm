@@ -16,7 +16,7 @@ cloudinary.config({
 // Upload helper
 const uploadImageToCloudinary = (file) => {
     return new Promise(async (resolve, reject) => {
-        const buffer = Buffer.from(await file.arrayBuffer());
+        const buffer = Buffer.from(await file.arrayBuffer()); 
 
         const stream = cloudinary.uploader.upload_stream(
             {

@@ -1,185 +1,3 @@
-// "use client";
-// import React, { useState } from "react";
-// import Image from "next/image";
-// import useServicesContext from "@/components/hooks/useServiceContext";
-// import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-// import NFCModal from "@/components/modalPopUps/nfcModal";
-// import useDesignContext from "@/components/hooks/useDesignContext";
-
-// const ProductContent = () => {
-//   const { productData, setProductData, setProductImage } = useServicesContext();
-//   const { setIsLoading, setBgDesign } = useDesignContext();
-
-//   const [productImages, setProductImages] = useState([]);
-//   const [showPassword, setShowPassword] = useState(false);
-
-//   const templateImages = ["temp1.webp", "temp2.webp", "temp3.webp", "temp4.webp"];
-
-//   const handleInputChange = (e) => {
-//     const { id, value, type, checked } = e.target;
-//     const newValue = type === "checkbox" ? checked : value;
-//     setProductData((prev) => ({ ...prev, [id]: newValue }));
-//   };
-
-//   const handleFileUpload = (e) => {
-//     const file = e.target.files[0];
-//     if (file) {
-//       const imageUrl = URL.createObjectURL(file);
-//       setProductImage(imageUrl);
-//       setProductImages((prev) => [...prev, imageUrl]);
-//     }
-//   };
-
-//   const handleTemplateSelect = (filename, index) => {
-//     if (productData.selectedTemplate !== index) {
-//       setIsLoading(true);
-//       setProductData((prev) => ({
-//         ...prev,
-//         selectedTemplate: index,
-//       }));
-//       setBgDesign(null);
-//       setTimeout(() => setIsLoading(false), 300);
-//     }
-//   };
-
-//   return (
-//     <div>
-//       <div className="grid grid-cols-1 gap-10">
-//         <div className="bg-white shadow-xl rounded-xl p-6 space-y-6">
-//           {/* Templates */}
-//           <div>
-//             <h2 className="text-xl font-semibold mb-4">
-//               Select a Template (click to choose)
-//             </h2>
-//             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-//               {templateImages.map((filename, idx) => (
-//                 <div
-//                   key={idx}
-//                   onClick={() => handleTemplateSelect(filename, idx)}
-//                   className={`relative rounded-md border-2 cursor-pointer transition-all p-1 ${
-//                     productData.selectedTemplate === idx
-//                       ? "border-[#008080] ring-2 ring-[#008080]"
-//                       : "border-gray-300"
-//                   }`}
-//                 >
-//                   <Image
-//                     src={/product-templates/${filename}}
-//                     alt={Template ${idx + 1}}
-//                     width={300}
-//                     height={180}
-//                     className="object-cover rounded w-full h-auto"
-//                   />
-//                 </div>
-//               ))}
-//             </div>
-//           </div>
-
-//           {/* Product Image Upload */}
-//           {/* Product Image Upload */}
-// <div>
-//   <label className="block mb-2 font-medium text-gray-700">
-//     Product Image (500x500)
-//   </label>
-//   <input
-//     type="file"
-//     accept="image/*"
-//     onChange={handleFileUpload}
-//     className="w-full text-sm text-gray-700
-//       file:mr-4 file:py-2 file:px-4
-//       file:rounded-full file:border-0
-//       file:text-sm file:font-semibold
-//       file:bg-[#008080] file:text-white
-//       hover:file:bg-[#006666] transition duration-200 cursor-pointer"
-//   />
-
-//   {productImages.length > 0 && (
-//   <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-//     {productImages.map((src, idx) => (
-//       <div key={idx} className="relative">
-//         <img
-//           src={src}
-//           alt={Uploaded ${idx}}
-//           className="rounded object-cover w-24 h-24 border border-gray-300 shadow-sm"
-//         />
-//         <button
-//           onClick={() =>
-//             setProductImages((prev) => prev.filter((_, i) => i !== idx))
-//           }
-//           className="absolute top-[-8px] left-[86px] bg-white text-red-500 cursor-pointer rounded-full w-5 h-5 text-xs flex items-center justify-center shadow-md"
-//           title="Remove"
-//         >
-//           ✖
-//         </button>
-//       </div>
-//     ))}
-//   </div>
-// )}
-
-// </div>
-
-//           {/* Form Fields */}
-//           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-//             {[
-//               { id: "heading", placeholder: "Product Name" },
-//               { id: "description", placeholder: "Product Description" },
-//               { id: "pageUrl", placeholder: "Product Page URL", type: "url" },
-//               { id: "videoUrl", placeholder: "Product Video URL", type: "url" },
-//               { id: "email", placeholder: "Contact Email", type: "email" },
-//               { id: "phone", placeholder: "Phone Number", type: "tel" },
-//               { id: "password", placeholder: "QR Code Password", type: "password" },
-//             ].map(({ id, placeholder, type = "text" }) =>
-//               id === "password" ? (
-//                 <div key={id} className="relative w-full">
-//                   <input
-//                     id={id}
-//                     type={showPassword ? "text" : "password"}
-//                     value={productData[id] || ""}
-//                     onChange={handleInputChange}
-//                     placeholder={placeholder}
-//                     className="border p-2 pr-10 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
-//                   />
-//                   <button
-//                     type="button"
-//                     onClick={() => setShowPassword((prev) => !prev)}
-//                     className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600"
-//                   >
-//                     {showPassword ? (
-//                       <AiOutlineEyeInvisible size={20} />
-//                     ) : (
-//                       <AiOutlineEye size={20} />
-//                     )}
-//                   </button>
-//                 </div>
-//               ) : (
-//                 <input
-//                   key={id}
-//                   id={id}
-//                   type={type}
-//                   value={productData[id] || ""}
-//                   onChange={handleInputChange}
-//                   placeholder={placeholder}
-//                   className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
-//                 />
-//               )
-//             )}
-//           </div>
-
-//           <NFCModal />
-
-//           <button
-//             type="submit"
-//             className="mt-4 w-full bg-[#008080] text-white font-semibold py-2 rounded hover:bg-[#006666] transition"
-//           >
-//             Submit
-//           </button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-
-
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
@@ -221,6 +39,7 @@ const ProductContent = () => {
     items: [],
   });
   const fileInputRefs = useRef([]);
+  const logoInputRef = useRef(null);
 
   // Constants
   const MAX_SINGLE_FILE_SIZE = 2 * 1024 * 1024; // 2MB
@@ -246,6 +65,7 @@ const ProductContent = () => {
 
   // Validate email format
   const validateEmail = (email) => {
+    if (!email) return true; // Not required
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
   };
@@ -268,6 +88,29 @@ const ProductContent = () => {
     return re.test(phone);
   };
 
+  // Check if at least one field is filled
+  const hasAtLeastOneFieldFilled = () => {
+    // Check product data fields
+    if (
+      productData.brandName ||
+      productData.email ||
+      productData.phone ||
+      productData.address ||
+      productData.password
+    ) {
+      return true;
+    }
+
+    // Check items
+    return items.some(item => 
+      item.heading ||
+      item.description ||
+      item.pageUrl ||
+      item.videoUrl ||
+      item.image
+    );
+  };
+
   // Handle common input changes with validation
   const handleCommonChange = (e) => {
     const { id, value } = e.target;
@@ -283,11 +126,6 @@ const ProductContent = () => {
       setFieldErrors(prev => ({
         ...prev,
         phone: value && !validatePhone(value) ? "Invalid phone number (10-15 digits)" : ""
-      }));
-    } else if (id === "brandName") {
-      setFieldErrors(prev => ({
-        ...prev,
-        brandName: !value.trim() ? "Brand name is required" : ""
       }));
     }
   };
@@ -312,18 +150,6 @@ const ProductContent = () => {
         return { ...prev, items: newItemsErrors };
       });
     }
-
-    // Validate required heading
-    if (field === "heading") {
-      setFieldErrors(prev => {
-        const newItemsErrors = [...prev.items];
-        newItemsErrors[index] = {
-          ...newItemsErrors[index],
-          heading: !value.trim() ? "Product name is required" : ""
-        };
-        return { ...prev, items: newItemsErrors };
-      });
-    }
   };
 
   // Convert image URL to base64 for database storage
@@ -331,12 +157,10 @@ const ProductContent = () => {
     if (!imageUrl) return null;
 
     try {
-      // If it's already a base64 string (data URL), return it
       if (imageUrl.startsWith('data:')) {
         return imageUrl;
       }
 
-      // If it's a blob URL, convert it to base64
       const response = await fetch(imageUrl);
       const blob = await response.blob();
       return new Promise((resolve, reject) => {
@@ -367,13 +191,14 @@ const ProductContent = () => {
   };
 
   // Handle item image upload with validation
-  const handleItemImageUpload = async (index, file) => {
+  const handleItemImageUpload = async (index, e) => {
+    const file = e.target.files[0];
     if (!file) return;
 
     // Check single file size limit
     if (file.size > MAX_SINGLE_FILE_SIZE) {
       showFileSizeError();
-      fileInputRefs.current[index].value = ""; // Clear the file input
+      e.target.value = ""; // Clear the file input
       return;
     }
 
@@ -382,7 +207,7 @@ const ProductContent = () => {
     if (totalSize > MAX_TOTAL_SIZE) {
       setValidationError("Total size of all images exceeds 30MB limit");
       setShowValidationModal(true);
-      fileInputRefs.current[index].value = ""; // Clear the file input
+      e.target.value = ""; // Clear the file input
       return;
     }
 
@@ -411,7 +236,6 @@ const ProductContent = () => {
         totalSize += MAX_SINGLE_FILE_SIZE; // Approximate
       }
     });
-
     return totalSize;
   };
 
@@ -428,6 +252,9 @@ const ProductContent = () => {
       URL.revokeObjectURL(productLogo);
     }
     setProductLogo(null);
+    if (logoInputRef.current) {
+      logoInputRef.current.value = ""; // Clear the file input
+    }
   };
 
   // Remove item image
@@ -440,6 +267,11 @@ const ProductContent = () => {
       updatedItems[index] = { ...updatedItems[index], image: "" };
       return updatedItems;
     });
+
+    // Clear the file input value
+    if (fileInputRefs.current[index]) {
+      fileInputRefs.current[index].value = "";
+    }
 
     if (index === 0) {
       setProductImage(null);
@@ -543,69 +375,58 @@ const ProductContent = () => {
   const validateForm = () => {
     let isValid = true;
     const newErrors = {
-      brandName: "",
       email: "",
       phone: "",
       items: items.map(item => ({
-        heading: "",
         pageUrl: "",
         videoUrl: ""
       }))
     };
 
-    // Validate brand name
-    // if (!productData.brandName?.trim()) {
-    //   newErrors.brandName = "Brand name is required";
-    //   isValid = false;
-    // }
-
-    // Validate email
-    // if (!productData.email?.trim()) {
-    //   newErrors.email = "Email is required";
-    //   isValid = false;
-    // } else 
-    if (!validateEmail(productData.email)) {
+    // Validate email format if provided
+    if (productData.email && !validateEmail(productData.email)) {
       newErrors.email = "Invalid email format";
       isValid = false;
     }
 
-    // Validate phone
+    // Validate phone format if provided
     if (productData.phone && !validatePhone(productData.phone)) {
       newErrors.phone = "Invalid phone number (10-15 digits)";
       isValid = false;
     }
 
-    // Validate items
+    // Validate URLs in items
     items.forEach((item, index) => {
-      // if (!item.heading?.trim()) {
-      //   newErrors.items[index].heading = "Product name is required";
-      //   isValid = false;
-      // }
-      // if (item.pageUrl && !validateUrl(item.pageUrl)) {
-      //   newErrors.items[index].pageUrl = "Invalid URL format";
-      //   isValid = false;
-      // }
-      // if (item.videoUrl && !validateUrl(item.videoUrl)) {
-      //   newErrors.items[index].videoUrl = "Invalid URL format";
-      //   isValid = false;
-      // }
+      if (item.pageUrl && !validateUrl(item.pageUrl)) {
+        newErrors.items[index].pageUrl = "Invalid URL format";
+        isValid = false;
+      }
+      if (item.videoUrl && !validateUrl(item.videoUrl)) {
+        newErrors.items[index].videoUrl = "Invalid URL format";
+        isValid = false;
+      }
     });
 
     setFieldErrors(newErrors);
+    
+    // Check if at least one field is filled
+    if (!hasAtLeastOneFieldFilled()) {
+      setValidationError("Please fill at least one field");
+      setShowValidationModal(true);
+      return false;
+    }
+
     return isValid;
   };
 
   // Handle form submission
-const handleSubmit = async () => {
+  const handleSubmit = async () => {
     if (!validateForm()) {
-      setValidationError("Please fill the necessary details in the form");
-      setShowValidationModal(true);
       return;
     }
-
     setShowSubmitModal(true);
-
   };
+
   // Confirm submission
   const confirmSubmit = async () => {
     setShowSubmitModal(false);
@@ -640,33 +461,37 @@ const handleSubmit = async () => {
         body: JSON.stringify(submissionData),
       });
 
-
       const responseData = await response.json();
       console.log("Submission response:", responseData);
       if (response.ok) {
         toast.success("Product Data Successfully Submitted..");
         setActiveTab(slug, "QR Code");
         // Reset all form data
-      setProductData({
-        brandName: "",
-        email: "",
-        phone: "",
-        address: "",
-        password: "",
-        selectedTemplate: null,
-      });
-      
-      setProductLogo(null);
-      setItems([
-        { 
-          image: "", 
-          heading: "", 
-          description: "", 
-          videoUrl: "", 
-          pageUrl: "" 
-        }
-      ]);
-      
+        setProductData({
+          brandName: "",
+          email: "",
+          phone: "",
+          address: "",
+          password: "",
+          selectedTemplate: null,
+        });
+        
+        setProductLogo(null);
+        setItems([
+          { 
+            image: "", 
+            heading: "", 
+            description: "", 
+            videoUrl: "", 
+            pageUrl: "" 
+          }
+        ]);
+        
+        // Clear all file inputs
+        if (logoInputRef.current) logoInputRef.current.value = "";
+        fileInputRefs.current.forEach(ref => {
+          if (ref) ref.value = "";
+        });
       }
       if (!response.ok) {
         toast.warn("Product Data Submission Failed..");
@@ -762,10 +587,11 @@ const handleSubmit = async () => {
                 <div
                   key={idx}
                   onClick={() => handleTemplateSelect(filename, idx)}
-                  className={`relative rounded-md border-2 cursor-pointer transition-all p-1 ${productData.selectedTemplate === idx
-                    ? "border-[#008080] ring-2 ring-[#008080]"
-                    : "border-gray-300"
-                    }`}
+                  className={`relative rounded-md border-2 cursor-pointer transition-all p-1 ${
+                    productData.selectedTemplate === idx
+                      ? "border-[#008080] ring-2 ring-[#008080]"
+                      : "border-gray-300"
+                  }`}
                 >
                   <Image
                     src={`/product-templates/${filename}`}
@@ -789,6 +615,7 @@ const handleSubmit = async () => {
               type="file"
               accept="image/*"
               onChange={handleProductLogoUpload}
+              ref={logoInputRef}
               className="w-full text-sm text-gray-700
                     file:mr-4 file:py-2 file:px-4
                     file:rounded-full file:border-0
@@ -816,7 +643,7 @@ const handleSubmit = async () => {
               htmlFor="brandName"
               className="block font-medium text-gray-700 mb-2 mt-4"
             >
-              Brand Name *
+              Brand Name
             </label>
             <input
               id="brandName"
@@ -824,13 +651,8 @@ const handleSubmit = async () => {
               value={productData.brandName || ""}
               onChange={handleCommonChange}
               placeholder="Your Brand Name"
-              className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 ${fieldErrors.brandName ? "border-red-500 focus:ring-red-500" : "focus:ring-[#008080]"
-                }`}
-              required
+              className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
             />
-            {fieldErrors.brandName && (
-              <p className="text-red-500 text-sm mt-1">{fieldErrors.brandName}</p>
-            )}
           </div>
 
           {/* Product Items */}
@@ -858,7 +680,7 @@ const handleSubmit = async () => {
                   <input
                     type="file"
                     accept="image/*"
-                    onChange={(e) => handleItemImageUpload(index, e.target.files[0])}
+                    onChange={(e) => handleItemImageUpload(index, e)}
                     ref={el => fileInputRefs.current[index] = el}
                     className="w-full text-sm text-gray-700
                       file:mr-4 file:py-2 file:px-4
@@ -890,18 +712,13 @@ const handleSubmit = async () => {
                   <div>
                     <input
                       type="text"
-                      placeholder="Product Name *"
+                      placeholder="Product Name"
                       value={item.heading}
                       onChange={(e) =>
                         handleItemChange(index, "heading", e.target.value)
                       }
-                      className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 ${fieldErrors.items[index]?.heading ? "border-red-500 focus:ring-red-500" : "focus:ring-[#008080]"
-                        }`}
-                      required
+                      className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
                     />
-                    {fieldErrors.items[index]?.heading && (
-                      <p className="text-red-500 text-sm mt-1">{fieldErrors.items[index].heading}</p>
-                    )}
                   </div>
                   <div>
                     <input
@@ -922,8 +739,9 @@ const handleSubmit = async () => {
                       onChange={(e) =>
                         handleItemChange(index, "pageUrl", e.target.value)
                       }
-                      className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 ${fieldErrors.items[index]?.pageUrl ? "border-red-500 focus:ring-red-500" : "focus:ring-[#008080]"
-                        }`}
+                      className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 ${
+                        fieldErrors.items[index]?.pageUrl ? "border-red-500 focus:ring-red-500" : "focus:ring-[#008080]"
+                      }`}
                     />
                     {fieldErrors.items[index]?.pageUrl && (
                       <p className="text-red-500 text-sm mt-1">{fieldErrors.items[index].pageUrl}</p>
@@ -937,8 +755,9 @@ const handleSubmit = async () => {
                       onChange={(e) =>
                         handleItemChange(index, "videoUrl", e.target.value)
                       }
-                      className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 ${fieldErrors.items[index]?.videoUrl ? "border-red-500 focus:ring-red-500" : "focus:ring-[#008080]"
-                        }`}
+                      className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 ${
+                        fieldErrors.items[index]?.videoUrl ? "border-red-500 focus:ring-red-500" : "focus:ring-[#008080]"
+                      }`}
                     />
                     {fieldErrors.items[index]?.videoUrl && (
                       <p className="text-red-500 text-sm mt-1">{fieldErrors.items[index].videoUrl}</p>
@@ -965,16 +784,16 @@ const handleSubmit = async () => {
           {/* Contact Information */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
             <div>
-              <label className="block font-medium text-gray-700 mb-2">Contact Email *</label>
+              <label className="block font-medium text-gray-700 mb-2">Contact Email</label>
               <input
                 id="email"
                 type="email"
                 value={productData.email || ""}
                 onChange={handleCommonChange}
                 placeholder="Contact Email"
-                className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 ${fieldErrors.email ? "border-red-500 focus:ring-red-500" : "focus:ring-[#008080]"
-                  }`}
-                required
+                className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 ${
+                  fieldErrors.email ? "border-red-500 focus:ring-red-500" : "focus:ring-[#008080]"
+                }`}
               />
               {fieldErrors.email && (
                 <p className="text-red-500 text-sm mt-1">{fieldErrors.email}</p>
@@ -988,14 +807,14 @@ const handleSubmit = async () => {
                 value={productData.phone || ""}
                 onChange={handleCommonChange}
                 placeholder="Phone Number"
-                className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 ${fieldErrors.phone ? "border-red-500 focus:ring-red-500" : "focus:ring-[#008080]"
-                  }`}
+                className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 ${
+                  fieldErrors.phone ? "border-red-500 focus:ring-red-500" : "focus:ring-[#008080]"
+                }`}
               />
               {fieldErrors.phone && (
                 <p className="text-red-500 text-sm mt-1">{fieldErrors.phone}</p>
               )}
             </div>
-
           </div>
           <div>
             <label className="block font-medium text-gray-700 mb-2">Address</label>
