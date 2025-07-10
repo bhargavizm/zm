@@ -23,7 +23,7 @@ const initialState = {
   setBusinessCardServices:[],
   galleryServiceData: [],
   businessCardData:[],
-  setBusinessCardServices:[],
+  // setBusinessCardServices:[],
   error: null,
 };
 
@@ -37,12 +37,12 @@ const servicesSlice = createSlice({
       error: null,
     }),
     // Regular Services
-     setBusinessCardServices: (state, action) => ({
-    setBusinessCardServices: (state, action) => ({
-      ...state,
-      resumeServiceData: action.payload,
-      error: null,
-    }),
+    //  setBusinessCardServices: (state, action) => ({
+    // setBusinessCardServices: (state, action) => ({
+    //   ...state,
+    //   resumeServiceData: action.payload,
+    //   error: null,
+    // }),
     setResumeServices: (state, action) => ({
       ...state,
       resumeServiceData: action.payload,
@@ -91,6 +91,8 @@ const servicesSlice = createSlice({
      setBusinessCardServices: (state, action) => ({
       ...state,
       businessCardData: action.payload,
+      error:null,
+     }),
     setDiscountServices: (state, action) => ({
       ...state,
       discountServicesData : action.payload,
@@ -137,7 +139,7 @@ export const {
   setKidsSafetyServices,
   setBusinessCardServices,
   setDiscountServices,
-  setBusinessCardServices,
+  // setBusinessCardServices,
   setMedicalServices,
 
   clearError,
