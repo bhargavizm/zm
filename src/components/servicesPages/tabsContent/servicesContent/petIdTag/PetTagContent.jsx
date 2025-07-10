@@ -22,6 +22,7 @@ const PetTagContent = () => {
   const [submitting, setSubmitting] = useState(false);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [phoneError, setPhoneError] = useState("");
   const dispatch = useDispatch();
   const templateImages = ["pet1.webp", "pet2.webp", "pet3.webp", "pet4.webp"];
 
@@ -35,6 +36,17 @@ const PetTagContent = () => {
 
   const handleOwnerChange = (e) => {
     const { id, value } = e.target;
+    
+    // Phone number validation
+    if (id === "phone") {
+      const phoneRegex = /^[0-9]{10,15}$/;
+      if (value && !phoneRegex.test(value)) {
+        setPhoneError("Please enter a valid phone number (10-15 digits)");
+      } else {
+        setPhoneError("");
+      }
+    }
+    
     setPetIDFormData((prev) => ({
       ...prev,
       ownerInfo: {
@@ -129,23 +141,29 @@ const PetTagContent = () => {
       reader.onerror = (err) => reject(err);
     });
 
-const handlePreviewSubmit = (e) => {
-  e.preventDefault();
+  const handlePreviewSubmit = (e) => {
+    e.preventDefault();
 
-  const { selectedTemplate, mainImage, ownerInfo, pet } = petIDFormData;
+    // Check if phone number is valid if it's filled
+    if (petIDFormData.ownerInfo.phone && phoneError) {
+      toast.error(phoneError);
+      return;
+    }
 
-  const isAnyOwnerInfoFilled = Object.values(ownerInfo).some((v) => v && v.trim() !== "");
-  const isAnyPetInfoFilled = Object.values(pet).some((v) => v && v.trim() !== "");
-  const isTemplateSelected = !!selectedTemplate;
-  const isImageUploaded = !!mainImage;
+    const { selectedTemplate, mainImage, ownerInfo, pet } = petIDFormData;
 
-  if (isAnyOwnerInfoFilled || isAnyPetInfoFilled || isTemplateSelected || isImageUploaded) {
+    const isAnyOwnerInfoFilled = Object.values(ownerInfo).some((v) => v && v.trim() !== "");
+    const isAnyPetInfoFilled = Object.values(pet).some((v) => v && v.trim() !== "");
+    const isTemplateSelected = !!selectedTemplate;
+    const isImageUploaded = !!mainImage;
+
+    if (!isAnyOwnerInfoFilled && !isAnyPetInfoFilled && !isTemplateSelected && !isImageUploaded) {
+      toast.error("Please fill at least one field before submitting.");
+      return;
+    }
+
     setShowPreviewModal(true);
-  } else {
-    toast.error("Please fill at least one field before submitting.");
-  }
-};
-
+  };
 
   const handleFinalSubmit = async () => {
     setSubmitting(true);
@@ -163,6 +181,7 @@ const handlePreviewSubmit = (e) => {
 
       if (res.status === 201) {
         setShowSuccessModal(true);
+        toast.success("Pet ID Tag created successfully!");
         setActiveTab(slug, "QR Code");
         dispatch(setPetIdServices(res.data));
         console.log("Pet ID Tag created successfully:", res.data);
@@ -191,6 +210,7 @@ const handlePreviewSubmit = (e) => {
           }
         }, 2000);
       } else {
+        toast.warn("Failed to create Pet ID Tag.");
         alert("Failed to create Pet ID Tag.");
       }
     } catch (error) {
@@ -284,14 +304,19 @@ const handlePreviewSubmit = (e) => {
                 placeholder="Owner Name"
                 className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
               />
-              <input
-                type="tel"
-                id="phone"
-                value={petIDFormData.ownerInfo.phone}
-                onChange={handleOwnerChange}
-                placeholder="Phone Number"
-                className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
-              />
+              <div>
+                <input
+                  type="tel"
+                  id="phone"
+                  value={petIDFormData.ownerInfo.phone}
+                  onChange={handleOwnerChange}
+                  placeholder="Phone Number"
+                  className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 ${phoneError ? "focus:ring-red-500 border-red-500" : "focus:ring-[#008080]"}`}
+                />
+                {phoneError && (
+                  <p className="mt-1 text-sm text-red-600">{phoneError}</p>
+                )}
+              </div>
               <input
                 type="email"
                 id="email"
@@ -313,7 +338,7 @@ const handlePreviewSubmit = (e) => {
                 <button
                   type="button"
                   onClick={fetchCurrentLocation}
-                  className="flex items-center justify-center w-full py-2 px-3 bg-gray-100 hover:bg-gray-300 text-gray-700 text-sm rounded-lg transition-colors duration-200 cursor-pointer"
+                  className="flex items-center justify-center w-full py-2 px-3 bg-mainGreen text-white text-sm rounded-lg transition-colors duration-200 cursor-pointer"
                 >
                   <MapPin size={16} className="mr-2" />
                   Use Current Location

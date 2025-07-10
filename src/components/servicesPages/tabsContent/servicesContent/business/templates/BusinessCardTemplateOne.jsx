@@ -25,25 +25,25 @@ const BusinessCardTemplateOne = ({ businessForm, profileImage, brandLogo }) => {
             {/* Top yellow bar and dots */}
             <div className="bg-yellow-500 h-16 flex items-center justify-between px-5 relative">
                 <div className="grid grid-cols-2 gap-1">
-                    <span className="w-2 h-2 bg-black rounded-full block" />
-                    <span className="w-2 h-2 bg-black rounded-full block" />
-                    <span className="w-2 h-2 bg-black rounded-full block" />
-                    <span className="w-2 h-2 bg-black rounded-full block" />
+                    <span className="w-2 h-2 bg-black rounded block" />
+                    <span className="w-2 h-2 bg-black rounded block" />
+                    <span className="w-2 h-2 bg-black rounded block" />
+                    <span className="w-2 h-2 bg-black rounded block" />
                 </div>
                 <div className="grid grid-cols-2 gap-1">
-                    <span className="w-2 h-2 bg-black rounded-full block" />
-                    <span className="w-2 h-2 bg-black rounded-full block" />
-                    <span className="w-2 h-2 bg-black rounded-full block" />
-                    <span className="w-2 h-2 bg-black rounded-full block" />
+                    <span className="w-2 h-2 bg-black rounded block" />
+                    <span className="w-2 h-2 bg-black rounded block" />
+                    <span className="w-2 h-2 bg-black rounded block" />
+                    <span className="w-2 h-2 bg-black rounded block" />
                 </div>
             </div>
 
             {/* Profile Photo */}
             <div className="flex justify-center -mt-12 mb-2">
-                <div className="my-15 w-24 h-24 rounded-full border-4 border-yellow-500 overflow-hidden">
+                <div className="my-15 w-30 h-30 rounded-full border-4 border-yellow-500 overflow-hidden">
                     <Image
                         src={profileImage || "/default-user.webp"}
-                        alt={"Profile"}
+                        alt={""}
                         width={96}
                         height={96}
                         className="object-cover w-full h-full"

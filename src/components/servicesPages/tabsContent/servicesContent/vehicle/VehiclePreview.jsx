@@ -66,11 +66,11 @@ const VehiclePreview = () => {
   const { selectedTemplate } = vehicleTemplate;
 
   const hasData =
-    general.vehicleModel || general.vehicleType || general.buyDate || general.description ||
+    general.vehicleModel || general.vehicleType || general.vehicleNumber || general.description ||
     registration.rcNumber || registration.driverName || registration.ownerName ||
     contact.contact || contact.altContact || contact.address || contact.mapLink ||
-    media.vehicleImage || media.licenseFront || media.licenseBack || (media.galleryImages?.length > 0) ||
-    security.password;
+    media.vehicleImage || media.licenseFront || media.licenseBack || media.rcFront || media.rcBack || media.pollution || (media.galleryImages?.length > 0) ||
+    (media.insurance?.length > 0) ||security.password;
 
   // const hasData =
   //   general.vehicleModel ||
@@ -222,7 +222,7 @@ const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
                 condition={
                   general.vehicleModel ||
                   general.vehicleType ||
-                  general.buyDate ||
+                  general.vehicleNumber ||
                   general.description
                 }
               >
@@ -236,9 +236,9 @@ const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
                     <strong>Type:</strong> {general.vehicleType}
                   </p>
                 )}
-                {general.buyDate && (
+                {general.vehicleNumber && (
                   <p>
-                    <strong>Purchase Date:</strong> {general.buyDate}
+                    <strong>Vehicle Number:</strong> {general.vehicleNumber}
                   </p>
                 )}
                 {general.description && (
@@ -318,17 +318,22 @@ const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
                 condition={
                   media.licenseFront ||
                   media.licenseBack ||
-                  media.galleryImages?.length > 0
+                  media.rcFront ||
+                  media.rcBack ||
+                  media.pollution ||
+                
+                  media.galleryImages?.length > 0 ||
+                  media.insurance?.length > 0
                 }
               >
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 gap-2">
                   {resolveImageUrl(media.licenseFront) && (
                     <div className="mb-2">
                       <p className="font-medium text-xs mb-1">License Front:</p>
                       <img
                         src={resolveImageUrl(media.licenseFront)}
                         alt="License Front"
-                        className="w-full h-20 object-cover rounded border"
+                        className="w-full   object-cover rounded border"
                       />
                     </div>
                   )}
@@ -338,7 +343,37 @@ const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
                       <img
                         src={resolveImageUrl(media.licenseBack)}
                         alt="License Back"
-                        className="w-full h-20 object-cover rounded border"
+                        className="w-full object-cover rounded border"
+                      />
+                    </div>
+                  )}
+                  {resolveImageUrl(media.rcFront) && (
+                    <div className="mb-2">
+                      <p className="font-medium text-xs mb-1">Rc Front:</p>
+                      <img
+                        src={resolveImageUrl(media.rcFront)}
+                        alt="Rc Front"
+                        className="w-full object-cover rounded border"
+                      />
+                    </div>
+                  )}
+                  {resolveImageUrl(media.rcBack) && (
+                    <div className="mb-2">
+                      <p className="font-medium text-xs mb-1">Rc Back:</p>
+                      <img
+                        src={resolveImageUrl(media.rcBack)}
+                        alt="Rc Back"
+                        className="w-full  object-cover rounded border"
+                      />
+                    </div>
+                  )}
+                  {resolveImageUrl(media.pollution) && (
+                    <div className="mb-2">
+                      <p className="font-medium text-xs mb-1">Pollution:</p>
+                      <img
+                        src={resolveImageUrl(media.pollution)}
+                        alt="Pollution"
+                        className="w-full object-cover rounded border"
                       />
                     </div>
                   )}
@@ -353,7 +388,23 @@ const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
                           <img
                             src={src}
                             alt={`Gallery ${idx + 1}`}
-                            className="w-full h-20 object-cover rounded border"
+                            className="w-full object-cover rounded border"
+                          />
+                        </div>
+                      ) : null;
+                    })}
+                    {media.insurance?.length > 0 &&
+                    media.insurance.map((img, idx) => {
+                      const src = resolveImageUrl(img);
+                      return src ? (
+                        <div key={idx} className="mb-2">
+                          <p className="font-medium text-xs mb-1">
+                            Insurance {idx + 1}:
+                          </p>
+                          <img
+                            src={src}
+                            alt={`Insurance ${idx + 1}`}
+                            className="w-full  object-cover rounded border"
                           />
                         </div>
                       ) : null;

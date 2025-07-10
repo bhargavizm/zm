@@ -23,7 +23,7 @@ const PetTagPreview = () => {
 
   const SelectedTemplate = templateMap[petIDFormData.selectedTemplate || "pet1.webp"];
 
- const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
+  const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
   const isImage = bgDesign && !isVideo;
 
   useEffect(() => {
