@@ -6,7 +6,7 @@ import { MdPets, MdArrowForwardIos } from "react-icons/md";
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
 import clsx from "clsx";
-import { FaCar, FaVideo } from "react-icons/fa";
+import { FaCar, FaFilePdf, FaVideo } from "react-icons/fa";
 import { ImHeadphones } from "react-icons/im";
 import { GrGallery } from "react-icons/gr";
 import { FaHandsHoldingChild } from "react-icons/fa6";
@@ -28,6 +28,11 @@ const tabLinks = [
     href: "/services/kids-safety-qr-tags",
     label: "Kids Safety",
     icon: <FaHandsHoldingChild size={28} />,
+  },
+   {
+    href: "/services/pdf",
+    label: "PDF",
+    icon: <FaFilePdf size={28} />,
   },
   {
     href: "/services/audios",

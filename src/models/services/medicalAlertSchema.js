@@ -158,197 +158,67 @@
 
 // export default MedicalAlertPreview;
 
+// src/models/services/medicalAlertSchema.js
 
-"use client";
+import mongoose from "mongoose";
 
-import React, { useEffect } from "react";
-import { FiLock } from "react-icons/fi";
-import useServicesContext from "@/components/hooks/useServiceContext";
-import useDesignContext from "@/components/hooks/useDesignContext";
-import Image from "next/image";
+const MedicalAlertSchema = new mongoose.Schema(
+  {
+    user: {
+      id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+      name: { type: String, required: true },
+    },
+    patientInfo: {
+      patientName: String,
+      age: Number,
+      bloodType: String,
+    },
+    medicalHistory: {
+      medicalConditions: String,
+      allergies: String,
+      medications: String,
+      additionalNotes: String,
+    },
+    emergencyContact: {
+      emergencyContact: String,
+      contactPhone: String,
+    },
+    additional: {
+      familyDoctorName: String,
+      familyDoctorPhone: String,
+      emergencyInstructions: String,
+      insuranceProvider: String,
+      policyNumber: String,
+      preferredHospital: String,
+      location: String,
+    },
+    medicalReports: [
+      {
+        fileName: String,
+        fileType: String,
+      },
+    ],
+    prescription: [
+      {
+        fileName: String,
+        fileType: String,
+      },
+    ],
+    insuranceImage: [
+      {
+        fileName: String,
+        fileType: String,
+      },
+    ],
+    password: { type: String },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-const formatLabel = (key) =>
-  key.replace(/([A-Z])/g, " $1").replace(/^./, (s) => s.toUpperCase());
+// 👇 Prevent model overwrite error in development
+const MedicalAlertModel =
+  mongoose.models.MedicalAlert || mongoose.model("MedicalAlert", MedicalAlertSchema);
 
-const MedicalAlertPreview = () => {
-  const { dynamicForms } = useServicesContext();
-  const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
-
-  const defaultBg = "/services-service/medical-alert.webp";
-
-  useEffect(() => {
-    setIsLoading(true);
-    setBgDesign(defaultBg);
-  }, []);
-
-  const medicalAlert = dynamicForms.medicalAlert || {};
-
-  // Enhanced hasData check to properly detect if there's any meaningful data
-  const hasData = Object.entries(medicalAlert).some(
-    ([section, fields]) =>
-      section !== "password" &&
-      typeof fields === "object" &&
-      Object.values(fields).some((value) => {
-        if (!value) return false;
-        if (typeof value === "object" && value.files) {
-          return value.files.length > 0;
-        }
-        if (typeof value === "string") {
-          return value.trim() !== "";
-        }
-        return true;
-      })
-  );
-
-  const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
-  const isImage = bgDesign && !isVideo;
-
-  return (
-    <div className="flex justify-center">
-      <div className="relative w-[350px] h-[650px] rounded-[40px] border-[14px] border-gray-800 shadow-xl scrollbar-hide overflow-y-auto ">
-        {/* Background */}
-        {isImage && (
-          <img
-            src={bgDesign}
-            alt="Background"
-            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
-            className="absolute inset-0 w-full h-full object-cover z-0"
-          />
-        )}
-        {isVideo && (
-          <video
-            src={bgDesign}
-            autoPlay
-            loop
-            muted
-            playsInline
-            onLoadedData={() => setTimeout(() => setIsLoading(false), 300)}
-            className="absolute inset-0 w-full h-full object-cover z-0"
-          />
-        )}
-        {!bgDesign && (
-          <img
-            src={defaultBg}
-            alt="Background"
-            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
-            className="absolute inset-0 w-full h-full object-cover z-0"
-          />
-        )}
-
-        {/* Loader */}
-        {isLoading && (
-          <div className="absolute inset-0 z-50 bg-mainGreen backdrop-blur-sm flex justify-center items-center">
-            <Image
-              src="/logos/ZM LOGO.webp"
-              alt="Loading"
-              width={100}
-              height={100}
-              className="w-20 h-20 animate-bounce"
-            />
-          </div>
-        )}
-
-        {/* Top Bar */}
-        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-6 bg-gray-800 rounded-b-xl z-10" />
-
-        {/* Content */}
-        <div className="relative z-10 flex-1 overflow-y-auto bg-white/70 m-2 rounded-xl pt-8 pb-4 px-4">
-          {hasData ? (
-            <div className="space-y-4">
-              <h2 className="text-xl font-bold text-center text-[#008080]">
-                Medical Alert
-              </h2>
-
-              {Object.entries(medicalAlert).map(([section, fields]) => {
-                if (section === "password" || typeof fields !== "object") return null;
-
-                // Filter out empty fields for this section
-                const nonEmptyFields = Object.entries(fields).filter(([key, value]) => {
-                  if (!value) return false;
-                  if (typeof value === "object" && value.files) {
-                    return value.files.length > 0;
-                  }
-                  if (typeof value === "string") {
-                    return value.trim() !== "";
-                  }
-                  return true;
-                });
-
-                // Don't render section if all fields are empty
-                if (nonEmptyFields.length === 0) return null;
-
-                return (
-                  <div
-                    key={section}
-                    className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20 space-y-2"
-                  >
-                    <h3 className="font-medium text-[#008080] capitalize">
-                      {section.replace(/([A-Z])/g, " $1")}
-                    </h3>
-                    
-                    {nonEmptyFields.map(([key, value]) => {
-                      let content = null;
-
-                      // Handle file uploads
-                      if (typeof value === "object" && value.files) {
-                        content = value.files.map((file, idx) => {
-                          const fileURL = URL.createObjectURL(file);
-
-                          if (file.type.startsWith("image/")) {
-                            return (
-                              <div key={idx} className="mt-2">
-                                <p className="text-xs text-gray-500 mb-1">{file.name}</p>
-                                <img
-                                  src={fileURL}
-                                  alt={file.name}
-                                  className="w-full rounded shadow"
-                                />
-                              </div>
-                            );
-                          } else if (file.type === "application/pdf") {
-                            return (
-                              <div key={idx} className="mt-2">
-                                <p className="text-xs text-gray-500 mb-1">{file.name}</p>
-                                <iframe
-                                  src={fileURL}
-                                  title={file.name}
-                                  className="w-full h-64 rounded border"
-                                />
-                              </div>
-                            );
-                          }
-                          return null;
-                        });
-                      }
-                      // Handle simple strings
-                      else if (typeof value === "string") {
-                        content = <span className="text-gray-700">{value}</span>;
-                      }
-
-                      return (
-                        <div key={key} className="text-sm w-full flex-row">
-                          <p className="font-medium w-full text-[#008080]">
-                            {formatLabel(key)} : {content}
-                          </p>
-                         
-                        </div>
-                      );
-                    })}
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="h-full flex flex-col items-center justify-center text-center text-gray-400">
-              <FiLock className="text-4xl mb-4 text-[#008080]" />
-              <h3 className="text-lg font-medium">Medical Alert Preview</h3>
-              <p className="mt-2">Fill the form to see the preview</p>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default MedicalAlertPreview;
+export default MedicalAlertModel;
