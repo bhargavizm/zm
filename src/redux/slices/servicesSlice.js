@@ -15,15 +15,11 @@ const initialState = {
   petIDServicesData: [],
   kidsSafetyServicesData: [],
   medicalServicesData: [],
-
-
   pdfServiceData: [],
   audioServiceData: [],
   videoServiceData: [],
-  setBusinessCardServices:[],
   galleryServiceData: [],
-  businessCardData:[],
-  setBusinessCardServices:[],
+  businessCardData: [],
   error: null,
 };
 
@@ -31,99 +27,78 @@ const servicesSlice = createSlice({
   name: "services",
   initialState,
   reducers: {
-    setBusinessCardServices: (state, action) => ({
-      ...state,   
-      businessCardServicesData: action.payload,
-      error: null,
-    }),
     // Regular Services
-     setBusinessCardServices: (state, action) => ({
-    setBusinessCardServices: (state, action) => ({
-      ...state,
-      resumeServiceData: action.payload,
-      error: null,
-    }),
-    setResumeServices: (state, action) => ({
-      ...state,
-      resumeServiceData: action.payload,
-      error: null,
-    }),
-    setMenuCardServices: (state, action) => ({
-      ...state,
-      menuCardServiceData: action.payload,
-      error: null,
-    }),
-    setTextMessageServices: (state, action) => ({
-      ...state,
-      textMessageData: action.payload,
-      error: null,
-    }),
-    setSmsServices: (state, action) => ({
-      ...state,
-      smsServiceData: action.payload,
-      error: null,
-    }),
-    setVehicleServices: (state, action) => ({
-      ...state,
-      vehicleServiceData: action.payload,
-      error: null,
-    }),
-    setEventServices: (state, action) => ({
-      ...state,
-      eventServiceData: action.payload,
-      error: null,
-    }),
-    setMultiUrlServices: (state, action) => ({
-      ...state,
-      multiServicesData: action.payload,
-      error: null,
-    }),
-    setWifiServices: (state, action) => ({
-      ...state,
-      wifiServicesData: action.payload,
-      error: null,
-    }),
-    setPropertyServices: (state, action) => ({
-      ...state,
-      propertyServiceData: action.payload,
-      error: null,
-    }),
-     setBusinessCardServices: (state, action) => ({
-      ...state,
-      businessCardData: action.payload,
-    setDiscountServices: (state, action) => ({
-      ...state,
-      discountServicesData : action.payload,
-      error : null,
-    }),
-    setMedicalServices: (state, action) => ({
-      ...state, 
-      medicalServicesData : action.payload,
-      error: null,
-    }),
+    setBusinessCardServices: (state, action) => {
+      state.businessCardServicesData = action.payload;
+      state.error = null;
+    },
+    setResumeServices: (state, action) => {
+      state.resumeServiceData = action.payload;
+      state.error = null;
+    },
+    setMenuCardServices: (state, action) => {
+      state.menuCardServiceData = action.payload;
+      state.error = null;
+    },
+    setTextMessageServices: (state, action) => {
+      state.textMessageData = action.payload;
+      state.error = null;
+    },
+    setSmsServices: (state, action) => {
+      state.smsServiceData = action.payload;
+      state.error = null;
+    },
+    setVehicleServices: (state, action) => {
+      state.vehicleServiceData = action.payload;
+      state.error = null;
+    },
+    setEventServices: (state, action) => {
+      state.eventServiceData = action.payload;
+      state.error = null;
+    },
+    setMultiUrlServices: (state, action) => {
+      state.multiServicesData = action.payload;
+      state.error = null;
+    },
+    setWifiServices: (state, action) => {
+      state.wifiServicesData = action.payload;
+      state.error = null;
+    },
+    setPropertyServices: (state, action) => {
+      state.propertyServiceData = action.payload;
+      state.error = null;
+    },
+    setDiscountServices: (state, action) => {
+      state.discountServicesData = action.payload;
+      state.error = null;
+    },
+    setMedicalServices: (state, action) => {
+      state.medicalServicesData = action.payload;
+      state.error = null;
+    },
+    setPetIdServices: (state, action) => {
+      state.petIDServicesData = action.payload;
+      state.error = null;
+    },
+    setKidsSafetyServices: (state, action) => {
+      state.kidsSafetyServicesData = action.payload;
+      state.error = null;
+    },
 
+    // Optionally: set just raw businessCardData (separate from services array)
+    setBusinessCardData: (state, action) => {
+      state.businessCardData = action.payload;
+    },
 
-    // Encrypted Services
-    setPetIdServices: (state, action) => ({
-      ...state,
-      petIDServicesData: action.payload,
-      error: null,
-    }),
-    setKidsSafetyServices: (state, action) => ({
-      ...state,
-      kidsSafetyServicesData: action.payload,
-      error: null,
-    }),
-
-    // Error handling
-    clearError: (state) => ({
-      ...state,
-      error: null,
-    }),
+    // Error handler
+    clearError: (state) => {
+      state.error = null;
+    },
   },
 });
 
 export const {
+  setBusinessCardServices,
   setResumeServices,
   setMenuCardServices,
   setTextMessageServices,
@@ -133,13 +108,11 @@ export const {
   setMultiUrlServices,
   setWifiServices,
   setPropertyServices,
+  setDiscountServices,
+  setMedicalServices,
   setPetIdServices,
   setKidsSafetyServices,
-  setBusinessCardServices,
-  setDiscountServices,
-  setBusinessCardServices,
-  setMedicalServices,
-
+  setBusinessCardData,
   clearError,
 } = servicesSlice.actions;
 
