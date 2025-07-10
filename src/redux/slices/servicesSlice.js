@@ -37,7 +37,6 @@ const servicesSlice = createSlice({
       error: null,
     }),
     // Regular Services
-     setBusinessCardServices: (state, action) => ({
     setBusinessCardServices: (state, action) => ({
       ...state,
       resumeServiceData: action.payload,
@@ -91,8 +90,7 @@ const servicesSlice = createSlice({
      setBusinessCardServices: (state, action) => ({
       ...state,
       businessCardData: action.payload,
-    setDiscountServices: (state, action) => ({
-      ...state,
+  
       discountServicesData : action.payload,
       error : null,
     }),
@@ -137,7 +135,6 @@ export const {
   setKidsSafetyServices,
   setBusinessCardServices,
   setDiscountServices,
-  setBusinessCardServices,
   setMedicalServices,
 
   clearError,
