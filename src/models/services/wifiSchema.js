@@ -52,6 +52,10 @@ const wifiSchema = new mongoose.Schema(
         return this.security !== "nopass";
       },
     },
+    qrPassword : {
+      type: String, // This field is optional and can be used to store a QR code representation of the password
+      trim: true,
+    }
   },
   {
     timestamps: true,

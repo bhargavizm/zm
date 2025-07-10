@@ -1,10 +1,10 @@
 "use client";
-
+import useDesignContext from "@/components/hooks/useDesignContext";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import NFCModal from "@/components/modalPopUps/nfcModal";
 import { setEventServices } from "@/redux/slices/servicesSlice";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import {
@@ -22,14 +22,14 @@ import {
 import { useDispatch } from "react-redux";
 
 const EventContent = () => {
+  const { setActiveTab } = useDesignContext();
+  const { slug } = useParams();
   const { eventsFormData, setEventsFormData } = useServicesContext();
-
   const [showPassword, setShowPassword] = useState(false);
   const [showLocationOptions, setShowLocationOptions] = useState(false);
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const dispatch = useDispatch();
-  const router = useRouter();
 
   const handlePassword = () => {
     setShowPassword((prev) => !prev);
@@ -39,11 +39,50 @@ const EventContent = () => {
     const { name, value } = e.target;
     setEventsFormData((prev) => ({ ...prev, [name]: value }));
   };
+  // 🔽 Add this validation function inside the component
+  const validateForm = () => {
+    const { contactPhone, contactEmail } = eventsFormData;
+
+    const phoneRegex = /^[0-9]{10,15}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (contactPhone && !phoneRegex.test(contactPhone)) {
+      toast.error("Please enter a valid phone number.");
+      return false;
+    }
+
+    if (contactEmail && !emailRegex.test(contactEmail)) {
+      toast.error("Please enter a valid email address.");
+      return false;
+    }
+
+    return true;
+  };
 
   const handleInitialSubmit = (e) => {
     e.preventDefault();
+
+    const isEmptyValue = (val) => {
+      if (typeof val === "string") return val.trim() === "";
+      if (Array.isArray(val)) return val.length === 0;
+      if (val && typeof val === "object") {
+        return Object.values(val).every((v) => isEmptyValue(v));
+      }
+      return !val;
+    };
+
+    const isCompletelyEmpty = Object.values(eventsFormData).every(isEmptyValue);
+
+    if (isCompletelyEmpty) {
+      toast.error("Enter at least one field before submitting");
+      return;
+    }
+
+    if (!validateForm()) return;
+
     setShowConfirmModal(true);
   };
+
 
   const fetchCurrentLocation = async () => {
     setIsLoadingLocation(true);
@@ -87,6 +126,7 @@ const EventContent = () => {
       contactName: eventsFormData.contactName,
       contactEmail: eventsFormData.contactEmail,
       contactPhone: eventsFormData.contactPhone,
+      password: eventsFormData.password
     };
 
     try {
@@ -97,9 +137,10 @@ const EventContent = () => {
       });
 
       if (response.data.success) {
-        dispatch(setEventServices(response.data.fileData));
         toast.success("Text submitted successfully!");
+        dispatch(setEventServices(response.data.fileData));
         setShowConfirmModal(false);
+        setActiveTab(slug, "QR Code");
 
         // Reset form
         setEventsFormData({
@@ -312,7 +353,7 @@ const EventContent = () => {
                 onClick={handlePassword}
                 className="absolute right-3 top-9 text-gray-600"
               >
-                {showPassword ? <FiEyeOff /> : <FiEye />}
+                {!showPassword ? <FiEyeOff /> : <FiEye />}
               </button>
             </div>
 
