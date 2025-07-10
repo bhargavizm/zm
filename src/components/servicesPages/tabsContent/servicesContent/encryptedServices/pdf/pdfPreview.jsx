@@ -8,14 +8,14 @@ import useDesignContext from "@/components/hooks/useDesignContext";
 const PDFPreview = () => {
   const { pdfFormData } = useServicesContext();
   const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
-  const { title, description, file } = pdfFormData || {};
-  const fileName = file ? file.name : "No file selected";
+
+  const { title, description, file: files = [] } = pdfFormData || {};
 
   const defaultBg = "/services-service/pdf.webp";
-const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
+  const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
   const isImage = bgDesign && !isVideo;
 
-  // ✅ Set PDF service’s default background on mount
+  // Set default background
   useEffect(() => {
     setIsLoading(true);
     setBgDesign(defaultBg);
@@ -24,7 +24,7 @@ const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
   return (
     <div className="flex justify-center items-center w-full">
       <div className="relative w-[350px] h-[650px] border-4 border-[#001a1a] rounded-3xl shadow-2xl overflow-hidden">
-        
+
         {/* 🌄 Background Layer */}
         {isImage && (
           <img
@@ -68,18 +68,45 @@ const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
         )}
 
         {/* 📄 Foreground Content */}
-        <div className="relative z-10 w-full h-full p-4 flex flex-col items-center justify-center space-y-4 text-white text-center bg-black/50">
-          <div>
-            <p className="text-xs font-semibold">Title</p>
-            <p className="text-sm font-bold">{title || ""}</p>
-          </div>
-          <div>
-            <p className="text-xs font-semibold">Description</p>
-            <p className="text-sm font-medium whitespace-pre-wrap">{description || ""}</p>
-          </div>
-          <div>
-            <p className="text-xs font-semibold">PDF File</p>
-            <p className="text-teal-200 text-base">📄 {fileName}</p>
+         <div className="relative z-10 w-full h-full p-4 flex flex-col items-start justify-start space-y-4 text-white text-center bg-black/50">
+          {title && (
+            <div className="flex gap-4">
+              <p className="text-xl font-semibold">Title :</p>
+              <p className="text-xl font-bold">{title}</p>
+            </div>
+          )}
+          {description && (
+            <div className="flex gap-4">
+              <p className="text-xl font-semibold">Description</p>
+              <p className="text-xl font-medium whitespace-pre-wrap">
+                {description}
+              </p>
+            </div>
+          )}
+          <div className="w-full">
+            <p className="text-lg font-semibold mb-1">PDF Files</p>
+            <div className="flex flex-col items-center gap-1">
+              {files?.length > 0 ? (
+                files.map((f, idx) => {
+                  const isLocal = f instanceof File;
+                  const fileUrl = isLocal ? URL.createObjectURL(f) : f?.fileUrl || "";
+                  const fileName = f?.name || f?.fileName || `File ${idx + 1}`;
+                  return (
+                    <a
+                      key={idx}
+                      href={fileUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-teal-200 text-md pb-4 underline hover:text-teal-100 transition"
+                    >
+                      📄 {fileName}
+                    </a>
+                  );
+                })
+              ) : (
+                <p className="text-sm text-gray-300">No file selected</p>
+              )}
+            </div>
           </div>
         </div>
       </div>

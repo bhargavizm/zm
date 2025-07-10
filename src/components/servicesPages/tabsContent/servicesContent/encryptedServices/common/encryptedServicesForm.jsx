@@ -44,6 +44,7 @@ const EncryptedServicesForm = ({
   userPlan = "Basic",
   titleLabel = "Title",
   fileLabel = "Upload Files",
+   fileKey = "file",
   successMessage = "✅ Uploaded successfully",
 }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -96,12 +97,13 @@ const EncryptedServicesForm = ({
         return;
       }
 
-      const updatedFiles = [...(formData.file || []), ...newFiles];
+      const updatedFiles = [...(formData[fileKey] || []), ...newFiles];
       const updatedSize = updatedFiles.reduce((acc, f) => acc + f.size, 0);
       setTotalSize(updatedSize);
       const warning = getPlanErrorMessage(updatedSize);
       setSizeWarning(warning);
-      setFormData((prev) => ({ ...prev, file: updatedFiles }));
+     setFormData((prev) => ({ ...prev, [fileKey]: updatedFiles }));
+
       if (warning) {
          setShowUpgradeModal(true); // show modal on exceeding plan
        }
@@ -114,8 +116,8 @@ const EncryptedServicesForm = ({
   const confirmUpload = async () => {
     const fd = new FormData();
     // ✅ Always upload files under key "files"
-    if (Array.isArray(formData.file)) {
-      formData.file.forEach((f) => fd.append("files", f));
+    if (Array.isArray(formData[fileKey])) {
+      formData[fileKey].forEach((f) => fd.append("files", f));
     }
     ["title", "description", "password"].forEach((key) => {
       if (formData[key]) fd.append(key, formData[key]);
@@ -154,7 +156,7 @@ const EncryptedServicesForm = ({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const hasFiles = formData.file?.length > 0;
+    const hasFiles = formData[fileKey]?.length > 0;
     if (!hasFiles) {
       toast.error("❌ Please upload at least one file.");
       return;
@@ -207,9 +209,9 @@ const EncryptedServicesForm = ({
                 Choose Files
               </button>
               <span className="ml-3 text-sm text-gray-500">
-                {formData.file?.length > 0
-                  ? `${formData.file.length} file${
-                      formData.file.length > 1 ? "s" : ""
+                {formData[fileKey]?.length > 0
+                  ? `${formData[fileKey].length} file${
+                      formData[fileKey].length > 1 ? "s" : ""
                     } selected`
                   : "No file selected"}
               </span>
@@ -225,7 +227,7 @@ const EncryptedServicesForm = ({
               <p className="text-sm text-red-600 mt-1">{sizeWarning}</p>
             )} */}
 
-            {formData.file?.map((f, i) => (
+            {formData[fileKey]?.map((f, i) => (
               <div
                 key={i}
                 className="flex justify-between items-center bg-gray-100 px-3 py-2 mt-2 rounded-md text-sm"
@@ -237,13 +239,13 @@ const EncryptedServicesForm = ({
                 <button
                   type="button"
                   onClick={() => {
-                    const updatedFiles = [...formData.file];
+                    const updatedFiles = [...formData[fileKey]];
                     updatedFiles.splice(i, 1);
                     const newSize = updatedFiles.reduce(
                       (acc, f) => acc + f.size,
                       0
                     );
-                    setFormData((prev) => ({ ...prev, file: updatedFiles }));
+                   setFormData((prev) => ({ ...prev, [fileKey]: updatedFiles }));
                     setTotalSize(newSize);
                     setSizeWarning(getPlanErrorMessage(newSize));
                     // if (!updatedFiles.length && fileInputRef.current) {
@@ -354,8 +356,8 @@ const EncryptedServicesForm = ({
               )}
 
               <p className="pt-2 font-semibold">Uploaded Files:</p>
-              <ul className="list-none grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3 mt-2">
-                {formData.file?.map((f, i) => {
+              {/* <ul className="list-none grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3 mt-2">
+                {formData[fileKey]?.map((f, i) => {
                   const previewUrl = URL.createObjectURL(f);
                   const fileType = f.type;
                   return (
@@ -388,7 +390,51 @@ const EncryptedServicesForm = ({
                     </li>
                   );
                 })}
-              </ul>
+              </ul> */}
+              <ul className="list-none grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3 mt-2">
+  {formData[fileKey]?.map((f, i) => {
+    const previewUrl = URL.createObjectURL(f);
+    const fileType = f.type;
+
+    const isImage = fileType.startsWith("image");
+    const isVideo = fileType.startsWith("video");
+
+    return (
+      <li key={i} className="relative group cursor-pointer">
+        {isImage || isVideo ? (
+          <a
+            href={previewUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block w-full h-24 border rounded-lg flex items-center justify-center bg-gray-100 overflow-hidden"
+          >
+            {isImage ? (
+              <img
+                src={previewUrl}
+                alt={f.name}
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <video src={previewUrl} className="h-full" controls />
+            )}
+          </a>
+        ) : (
+          <a
+            href={previewUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-300 underline text-sm"
+          >
+            📄 {f.name}
+          </a>
+        )}
+
+        <p className="text-xs text-center mt-1 truncate">{f.name}</p>
+      </li>
+    );
+  })}
+</ul>
+
             </div>
             <div className="flex justify-end flex-wrap gap-3 pt-4 text-md">
               <button
@@ -456,115 +502,8 @@ const EncryptedServicesForm = ({
         </div>
       )}
 
-      {/* {showUpgradeModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-          <div className="bg-white relative rounded-xl p-9 w-full max-w-xl shadow-xl border border-teal-200 animate-fade-in">
-            <button
-              onClick={() => setShowUpgradeModal(false)}
-              className="absolute top-2 right-3 text-xl pb-4 text-gray-600 hover:text-red-600"
-            >
-              ❌
-            </button>
 
-            <h2 className="text-2xl font-bold text-center text-red-600">
-              ⚠️ Storage Limit Exceeded
-            </h2>
 
-            <div className="my-6 space-y-3 text-gray-800 text-lg leading-relaxed">
-              <p>
-                Your uploaded files <b>exceed the allowed storage</b> for your
-                current plan:
-              </p>
-
-              <ul className="list-disc list-inside space-y-1 text-lg">
-                <li>
-                  <b>Current Plan:</b> {userPlan} (
-                  {formatBytes(planLimits[userPlan])})
-                </li>
-                <li>
-                  <b>Total Upload Size:</b> {formatBytes(totalSize)}
-                </li>
-              </ul>
-
-              {(() => {
-                const nextPlan = Object.entries(planLimits).find(
-                  ([_, limit]) => totalSize <= limit
-                );
-                if (nextPlan) {
-                  return (
-                    <p className="text-green-600 font-medium">
-                      You can upgrade to <b>{nextPlan[0]}</b> Plan which allows
-                      up to <b>{formatBytes(nextPlan[1])}</b>.
-                    </p>
-                    //                     <p className="text-green-600 font-medium">
-                    //   You can upgrade to <b>{nextPlan[0]}</b> Plan for{" "}
-                    //   <b>{planPrices[nextPlan[0]]}</b> which allows up to{" "}
-                    //   <b>{formatBytes(nextPlan[1])}</b>.
-                    // </p>
-                  );
-                } else {
-                  return (
-                    <p className="text-red-500">
-                      Even the highest plan (<b>Ultima</b>) cannot support this
-                      file size. Please reduce your upload size or contact
-                      support.
-                    </p>
-                  );
-                }
-              })()}
-            </div>
-
-            <Link
-              href="/prices"
-              target="_blank"
-              className="text-xl hover:text-mainGreen  text-fuchsia-600 font-bold underline"
-            >
-              💵 View Pricing Plans
-            </Link>
-
-            <div className="flex justify-end items-center my-6">
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setShowUpgradeModal(false)}
-                  className="px-4 py-1.5 text-lg border rounded-lg"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={() => {
-                    setShowUpgradeModal(false);
-                    setShowConfirm(true);
-                  }}
-                  className="px-4 py-1.5 bg-teal-600 text-white text-lg rounded-lg hover:bg-teal-700 transition"
-                >
-                  Continue Anyway
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )} */}
-
-      {/* {showUpgradeModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
-          <div className="bg-white rounded-xl p-8 w-full max-w-lg border shadow-lg">
-            <h2 className="text-2xl font-bold text-red-600 text-center">Upgrade Plan Suggestion</h2>
-            <p className="mt-4 text-gray-700 text-center">{sizeWarning}</p>
-            <div className="mt-6 flex justify-end gap-3">
-              <button onClick={() => setShowUpgradeModal(false)} className="px-4 py-2 border rounded-lg">Back</button>
-              <button
-                onClick={() => {
-                  setShowUpgradeModal(false);
-                  setShowConfirm(true);
-                }}
-                className="px-4 py-2 bg-teal-600 text-white rounded-lg"
-              >
-                Continue Upload
-              </button>
-            </div>
-          </div>
-        </div>
-      )} */}
     </>
   );
 };
@@ -634,7 +573,7 @@ export default EncryptedServicesForm;
 
 //     if (name === "file" && files.length) {
 //       const newFiles = Array.from(files);
-//       const updatedFiles = [...(formData.file || []), ...newFiles];
+//       const updatedFiles = [...(formData[fileKey] || []), ...newFiles];
 //       const updatedSize = updatedFiles.reduce((acc, f) => acc + f.size, 0);
 
 //       setTotalSize(updatedSize);
@@ -758,8 +697,8 @@ export default EncryptedServicesForm;
 //             )}
 
 //             {/* File List */}
-//             {Array.isArray(formData.file) &&
-//               formData.file.map((f, i) => (
+//             {Array.isArray(formData[fileKey]) &&
+//               formData[fileKey].map((f, i) => (
 //                 <div
 //                   key={i}
 //                   className="flex justify-between items-center bg-gray-100 px-3 py-2 mt-2 rounded-md text-sm"
@@ -771,7 +710,7 @@ export default EncryptedServicesForm;
 //                   <button
 //                     type="button"
 //                     onClick={() => {
-//                       const newFiles = [...formData.file];
+//                       const newFiles = [...formData[fileKey]];
 //                       newFiles.splice(i, 1);
 //                       const updatedSize = newFiles.reduce(
 //                         (acc, f) => acc + f.size,
@@ -853,8 +792,8 @@ export default EncryptedServicesForm;
 //               )}
 //               <p className="pt-2 font-semibold">Uploaded Files:</p>
 //               {/* <ul className="list-disc list-inside">
-//                 {Array.isArray(formData.file) &&
-//                   formData.file.map((f, i) => {
+//                 {Array.isArray(formData[fileKey]) &&
+//                   formData[fileKey].map((f, i) => {
 //                     const previewUrl = URL.createObjectURL(f);
 //                     return (
 //                       <li
@@ -870,8 +809,8 @@ export default EncryptedServicesForm;
 //                   })}
 //               </ul> */}
 //               <ul className="list-none grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3 mt-2">
-//   {Array.isArray(formData.file) &&
-//     formData.file.map((f, i) => {
+//   {Array.isArray(formData[fileKey]) &&
+//     formData[fileKey].map((f, i) => {
 //       const previewUrl = URL.createObjectURL(f);
 //       const isImage = f.type.startsWith("image");
 
