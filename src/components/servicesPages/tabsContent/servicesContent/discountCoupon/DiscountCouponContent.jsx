@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import { setDiscountServices } from '@/redux/slices/servicesSlice';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
-import { set } from 'mongoose';
+
 import useDesignContext from '@/components/hooks/useDesignContext';
 import { useParams } from 'next/navigation';
 import toast from 'react-hot-toast';
@@ -73,21 +73,20 @@ const DiscountCouponContent = () => {
   };
 
   const handleSubmit = () => {
-    const hasData =
-      discountCoupon.nameOfBusiness ||
-      discountCoupon.code ||
-      discountCoupon.password ||
-      discountCoupon.brandLogo ||
-      discountCoupon.couponImage;
+    const hasAnyInput =
+      !!discountCoupon.nameOfBusiness?.trim() ||
+      !!discountCoupon.code?.trim() ||
+      !!discountCoupon.password?.trim() ||
+      !!discountCoupon.brandLogo ||
+      !!discountCoupon.couponImage;
 
-    if (!hasData) {
+    if (!hasAnyInput) {
       toast.error('Please fill at least one field before submitting.');
       return;
     }
 
-    setShowPreview(true);
+    setShowPreview(true); // Show the preview popup
   };
-
 
   const handleConfirm = async () => {
     try {
@@ -113,11 +112,12 @@ const DiscountCouponContent = () => {
       });
 
       if (response && response.data && response.data.success) {
-        toast.success("discount coupon saves sucessfully");
-        setActiveTab(slug, "QR Code")
+        toast.success("Discount coupon saved successfully.");
+        setActiveTab(slug, "QR Code");
         dispatch(setDiscountServices(response.data.data));
         setShowPreview(false);
         setShowSuccessPopup(true);
+
         // ✅ Reset form fields
         updateDynamicForm('discountCoupon', null, 'nameOfBusiness', '');
         updateDynamicForm('discountCoupon', null, 'code', '');
@@ -125,19 +125,21 @@ const DiscountCouponContent = () => {
         updateDynamicForm('discountCoupon', null, 'brandLogo', null);
         updateDynamicForm('discountCoupon', null, 'couponImage', null);
 
-        // ✅ Clear input file references
+        // ✅ Clear file input values
         if (brandLogoInputRef.current) brandLogoInputRef.current.value = '';
         if (couponImageInputRef.current) couponImageInputRef.current.value = '';
+
         setTimeout(() => setShowSuccessPopup(false), 1000);
       } else {
         console.warn('Unexpected response:', response);
-        toast(response?.data?.message || 'Failed to save coupon');
+        toast.error(response?.data?.message || 'Failed to save coupon.');
       }
     } catch (error) {
-
-      toast('fill at least one feild.');
+      console.error('Error submitting coupon:', error);
+      toast.error('Something went wrong while saving. Please try again.');
     }
   };
+
 
   return (
     <div className="space-y-8 p-4 md:p-8 lg:p-12 bg-gray-50 rounded-xl shadow-lg">
@@ -256,28 +258,65 @@ const DiscountCouponContent = () => {
         <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex justify-center items-center z-50 overflow-y-auto px-4">
           <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg space-y-4">
             <h2 className="text-xl font-semibold text-gray-800">Preview Coupon</h2>
+
+            {/* Conditionally rendered filled fields */}
             <div className="space-y-2 text-sm text-gray-700">
-              <p><strong>Name of Business:</strong> {discountCoupon.nameOfBusiness || ''}</p>
-              <p><strong>Coupon Code:</strong> {discountCoupon.code || ''}</p>
-              <p><strong>Password:</strong> {discountCoupon.password ? '••••••' : ''}</p>
+              {discountCoupon.nameOfBusiness && (
+                <p><strong>Name of Business:</strong> {discountCoupon.nameOfBusiness}</p>
+              )}
+
+              {discountCoupon.code && (
+                <p><strong>Coupon Code:</strong> {discountCoupon.code}</p>
+              )}
+
+              {discountCoupon.password && (
+                <p><strong>Password:</strong> ••••••</p>
+              )}
+
               {discountCoupon.brandLogo && (
                 <div>
                   <p className="font-semibold mt-2">Brand Logo:</p>
-                  <img src={getPreviewUrl(discountCoupon.brandLogo)} alt="Brand Logo" className="w-32 max-h-32 rounded border shadow" />
+                  <img
+                    src={getPreviewUrl(discountCoupon.brandLogo)}
+                    alt="Brand Logo"
+                    className="w-32 max-h-32 rounded border shadow"
+                  />
                 </div>
               )}
+
               {discountCoupon.couponImage && (
                 <div>
                   <p className="font-semibold mt-2">Coupon Image:</p>
-                  <img src={getPreviewUrl(discountCoupon.couponImage)} alt="Coupon" className="w-32 max-h-32 rounded border shadow" />
+                  <img
+                    src={getPreviewUrl(discountCoupon.couponImage)}
+                    alt="Coupon"
+                    className="w-32 max-h-32 rounded border shadow"
+                  />
                 </div>
               )}
+
+              {/* No fields filled */}
+              {!discountCoupon.nameOfBusiness &&
+                !discountCoupon.code &&
+                !discountCoupon.password &&
+                !discountCoupon.brandLogo &&
+                !discountCoupon.couponImage && (
+                  <p className="text-gray-500 italic">No fields filled to preview.</p>
+                )}
             </div>
+
+            {/* Buttons */}
             <div className="flex justify-end gap-4 mt-6">
-              <button className="px-4 py-2 border border-gray-300 rounded-md text-gray-600 hover:bg-gray-100" onClick={() => setShowPreview(false)}>
+              <button
+                className="px-4 py-2 border border-gray-300 rounded-md text-gray-600 hover:bg-gray-100"
+                onClick={() => setShowPreview(false)}
+              >
                 Edit
               </button>
-              <button className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700" onClick={handleConfirm}>
+              <button
+                className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700"
+                onClick={handleConfirm}
+              >
                 Confirm
               </button>
             </div>
