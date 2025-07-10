@@ -365,6 +365,7 @@ const PetTagContent = () => {
                 ))}
               </div>
             </div>
+              
             <div className="relative w-full">
               <input
                 type={showPassword ? "text" : "password"}
@@ -386,9 +387,8 @@ const PetTagContent = () => {
                 )}
               </button>
             </div>
-
+          
             <NFCModal />
-
             <button
               type="submit"
               disabled={submitting}

@@ -10,6 +10,8 @@ import { setVehicleServices } from "@/redux/slices/servicesSlice";
 import { useDispatch } from "react-redux";
 import { useParams } from "next/navigation";
 import useDesignContext from "@/components/hooks/useDesignContext";
+import { MdCancel } from "react-icons/md";
+
 
 const VehicleContent = () => {
   const { dynamicForms, updateDynamicForm } = useServicesContext();
@@ -17,7 +19,7 @@ const VehicleContent = () => {
   const vehicleTemplate = dynamicForms.vehicleTemplate;
   const dispatch = useDispatch();
   const { slug } = useParams();
-
+  
   const fileInputRefs = useRef({
     vehicleImage: null,
     licenseFront: null,
@@ -41,20 +43,22 @@ const VehicleContent = () => {
   // Validate form fields
   const validateForm = () => {
     const newErrors = {};
-
+    
     // Required fields validation
     if (!vehicleInfo.media.vehicleImage) {
       newErrors.vehicleImage = 'Vehicle image is required';
     }
 
+    
+    
     if (!vehicleInfo.registration.rcNumber?.trim()) {
       newErrors.rcNumber = 'RC number is required';
     }
-
-    if (vehicleInfo.contact.contact?.trim() && !/^\d{10}$/.test(vehicleInfo.contact.contact)) {
+    
+    if (vehicleInfo.contact.contact?.trim() && !/^\d{10,15}$/.test(vehicleInfo.contact.contact)) {
       newErrors.contact = 'Invalid contact number';
     }
-    if (vehicleInfo.contact.altContact?.trim() && !/^\d{10}$/.test(vehicleInfo.contact.altContact)) {
+    if (vehicleInfo.contact.altContact?.trim() && !/^\d{10,15}$/.test(vehicleInfo.contact.altContact)) {
       newErrors.altContact = 'Invalid alternate contact number';
     }
 
@@ -74,12 +78,12 @@ const VehicleContent = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    
     if (!validateForm()) {
       toast.error("Please fix the errors in the form");
       return;
     }
-
+    
     setShowConfirmation(true);
   };
 
@@ -87,10 +91,10 @@ const VehicleContent = () => {
   const confirmSubmission = async () => {
     setShowConfirmation(false);
     setIsSubmitting(true);
-
+    
     try {
       const formData = new FormData();
-
+      
       // Add all text fields
       formData.append('selectedTemplate', vehicleTemplate.selectedTemplate || '');
       formData.append('vehicleModel', vehicleInfo.general.vehicleModel || '');
@@ -149,15 +153,15 @@ const VehicleContent = () => {
       dispatch(setVehicleServices(response.data));
       toast.success('Vehicle details saved successfully!');
       setActiveTab(slug, "QR Code");
-
+      
       // Reset form after successful submission
       resetForm();
 
     } catch (error) {
       console.error('Error submitting vehicle:', error);
-      const errorMessage = error.response?.data?.error ||
-        error.response?.data?.message ||
-        'Failed to save vehicle details';
+      const errorMessage = error.response?.data?.error || 
+                         error.response?.data?.message || 
+                         'Failed to save vehicle details';
       toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
@@ -172,12 +176,12 @@ const VehicleContent = () => {
         fileInputRefs.current[key].value = "";
       }
     });
-
+    
     updateDynamicForm('vehicle', null, null, {
       general: {
         vehicleModel: '',
         vehicleType: '',
-        vehicleNumber: '',
+        vehicleNumber:'',
         description: ''
       },
       registration: {
@@ -229,10 +233,10 @@ const VehicleContent = () => {
       if (!validateFileSize(file)) return false;
       return true;
     });
-
+    
     const currentFiles = vehicleInfo[section][field] || [];
     const combinedFiles = [...currentFiles, ...newFiles];
-
+    
     handleChange("vehicle", section, field, combinedFiles);
   };
 
@@ -314,8 +318,9 @@ const VehicleContent = () => {
               type="file"
               accept={accept}
               ref={el => fileInputRefs.current[field] = el}
-              className={`w-full text-gray-700 file:mr-4 file:py-2 sm:file:py-3 file:px-4 sm:file:px-6 file:rounded-full file:border-0 file:text-xs sm:file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border ${error ? 'border-red-500' : 'border-gray-300'
-                } rounded-lg py-2 truncate`}
+              className={`w-full text-gray-700 file:mr-4 file:py-2 sm:file:py-3 file:px-4 sm:file:px-6 file:rounded-full file:border-0 file:text-xs sm:file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border ${
+                error ? 'border-red-500' : 'border-gray-300'
+              } rounded-lg py-2 truncate`}
               onChange={(e) => handleFileChange(section, field, e.target.files)}
             />
           </div>
@@ -408,15 +413,16 @@ const VehicleContent = () => {
                 {['templateV1', 'templateV2', 'templateV3', 'templateV4'].map((template) => (
                   <div
                     key={template}
-                    className={`relative cursor-pointer rounded-lg overflow-hidden border-2 ${vehicleTemplate.selectedTemplate === template
+                    className={`relative cursor-pointer rounded-lg overflow-hidden border-2 ${
+                      vehicleTemplate.selectedTemplate === template
                         ? "border-teal-500 ring-2 ring-teal-300"
                         : "border-gray-300 hover:border-gray-400"
-                      } transition-all duration-200 shadow-sm hover:shadow-md`}
+                    } transition-all duration-200 shadow-sm hover:shadow-md`}
                     onClick={() => handleTemplateSelect(template)}
                   >
                     {template === 'none' ? (
                       <div className="w-full h-auto object-cover flex items-center justify-center bg-gray-100 py-6">
-                        <span className="text-gray-500 text-sm font-semibold">Manual Input</span>
+                        {/* <span className="text-gray-500 text-sm font-semibold">Manual Input</span> */}
                       </div>
                     ) : (
                       <img
@@ -438,13 +444,14 @@ const VehicleContent = () => {
             </h3>
             <div className="space-y-4 sm:space-y-5">
               {renderFileInput("media", "vehicleImage", "Vehicle Image", "image/*", true)}
-
+              
               <div>
                 <input
                   type="text"
                   placeholder="Vehicle Name *"
-                  className={`w-full px-4 sm:px-5 py-2 sm:py-3 border ${errors.vehicleModel ? 'border-red-500' : 'border-gray-300'
-                    } rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200`}
+                  className={`w-full px-4 sm:px-5 py-2 sm:py-3 border ${
+                    errors.vehicleModel ? 'border-red-500' : 'border-gray-300'
+                  } rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200`}
                   value={vehicleInfo.general.vehicleModel || ""}
                   onChange={(e) =>
                     handleChange("vehicle", "general", "vehicleModel", e.target.value)
@@ -497,8 +504,9 @@ const VehicleContent = () => {
                 <input
                   type="text"
                   placeholder="RC Number *"
-                  className={`w-full px-4 sm:px-5 py-2 sm:py-3 border ${errors.rcNumber ? 'border-red-500' : 'border-gray-300'
-                    } rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200`}
+                  className={`w-full px-4 sm:px-5 py-2 sm:py-3 border ${
+                    errors.rcNumber ? 'border-red-500' : 'border-gray-300'
+                  } rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200`}
                   value={vehicleInfo.registration.rcNumber || ""}
                   onChange={(e) =>
                     handleChange("vehicle", "registration", "rcNumber", e.target.value)
@@ -523,8 +531,9 @@ const VehicleContent = () => {
                 <input
                   type="text"
                   placeholder="Driver Contact Number"
-                  className={`w-full px-4 sm:px-5 py-2 sm:py-3 border ${errors.contact ? 'border-red-500' : 'border-gray-300'
-                    } rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200`}
+                  className={`w-full px-4 sm:px-5 py-2 sm:py-3 border ${
+                    errors.contact ? 'border-red-500' : 'border-gray-300'
+                  } rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200`}
                   value={vehicleInfo.contact.contact || ""}
                   onChange={(e) =>
                     handleChange("vehicle", "contact", "contact", e.target.value)
@@ -549,8 +558,9 @@ const VehicleContent = () => {
                 <input
                   type="text"
                   placeholder="Owner Contact Number"
-                  className={`w-full px-4 sm:px-5 py-2 sm:py-3 border ${errors.altContact ? 'border-red-500' : 'border-gray-300'
-                    } rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200`}
+                  className={`w-full px-4 sm:px-5 py-2 sm:py-3 border ${
+                    errors.altContact ? 'border-red-500' : 'border-gray-300'
+                  } rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200`}
                   value={vehicleInfo.contact.altContact || ""}
                   onChange={(e) =>
                     handleChange("vehicle", "contact", "altContact", e.target.value)
@@ -560,7 +570,7 @@ const VehicleContent = () => {
                   <p className="text-red-500 text-sm mt-1">{errors.altContact}</p>
                 )}
               </div>
-            </div>
+            </div>  
           </div>
 
           {/* Location Information */}
@@ -601,7 +611,7 @@ const VehicleContent = () => {
               {renderFileInput("media", "rcBack", "RC Back Image", "image/*")}
               {renderFileInput("media", "pollution", "Pollution Image", "image/*")}
 
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <label className="block text-base font-medium text-gray-700">
                   Vehicle Gallery Images (Multiple)
                 </label>
@@ -640,8 +650,8 @@ const VehicleContent = () => {
                     ))}
                   </div>
                 )}
-              </div>
-              <div className="space-y-2">
+              </div> */}
+              {/* <div className="space-y-2">
                 <label className="block text-base font-medium text-gray-700">
                   Insurance (Multiple)
                 </label>
@@ -680,7 +690,225 @@ const VehicleContent = () => {
                     ))}
                   </div>
                 )}
+              </div> */}
+
+              {/* Media Section */}
+        <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
+          <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200">
+            Media
+          </h3>
+
+          <div className="space-y-6">
+            {/* Gallery Images */}
+            {/* Gallery Images Upload */}
+            <div className="space-y-2 mt-6 ">
+
+              <div className="flex items-center justify-start gap-6 pb-4">
+                <label className="block text-base  font-medium text-gray-700">
+                  Gallery Images
+                  {/* <input
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      // className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
+                      onChange={(e) =>
+                        handleFileChange("media", "galleryImages", e.target.files, true)
+                      }
+                    /> */}
+                </label>
+
+                {/* Upload Count Display */}
+                <p className="text-sm text-gray-600">
+                  {vehicleInfo.media.galleryImages?.length > 0
+                    ? `${vehicleInfo.media.galleryImages.length} file(s) selected`
+                    : "No files chosen"}
+                </p>
               </div>
+
+
+              <label className="bg-teal-700  text-white px-4 py-2  rounded cursor-pointer">
+                Choose Files
+                <input
+                  type="file"
+                  multiple
+                  onChange={(e) =>
+                    handleGalleryFileChange("media", "galleryImages", e.target.files, true)
+                  }
+                  className="hidden"
+                />
+              </label>
+
+
+
+
+              {/* Display Selected Images */}
+
+              <div className="flex flex-wrap gap-4 mt-6">
+                {Array.isArray(vehicleInfo.media.galleryImages) &&
+                  vehicleInfo.media.galleryImages.map((file, index) => (
+                    <div key={index} className="relative">
+                      <img
+                        src={
+                          typeof file === "string" ? file : URL.createObjectURL(file)
+                        }
+                        alt={`Gallery ${index}`}
+                        className="h-20 w-20 object-cover rounded-lg"
+                      />
+                      <button
+                        onClick={() => handleRemoveGalleryImage("media", "galleryImages", index)}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white cursor-pointer rounded-full p-1 hover:bg-red-600"
+                      >
+                        <MdCancel />
+                      </button>
+                    </div>
+                  ))}
+              </div>
+            </div>
+
+            {/* <div className="space-y-2">
+              <label className="block text-base font-medium text-gray-700">
+                Gallery Images
+              </label>  
+
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
+                onChange={(e) => handleFileChange("media", "galleryImages", e.target.files, true)}
+              />
+                            {businessInfo.media.galleryImages?.length > 0 && (
+                <div className="grid grid-cols-3 gap-2 mb-4">
+                  {businessInfo.media.galleryImages.map((image, index) => (
+                    <div key={index} className="relative">
+                      <img
+                        src={typeof image === 'string' ? image : URL.createObjectURL(image)}
+                        alt={`Gallery ${index + 1}`}
+                        className="h-24 w-full object-cover rounded-lg"
+                      />
+                      <button
+                        onClick={() => removeImage("media", "galleryImages", index)}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                        aria-label={`Remove image ${index + 1}`}
+                      >
+                        <MdCancel />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div> */}
+          </div>
+        </div>
+
+        {/* Media Section */}
+        <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
+          <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200">
+            Media
+          </h3>
+
+          <div className="space-y-6">
+            {/* Gallery Images */}
+            {/* Gallery Images Upload */}
+            <div className="space-y-2 mt-6 ">
+
+              <div className="flex items-center justify-start gap-6 pb-4">
+                <label className="block text-base  font-medium text-gray-700">
+                  Insurance
+                  {/* <input
+    type="file"
+    accept="image/*"
+    multiple
+    // className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
+    onChange={(e) =>
+      handleFileChange("media", "galleryImages", e.target.files, true)
+    }
+  /> */}
+                </label>
+
+                {/* Upload Count Display */}
+                <p className="text-sm text-gray-600">
+                  {vehicleInfo.media.insurance?.length > 0
+                    ? `${vehicleInfo.media.insurance.length} file(s) selected`
+                    : "No files chosen"}
+                </p>
+              </div>
+
+
+              <label className="bg-teal-700  text-white px-4 py-2  rounded cursor-pointer">
+                Choose Files
+                <input
+                  type="file"
+                  multiple
+                  onChange={(e) =>
+                    handleGalleryFileChange("media", "insurance", e.target.files, true)
+                  }
+                  className="hidden"
+                />
+              </label>
+
+
+
+
+              {/* Display Selected Images */}
+
+              <div className="flex flex-wrap gap-4 mt-6">
+                {Array.isArray(vehicleInfo.media.insurance) &&
+                  vehicleInfo.media.insurance.map((file, index) => (
+                    <div key={index} className="relative">
+                      <img
+                        src={
+                          typeof file === "string" ? file : URL.createObjectURL(file)
+                        }
+                        alt={`Gallery ${index}`}
+                        className="h-20 w-20 object-cover rounded-lg"
+                      />
+                      <button
+                        onClick={() => handleRemoveGalleryImage("media", "insurance", index)}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white cursor-pointer rounded-full p-1 hover:bg-red-600"
+                      >
+                        <MdCancel />
+                      </button>
+                    </div>
+                  ))}
+              </div>
+            </div>
+
+            {/* <div className="space-y-2">
+              <label className="block text-base font-medium text-gray-700">
+                Gallery Images
+              </label>  
+
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
+                onChange={(e) => handleFileChange("media", "galleryImages", e.target.files, true)}
+              />
+                            {businessInfo.media.galleryImages?.length > 0 && (
+                <div className="grid grid-cols-3 gap-2 mb-4">
+                  {businessInfo.media.galleryImages.map((image, index) => (
+                    <div key={index} className="relative">
+                      <img
+                        src={typeof image === 'string' ? image : URL.createObjectURL(image)}
+                        alt={`Gallery ${index + 1}`}
+                        className="h-24 w-full object-cover rounded-lg"
+                      />
+                      <button
+                        onClick={() => removeImage("media", "galleryImages", index)}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                        aria-label={`Remove image ${index + 1}`}
+                      >
+                        <MdCancel />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div> */}
+          </div>
+        </div>
             </div>
           </div>
 
@@ -693,8 +921,9 @@ const VehicleContent = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Password *"
-                className={`w-full px-4 sm:px-5 py-2 sm:py-3 border ${errors.password ? 'border-red-500' : 'border-gray-300'
-                  } rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 pr-12 transition-all duration-200`}
+                className={`w-full px-4 sm:px-5 py-2 sm:py-3 border ${
+                  errors.password ? 'border-red-500' : 'border-gray-300'
+                } rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 pr-12 transition-all duration-200`}
                 value={vehicleInfo.security.password || ""}
                 onChange={(e) =>
                   handleChange("vehicle", "security", "password", e.target.value)
@@ -716,15 +945,16 @@ const VehicleContent = () => {
 
           {/* NFC Section */}
           <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
-            <NFCModal />
+            <NFCModal/>
           </div>
         </div>
 
-        <button
+        <button 
           type="submit"
           disabled={isSubmitting}
-          className={`w-full py-3 cursor-pointer bg-[#008080] text-white font-semibold rounded-lg hover:bg-[#006666] transition-all duration-200 mt-6 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
-            }`}
+          className={`w-full py-3 cursor-pointer bg-[#008080] text-white font-semibold rounded-lg hover:bg-[#006666] transition-all duration-200 mt-6 ${
+            isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+          }`}
         >
           {isSubmitting ? 'Submitting...' : 'Submit Vehicle Details'}
         </button>
