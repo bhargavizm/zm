@@ -204,6 +204,8 @@
 
 // export default MedicalAlertContent;
 
+
+
 "use client";
 
 import React, { useState } from "react";
@@ -463,7 +465,7 @@ const MedicalAlertContent = () => {
         const data = await response.json();
         const fullAddress = data.display_name || "Address not found";
 
-        handleChange("additional", "location", fullAddress);
+        handleChange("emergencyContact", "location", fullAddress);
       } catch (err) {
         console.error("Error fetching location:", err.message);
         toast.error("Failed to fetch location. Please check permissions.");
