@@ -168,7 +168,7 @@ const ProductTemplateOne = ({ items, productData, productLogo, productImage, bgD
               <img
                 src={currentItem.image}
                 alt={`Product ${currentSlide + 1}`}
-                className="w-full h-48 object-cover rounded-md border border-gray-100"
+                className="w-full h-48 object-fit rounded-md border border-gray-100"
               />
             )}
             {/* Product Heading */}
