@@ -423,6 +423,7 @@ const KidsSafetyContent = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const { setActiveTab } = useDesignContext();
   const { slug } = useParams();
+  console.log(kidsSafety, dynamicForms);  
   // Validation patterns
   const phoneRegex = /^\+?[0-9]{10,15}$/;
   const mapLinkRegex = /^https:\/\/(www\.)?(google\.[a-z.]+\/maps|maps\.google\.[a-z.]+)\//;
@@ -729,6 +730,23 @@ const KidsSafetyContent = () => {
 
       setShowSuccessModal(true);
       setActiveTab(slug, "QR Code");
+      dynamicForms.kidsSafety = {
+          childName: "",
+      dob: "",
+      classGrade: "",
+      schoolName: "",
+      schoolAddress: "",
+      parentName: "",
+      contact: "",
+      contact2: "",
+      schoolContact: "",
+      altContact: [],
+      homeAddress: "",
+      mapLink: "",
+      password: "",
+      selectedTemplate: "",
+      kidsImage: null,
+      };
 
       router.refresh();
     } catch (error) {

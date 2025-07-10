@@ -27,6 +27,18 @@ const TextMessageContent = () => {
 
   const handleInitialSubmit = (e) => {
     e.preventDefault();
+     const { sender, message, password } = textMessageForm;
+
+  const isEmpty =
+    !sender.trim() &&
+    !message.trim() &&
+    !password.trim();
+
+  if (isEmpty) {
+    toast.error(" Enter at least one field before submitting");
+    return;
+  }
+
     setShowConfirmModal(true);
   };
 

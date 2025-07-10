@@ -243,7 +243,7 @@ const EventPreview = () => {
           />
         )}
 
-        {/* ⏳ Loader */}
+        {/* Loader */}
         {isLoading && (
           <div className="absolute inset-0 z-50 bg-mainGreen backdrop-blur-sm flex justify-center items-center">
             <Image
@@ -260,7 +260,20 @@ const EventPreview = () => {
         <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-24 h-6 bg-gray-800 rounded-b-xl z-10" />
 
         {/* Scrollable Content */}
-        <div className="relative z-20 bg-white/70 m-2 rounded-xl  overflow-y-auto px-4 pt-8 pb-6 hide-scrollbar text-sm">
+        <div
+          className="relative z-20 bg-white/70 m-2 rounded-xl px-4 pt-8 pb-6 text-sm overflow-y-auto"
+          style={{
+            height: "calc(100% - 1rem)",
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+          }}
+        >
+          <style jsx>{`
+            div::-webkit-scrollbar {
+              display: none;
+            }
+          `}</style>
+
           {hasBasicInfo ||
           hasSchedule ||
           hasLocation ||
@@ -352,30 +365,6 @@ const EventPreview = () => {
                     </p>
                   )}
                 </div>
-              )}
-
-              {eventsFormData.buttonLink && (
-                <a
-                  href={`https://${eventsFormData.buttonLink}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <button className="w-full bg-[#008080] text-white py-3 rounded-lg font-medium hover:bg-[#1c3333] transition-colors cursor-pointer">
-                    {eventsFormData.buttonLabel || "Get Tickets"}
-                  </button>
-                </a>
-              )}
-
-              {eventsFormData.webUrl && (
-                <a
-                  href={`https://${eventsFormData.webUrl}`}
-                  className="flex items-center justify-center text-[#008080] hover:text-[#1c3333] mt-3"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <FiGlobe className="mr-2" />
-                  {eventsFormData.webLabel || "Website"}
-                </a>
               )}
             </div>
           ) : (

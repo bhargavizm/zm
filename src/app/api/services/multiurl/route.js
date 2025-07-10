@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import MultiUrlModal from "@/models/services/multiUrlSchema";
 import { connectDB } from "@/lib/mongoDB";
+import { authUser } from "@/middlewares/authMiddleware";
 
 // URL validation regex
 const isValidUrl = (url) => {
@@ -13,7 +14,16 @@ const isValidUrl = (url) => {
 };
 
 export async function POST(req) {
-  
+    const auth = await authUser(req);
+          
+          if (auth.status !== 200) {
+            return new Response(JSON.stringify(auth.json), {
+              status: auth.status,
+              headers: { "Content-Type": "application/json" },
+            });
+          }
+          
+          const user = auth.user; 
   await connectDB();
 
   try {
@@ -50,6 +60,10 @@ export async function POST(req) {
     }
 
     const newMultiUrl = new MultiUrlModal({
+       user: {
+        id: user._id,
+        name: user.name,
+      },
       socialLinks,
       customLinks,
       password,
