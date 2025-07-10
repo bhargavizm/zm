@@ -12,22 +12,23 @@ import useDesignContext from "@/components/hooks/useDesignContext";
 const CustomPrevArrow = ({ onClick }) => (
   <button
     onClick={onClick}
-    className="absolute left-1 top-1/2 z-30 transform -translate-y-1/2 bg-white text-black w-6 h-6 rounded-full shadow flex items-center justify-center text-xl"
+    className="absolute left-1 top-1/2 z-30 -translate-y-1/2 bg-white text-mainGreen w-8 h-8 rounded-full shadow flex items-center justify-center cursor-pointer"
     aria-label="Previous"
   >
-    ‹
+    <span className="text-4xl leading-[1]">‹</span>
   </button>
 );
 
 const CustomNextArrow = ({ onClick }) => (
   <button
     onClick={onClick}
-    className="absolute right-1 top-1/2 z-30 transform -translate-y-1/2 bg-white text-black w-6 h-6 rounded-full shadow flex items-center justify-center text-xl"
+    className="absolute right-1 top-1/2 z-30 -translate-y-1/2 bg-white text-mainGreen w-8 h-8 rounded-full shadow flex items-center justify-center cursor-pointer"
     aria-label="Next"
   >
-    ›
+    <span className="text-4xl leading-[1]">›</span>
   </button>
 );
+
 
 const MenuBookPreview = () => {
   const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
@@ -59,8 +60,8 @@ const MenuBookPreview = () => {
   };
 
   return (
-    <section className="flex justify-center items-start p-4 md:p-8">
-      <div className="relative w-[320px] sm:w-[350px] h-[600px] sm:h-[650px] border-[10px] sm:border-[12px] border-gray-900 rounded-[36px] sm:rounded-[40px] shadow-xl overflow-hidden bg-white">
+    <section className="flex justify-center items-start ">
+      <div className="relative w-[350px] h-[650px] rounded-[40px] border-[14px] sm:border-[12px] border-gray-900 sm:rounded-[40px] shadow-xl overflow-hidden bg-white">
         {/* Background */}
         {isImage ? (
           <img
@@ -102,24 +103,24 @@ const MenuBookPreview = () => {
         )}
 
         {/* Foreground Content */}
-        <div className="absolute inset-0 p-4 z-20 bg-white/70 m-2 text-black overflow-y-auto scrollbar-hidden space-y-4 rounded-[28px]">
+        <div className="absolute inset-0 p-4 z-20 bg-white/70 m-2 pt-12 text-black overflow-y-auto scrollbar-hidden space-y-4 rounded-[28px]">
           {/* Restaurant Name */}
           {menuBookFormData.restaurantName && (
-            <h2 className="text-xl font-bold text-center text-[#004d4d]">
+            <h2 className="text-xl pb-6 font-bold text-center text-[#004d4d]">
               {menuBookFormData.restaurantName}
             </h2>
           )}
 
           {/* Menu Slider */}
           {isMounted && menuBookFormData.menuItems?.length > 0 && (
-            <div className="relative min-h-[200px]">
+            <div className="relative min-h-[220px]">
               <Slider {...sliderSettings}>
                 {menuBookFormData.menuItems.map((item, idx) => (
                   <div key={idx} className="px-4">
                     <img
                       src={item.image || "/fallback-image.webp"}
                       alt={`Menu ${idx}`}
-                      className="w-full h-44 object-cover rounded-md border border-gray-300 shadow"
+                      className="w-full h-52 object-cover rounded-md border border-gray-300 shadow"
                     />
                   </div>
                 ))}

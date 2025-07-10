@@ -1,6 +1,7 @@
 import { connectDB } from "@/lib/mongoDB";
 import { authUser } from "@/middlewares/authMiddleware";
 import TextMessageModal from "@/models/services/textMessage";
+import bcrypt from "bcryptjs"; // ✅ Import bcryptjs
 
 export async function POST(request) {
   try {
@@ -17,7 +18,7 @@ export async function POST(request) {
 
     await connectDB();
 
-    // ✅ Accept raw JSON
+    // ✅ Step 2: Accept raw JSON
     let body;
     try {
       body = await request.json();
@@ -33,8 +34,8 @@ export async function POST(request) {
 
     const { sender, message, password } = body;
 
-    // ✅ Optional: Validate required fields
-    if (!message ) {
+    // ✅ Step 3: Validate required fields
+    if (!message) {
       return new Response(
         JSON.stringify({ success: false, error: "Missing required fields" }),
         {
@@ -44,6 +45,14 @@ export async function POST(request) {
       );
     }
 
+    // ✅ Step 4: Hash the password (if provided)
+    let hashedPassword = null;
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      hashedPassword = await bcrypt.hash(password, salt);
+    }
+
+    // ✅ Step 5: Save to DB
     const newMessage = new TextMessageModal({
       user: {
         id: user._id,
@@ -51,7 +60,7 @@ export async function POST(request) {
       },
       sender,
       message,
-      password,
+      password: hashedPassword, // Store hashed password
     });
 
     await newMessage.save();
@@ -74,3 +83,4 @@ export async function POST(request) {
     );
   }
 }
+

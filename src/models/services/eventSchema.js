@@ -17,6 +17,7 @@ const eventSchema = new mongoose.Schema({
   contactName: { type: String },
   contactEmail: { type: String },
   contactPhone: { type: String },
+  password:{type:String},
 }, {
   timestamps: true, // optional: adds createdAt and updatedAt fields
 });
