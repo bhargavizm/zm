@@ -8,23 +8,29 @@ import { NextResponse } from 'next/server';
 export async function POST(req) {
   try {
     const auth = await authUser(req);
-        
-        if (auth.status !== 200) {
-          return new Response(JSON.stringify(auth.json), {
-            status: auth.status,
-            headers: { "Content-Type": "application/json" },
-          });
-        }
-        
-        const user = auth.user; 
+
+    if (auth.status !== 200) {
+      return new Response(JSON.stringify(auth.json), {
+        status: auth.status,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    const user = auth.user;
     await connectDB();
     const body = await req.json();
     const { nameOfBusiness, code, brandLogo, couponImage, password } = body;
 
-    if (!nameOfBusiness || !code) {
+    if (
+      !nameOfBusiness?.trim() &&
+      !code?.trim() &&
+      !password?.trim() &&
+      !brandLogo &&
+      !couponImage
+    ) {
       return NextResponse.json({
         success: false,
-        message: 'Missing required fields: nameOfBusiness, code',
+        message: 'Please fill at least one field or upload an image.',
       }, { status: 400 });
     }
 
@@ -64,7 +70,7 @@ export async function POST(req) {
     console.error('Error saving coupon:', err);
     return NextResponse.json({
       success: false,
-      message: 'Server error',
+      message: err,
     }, { status: 500 });
   }
 }
