@@ -307,6 +307,7 @@ import { MapPin } from "lucide-react";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import { useParams } from "next/navigation";
 import { useDispatch } from "react-redux";
+import { setBusinessCardServices } from "@/redux/slices/servicesSlice";
 
 // New ConfirmationModal component
 const ConfirmationModal = ({ show, onClose, onConfirm }) => {
@@ -339,9 +340,9 @@ const ConfirmationModal = ({ show, onClose, onConfirm }) => {
 const BusinessContent = () => {
   const { businessForm, setBusinessForm, profileImage, setProfileImage } =
     useServicesContext();
-    const dispatch = useDispatch();
-    const { setActiveTab } = useDesignContext();
-    const { slug } = useParams();
+  const dispatch = useDispatch();
+  const { setActiveTab } = useDesignContext();
+  const { slug } = useParams();
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false); // New state for confirmation modal
@@ -409,9 +410,42 @@ const BusinessContent = () => {
 
   // This function is now responsible for opening the confirmation modal
   const handlePreSubmit = (e) => {
-    e.preventDefault(); // Prevent default form submission initially
-    setShowConfirmModal(true); // Open the confirmation modal
+    e.preventDefault();
+
+    // ✅ 1. Ensure at least one field is filled (non-empty string)
+    const isAnyFieldFilled = Object.values(businessForm).some(
+      (value) => typeof value === "string" && value.trim() !== ""
+    );
+
+    if (!isAnyFieldFilled) {
+      toast.error("Please fill in at least one field before submitting.");
+      return;
+    }
+
+    // ✅ 2. Validate mobile *only if filled*
+    // ✅ 2. Validate mobile *only if filled*
+    if (businessForm.mobile?.trim()) {
+      const phoneRegex = /^\d{10,15}$/;
+      if (!phoneRegex.test(businessForm.mobile)) {
+        toast.error("Phone number must be 10 to 15 digits");
+        return;
+      }
+    }
+
+
+    // ✅ 3. Validate email *only if filled*
+    if (businessForm.email?.trim()) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(businessForm.email)) {
+        toast.error("Please enter a valid email address");
+        return;
+      }
+    }
+
+    // ✅ 4. Open confirmation modal if all validations pass
+    setShowConfirmModal(true);
   };
+
 
   // This function is called when the user confirms in the modal
   const handleConfirmSubmit = async () => {
@@ -439,7 +473,7 @@ const BusinessContent = () => {
         setProfileImage(null);
         dispatch(setBusinessCardServices(res.data));
         setActiveTab(slug, "QR Code");
-        
+
         if (fileInputRef.current) fileInputRef.current.value = "";
       } else {
         toast.error(data.message || "Something went wrong!");
@@ -464,11 +498,10 @@ const BusinessContent = () => {
                 {templateImages.map((filename, idx) => (
                   <div
                     key={idx}
-                    className={`rounded-md p-2 cursor-pointer transition hover:shadow-lg ${
-                      businessForm.selectedTemplate === filename
-                        ? "border-2 border-[#008080]"
-                        : "border border-gray-300"
-                    }`}
+                    className={`rounded-md p-2 cursor-pointer transition hover:shadow-lg ${businessForm.selectedTemplate === filename
+                      ? "border-2 border-[#008080]"
+                      : "border border-gray-300"
+                      }`}
                     onClick={() =>
                       setBusinessForm({
                         ...businessForm,
