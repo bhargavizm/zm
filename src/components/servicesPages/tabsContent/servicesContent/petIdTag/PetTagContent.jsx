@@ -340,6 +340,7 @@ const handlePreviewSubmit = (e) => {
                 ))}
               </div>
             </div>
+              
             <div className="relative w-full">
               <input
                 type={showPassword ? "text" : "password"}
@@ -361,9 +362,8 @@ const handlePreviewSubmit = (e) => {
                 )}
               </button>
             </div>
-
+          
             <NFCModal />
-
             <button
               type="submit"
               disabled={submitting}
