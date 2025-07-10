@@ -124,9 +124,6 @@ async function handleFileUploads(fields) {
 function validateVehicleData(data) {
   const errors = {};
 
-  if (!data.vehicleModel?.trim()) {
-    errors.vehicleModel = 'Vehicle model is required';
-  }
 
   if (!data.rcNumber?.trim()) {
     errors.rcNumber = 'RC number is required';

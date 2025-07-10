@@ -14,6 +14,7 @@ const PDFContent = () => {
       <EncryptedServicesForm
         formData={pdfFormData}
         setFormData={setPdfFormData}
+          fileKey="file"
         apiRoute="/api/encryptedServices/pdf"
         reduxAction={setPDFServices}
         dispatch={dispatch}

@@ -36,7 +36,7 @@ const PetTagContent = () => {
 
   const handleOwnerChange = (e) => {
     const { id, value } = e.target;
-    
+
     // Phone number validation
     if (id === "phone") {
       const phoneRegex = /^[0-9]{10,15}$/;
@@ -46,7 +46,7 @@ const PetTagContent = () => {
         setPhoneError("");
       }
     }
-    
+
     setPetIDFormData((prev) => ({
       ...prev,
       ownerInfo: {
@@ -365,6 +365,7 @@ const PetTagContent = () => {
                 ))}
               </div>
             </div>
+              
             <div className="relative w-full">
               <input
                 type={showPassword ? "text" : "password"}
@@ -386,9 +387,8 @@ const PetTagContent = () => {
                 )}
               </button>
             </div>
-
+          
             <NFCModal />
-
             <button
               type="submit"
               disabled={submitting}
@@ -405,17 +405,27 @@ const PetTagContent = () => {
         <div className="fixed inset-0 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <div className="p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-800">Confirm Your Information</h2>
+              <div className="mb-6 px-4 py-3 flex justify-between items-start gap-4">
+                {/* Heading and Subtext */}
+                <div className="flex flex-col">
+                  <h2 className="text-2xl font-bold text-gray-800">Confirm Submission</h2>
+                  <p className="text-sm text-gray-600 mt-1 max-w-md">
+                    Are you sure you want to submit this property listing? Please review all details before confirming.
+                  </p>
+                </div>
+
+                {/* Close Button */}
                 <button
                   onClick={() => setShowPreviewModal(false)}
-                  className="text-gray-500 hover:text-gray-700"
+                  className="text-gray-500 hover:text-gray-700 transition-colors"
+                  aria-label="Close modal"
                 >
                   <X size={24} />
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+              {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <h3 className="text-lg font-semibold mb-4">Owner Information</h3>
                   {renderPreviewField("Name", petIDFormData.ownerInfo.name)}
@@ -443,7 +453,7 @@ const PetTagContent = () => {
                     </div>
                   )}
                 </div>
-              </div>
+              </div> */}
 
               <div className="mt-8 flex flex-col sm:flex-row justify-end gap-3">
                 <button
@@ -486,13 +496,13 @@ const PetTagContent = () => {
           <div className="bg-white rounded-xl shadow-2xl w-full max-w-md">
             <div className="p-6 text-center">
               <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
-                <Check className="h-6 w-6 text-green-600" />
+                <Check className="h-6 w-6 text-mainGreen" />
               </div>
               <h3 className="text-lg font-medium text-gray-900 mb-2">Success!</h3>
               <p className="text-gray-600">Pet ID Tag has been created successfully.</p>
               <div className="mt-6">
                 <div className="w-full bg-gray-200 rounded-full h-1.5">
-                  <div className="bg-green-600 h-1.5 rounded-full animate-[countdown_2s_linear_forwards]" />
+                  <div className="bg-mainGreen h-1.5 rounded-full animate-[countdown_2s_linear_forwards]" />
                 </div>
               </div>
             </div>
