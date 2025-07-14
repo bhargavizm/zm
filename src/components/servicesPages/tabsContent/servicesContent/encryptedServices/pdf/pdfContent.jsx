@@ -444,7 +444,7 @@ export default PDFContent;
 //   return (
 //     <>
 //       <div className="flex w-full max-w-3xl gap-6">
-//         <div className="flex-1 bg-white shadow-lg rounded-2xl p-6 space-y-5 max-h-[650px] overflow-auto">
+//         <div className="flex-1 bg-white shadow-lg rounded-2xl p-6 space-y-5 max-h-[600px] overflow-auto">
 //           <form className="space-y-4" >
 //             {/* Title */}
 //             <div>
@@ -788,7 +788,7 @@ export default PDFContent;
 //   return (
 //     <>
 //       <div className="flex w-full max-w-3xl gap-6">
-//         <div className="flex-1 bg-white shadow-lg rounded-2xl p-6 space-y-5 max-h-[650px] overflow-auto">
+//         <div className="flex-1 bg-white shadow-lg rounded-2xl p-6 space-y-5 max-h-[600px] overflow-auto">
 
 //           <form className="space-y-4" onSubmit={handleInitialSubmit}>
 

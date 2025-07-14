@@ -15,7 +15,7 @@
 
 //   return (
 //     <div className='flex justify-center'>
-//     <div className="relative w-[350px] h-[650px] border-[14px] border-gray-800 rounded-[40px] shadow-xl overflow-hidden flex flex-col">
+//     <div className="relative w-[350px] h-[600px] border-[14px] border-gray-800 rounded-[40px] shadow-xl overflow-hidden flex flex-col">
 
 //       {/* 🔳 Background layer */}
 //       {isImage ? (
@@ -119,7 +119,7 @@ const TextMessagePreview = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="relative w-[350px] h-[650px] border-[14px] border-gray-800 rounded-[40px] shadow-xl overflow-hidden flex flex-col">
+      <div className="relative w-[350px] h-[600px] border-[14px] border-gray-800 rounded-[40px] shadow-xl overflow-hidden flex flex-col">
         {/* 🔳 Background Layer */}
         {isImage ? (
           <img

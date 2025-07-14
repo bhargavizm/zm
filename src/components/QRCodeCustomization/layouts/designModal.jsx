@@ -2,15 +2,15 @@
 
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import QRShapes from "./designTabs/qrShapes/qrshapes";
-import Stickers from "./designTabs/stickers/stickers";
-import Colors from "./designTabs/colors/colors";
-import Shapes from "./designTabs/shapes/shapes";
-import Logos from "./designTabs/logos/logos";
+import QRShapes from "../designTabs/qrShapes/qrshapes";
+import Stickers from "../designTabs/stickers/stickers";
+import Colors from "../designTabs/colors/colors";
+import Shapes from "../designTabs/qrFrames/qrFrames";
+import Logos from "../designTabs/logos/logos";
 import { FaLongArrowAltDown } from "react-icons/fa";
-import PreviewPanel from "./previewTab/previewPanel";
+import PreviewPanel from "../previewTab/previewPanel";
 import useDesignContext from "@/components/hooks/useDesignContext";
-import ImageToQRDesign from "./designTabs/ImageToQRDesign";
+import ImageToQRDesign from "../designTabs/ownImage/ImageToQRDesign";
 import ComingSoonModal from "@/components/modalPopUps/comingSoonModal";
 
 const tabs = [

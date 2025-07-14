@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import PreviewPanel from "@/components/homePage/customizedQRCodeDesigns/previewTab/previewPanel";
+import PreviewPanel from "@/components/QRCodeCustomization/previewTab/previewPanel";
 
 import { IoEyeOutline } from "react-icons/io5";
 import { MdQrCodeScanner } from "react-icons/md";

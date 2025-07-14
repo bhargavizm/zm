@@ -41,7 +41,7 @@
 
 // //   return (
 // //     <div className="flex justify-center">
-// //       <div className="relative w-[350px] h-[650px] rounded-[40px] border-[14px] border-gray-800 shadow-xl overflow-hidden flex flex-col">
+// //       <div className="relative w-[350px] h-[600px] rounded-[40px] border-[14px] border-gray-800 shadow-xl overflow-hidden flex flex-col">
 // //         {/* Background */}
 // //         {isImage && (
 // //           <img
@@ -205,7 +205,7 @@
 
 //   return (
 //     <div className="flex justify-center">
-//       <div className="relative w-[350px] h-[650px] rounded-[40px] border-[14px] border-gray-800 shadow-xl scrollbar-hide overflow-y-auto ">
+//       <div className="relative w-[350px] h-[600px] rounded-[40px] border-[14px] border-gray-800 shadow-xl scrollbar-hide overflow-y-auto ">
 //         {/* Background */}
 //         {isImage && (
 //           <img
@@ -407,7 +407,7 @@ const MedicalAlertPreview = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="relative w-[350px] h-[650px] rounded-[40px] border-[14px] border-gray-800 shadow-xl scrollbar-hide overflow-y-auto">
+      <div className="relative w-[350px] h-[600px] rounded-[40px] border-[14px] border-gray-800 shadow-xl scrollbar-hide overflow-y-auto">
         {/* Background */}
         {isImage && (
           <img

@@ -37,7 +37,7 @@
 
 //       {/* 📱 Main Preview Content */}
 //       <div className="relative z-20 flex justify-center">
-//         <div className="w-[350px] h-[650px] border-[12px] border-black rounded-[36px] shadow-xl overflow-y-auto scrollbar-hide relative">
+//         <div className="w-[350px] h-[600px] border-[12px] border-black rounded-[36px] shadow-xl overflow-y-auto scrollbar-hide relative">
 //                 {isImage && (
 //         <img
 //           src={bgDesign}
@@ -195,7 +195,7 @@ const PropertyPreview = () => {
   return (
     <div className="relative flex justify-center">
       {/* 📱 Phone Frame */}
-      <div className="w-[350px] h-[650px] border-[12px] border-black rounded-[36px] shadow-xl relative overflow-hidden">
+      <div className="w-[350px] h-[600px] border-[12px] border-black rounded-[36px] shadow-xl relative overflow-hidden">
         {/* 📽 Background inside phone */}
         {isImage && (
           <img

@@ -28,7 +28,7 @@ const PetIdTemplateOne = ({ petIDFormData }) => {
 
     return (
         <div
-            className="relative w-[350px] h-[650px] rounded-lg shadow-lg overflow-hidden"
+            className="relative w-[350px] h-[600px] rounded-lg shadow-lg overflow-hidden"
             style={{
                 backgroundImage: `url(${backgroundImage})`,
                 backgroundSize: "cover",

@@ -35,15 +35,15 @@ export async function POST(request) {
     const { sender, message, password } = body;
 
     // ✅ Step 3: Validate required fields
-    if (!message) {
-      return new Response(
-        JSON.stringify({ success: false, error: "Missing required fields" }),
-        {
-          status: 400,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-    }
+    // if (!message) {
+    //   return new Response(
+    //     JSON.stringify({ success: false, error: "Missing required fields" }),
+    //     {
+    //       status: 400,
+    //       headers: { "Content-Type": "application/json" },
+    //     }
+    //   );
+    // }
 
     // ✅ Step 4: Hash the password (if provided)
     let hashedPassword = null;
