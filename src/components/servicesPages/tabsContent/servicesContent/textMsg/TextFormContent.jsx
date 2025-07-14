@@ -10,9 +10,10 @@ import axios from "axios";
 import { setTextMessageServices } from "@/redux/slices/servicesSlice";
 import toast from "react-hot-toast";
 import useDesignContext from "@/components/hooks/useDesignContext";
+import LoadingSpinner from "@/components/common/spinner";
 
 const TextMessageContent = () => {
-  const { textMessageForm, setTextMessageForm } = useServicesContext();
+  const { textMessageForm, setTextMessageForm ,servicesDataLoading, setServicesDataLoading} = useServicesContext();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const { setActiveTab } = useDesignContext();
@@ -49,7 +50,7 @@ const TextMessageContent = () => {
       message: textMessageForm.message,
       password: textMessageForm.password,
     };
-
+setServicesDataLoading(true);
     try {
       const response = await axios.post("/api/services/textMessage", payload, {
         headers: {
@@ -66,13 +67,21 @@ const TextMessageContent = () => {
       }
     } catch (error) {
       const errMsg = error?.response?.data?.error || "An unexpected error occurred.";
-      toast.error(`❌ ${errMsg}`);
+      toast.error(`${errMsg}`);
       console.error("Submit Error:", error);
+         if (error.response?.status === 401) {
+        window.location.href = "/login"; // ✅ Auto logout on expiry
+        return;
+      }
+    } finally {
+      setServicesDataLoading(false); // ✅ End loader
     }
   };
 
   return (
     <>
+      {servicesDataLoading && <LoadingSpinner />}
+
       <div className="space-y-6">
         <h1 className="text-3xl font-bold pb-6 text-[#008080]">
           QR Code for Text Message

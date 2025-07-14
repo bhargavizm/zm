@@ -19,7 +19,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <Toaster position="top-center" reverseOrder={false}/>
+        <Toaster position="top-center" reverseOrder={false} toastOptions={{ duration: 8000,  style: {
+      fontSize: '25px',
+      padding: '12px 16px',
+      width:'100%'
+
+    }, }} />
         <ReduxProvider> {/* ✅ Wrap entire app with Redux */}
           <LanguageProvider>
             <PremiumProvider>

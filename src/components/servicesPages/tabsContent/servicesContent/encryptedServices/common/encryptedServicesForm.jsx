@@ -147,7 +147,13 @@ const EncryptedServicesForm = ({
         toast.error(data.error || "Upload failed");
       }
     } catch (error) {
-      toast.error("❌ Upload error");
+      toast.error(err?.response?.data?.error || "Something went wrong!");
+
+        if (error.response?.status === 401) {
+        window.location.href = "/login"; // ✅ Auto logout on expiry
+        return;
+      }
+      
     } finally {
       setServicesDataLoading(false); // ✅ End loader
     }

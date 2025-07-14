@@ -1,8 +1,8 @@
 import Image from "next/image";
 import React from "react";
-import { bodyFrames, eyeBalls, eyeFrames } from "./shapeImages";
+import { bodyFrames, eyeBalls, eyeFrames } from "./qrFrameImages";
 
-const Shapes = ({ onSelectImage }) => {
+const QRFrames = ({ onSelectImage }) => {
 
   return (
     <section className="mt-4 px-4">
@@ -60,4 +60,4 @@ const Shapes = ({ onSelectImage }) => {
   );
 };
 
-export default Shapes;
+export default QRFrames;
