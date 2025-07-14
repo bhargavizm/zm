@@ -1,18 +1,25 @@
 "use client";
+
 import useDesignContext from "@/components/hooks/useDesignContext";
 import Image from "next/image";
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { logos } from "./logoImages";
 
-
 const Logos = () => {
-  const { selectedLogo, setSelectedLogo } = useDesignContext();
+  const { selectedLogo, setSelectedLogo, logoSize, setLogoSize } = useDesignContext();
   const ref = useRef(null);
+  const [localSize, setLocalSize] = useState(logoSize || 30);
 
   useEffect(() => {
     const scroll = localStorage.getItem("logosScroll");
     if (ref.current && scroll) {
       ref.current.scrollTop = parseInt(scroll, 10);
+    }
+
+    const savedSize = localStorage.getItem("selectedLogoSize");
+    if (savedSize) {
+      setLocalSize(parseInt(savedSize));
+      setLogoSize(parseInt(savedSize));
     }
   }, []);
 
@@ -21,11 +28,36 @@ const Logos = () => {
     localStorage.setItem("selectedLogo", src);
   };
 
+  const handleSizeChange = (e) => {
+    const size = parseInt(e.target.value, 10);
+    setLocalSize(size);
+    setLogoSize(size);
+    localStorage.setItem("selectedLogoSize", size);
+  };
+
   return (
     <section className="mt-4 px-4">
+      {/* Size Slider */}
+      <div className="mb-4 flex flex-col items-start gap-1">
+        <label htmlFor="logoSize" className="text-sm font-medium text-gray-700">
+          Adjust Logo Size
+        </label>
+        <input
+          id="logoSize"
+          type="range"
+          min={10}
+          max={100}
+          value={localSize}
+          onChange={handleSizeChange}
+          className="w-full"
+        />
+        <span className="text-xs text-gray-500">Size: {localSize}px</span>
+      </div>
+
+      {/* Logo Grid */}
       <div
         ref={ref}
-         className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-5 pr-2"
+        className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-5 pr-2"
       >
         {logos.map((src, i) => (
           <Image
@@ -34,12 +66,12 @@ const Logos = () => {
             alt={`Logo ${i + 1}`}
             width={60}
             height={60}
-             className={`w-full aspect-square flex items-center justify-center rounded-xl border-4 cursor-pointer transition-transform duration-200 ${
+            className={`w-full aspect-square rounded-xl border-4 cursor-pointer transition-transform duration-200 ${
               selectedLogo === src
                 ? "border-mainGreen scale-105 shadow-md"
                 : "border-transparent hover:border-gray-300"
             }`}
-            // onClick={() => handleClick(src)}
+            onClick={() => handleClick(src)}
           />
         ))}
       </div>
@@ -48,6 +80,65 @@ const Logos = () => {
 };
 
 export default Logos;
+
+
+// "use client";
+// import useDesignContext from "@/components/hooks/useDesignContext";
+// import Image from "next/image";
+// import React, { useRef, useEffect } from "react";
+// import { logos } from "./logoImages";
+
+
+// const Logos = () => {
+//   const { selectedLogo, setSelectedLogo } = useDesignContext();
+//   const ref = useRef(null);
+
+//   useEffect(() => {
+//     const scroll = localStorage.getItem("logosScroll");
+//     if (ref.current && scroll) {
+//       ref.current.scrollTop = parseInt(scroll, 10);
+//     }
+//   }, []);
+
+//   const handleClick = (src) => {
+//     setSelectedLogo(src);
+//     localStorage.setItem("selectedLogo", src);
+//   };
+
+//   return (
+//     <section className="mt-4 px-4">
+//       <div
+//         ref={ref}
+//          className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-5 pr-2"
+//       >
+//         {logos.map((src, i) => (
+//           <Image
+//             key={i}
+//             src={src}
+//             alt={`Logo ${i + 1}`}
+//             width={60}
+//             height={60}
+//              className={`w-full aspect-square flex items-center justify-center rounded-xl border-4 cursor-pointer transition-transform duration-200 ${
+//               selectedLogo === src
+//                 ? "border-mainGreen scale-105 shadow-md"
+//                 : "border-transparent hover:border-gray-300"
+//             }`}
+//              onClick={() => handleClick(src)}
+//           />
+//         ))}
+//       </div>
+//     </section>
+//   );
+// };
+
+// export default Logos;
+
+
+
+
+
+
+
 // "use client";
 
 // import useDesignContext from "@/components/hooks/useDesignContext";

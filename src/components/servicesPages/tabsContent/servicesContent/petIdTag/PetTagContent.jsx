@@ -11,12 +11,12 @@ import { useDispatch } from "react-redux";
 import { setPetIdServices } from "@/redux/slices/servicesSlice";
 import { useParams, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import LoadingSpinner from "@/components/common/spinner";
 
 const PetTagContent = () => {
-  const { setActiveTab } = useDesignContext();
+  const { setActiveTab , setIsLoading, setBgDesign} = useDesignContext();
   const { slug } = useParams();
-  const { petIDFormData, setPetIDFormData } = useServicesContext();
-  const { setIsLoading, setBgDesign } = useDesignContext();
+  const { petIDFormData, setPetIDFormData, servicesDataLoading, setServicesDataLoading  } = useServicesContext();
   const [showPassword, setShowPassword] = useState(false);
   const [file, setFile] = useState(null);
   const [submitting, setSubmitting] = useState(false);
@@ -168,7 +168,7 @@ const PetTagContent = () => {
   const handleFinalSubmit = async () => {
     setSubmitting(true);
     setShowPreviewModal(false);
-
+  setServicesDataLoading(true);
     try {
       const base64Image = file ? await toBase64(file) : null;
 
@@ -215,10 +215,16 @@ const PetTagContent = () => {
       }
     } catch (error) {
       console.error("Submission Error:", error);
-      alert("Something went wrong while submitting.");
+      toast.error(error?.response?.data?.error || "Something went wrong!");
+       if (error.response?.status === 401) {
+        window.location.href = "/login"; // ✅ Auto logout on expiry
+        return;
+      }
     } finally {
-      setSubmitting(false);
+       setSubmitting(false);
+      setServicesDataLoading(false); // ✅ End loader
     }
+    
   };
 
   const renderPreviewField = (label, value) => {
@@ -234,6 +240,8 @@ const PetTagContent = () => {
 
   return (
     <>
+     {servicesDataLoading && <LoadingSpinner />}
+
       <form onSubmit={handlePreviewSubmit}>
         <div className="grid grid-cols-1 gap-10">
           <div className="bg-white shadow-xl rounded-xl p-6 space-y-6">

@@ -1,6 +1,6 @@
 "use client";
 
-import DesignModal from "@/components/homePage/customizedQRCodeDesigns/designModal";
+import DesignModal from "@/components/QRCodeCustomization/layouts/designModal";
 import Image from "next/image";
 import React, { useState } from "react";
 
@@ -19,9 +19,9 @@ const cardItems = [
     id: 3,  
     title: "QR Frames",
     extraImages: [
-      "/images/shapes/body-frames/body-3.webp",
-      "/images/shapes/eye-balls/eye-ball-1.svg",
-      "/images/shapes/eye-frames/eye-frame-1.svg",
+      "/images/frames/body-frames/body-3.webp",
+      "/images/frames/eye-balls/eye-ball-1.svg",
+      "/images/frames/eye-frames/eye-frame-1.svg",
     ],
   },
   {

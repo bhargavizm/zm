@@ -1,7 +1,7 @@
 
 'use client';
 
-import DesignSection from '@/components/homePage/customizedQRCodeDesigns/designSection'
+import DesignSection from '@/components/QRCodeCustomization/layouts/designSection'
 import React from 'react'
 import DesignLayout from './designLayout'
 

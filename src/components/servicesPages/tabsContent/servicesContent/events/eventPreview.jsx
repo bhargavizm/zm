@@ -29,7 +29,7 @@
 
 //   return (
 //     <section className="flex-1 p-8 flex items-center justify-center">
-//       <div className="relative max-w-[300px] max-h-[650px] w-full h-full aspect-[3/6] rounded-[40px] border-[14px] border-gray-800 shadow-2xl overflow-hidden flex flex-col">
+//       <div className="relative max-w-[300px] max-h-[600px] w-full h-full aspect-[3/6] rounded-[40px] border-[14px] border-gray-800 shadow-2xl overflow-hidden flex flex-col">
 
 //         {/* 🔳 Background */}
 //         {isImage ? (
@@ -51,8 +51,8 @@
 
 //         {/* iPhone Preview Section */}
 //         {/* Removed fixed, right-0, h-screen for fluid positioning */}
-//         {/* Changed w-[300px] h-[650px] to max-w and max-h for responsiveness while maintaining shape */}
-//         <div className="relative max-w-[300px] max-h-[650px] w-full h-full hide-scrollbar aspect-[3/6] bg-white rounded-[40px] border-[14px] border-gray-800 shadow-2xl flex flex-col">
+//         {/* Changed w-[300px] h-[600px] to max-w and max-h for responsiveness while maintaining shape */}
+//         <div className="relative max-w-[300px] max-h-[600px] w-full h-full hide-scrollbar aspect-[3/6] bg-white rounded-[40px] border-[14px] border-gray-800 shadow-2xl flex flex-col">
 //           {/* iPhone notch */}
 //           <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-6 bg-gray-800 rounded-b-xl z-10"></div>
 //         {/* ⬛ Notch */}
@@ -213,7 +213,7 @@ const EventPreview = () => {
 
   return (
     <section className="flex justify-center items-center p-4">
-      <div className="relative w-[350px] h-[650px] rounded-[40px] border-[14px] border-gray-800 shadow-2xl overflow-hidden bg-white">
+      <div className="relative w-[350px] h-[600px] rounded-[40px] border-[14px] border-gray-800 shadow-2xl overflow-hidden bg-white">
         {/* Background Media */}
         {isImage && (
           <img
