@@ -1,5 +1,6 @@
 'use client'
 
+import LoadingSpinner from '@/components/common/spinner'
 import useDesignContext from '@/components/hooks/useDesignContext'
 import useServicesContext from '@/components/hooks/useServiceContext'
 import NFCModal from '@/components/modalPopUps/nfcModal'
@@ -12,7 +13,7 @@ import { FiMessageSquare, FiUser, FiCalendar, FiLock, FiEye, FiEyeOff } from 're
 import { useDispatch } from 'react-redux'
 
 const SmsContent = () => {
-  const { smsFormData, setSmsFormData } = useServicesContext()
+  const { smsFormData, setSmsFormData,servicesDataLoading, setServicesDataLoading } = useServicesContext()
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const { setActiveTab } = useDesignContext();
@@ -50,7 +51,7 @@ const SmsContent = () => {
     textMessage: smsFormData.textMessage,
     password: smsFormData.password,
   };
-
+   setServicesDataLoading(true);
   try {
     const response = await axios.post("/api/services/sms", payload, {
       headers: {
@@ -76,9 +77,15 @@ const SmsContent = () => {
     }
   } catch (error) {
     const errMsg = error?.response?.data?.error || "An unexpected error occurred.";
-    toast.error(`❌ ${errMsg}`);
+    toast.error(` ${errMsg}`);
     console.error("Submit Error:", errMsg);
-  }
+ if (error.response?.status === 401) {
+        window.location.href = "/login"; // ✅ Auto logout on expiry
+        return;
+      }
+    } finally {
+      setServicesDataLoading(false); // ✅ End loader
+    }
 };
 
 
@@ -95,7 +102,10 @@ const SmsContent = () => {
   const hasPassword = smsFormData.password
 
   return (
-    <div className="flex flex-col"> {/* Removed h-screen and bg-gradient styles */}
+    <>
+      {servicesDataLoading && <LoadingSpinner />}
+
+          <div className="flex flex-col"> {/* Removed h-screen and bg-gradient styles */}
       {/* Main Content Area - Removed fixed width/height classes */}
       <div className="flex ">
         {/* Form Section - Removed fixed width */}
@@ -252,6 +262,9 @@ const SmsContent = () => {
       )}
 
     </div>
+
+    </>
+
   )
 }
 

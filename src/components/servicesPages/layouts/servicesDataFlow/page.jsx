@@ -3,7 +3,7 @@
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { componentMap, directToCustomize } from '../../servicesRoutes/servicesRoutes';
-import CustomizeQRCode from '@/components/homePage/customizedQRCodeDesigns/customizeQRCode';
+import CustomizeQRCode from '@/components/QRCodeCustomization/layouts/customizeQRCode';
 import ServicesLayout from '../servicesLayout';
 
 const ServicesDataFlow = ()  =>{

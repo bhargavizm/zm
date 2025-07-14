@@ -1,4 +1,5 @@
 "use client";
+import LoadingSpinner from "@/components/common/spinner";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import NFCModal from "@/components/modalPopUps/nfcModal";
@@ -24,7 +25,7 @@ import { useDispatch } from "react-redux";
 const EventContent = () => {
   const { setActiveTab } = useDesignContext();
   const { slug } = useParams();
-  const { eventsFormData, setEventsFormData } = useServicesContext();
+  const { eventsFormData, setEventsFormData, servicesDataLoading, setServicesDataLoading } = useServicesContext();
   const [showPassword, setShowPassword] = useState(false);
   const [showLocationOptions, setShowLocationOptions] = useState(false);
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
@@ -115,6 +116,7 @@ const EventContent = () => {
   };
 
   const handleConfirmedSubmit = async () => {
+    setServicesDataLoading
     const payload = {
       organizer: eventsFormData.organizer,
       title: eventsFormData.title,
@@ -159,13 +161,21 @@ const EventContent = () => {
       }
     } catch (error) {
       const errMsg = error?.response?.data?.error || "An unexpected error occurred.";
-      toast.error(`❌ ${errMsg}`);
+      toast.error(` ${errMsg}`);
       console.error("Submit Error:", errMsg);
+    if (error.response?.status === 401) {
+        window.location.href = "/login"; // ✅ Auto logout on expiry
+        return;
+      }
+    } finally {
+      setServicesDataLoading(false); // ✅ End loader
     }
   };
 
   return (
     <>
+      {servicesDataLoading && <LoadingSpinner />}
+
       <div className="flex flex-col lg:flex-row">
         <div className="p-8 flex-1">
           <form className="space-y-8">

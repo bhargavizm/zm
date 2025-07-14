@@ -9,9 +9,10 @@ import useDesignContext from "@/components/hooks/useDesignContext";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useParams } from "next/navigation";
+import LoadingSpinner from "@/components/common/spinner";
 
 const BusinessShopContent = () => {
-  const { dynamicForms, updateDynamicForm } = useServicesContext();
+  const { dynamicForms, updateDynamicForm, servicesDataLoading, setServicesDataLoading } = useServicesContext();
   const { setIsLoading, setBgDesign } = useDesignContext();
   const { setActiveTab } = useDesignContext();
   const { slug } = useParams();
@@ -205,7 +206,7 @@ const BusinessShopContent = () => {
 
   const handleModalOk = async () => {
     setIsModalOpen(false);
-
+ setServicesDataLoading(true);
     const formData = new FormData();
 
     // General Info
@@ -257,13 +258,21 @@ const BusinessShopContent = () => {
         resetFormFields();
       }
     } catch (error) {
-      toast.error("Failed to submit business data. Please try again.");
+      toast.error(error?.response?.data?.error || "Something went wrong!");
       console.error("Submit error:", error);
+     if (error.response?.status === 401) {
+        window.location.href = "/login"; // ✅ Auto logout on expiry
+        return;
+      }
+    } finally {
+      setServicesDataLoading(false); // ✅ End loader
     }
   };
 
   return (
     <>
+     {servicesDataLoading && <LoadingSpinner />}
+
       <div className="space-y-8 p-4 md:p-8 lg:p-12 bg-gray-50 rounded-xl shadow-lg overflow-auto hide-scrollbar">
         {/* Template Selection Section */}
         <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
