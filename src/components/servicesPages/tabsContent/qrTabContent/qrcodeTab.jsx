@@ -1,6 +1,7 @@
 "use client";
 
-import DesignModal from "@/components/QRCodeCustomization/layouts/designModal";
+
+import DesignModal from "@/components/QRCodeCustomization/QRCodeCustomization/layouts/designModal";
 import Image from "next/image";
 import React, { useState } from "react";
 
@@ -39,7 +40,6 @@ const cardItems = [
 const QRCodeTab = () => {
         const [activeTab, setActiveTab] = useState("QR Shapes");
         const [isModalOpen, setIsModalOpen] = useState(false);
-        console.log(activeTab)
   return (
     <>
     <section>
