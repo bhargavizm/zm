@@ -152,8 +152,12 @@ const PetTagContent = () => {
 
     const { selectedTemplate, mainImage, ownerInfo, pet } = petIDFormData;
 
-    const isAnyOwnerInfoFilled = Object.values(ownerInfo).some((v) => v && v.trim() !== "");
-    const isAnyPetInfoFilled = Object.values(pet).some((v) => v && v.trim() !== "");
+    const isAnyOwnerInfoFilled = Object.values(ownerInfo).some(
+      (v) => v !== null && v !== undefined && v.toString().trim() !== ""
+    );
+    const isAnyPetInfoFilled = Object.values(pet).some(
+      (v) => v !== null && v !== undefined && v.toString().trim() !== ""
+    );
     const isTemplateSelected = !!selectedTemplate;
     const isImageUploaded = !!mainImage;
 
@@ -255,10 +259,11 @@ const PetTagContent = () => {
                   <div
                     key={idx}
                     onClick={() => handleTemplateSelect(filename)}
-                    className={`relative rounded-md border-2 cursor-pointer transition-all p-1 ${petIDFormData.selectedTemplate === filename
-                      ? "border-[#008080] ring-2 ring-[#008080]"
-                      : "border-gray-300"
-                      }`}
+                    className={`relative rounded-md border-2 cursor-pointer transition-all p-1 ${
+                      petIDFormData.selectedTemplate === filename
+                        ? "border-[#008080] ring-2 ring-[#008080]"
+                        : "border-gray-300"
+                    }`}
                   >
                     <Image
                       src={`/pet-id/${filename}`}
@@ -319,7 +324,9 @@ const PetTagContent = () => {
                   value={petIDFormData.ownerInfo.phone}
                   onChange={handleOwnerChange}
                   placeholder="Phone Number"
-                  className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 ${phoneError ? "focus:ring-red-500 border-red-500" : "focus:ring-[#008080]"}`}
+                  className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 ${
+                    phoneError ? "focus:ring-red-500 border-red-500" : "focus:ring-[#008080]"
+                  }`}
                 />
                 {phoneError && (
                   <p className="mt-1 text-sm text-red-600">{phoneError}</p>
@@ -432,7 +439,6 @@ const PetTagContent = () => {
                 </button>
               </div>
 
-
               {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <h3 className="text-lg font-semibold mb-4">Owner Information</h3>
@@ -462,7 +468,6 @@ const PetTagContent = () => {
                   )}
                 </div>
               </div> */}
-
               <div className="mt-8 flex flex-col sm:flex-row justify-end gap-3">
                 <button
                   type="button"
