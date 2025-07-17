@@ -15,7 +15,7 @@ import { stickerConfig } from "../designTabs/stickers/stickerImages";
 const PreviewPanel = () => {
   console.log(shapeDefinitions);
   const {
- selectedLogo,
+  selectedLogo,
   logoSize,
   companyLogoSize,
     text,
