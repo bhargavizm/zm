@@ -1,5 +1,3 @@
-
-
 export const qrOffsets = {
   heart: { x: 1, y: -30, scale: 0.8 },
   circle: { x: 0, y: 0, scale: 1 },
