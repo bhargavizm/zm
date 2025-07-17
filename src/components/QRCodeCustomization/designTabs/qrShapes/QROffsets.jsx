@@ -73,4 +73,5 @@ export const qrOffsets = {
   mask:{x:0,y:10,scale:0.8},
   tortoise:{x:0,y:10,scale:0.9},
   dog:{x:-30,y:40,scale:0.79},
+  
 };
