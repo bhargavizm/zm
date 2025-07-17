@@ -15,14 +15,10 @@ const initialState = {
   petIDServicesData: [],
   kidsSafetyServicesData: [],
   medicalServicesData: [],
-
-
   pdfServiceData: [],
   audioServiceData: [],
   videoServiceData: [],
-  setBusinessCardServices:[],
   galleryServiceData: [],
-  setBusinessCardServices:[],
   error: null,
 };
 
@@ -31,15 +27,8 @@ const servicesSlice = createSlice({
   initialState,
   reducers: {
     setBusinessCardServices: (state, action) => ({
-      ...state,   
-      businessCardServicesData: action.payload,
-      error: null,
-    }),
-    // Regular Services
-     setBusinessCardServices: (state, action) => ({
-    setBusinessCardServices: (state, action) => ({
       ...state,
-      resumeServiceData: action.payload,
+      businessCardServicesData: action.payload,
       error: null,
     }),
     setResumeServices: (state, action) => ({
@@ -89,17 +78,14 @@ const servicesSlice = createSlice({
     }),
     setDiscountServices: (state, action) => ({
       ...state,
-      discountServicesData : action.payload,
-      error : null,
-    }),
-    setMedicalServices: (state, action) => ({
-      ...state, 
-      medicalServicesData : action.payload,
+      discountServicesData: action.payload,
       error: null,
     }),
-
-
-    // Encrypted Services
+    setMedicalServices: (state, action) => ({
+      ...state,
+      medicalServicesData: action.payload,
+      error: null,
+    }),
     setPetIdServices: (state, action) => ({
       ...state,
       petIDServicesData: action.payload,
@@ -110,8 +96,6 @@ const servicesSlice = createSlice({
       kidsSafetyServicesData: action.payload,
       error: null,
     }),
-
-    // Error handling
     clearError: (state) => ({
       ...state,
       error: null,
@@ -120,6 +104,7 @@ const servicesSlice = createSlice({
 });
 
 export const {
+  setBusinessCardServices,
   setResumeServices,
   setMenuCardServices,
   setTextMessageServices,
@@ -131,11 +116,8 @@ export const {
   setPropertyServices,
   setPetIdServices,
   setKidsSafetyServices,
-  setBusinessCardServices,
   setDiscountServices,
-  setBusinessCardServices,
   setMedicalServices,
-
   clearError,
 } = servicesSlice.actions;
 
