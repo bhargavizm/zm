@@ -15,6 +15,10 @@ import { stickerConfig } from "../designTabs/stickers/stickerImages";
 const PreviewPanel = () => {
   console.log(shapeDefinitions);
   const {
+    foregroundColorMode, foregroundColor, foregroundGradientStart, foregroundGradientEnd,
+  eyeFrameColorMode, eyeFrameColor, eyeFrameGradientStart, eyeFrameGradientEnd,
+  eyeballColorMode, eyeballColor, eyeballGradientStart, eyeballGradientEnd,
+  borderColorMode, borderColor, borderGradientStart, borderGradientEnd,
  selectedLogo,
   logoSize,
   companyLogoSize,
@@ -85,6 +89,10 @@ const PreviewPanel = () => {
     containerShape: selectedQRShape,
     fgColor,
     colorMode,
+     foregroundColorMode,
+  foregroundColor,
+  foregroundGradientStart,
+  foregroundGradientEnd,
   });
 
   return (
@@ -108,7 +116,7 @@ const PreviewPanel = () => {
             height="400"
             viewBox={`0 0 ${canvasSize} ${canvasSize}`}
           >
-            <defs>
+            {/* <defs>
               <clipPath id="shape-clip">
                 {shapeDefinitions[selectedQRShape] && (
                   <path d={shapeDefinitions[selectedQRShape](canvasSize)} />
@@ -127,10 +135,46 @@ const PreviewPanel = () => {
                   <stop offset="100%" stopColor={gradientEnd} />
                 </linearGradient>
               )}
-            </defs>
+            </defs> */}
+            <defs>
+  <clipPath id="shape-clip">
+    {shapeDefinitions[selectedQRShape] && (
+      <path d={shapeDefinitions[selectedQRShape](canvasSize)} />
+    )}
+  </clipPath>
+
+  {foregroundColorMode === "gradient" && (
+    <linearGradient id="qrGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor={foregroundGradientStart} />
+      <stop offset="100%" stopColor={foregroundGradientEnd} />
+    </linearGradient>
+  )}
+
+  {eyeFrameColorMode === "gradient" && (
+    <linearGradient id="eyeFrameGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor={eyeFrameGradientStart} />
+      <stop offset="100%" stopColor={eyeFrameGradientEnd} />
+    </linearGradient>
+  )}
+
+  {eyeballColorMode === "gradient" && (
+    <linearGradient id="eyeballGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor={eyeballGradientStart} />
+      <stop offset="100%" stopColor={eyeballGradientEnd} />
+    </linearGradient>
+  )}
+
+  {borderColorMode === "gradient" && (
+    <linearGradient id="borderGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor={borderGradientStart} />
+      <stop offset="100%" stopColor={borderGradientEnd} />
+    </linearGradient>
+  )}
+</defs>
+
 
             <g clipPath="url(#shape-clip)">
-              <rect width={canvasSize} height={canvasSize} fill="#ffffff" />
+              {/* <rect width={canvasSize} height={canvasSize} fill="#ffffff" /> */}
               {generateNoiseElements()}
 
               {/* QR Code Matrix */}
@@ -153,10 +197,11 @@ const PreviewPanel = () => {
                         d={bodyFrames?.[selectedBodyFrame] ?? bodyFrames.square}
                         transform={`translate(${x}, ${y}) scale(1)`}
                         fill={
-                          colorMode === "gradient"
-                            ? "url(#qrGradient)"
-                            : fgColor
-                        }
+  foregroundColorMode === "gradient"
+    ? "url(#qrGradient)"
+    : foregroundColor
+}
+
                       />
                     );
                   })
@@ -165,12 +210,12 @@ const PreviewPanel = () => {
               </g>
 
               {/* Logo and Badge */}
-            {/* Logo Layering */}
+        
 {(
  <g>
   {/* Outer Company Logo */}
   <image
-    href="/logos/d-logo.png"
+    href="/logos/3D Logo.png"
     x={qrCenterX - companyLogoSize / 2}
     y={qrCenterY - companyLogoSize / 2}
     width={companyLogoSize}
@@ -196,13 +241,18 @@ const PreviewPanel = () => {
 
             {/* Shape Outline */}
             {shapeDefinitions[selectedQRShape] && (
-              <path
-                d={shapeDefinitions[selectedQRShape](canvasSize)}
-                fill="none"
-                stroke={colorMode === "gradient" ? "url(#qrGradient)" : fgColor}
-                strokeWidth={strokeWidth}
-                strokeLinejoin="round"
-              />
+             <path
+  d={shapeDefinitions[selectedQRShape](canvasSize)}
+  fill="none"
+  stroke={
+    borderColorMode === "gradient"
+      ? "url(#borderGradient)"
+      : borderColor
+  }
+  strokeWidth={strokeWidth}
+  strokeLinejoin="round"
+/>
+
             )}
           </svg>
 
