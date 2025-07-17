@@ -1,16 +1,16 @@
 export const qrShapeConfig = {
-  // "/images/qr-shapes/clouds.png": {
-  //   qrTop: "50%",
-  //   qrLeft: "50%",
-  //   scale: 0.6,
-  //   logoTop: "50%",
-  //   logoLeft: "50%",
-  //   logoSize: {
-  //     default: 22,
-  //     tablet: 20,
-  //     mobile: 20,
-  //   },
-  // },
+  "/images/qr-shapes/clouds.png": {
+    qrTop: "50%",
+    qrLeft: "50%",
+    scale: 0.6,
+    logoTop: "50%",
+    logoLeft: "50%",
+    logoSize: {
+      default: 22,
+      tablet: 20,
+      mobile: 20,
+    },
+  },
   "/images/qr-shapes/traingle.webp": {
     qrTop: "50%",
     qrLeft: "50%",
