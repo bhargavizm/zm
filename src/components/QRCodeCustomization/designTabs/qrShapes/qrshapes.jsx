@@ -13,8 +13,8 @@ const QRShapes = () => {
   console.log(shapeDefinitions)
   const {
     selectedQRShape,
-    setSelectedQRShape,
-    canvasSize,
+    setSelectedQRShape,setStrokeWidth,strokeWidth,
+    canvasSize,setNoiseDensity,noiseDensity
   } = useDesignContext();
 
   const {
@@ -106,11 +106,12 @@ const QRShapes = () => {
   };
 
   return (
+    <>
     <section className="mt-4 px-4">
       <PremiumModal />
 
       {/* Row 1: Free SVG Shapes */}
-      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-5 pr-2 mb-6">
+      <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-5 pr-2 mb-6">
         {freeShapes.map((shape) => renderShapeBox(shape, false))}
       </div>
 
@@ -137,11 +138,47 @@ const QRShapes = () => {
       {/* Row 3: Premium SVG Shapes */}
       <div
         ref={ref}
-        className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-5 pr-2"
+        className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-5 pr-2"
       >
         {premiumShapes.map((shape) => renderShapeBox(shape, true))}
       </div>
+
+
+      <div>
+              <label className="block text-sm font-medium my-4">
+                Noise Density
+              </label>
+              <input
+                type="range"
+                min="0.1" 
+                max="0.9"
+                step="0.05"
+                value={noiseDensity}
+                onChange={(e) => setNoiseDensity(parseFloat(e.target.value))}
+                className="w-full accent-mainGreen"
+              />
+              {/* <div className="text-xs text-gray-500">
+                {Math.round(noiseDensity * 100)}%
+              </div> */}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-1">
+                Border Width
+              </label>
+              <input
+                type="range"
+                min="1"
+                max="30"
+                step="1"
+                value={strokeWidth}
+                onChange={(e) => setStrokeWidth(parseInt(e.target.value))}
+                className="w-full accent-mainGreen"
+              />
+              {/* <div className="text-xs text-gray-500">{strokeWidth}px</div> */}
+            </div>
     </section>
+    </>
   );
 };
 

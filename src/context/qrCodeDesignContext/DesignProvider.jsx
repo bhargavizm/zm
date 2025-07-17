@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { DesignContext } from "../qrCodeDesignContext/DesignContext";
+import { useResponsiveCanvasSize } from "@/components/QRCodeCustomization/utils/responsiveCanvasSize";
 
 const DEFAULT_QR_SHAPE = "/images/qr-shapes/circle.webp";
 const DEFAULT_LOGO = "/images/logos/insta.webp";
@@ -20,8 +21,8 @@ const DesignProvider = ({ children }) => {
 
   const [matrix, setMatrix] = useState([]);
   const [text, setText] = useState("https://www.zmqrcode.in/");
-  const [noiseDensity, setNoiseDensity] = useState(0.7);
-  const [strokeWidth, setStrokeWidth] = useState(12);
+  const [noiseDensity, setNoiseDensity] = useState(0.4);
+  const [strokeWidth, setStrokeWidth] = useState(8);
 
 
 const [logoSize, setLogoSize] = useState(30); // for inner selected logo
@@ -44,7 +45,36 @@ const [companyLogoSize, setCompanyLogoSize] = useState(180); // for outer compan
   const padding = 2;
   const qrSize = matrix.length;
   const fullSize = qrSize + padding * 2;
-  const canvasSize = 512;
+  // const canvasSize = 400;
+const canvasSize = useResponsiveCanvasSize(); // ✅ dynamic
+
+  // const canvasSize = 400;
+
+  const [foregroundColorMode, setForegroundColorMode] = useState("single"); // or "gradient"
+const [foregroundColor, setForegroundColor] = useState("#000000");
+const [foregroundGradientStart, setForegroundGradientStart] = useState("#000000");
+const [foregroundGradientEnd, setForegroundGradientEnd] = useState("#ffffff");
+
+const [eyeFrameColorMode, setEyeFrameColorMode] = useState("single");
+const [eyeFrameColor, setEyeFrameColor] = useState("#000000");
+const [eyeFrameGradientStart, setEyeFrameGradientStart] = useState("#000000");
+const [eyeFrameGradientEnd, setEyeFrameGradientEnd] = useState("#ffffff");
+
+const [eyeballColorMode, setEyeballColorMode] = useState("single");
+const [eyeballColor, setEyeballColor] = useState("#000000");
+const [eyeballGradientStart, setEyeballGradientStart] = useState("#000000");
+const [eyeballGradientEnd, setEyeballGradientEnd] = useState("#ffffff");
+
+const [borderColorMode, setBorderColorMode] = useState("single");
+const [borderColor, setBorderColor] = useState("#000000");
+const [borderGradientStart, setBorderGradientStart] = useState("#000000");
+const [borderGradientEnd, setBorderGradientEnd] = useState("#ffffff");
+
+const [isForegroundEnabled, setIsForegroundEnabled] = useState(true);
+const [isEyeFrameEnabled, setIsEyeFrameEnabled] = useState(true);
+const [isEyeballEnabled, setIsEyeballEnabled] = useState(true);
+const [isBorderEnabled, setIsBorderEnabled] = useState(true);
+
 
   const setActiveTab = (slug, tab) => {
     setActiveTabs((prev) => ({ ...prev, [slug]: tab }));
@@ -128,7 +158,29 @@ const [companyLogoSize, setCompanyLogoSize] = useState(180); // for outer compan
         setQrMode,
 
       //  activeTabs, setActiveTab, getActiveTab, selectedBodyFrame,
- 
+   foregroundColorMode, setForegroundColorMode,
+  foregroundColor, setForegroundColor,
+  foregroundGradientStart, setForegroundGradientStart,
+  foregroundGradientEnd, setForegroundGradientEnd,
+  isForegroundEnabled, setIsForegroundEnabled,
+
+  eyeFrameColorMode, setEyeFrameColorMode,
+  eyeFrameColor, setEyeFrameColor,
+  eyeFrameGradientStart, setEyeFrameGradientStart,
+  eyeFrameGradientEnd, setEyeFrameGradientEnd,
+  isEyeFrameEnabled, setIsEyeFrameEnabled,
+
+  eyeballColorMode, setEyeballColorMode,
+  eyeballColor, setEyeballColor,
+  eyeballGradientStart, setEyeballGradientStart,
+  eyeballGradientEnd, setEyeballGradientEnd,
+   isEyeballEnabled, setIsEyeballEnabled,
+
+  borderColorMode, setBorderColorMode,
+  borderColor, setBorderColor,
+  borderGradientStart, setBorderGradientStart,
+  borderGradientEnd, setBorderGradientEnd,
+  isBorderEnabled, setIsBorderEnabled,
 
       }}
     >
