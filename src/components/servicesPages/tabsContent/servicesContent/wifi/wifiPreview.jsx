@@ -24,7 +24,7 @@ const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
 
   return (
     <div className="flex items-center justify-center">
-      <div className="relative w-[350px] h-[650px] border-[12px] border-black rounded-[2rem] shadow-2xl overflow-hidden">
+      <div className="relative w-[350px] h-[600px] border-[12px] border-black rounded-[2rem] shadow-2xl overflow-hidden">
 
         {/* Background layer */}
         <div className="absolute inset-0 z-0">

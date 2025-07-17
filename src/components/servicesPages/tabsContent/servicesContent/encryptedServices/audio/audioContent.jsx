@@ -15,6 +15,7 @@ const AudioContent = () => {
         apiRoute="/api/encryptedServices/audio"
         reduxAction={setAudioServices}
         dispatch={dispatch}
+          fileKey="file"
         accept="audio/*"
         titleLabel="Audio Title"
         fileLabel="Upload Audio Files"

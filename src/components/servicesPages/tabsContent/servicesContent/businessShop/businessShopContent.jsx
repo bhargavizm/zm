@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import { Eye, EyeOff } from "lucide-react";
 import { IoLocation } from "react-icons/io5";
@@ -9,9 +9,10 @@ import useDesignContext from "@/components/hooks/useDesignContext";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useParams } from "next/navigation";
+import LoadingSpinner from "@/components/common/spinner";
 
 const BusinessShopContent = () => {
-  const { dynamicForms, updateDynamicForm } = useServicesContext();
+  const { dynamicForms, updateDynamicForm, servicesDataLoading, setServicesDataLoading } = useServicesContext();
   const { setIsLoading, setBgDesign } = useDesignContext();
   const { setActiveTab } = useDesignContext();
   const { slug } = useParams();
@@ -24,10 +25,14 @@ const BusinessShopContent = () => {
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const shopTimingsTemplate = dynamicForms.shopTimingsTemplate;
+  
+  // Refs for file inputs
+  const logoInputRef = useRef(null);
+  const galleryInputRef = useRef(null);
 
   const validatePhone = (phone) => {
-    if (phone && !/^\d{10}$/.test(phone)) {
-      return "Phone number must be 10 digits";
+    if (phone && !/^\d{10,15}$/.test(phone)) {
+      return "Phone number must be between 10 to 15 digits";
     }
     return "";
   };
@@ -52,14 +57,17 @@ const BusinessShopContent = () => {
   };
 
   const handleFileChange = (section, field, files, isMultiple = false) => {
-    const newFiles = isMultiple ? Array.from(files) : [files[0]];
-    const existingFiles = businessInfo[section][field] || [];
+    let updatedValue;
 
-    const updatedFiles = isMultiple
-      ? [...existingFiles, ...newFiles]
-      : newFiles;
+    if (isMultiple) {
+      const newFiles = Array.from(files || []);
+      const existingFiles = businessInfo[section][field] || [];
+      updatedValue = [...existingFiles, ...newFiles];
+    } else {
+      updatedValue = files?.[0] || null;
+    }
 
-    updateDynamicForm("businessInfo", section, field, updatedFiles);
+    updateDynamicForm("businessInfo", section, field, updatedValue);
   };
 
   const removeImage = (section, field, index = null) => {
@@ -69,6 +77,16 @@ const BusinessShopContent = () => {
       updateDynamicForm("businessInfo", section, field, updatedImages);
     } else {
       updateDynamicForm("businessInfo", section, field, null);
+      // Reset the file input when removing the logo
+      if (field === "logo" && logoInputRef.current) {
+        logoInputRef.current.value = "";
+      }
+    }
+    
+    // Reset gallery input if all images are removed
+    if (field === "galleryImages" && galleryInputRef.current && 
+        (!businessInfo[section][field] || businessInfo[section][field].length === 0)) {
+      galleryInputRef.current.value = "";
     }
   };
 
@@ -174,6 +192,10 @@ const BusinessShopContent = () => {
     updateDynamicForm("businessInfo", "media", "logo", null);
     updateDynamicForm("businessInfo", "media", "galleryImages", []);
 
+    // Reset file inputs
+    if (logoInputRef.current) logoInputRef.current.value = "";
+    if (galleryInputRef.current) galleryInputRef.current.value = "";
+
     // Reset errors
     setErrors({
       phone: "",
@@ -181,10 +203,10 @@ const BusinessShopContent = () => {
       email: ""
     });
   };
-  
+
   const handleModalOk = async () => {
     setIsModalOpen(false);
-    
+ setServicesDataLoading(true);
     const formData = new FormData();
 
     // General Info
@@ -232,17 +254,25 @@ const BusinessShopContent = () => {
       if (response.data.success) {
         toast.success("Business data saved successfully");
         setActiveTab(slug, "QR Code");
-        
+
         resetFormFields();
       }
     } catch (error) {
-      toast.error("Failed to submit business data. Please try again.");
+      toast.error(error?.response?.data?.error || "Something went wrong!");
       console.error("Submit error:", error);
+     if (error.response?.status === 401) {
+        window.location.href = "/login"; // ✅ Auto logout on expiry
+        return;
+      }
+    } finally {
+      setServicesDataLoading(false); // ✅ End loader
     }
   };
 
   return (
     <>
+     {servicesDataLoading && <LoadingSpinner />}
+
       <div className="space-y-8 p-4 md:p-8 lg:p-12 bg-gray-50 rounded-xl shadow-lg overflow-auto hide-scrollbar">
         {/* Template Selection Section */}
         <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
@@ -319,10 +349,12 @@ const BusinessShopContent = () => {
             <input
               type="file"
               accept="image/*"
+              ref={logoInputRef}
               className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
               onChange={(e) => handleFileChange("media", "logo", e.target.files)}
             />
           </div>
+
           <div className="space-y-5 mt-10">
             {['businessName', 'businessType', 'description', 'shopTimings', 'discount'].map((field) => (
               field === 'description' ? (
@@ -436,9 +468,9 @@ const BusinessShopContent = () => {
           </h3>
 
           <div className="space-y-6">
-            <div className="space-y-2 mt-6 ">
+            <div className="space-y-2 mt-6">
               <div className="flex items-center justify-start gap-6 pb-4">
-                <label className="block text-base  font-medium text-gray-700">
+                <label className="block text-base font-medium text-gray-700">
                   Gallery Images
                 </label>
                 <p className="text-sm text-gray-600">
@@ -448,11 +480,12 @@ const BusinessShopContent = () => {
                 </p>
               </div>
 
-              <label className="bg-teal-700  text-white px-4 py-2  rounded cursor-pointer">
+              <label className="bg-teal-700 text-white px-4 py-2 rounded cursor-pointer">
                 Choose Files
                 <input
                   type="file"
                   multiple
+                  ref={galleryInputRef}
                   onChange={(e) =>
                     handleFileChange("media", "galleryImages", e.target.files, true)
                   }

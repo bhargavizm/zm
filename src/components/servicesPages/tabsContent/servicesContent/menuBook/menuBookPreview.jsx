@@ -61,7 +61,7 @@ const MenuBookPreview = () => {
 
   return (
     <section className="flex justify-center items-start ">
-      <div className="relative w-[350px] h-[650px] rounded-[40px] border-[14px] sm:border-[12px] border-gray-900 sm:rounded-[40px] shadow-xl overflow-hidden bg-white">
+      <div className="relative w-[350px] h-[600px] rounded-[40px] border-[14px] sm:border-[12px] border-gray-900 sm:rounded-[40px] shadow-xl overflow-hidden bg-white">
         {/* Background */}
         {isImage ? (
           <img
@@ -120,7 +120,7 @@ const MenuBookPreview = () => {
                     <img
                       src={item.image || "/fallback-image.webp"}
                       alt={`Menu ${idx}`}
-                      className="w-full h-52 object-cover rounded-md border border-gray-300 shadow"
+                      className="w-full h-52 object-center rounded-md border border-gray-300 shadow"
                     />
                   </div>
                 ))}

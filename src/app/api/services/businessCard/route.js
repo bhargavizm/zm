@@ -2,7 +2,7 @@
 
 import { connectDB } from "@/lib/mongoDB";
 import { authUser } from "@/middlewares/authMiddleware";
-import BusinessModel from "@/models/services/businessCardSchema";
+import BusinessModel from "@/models/services/cardsSchema";
 import { cloudinary } from "@/utils/cloudinary";
 import bcrypt from "bcryptjs";
 

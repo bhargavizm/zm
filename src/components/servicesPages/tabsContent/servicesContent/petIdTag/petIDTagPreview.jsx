@@ -33,7 +33,7 @@ const PetTagPreview = () => {
 
   return (
     <div className="flex justify-center items-center ">
-      <div className="relative w-[350px] h-[650px] border-[14px] border-gray-800 rounded-[50px] overflow-hidden shadow-2xl bg-white">
+      <div className="relative w-[350px] h-[600px] border-[14px] border-gray-800 rounded-[50px] overflow-hidden shadow-2xl bg-white">
         {/* Notch */}
         <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[140px] h-[30px] bg-gray-800 rounded-b-xl z-20" />
 

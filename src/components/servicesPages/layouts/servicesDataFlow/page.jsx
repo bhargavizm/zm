@@ -3,8 +3,8 @@
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { componentMap, directToCustomize } from '../../servicesRoutes/servicesRoutes';
-import CustomizeQRCode from '@/components/homePage/customizedQRCodeDesigns/customizeQRCode';
 import ServicesLayout from '../servicesLayout';
+import CustomizeQRCode from '@/components/QRCodeCustomization/QRCodeCustomization/layouts/customizeQRCode';
 
 const ServicesDataFlow = ()  =>{
   const { slug } = useParams();

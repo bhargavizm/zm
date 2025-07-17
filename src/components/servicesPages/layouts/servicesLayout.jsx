@@ -1,9 +1,10 @@
 
 'use client';
 
-import DesignSection from '@/components/homePage/customizedQRCodeDesigns/designSection'
-import React from 'react'
-import DesignLayout from './designLayout'
+import DesignSection from "@/components/QRCodeCustomization/QRCodeCustomization/layouts/designSection";
+import DesignLayout from "./designLayout";
+
+
 
 
 const ServicesLayout = ({ContentTabComponent, PreviewTabComponent }) => {
