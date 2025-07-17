@@ -12,9 +12,18 @@ export const useRenderEyes = () => {
     padding,
     qrSize,
     selectedEyeFrame,
-    selectedEyeBall,
+    selectedEyeBall,  isEyeFrameEnabled,
+  isEyeballEnabled,
     colorMode,
     qrColor,
+      eyeFrameColorMode,
+  eyeFrameColor,
+  eyeFrameGradientStart,
+  eyeFrameGradientEnd,
+  eyeballColorMode,
+  eyeballColor,
+  eyeballGradientStart,
+  eyeballGradientEnd,
   } = useDesignContext();
 
   return () => {
@@ -39,18 +48,27 @@ export const useRenderEyes = () => {
 
     return eyes.map((eye, index) => (
       <g key={`eye-${index}`}>
-        {EyeFrameComponent(
-          eye.x,
-          eye.y,
-          eyeModuleSize,
-          colorMode === "gradient" ? "url(#qrGradient)" : qrColor
-        )}
-        {EyeballComponent(
-          eye.x + eyeModuleSize / 4,
-          eye.y + eyeModuleSize / 4,
-          eyeModuleSize / 2,
-          colorMode === "gradient" ? "url(#qrGradient)" : qrColor
-        )}
+        {
+        EyeFrameComponent(
+  eye.x,
+  eye.y,
+  eyeModuleSize,
+  eyeFrameColorMode === "gradient"
+    ? "url(#eyeFrameGradient)"
+    : eyeFrameColor
+)
+        }
+        
+        {
+       EyeballComponent(
+  eye.x + eyeModuleSize / 4,
+  eye.y + eyeModuleSize / 4,
+  eyeModuleSize / 2,
+  eyeballColorMode === "gradient"
+    ? "url(#eyeballGradient)"
+    : eyeballColor
+)
+        }
       </g>
     ));
   };
