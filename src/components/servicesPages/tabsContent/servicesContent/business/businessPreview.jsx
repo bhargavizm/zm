@@ -32,7 +32,7 @@ const BusinessPreview = () => {
 
   return (
     <div className="flex justify-center items-center w-full">
-      <div className="relative w-[350px] h-[650px] border-[14px] border-gray-800 rounded-[36px] overflow-hidden shadow-2xl bg-white p-2">
+      <div className="relative w-[350px] h-[600px] border-[14px] border-gray-800 rounded-[36px] overflow-hidden shadow-2xl bg-white p-2">
 
         {/* Background */}
         {isImage && (

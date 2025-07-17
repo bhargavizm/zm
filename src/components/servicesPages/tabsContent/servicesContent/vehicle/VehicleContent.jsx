@@ -11,10 +11,11 @@ import { useDispatch } from "react-redux";
 import { useParams } from "next/navigation";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import { MdCancel } from "react-icons/md";
+import LoadingSpinner from "@/components/common/spinner";
 
 
 const VehicleContent = () => {
-  const { dynamicForms, updateDynamicForm } = useServicesContext();
+  const { dynamicForms, updateDynamicForm ,servicesDataLoading, setServicesDataLoading} = useServicesContext();
   const vehicleInfo = dynamicForms.vehicle;
   const vehicleTemplate = dynamicForms.vehicleTemplate;
   const dispatch = useDispatch();
@@ -91,7 +92,7 @@ const VehicleContent = () => {
   const confirmSubmission = async () => {
     setShowConfirmation(false);
     setIsSubmitting(true);
-    
+      setServicesDataLoading(true);
     try {
       const formData = new FormData();
       
@@ -163,8 +164,14 @@ const VehicleContent = () => {
                          error.response?.data?.message || 
                          'Failed to save vehicle details';
       toast.error(errorMessage);
+
+        if (error.response?.status === 401) {
+        window.location.href = "/login"; // ✅ Auto logout on expiry
+        return;
+      }
     } finally {
       setIsSubmitting(false);
+      setServicesDataLoading(false); // ✅ End loader
     }
   };
 
@@ -305,6 +312,7 @@ const VehicleContent = () => {
     const error = errors[field];
 
     return (
+      <>
       <div className="space-y-2">
         <label className="block text-base font-medium text-gray-700">
           {label} {required && <span className="text-red-500">*</span>}
@@ -357,6 +365,7 @@ const VehicleContent = () => {
           </div>
         )}
       </div>
+      </>
     );
   };
 
@@ -398,6 +407,8 @@ const VehicleContent = () => {
 
   return (
     <>
+        {servicesDataLoading && <LoadingSpinner />}
+
       <form onSubmit={handleSubmit}>
         <div className="space-y-8 p-4 md:p-8 lg:p-12 bg-gray-50 rounded-xl shadow-lg overflow-auto hide-scrollbar h-150">
           {/* Vehicle Profile Template Section */}
