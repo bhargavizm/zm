@@ -1,4 +1,3 @@
-
 // utils/renderEyes.js
 import useDesignContext from "@/components/hooks/useDesignContext";
 import React from "react";
