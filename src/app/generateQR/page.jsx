@@ -4,7 +4,7 @@ import ImageToQR from "@/components/homePage/imageToQR";
 import MarketingFeatures from "@/components/homePage/marketingFeatures/marketingFeatures";
 import Security from "@/components/homePage/security/security";
 import React from "react";
-import CustomizeQRCode from "@/components/homePage/customizedQRCodeDesigns/customizeQRCode";
+//import CustomizeQRCode from "@/components/QRCodeCustomization/layouts/customizeQRCode";
 import CustomerReviews from "@/components/homePage/customerReviews";
 import ScheduleDemo from "@/components/homePage/demo/demo";
 import QRDesign from "@/components/homePage/qrDesign/qrDesign";

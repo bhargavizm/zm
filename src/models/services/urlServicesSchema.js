@@ -11,10 +11,10 @@ const URLServicesSchema = new mongoose.Schema(
     password: { type: String },
   },
   { timestamps: true }
+  
 );
-
 // Create index on userId + serviceName to speed up queries
-URLServicesSchema.index({ userId: 1, serviceName: 1 });
+URLServicesSchema.index({ "user.id": 1, serviceName: 1 });
 
 // Use camelCase model name and match with models[ModelName]
 const URLServiceModel =

@@ -16,6 +16,7 @@ const VideoContent = () => {
         apiRoute="/api/encryptedServices/video"
         reduxAction={setVideoServices}
         dispatch={dispatch}
+          fileKey="file"
         accept="video/*" // Accepts any video format
         titleLabel="Video Title"
         fileLabel="Upload Video Files"

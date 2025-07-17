@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  businessCardServicesData: [],
+  CardsServicesData: [],
+    productCardServicesData: [],
+    businessShopServicesData:[],
   resumeServiceData: [],
   wifiServicesData: [],
   menuCardServiceData: [],
@@ -15,10 +17,6 @@ const initialState = {
   petIDServicesData: [],
   kidsSafetyServicesData: [],
   medicalServicesData: [],
-  pdfServiceData: [],
-  audioServiceData: [],
-  videoServiceData: [],
-  galleryServiceData: [],
   error: null,
 };
 
@@ -26,9 +24,19 @@ const servicesSlice = createSlice({
   name: "services",
   initialState,
   reducers: {
-    setBusinessCardServices: (state, action) => ({
+    setCardServices: (state, action) => ({
+      ...state,   
+      CardsServicesData: action.payload,
+      error: null,
+    }),
+    setProductCardServices: (state, action) => ({
       ...state,
-      businessCardServicesData: action.payload,
+      productCardServicesData: action.payload,
+      error: null,
+    }),
+    setBusinessShopServices: (state, action) => ({
+      ...state,
+      businessShopServicesData: action.payload,
       error: null,
     }),
     setResumeServices: (state, action) => ({
@@ -116,6 +124,9 @@ export const {
   setPropertyServices,
   setPetIdServices,
   setKidsSafetyServices,
+  setCardServices,
+  setProductCardServices,
+  setBusinessShopServices,
   setDiscountServices,
   setMedicalServices,
   clearError,

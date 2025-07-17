@@ -227,7 +227,6 @@
             "Generate QR Code for Location",
             "Generate QR Code for Event",
             "Generate QR Code for Forms"
-            
         ],
         "followUs": "Follow Us",
         "getInTouch": "Get In Touch",
@@ -743,41 +742,6 @@
         },
         "ourProcessSection": {
             "title": "Your Journey to Becoming a ZM Franchisee",
-            "steps": [
-                {
-                    "number": 1,
-                    "title": "Inquiry & Information Request",
-                    "description": "Fill out the online form and download our comprehensive Franchise Info Packet."
-                },
-                {
-                    "number": 2,
-                    "title": "Initial Discovery Call",
-                    "description": "Engage in a brief, no-obligation chat with our Franchise Development Team."
-                },
-                {
-                    "number": 3,
-                    "title": "Review Franchise Disclosure Document (FDD)",
-                    "description": "Dive deep into the legal and financial details."
-                },
-                {
-                    "number": 4,
-                    "title": "Territory Agreement & Franchise Agreement",
-                    "description": "Finalize your exclusive territory and sign the official franchise agreement."
-                },
-                {
-                    "number": 5,
-                    "title": "Comprehensive Training",
-                    "description": "Participate in our intensive training program."
-                },
-                {
-                    "number": 6,
-                    "title": "Grand Opening & Ongoing Support",
-                    "description": "Launch your ZM franchise with our continued guidance."
-                }
-            ]
-        },
-        "ourProcessSection": {
-            "title": "Your Journey to Becoming a ZM Franchisee",
             "subtitle": "A simple, transparent process to launch your own successful QR Code business.",
             "steps": [
                 {
@@ -846,17 +810,55 @@
     },
     "refund_policy": {
         "title": "Refund Policy",
-        "intro": "Thank you for choosing our services. Please read the details of our refund policy carefully:",
-        "points": [
-            "Refunds are not provided for digital services once access is granted.",
-            "This includes software tools, QR code generators, and learning material.",
-            "All digital products are considered final sale."
+        "intro": "Thank you for choosing ZM QR Code Services. We value your trust and are committed to providing high-quality digital services and customer support. Please review our refund policy carefully before making a purchase.",
+        "sections": [
+            {
+                "heading": "1. No Refund Policy for Digital Services",
+                "content": "Once access is granted to our digital products and services, no refunds will be issued. This includes, but is not limited to:",
+                "list": [
+                    "QR Code generators and management systems",
+                    "Software tools and applications",
+                    "Digital learning materials, documentation, and user guides"
+                ],
+                "note": "All digital products are final sale and non-returnable upon delivery or activation."
+            },
+            {
+                "heading": "2. Service Activation",
+                "content": "Refunds are not available once the service has been activated or login/access credentials have been issued. This policy is in place due to the nature of digital products, which cannot be returned once delivered."
+            },
+            {
+                "heading": "3. Technical Support and Issue Resolution",
+                "content": "If you experience any technical difficulties or billing issues, we encourage you to reach out to our support team. We are here to assist you with:",
+                "list": [
+                    "Troubleshooting and bug resolution",
+                    "Clarifications related to billing or subscription",
+                    "Product guidance and usage assistance"
+                ],
+                "note": "We strive to provide a timely and effective resolution to all legitimate concerns."
+            },
+            {
+                "heading": "4. Contact Information",
+                "content": "If you have questions about our refund policy or require support, please visit our Contact Us page or email us directly at support@zmqrcode.com."
+            },
+            {
+                "heading": "5. Agreement",
+                "content": "By purchasing and using our services, you acknowledge and agree to this refund policy. ZM QR Code Services reserves the right to update or modify this policy at any time without prior notice."
+            }
         ],
-        "strict_policy": "ZM QR Code Services maintains a strict no-refund policy after activation.",
-        "support_info": "If you encounter issues, please contact our team. We are happy to assist with technical support and billing clarification.",
-        "contact_prompt": "For inquiries, visit our",
-        "contact_link": "Contact Us",
-        "contact_suffix": "page."
+        "footer": {
+            "company": "ZM QR Code Services",
+            "websites": [
+                {
+                    "label": "zmqrcode.com",
+                    "url": "https://zmqrcode.com"
+                },
+                {
+                    "label": "zmqrcode.in",
+                    "url": "https://zmqrcode.in"
+                }
+            ],
+            "email": "support@zmqrcode.com"
+        }
     },
     "contactUs": {
         "heading": "Get In Touch",

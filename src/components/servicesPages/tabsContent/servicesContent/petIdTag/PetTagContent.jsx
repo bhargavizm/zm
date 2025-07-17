@@ -11,12 +11,12 @@ import { useDispatch } from "react-redux";
 import { setPetIdServices } from "@/redux/slices/servicesSlice";
 import { useParams, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import LoadingSpinner from "@/components/common/spinner";
 
 const PetTagContent = () => {
-  const { setActiveTab } = useDesignContext();
+  const { setActiveTab , setIsLoading, setBgDesign} = useDesignContext();
   const { slug } = useParams();
-  const { petIDFormData, setPetIDFormData } = useServicesContext();
-  const { setIsLoading, setBgDesign } = useDesignContext();
+  const { petIDFormData, setPetIDFormData, servicesDataLoading, setServicesDataLoading  } = useServicesContext();
   const [showPassword, setShowPassword] = useState(false);
   const [file, setFile] = useState(null);
   const [submitting, setSubmitting] = useState(false);
@@ -36,7 +36,7 @@ const PetTagContent = () => {
 
   const handleOwnerChange = (e) => {
     const { id, value } = e.target;
-    
+
     // Phone number validation
     if (id === "phone") {
       const phoneRegex = /^[0-9]{10,15}$/;
@@ -46,7 +46,7 @@ const PetTagContent = () => {
         setPhoneError("");
       }
     }
-    
+
     setPetIDFormData((prev) => ({
       ...prev,
       ownerInfo: {
@@ -152,8 +152,12 @@ const PetTagContent = () => {
 
     const { selectedTemplate, mainImage, ownerInfo, pet } = petIDFormData;
 
-    const isAnyOwnerInfoFilled = Object.values(ownerInfo).some((v) => v && v.trim() !== "");
-    const isAnyPetInfoFilled = Object.values(pet).some((v) => v && v.trim() !== "");
+    const isAnyOwnerInfoFilled = Object.values(ownerInfo).some(
+      (v) => v !== null && v !== undefined && v.toString().trim() !== ""
+    );
+    const isAnyPetInfoFilled = Object.values(pet).some(
+      (v) => v !== null && v !== undefined && v.toString().trim() !== ""
+    );
     const isTemplateSelected = !!selectedTemplate;
     const isImageUploaded = !!mainImage;
 
@@ -168,7 +172,7 @@ const PetTagContent = () => {
   const handleFinalSubmit = async () => {
     setSubmitting(true);
     setShowPreviewModal(false);
-
+  setServicesDataLoading(true);
     try {
       const base64Image = file ? await toBase64(file) : null;
 
@@ -215,10 +219,16 @@ const PetTagContent = () => {
       }
     } catch (error) {
       console.error("Submission Error:", error);
-      alert("Something went wrong while submitting.");
+      toast.error(error?.response?.data?.error || "Something went wrong!");
+       if (error.response?.status === 401) {
+        window.location.href = "/login"; // ✅ Auto logout on expiry
+        return;
+      }
     } finally {
-      setSubmitting(false);
+       setSubmitting(false);
+      setServicesDataLoading(false); // ✅ End loader
     }
+    
   };
 
   const renderPreviewField = (label, value) => {
@@ -234,6 +244,8 @@ const PetTagContent = () => {
 
   return (
     <>
+     {servicesDataLoading && <LoadingSpinner />}
+
       <form onSubmit={handlePreviewSubmit}>
         <div className="grid grid-cols-1 gap-10">
           <div className="bg-white shadow-xl rounded-xl p-6 space-y-6">
@@ -247,10 +259,11 @@ const PetTagContent = () => {
                   <div
                     key={idx}
                     onClick={() => handleTemplateSelect(filename)}
-                    className={`relative rounded-md border-2 cursor-pointer transition-all p-1 ${petIDFormData.selectedTemplate === filename
-                      ? "border-[#008080] ring-2 ring-[#008080]"
-                      : "border-gray-300"
-                      }`}
+                    className={`relative rounded-md border-2 cursor-pointer transition-all p-1 ${
+                      petIDFormData.selectedTemplate === filename
+                        ? "border-[#008080] ring-2 ring-[#008080]"
+                        : "border-gray-300"
+                    }`}
                   >
                     <Image
                       src={`/pet-id/${filename}`}
@@ -311,7 +324,9 @@ const PetTagContent = () => {
                   value={petIDFormData.ownerInfo.phone}
                   onChange={handleOwnerChange}
                   placeholder="Phone Number"
-                  className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 ${phoneError ? "focus:ring-red-500 border-red-500" : "focus:ring-[#008080]"}`}
+                  className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 ${
+                    phoneError ? "focus:ring-red-500 border-red-500" : "focus:ring-[#008080]"
+                  }`}
                 />
                 {phoneError && (
                   <p className="mt-1 text-sm text-red-600">{phoneError}</p>
@@ -405,17 +420,26 @@ const PetTagContent = () => {
         <div className="fixed inset-0 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <div className="p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-800">Confirm Your Information</h2>
+              <div className="mb-6 px-4 py-3 flex justify-between items-start gap-4">
+                {/* Heading and Subtext */}
+                <div className="flex flex-col">
+                  <h2 className="text-2xl font-bold text-gray-800">Confirm Submission</h2>
+                  <p className="text-sm text-gray-600 mt-1 max-w-md">
+                    Are you sure you want to submit this property listing? Please review all details before confirming.
+                  </p>
+                </div>
+
+                {/* Close Button */}
                 <button
                   onClick={() => setShowPreviewModal(false)}
-                  className="text-gray-500 hover:text-gray-700"
+                  className="text-gray-500 hover:text-gray-700 transition-colors"
+                  aria-label="Close modal"
                 >
                   <X size={24} />
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <h3 className="text-lg font-semibold mb-4">Owner Information</h3>
                   {renderPreviewField("Name", petIDFormData.ownerInfo.name)}
@@ -443,8 +467,7 @@ const PetTagContent = () => {
                     </div>
                   )}
                 </div>
-              </div>
-
+              </div> */}
               <div className="mt-8 flex flex-col sm:flex-row justify-end gap-3">
                 <button
                   type="button"
@@ -486,13 +509,13 @@ const PetTagContent = () => {
           <div className="bg-white rounded-xl shadow-2xl w-full max-w-md">
             <div className="p-6 text-center">
               <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
-                <Check className="h-6 w-6 text-green-600" />
+                <Check className="h-6 w-6 text-mainGreen" />
               </div>
               <h3 className="text-lg font-medium text-gray-900 mb-2">Success!</h3>
               <p className="text-gray-600">Pet ID Tag has been created successfully.</p>
               <div className="mt-6">
                 <div className="w-full bg-gray-200 rounded-full h-1.5">
-                  <div className="bg-green-600 h-1.5 rounded-full animate-[countdown_2s_linear_forwards]" />
+                  <div className="bg-mainGreen h-1.5 rounded-full animate-[countdown_2s_linear_forwards]" />
                 </div>
               </div>
             </div>
