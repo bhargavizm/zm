@@ -1,8 +1,9 @@
 
 'use client';
 
-import DesignSection from "@/components/QRCodeCustomization/QRCodeCustomization/layouts/designSection";
+import DesignSection from "@/components/QRCodeCustomization/layouts/designSection";
 import DesignLayout from "./designLayout";
+
 
 
 

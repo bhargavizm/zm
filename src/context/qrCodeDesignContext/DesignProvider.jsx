@@ -35,9 +35,9 @@ const [companyLogoSize, setCompanyLogoSize] = useState(180); // for outer compan
 
   const [activeTabs, setActiveTabs] = useState({}); // { slug: tab }
   // const [qrColor, setQrColor] = useState("#000000");
-  // const [qrGradient, setQrGradient] = useState(["#0eb424", "#df0808"]);
-  // const [gradientType, setGradientType] = useState("linear-gradient");
-  // const [qrMode, setQrMode] = useState("single");
+  const [qrGradient, setQrGradient] = useState(["#0eb424", "#df0808"]);
+  const [gradientType, setGradientType] = useState("linear-gradient");
+  const [qrMode, setQrMode] = useState("single");
 
 
     const moduleSize = 8;
