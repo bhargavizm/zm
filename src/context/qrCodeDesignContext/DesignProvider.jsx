@@ -12,11 +12,16 @@ const DesignProvider = ({ children }) => {
   const [selectedSticker, setSelectedSticker] = useState(DEFAULT_STICKER);
   const [selectedLogo, setSelectedLogo] = useState(DEFAULT_LOGO);
   const [backgroundImage, setBackgroundImage] = useState(null);
-  const [logoSize, setLogoSize] = useState(45);
+  const [logoSize, setLogoSize] = useState(40);
   const [scale, setScale] = useState(160);
   const [isLoading, setIsLoading] = useState(false);
   const [bgDesign, setBgDesign] = useState(null);
  
+  // const [qrColor, setQrColor] = useState("#000000"); 
+  const [selectedBodyFrame, setSelectedBodyFrame] = useState(null);
+const [selectedEyeFrame, setSelectedEyeFrame] = useState(null);
+const [selectedEyeBall, setSelectedEyeBall] = useState(null);
+
 
   const [activeTabs, setActiveTabs] = useState({}); // { slug: tab }
   const [qrColor, setQrColor] = useState("#000000");
@@ -80,6 +85,12 @@ const getActiveTab = (slug) => {
         qrMode,
         setQrMode,
 
+       activeTabs, setActiveTab, getActiveTab, selectedBodyFrame,
+  setSelectedBodyFrame,
+  selectedEyeFrame,
+  setSelectedEyeFrame,
+  selectedEyeBall,
+  setSelectedEyeBall,
 
       }}
     >
@@ -89,6 +100,9 @@ const getActiveTab = (slug) => {
 };
 
 export default DesignProvider;
+
+
+
 // "use client";
 
 // import React, { useEffect, useState } from "react";

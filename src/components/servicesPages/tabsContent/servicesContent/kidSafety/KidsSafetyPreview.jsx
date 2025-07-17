@@ -84,7 +84,7 @@ const KidsSafetyPreview = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="relative w-[350px] h-[650px] rounded-[40px] border-[14px] border-gray-800 shadow-xl  flex flex-col">
+      <div className="relative w-[350px] h-[600px] rounded-[40px] border-[14px] border-gray-800 shadow-xl  flex flex-col">
         {isImage && (
           <img
             src={bgDesign}

@@ -750,7 +750,7 @@ const KidsSafetyContent = () => {
 
       router.refresh();
     } catch (error) {
-      toast.error("Failed to submit: " + error.message);
+     toast.error(error?.response?.data?.error || "Something went wrong!");
     } finally {
       setIsSubmitting(false);
     }

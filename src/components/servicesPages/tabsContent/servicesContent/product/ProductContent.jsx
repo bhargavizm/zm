@@ -8,9 +8,10 @@ import useDesignContext from "@/components/hooks/useDesignContext";
 import { MdCancel, MdDeleteForever } from "react-icons/md";
 import { toast } from 'react-hot-toast';
 import { useParams } from "next/navigation";
+import LoadingSpinner from "@/components/common/spinner";
 
 const ProductContent = () => {
-  const { setActiveTab } = useDesignContext();
+  const { setActiveTab,setIsLoading, setBgDesign } = useDesignContext();
   const { slug } = useParams();
   // Context states
   const {
@@ -21,8 +22,9 @@ const ProductContent = () => {
     setProductImage,
     items,
     setItems,
+     servicesDataLoading, setServicesDataLoading 
   } = useServicesContext();
-  const { setIsLoading, setBgDesign } = useDesignContext();
+
 
   // State variables
   const [showPassword, setShowPassword] = useState(false);
@@ -430,7 +432,7 @@ const ProductContent = () => {
   // Confirm submission
   const confirmSubmit = async () => {
     setShowSubmitModal(false);
-
+  setServicesDataLoading(true);
     try {
       // Convert all images to base64 for database storage
       const logoBase64 = await convertImageToBase64(productLogo);
@@ -502,8 +504,15 @@ const ProductContent = () => {
       setTimeout(() => setShowSuccessModal(false), 2000);
     } catch (error) {
       console.error("Submission error:", error);
+       toast.error(error?.response?.data?.error || "Something went wrong!");
       setValidationError(error.message || "Failed to submit product. Please try again.");
       setShowValidationModal(true);
+     if (error.response?.status === 401) {
+        window.location.href = "/login"; // ✅ Auto logout on expiry
+        return;
+      }
+    } finally {
+      setServicesDataLoading(false); // ✅ End loader
     }
   };
 
@@ -519,62 +528,12 @@ const ProductContent = () => {
   };
 
   return (
+    <>
+     {servicesDataLoading && <LoadingSpinner />}
+
+
     <div>
-      {/* Validation Error Modal */}
-      {showValidationModal && (
-        <ModalBackdrop onClose={() => setShowValidationModal(false)}>
-          <div className="p-4 text-center">
-            <p className="text-red-500 font-medium">{validationError}</p>
-            <button
-              onClick={() => setShowValidationModal(false)}
-              className="mt-4 px-4 py-2 bg-[#008080] text-white rounded hover:bg-[#006666] transition"
-            >
-              OK
-            </button>
-          </div>
-        </ModalBackdrop>
-      )}
-
-      {/* Submit Confirmation Modal */}
-      {showSubmitModal && (
-        <ModalBackdrop onClose={() => setShowSubmitModal(false)}>
-          <div className="p-4 text-center">
-            <h3 className="text-lg font-semibold mb-4">Confirm Submission</h3>
-            <p className="mb-6">Are you sure you want to submit this product information?</p>
-            <div className="flex justify-center gap-4">
-              <button
-                onClick={() => setShowSubmitModal(false)}
-                className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 transition"
-              >
-                Edit
-              </button>
-              <button
-                onClick={confirmSubmit}
-                className="px-4 py-2 bg-[#008080] text-white rounded hover:bg-[#006666] transition"
-              >
-                Submit
-              </button>
-            </div>
-          </div>
-        </ModalBackdrop>
-      )}
-
-      {/* Success Modal */}
-      {showSuccessModal && (
-        <ModalBackdrop onClose={() => setShowSuccessModal(false)}>
-          <div className="p-4 text-center">
-            <p className="text-mainGreen font-medium mb-4">Product submitted successfully!</p>
-            <button
-              onClick={() => setShowSuccessModal(false)}
-              className="px-4 py-2 bg-[#008080] text-white rounded hover:bg-[#006666] transition"
-            >
-              OK
-            </button>
-          </div>
-        </ModalBackdrop>
-      )}
-
-      {/* Main Form Content */}
+            {/* Main Form Content */}
       <div className="grid grid-cols-1 gap-10">
         <div className="bg-white shadow-xl rounded-xl p-6 space-y-6">
           {/* Template Selection */}
@@ -879,7 +838,65 @@ const ProductContent = () => {
           </button>
         </div>
       </div>
+
+      {/* Validation Error Modal */}
+      {showValidationModal && (
+        <ModalBackdrop onClose={() => setShowValidationModal(false)}>
+          <div className="p-4 text-center">
+            <p className="text-red-500 font-medium">{validationError}</p>
+            <button
+              onClick={() => setShowValidationModal(false)}
+              className="mt-4 px-4 py-2 bg-[#008080] text-white rounded hover:bg-[#006666] transition"
+            >
+              OK
+            </button>
+          </div>
+        </ModalBackdrop>
+      )}
+
+      {/* Submit Confirmation Modal */}
+      {showSubmitModal && (
+        <ModalBackdrop onClose={() => setShowSubmitModal(false)}>
+          <div className="p-4 text-center">
+            <h3 className="text-lg font-semibold mb-4">Confirm Submission</h3>
+            <p className="mb-6">Are you sure you want to submit this product information?</p>
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={() => setShowSubmitModal(false)}
+                className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 transition"
+              >
+                Edit
+              </button>
+              <button
+                onClick={confirmSubmit}
+                className="px-4 py-2 bg-[#008080] text-white rounded hover:bg-[#006666] transition"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </ModalBackdrop>
+      )}
+
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <ModalBackdrop onClose={() => setShowSuccessModal(false)}>
+          <div className="p-4 text-center">
+            <p className="text-mainGreen font-medium mb-4">Product submitted successfully!</p>
+            <button
+              onClick={() => setShowSuccessModal(false)}
+              className="px-4 py-2 bg-[#008080] text-white rounded hover:bg-[#006666] transition"
+            >
+              OK
+            </button>
+          </div>
+        </ModalBackdrop>
+      )}
+
+
     </div>
+    </>
+     
   );
 };
 

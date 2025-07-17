@@ -58,7 +58,7 @@ const DesignSection = () => {
     <div className="pt-6">
     <Link
       href={`/services#${from || slug}`}
-      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[linear-gradient(to_right,#008080,#001a1a)] text-white border-white font-bold text-md hover:text-darkGreen transition-all"
+      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[linear-gradient(to_right,#008080,#001a1a)] text-white border-white font-bold text-md transition-all"
     >
       <FiArrowLeft className="text-xl" />
       Back to Services
@@ -75,7 +75,7 @@ const DesignSection = () => {
       </div> */}
 
       <div className="px-4 sm:px-8 md:px-14 py-6 mx-auto">
-        <div className="flex lg:justify-center w-full overflow-x-auto gap-x-6 border-b   border-white/40 pb-9">
+        <div className="flex lg:justify-center w-full overflow-x-auto gap-x-4 border-b   border-white/40 pb-9">
           {tabLinks.map(({ href, label, icon }) => {
             const isActive = href.includes(slug);
 

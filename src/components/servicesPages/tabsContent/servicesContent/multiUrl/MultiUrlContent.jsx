@@ -19,6 +19,7 @@ import { setMultiUrlServices } from "@/redux/slices/servicesSlice";
 import toast from "react-hot-toast";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import { useParams } from "next/navigation";
+import LoadingSpinner from "@/components/common/spinner";
 
 
 
@@ -37,7 +38,7 @@ const MultiUrlContent = () => {
     dynamicForms,
     updateDynamicForm,
     addTemplateField,
-    removeTemplateField,
+    removeTemplateField,servicesDataLoading, setServicesDataLoading
   } = useServicesContext();
 
   const [customLabel, setCustomLabel] = useState("");
@@ -103,6 +104,7 @@ const handleSubmit = () => {
 };
 
   const confirmSubmit = async () => {
+      setServicesDataLoading(true);
     try {
       const encryptedPassword = password
         ? CryptoJS.AES.encrypt(password, "secret-key").toString()
@@ -141,13 +143,21 @@ const handleSubmit = () => {
       setPassword("");
     } catch (error) {
       console.error("Submission failed", error);
-      alert("An unexpected error occurred");
+     toast.error(error?.response?.data?.error || "Something went wrong!");
+     if (error.response?.status === 401) {
+        window.location.href = "/login"; // ✅ Auto logout on expiry
+        return;
+      }
+    } finally {
+      setServicesDataLoading(false); // ✅ End loader
     }
   };
 
 
   return (
     <>
+     {servicesDataLoading && <LoadingSpinner />}
+
       <div className="space-y-6">
         {/* Social Media Links */}
         <div className="p-4 border rounded-lg">

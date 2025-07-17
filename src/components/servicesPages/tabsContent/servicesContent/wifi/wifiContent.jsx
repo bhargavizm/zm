@@ -9,11 +9,12 @@ import { setWifiServices } from "@/redux/slices/servicesSlice";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import { useParams } from "next/navigation";
 import toast from "react-hot-toast";
+import LoadingSpinner from "@/components/common/spinner";
 
 const WifiContent = () => {
   const { setActiveTab } = useDesignContext();
   const { slug } = useParams();
-  const { wifiFormData, setWifiFormData } = useServicesContext();
+  const { wifiFormData, setWifiFormData,servicesDataLoading, setServicesDataLoading } = useServicesContext();
   const [showPassword, setShowPassword] = useState(false);
   const [showQRPassword, setShowQRPassword] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -33,12 +34,13 @@ const WifiContent = () => {
     if (!wifiFormData[0]?.ssid) {
       toast.error("WiFi SSID is required");
       return;
+      
     }
     
-    if (wifiFormData[0]?.security !== "nopass" && (!wifiFormData[0]?.password || wifiFormData[0]?.password.length < 4)) {
-      toast.error("Password must be at least 4 characters");
-      return;
-    }
+    // if (wifiFormData[0]?.security !== "nopass" && (!wifiFormData[0]?.password || wifiFormData[0]?.password.length < 4)) {
+    //   toast.error("Password must be at least 4 characters");
+    //   return;
+    // }
     
     setSubmissionStep("confirm");
     setModalVisible(true);
@@ -51,6 +53,7 @@ const WifiContent = () => {
   const handleConfirm = async () => {
     const formData = wifiFormData[0];
 
+      setServicesDataLoading(true);
     try {
       const response = await fetch("/api/services/wifi", {
         method: "POST",
@@ -92,12 +95,22 @@ const WifiContent = () => {
       }
     } catch (error) {
       console.error("Error submitting WiFi data:", error);
-      toast.error("Error submitting data. Please try again.");
+      toast.error(error?.response?.data?.error || "Something went wrong!");
       setModalVisible(false);
+
+      if (error.response?.status === 401) {
+    window.location.href = "/login"; // ✅ Auto logout on expiry
+    return;
+  }
+    }finally {
+      setServicesDataLoading(false); // ✅ End loader
     }
   };
 
   return (
+<>
+        {servicesDataLoading && <LoadingSpinner />}
+        
     <div className="flex items-center justify-center py-8 relative">
       <div className="bg-white rounded-2xl shadow-xl p-8 space-y-6 w-full max-w-md">
         <form className="space-y-5" onSubmit={handleSubmit}>
@@ -272,6 +285,7 @@ const WifiContent = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 

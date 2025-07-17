@@ -35,7 +35,7 @@
 
 //   return (
 //     <div className="flex justify-center items-center w-full">
-//       <div className="relative w-[350px] h-[650px] border-[14px] border-gray-800 rounded-[36px] bg-white overflow-hidden shadow-2xl p-2">
+//       <div className="relative w-[350px] h-[600px] border-[14px] border-gray-800 rounded-[36px] bg-white overflow-hidden shadow-2xl p-2">
         
 //         {/* Background */}
 //         {isImage && (
@@ -139,7 +139,7 @@ const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
 
   return (
     <div className="flex justify-center items-center w-full">
-      <div className="relative w-[350px] h-[650px] border-[14px] border-gray-800 rounded-[36px] bg-white overflow-hidden shadow-2xl p-2">
+      <div className="relative w-[350px] h-[600px] border-[14px] border-gray-800 rounded-[36px] bg-white overflow-hidden shadow-2xl p-2">
 
         {/* Background Handling (Image or Video) */}
         {isImage && (

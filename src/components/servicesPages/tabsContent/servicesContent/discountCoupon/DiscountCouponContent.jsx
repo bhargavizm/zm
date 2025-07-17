@@ -12,9 +12,10 @@ import CryptoJS from 'crypto-js';
 import useDesignContext from '@/components/hooks/useDesignContext';
 import { useParams } from 'next/navigation';
 import toast from 'react-hot-toast';
+import LoadingSpinner from '@/components/common/spinner';
 
 const DiscountCouponContent = () => {
-  const { dynamicForms, updateDynamicForm } = useServicesContext();
+  const { dynamicForms, updateDynamicForm,servicesDataLoading, setServicesDataLoading } = useServicesContext();
   const { setActiveTab } = useDesignContext();
   const { slug } = useParams();
   const discountCoupon = dynamicForms.discountCoupon || {};
@@ -89,6 +90,7 @@ const DiscountCouponContent = () => {
   };
 
   const handleConfirm = async () => {
+      setServicesDataLoading(true);
     try {
       const brandLogoBase64 = await fileToBase64(discountCoupon.brandLogo);
       const couponImageBase64 = await fileToBase64(discountCoupon.couponImage);
@@ -136,12 +138,22 @@ const DiscountCouponContent = () => {
       }
     } catch (error) {
       console.error('Error submitting coupon:', error);
-      toast.error('Something went wrong while saving. Please try again.');
+      toast.error(err?.response?.data?.error || "Something went wrong!");
+
+      if (error.response?.status === 401) {
+        window.location.href = "/login"; // ✅ Auto logout on expiry
+        return;
+      }     
+    }finally {
+      setServicesDataLoading(false);
     }
   };
 
 
   return (
+    <>
+      {servicesDataLoading && <LoadingSpinner />}
+
     <div className="space-y-8 p-4 md:p-8 lg:p-12 bg-gray-50 rounded-xl shadow-lg">
       {/* Brand Logo */}
       <div className="space-y-2">
@@ -336,6 +348,7 @@ const DiscountCouponContent = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 

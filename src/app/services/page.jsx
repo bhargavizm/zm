@@ -11,7 +11,7 @@ const ServicesPage = () => {
   const [filteredMain, setFilteredMain] = useState([]);
   const [filteredSpecial, setFilteredSpecial] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [expanded, setExpanded] = useState({});
+  //const [expanded, setExpanded] = useState({});
 
   useEffect(() => {
     import("../data/services.jsx")
@@ -43,12 +43,12 @@ const ServicesPage = () => {
     );
   }, [searchQuery, mainServices, specialServices]);
 
-  const toggleExpand = (slug) => {
-    setExpanded((prev) => ({
-      ...prev,
-      [slug]: !prev[slug],
-    }));
-  };
+  // const toggleExpand = (slug) => {
+  //   setExpanded((prev) => ({
+  //     ...prev,
+  //     [slug]: !prev[slug],
+  //   }));
+  // };
 
 useEffect(() => {
   const handleHashScroll = () => {
@@ -109,7 +109,7 @@ useEffect(() => {
               </div>
             )}
             <div>
-              <p
+              {/* <p
                 className={`text-xs text-gray-600 transition-all duration-300 ${
                   expanded[service.slug] ? "" : "line-clamp-3"
                 }`}
@@ -129,7 +129,11 @@ useEffect(() => {
                     {expanded[service.slug] ? "Show less" : "Read more"}
                   </button>
                 </div>
-              )}
+              )} */}
+              <p className="text-xs text-gray-600 transition-all duration-300">
+  {service.description}
+</p>
+
             </div>
           </div>
         </Link>

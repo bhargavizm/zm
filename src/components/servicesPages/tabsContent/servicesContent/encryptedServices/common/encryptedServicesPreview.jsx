@@ -96,7 +96,7 @@ useEffect(() => {
 
   return (
     <div className="flex justify-center items-start w-full">
-      <div className="relative w-[350px] h-[650px] border-4 border-[#001a1a] rounded-3xl shadow-2xl overflow-hidden text-white">
+      <div className="relative w-[350px] h-[600px] border-4 border-[#001a1a] rounded-3xl shadow-2xl overflow-hidden text-white">
         {/* 🌄 Background */}
         {isImage && (
           <img

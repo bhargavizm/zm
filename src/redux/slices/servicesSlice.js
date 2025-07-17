@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  businessCardServicesData: [],
+  CardsServicesData: [],
+    productCardServicesData: [],
+    businessShopServicesData:[],
   resumeServiceData: [],
   wifiServicesData: [],
   menuCardServiceData: [],
@@ -15,14 +17,6 @@ const initialState = {
   petIDServicesData: [],
   kidsSafetyServicesData: [],
   medicalServicesData: [],
-
-
-  pdfServiceData: [],
-  audioServiceData: [],
-  videoServiceData: [],
-  
-  galleryServiceData: [],
-  businessCardServicesData:[],
   error: null,
 };
 
@@ -30,13 +24,21 @@ const servicesSlice = createSlice({
   name: "services",
   initialState,
   reducers: {
-    setBusinessCardServices: (state, action) => ({
+    setCardServices: (state, action) => ({
       ...state,   
-      businessCardServicesData: action.payload,
+      CardsServicesData: action.payload,
       error: null,
     }),
-    // Regular Services
-
+    setProductCardServices: (state, action) => ({
+      ...state,
+      productCardServicesData: action.payload,
+      error: null,
+    }),
+    setBusinessShopServices: (state, action) => ({
+      ...state,
+      businessShopServicesData: action.payload,
+      error: null,
+    }),
     setResumeServices: (state, action) => ({
       ...state,
       resumeServiceData: action.payload,
@@ -92,9 +94,6 @@ const servicesSlice = createSlice({
       medicalServicesData : action.payload,
       error: null,
     }),
-
-
-    // Encrypted Services
     setPetIdServices: (state, action) => ({
       ...state,
       petIDServicesData: action.payload,
@@ -126,11 +125,11 @@ export const {
   setPropertyServices,
   setPetIdServices,
   setKidsSafetyServices,
-  setBusinessCardServices,
+  setCardServices,
+  setProductCardServices,
+  setBusinessShopServices,
   setDiscountServices,
-
   setMedicalServices,
-
   clearError,
 } = servicesSlice.actions;
 

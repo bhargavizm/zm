@@ -103,14 +103,14 @@ const services = [
         "icon": <MdMenuBook className="text-[#001a1a]" />,
         "serviceName": "MenuCard",
         slug: "menu-cards",
-        "description": "Discover curated recipes and personalized menus with MenuBook—your digital dining companion, powered by QR Code innovation.",
+        "description": "Discover recipes and personalized menus with Menu Book—your digital dining companion, powered by QR Code.",
         "image": "/services/menu-book-qr.webp",
     },
     {
         "icon": <MdMessage className="text-[#001a1a]" />,
         "serviceName": "Text Message",
         slug: "text-messages",
-        "description": "Instantly send messages through QR Codes, streamlining communication and connecting people effortlessly with just a scan.",
+        "description": "Instantly send messages through QR Codes, communicate and connect people  with just a scan.",
         "image": "/services/text-msg-qr.webp",
     },
     {
@@ -166,7 +166,7 @@ const services = [
         "icon": <CgWebsite className="text-[#001a1a]" />,
         "serviceName": "Landing Page",
         slug: "landing-page",
-        "description": "Design engaging landing pages with QR Code integration, enhancing user experience and driving conversions for businesses.",
+        "description": "Design landing pages with QR Codes, enhancing user experience and driving conversions for businesses.",
         "image": "/services/landing-page-qr.webp",
     },
     {
@@ -180,7 +180,7 @@ const services = [
         "icon": <SiGoogleforms className="text-[#001a1a]" />,
         "serviceName": "Forms",
         slug: "forms",
-        "description": "Design intuitive QR Code forms that streamline data collection, enhance user engagement, and simplify analysis effortlessly.",
+        "description": "Design QR Code forms that streamline data collection, enhance user engagement, and simplify analysis.",
         "image": "/services/forms-qr.webp",
     },
     // {
@@ -229,7 +229,7 @@ const services = [
         "icon": <FaInstagram className="text-[#001a1a]" />,
         "serviceName": "Instagram",
         slug: "instagram",
-        "description": "Generate Instagram QR Codes effortlessly, connecting you with followers and enhancing engagement for your brand online.",
+        "description": "Generate Instagram QR Codes, connect with followers and enhancing engagement for your brand online.",
         "image": "/services/insta-qr.webp",
     },
     {
@@ -284,7 +284,7 @@ const encryptedServices = [
         "icon": <FaFilePdf className="text-[#001a1a]" />,
         "serviceName": "PDF",
         slug: "pdf",
-        "description": "Generate scannable QR Codes for PDF files, ensuring easy access and sharing of important documents digitally.",
+        "description": "Generate scannable QR Codes for PDF files, ensuring easy access and sharing of important documents.",
         "image": "/services/PDF-to-qr.webp",
     },
     {
@@ -293,19 +293,19 @@ const encryptedServices = [
         slug: "audios",
         "description": "Generate QR Codes that link to audio content, experiences with instant access to captivating sound.",
         "image": "/services/audio-qr.webp",
-    },
+    },  
     {
         "icon": <GrGallery className="text-[#001a1a]" />,
         "serviceName": "Gallery",
         slug: "gallery",
-        "description": "Showcase your visual creations in a dynamic Gallery, effortlessly accessed through QR Codes for instant viewing.",
-        "image": "/services/galery-to-qr.webp",
+        "description": "Showcase your visual creations in a dynamic Gallery, access through QR Codes for instant viewing.",
+        "image": "/services/gallery-to-qr.webp",
     },
     {
         "icon": <FaVideo className="text-[#001a1a]" />,
         "serviceName": "Video",
         slug: "videos",
-        "description": "Generate engaging QR Codes for videos, allowing instant access to your captivating content from anywhere, anytime.",
+        "description": "Generate QR Codes for videos, allowing instant access to your content from anywhere, anytime.",
         "image": "/services/video-qr.webp",
     },
 ]
