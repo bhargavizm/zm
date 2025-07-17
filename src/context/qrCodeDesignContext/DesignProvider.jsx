@@ -16,9 +16,14 @@ const DesignProvider = ({ children }) => {
   const [scale, setScale] = useState(160);
   const [isLoading, setIsLoading] = useState(false);
   const [bgDesign, setBgDesign] = useState(null);
-  const [qrColor, setQrColor] = useState("#000000"); 
+ 
 
   const [activeTabs, setActiveTabs] = useState({}); // { slug: tab }
+  const [qrColor, setQrColor] = useState("#000000");
+  const [qrGradient, setQrGradient] = useState(["#0eb424", "#df0808"]);
+  const [gradientType, setGradientType] = useState("linear-gradient");
+  const [qrMode, setQrMode] = useState("single");
+
 
 const setActiveTab = (slug, tab) => {
   setActiveTabs((prev) => ({ ...prev, [slug]: tab }));
@@ -65,7 +70,16 @@ const getActiveTab = (slug) => {
         setIsLoading,
         bgDesign, setBgDesign,
         qrColor, setQrColor,
-       activeTabs, setActiveTab, getActiveTab
+       activeTabs, setActiveTab, getActiveTab,
+       qrColor,
+        setQrColor,
+        qrGradient,
+        setQrGradient,
+        gradientType,
+        setGradientType,
+        qrMode,
+        setQrMode,
+
 
       }}
     >
