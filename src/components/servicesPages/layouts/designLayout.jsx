@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import PreviewPanel from "@/components/QRCodeCustomization/previewTab/previewPanel";
 
 import { IoEyeOutline } from "react-icons/io5";
 import { MdQrCodeScanner } from "react-icons/md";
@@ -10,6 +9,7 @@ import QRCodeTab from "../tabsContent/qrTabContent/qrcodeTab";
 import BackdropDesigns from "../tabsContent/backDropDesigns/backdropDesigns";
 import ComingSoonModal from "@/components/modalPopUps/comingSoonModal";
 import useDesignContext from "@/components/hooks/useDesignContext";
+import PreviewPanel from "@/components/QRCodeCustomization/QRCodeCustomization/previewTab/previewPanel";
 
 const tabs = ["Content", "Backdrop Designs", "QR Code"];
 
