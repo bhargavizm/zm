@@ -21,7 +21,7 @@ const DesignProvider = ({ children }) => {
 
   const [matrix, setMatrix] = useState([]);
   const [text, setText] = useState("https://www.zmqrcode.in/");
-  const [noiseDensity, setNoiseDensity] = useState(0.4);
+  const [noiseDensity, setNoiseDensity] = useState(0.2);
   const [strokeWidth, setStrokeWidth] = useState(8);
 
 
@@ -45,8 +45,8 @@ const [companyLogoSize, setCompanyLogoSize] = useState(180); // for outer compan
   const padding = 2;
   const qrSize = matrix.length;
   const fullSize = qrSize + padding * 2;
-  // const canvasSize = 400;
-const canvasSize = useResponsiveCanvasSize(); // ✅ dynamic
+   const canvasSize = 400;
+// const canvasSize = useResponsiveCanvasSize(); // ✅ dynamic
 
   // const canvasSize = 400;
 
