@@ -8,18 +8,13 @@ import useDesignContext from "@/components/hooks/useDesignContext";
 import { shapeDefinitions } from "../designTabs/qrShapes/shapes";
 import { bodyFrames } from "../designTabs/qrFrames/qrFrameImages";
 import NextImage from "next/image";
-import { stickerConfig } from "../designTabs/stickers/stickerImages";
+import { stickerConfig,defaultQRConfig  } from "../designTabs/stickers/stickerImages";
 
 const PreviewPanel = () => {
-  console.log(shapeDefinitions);
   const {
-    foregroundColorMode, foregroundColor, foregroundGradientStart, foregroundGradientEnd,
-  eyeFrameColorMode, eyeFrameColor, eyeFrameGradientStart, eyeFrameGradientEnd,
-  eyeballColorMode, eyeballColor, eyeballGradientStart, eyeballGradientEnd,
-  borderColorMode, borderColor, borderGradientStart, borderGradientEnd,
- selectedLogo,
-  logoSize,
-  companyLogoSize,
+    selectedLogo,
+    logoSize,
+    companyLogoSize,
     text,
     setMatrix,
     matrix,
@@ -45,7 +40,6 @@ const PreviewPanel = () => {
     modulePath,
   } = useDesignContext();
 
-  console.log(selectedQRShape);
   useEffect(() => {
     const generateMatrix = async () => {
       const { generateQRMatrix } = await import("../utils/QRMatrixGeneration");
@@ -55,25 +49,20 @@ const PreviewPanel = () => {
   }, [text]);
 
   const {
-  qrScale,
-  qrX,
-  qrY,
-  qrWidth,
-  qrHeight,
-  qrCenterX,
-  qrCenterY
-} = calculateQRScan({
-  fullSize,
-  moduleSize,
-  canvasSize,
-  selectedQRShape,
-  logoPosition, // ✅ this was missing!
-});
-
-
-  //const sticker = stickerConfig[selectedSticker] || {};
-  // const qrCenterX = qrX + qrWidth / 2 + logoPosition.x;
-  // const qrCenterY = qrY + qrHeight / 2 + logoPosition.y;
+    qrScale,
+    qrX,
+    qrY,
+    qrWidth,
+    qrHeight,
+    qrCenterX,
+    qrCenterY
+  } = calculateQRScan({
+    fullSize,
+    moduleSize,
+    canvasSize,
+    selectedQRShape,
+    logoPosition,
+  });
 
   const renderEyes = useRenderEyes();
   const generateNoiseElements = useGenerateNoiseElements({
@@ -81,40 +70,83 @@ const PreviewPanel = () => {
     qrY,
     qrWidth,
     qrHeight,
-    // moduleShape: selectedQRShape,
     selectedBodyFrame,
     moduleShapes,
     containerShape: selectedQRShape,
     fgColor,
     colorMode,
-     foregroundColorMode,
-  foregroundColor,
-  foregroundGradientStart,
-  foregroundGradientEnd,
   });
+
+  // ✅ Sticker placement calculation with percent-based config and screen-aware container size
+
+const defaultPosPercent = { x: 20, y: 20 };
+const defaultSizePercent = { width: 60, height: 60 };
+
+// ✅ Get sticker config safely
+const sticker = selectedSticker && stickerConfig[selectedSticker];
+
+// ✅ Apply fallbacks using nullish coalescing (??)
+const posPercent = sticker?.positionPercent ?? defaultPosPercent;
+const sizePercent = sticker?.sizePercent ?? defaultSizePercent;
+
+// ✅ Detect container size based on screen width
+let containerWidth = 440;
+let containerHeight = 400;
+
+if (typeof window !== "undefined") {
+  const screenWidth = window.innerWidth;
+  if (screenWidth < 768) {
+    containerWidth = 310;
+    containerHeight = 250;
+  } else if (screenWidth < 1024) {
+    containerWidth = 350;
+    containerHeight = 350;
+  }
+}
+
+// ✅ Calculate QR position and size in pixels
+const qrPosition = {
+  x: (posPercent.x / 100) * containerWidth,
+  y: (posPercent.y / 100) * containerHeight,
+};
+
+const sizeQr = {
+  width: (sizePercent.width / 100) * containerWidth,
+  height: (sizePercent.height / 100) * containerHeight,
+};
+
+
+
 
   return (
     <>
       <div className="flex justify-center items-center">
         <div className="relative lg:w-[440px] lg:h-[400px] md:w-[350px] md:h-[350px] w-[310px] h-[250px]">
-       {/* <div className="relative w-[90vw] sm:w-[400px] md:w-[440px] aspect-square"> */}
-        
- {selectedSticker && (
-    <NextImage
-      src={selectedSticker}
-      alt="Sticker"
-      fill
-      className="absolute inset-0 w-full h-full object-contain z-0 pointer-events-none"
-      priority
-    />
-  )}
+
+          {/* Sticker Background */}
+          {selectedSticker && (
+            <NextImage
+              src={selectedSticker}
+              alt="Sticker"
+              fill
+              className="absolute inset-0 w-full h-full object-contain z-0 pointer-events-none"
+              priority
+            />
+          )}
+
+          {/* QR SVG with dynamic position */}
           <svg
-            className="absolute top-0 left-0 w-full h-full z-10"
-            width="400"
-            height="400"
+            className="absolute z-10"
+            style={{
+              top: qrPosition.y,
+              left: qrPosition.x,
+              width:sizeQr.width,
+              height:sizeQr.height
+            }}
+            
             viewBox={`0 0 ${canvasSize} ${canvasSize}`}
           >
-            {/* <defs>
+            <defs>
               <clipPath id="shape-clip">
                 {shapeDefinitions[selectedQRShape] && (
                   <path d={shapeDefinitions[selectedQRShape](canvasSize)} />
@@ -133,49 +165,12 @@ const PreviewPanel = () => {
                   <stop offset="100%" stopColor={gradientEnd} />
                 </linearGradient>
               )}
-            </defs> */}
-            <defs>
-  <clipPath id="shape-clip">
-    {shapeDefinitions[selectedQRShape] && (
-      <path d={shapeDefinitions[selectedQRShape](canvasSize)} />
-    )}
-  </clipPath>
-
-  {foregroundColorMode === "gradient" && (
-    <linearGradient id="qrGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stopColor={foregroundGradientStart} />
-      <stop offset="100%" stopColor={foregroundGradientEnd} />
-    </linearGradient>
-  )}
-
-  {eyeFrameColorMode === "gradient" && (
-    <linearGradient id="eyeFrameGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stopColor={eyeFrameGradientStart} />
-      <stop offset="100%" stopColor={eyeFrameGradientEnd} />
-    </linearGradient>
-  )}
-
-  {eyeballColorMode === "gradient" && (
-    <linearGradient id="eyeballGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stopColor={eyeballGradientStart} />
-      <stop offset="100%" stopColor={eyeballGradientEnd} />
-    </linearGradient>
-  )}
-
-  {borderColorMode === "gradient" && (
-    <linearGradient id="borderGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stopColor={borderGradientStart} />
-      <stop offset="100%" stopColor={borderGradientEnd} />
-    </linearGradient>
-  )}
-</defs>
-
+            </defs>
 
             <g clipPath="url(#shape-clip)">
-              {/* <rect width={canvasSize} height={canvasSize} fill="#ffffff" /> */}
               {generateNoiseElements()}
 
-              {/* QR Code Matrix */}
+              {/* QR Code Modules */}
               <g transform={`translate(${qrX}, ${qrY}) scale(${qrScale})`}>
                 {Array.from({ length: fullSize }).map((_, row) =>
                   Array.from({ length: fullSize }).map((_, col) => {
@@ -191,15 +186,13 @@ const PreviewPanel = () => {
                     return (
                       <path
                         key={`qr-${row}-${col}`}
-                        // d={modulePath}
                         d={bodyFrames?.[selectedBodyFrame] ?? bodyFrames.square}
                         transform={`translate(${x}, ${y}) scale(1)`}
                         fill={
-  foregroundColorMode === "gradient"
-    ? "url(#qrGradient)"
-    : foregroundColor
-}
-
+                          colorMode === "gradient"
+                            ? "url(#qrGradient)"
+                            : fgColor
+                        }
                       />
                     );
                   })
@@ -207,63 +200,45 @@ const PreviewPanel = () => {
                 {renderEyes()}
               </g>
 
-              {/* Logo and Badge */}
-        
-{(
- <g>
-  {/* Outer Company Logo */}
-  <image
-    href="/logos/3D Logo.png"
-    x={qrCenterX - companyLogoSize / 2}
-    y={qrCenterY - companyLogoSize / 2}
-    width={companyLogoSize}
-    height={companyLogoSize}
-    preserveAspectRatio="xMidYMid meet"
-  />
+              {/* Logo Overlay */}
+              <g>
+                {/* Outer Company Logo */}
+                <image
+                  href="/logos/d-logo.png"
+                  x={qrCenterX - companyLogoSize / 2}
+                  y={qrCenterY - companyLogoSize / 2}
+                  width={companyLogoSize}
+                  height={companyLogoSize}
+                  preserveAspectRatio="xMidYMid meet"
+                />
 
-  {/* Inner Selected Logo */}
-  {selectedLogo && (
-    <image
-      href={selectedLogo}
-      x={qrCenterX - logoSize / 2}
-      y={qrCenterY - logoSize / 2}
-      width={logoSize}
-      height={logoSize}
-      preserveAspectRatio="xMidYMid meet"
-    />
-  )}
-</g>
-)}
-
+                {/* Inner Logo */}
+                {selectedLogo && (
+                  <image
+                    href={selectedLogo}
+                    x={qrCenterX - logoSize / 2}
+                    y={qrCenterY - logoSize / 2}
+                    width={logoSize}
+                    height={logoSize}
+                    preserveAspectRatio="xMidYMid meet"
+                  />
+                )}
+              </g>
             </g>
 
-            {/* Shape Outline */}
+            {/* QR Shape Outline */}
             {shapeDefinitions[selectedQRShape] && (
-             <path
-  d={shapeDefinitions[selectedQRShape](canvasSize)}
-  fill="none"
-  stroke={
-    borderColorMode === "gradient"
-      ? "url(#borderGradient)"
-      : borderColor
-  }
-  strokeWidth={strokeWidth}
-  strokeLinejoin="round"
-/>
-
+              <path
+                d={shapeDefinitions[selectedQRShape](canvasSize)}
+                fill="none"
+                stroke={
+                  colorMode === "gradient" ? "url(#qrGradient)" : fgColor
+                }
+                strokeWidth={strokeWidth}
+                strokeLinejoin="round"
+              />
             )}
           </svg>
-
-
-            {/* {selectedSticker && (
-            <NextImage
-              src={selectedSticker}
-              alt="Sticker Frame"
-              fill
-              className="absolute inset-0 w-full h-full object-contain z-0"
-              // className="absolute z-0 object-contain"
-            />
-          )} */}
         </div>
       </div>
     </>
