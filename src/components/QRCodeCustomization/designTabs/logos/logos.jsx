@@ -104,7 +104,7 @@ const Logos = () => {
         <input
           id="companyLogoSize"
           type="range"
-          min={100}
+          min={75}
           max={200}
           step={1}
           value={localCompanySize}
@@ -117,9 +117,9 @@ const Logos = () => {
        className="w-full accent-mainGreen"
         />
 
-        {/* <span className="text-xs text-gray-500">
+        { <span className="text-xs text-gray-500">
           Company Logo Size: {localCompanySize}px
-        </span> */}
+        </span> }
       </div>
 
       {/* Inner Logo Size */}
@@ -131,7 +131,7 @@ const Logos = () => {
           id="logoSize"
           type="range"
           min={10}
-          max={50}
+          max={25}
           step={1}
           value={localLogoSize}
           onChange={(e) => {
@@ -143,9 +143,9 @@ const Logos = () => {
           className="w-full accent-mainGreen"
         />
 
-        {/* <span className="text-xs text-gray-500">
+        {<span className="text-xs text-gray-500">
           Logo Size: {localLogoSize}px
-        </span> */}
+        </span> }
       </div>
     </section>
   );
