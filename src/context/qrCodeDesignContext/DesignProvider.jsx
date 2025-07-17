@@ -34,6 +34,11 @@ const [companyLogoSize, setCompanyLogoSize] = useState(180); // for outer compan
   const [qrColor, setQrColor] = useState("#000000");
 
   const [activeTabs, setActiveTabs] = useState({}); // { slug: tab }
+  // const [qrColor, setQrColor] = useState("#000000");
+  // const [qrGradient, setQrGradient] = useState(["#0eb424", "#df0808"]);
+  // const [gradientType, setGradientType] = useState("linear-gradient");
+  // const [qrMode, setQrMode] = useState("single");
+
 
     const moduleSize = 8;
   const padding = 2;
@@ -110,6 +115,21 @@ const [companyLogoSize, setCompanyLogoSize] = useState(180); // for outer compan
         setSelectedEyeFrame,
         selectedEyeBall,
         setSelectedEyeBall,
+        bgDesign, setBgDesign,
+        qrColor, setQrColor,
+       activeTabs, setActiveTab, getActiveTab,
+       qrColor,
+        setQrColor,
+        qrGradient,
+        setQrGradient,
+        gradientType,
+        setGradientType,
+        qrMode,
+        setQrMode,
+
+      //  activeTabs, setActiveTab, getActiveTab, selectedBodyFrame,
+ 
+
       }}
     >
       {children}

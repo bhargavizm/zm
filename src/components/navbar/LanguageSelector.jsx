@@ -8,6 +8,7 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 const languageOptions = [
   { code: "en", label: "English - English" },
   { code: "hi", label: "Hindi - हिन्दी" },
+  { code: "ja", label: "Japanese - 日本語" },
   { code: "bn", label: "Bengali - বাংলা" },
   { code: "te", label: "Telugu - తెలుగు" },
   { code: "mr", label: "Marathi - मराठी" },
