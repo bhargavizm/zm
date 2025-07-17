@@ -79,11 +79,11 @@ const Logos = () => {
         {logos.map((src, i) => (
           <Image
             key={i}
-            src={src}
+            src={src} 
             alt={`Logo ${i + 1}`}
-            width={40}
-            height={40}
-            className={`w-full aspect-square rounded-xl border-4 cursor-pointer transition-transform duration-200 ${
+            width={45}
+            height={45}
+            className={` aspect-square rounded-xl border-4 cursor-pointer transition-transform duration-200 ${
               selectedLogo === src
                 ? "border-mainGreen scale-105 shadow-md"
                 : "border-transparent hover:border-gray-300"
@@ -104,8 +104,8 @@ const Logos = () => {
         <input
           id="companyLogoSize"
           type="range"
-          min={40}
-          max={300}
+          min={100}
+          max={200}
           step={1}
           value={localCompanySize}
           onChange={(e) => {
@@ -117,9 +117,9 @@ const Logos = () => {
        className="w-full accent-mainGreen"
         />
 
-        <span className="text-xs text-gray-500">
+        {/* <span className="text-xs text-gray-500">
           Company Logo Size: {localCompanySize}px
-        </span>
+        </span> */}
       </div>
 
       {/* Inner Logo Size */}
@@ -131,7 +131,7 @@ const Logos = () => {
           id="logoSize"
           type="range"
           min={10}
-          max={300}
+          max={50}
           step={1}
           value={localLogoSize}
           onChange={(e) => {
@@ -143,9 +143,9 @@ const Logos = () => {
           className="w-full accent-mainGreen"
         />
 
-        <span className="text-xs text-gray-500">
+        {/* <span className="text-xs text-gray-500">
           Logo Size: {localLogoSize}px
-        </span>
+        </span> */}
       </div>
     </section>
   );
