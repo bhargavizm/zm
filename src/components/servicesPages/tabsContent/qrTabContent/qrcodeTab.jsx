@@ -1,7 +1,6 @@
 "use client";
 
-
-import DesignModal from "@/components/QRCodeCustomization/QRCodeCustomization/layouts/designModal";
+import DesignModal from "@/components/QRCodeCustomization/layouts/designModal";
 import Image from "next/image";
 import React, { useState } from "react";
 

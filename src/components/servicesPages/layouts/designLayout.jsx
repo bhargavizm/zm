@@ -9,7 +9,7 @@ import QRCodeTab from "../tabsContent/qrTabContent/qrcodeTab";
 import BackdropDesigns from "../tabsContent/backDropDesigns/backdropDesigns";
 import ComingSoonModal from "@/components/modalPopUps/comingSoonModal";
 import useDesignContext from "@/components/hooks/useDesignContext";
-import PreviewPanel from "@/components/QRCodeCustomization/QRCodeCustomization/previewTab/previewPanel";
+import PreviewPanel from "@/components/QRCodeCustomization/previewTab/previewPanel";
 
 const tabs = ["Content", "Backdrop Designs", "QR Code"];
 
