@@ -12,14 +12,16 @@ import { stickerConfig } from "../designTabs/stickers/stickerImages";
 
 const PreviewPanel = () => {
   console.log(shapeDefinitions);
+
+
   const {
     foregroundColorMode, foregroundColor, foregroundGradientStart, foregroundGradientEnd,
-  eyeFrameColorMode, eyeFrameColor, eyeFrameGradientStart, eyeFrameGradientEnd,
-  eyeballColorMode, eyeballColor, eyeballGradientStart, eyeballGradientEnd,
-  borderColorMode, borderColor, borderGradientStart, borderGradientEnd,
- selectedLogo,
-  logoSize,
-  companyLogoSize,
+    eyeFrameColorMode, eyeFrameColor, eyeFrameGradientStart, eyeFrameGradientEnd,
+    eyeballColorMode, eyeballColor, eyeballGradientStart, eyeballGradientEnd,
+    borderColorMode, borderColor, borderGradientStart, borderGradientEnd,
+    selectedLogo,
+    logoSize,
+    companyLogoSize,
     text,
     setMatrix,
     matrix,
@@ -55,25 +57,30 @@ const PreviewPanel = () => {
   }, [text]);
 
   const {
-  qrScale,
-  qrX,
-  qrY,
-  qrWidth,
-  qrHeight,
-  qrCenterX,
-  qrCenterY
-} = calculateQRScan({
-  fullSize,
-  moduleSize,
-  canvasSize,
-  selectedQRShape,
-  logoPosition, // ✅ this was missing!
-});
+    qrScale,
+    qrX,
+    qrY,
+    qrWidth,
+    qrHeight,
+    qrCenterX,
+    qrCenterY
+  } = calculateQRScan({
+    fullSize,
+    moduleSize,
+    canvasSize,
+    selectedQRShape,
+    logoPosition, // ✅ this was missing!
+  });
 
 
   //const sticker = stickerConfig[selectedSticker] || {};
   // const qrCenterX = qrX + qrWidth / 2 + logoPosition.x;
   // const qrCenterY = qrY + qrHeight / 2 + logoPosition.y;
+
+  const stickerSettings = stickerConfig[selectedSticker] || {};
+  const qrPosition = stickerSettings.qrPosition || { x: 0, y: 0 };
+  const sizeQr = stickerSettings.qrSize || { width: 100, height: 100 };
+
 
   const renderEyes = useRenderEyes();
   const generateNoiseElements = useGenerateNoiseElements({
@@ -87,31 +94,35 @@ const PreviewPanel = () => {
     containerShape: selectedQRShape,
     fgColor,
     colorMode,
-     foregroundColorMode,
-  foregroundColor,
-  foregroundGradientStart,
-  foregroundGradientEnd,
+    foregroundColorMode,
+    foregroundColor,
+    foregroundGradientStart,
+    foregroundGradientEnd,
   });
 
   return (
     <>
       <div className="flex justify-center items-center">
         <div className="relative lg:w-[440px] lg:h-[400px] md:w-[350px] md:h-[350px] w-[310px] h-[250px]">
-       {/* <div className="relative w-[90vw] sm:w-[400px] md:w-[440px] aspect-square"> */}
-        
- {selectedSticker && (
-    <NextImage
-      src={selectedSticker}
-      alt="Sticker"
-      fill
-      className="absolute inset-0 w-full h-full object-contain z-0 pointer-events-none"
-      priority
-    />
-  )}
+          {/* <div className="relative w-[90vw] sm:w-[400px] md:w-[440px] aspect-square"> */}
+
+          {selectedSticker && (
+            <NextImage
+              src={selectedSticker}
+              alt="Sticker"
+              fill
+              className="absolute inset-0 w-full h-full object-contain z-0 pointer-events-none"
+              priority
+            />
+          )}
           <svg
-            className="absolute top-0 left-0 w-full h-full z-10"
-            width="400"
-            height="400"
+            className="absolute top-0 left-0 w-full h-full z-10 "
+            style={{
+              left: qrPosition.x,
+              top: qrPosition.y,
+              width: sizeQr.width,
+              height: sizeQr.height,
+            }}
             viewBox={`0 0 ${canvasSize} ${canvasSize}`}
           >
             {/* <defs>
@@ -135,40 +146,40 @@ const PreviewPanel = () => {
               )}
             </defs> */}
             <defs>
-  <clipPath id="shape-clip">
-    {shapeDefinitions[selectedQRShape] && (
-      <path d={shapeDefinitions[selectedQRShape](canvasSize)} />
-    )}
-  </clipPath>
+              <clipPath id="shape-clip">
+                {shapeDefinitions[selectedQRShape] && (
+                  <path d={shapeDefinitions[selectedQRShape](canvasSize)} />
+                )}
+              </clipPath>
 
-  {foregroundColorMode === "gradient" && (
-    <linearGradient id="qrGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stopColor={foregroundGradientStart} />
-      <stop offset="100%" stopColor={foregroundGradientEnd} />
-    </linearGradient>
-  )}
+              {foregroundColorMode === "gradient" && (
+                <linearGradient id="qrGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor={foregroundGradientStart} />
+                  <stop offset="100%" stopColor={foregroundGradientEnd} />
+                </linearGradient>
+              )}
 
-  {eyeFrameColorMode === "gradient" && (
-    <linearGradient id="eyeFrameGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stopColor={eyeFrameGradientStart} />
-      <stop offset="100%" stopColor={eyeFrameGradientEnd} />
-    </linearGradient>
-  )}
+              {eyeFrameColorMode === "gradient" && (
+                <linearGradient id="eyeFrameGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor={eyeFrameGradientStart} />
+                  <stop offset="100%" stopColor={eyeFrameGradientEnd} />
+                </linearGradient>
+              )}
 
-  {eyeballColorMode === "gradient" && (
-    <linearGradient id="eyeballGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stopColor={eyeballGradientStart} />
-      <stop offset="100%" stopColor={eyeballGradientEnd} />
-    </linearGradient>
-  )}
+              {eyeballColorMode === "gradient" && (
+                <linearGradient id="eyeballGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor={eyeballGradientStart} />
+                  <stop offset="100%" stopColor={eyeballGradientEnd} />
+                </linearGradient>
+              )}
 
-  {borderColorMode === "gradient" && (
-    <linearGradient id="borderGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stopColor={borderGradientStart} />
-      <stop offset="100%" stopColor={borderGradientEnd} />
-    </linearGradient>
-  )}
-</defs>
+              {borderColorMode === "gradient" && (
+                <linearGradient id="borderGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor={borderGradientStart} />
+                  <stop offset="100%" stopColor={borderGradientEnd} />
+                </linearGradient>
+              )}
+            </defs>
 
 
             <g clipPath="url(#shape-clip)">
@@ -195,10 +206,10 @@ const PreviewPanel = () => {
                         d={bodyFrames?.[selectedBodyFrame] ?? bodyFrames.square}
                         transform={`translate(${x}, ${y}) scale(1)`}
                         fill={
-  foregroundColorMode === "gradient"
-    ? "url(#qrGradient)"
-    : foregroundColor
-}
+                          foregroundColorMode === "gradient"
+                            ? "url(#qrGradient)"
+                            : foregroundColor
+                        }
 
                       />
                     );
@@ -208,54 +219,54 @@ const PreviewPanel = () => {
               </g>
 
               {/* Logo and Badge */}
-        
-{(
- <g>
-  {/* Outer Company Logo */}
-  <image
-    href="/logos/3D Logo.png"
-    x={qrCenterX - companyLogoSize / 2}
-    y={qrCenterY - companyLogoSize / 2}
-    width={companyLogoSize}
-    height={companyLogoSize}
-    preserveAspectRatio="xMidYMid meet"
-  />
 
-  {/* Inner Selected Logo */}
-  {selectedLogo && (
-    <image
-      href={selectedLogo}
-      x={qrCenterX - logoSize / 2}
-      y={qrCenterY - logoSize / 2}
-      width={logoSize}
-      height={logoSize}
-      preserveAspectRatio="xMidYMid meet"
-    />
-  )}
-</g>
-)}
+              {(
+                <g>
+                  {/* Outer Company Logo */}
+                  <image
+                    href="/logos/3D Logo.png"
+                    x={qrCenterX - companyLogoSize / 2}
+                    y={qrCenterY - companyLogoSize / 2}
+                    width={companyLogoSize}
+                    height={companyLogoSize}
+                    preserveAspectRatio="xMidYMid meet"
+                  />
+
+                  {/* Inner Selected Logo */}
+                  {selectedLogo && (
+                    <image
+                      href={selectedLogo}
+                      x={qrCenterX - logoSize / 2}
+                      y={qrCenterY - logoSize / 2}
+                      width={logoSize}
+                      height={logoSize}
+                      preserveAspectRatio="xMidYMid meet"
+                    />
+                  )}
+                </g>
+              )}
 
             </g>
 
             {/* Shape Outline */}
             {shapeDefinitions[selectedQRShape] && (
-             <path
-  d={shapeDefinitions[selectedQRShape](canvasSize)}
-  fill="none"
-  stroke={
-    borderColorMode === "gradient"
-      ? "url(#borderGradient)"
-      : borderColor
-  }
-  strokeWidth={strokeWidth}
-  strokeLinejoin="round"
-/>
+              <path
+                d={shapeDefinitions[selectedQRShape](canvasSize)}
+                fill="none"
+                stroke={
+                  borderColorMode === "gradient"
+                    ? "url(#borderGradient)"
+                    : borderColor
+                }
+                strokeWidth={strokeWidth}
+                strokeLinejoin="round"
+              />
 
             )}
           </svg>
 
 
-            {/* {selectedSticker && (
+          {/* {selectedSticker && (
             <NextImage
               src={selectedSticker}
               alt="Sticker Frame"
