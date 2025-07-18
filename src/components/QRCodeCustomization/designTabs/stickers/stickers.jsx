@@ -87,7 +87,7 @@ const Stickers = () => {
         {isSelected && (
           <button
             onClick={handleDeselect}
-            className="absolute top-[-10px] right-[-10px] bg-mainGreen text-white rounded-full w-6 h-6 flex items-center justify-center text-sm shadow-md "
+            className="absolute top-[-10px] right-[-10px] bg-mainGreen text-white rounded-full w-6 h-6 flex items-center justify-center text-sm shadow-md cursor-pointer"
             title="Remove Sticker"
           >
             ×
