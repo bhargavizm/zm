@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import { ColorPickerGroup } from "./colorPickerGroup";
 
@@ -32,6 +32,9 @@ const Colors = () => {
     isBorderEnabled, setIsBorderEnabled,
   } = useDesignContext();
 
+  const [activePicker, setActivePicker] = useState(null); // shared key like 'Foreground_single', 'Border_end'
+
+
   return (
     <div className="p-4 w-full space-y-6">
       <h2 className="text-lg font-semibold mb-4">Customize QR Code Colors</h2>
@@ -48,6 +51,8 @@ const Colors = () => {
         setEndColor={setBorderGradientEnd}
         isEnabled={isBorderEnabled}
         setIsEnabled={setIsBorderEnabled}
+         activePicker={activePicker}
+  setActivePicker={setActivePicker}
       />
 
       <ColorPickerGroup
@@ -62,6 +67,8 @@ const Colors = () => {
         setEndColor={setForegroundGradientEnd}
         isEnabled={isForegroundEnabled}
         setIsEnabled={setIsForegroundEnabled}
+         activePicker={activePicker}
+  setActivePicker={setActivePicker}
       />
 
       <ColorPickerGroup
@@ -76,6 +83,8 @@ const Colors = () => {
         setEndColor={setEyeFrameGradientEnd}
         isEnabled={isEyeFrameEnabled}
         setIsEnabled={setIsEyeFrameEnabled}
+         activePicker={activePicker}
+  setActivePicker={setActivePicker}
       />
 
       <ColorPickerGroup
@@ -90,6 +99,8 @@ const Colors = () => {
         setEndColor={setEyeballGradientEnd}
         isEnabled={isEyeballEnabled}
         setIsEnabled={setIsEyeballEnabled}
+         activePicker={activePicker}
+  setActivePicker={setActivePicker}
       />
 
      

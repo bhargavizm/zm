@@ -236,7 +236,7 @@ const EncryptedServicesForm = ({
             {formData[fileKey]?.map((f, i) => (
               <div
                 key={i}
-                className="flex justify-between items-center bg-gray-100 px-3 py-2 mt-2 rounded-md text-sm"
+                className="flex justify-between items-center  px-3 py-2 mt-2 rounded-md text-sm"
               >
                 <div>
                   <p className="truncate">{f.name}</p>
