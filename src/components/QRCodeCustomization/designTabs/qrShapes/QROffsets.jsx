@@ -20,6 +20,7 @@ export const qrOffsets = {
   calendar: { x: 0, y: 35, scale: 0.75},
   folder: { x: 0, y: 15, scale:0.9 },
   chatBubble: { x: 0, y: 0, scale:0.8},
+  heartContainerShape: { x: 0, y: 0, scale: 0.8 },
   bookmark: { x: 0, y: -10, scale: 0.65 },
   monitorStand: { x: 0, y: -70 , scale: 1},
   movie: { x: 0, y: 75, scale: 0.65 },
