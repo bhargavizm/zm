@@ -1,120 +1,109 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import useDesignContext from "@/components/hooks/useDesignContext";
+import { ColorPickerGroup } from "./colorPickerGroup";
+
 
 const Colors = () => {
   const {
-    qrColor,
-    setQrColor,
-    qrGradient,
-    setQrGradient,
-    gradientType,
-    setGradientType,
-    qrMode,
-    setQrMode,
+    foregroundColorMode, setForegroundColorMode,
+    foregroundColor, setForegroundColor,
+    foregroundGradientStart, setForegroundGradientStart,
+    foregroundGradientEnd, setForegroundGradientEnd,
+    isForegroundEnabled, setIsForegroundEnabled,
+
+    eyeFrameColorMode, setEyeFrameColorMode,
+    eyeFrameColor, setEyeFrameColor,
+    eyeFrameGradientStart, setEyeFrameGradientStart,
+    eyeFrameGradientEnd, setEyeFrameGradientEnd,
+    isEyeFrameEnabled, setIsEyeFrameEnabled,
+
+    eyeballColorMode, setEyeballColorMode,
+    eyeballColor, setEyeballColor,
+    eyeballGradientStart, setEyeballGradientStart,
+    eyeballGradientEnd, setEyeballGradientEnd,
+    isEyeballEnabled, setIsEyeballEnabled,
+
+    borderColorMode, setBorderColorMode,
+    borderColor, setBorderColor,
+    borderGradientStart, setBorderGradientStart,
+    borderGradientEnd, setBorderGradientEnd,
+    isBorderEnabled, setIsBorderEnabled,
   } = useDesignContext();
 
-  const handleSingleColorChange = (value) => setQrColor(value);
+  const [activePicker, setActivePicker] = useState(null); // shared key like 'Foreground_single', 'Border_end'
 
-  const handleGradientChange = (index, value) => {
-    const newGradient = [...(qrGradient || ["#0eb424", "#df0808"])];
-    newGradient[index] = value;
-    setQrGradient(newGradient);
-  };
-
-  const gradientOptions = ["Linear Gradient", "Radial Gradient"];
 
   return (
-    <div className="p-4 w-full bg-[#f5f6ff] rounded-md">
-      <h2 className="text-base font-semibold mb-4">Choose QR Code Body Colour</h2>
+    <div className="p-4 w-full space-y-6">
+      <h2 className="text-lg font-semibold mb-4">Customize QR Code Colors</h2>
 
-      {/* Radio Buttons */}
-      <div className="flex gap-6 mb-6">
-        <label className="flex items-center gap-2">
-          <input
-            type="radio"
-            value="single"
-            checked={qrMode === "single"}
-            onChange={() => setQrMode("single")}
-          />
-          <span className="text-sm font-medium">Single Color</span>
-        </label>
-        <label className="flex items-center gap-2">
-          <input
-            type="radio"
-            value="gradient"
-            checked={qrMode === "gradient"}
-            onChange={() => setQrMode("gradient")}
-          />
-          <span className="text-sm font-medium">Gradient Color</span>
-        </label>
-      </div>
+       <ColorPickerGroup
+        label="Border Color"
+        colorMode={borderColorMode}
+        setColorMode={setBorderColorMode}
+        singleColor={borderColor}
+        setSingleColor={setBorderColor}
+        startColor={borderGradientStart}
+        setStartColor={setBorderGradientStart}
+        endColor={borderGradientEnd}
+        setEndColor={setBorderGradientEnd}
+        isEnabled={isBorderEnabled}
+        setIsEnabled={setIsBorderEnabled}
+         activePicker={activePicker}
+  setActivePicker={setActivePicker}
+      />
 
-      {/* Single Color */}
-      {qrMode === "single" ? (
-        <div className="flex items-center gap-3">
-          <input
-            type="color"
-            value={qrColor}
-            onChange={(e) => handleSingleColorChange(e.target.value)}
-            className="w-10 h-10 border rounded"
-          />
-          <input
-            type="text"
-            value={qrColor}
-            onChange={(e) => handleSingleColorChange(e.target.value)}
-            className="border px-3 py-1 rounded w-36"
-          />
-        </div>
-      ) : (
-        <div className="flex flex-wrap items-center gap-4">
-          {/* Start Color */}
-          <div className="flex items-center gap-2">
-            <input
-              type="color"
-              value={qrGradient?.[0] || "#0eb424"}
-              onChange={(e) => handleGradientChange(0, e.target.value)}
-              className="w-10 h-10 border rounded"
-            />
-            <input
-              type="text"
-              value={qrGradient?.[0] || "#0eb424"}
-              onChange={(e) => handleGradientChange(0, e.target.value)}
-              className="border px-3 py-1 rounded w-36"
-            />
-          </div>
+      <ColorPickerGroup
+        label="Foreground Color"
+        colorMode={foregroundColorMode}
+        setColorMode={setForegroundColorMode}
+        singleColor={foregroundColor}
+        setSingleColor={setForegroundColor}
+        startColor={foregroundGradientStart}
+        setStartColor={setForegroundGradientStart}
+        endColor={foregroundGradientEnd}
+        setEndColor={setForegroundGradientEnd}
+        isEnabled={isForegroundEnabled}
+        setIsEnabled={setIsForegroundEnabled}
+         activePicker={activePicker}
+  setActivePicker={setActivePicker}
+      />
 
-          {/* End Color */}
-          <div className="flex items-center gap-2">
-            <input
-              type="color"
-              value={qrGradient?.[1] || "#df0808"}
-              onChange={(e) => handleGradientChange(1, e.target.value)}
-              className="w-10 h-10 border rounded"
-            />
-            <input
-              type="text"
-              value={qrGradient?.[1] || "#df0808"}
-              onChange={(e) => handleGradientChange(1, e.target.value)}
-              className="border px-3 py-1 rounded w-36"
-            />
-          </div>
+      <ColorPickerGroup
+        label="Eye Frame Color"
+        colorMode={eyeFrameColorMode}
+        setColorMode={setEyeFrameColorMode}
+        singleColor={eyeFrameColor}
+        setSingleColor={setEyeFrameColor}
+        startColor={eyeFrameGradientStart}
+        setStartColor={setEyeFrameGradientStart}
+        endColor={eyeFrameGradientEnd}
+        setEndColor={setEyeFrameGradientEnd}
+        isEnabled={isEyeFrameEnabled}
+        setIsEnabled={setIsEyeFrameEnabled}
+         activePicker={activePicker}
+  setActivePicker={setActivePicker}
+      />
 
-          {/* Gradient Type Dropdown */}
-          <select
-            value={gradientType}
-            onChange={(e) => setGradientType(e.target.value)}
-            className="border px-3 py-1 rounded w-48"
-          >
-            {gradientOptions.map((opt) => (
-              <option key={opt} value={opt.toLowerCase().replace(" ", "-")}>
-                {opt}
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
+      <ColorPickerGroup
+        label="Eyeball Color"
+        colorMode={eyeballColorMode}
+        setColorMode={setEyeballColorMode}
+        singleColor={eyeballColor}
+        setSingleColor={setEyeballColor}
+        startColor={eyeballGradientStart}
+        setStartColor={setEyeballGradientStart}
+        endColor={eyeballGradientEnd}
+        setEndColor={setEyeballGradientEnd}
+        isEnabled={isEyeballEnabled}
+        setIsEnabled={setIsEyeballEnabled}
+         activePicker={activePicker}
+  setActivePicker={setActivePicker}
+      />
+
+     
     </div>
   );
 };
