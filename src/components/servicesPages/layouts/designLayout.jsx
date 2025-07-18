@@ -9,7 +9,7 @@ import QRCodeTab from "../tabsContent/qrTabContent/qrcodeTab";
 import BackdropDesigns from "../tabsContent/backDropDesigns/backdropDesigns";
 import ComingSoonModal from "@/components/modalPopUps/comingSoonModal";
 import useDesignContext from "@/components/hooks/useDesignContext";
-import PreviewPanel from "@/components/QRCodeCustomization/QRCodeCustomization/previewTab/previewPanel";
+import PreviewPanel from "@/components/QRCodeCustomization/previewTab/previewPanel";
 
 const tabs = ["Content", "Backdrop Designs", "QR Code"];
 
@@ -21,10 +21,6 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
   const activeTab = getActiveTab(slug);
 
   const [activePreview, setActivePreview] = useState("eye");
-
-  const [showModal, setShowModal] = useState(false);
-
-  const handleClick = () => setShowModal(true);
 
   const formatServiceName = (slug) => {
     const name = slug
@@ -108,7 +104,7 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
                     <PreviewPanel />
                     <div className="flex justify-center items-center py-6">
                       <button
-                        onClick={handleClick}
+                        // onClick={handleClick}
                         className="  px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
                       >
                         Download <FaLongArrowAltDown />
@@ -170,7 +166,7 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
                       <PreviewPanel />
                       <div className="flex justify-center items-center py-6">
                         <button
-                          onClick={handleClick}
+                          // onClick={handleClick}
                           className="  px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
                         >
                           Download <FaLongArrowAltDown />
@@ -230,13 +226,6 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
           </div>
         </div>
       </section>
-
-      {showModal && (
-        <ComingSoonModal
-          isOpen={showModal}
-          onClose={() => setShowModal(false)}
-        />
-      )}
     </>
   );
 };
