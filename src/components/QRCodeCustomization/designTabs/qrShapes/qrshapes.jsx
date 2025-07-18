@@ -13,8 +13,8 @@ const QRShapes = () => {
   console.log(shapeDefinitions)
   const {
     selectedQRShape,
-    setSelectedQRShape,
-    canvasSize,
+    setSelectedQRShape,setStrokeWidth,strokeWidth,
+    canvasSize,setNoiseDensity,noiseDensity
   } = useDesignContext();
 
   const {
@@ -96,7 +96,7 @@ const QRShapes = () => {
       {isSelected && (
         <button
           onClick={handleDeselect}
-          className="absolute top-[-10px] right-[-10px] bg-mainGreen text-white rounded-full w-6 h-6 flex items-center justify-center text-sm shadow-md hover:bg-blue-600"
+          className="absolute top-[-10px] right-[-10px] bg-mainGreen text-white rounded-full w-6 h-6 flex items-center justify-center text-sm shadow-md cursor-pointer"
         >
           ×
         </button>
@@ -106,6 +106,7 @@ const QRShapes = () => {
   };
 
   return (
+    <>
     <section className="mt-4 px-4">
       <PremiumModal />
 
@@ -141,7 +142,43 @@ const QRShapes = () => {
       >
         {premiumShapes.map((shape) => renderShapeBox(shape, true))}
       </div>
+
+
+      <div>
+              <label className="block text-sm font-medium my-4">
+                Noise Density
+              </label>
+              <input
+                type="range"
+                min="0.1" 
+                max="0.9"
+                step="0.05"
+                value={noiseDensity}
+                onChange={(e) => setNoiseDensity(parseFloat(e.target.value))}
+                className="w-full accent-mainGreen"
+              />
+              {/* <div className="text-xs text-gray-500">
+                {Math.round(noiseDensity * 100)}%
+              </div> */}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-1">
+                Border Width
+              </label>
+              <input
+                type="range"
+                min="1"
+                max="30"
+                step="1"
+                value={strokeWidth}
+                onChange={(e) => setStrokeWidth(parseInt(e.target.value))}
+                className="w-full accent-mainGreen"
+              />
+              {/* <div className="text-xs text-gray-500">{strokeWidth}px</div> */}
+            </div>
     </section>
+    </>
   );
 };
 
