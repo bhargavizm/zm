@@ -27,13 +27,13 @@ export const ColorPickerGroup = ({
   const ColorSwatch = ({ color, onClick }) => (
     <div
       onClick={onClick}
-      className="w-10 h-10 rounded border cursor-pointer"
+      className="w-10 h-10 rounded border cursor-pointer shrink-0"
       style={{ background: color }}
     />
   );
 
   return (
-    <div className="p-4 rounded-lg bg-white shadow-md w-full max-w">
+    <div className="p-4 rounded-lg bg-white shadow-md w-full">
       {/* Accordion Header */}
       <div
         className="flex justify-between items-center mb-3 cursor-pointer"
@@ -49,7 +49,8 @@ export const ColorPickerGroup = ({
       {isEnabled && (
         <>
           <div>
-            <div className="flex items-center gap-4 mb-4">
+            {/* Mode Selector */}
+            <div className="flex flex-wrap items-center gap-4 mb-4">
               <label className="flex items-center gap-2">
                 <input
                   type="radio"
@@ -70,14 +71,15 @@ export const ColorPickerGroup = ({
               </label>
             </div>
 
+            {/* Single Color Picker */}
             {colorMode === "single" ? (
               <div className="relative">
-                <div className="flex items-center gap-4">
+                <div className="flex flex-wrap items-center gap-4">
                   <ColorSwatch
                     color={singleColor}
                     onClick={() => togglePicker("single")}
                   />
-                  <p className="px-2 py-1 bg-gray-50 text-md text-black w-full">
+                  <p className="px-2 py-1 bg-gray-50 text-md text-black flex-1 min-w-[120px] break-all">
                     {singleColor}
                   </p>
                 </div>
@@ -98,16 +100,16 @@ export const ColorPickerGroup = ({
                 )}
               </div>
             ) : (
-              <div className="flex gap-6">
+              <div className="flex flex-col sm:flex-row gap-6">
                 {/* Start Color */}
-                <div className="relative">
+                <div className="relative flex-1">
                   <label className="text-sm block mb-1">Start</label>
                   <div className="flex items-center gap-2">
                     <ColorSwatch
                       color={startColor}
                       onClick={() => togglePicker("start")}
                     />
-                    <p className="px-2 py-1 bg-gray-50 text-md text-gray-800 w-full">
+                    <p className="px-2 py-1 bg-gray-50 text-md text-gray-800 flex-1 break-all">
                       {startColor}
                     </p>
                   </div>
@@ -128,14 +130,14 @@ export const ColorPickerGroup = ({
                 </div>
 
                 {/* End Color */}
-                <div className="relative">
+                <div className="relative flex-1">
                   <label className="text-sm block mb-1">End</label>
                   <div className="flex items-center gap-2">
                     <ColorSwatch
                       color={endColor}
                       onClick={() => togglePicker("end")}
                     />
-                    <p className="px-2 py-1 bg-gray-50 text-md text-gray-800 w-full">
+                    <p className="px-2 py-1 bg-gray-50 text-md text-gray-800 flex-1 break-all">
                       {endColor}
                     </p>
                   </div>

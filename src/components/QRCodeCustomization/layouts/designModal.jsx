@@ -56,10 +56,10 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
       setSelectedSticker(imagePath);
       localStorage.setItem("selectedSticker", imagePath);
     } 
-    // else if (imagePath.includes("/logos/")) {
-    //   setSelectedLogo(imagePath);
-    //   localStorage.setItem("selectedLogo", imagePath);
-    // }
+    else if (imagePath.includes("/logos/")) {
+      setSelectedLogo(imagePath);
+      localStorage.setItem("selectedLogo", imagePath);
+    }
   };
 
   const tabComponents = {
