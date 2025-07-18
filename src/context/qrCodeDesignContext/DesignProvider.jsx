@@ -9,72 +9,71 @@ const DEFAULT_LOGO = "/images/logos/insta.webp";
 const DEFAULT_STICKER = "/images/stickers/water.webp";
 
 const DesignProvider = ({ children }) => {
-    const [bgDesign, setBgDesign] = useState(null);
+  const [bgDesign, setBgDesign] = useState(null);
 
   const [selectedQRShape, setSelectedQRShape] = useState("square");
   const [selectedBodyFrame, setSelectedBodyFrame] = useState("heart");
   const [selectedEyeFrame, setSelectedEyeFrame] = useState("rounded");
   const [selectedEyeBall, setSelectedEyeBall] = useState("circle");
   const [selectedSticker, setSelectedSticker] = useState(DEFAULT_STICKER);
-    const [selectedLogo, setSelectedLogo] = useState(DEFAULT_LOGO);
-    const [backgroundImage, setBackgroundImage] = useState(null);
+
+  const [backgroundImage, setBackgroundImage] = useState(null);
+   const [imageScale, setImageScale] = useState(80);
 
   const [matrix, setMatrix] = useState([]);
   const [text, setText] = useState("https://www.zmqrcode.in/");
-  const [noiseDensity, setNoiseDensity] = useState(0.4);
+  const [noiseDensity, setNoiseDensity] = useState(0.2);
   const [strokeWidth, setStrokeWidth] = useState(8);
 
+    const [selectedLogo, setSelectedLogo] = useState(DEFAULT_LOGO);
+  const [logoSize, setLogoSize] = useState(50); // for inner selected logo
+  const [companyLogoSize, setCompanyLogoSize] = useState(180); // for outer company logo
+  const [customLogo, setCustomLogo] = useState(null);
 
-const [logoSize, setLogoSize] = useState(30); // for inner selected logo
-const [companyLogoSize, setCompanyLogoSize] = useState(180); // for outer company logo
 
-  const [scale, setScale] = useState(160);
+
   const [isLoading, setIsLoading] = useState(false);
-
 
   const [qrColor, setQrColor] = useState("#000000");
 
   const [activeTabs, setActiveTabs] = useState({}); // { slug: tab }
   // const [qrColor, setQrColor] = useState("#000000");
-  const [qrGradient, setQrGradient] = useState(["#0eb424", "#df0808"]);
-  const [gradientType, setGradientType] = useState("linear-gradient");
-  const [qrMode, setQrMode] = useState("single");
 
 
-    const moduleSize = 8;
+  const moduleSize = 8;
   const padding = 2;
   const qrSize = matrix.length;
   const fullSize = qrSize + padding * 2;
-  // const canvasSize = 400;
-const canvasSize = useResponsiveCanvasSize(); // ✅ dynamic
+  const canvasSize = 400;
+  // const canvasSize = useResponsiveCanvasSize(); // ✅ dynamic
 
   // const canvasSize = 400;
 
   const [foregroundColorMode, setForegroundColorMode] = useState("single"); // or "gradient"
-const [foregroundColor, setForegroundColor] = useState("#000000");
-const [foregroundGradientStart, setForegroundGradientStart] = useState("#000000");
-const [foregroundGradientEnd, setForegroundGradientEnd] = useState("#ffffff");
+  const [foregroundColor, setForegroundColor] = useState("#000000");
+  const [foregroundGradientStart, setForegroundGradientStart] =
+    useState("#000000");
+  const [foregroundGradientEnd, setForegroundGradientEnd] = useState("#ffffff");
 
-const [eyeFrameColorMode, setEyeFrameColorMode] = useState("single");
-const [eyeFrameColor, setEyeFrameColor] = useState("#000000");
-const [eyeFrameGradientStart, setEyeFrameGradientStart] = useState("#000000");
-const [eyeFrameGradientEnd, setEyeFrameGradientEnd] = useState("#ffffff");
+  const [eyeFrameColorMode, setEyeFrameColorMode] = useState("single");
+  const [eyeFrameColor, setEyeFrameColor] = useState("#000000");
+  const [eyeFrameGradientStart, setEyeFrameGradientStart] = useState("#000000");
+  const [eyeFrameGradientEnd, setEyeFrameGradientEnd] = useState("#ffffff");
 
-const [eyeballColorMode, setEyeballColorMode] = useState("single");
-const [eyeballColor, setEyeballColor] = useState("#000000");
-const [eyeballGradientStart, setEyeballGradientStart] = useState("#000000");
-const [eyeballGradientEnd, setEyeballGradientEnd] = useState("#ffffff");
+  const [eyeballColorMode, setEyeballColorMode] = useState("single");
+  const [eyeballColor, setEyeballColor] = useState("#000000");
+  const [eyeballGradientStart, setEyeballGradientStart] = useState("#000000");
+  const [eyeballGradientEnd, setEyeballGradientEnd] = useState("#ffffff");
 
-const [borderColorMode, setBorderColorMode] = useState("single");
-const [borderColor, setBorderColor] = useState("#000000");
-const [borderGradientStart, setBorderGradientStart] = useState("#000000");
-const [borderGradientEnd, setBorderGradientEnd] = useState("#ffffff");
+  const [borderColorMode, setBorderColorMode] = useState("single");
+  const [borderColor, setBorderColor] = useState("#000000");
+  const [borderGradientStart, setBorderGradientStart] = useState("#000000");
+  const [borderGradientEnd, setBorderGradientEnd] = useState("#ffffff");
 
-const [isForegroundEnabled, setIsForegroundEnabled] = useState(true);
-const [isEyeFrameEnabled, setIsEyeFrameEnabled] = useState(true);
-const [isEyeballEnabled, setIsEyeballEnabled] = useState(true);
-const [isBorderEnabled, setIsBorderEnabled] = useState(true);
-
+  const [isForegroundEnabled, setIsForegroundEnabled] = useState(true);
+  const [isEyeFrameEnabled, setIsEyeFrameEnabled] = useState(true);
+  const [isEyeballEnabled, setIsEyeballEnabled] = useState(true);
+  const [isBorderEnabled, setIsBorderEnabled] = useState(true);
 
   const setActiveTab = (slug, tab) => {
     setActiveTabs((prev) => ({ ...prev, [slug]: tab }));
@@ -125,11 +124,11 @@ const [isBorderEnabled, setIsBorderEnabled] = useState(true);
         setSelectedLogo,
         backgroundImage,
         setBackgroundImage,
-        companyLogoSize, setCompanyLogoSize,
+        companyLogoSize,
+        setCompanyLogoSize,
         logoSize,
         setLogoSize,
-        scale,
-        setScale,
+       imageScale, setImageScale,
         isLoading,
         setIsLoading,
         bgDesign,
@@ -145,43 +144,57 @@ const [isBorderEnabled, setIsBorderEnabled] = useState(true);
         setSelectedEyeFrame,
         selectedEyeBall,
         setSelectedEyeBall,
-        bgDesign, setBgDesign,
-        qrColor, setQrColor,
-       activeTabs, setActiveTab, getActiveTab,
-       qrColor,
+        bgDesign,
+        setBgDesign,
+        qrColor,
         setQrColor,
-        qrGradient,
-        setQrGradient,
-        gradientType,
-        setGradientType,
-        qrMode,
-        setQrMode,
+        activeTabs,
+        setActiveTab,
+        getActiveTab,
+        qrColor,
+        setQrColor,
+        foregroundColorMode,
+        setForegroundColorMode,
+        foregroundColor,
+        setForegroundColor,
+        foregroundGradientStart,
+        setForegroundGradientStart,
+        foregroundGradientEnd,
+        setForegroundGradientEnd,
+        isForegroundEnabled,
+        setIsForegroundEnabled,
+        eyeFrameColorMode,
+        setEyeFrameColorMode,
+        eyeFrameColor,
+        setEyeFrameColor,
+        eyeFrameGradientStart,
+        setEyeFrameGradientStart,
+        eyeFrameGradientEnd,
+        setEyeFrameGradientEnd,
+        isEyeFrameEnabled,
+        setIsEyeFrameEnabled,
+customLogo, setCustomLogo,
+        eyeballColorMode,
+        setEyeballColorMode,
+        eyeballColor,
+        setEyeballColor,
+        eyeballGradientStart,
+        setEyeballGradientStart,
+        eyeballGradientEnd,
+        setEyeballGradientEnd,
+        isEyeballEnabled,
+        setIsEyeballEnabled,
 
-      //  activeTabs, setActiveTab, getActiveTab, selectedBodyFrame,
-   foregroundColorMode, setForegroundColorMode,
-  foregroundColor, setForegroundColor,
-  foregroundGradientStart, setForegroundGradientStart,
-  foregroundGradientEnd, setForegroundGradientEnd,
-  isForegroundEnabled, setIsForegroundEnabled,
-
-  eyeFrameColorMode, setEyeFrameColorMode,
-  eyeFrameColor, setEyeFrameColor,
-  eyeFrameGradientStart, setEyeFrameGradientStart,
-  eyeFrameGradientEnd, setEyeFrameGradientEnd,
-  isEyeFrameEnabled, setIsEyeFrameEnabled,
-
-  eyeballColorMode, setEyeballColorMode,
-  eyeballColor, setEyeballColor,
-  eyeballGradientStart, setEyeballGradientStart,
-  eyeballGradientEnd, setEyeballGradientEnd,
-   isEyeballEnabled, setIsEyeballEnabled,
-
-  borderColorMode, setBorderColorMode,
-  borderColor, setBorderColor,
-  borderGradientStart, setBorderGradientStart,
-  borderGradientEnd, setBorderGradientEnd,
-  isBorderEnabled, setIsBorderEnabled,
-
+        borderColorMode,
+        setBorderColorMode,
+        borderColor,
+        setBorderColor,
+        borderGradientStart,
+        setBorderGradientStart,
+        borderGradientEnd,
+        setBorderGradientEnd,
+        isBorderEnabled,
+        setIsBorderEnabled,
       }}
     >
       {children}
@@ -190,4 +203,3 @@ const [isBorderEnabled, setIsBorderEnabled] = useState(true);
 };
 
 export default DesignProvider;
-

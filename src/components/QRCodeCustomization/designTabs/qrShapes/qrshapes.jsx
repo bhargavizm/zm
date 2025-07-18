@@ -96,7 +96,7 @@ const QRShapes = () => {
       {isSelected && (
         <button
           onClick={handleDeselect}
-          className="absolute top-[-10px] right-[-10px] bg-mainGreen text-white rounded-full w-6 h-6 flex items-center justify-center text-sm shadow-md hover:bg-blue-600"
+          className="absolute top-[-10px] right-[-10px] bg-mainGreen text-white rounded-full w-6 h-6 flex items-center justify-center text-sm shadow-md cursor-pointer"
         >
           ×
         </button>
@@ -111,7 +111,7 @@ const QRShapes = () => {
       <PremiumModal />
 
       {/* Row 1: Free SVG Shapes */}
-      <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-5 pr-2 mb-6">
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-5 pr-2 mb-6">
         {freeShapes.map((shape) => renderShapeBox(shape, false))}
       </div>
 
@@ -138,7 +138,7 @@ const QRShapes = () => {
       {/* Row 3: Premium SVG Shapes */}
       <div
         ref={ref}
-        className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-5 pr-2"
+        className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-5 pr-2"
       >
         {premiumShapes.map((shape) => renderShapeBox(shape, true))}
       </div>

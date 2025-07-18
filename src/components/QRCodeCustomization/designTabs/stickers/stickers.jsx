@@ -87,7 +87,7 @@ const Stickers = () => {
         {isSelected && (
           <button
             onClick={handleDeselect}
-            className="absolute top-[-10px] right-[-10px] bg-mainGreen text-white rounded-full w-6 h-6 flex items-center justify-center text-sm shadow-md "
+            className="absolute top-[-10px] right-[-10px] bg-mainGreen text-white rounded-full w-6 h-6 flex items-center justify-center text-sm shadow-md cursor-pointer"
             title="Remove Sticker"
           >
             ×
@@ -102,7 +102,7 @@ const Stickers = () => {
       <PremiumModal />
 
       {/* Row 1: Free Stickers */}
-      <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-5 pr-2 mb-6">
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-5 pr-2 mb-6">
         {freeStickers.map((src, index) => renderStickerBox(src, index, false))}
       </div>
 
@@ -130,7 +130,7 @@ const Stickers = () => {
       <div
         ref={containerRef}
         onScroll={handleScroll}
-        className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-5 pr-2"
+        className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-5 pr-2"
       >
         {premiumStickers.map((src, index) =>
           renderStickerBox(src, index + 8, true)
