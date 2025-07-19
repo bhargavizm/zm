@@ -43,26 +43,28 @@ export const ColorPickerGroup = ({
       {/* {isEnabled && (
         <> */}
         <div >
-          <div className="flex items-center gap-4 mb-4 ">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                value="single"
-                checked={colorMode === "single"}
-                onChange={() => setColorMode("single")}
-              />
-              <span>Single</span>
-            </label>
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                value="gradient"
-                checked={colorMode === "gradient"}
-                onChange={() => setColorMode("gradient")}
-              />
-              <span>Gradient</span>
-            </label>
-          </div>
+         <div className="flex items-center gap-4 mb-4">
+  <label className="flex items-center gap-2 cursor-pointer">
+    <input
+      type="radio"
+      value="single"
+      checked={colorMode === "single"}
+      onChange={() => setColorMode("single")}
+    />
+    <span>Single</span>
+  </label>
+
+  {/* Hide gradient option below md (768px) */}
+  <div className="hidden md:flex items-center gap-2 cursor-pointer">
+    <input
+      type="radio"
+      value="gradient"
+      checked={colorMode === "gradient"}
+      onChange={() => setColorMode("gradient")}
+    />
+    <span>Gradient</span>
+  </div>
+</div>
 
           {colorMode === "single" ? (
             <div className="relative">
