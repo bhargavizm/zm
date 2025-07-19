@@ -126,7 +126,8 @@ export const stickerConfig = {
     sizePercent: { width: 50, height: 50 },
   },
   "/images/stickers/thunder.webp": {
-
+    positionPercent: { x: 28, y: 20 },
+    sizePercent: { width: 50, height: 50 },
   },
   "/images/stickers/batman.webp": {
 
@@ -195,7 +196,7 @@ export const stickerConfig = {
 
   },
   "/images/stickers/boat.webp": {
-    positionPercent: { x: 20, y: 10 },
+    positionPercent: { x: 20, y: 15 },
     sizePercent: { width: 45, height: 45 },
 
   },
