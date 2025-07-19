@@ -39,7 +39,7 @@ const Colors = () => {
     <div className="p-4 w-full space-y-6">
       <h2 className="text-lg font-semibold mb-4">Customize QR Code Colors</h2>
 
-       <ColorPickerGroup
+      <ColorPickerGroup
         label="Border Color"
         colorMode={borderColorMode}
         setColorMode={setBorderColorMode}
@@ -103,7 +103,7 @@ const Colors = () => {
   setActivePicker={setActivePicker}
       />
 
-     
+
     </div>
   );
 };

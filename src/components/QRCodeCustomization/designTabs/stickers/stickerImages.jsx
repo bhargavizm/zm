@@ -208,27 +208,27 @@ export const stickerConfig = {
   "/images/stickers/man-with-box.webp": {
 positionPercent: { x: 19, y: 0 },
     sizePercent: { width: 45, height: 45 },
- 
+
   },
   "/images/stickers/lion.webp": {
 positionPercent: { x: 30, y: 20 },
     sizePercent: { width: 42, height: 42 },
- 
+
   },
 //   "/images/stickers/penguin.webp": {
 // positionPercent: { x: 30, y: 40 },
 //     sizePercent: { width: 40, height: 40 },
- 
+
 //   },
   "/images/stickers/ice-cream.webp": {
 positionPercent: { x: 25, y: 30 },
     sizePercent: { width: 45, height: 45 },
- 
+
   },
   "/images/stickers/mirror.webp": {
 positionPercent: { x: 23, y: 10 },
     sizePercent: { width: 55, height: 55 },
- 
+
   },
     // "/images/stickers/bulb.webp": {
 
