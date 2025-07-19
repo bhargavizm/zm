@@ -39,7 +39,7 @@ const Colors = () => {
     <div className="p-4 w-full space-y-6">
       <h2 className="text-lg font-semibold mb-4">Customize QR Code Colors</h2>
 
-       <ColorPickerGroup
+      <ColorPickerGroup
         label="Border Color"
         colorMode={borderColorMode}
         setColorMode={setBorderColorMode}
@@ -49,10 +49,10 @@ const Colors = () => {
         setStartColor={setBorderGradientStart}
         endColor={borderGradientEnd}
         setEndColor={setBorderGradientEnd}
-        isEnabled={isBorderEnabled}
-        setIsEnabled={setIsBorderEnabled}
-         activePicker={activePicker}
-  setActivePicker={setActivePicker}
+        // isEnabled={isBorderEnabled}
+        // setIsEnabled={setIsBorderEnabled}
+        activePicker={activePicker}
+        setActivePicker={setActivePicker}
       />
 
       <ColorPickerGroup
@@ -65,10 +65,10 @@ const Colors = () => {
         setStartColor={setForegroundGradientStart}
         endColor={foregroundGradientEnd}
         setEndColor={setForegroundGradientEnd}
-        isEnabled={isForegroundEnabled}
-        setIsEnabled={setIsForegroundEnabled}
-         activePicker={activePicker}
-  setActivePicker={setActivePicker}
+        // isEnabled={isForegroundEnabled}
+        // setIsEnabled={setIsForegroundEnabled}
+        activePicker={activePicker}
+        setActivePicker={setActivePicker}
       />
 
       <ColorPickerGroup
@@ -81,10 +81,10 @@ const Colors = () => {
         setStartColor={setEyeFrameGradientStart}
         endColor={eyeFrameGradientEnd}
         setEndColor={setEyeFrameGradientEnd}
-        isEnabled={isEyeFrameEnabled}
-        setIsEnabled={setIsEyeFrameEnabled}
-         activePicker={activePicker}
-  setActivePicker={setActivePicker}
+        // isEnabled={isEyeFrameEnabled}
+        // setIsEnabled={setIsEyeFrameEnabled}
+        activePicker={activePicker}
+        setActivePicker={setActivePicker}
       />
 
       <ColorPickerGroup
@@ -97,13 +97,13 @@ const Colors = () => {
         setStartColor={setEyeballGradientStart}
         endColor={eyeballGradientEnd}
         setEndColor={setEyeballGradientEnd}
-        isEnabled={isEyeballEnabled}
-        setIsEnabled={setIsEyeballEnabled}
-         activePicker={activePicker}
-  setActivePicker={setActivePicker}
+        // isEnabled={isEyeballEnabled}
+        // setIsEnabled={setIsEyeballEnabled}
+        activePicker={activePicker}
+        setActivePicker={setActivePicker}
       />
 
-     
+
     </div>
   );
 };

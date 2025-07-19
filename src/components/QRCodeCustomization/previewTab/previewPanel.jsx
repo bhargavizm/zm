@@ -95,19 +95,14 @@ const PreviewPanel = () => {
     foregroundGradientEnd,
   });
 
-  // ✅ Sticker placement calculation with percent-based config and screen-aware container size
-
   const defaultPosPercent = { x: 20, y: 20 };
   const defaultSizePercent = { width: 60, height: 60 };
 
-  // ✅ Get sticker config safely
   const sticker = selectedSticker && stickerConfig[selectedSticker];
-
-  // ✅ Apply fallbacks using nullish coalescing (??)
   const posPercent = sticker?.positionPercent ?? defaultPosPercent;
   const sizePercent = sticker?.sizePercent ?? defaultSizePercent;
 
-  // ✅ Detect container size based on screen width
+  // Screen-based container size
   let containerWidth = 440;
   let containerHeight = 400;
 
@@ -122,16 +117,25 @@ const PreviewPanel = () => {
     }
   }
 
-  // ✅ Calculate QR position and size in pixels
-  const qrPosition = {
-    x: (posPercent.x / 100) * containerWidth,
-    y: (posPercent.y / 100) * containerHeight,
-  };
+  // ✅ QR placement: fill container when no sticker, otherwise use sticker config
+  const isStickerSelected = Boolean(selectedSticker);
 
-  const sizeQr = {
-    width: (sizePercent.width / 100) * containerWidth,
-    height: (sizePercent.height / 100) * containerHeight,
-  };
+  const qrPosition = isStickerSelected
+    ? {
+        x: (posPercent.x / 100) * containerWidth,
+        y: (posPercent.y / 100) * containerHeight,
+      }
+    : { x: 0, y: 0 };
+
+  const sizeQr = isStickerSelected
+    ? {
+        width: (sizePercent.width / 100) * containerWidth,
+        height: (sizePercent.height / 100) * containerHeight,
+      }
+    : {
+        width: containerWidth,
+        height: containerHeight,
+      };
 
   return (
     <>
@@ -166,18 +170,6 @@ const PreviewPanel = () => {
                 )}
               </clipPath>
 
-              {/* {colorMode === "gradient" && (
-                <linearGradient
-                  id="qrGradient"
-                  x1="0%"
-                  y1="0%"
-                  x2="100%"
-                  y2="100%"
-                >
-                  <stop offset="0%" stopColor={gradientStart} />
-                  <stop offset="100%" stopColor={gradientEnd} />
-                </linearGradient>
-              )} */}
               {foregroundColorMode === "gradient" && (
                 <linearGradient
                   id="qrGradient"
@@ -261,7 +253,10 @@ const PreviewPanel = () => {
                     return (
                       <path
                         key={`qr-${row}-${col}`}
-                        d={bodyFrames?.[selectedBodyFrame] ?? bodyFrames.square}
+                        d={
+                          bodyFrames?.[selectedBodyFrame] ??
+                          bodyFrames.square
+                        }
                         transform={`translate(${x}, ${y}) scale(1)`}
                         fill={
                           foregroundColorMode === "gradient"
@@ -277,7 +272,6 @@ const PreviewPanel = () => {
 
               {/* Logo Overlay */}
               <g>
-                {/* Outer Company Logo */}
                 <image
                   href="/logos/3D Logo.png"
                   x={qrCenterX - companyLogoSize / 2}
@@ -286,8 +280,6 @@ const PreviewPanel = () => {
                   height={companyLogoSize}
                   preserveAspectRatio="xMidYMid meet"
                 />
-
-                {/* Inner Logo */}
                 {selectedLogo && (
                   <image
                     href={selectedLogo}
