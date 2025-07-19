@@ -49,8 +49,8 @@ const Colors = () => {
         setStartColor={setBorderGradientStart}
         endColor={borderGradientEnd}
         setEndColor={setBorderGradientEnd}
-        isEnabled={isBorderEnabled}
-        setIsEnabled={setIsBorderEnabled}
+        // isEnabled={isBorderEnabled}
+        // setIsEnabled={setIsBorderEnabled}
          activePicker={activePicker}
   setActivePicker={setActivePicker}
       />
@@ -65,8 +65,8 @@ const Colors = () => {
         setStartColor={setForegroundGradientStart}
         endColor={foregroundGradientEnd}
         setEndColor={setForegroundGradientEnd}
-        isEnabled={isForegroundEnabled}
-        setIsEnabled={setIsForegroundEnabled}
+        // isEnabled={isForegroundEnabled}
+        // setIsEnabled={setIsForegroundEnabled}
          activePicker={activePicker}
   setActivePicker={setActivePicker}
       />
@@ -81,8 +81,8 @@ const Colors = () => {
         setStartColor={setEyeFrameGradientStart}
         endColor={eyeFrameGradientEnd}
         setEndColor={setEyeFrameGradientEnd}
-        isEnabled={isEyeFrameEnabled}
-        setIsEnabled={setIsEyeFrameEnabled}
+        // isEnabled={isEyeFrameEnabled}
+        // setIsEnabled={setIsEyeFrameEnabled}
          activePicker={activePicker}
   setActivePicker={setActivePicker}
       />
@@ -97,8 +97,8 @@ const Colors = () => {
         setStartColor={setEyeballGradientStart}
         endColor={eyeballGradientEnd}
         setEndColor={setEyeballGradientEnd}
-        isEnabled={isEyeballEnabled}
-        setIsEnabled={setIsEyeballEnabled}
+        // isEnabled={isEyeballEnabled}
+        // setIsEnabled={setIsEyeballEnabled}
          activePicker={activePicker}
   setActivePicker={setActivePicker}
       />
