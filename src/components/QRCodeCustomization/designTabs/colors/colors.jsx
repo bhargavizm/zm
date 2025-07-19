@@ -11,25 +11,25 @@ const Colors = () => {
     foregroundColor, setForegroundColor,
     foregroundGradientStart, setForegroundGradientStart,
     foregroundGradientEnd, setForegroundGradientEnd,
-    isForegroundEnabled, setIsForegroundEnabled,
+    // isForegroundEnabled, setIsForegroundEnabled,
 
     eyeFrameColorMode, setEyeFrameColorMode,
     eyeFrameColor, setEyeFrameColor,
     eyeFrameGradientStart, setEyeFrameGradientStart,
     eyeFrameGradientEnd, setEyeFrameGradientEnd,
-    isEyeFrameEnabled, setIsEyeFrameEnabled,
+    // isEyeFrameEnabled, setIsEyeFrameEnabled,
 
     eyeballColorMode, setEyeballColorMode,
     eyeballColor, setEyeballColor,
     eyeballGradientStart, setEyeballGradientStart,
     eyeballGradientEnd, setEyeballGradientEnd,
-    isEyeballEnabled, setIsEyeballEnabled,
+    // isEyeballEnabled, setIsEyeballEnabled,
 
     borderColorMode, setBorderColorMode,
     borderColor, setBorderColor,
     borderGradientStart, setBorderGradientStart,
     borderGradientEnd, setBorderGradientEnd,
-    isBorderEnabled, setIsBorderEnabled,
+    // isBorderEnabled, setIsBorderEnabled,
   } = useDesignContext();
 
   const [activePicker, setActivePicker] = useState(null); // shared key like 'Foreground_single', 'Border_end'
@@ -39,7 +39,7 @@ const Colors = () => {
     <div className="p-4 w-full space-y-6">
       <h2 className="text-lg font-semibold mb-4">Customize QR Code Colors</h2>
 
-       <ColorPickerGroup
+      <ColorPickerGroup
         label="Border Color"
         colorMode={borderColorMode}
         setColorMode={setBorderColorMode}
@@ -103,7 +103,7 @@ const Colors = () => {
   setActivePicker={setActivePicker}
       />
 
-     
+
     </div>
   );
 };
