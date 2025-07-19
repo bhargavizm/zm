@@ -11,7 +11,7 @@ export const useGenerateNoiseElements = ({
   qrHeight,
   selectedBodyFrame,
   moduleShapes,
-  containerShape,
+  selectedQRShape,
   fgColor,
   colorMode,
     foregroundColorMode,
@@ -36,7 +36,7 @@ export const useGenerateNoiseElements = ({
     const qrTop = qrY;
     const qrBottom = qrY + qrHeight;
 
-    const shapePathFunction = shapeDefinitions?.[containerShape];
+    const shapePathFunction = shapeDefinitions?.[selectedQRShape];
     if (!shapePathFunction) return [];
 
     // Create an offscreen canvas path for point-in-path checks

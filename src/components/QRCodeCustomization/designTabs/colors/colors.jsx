@@ -11,25 +11,25 @@ const Colors = () => {
     foregroundColor, setForegroundColor,
     foregroundGradientStart, setForegroundGradientStart,
     foregroundGradientEnd, setForegroundGradientEnd,
-    isForegroundEnabled, setIsForegroundEnabled,
+    // isForegroundEnabled, setIsForegroundEnabled,
 
     eyeFrameColorMode, setEyeFrameColorMode,
     eyeFrameColor, setEyeFrameColor,
     eyeFrameGradientStart, setEyeFrameGradientStart,
     eyeFrameGradientEnd, setEyeFrameGradientEnd,
-    isEyeFrameEnabled, setIsEyeFrameEnabled,
+    // isEyeFrameEnabled, setIsEyeFrameEnabled,
 
     eyeballColorMode, setEyeballColorMode,
     eyeballColor, setEyeballColor,
     eyeballGradientStart, setEyeballGradientStart,
     eyeballGradientEnd, setEyeballGradientEnd,
-    isEyeballEnabled, setIsEyeballEnabled,
+    // isEyeballEnabled, setIsEyeballEnabled,
 
     borderColorMode, setBorderColorMode,
     borderColor, setBorderColor,
     borderGradientStart, setBorderGradientStart,
     borderGradientEnd, setBorderGradientEnd,
-    isBorderEnabled, setIsBorderEnabled,
+    // isBorderEnabled, setIsBorderEnabled,
   } = useDesignContext();
 
   const [activePicker, setActivePicker] = useState(null); // shared key like 'Foreground_single', 'Border_end'
@@ -51,8 +51,8 @@ const Colors = () => {
         setEndColor={setBorderGradientEnd}
         // isEnabled={isBorderEnabled}
         // setIsEnabled={setIsBorderEnabled}
-        activePicker={activePicker}
-        setActivePicker={setActivePicker}
+         activePicker={activePicker}
+  setActivePicker={setActivePicker}
       />
 
       <ColorPickerGroup
@@ -67,8 +67,8 @@ const Colors = () => {
         setEndColor={setForegroundGradientEnd}
         // isEnabled={isForegroundEnabled}
         // setIsEnabled={setIsForegroundEnabled}
-        activePicker={activePicker}
-        setActivePicker={setActivePicker}
+         activePicker={activePicker}
+  setActivePicker={setActivePicker}
       />
 
       <ColorPickerGroup
@@ -83,8 +83,8 @@ const Colors = () => {
         setEndColor={setEyeFrameGradientEnd}
         // isEnabled={isEyeFrameEnabled}
         // setIsEnabled={setIsEyeFrameEnabled}
-        activePicker={activePicker}
-        setActivePicker={setActivePicker}
+         activePicker={activePicker}
+  setActivePicker={setActivePicker}
       />
 
       <ColorPickerGroup
@@ -99,8 +99,8 @@ const Colors = () => {
         setEndColor={setEyeballGradientEnd}
         // isEnabled={isEyeballEnabled}
         // setIsEnabled={setIsEyeballEnabled}
-        activePicker={activePicker}
-        setActivePicker={setActivePicker}
+         activePicker={activePicker}
+  setActivePicker={setActivePicker}
       />
 
 
