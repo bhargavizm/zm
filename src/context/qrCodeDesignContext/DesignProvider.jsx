@@ -26,8 +26,8 @@ const DesignProvider = ({ children }) => {
   const [strokeWidth, setStrokeWidth] = useState(8);
 
     const [selectedLogo, setSelectedLogo] = useState(DEFAULT_LOGO);
-  const [logoSize, setLogoSize] = useState(50); // for inner selected logo
-  const [companyLogoSize, setCompanyLogoSize] = useState(180); // for outer company logo
+  const [logoSize, setLogoSize] = useState(40); // for inner selected logo
+  const [companyLogoSize, setCompanyLogoSize] = useState(110); // for outer company logo
   const [customLogo, setCustomLogo] = useState(null);
 
 
@@ -70,10 +70,10 @@ const DesignProvider = ({ children }) => {
   const [borderGradientStart, setBorderGradientStart] = useState("#000000");
   const [borderGradientEnd, setBorderGradientEnd] = useState("#ffffff");
 
-  const [isForegroundEnabled, setIsForegroundEnabled] = useState(true);
-  const [isEyeFrameEnabled, setIsEyeFrameEnabled] = useState(true);
-  const [isEyeballEnabled, setIsEyeballEnabled] = useState(true);
-  const [isBorderEnabled, setIsBorderEnabled] = useState(true);
+  // const [isForegroundEnabled, setIsForegroundEnabled] = useState(true);
+  // const [isEyeFrameEnabled, setIsEyeFrameEnabled] = useState(true);
+  // const [isEyeballEnabled, setIsEyeballEnabled] = useState(true);
+  // const [isBorderEnabled, setIsBorderEnabled] = useState(true);
 
   const setActiveTab = (slug, tab) => {
     setActiveTabs((prev) => ({ ...prev, [slug]: tab }));
@@ -161,8 +161,8 @@ const DesignProvider = ({ children }) => {
         setForegroundGradientStart,
         foregroundGradientEnd,
         setForegroundGradientEnd,
-        isForegroundEnabled,
-        setIsForegroundEnabled,
+        // isForegroundEnabled,
+        // setIsForegroundEnabled,
         eyeFrameColorMode,
         setEyeFrameColorMode,
         eyeFrameColor,
@@ -171,8 +171,8 @@ const DesignProvider = ({ children }) => {
         setEyeFrameGradientStart,
         eyeFrameGradientEnd,
         setEyeFrameGradientEnd,
-        isEyeFrameEnabled,
-        setIsEyeFrameEnabled,
+        // isEyeFrameEnabled,
+        // setIsEyeFrameEnabled,
 customLogo, setCustomLogo,
         eyeballColorMode,
         setEyeballColorMode,
@@ -182,8 +182,8 @@ customLogo, setCustomLogo,
         setEyeballGradientStart,
         eyeballGradientEnd,
         setEyeballGradientEnd,
-        isEyeballEnabled,
-        setIsEyeballEnabled,
+        // isEyeballEnabled,
+        // setIsEyeballEnabled,
 
         borderColorMode,
         setBorderColorMode,
@@ -193,8 +193,8 @@ customLogo, setCustomLogo,
         setBorderGradientStart,
         borderGradientEnd,
         setBorderGradientEnd,
-        isBorderEnabled,
-        setIsBorderEnabled,
+        // isBorderEnabled,
+        // setIsBorderEnabled,
       }}
     >
       {children}
