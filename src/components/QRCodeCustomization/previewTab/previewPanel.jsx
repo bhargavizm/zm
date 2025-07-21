@@ -95,8 +95,8 @@
       foregroundGradientEnd,
     });
 
-    const defaultPosPercent = { x: 20, y: 20 };
-    const defaultSizePercent = { width: 60, height: 60 };
+    const defaultPosPercent = { x: 25, y: 25 };
+    const defaultSizePercent = { width: 50, height: 50 };
 
     const sticker = selectedSticker && stickerConfig[selectedSticker];
     const posPercent = sticker?.positionPercent ?? defaultPosPercent;
