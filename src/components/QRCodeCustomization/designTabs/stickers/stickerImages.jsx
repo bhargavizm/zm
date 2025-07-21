@@ -82,8 +82,6 @@ export const defaultQRConfig = {
 };
 
 export const stickerConfig = {
- 
-   
     "/images/stickers/auto.webp": {},
      "/images/stickers/automobilecircle2.webp": {},
      "/images/stickers/automobilesquare1.webp": {},
@@ -105,9 +103,50 @@ export const stickerConfig = {
       "/images/stickers/homeappliancessquare1.webp": {},
       "/images/stickers/homeappliancessquare2.webp": {},
       "/images/stickers/MODREN.webp": {},
-
-
-     
-
-    
+  "/images/stickers/black-title.webp": {},
+  "/images/stickers/black-title1.webp": {},
+  "/images/stickers/botic1.webp": {},
+  "/images/stickers/botic1.1.webp": {},
+  "/images/stickers/botic2.webp": {},
+  "/images/stickers/botic2.1.webp": {},
+  "/images/stickers/fruitshop1.webp": {},
+  "/images/stickers/fruitshop1.1.webp": {},
+  "/images/stickers/fruitshop2.webp": {},
+  "/images/stickers/fruitshop2.1.webp": {},
+  "/images/stickers/gym-1.webp": {},
+  "/images/stickers/gym-2.webp": {},
+  "/images/stickers/gym-3.webp": {},
+  "/images/stickers/ice-cream.webp": {},
+  "/images/stickers/ice-cream2.webp": {},
+  "/images/stickers/ice-cream3.webp": {},
+  "/images/stickers/juice-shop-1.webp": {},
+  "/images/stickers/juice-shop-2.webp": {},
+  "/images/stickers/lassi-1.webp": {},
+  "/images/stickers/lassi-2.webp": {},
+  "/images/stickers/lassi-2.1.webp": {},
+  "/images/stickers/man-with-box.webp": {},
+  "/images/stickers/man-with-box-2.webp": {},
+  "/images/stickers/man-with-box-3.webp": {},
+  "/images/stickers/red-marble1.webp": {},
+  "/images/stickers/red-marble1.1.webp": {},
+  "/images/stickers/saloon.webp": {},
+  "/images/stickers/saloon-2.webp": {},
+  "/images/stickers/saloon-3.webp": {},
+  "/images/stickers/shirts-pants.webp": {},
+  "/images/stickers/shirts-pants1.webp": {},
+  "/images/stickers/tshirts.webp": {},
+  "/images/stickers/tshirts1.1.webp": {},
+  "/images/stickers/white-marble1.1.webp": {},
+  "/images/stickers/white-marble1.webp": {},
+  "/images/stickers/baby.webp": {},
+  "/images/stickers/jewellary1.webp": {},
+  "/images/stickers/jewellary2.webp": {},
+  "/images/stickers/biriyani.webp": {},
+  "/images/stickers/burger.webp": {},
+  "/images/stickers/chicken.webp": {},
+  "/images/stickers/doctor.webp": {},
+  "/images/stickers/doctor2.webp": {},
+  "/images/stickers/friench fry.webp": {},
+  "/images/stickers/kfc.webp": {},
+  "/images/stickers/petro.webp": {},
 };
