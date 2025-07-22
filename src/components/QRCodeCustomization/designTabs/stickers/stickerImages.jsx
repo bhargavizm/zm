@@ -1,6 +1,3 @@
-
-
-
 // export const stickerConfig = {
 //    "/images/stickers/design-rect.webp": {
 //     qrPosition: { x: 70, y: 50 },
@@ -82,302 +79,117 @@ export const defaultQRConfig = {
 };
 
 export const stickerConfig = {
-//   "/images/stickers/design-rect.webp": {
-//     positionPercent: { x: 12, y: 12 },
-//     sizePercent: { width: 80, height: 80 },
-//   },
-//   "/images/stickers/leaf-rect.webp": {
-//     positionPercent: { x: 20, y: 20 },
-//     // 👇 sizePercent is missing, will fall back to default
-//   },
-//   "/images/stickers/blue-rect.webp": {
-//     positionPercent: { x: 20, y: 25 },
-//     //  sizePercent: { width: 80, height: 80 },
-//   },
-//   "/images/stickers/brown-circle.webp": {
-//     positionPercent: { x: 20, y: 15 },
-
-//   },
-//   "/images/stickers/leaf-circle.webp": {
-
-//   },
-//   "/images/stickers/green-circle.webp": {
-
-//   },
-//   "/images/stickers/girls-in-circle.webp": {
-//     positionPercent: { x: 30, y: 29 },
-//     sizePercent: { width: 40, height: 38 },
-//   },
-//   "/images/stickers/black-leaf.webp": {
-
-//   },
-//   "/images/stickers/green-leaf.webp": {
-
-//   },
-//   "/images/stickers/water.webp": {
-
-//   },
-//   "/images/stickers/plane.webp": {
-//     positionPercent: { x: 28, y: 15 },
-//     sizePercent: { width: 45, height: 45 },
-//   },
-//   "/images/stickers/student.webp": {
-//     positionPercent: { x: 28, y: 30 },
-//     sizePercent: { width: 50, height: 50 },
-//   },
-//   "/images/stickers/thunder.webp": {
-//     positionPercent: { x: 28, y: 20 },
-//     sizePercent: { width: 50, height: 50 },
-//   },
-//   "/images/stickers/batman.webp": {
-
-//   },
-//   "/images/stickers/spider-man.webp": {
-//     positionPercent: { x: 30, y: 20 },
-//     sizePercent: { width: 45, height: 45 },
-//   },
-//   "/images/stickers/teacher.webp": {
-//     positionPercent: { x: 20, y: 40 },
-//     sizePercent: { width: 45, height: 45 },
-
-//   },
-//   "/images/stickers/saloon.webp": {
-//     positionPercent: { x: 35, y: 40 },
-//     sizePercent: { width: 45, height: 45 },
-
-//   },
-//   // "/images/stickers/school.webp": {
-//   //   positionPercent: { x: 30, y: 20 },
-//   //   sizePercent: { width: 45, height: 45 },
-
-//   // },
-//   "/images/stickers/shut-up.webp": {
-//     positionPercent: { x: 25, y: 25 },
-//     sizePercent: { width: 50, height: 50 },
-
-//   },
-//   "/images/stickers/gloves.webp": {
-//     positionPercent: { x: 27, y: 20 },
-//     sizePercent: { width: 45, height: 45 },
-
-//   },
-//   "/images/stickers/birds.webp": {
-//     positionPercent: { x: 30, y: 37 },
-//     sizePercent: { width: 45, height: 45 },
-
-//   },
-//   "/images/stickers/black-love-symbol.webp": {
-
-//   },
-//   "/images/stickers/toy-love-symbol.webp": {
-
-//   },
-//   "/images/stickers/flower-circle.webp": {
-//     positionPercent: { x: 40, y: 20 },
-//     sizePercent: { width: 50, height: 50 },
-
-//   },
-//   "/images/stickers/lens.webp": {
-//     positionPercent: { x: 30, y: 20 },
-//     sizePercent: { width: 45, height: 45 },
-
-//   },
-//   "/images/stickers/snail.webp": {
-//     positionPercent: { x: 33, y: 25 },
-//     sizePercent: { width: 45, height: 45 },
-
-//   },
-//   // "/images/stickers/baby-car.webp": {
-
-//   // },
-//   "/images/stickers/tea.webp": {
-//     positionPercent: { x: 30, y: 15 },
-//     sizePercent: { width: 45, height: 45 },
-
-//   },
-//   "/images/stickers/boat.webp": {
-//     positionPercent: { x: 20, y: 15 },
-//     sizePercent: { width: 45, height: 45 },
-
-//   },
-//   "/images/stickers/smoke.webp": {
-//     positionPercent: { x: 30, y: 35 },
-//     sizePercent: { width: 45, height: 45 },
-
-//   },
-//   "/images/stickers/man-with-box.webp": {
-// positionPercent: { x: 19, y: 0 },
-//     sizePercent: { width: 45, height: 45 },
-
-//   },
-//   "/images/stickers/lion.webp": {
-// positionPercent: { x: 30, y: 20 },
-//     sizePercent: { width: 42, height: 42 },
-
-//   },
-// //   "/images/stickers/penguin.webp": {
-// // positionPercent: { x: 30, y: 40 },
-// //     sizePercent: { width: 40, height: 40 },
-
-// //   },
-//   "/images/stickers/ice-cream.webp": {
-// positionPercent: { x: 25, y: 30 },
-//     sizePercent: { width: 45, height: 45 },
-
-//   },
-//   "/images/stickers/mirror.webp": {
-// positionPercent: { x: 23, y: 10 },
-//     sizePercent: { width: 55, height: 55 },
-
-//   },
-//     // "/images/stickers/bulb.webp": {
-
-//     // },
-//   // "/images/stickers/micky-mouse.webp": {
-
-//   // },
-//   // "/images/stickers/man.webp": {
-
-//   // },
-//   "/images/stickers/cats.webp": {
-// positionPercent: { x: 27  , y: 20 },
-//     sizePercent: { width: 45, height: 45 },
- 
-//   },
-//   "/images/stickers/calf.webp": {
-// positionPercent: { x: 40, y: 30 },
-//     sizePercent: { width: 45, height: 45 },
- 
-//   },
-// //   "/images/stickers/delivery-girl.webp": {
-// // positionPercent: { x: 55, y: -10 },
-// //     sizePercent: { width: 45, height: 45 },
- 
-// //   },
-//   "/images/stickers/watchman.webp": {
-// positionPercent: { x: 10, y: 45 },
-//     sizePercent: { width: 40, height: 40 },
- 
-//   },
-// //   "/images/stickers/bike.webp": {
-// // positionPercent: { x: 30, y: 40 },
-// //     sizePercent: { width: 45, height: 45 },
- 
-// //   },
-//   "/images/stickers/auto.webp": {
-// positionPercent: { x: 30, y: 10 },
-//     sizePercent: { width: 50, height: 50 },
- 
-//   },
- "/images/stickers/Auto1.webp": {
-
- },
-  "/images/stickers/automobilecircle2.webp": {
-
-},
-"/images/stickers/automobilesquare1.webp": {
-
-},
-"/images/stickers/casualshoe.webp": {
-
-},
-"/images/stickers/electricalshopcircle1.webp": {
-
-},
-"/images/stickers/electricalshopsquare1.webp": {
-
-},
-"/images/stickers/fastfoodcircle2.webp": {
-
-},
-"/images/stickers/fastfoodcircle3.webp": {
-
-},
-"/images/stickers/fastfoodcircle6.webp": {
-
-},
-"/images/stickers/fastfoodsquare1.webp": {
-
-},
-"/images/stickers/fastfoodsquare4.webp": {
-
-},
-"/images/stickers/fastfoodsquare5.webp": {
-
-},
-"/images/stickers/formalshoe.webp": {
-
-},
-"/images/stickers/homeappliancescircle1.webp": {
-
-},
-"/images/stickers/homeappliancescircle2.webp": {
-
-},
-"/images/stickers/homeappliancessquare1.webp": {
-
-},
-"/images/stickers/homeappliancessquare2.webp": {
-
-},
-"/images/stickers/MODREN.webp": {
-
-},
-"/images/stickers/opticalcircle1.webp": {
-
-},
-"/images/stickers/opticalcircle2.webp": {
-
-},
-"/images/stickers/opticalsquare1.webp": {
-
-},
-"/images/stickers/opticalsquare.webp": {
-
-},
-"/images/stickers/paint.webp": {
-
-},
-"/images/stickers/paintcircle.webp": {
-
-},
-"/images/stickers/paintsquare.webp": {
-
-},
-"/images/stickers/pet1.webp": {
-
-},
-"/images/stickers/security1.webp": {
-
-},
-"/images/stickers/security2.webp": {
-
-},
-"/images/stickers/security3.webp": {
-
-},
-"/images/stickers/security4.webp": {
-
-},
-"/images/stickers/security5.webp": {
-
-},
-"/images/stickers/tea1.webp": {
-
-},
-"/images/stickers/tyre1.webp": {
-
-},
-"/images/stickers/pet3.webp": {
-
-},
-"/images/stickers/security6.webp": {
-
-},
-"/images/stickers/shoes1.webp": {
-
-},
-"/images/stickers/tyresquare1.webp": {
-
-},
+  "/images/stickers/book1.webp": {
+    // positionPercent: { x: 25, y: 25 },
+    // sizePercent: { width: 50, height: 50 },
+  },
+  "/images/stickers/book2.webp": {
+
+  },
+  "/images/stickers/graduation.webp": {},
+  "/images/stickers/graduationCir.webp": {},
+  "/images/stickers/mobile2.webp": {},
+  "/images/stickers/mobile3.webp": {},
+  "/images/stickers/mobileShop1.webp": {},
+  "/images/stickers/nursery1.webp": {},
+  "/images/stickers/nursery2.webp": {},
+  "/images/stickers/nursery3.webp": {},
+  "/images/stickers/nursery4.webp": {},
+  "/images/stickers/pets.webp": {},
+  "/images/stickers/school-Sticker.webp": {},
+  "/images/stickers/graduationCir.webp": {},
+  "/images/stickers/toys1.webp": {},
+  "/images/stickers/toys2.webp": {},
+  "/images/stickers/water.webp": {},
+  "/images/stickers/water2.webp": {},
+  "/images/stickers/waterCan.webp": {},
+  "/images/stickers/waterCan2.webp": {},
+  "/images/stickers/waterPlant1.webp": {},
+  "/images/stickers/stickers.webp": {},
+  "/images/stickers/opticalcircle2.webp": {},
+  "/images/stickers/opticalsquare2.webp": {},
+  "/images/stickers/paint.webp": {},
+  "/images/stickers/paintcircle.webp": {},
+  "/images/stickers/paintsquare.webp": {},
+  "/images/stickers/pani puri 02.webp": {},
+  "/images/stickers/pani puri.webp": {},
+  "/images/stickers/petdog.webp": {},
+  "/images/stickers/securitycircle1.webp": {},
+  "/images/stickers/securitycircle2.webp": {},
+  "/images/stickers/securitycircle3.webp": {},
+  "/images/stickers/securitysquare1.webp": {},
+  "/images/stickers/securitysquare2.webp": {},
+  "/images/stickers/securitysquare3.webp": {},
+  "/images/stickers/shoeboxes.webp": {},
+  "/images/stickers/tea.webp": {},
+  "/images/stickers/tom&jerry.webp": {},
+  "/images/stickers/tyrecircle1.webp": {},
+  "/images/stickers/tyresquare1.webp": {},
+  "/images/stickers/auto.webp": {},
+  "/images/stickers/automobilecircle2.webp": {},
+  "/images/stickers/automobilesquare1.webp": {},
+  "/images/stickers/beauty parlour.webp": {},
+  "/images/stickers/Bike .webp": {},
+  "/images/stickers/car.webp": {},
+  "/images/stickers/casualshoe.webp": {},
+  "/images/stickers/electricalsquare2.webp": {},
+  "/images/stickers/fastfoodcircle2.webp": {},
+  "/images/stickers/fastfoodcircle3.webp": {},
+  "/images/stickers/fastfoodcircle6.webp": {},
+  "/images/stickers/fastfoodsquare1.webp": {},
+  "/images/stickers/fastfoodsquare5.webp": {},
+  "/images/stickers/formalshoe.webp": {},
+  "/images/stickers/furniture 02.webp": {},
+  "/images/stickers/furniture.webp": {},
+  "/images/stickers/homeappliancescircle1.webp": {},
+  "/images/stickers/homeappliancescircle2.webp": {},
+  "/images/stickers/homeappliancessquare1.webp": {},
+  "/images/stickers/homeappliancessquare2.webp": {},
+  "/images/stickers/MODREN.webp": {},
+  "/images/stickers/black-title.webp": {},
+  "/images/stickers/black-title1.webp": {},
+  "/images/stickers/botic1.webp": {},
+  "/images/stickers/botic1.1.webp": {},
+  "/images/stickers/botic2.webp": {},
+  "/images/stickers/botic2.1.webp": {},
+  "/images/stickers/fruitshop1.webp": {},
+  "/images/stickers/fruitshop1.1.webp": {},
+  "/images/stickers/fruitshop2.webp": {},
+  "/images/stickers/fruitshop2.1.webp": {},
+  "/images/stickers/gym-1.webp": {},
+  "/images/stickers/gym-2.webp": {},
+  "/images/stickers/gym-3.webp": {},
+  "/images/stickers/ice-cream.webp": {},
+  "/images/stickers/ice-cream2.webp": {},
+  "/images/stickers/ice-cream3.webp": {},
+  "/images/stickers/juice-shop-1.webp": {},
+  "/images/stickers/juice-shop-2.webp": {},
+  "/images/stickers/lassi-1.webp": {},
+  "/images/stickers/lassi-2.webp": {},
+  "/images/stickers/lassi-2.1.webp": {},
+  "/images/stickers/man-with-box.webp": {},
+  "/images/stickers/man-with-box-2.webp": {},
+  "/images/stickers/man-with-box-3.webp": {},
+  "/images/stickers/red-marble1.webp": {},
+  "/images/stickers/red-marble1.1.webp": {},
+  "/images/stickers/saloon.webp": {},
+  "/images/stickers/saloon-2.webp": {},
+  "/images/stickers/saloon-3.webp": {},
+  "/images/stickers/shirts-pants.webp": {},
+  "/images/stickers/shirts-pants1.webp": {},
+  "/images/stickers/tshirts.webp": {},
+  "/images/stickers/tshirts1.1.webp": {},
+  "/images/stickers/white-marble1.1.webp": {},
+  "/images/stickers/white-marble1.webp": {},
+  "/images/stickers/baby.webp": {},
+  "/images/stickers/jewellary1.webp": {},
+  "/images/stickers/jewellary2.webp": {},
+  "/images/stickers/biriyani.webp": {},
+  "/images/stickers/burger.webp": {},
+  "/images/stickers/chicken.webp": {},
+  "/images/stickers/doctor.webp": {},
+  "/images/stickers/doctor2.webp": {},
+  "/images/stickers/friench fry.webp": {},
+  "/images/stickers/kfc.webp": {},
+  "/images/stickers/petro.webp": {},
 };

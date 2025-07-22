@@ -86,12 +86,12 @@ const servicesSlice = createSlice({
     }),
     setDiscountServices: (state, action) => ({
       ...state,
-      discountServicesData : action.payload,
-      error : null,
+      discountServicesData: action.payload,
+      error: null,
     }),
     setMedicalServices: (state, action) => ({
-      ...state, 
-      medicalServicesData : action.payload,
+      ...state,
+      medicalServicesData: action.payload,
       error: null,
     }),
     setPetIdServices: (state, action) => ({
@@ -104,8 +104,6 @@ const servicesSlice = createSlice({
       kidsSafetyServicesData: action.payload,
       error: null,
     }),
-
-    // Error handling
     clearError: (state) => ({
       ...state,
       error: null,
@@ -114,6 +112,7 @@ const servicesSlice = createSlice({
 });
 
 export const {
+  setBusinessCardServices,
   setResumeServices,
   setMenuCardServices,
   setTextMessageServices,
