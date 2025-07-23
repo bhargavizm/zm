@@ -421,7 +421,7 @@ const KidsSafetyContent = () => {
   const imageInputRef = useRef(null);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const { setActiveTab } = useDesignContext();
+  const { setActiveTab,setText } = useDesignContext();
   const { slug } = useParams();
   console.log(kidsSafety, dynamicForms);  
   // Validation patterns
@@ -726,9 +726,12 @@ const KidsSafetyContent = () => {
         body: formData,
       });
 
-      if (!response.ok) throw new Error('Submission failed');
+      const { fileData, qrUrl } = response.body;
+
+      if (!fileData?._id && qrUrl) throw new Error('Submission failed');
 
       setShowSuccessModal(true);
+      setText(qrUrl); // ✅ from backend
       setActiveTab(slug, "QR Code");
       dynamicForms.kidsSafety = {
           childName: "",
