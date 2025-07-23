@@ -61,7 +61,7 @@ const DecorateQRCode = () => {
 
           {/* Preview Panel and Modal Tabs */}
           {/* <div className="col-span-12 lg:col-span-5 bg-white rounded-3xl shadow-lg px-6 py-9 mt-6 lg:mt-0"> */}
-          <div className="cursor-pointer col-span-12 lg:col-span-5 bg-white rounded-3xl shadow-lg px-6 py-9 mt-0 ">
+          <div className="cursor-pointer col-span-12 lg:col-span-5 bg-white rounded-3xl shadow-lg  py-9 mt-0 ">
             <div className="flex justify-center">
               <PreviewPanel />
             </div>
@@ -82,13 +82,13 @@ const DecorateQRCode = () => {
               ))}
             </div>
 
-            <hr className="mb-4 border border-slate-200" />
+            {/* <hr className="mb-4 border border-slate-200" />
 
             <div className=" flex justify-center items-center gap-2 py-4">
               <button className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)] transition-effects">
                 Download <FaLongArrowAltDown />
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>

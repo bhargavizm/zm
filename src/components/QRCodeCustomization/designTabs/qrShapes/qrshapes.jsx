@@ -26,10 +26,10 @@ const QRShapes = () => {
 
   const ref = useRef();
 
-  // useEffect(() => {
-  //   const scroll = localStorage.getItem("qrShapesScroll");
-  //   if (ref.current && scroll) ref.current.scrollTop = parseInt(scroll, 10);
-  // }, []);
+  useEffect(() => {
+    const scroll = localStorage.getItem("qrShapesScroll");
+    if (ref.current && scroll) ref.current.scrollTop = parseInt(scroll, 10);
+  }, []);
 
   const shapeKeys = Object.keys(shapeDefinitions);
   const freeShapes = shapeKeys.slice(0, 7);
@@ -122,7 +122,7 @@ const QRShapes = () => {
           <button
             type="button"
             onClick={handleToggle}
-            className={`relative inline-flex h-7 w-14 items-center rounded-full transition-colors duration-300 ${
+            className={`relative inline-flex cursor-pointer h-7 w-14 items-center rounded-full transition-colors duration-300 ${
               premiumEnabled ? "bg-[#008080]" : "bg-gray-300"
             }`}
           >

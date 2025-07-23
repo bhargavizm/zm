@@ -31,7 +31,7 @@ const Logos = () => {
     localStorage.setItem("selectedLogoSize", defaultLogoSize);
 
     // Set default company logo size (used for your branding)
-    const defaultCompanySize = 110;
+    const defaultCompanySize = 105;
     setCompanyLogoSize(defaultCompanySize);
     localStorage.setItem("companyLogoSize", defaultCompanySize);
   }, []);
