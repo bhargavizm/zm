@@ -65,8 +65,10 @@ export async function POST(request) {
 
     await newMessage.save();
 
+    const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/textMessage/${newMessage._id}`;
+
     return new Response(
-      JSON.stringify({ success: true, fileData: newMessage }),
+      JSON.stringify({ success: true, fileData: newMessage, qrUrl }),
       {
         status: 201,
         headers: { "Content-Type": "application/json" },
