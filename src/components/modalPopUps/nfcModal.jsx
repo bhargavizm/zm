@@ -25,8 +25,8 @@ const NFCModal = () => {
       <section>
         {/* NFC Accordion */}
         <div className="flex items-center gap-4 px-4 mt-2">
-          <span className="text-sm font-medium text-gray-700">NFC</span>
-          <button
+          {/* <span className="text-sm font-medium text-gray-700">NFC</span> */}
+          {/* <button
             type="button"
             onClick={handleNfcToggle}
             className={`relative cursor-pointer inline-flex h-8 w-16 items-center rounded-full transition-colors duration-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#008080] ${
@@ -70,7 +70,7 @@ const NFCModal = () => {
                 </svg>
               )}
             </span>
-          </button>
+          </button> */}
         </div>
       </section>
 
