@@ -90,7 +90,7 @@ export async function POST(req) {
 
     return new Response(JSON.stringify({ success: true, data: newDoc }), {
       status: 201,
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "multipart/form-data" },
     });
   } catch (err) {
     console.error("Business Shop POST Error:", err);
