@@ -2,11 +2,11 @@
 
 import React, { useEffect, useState } from "react";
 import { DesignContext } from "../qrCodeDesignContext/DesignContext";
-import { useResponsiveCanvasSize } from "@/components/QRCodeCustomization/utils/responsiveCanvasSize";
 
-const DEFAULT_QR_SHAPE = "/images/qr-shapes/circle.webp";
+
+
 const DEFAULT_LOGO = "/images/logos/insta.webp";
-const DEFAULT_STICKER = "/images/stickers/water.webp";
+const DEFAULT_STICKER = "/images/stickers/book1.webp";
 
 const DesignProvider = ({ children }) => {
   const [bgDesign, setBgDesign] = useState(null);
@@ -18,16 +18,16 @@ const DesignProvider = ({ children }) => {
   const [selectedSticker, setSelectedSticker] = useState(DEFAULT_STICKER);
 
   const [backgroundImage, setBackgroundImage] = useState(null);
-   const [imageScale, setImageScale] = useState(80);
+  const [imageScale, setImageScale] = useState(80);
 
   const [matrix, setMatrix] = useState([]);
   const [text, setText] = useState("https://www.zmqrcode.in/");
   const [noiseDensity, setNoiseDensity] = useState(0.2);
   const [strokeWidth, setStrokeWidth] = useState(8);
 
-    const [selectedLogo, setSelectedLogo] = useState(DEFAULT_LOGO);
-  const [logoSize, setLogoSize] = useState(40); // for inner selected logo
-  const [companyLogoSize, setCompanyLogoSize] = useState(110); // for outer company logo
+ const [selectedLogo, setSelectedLogo] = useState(DEFAULT_LOGO);
+  const [logoSize, setLogoSize] = useState(35); // for inner selected logo
+  const [companyLogoSize, setCompanyLogoSize] = useState(105); // for outer company logo
   const [customLogo, setCustomLogo] = useState(null);
 
 
@@ -83,22 +83,22 @@ const DesignProvider = ({ children }) => {
     return activeTabs[slug] || "Content";
   };
 
-  // Load persisted values on mount
-  // useEffect(() => {
-  //   if (typeof window === "undefined") return;
+ // Load persisted values on mount
+  useEffect(() => {
+    if (typeof window === "undefined") return;
 
-  //   const savedQR = localStorage.getItem("selectedQRShape");
-  //   const savedLogo = localStorage.getItem("selectedLogo");
-  //   const savedSticker = localStorage.getItem("selectedSticker");
-  //   const savedLogoSize = localStorage.getItem("logoSize");
-  //   const savedScale = localStorage.getItem("scale");
+    const savedQR = localStorage.getItem("selectedQRShape");
+    const savedLogo = localStorage.getItem("selectedLogo");
+    const savedSticker = localStorage.getItem("selectedSticker");
+    // const savedLogoSize = localStorage.getItem("logoSize");
+    // const savedScale = localStorage.getItem("scale");
 
-  //   if (savedQR) setSelectedQRShape(savedQR);
-  //   if (savedLogo) setSelectedLogo(savedLogo);
-  //   if (savedSticker) setSelectedSticker(savedSticker);
-  //   if (savedLogoSize) setLogoSize(parseInt(savedLogoSize));
-  //   if (savedScale) setScale(parseInt(savedScale));
-  // }, []);
+    if (savedQR) setSelectedQRShape(savedQR);
+    if (savedLogo) setSelectedLogo(savedLogo);
+    if (savedSticker) setSelectedSticker(savedSticker);
+    // if (savedLogoSize) setLogoSize(parseInt(savedLogoSize));
+    // if (savedScale) setScale(parseInt(savedScale));
+  }, []);
 
   return (
     <DesignContext.Provider
@@ -128,7 +128,7 @@ const DesignProvider = ({ children }) => {
         setCompanyLogoSize,
         logoSize,
         setLogoSize,
-       imageScale, setImageScale,
+        imageScale, setImageScale,
         isLoading,
         setIsLoading,
         bgDesign,
@@ -173,7 +173,7 @@ const DesignProvider = ({ children }) => {
         setEyeFrameGradientEnd,
         // isEyeFrameEnabled,
         // setIsEyeFrameEnabled,
-customLogo, setCustomLogo,
+        customLogo, setCustomLogo,
         eyeballColorMode,
         setEyeballColorMode,
         eyeballColor,

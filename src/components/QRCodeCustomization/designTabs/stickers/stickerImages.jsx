@@ -1,6 +1,3 @@
-
-
-
 // export const stickerConfig = {
 //    "/images/stickers/design-rect.webp": {
 //     qrPosition: { x: 70, y: 50 },
@@ -82,23 +79,13 @@ export const defaultQRConfig = {
 };
 
 export const stickerConfig = {
-    "/images/stickers/water.webp": {
-
+  "/images/stickers/book1.webp": {
     // positionPercent: { x: 25, y: 25 },
     // sizePercent: { width: 50, height: 50 },
   },
-  "/images/stickers/book2.webp": { },
-  "/images/stickers/MODREN.webp": {},
-   "/images/stickers/black-title.webp": {},
-  "/images/stickers/opticalcircle2.webp": {},
-   "/images/stickers/petro.webp": {},
-   "/images/stickers/ice-cream3.webp": {},
+  "/images/stickers/book2.webp": {
 
-
-
-
-
- 
+  },
   "/images/stickers/graduation.webp": {},
   "/images/stickers/graduationCir.webp": {},
   "/images/stickers/mobile2.webp": {},
@@ -113,12 +100,13 @@ export const stickerConfig = {
   "/images/stickers/graduationCir.webp": {},
   "/images/stickers/toys1.webp": {},
   "/images/stickers/toys2.webp": {},
-  "/images/stickers/book1.webp": {},
+  "/images/stickers/water.webp": {},
   "/images/stickers/water2.webp": {},
   "/images/stickers/waterCan.webp": {},
   "/images/stickers/waterCan2.webp": {},
   "/images/stickers/waterPlant1.webp": {},
   "/images/stickers/stickers.webp": {},
+  "/images/stickers/opticalcircle2.webp": {},
   "/images/stickers/opticalsquare2.webp": {},
   "/images/stickers/paint.webp": {},
   "/images/stickers/paintcircle.webp": {},
@@ -137,28 +125,28 @@ export const stickerConfig = {
   "/images/stickers/tom&jerry.webp": {},
   "/images/stickers/tyrecircle1.webp": {},
   "/images/stickers/tyresquare1.webp": {},
-    "/images/stickers/auto.webp": {},
-     "/images/stickers/automobilecircle2.webp": {},
-     "/images/stickers/automobilesquare1.webp": {},
-     "/images/stickers/beauty parlour.webp": {},
-     "/images/stickers/Bike .webp": {},
-      "/images/stickers/car.webp": {},
-      "/images/stickers/casualshoe.webp": {},
-      "/images/stickers/electricalsquare2.webp": {},
-      "/images/stickers/fastfoodcircle2.webp": {},
-      "/images/stickers/fastfoodcircle3.webp": {},
-      "/images/stickers/fastfoodcircle6.webp": {},
-      "/images/stickers/fastfoodsquare1.webp": {},
-      "/images/stickers/fastfoodsquare5.webp": {},
-      "/images/stickers/formalshoe.webp": {},
-      "/images/stickers/furniture 02.webp": {},
-      "/images/stickers/furniture.webp": {},
-      "/images/stickers/homeappliancescircle1.webp": {},
-      "/images/stickers/homeappliancescircle2.webp": {},
-      "/images/stickers/homeappliancessquare1.webp": {},
-      "/images/stickers/homeappliancessquare2.webp": {},
-      
- 
+  "/images/stickers/auto.webp": {},
+  "/images/stickers/automobilecircle2.webp": {},
+  "/images/stickers/automobilesquare1.webp": {},
+  "/images/stickers/beauty parlour.webp": {},
+  "/images/stickers/Bike .webp": {},
+  "/images/stickers/car.webp": {},
+  "/images/stickers/casualshoe.webp": {},
+  "/images/stickers/electricalsquare2.webp": {},
+  "/images/stickers/fastfoodcircle2.webp": {},
+  "/images/stickers/fastfoodcircle3.webp": {},
+  "/images/stickers/fastfoodcircle6.webp": {},
+  "/images/stickers/fastfoodsquare1.webp": {},
+  "/images/stickers/fastfoodsquare5.webp": {},
+  "/images/stickers/formalshoe.webp": {},
+  "/images/stickers/furniture 02.webp": {},
+  "/images/stickers/furniture.webp": {},
+  "/images/stickers/homeappliancescircle1.webp": {},
+  "/images/stickers/homeappliancescircle2.webp": {},
+  "/images/stickers/homeappliancessquare1.webp": {},
+  "/images/stickers/homeappliancessquare2.webp": {},
+  "/images/stickers/MODREN.webp": {},
+  "/images/stickers/black-title.webp": {},
   "/images/stickers/black-title1.webp": {},
   "/images/stickers/botic1.webp": {},
   "/images/stickers/botic1.1.webp": {},
@@ -173,6 +161,7 @@ export const stickerConfig = {
   "/images/stickers/gym-3.webp": {},
   "/images/stickers/ice-cream.webp": {},
   "/images/stickers/ice-cream2.webp": {},
+  "/images/stickers/ice-cream3.webp": {},
   "/images/stickers/juice-shop-1.webp": {},
   "/images/stickers/juice-shop-2.webp": {},
   "/images/stickers/lassi-1.webp": {},
@@ -202,5 +191,5 @@ export const stickerConfig = {
   "/images/stickers/doctor2.webp": {},
   "/images/stickers/friench fry.webp": {},
   "/images/stickers/kfc.webp": {},
- 
+  "/images/stickers/petro.webp": {},
 };

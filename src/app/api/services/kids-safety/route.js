@@ -138,7 +138,10 @@ export async function POST(req) {
             ? await KidsSafetyModal.findByIdAndUpdate(existing._id, { $set: data }, { new: true, runValidators: true })
             : await KidsSafetyModal.create(data);
 
-        return NextResponse.json({ success: true, data: saved }, { status: 200 });
+        const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/kidsSafety/${saved._id}`;
+        console.log("Saved ID:", saved._id);
+
+        return NextResponse.json({ success: true, data: saved }, { status: 200 },qrUrl);
     } catch (err) {
         console.error('POST Error:', err);
         return NextResponse.json({ success: false, error: err.message }, { status: 500 });

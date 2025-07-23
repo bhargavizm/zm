@@ -99,12 +99,15 @@ export async function POST(request) {
 
     await newEntry.save();
 
+    const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/menuCard/${newEntry._id}`;
+
     // ✅ Step 6: Return Success Response
     return new Response(
       JSON.stringify({
         success: true,
         message: "✅ Menu cards data submitted successfully",
         menuCardData: newEntry,
+        qrUrl
       }),
       { status: 201, headers: { "Content-Type": "application/json" } }
     );
