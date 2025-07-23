@@ -7,7 +7,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req) {
   try {
-    // ✅ Step 1: Authenticate User
+    // ✅ Authenticate User
     const auth = await authUser(req);
     if (auth.status !== 200) {
       return new Response(JSON.stringify(auth.json), {
@@ -18,28 +18,34 @@ export async function POST(req) {
 
     const user = auth.user;
 
-    // ✅ Step 2: Parse Request Body
+    // ✅ Parse Request Body
     const body = await req.json();
     const {
-      productLogo,  // ✅ Corrected to match schema
+      productLogo,
       brandName,
       email,
       phone,
       address,
-      password,
+      password = "", // Optional QR code password
       selectedTemplate,
-      items = [] // array of { image, heading, description, pageUrl, videoUrl }
+      items = [],
+      location = {}, // Optional location object
+      renewalDate = null,
+      status = "active",
     } = body;
 
+    // ✅ Debug log — helps you confirm incoming data
+    console.log("📦 Received Body:", body);
+
+    // ✅ Connect to MongoDB
     await connectDB();
 
-    // ✅ Step 3: Create New Product Document
     const product = new ProductModal({
       user: {
         id: user._id,
         name: user.name,
       },
-      productLogo, // ✅ matches schema
+      productLogo,
       brandName,
       email,
       phone,
@@ -47,13 +53,27 @@ export async function POST(req) {
       password,
       selectedTemplate,
       items,
+      scanCount: 0,
+
+      // ✅ Defensive defaulting
+      location: {
+        latitude: location.latitude ?? null,
+        longitude: location.longitude ?? null,
+        address: location.address ?? "",
+      },
+      renewalDate,
+      status,
+      resetPasswordToken: null,
+      resetPasswordExpires: null,
     });
 
     await product.save();
 
-    // ✅ Step 4: Respond
     return NextResponse.json(
-      { message: "Product saved successfully!" },
+      {
+        message: "Product saved successfully!",
+        productId: product._id,
+      },
       {
         status: 201,
         headers: { "Content-Type": "application/json" },
@@ -61,7 +81,7 @@ export async function POST(req) {
     );
 
   } catch (error) {
-    console.error("Error in POST /api/services/product:", error);
+    console.error("❌ Error in POST /api/services/product:", error);
     return new Response(
       JSON.stringify({ error: "Internal Server Error" }),
       { status: 500 }
