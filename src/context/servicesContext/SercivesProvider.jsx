@@ -141,7 +141,8 @@ const [menuBookFormData, setMenuBookFormData] = useState({
   phone: '',
   email: '',
   link: '',
-  password:''
+  password:'',
+  bgDesign:''
 });
 
 const [propertyDetails,setPropertyDetails] = useState({

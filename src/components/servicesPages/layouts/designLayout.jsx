@@ -32,6 +32,26 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
       : name;
   };
 
+  const handleTabNavigation = (direction) => {
+    const currentIndex = tabs.indexOf(activeTab);
+
+    let newIndex = currentIndex;
+    if (direction === "next") {
+      newIndex = Math.min(currentIndex + 1, tabs.length - 1);
+    } else if (direction === "back") {
+      newIndex = Math.max(currentIndex - 1, 0);
+    }
+
+    const newTab = tabs[newIndex];
+    setActiveTab(slug, newTab);
+
+    if (newTab === "QR Code") {
+      setActivePreview("scan");
+    } else {
+      setActivePreview("eye");
+    }
+  };
+
   return (
     <>
       <section className="pt-8">
@@ -51,7 +71,19 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
                   <button
                     key={tab}
                     // onClick={() => setActiveTab(tab)}
-                    onClick={() => setActiveTab(slug, tab)}
+                    //onClick={() => setActiveTab(slug, tab)}
+                    onClick={() => {
+                      setActiveTab(slug, tab);
+
+                      if (tab === "QR Code") {
+                        setActivePreview("scan");
+                      } else if (
+                        tab === "Content" ||
+                        tab === "Backdrop Designs"
+                      ) {
+                        setActivePreview("eye");
+                      }
+                    }}
                     className={`px-2 py-1 cursor-pointer text-lg whitespace-nowrap rounded-xl transition-all duration-200 ${
                       activeTab === tab
                         ? "bg-white text-mainGreen font-bold"
@@ -64,12 +96,47 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
               </div>
 
               {/* Tab Content */}
-              <div className="px-4 pb-6 h-[100vh] overflow-y-auto scrollbar-hide">
+              <div className="px-4 pb-6 h-[120vh] overflow-y-auto scrollbar-hide">
                 {activeTab === "Content" && <ContentTabComponent />}
 
-                {activeTab === "Backdrop Designs" && <BackdropDesigns />}
+                {activeTab === "Backdrop Designs" && (
+                  <div className="flex flex-col h-full">
+                    <div className="flex-1 overflow-y-auto scrollbar-hide">
+                      <BackdropDesigns />
+                    </div>
+                    <div className="sticky bottom-0 bg-white py-6 pt-9 px-4  z-10 flex justify-between">
+                      <button
+                        onClick={() => handleTabNavigation("back")}
+                        className="px-4 py-2 bg-mainGreen text-white font-semibold rounded-lg  transition"
+                      >
+                        ← Back
+                      </button>
+                      <button
+                        onClick={() => handleTabNavigation("next")}
+                        className="px-4 py-2 bg-mainGreen text-white font-semibold rounded-lg transition"
+                      >
+                        Next →
+                      </button>
+                    </div>
+                  </div>
+                )}
 
-                {activeTab === "QR Code" && <QRCodeTab />}
+                {activeTab === "QR Code" && (
+                  <div className="flex flex-col h-full">
+                    <QRCodeTab />
+                    <div className="sticky bottom-0 bg-white py-3 px-4 pt-9   z-10 flex justify-start">
+                      <button
+                        onClick={() => {
+                          setActiveTab(slug, "Backdrop Designs");
+                          setActivePreview("eye");
+                        }}
+                        className="px-4 py-2 cursor-pointer text-white bg-mainGreen font-semibold rounded-lg  transition"
+                      >
+                        ← Back
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -101,10 +168,10 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
               <div className="px-4">
                 {activePreview === "scan" && (
                   <>
-                  <div className="pt-6">
-  <PreviewPanel />
-                  </div>
-                  
+                    <div className="pt-6">
+                      <PreviewPanel />
+                    </div>
+
                     {/* <div className="flex justify-center items-center py-6">
                       <button
                         // onClick={handleClick}
@@ -205,7 +272,19 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
                   <button
                     key={tab}
                     //  onClick={() => setActiveTab(tab)}
-                    onClick={() => setActiveTab(slug, tab)}
+                    //onClick={() => setActiveTab(slug, tab)}
+                    onClick={() => {
+                      setActiveTab(slug, tab);
+
+                      if (tab === "QR Code") {
+                        setActivePreview("scan");
+                      } else if (
+                        tab === "Content" ||
+                        tab === "Backdrop Designs"
+                      ) {
+                        setActivePreview("eye");
+                      }
+                    }}
                     className={`px-4 py-2 text-xl rounded-xl cursor-pointer ${
                       activeTab === tab
                         ? "bg-white text-mainGreen font-bold"
@@ -218,12 +297,47 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
               </div>
 
               {/* Tab Content */}
-              <div className="px-6 pb-6 h-[80vh] overflow-y-auto scrollbar-hide">
+              <div className="px-6  h-[80vh] overflow-y-auto scrollbar-hide">
                 {activeTab === "Content" && <ContentTabComponent />}
 
-                {activeTab === "Backdrop Designs" && <BackdropDesigns />}
+                {activeTab === "Backdrop Designs" && (
+                  <div className="flex flex-col h-[calc(100vh-100px)] md:hidden">
+                    <div className="flex-1 overflow-y-auto ">
+                      <BackdropDesigns />
+                    </div>
+                    <div className="sticky bottom-0 bg-white py-3 px-4 z-10 flex justify-between">
+                      <button
+                        onClick={() => handleTabNavigation("back")}
+                        className="px-4 py-2 bg-mainGreen text-white font-semibold rounded-lg hover:bg-gray-300 transition"
+                      >
+                        ← Back
+                      </button>
+                      <button
+                        onClick={() => handleTabNavigation("next")}
+                        className="px-4 py-2 bg-mainGreen text-white font-semibold rounded-lg hover:bg-green-700 transition"
+                      >
+                        Next →
+                      </button>
+                    </div>
+                  </div>
+                )}
 
-                {activeTab === "QR Code" && <QRCodeTab />}
+                {activeTab === "QR Code" && (
+                  <div className="flex flex-col h-[calc(100vh-100px)] md:hidden">
+                    <QRCodeTab />
+                    <div className="sticky bottom-0 bg-white py-3 px-4  z-10 flex justify-start">
+                      <button
+                        onClick={() => {
+                          setActiveTab(slug, "Backdrop Designs");
+                          setActivePreview("eye");
+                        }}
+                        className="px-4 py-2 bg-mainGreen text-white font-semibold rounded-lg transition"
+                      >
+                        ← Back
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
