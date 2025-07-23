@@ -16,7 +16,7 @@ const SmsContent = () => {
   const { smsFormData, setSmsFormData,servicesDataLoading, setServicesDataLoading } = useServicesContext()
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const { setActiveTab } = useDesignContext();
+  const { setActiveTab,setText } = useDesignContext();
   const { slug } =useParams();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -44,49 +44,56 @@ const SmsContent = () => {
       setShowConfirmModal(true);
     };
 
-  const handleConfirmedSubmit = async () => {
+const handleConfirmedSubmit = async () => {
   const payload = {
     genderName: smsFormData.genderName,
     messageType: smsFormData.messageType,
     textMessage: smsFormData.textMessage,
     password: smsFormData.password,
   };
-   setServicesDataLoading(true);
+
+  setServicesDataLoading(true);
+
   try {
     const response = await axios.post("/api/services/sms", payload, {
       headers: {
-        "Content-Type": "application/json", // ✅ Important for JSON
+        "Content-Type": "application/json",
       },
     });
 
-    console.log(response);
+    const { fileData, qrUrl } = response.data;
 
-    if (response.data.success) {
-      dispatch(setSmsServices(response.data.fileData));
+    if (fileData?._id && qrUrl) {
+      setText(qrUrl); // ✅ from backend
+      dispatch(setSmsServices(fileData));
+
       toast.success("Text submitted successfully!");
+
       setActiveTab(slug, "QR Code");
       setShowConfirmModal(false);
 
-      // Reset form
       setSmsFormData({
         genderName: "",
         messageType: "",
         textMessage: "",
         password: "",
       });
+    } else {
+      toast.error("Failed to create SMS service");
     }
   } catch (error) {
     const errMsg = error?.response?.data?.error || "An unexpected error occurred.";
-    toast.error(` ${errMsg}`);
-    console.error("Submit Error:", errMsg);
- if (error.response?.status === 401) {
-        window.location.href = "/login"; // ✅ Auto logout on expiry
-        return;
-      }
-    } finally {
-      setServicesDataLoading(false); // ✅ End loader
+    toast.error(errMsg);
+    console.error("Submit Error:", error);
+
+    if (error.response?.status === 401) {
+      window.location.href = "/login";
     }
+  } finally {
+    setServicesDataLoading(false);
+  }
 };
+
 
 
   const togglePasswordVisibility = () => {

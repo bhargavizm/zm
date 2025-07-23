@@ -36,14 +36,14 @@
 //   }
 // }
 
+
 import { connectDB } from "@/lib/mongoDB";
 import { authUser } from "@/middlewares/authMiddleware";
 import SmsModal from "@/models/services/smsSchema";
-import bcrypt from "bcryptjs"; // ✅ Import bcrypt
+import bcrypt from "bcryptjs";
 
 export async function POST(request) {
   try {
-    // ✅ Step 1: Authenticate User
     const auth = await authUser(request);
     if (auth.status !== 200) {
       return new Response(JSON.stringify(auth.json), {
@@ -55,15 +55,16 @@ export async function POST(request) {
     const user = auth.user;
     await connectDB();
 
-    // ✅ Step 2: Parse JSON body
     const body = await request.json();
     const { genderName, messageType, textMessage, password } = body;
 
-    // ✅ Step 3: Hash the password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+   let hashedPassword = null;
+if (password && password.trim() !== "") {
+  const salt = await bcrypt.genSalt(10);
+  hashedPassword = await bcrypt.hash(password.trim(), salt);
+}
 
-    // ✅ Step 4: Create and save the document
+    // Step 1: Save the SMS document
     const newSms = new SmsModal({
       user: {
         id: user._id,
@@ -72,13 +73,19 @@ export async function POST(request) {
       genderName,
       messageType,
       textMessage,
-      password: hashedPassword, // Store hashed password
+      password: hashedPassword,
     });
 
-    await newSms.save();
+    await newSms.save(); // ✅ Save first to get _id
+
+    // Step 2: Generate QR URL using the _id
+    const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/sms/${newSms._id}`;
+
+    // (Optional) You can also generate QR matrix here if needed
+    // const qrMatrix = generateQRMatrix(qrUrl);
 
     return new Response(
-      JSON.stringify({ success: true, fileData: newSms }),
+      JSON.stringify({ success: true, fileData: newSms, qrUrl }),
       {
         status: 201,
         headers: { "Content-Type": "application/json" },
@@ -95,4 +102,3 @@ export async function POST(request) {
     );
   }
 }
-
