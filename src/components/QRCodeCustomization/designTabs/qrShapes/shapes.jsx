@@ -336,9 +336,6 @@ house:(size) => `
   C ${size * (7.3282 / 56)} ${size * (50.7695 / 56)} ${size * (9.2735 / 56)} ${size * (52.6445 / 56)} ${size * (12.6251 / 56)} ${size * (52.6445 / 56)}
   Z
 `,
- 
-  
- 
 //   dislike: (size) => `
 //   M ${size * (78 / 96)}, ${size * (72 / 96)}
 //   H ${size * (71.8828 / 96)}
@@ -379,25 +376,25 @@ house:(size) => `
     Z
   `;
 },
-  bell: (size) => {
-  const scale = size / 24;
-  return `
-    M${9 * scale} ${17.5 * scale}
-    V${18.5 * scale}
-    C${9 * scale} ${20.1569 * scale} ${10.3431 * scale} ${21 * scale} ${12 * scale} ${21 * scale}
-    C${13.6569 * scale} ${21 * scale} ${15 * scale} ${20.1569 * scale} ${15 * scale} ${18.5 * scale}
-    V${17.5 * scale}
-    M${6 * scale} ${8.5 * scale}
-    C${6 * scale} ${5.18629 * scale} ${8.68628 * scale} ${3.5 * scale} ${12 * scale} ${3.5 * scale}
-    C${15.3137 * scale} ${3.5 * scale} ${18 * scale} ${5.18629 * scale} ${18 * scale} ${8.5 * scale}
-    C${18 * scale} ${10.4392 * scale} ${18.705 * scale} ${12.6133 * scale} ${19.4316 * scale} ${14.3389 * scale}
-    C${20.0348 * scale} ${15.7717 * scale} ${19.0222 * scale} ${17.5 * scale} ${17.4676 * scale} ${17.5 * scale}
-    H${6.53237 * scale}
-    C${4.97778 * scale} ${17.5 * scale} ${3.96518 * scale} ${15.7717 * scale} ${4.56842 * scale} ${14.3389 * scale}
-    C${5.29493 * scale} ${12.6133 * scale} ${6 * scale} ${10.4392 * scale} ${6 * scale} ${8.5 * scale}
-    Z
-  `;
-},
+//   bell: (size) => {
+//   const scale = size / 24;
+//   return `
+//     M${9 * scale} ${17.5 * scale}
+//     V${18.5 * scale}
+//     C${9 * scale} ${20.1569 * scale} ${10.3431 * scale} ${21 * scale} ${12 * scale} ${21 * scale}
+//     C${13.6569 * scale} ${21 * scale} ${15 * scale} ${20.1569 * scale} ${15 * scale} ${18.5 * scale}
+//     V${17.5 * scale}
+//     M${6 * scale} ${8.5 * scale}
+//     C${6 * scale} ${5.18629 * scale} ${8.68628 * scale} ${3.5 * scale} ${12 * scale} ${3.5 * scale}
+//     C${15.3137 * scale} ${3.5 * scale} ${18 * scale} ${5.18629 * scale} ${18 * scale} ${8.5 * scale}
+//     C${18 * scale} ${10.4392 * scale} ${18.705 * scale} ${12.6133 * scale} ${19.4316 * scale} ${14.3389 * scale}
+//     C${20.0348 * scale} ${15.7717 * scale} ${19.0222 * scale} ${17.5 * scale} ${17.4676 * scale} ${17.5 * scale}
+//     H${6.53237 * scale}
+//     C${4.97778 * scale} ${17.5 * scale} ${3.96518 * scale} ${15.7717 * scale} ${4.56842 * scale} ${14.3389 * scale}
+//     C${5.29493 * scale} ${12.6133 * scale} ${6 * scale} ${10.4392 * scale} ${6 * scale} ${8.5 * scale}
+//     Z
+//   `;
+// },
 cake: (size) => `
     M${size * (16 / 24)},${size * (6 / 24)} 
     C${size * (16.5523 / 24)},${size * (6 / 24)} ${size * (17 / 24)},${size * (6.44772 / 24)} ${size * (17 / 24)},${size * (7 / 24)} 
