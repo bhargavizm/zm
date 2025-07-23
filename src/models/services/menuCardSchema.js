@@ -13,6 +13,7 @@ const menuCardsSchema = new mongoose.Schema(
         name: String,
       },
     ],
+    bgDesign: String,
 
     user: {
       id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
