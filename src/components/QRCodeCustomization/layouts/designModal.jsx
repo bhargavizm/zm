@@ -12,6 +12,7 @@ import PreviewPanel from "../previewTab/previewPanel";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import ImageToQRDesign from "../designTabs/ownImage/ImageToQRDesign";
 import ComingSoonModal from "@/components/modalPopUps/comingSoonModal";
+import DownloadButton from "../previewTab/downloadButton";
 
 const tabs = [
   "QR Shapes",
@@ -23,10 +24,7 @@ const tabs = [
 ];
 
 const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
-  const { setSelectedQRShape, setSelectedSticker } =
-    useDesignContext();
-  const [showModal, setShowModal] = useState(false);
-  const handleClick = () => setShowModal(true);
+  const { setSelectedQRShape, setSelectedSticker } = useDesignContext();
 
   // useEffect(() => {
   //   const savedShape = localStorage.getItem("selectedQRShape");
@@ -55,8 +53,7 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
     } else if (imagePath.includes("/stickers/")) {
       setSelectedSticker(imagePath);
       localStorage.setItem("selectedSticker", imagePath);
-    } 
-    else if (imagePath.includes("/logos/")) {
+    } else if (imagePath.includes("/logos/")) {
       setSelectedLogo(imagePath);
       localStorage.setItem("selectedLogo", imagePath);
     }
@@ -138,18 +135,9 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
                 </AnimatePresence>
               </div>
 
-              <div className="col-span-6 lg:col-span-5 rounded-xl  w-full shadow-lg py-9 mx-auto h-[72vh]  overflow-y-auto scrollbar-hide ">
-                <div className="flex justify-center ">
+              <div className="col-span-6 lg:col-span-5 rounded-xl w-full shadow-lg mx-auto h-[72vh] flex flex-col overflow-hidden">
+                <div className="flex justify-center flex-grow overflow-y-auto scrollbar-hide">
                   <PreviewPanel />
-                </div>
-                <div className="pt-8 flex justify-center">
-                  <button
-                    onClick={handleClick}
-                    className="px-6 py-2 text-xl text-white font-bold rounded-lg flex items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
-                  >
-                    Download
-                    <FaLongArrowAltDown />
-                  </button>
                 </div>
               </div>
             </div>
@@ -173,19 +161,25 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
             {/* Preview Section */}
 
             <div className="flex justify-center items-center ">
-              <div className="w-full max-w-xs h-64 overflow-y-auto scrollbar-hide rounded-md">
+              <div className="w-full max-w-xs h-80 overflow-y-auto scrollbar-hide rounded-md">
                 <PreviewPanel />
               </div>
             </div>
-            <div className="flex justify-center pt-4">
+            {/* Sticky Download Button - Mobile only */}
+            {/* <div className="sticky bottom-0 z-50 bg-white py-2 shadow-inner">
+  <div className="flex justify-center">
+    <DownloadButton />
+  </div>
+</div> */}
+
+            {/* <div className="flex justify-center pt-4">
               <button
-                onClick={handleClick}
                 className="px-4 py-2 text-sm text-white font-semibold rounded-lg flex items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
               >
                 Download
                 <FaLongArrowAltDown className="text-base" />
               </button>
-            </div>
+            </div> */}
           </div>
           {/* Heading */}
           <div className="mt-4 mb-2 text-center font-bold text-lg text-darkGreen">
@@ -225,14 +219,6 @@ const DesignModal = ({ setIsModalOpen, activeTab, setActiveTab }) => {
           </div>
         </div>
       </div>
-
-      {/* Coming Soon Modal */}
-      {showModal && (
-        <ComingSoonModal
-          isOpen={showModal}
-          onClose={() => setShowModal(false)}
-        />
-      )}
     </>
   );
 };
