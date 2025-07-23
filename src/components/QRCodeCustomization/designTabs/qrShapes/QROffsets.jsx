@@ -1,6 +1,6 @@
 export const qrOffsets = {
   heart: { x: 1, y: -20, scale: 0.6 },
-  circle: { x: 0, y: 0, scale:0.7},
+  circle: { x: 0, y: 0, scale:0.8},
   square: { x: 0, y: 0, scale:1 },
   diamond: { x: 0, y: 0, scale: 0.65 },
   cloud: { x: 0, y:30, scale: 0.68},
