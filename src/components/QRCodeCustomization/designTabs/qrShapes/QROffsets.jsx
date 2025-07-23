@@ -23,7 +23,7 @@ export const qrOffsets = {
   monitorStand: { x: 0, y: -70 , scale: 1},
   movie: { x: 0, y: 75, scale: 0.65 },
   trashBin: { x: 0, y: 40, scale: 0.7},
-  bell2: {x:0, y: -20, scale:0.8 },
+  bell2: {x:0, y: -20, scale:1.5 },
   videoclip: {x:0, y: 0, scale: 0.64},
   shoppingbag: {x:0, y: 40, scale: 0.9 },
   prizecup: {x:0, y: -75, scale: 0.65 },
