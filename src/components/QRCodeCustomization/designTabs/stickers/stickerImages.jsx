@@ -1,6 +1,3 @@
-
-
-
 // export const stickerConfig = {
 //    "/images/stickers/design-rect.webp": {
 //     qrPosition: { x: 70, y: 50 },
@@ -124,7 +121,7 @@ export const stickerConfig = {
   "/images/stickers/securitysquare2.webp": {},
   "/images/stickers/securitysquare3.webp": {},
   "/images/stickers/shoeboxes.webp": {},
-  // "/images/stickers/tea.webp": {},
+  "/images/stickers/tea.webp": {},
   "/images/stickers/tom&jerry.webp": {},
   "/images/stickers/tyrecircle1.webp": {},
   "/images/stickers/tyresquare1.webp": {},
