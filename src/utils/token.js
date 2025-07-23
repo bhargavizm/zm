@@ -5,8 +5,8 @@ export default function generateToken({ _id, email }) {
         { _id, email },
         process.env.JWT_SECRET || 'zmqr123',
          //{ expiresIn: '2m' }
-        // { expiresIn: '1d' }
-           { expiresIn: '1h' }
+        { expiresIn: '1d' }
+        //    { expiresIn: '1h' }
     );
 
     return token;

@@ -18,14 +18,14 @@ const DesignProvider = ({ children }) => {
   const [selectedSticker, setSelectedSticker] = useState(DEFAULT_STICKER);
 
   const [backgroundImage, setBackgroundImage] = useState(null);
-   const [imageScale, setImageScale] = useState(80);
+  const [imageScale, setImageScale] = useState(80);
 
   const [matrix, setMatrix] = useState([]);
   const [text, setText] = useState("https://www.zmqrcode.in/");
   const [noiseDensity, setNoiseDensity] = useState(0.2);
   const [strokeWidth, setStrokeWidth] = useState(8);
 
-    const [selectedLogo, setSelectedLogo] = useState(DEFAULT_LOGO);
+ const [selectedLogo, setSelectedLogo] = useState(DEFAULT_LOGO);
   const [logoSize, setLogoSize] = useState(35); // for inner selected logo
   const [companyLogoSize, setCompanyLogoSize] = useState(105); // for outer company logo
   const [customLogo, setCustomLogo] = useState(null);
@@ -128,7 +128,7 @@ const DesignProvider = ({ children }) => {
         setCompanyLogoSize,
         logoSize,
         setLogoSize,
-       imageScale, setImageScale,
+        imageScale, setImageScale,
         isLoading,
         setIsLoading,
         bgDesign,
@@ -173,7 +173,7 @@ const DesignProvider = ({ children }) => {
         setEyeFrameGradientEnd,
         // isEyeFrameEnabled,
         // setIsEyeFrameEnabled,
-customLogo, setCustomLogo,
+        customLogo, setCustomLogo,
         eyeballColorMode,
         setEyeballColorMode,
         eyeballColor,
