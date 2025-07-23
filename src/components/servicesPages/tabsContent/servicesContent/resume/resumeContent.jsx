@@ -22,7 +22,7 @@ const ResumeContent = () => {
   const router = useRouter();
   const fileInputRef = useRef();
 
-  const { setActiveTab } = useDesignContext();
+  const { setActiveTab,setText } = useDesignContext();
   const {
     resumeFormData,
     setResumeFormData,
@@ -127,6 +127,9 @@ const ResumeContent = () => {
 
       if (res.data.success) {
         dispatch(setResumeServices(res.data));
+
+        
+
         setActiveTab(slug, "QR Code");
 
         setResumeFormData({ resumeFiles: [], resumeUrl: "", password: "" });

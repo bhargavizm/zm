@@ -16,7 +16,7 @@ const TextMessageContent = () => {
   const { textMessageForm, setTextMessageForm ,servicesDataLoading, setServicesDataLoading} = useServicesContext();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const { setActiveTab } = useDesignContext();
+  const { setActiveTab, setText } = useDesignContext();
   const { slug } =useParams();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -58,8 +58,12 @@ setServicesDataLoading(true);
         },
       });
 
-      if (response.data.success) {
-        dispatch(setTextMessageServices(response.data.fileData));
+      const { fileData, qrUrl } = response.data;
+
+      if (fileData?._id && qrUrl) {
+
+        setText(qrUrl); // ✅ from backend
+        dispatch(setTextMessageServices(fileData));
         toast.success("Text submitted successfully!");
         setActiveTab(slug, "QR Code");
         setShowConfirmModal(false);
