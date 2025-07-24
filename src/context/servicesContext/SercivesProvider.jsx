@@ -199,42 +199,7 @@ const ServicesProvider = ({ children }) => {
 
 
   // Menu Book (Original structure)
-  // Inside your ServiceContextProvider
-  const [menuBookFormData, setMenuBookFormData] = useState({
-    restaurantName: '',
-    menuItems: [], // array of { image: "blob-url" }
-    phone: '',
-    email: '',
-    link: '',
-    password: ''
-  });
 
-  const [propertyDetails, setPropertyDetails] = useState({
-
-    basicInfo: {
-      propertyName: "",
-      propertyType: "",
-      ownerName: "",
-      contactNumber: "",
-      alternateNumber: "",
-      propertyDescription: "",
-    },
-    addressInfo: {
-      address: "",
-      mapLink: "",
-    },
-    pricingInfo: {
-      price: "",
-      area: "",
-      amenities: "",
-    },
-    images: {
-      galleryImages: [],
-    },
-    password: "",
-
-  })
-=======
 const [menuBookFormData, setMenuBookFormData] = useState({
   restaurantName: '',
   menuItems: [], // array of { image: "blob-url" }
