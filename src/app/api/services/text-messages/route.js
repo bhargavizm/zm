@@ -88,6 +88,7 @@
 import { connectDB } from "@/lib/mongoDB";
 import { authUser } from "@/middlewares/authMiddleware";
 import TextMessageModal from "@/models/services/textMessage";
+import { getShortenedUrl } from "@/utils/shortenUrl";
 import bcrypt from "bcryptjs";
 
 export async function POST(request) {
@@ -133,6 +134,7 @@ export async function POST(request) {
       message,
       password: hashedPassword,
       qrCodeDetails: {
+
     qrCodeImage: body.qrCodeImage ?? "",
 
     location: {
@@ -145,14 +147,18 @@ export async function POST(request) {
     resetPasswordToken: null,
     resetPasswordExpires: null,
   },
+
     });
 
     await newMessage.save();
 
-    const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/textMessage/${newMessage._id}`;
+
+    // const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/textMessage/${newMessage._id}`;
+    const qrUrl = await getShortenedUrl(`/textMessage/${newMessage._id}`);
+
 
     return new Response(
-      JSON.stringify({ success: true, fileData: newMessage, qrUrl }),
+      JSON.stringify({ success: true, data: newMessage, qrUrl }),
       {
         status: 201,
         headers: { "Content-Type": "application/json" },

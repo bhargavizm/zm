@@ -22,6 +22,7 @@ const DesignProvider = ({ children }) => {
 
   const [matrix, setMatrix] = useState([]);
   const [text, setText] = useState("https://www.zmqrcode.in/");
+  const [qrCodeUrl, setQrCodeUrl] = useState('');
   const [noiseDensity, setNoiseDensity] = useState(0.2);
   const [strokeWidth, setStrokeWidth] = useState(8);
 
@@ -193,6 +194,8 @@ const DesignProvider = ({ children }) => {
         setBorderGradientStart,
         borderGradientEnd,
         setBorderGradientEnd,
+        qrCodeUrl,
+        setQrCodeUrl,
         // isBorderEnabled,
         // setIsBorderEnabled,
       }}
