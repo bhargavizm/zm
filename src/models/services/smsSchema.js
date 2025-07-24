@@ -27,6 +27,7 @@
 // export default SmsModal
 
 import mongoose from "mongoose";
+import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
 
 const smsMessageSchema = new mongoose.Schema(
   {
@@ -49,23 +50,7 @@ const smsMessageSchema = new mongoose.Schema(
     password: {
       type: String,
     },
-    scanCount: {
-      type: Number,
-      default: 0,
-    },
-    location: {
-      latitude: { type: Number, default: null },
-      longitude: { type: Number, default: null },
-      address: { type: String, default: "" },
-    },
-    renewalDate: { type: Date, default: null },
-    status: {
-      type: String,
-      enum: ["active", "expired", "pending"],
-      default: "active",
-    },
-    resetPasswordToken: { type: String, default: null },
-    resetPasswordExpires: { type: Date, default: null },
+    qrCodeDetails:qrCodeServicesSchema
   },
   { timestamps: true }
 );
