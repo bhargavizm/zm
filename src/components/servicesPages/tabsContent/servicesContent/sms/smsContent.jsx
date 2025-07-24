@@ -53,7 +53,7 @@ const handleConfirmedSubmit = async () => {
   //   password: smsFormData.password,
   // };
 
-  // setServicesDataLoading(true);
+  //setServicesDataLoading(true);
 
   // try {
   //   const response = await axios.post("/api/services/sms", payload, {
@@ -65,7 +65,7 @@ const handleConfirmedSubmit = async () => {
   //   const { fileData, qrUrl } = response.data;
 
   //   if (fileData?._id && qrUrl) {
-  //     setQrCodeUrl(qrUrl); // ✅ from backend
+  //     setText(qrUrl); // ✅ from backend
   //     dispatch(setSmsServices(fileData));
 
   //     toast.success("Text submitted successfully!");
