@@ -1,41 +1,7 @@
-// import AudioServiceModel from "@/models/services/audioSchema";
-// import { HandleEncryptedServices } from "../common/encryptedServicesRoute";
-
-
-// export const audioMimeTypes = [
-//   "audio/mpeg",
-//   "audio/wav",
-//   "audio/ogg",
-//   "audio/webm",
-//   "audio/mp3",
-//   "audio/flac",
-//   "audio/x-wav",
-//   "audio/aiff",
-//    "audio/x-aiff",
-//    "audio/aac",
-//    "audio/mp4", 
-//    "audio/x-m4a",
-//    "audio/x-ms-wma",
-//    "audio/opus"
-// ];
-
-// export async function POST(request) {
-//   return HandleEncryptedServices({
-//     request,
-//     model: AudioServiceModel,
-//     useCloudinary: false,
-//     mediaField: "files",
-//     allowedMimeTypes: audioMimeTypes, // allow all audio formats
-//   });
-// }
-
-
-import { connectDB } from "@/lib/mongoDB";
-import { authUser } from "@/middlewares/authMiddleware";
 import AudioServiceModel from "@/models/services/audioSchema";
-import { NextResponse } from "next/server";
+import { HandleEncryptedServices } from "../common/encryptedServicesRoute";
 
-// Allowed audio MIME types
+
 export const audioMimeTypes = [
   "audio/mpeg",
   "audio/wav",
@@ -45,95 +11,129 @@ export const audioMimeTypes = [
   "audio/flac",
   "audio/x-wav",
   "audio/aiff",
-  "audio/x-aiff",
-  "audio/aac",
-  "audio/mp4",
-  "audio/x-m4a",
-  "audio/x-ms-wma",
-  "audio/opus",
+   "audio/x-aiff",
+   "audio/aac",
+   "audio/mp4", 
+   "audio/x-m4a",
+   "audio/x-ms-wma",
+   "audio/opus"
 ];
 
-export async function POST(req) {
-  try {
-    // ✅ Authenticate User
-    const auth = await authUser(req);
-    if (auth.status !== 200) {
-      return new Response(JSON.stringify(auth.json), {
-        status: auth.status,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
-
-    const user = auth.user;
-
-    // ✅ Parse JSON Body
-    const body = await req.json();
-    const {
-      title,
-      description,
-      password,
-      files = [],
-      location,
-      renewalDate,
-      status,
-    } = body;
-
-    // ✅ Validate file types
-    for (const file of files) {
-      if (!audioMimeTypes.includes(file.fileType)) {
-        return NextResponse.json(
-          { error: `Unsupported file type: ${file.fileType}` },
-          { status: 400 }
-        );
-      }
-    }
-
-    // ✅ Format location
-    const formattedLocation = {
-      latitude: location?.latitude ?? null,
-      longitude: location?.longitude ?? null,
-      address: location?.address ?? "",
-    };
-
-    // ✅ Connect to DB
-    await connectDB();
-
-    // ✅ Create and save the audio service entry
-    const audioEntry = new AudioServiceModel({
-      title,
-      description,
-      password,
-      files: files.map((file) => ({
-        fileName: file.fileName,
-        fileType: file.fileType,
-        fileData: Buffer.from(file.fileData, "base64"), // decode base64
-      })),
-      user: {
-        id: user._id,
-        name: user.name,
-      },
-      location: formattedLocation,
-      renewalDate: renewalDate ?? null,
-      status: status ?? "active",
-      scanCount: 0,
-      resetPasswordToken: null,
-      resetPasswordExpires: null,
-    });
-
-    await audioEntry.save();
-
-    return NextResponse.json(
-      { message: "Audio service saved successfully", audioId: audioEntry._id },
-      { status: 201 }
-    );
-  } catch (error) {
-    console.error("❌ Error in POST /api/encryptedServices/audio:", error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
-  }
+export async function POST(request) {
+  return HandleEncryptedServices({
+    request,
+    model: AudioServiceModel,
+    useCloudinary: false,
+    mediaField: "files",
+    allowedMimeTypes: audioMimeTypes, // allow all audio formats
+  });
 }
+
+
+// import { connectDB } from "@/lib/mongoDB";
+// import { authUser } from "@/middlewares/authMiddleware";
+// import AudioServiceModel from "@/models/services/audioSchema";
+// import { NextResponse } from "next/server";
+
+// // Allowed audio MIME types
+// export const audioMimeTypes = [
+//   "audio/mpeg",
+//   "audio/wav",
+//   "audio/ogg",
+//   "audio/webm",
+//   "audio/mp3",
+//   "audio/flac",
+//   "audio/x-wav",
+//   "audio/aiff",
+//   "audio/x-aiff",
+//   "audio/aac",
+//   "audio/mp4",
+//   "audio/x-m4a",
+//   "audio/x-ms-wma",
+//   "audio/opus",
+// ];
+
+// export async function POST(req) {
+//   try {
+//     // ✅ Authenticate User
+//     const auth = await authUser(req);
+//     if (auth.status !== 200) {
+//       return new Response(JSON.stringify(auth.json), {
+//         status: auth.status,
+//         headers: { "Content-Type": "application/json" },
+//       });
+//     }
+
+//     const user = auth.user;
+
+//     // ✅ Parse JSON Body
+//     const body = await req.json();
+//     const {
+//       title,
+//       description,
+//       password,
+//       files = [],
+//       location,
+//       renewalDate,
+//       status,
+//     } = body;
+
+//     // ✅ Validate file types
+//     for (const file of files) {
+//       if (!audioMimeTypes.includes(file.fileType)) {
+//         return NextResponse.json(
+//           { error: `Unsupported file type: ${file.fileType}` },
+//           { status: 400 }
+//         );
+//       }
+//     }
+
+//     // ✅ Format location
+//     const formattedLocation = {
+//       latitude: location?.latitude ?? null,
+//       longitude: location?.longitude ?? null,
+//       address: location?.address ?? "",
+//     };
+
+//     // ✅ Connect to DB
+//     await connectDB();
+
+//     // ✅ Create and save the audio service entry
+//     const audioEntry = new AudioServiceModel({
+//       title,
+//       description,
+//       password,
+//       files: files.map((file) => ({
+//         fileName: file.fileName,
+//         fileType: file.fileType,
+//         fileData: Buffer.from(file.fileData, "base64"), // decode base64
+//       })),
+//       user: {
+//         id: user._id,
+//         name: user.name,
+//       },
+//       location: formattedLocation,
+//       renewalDate: renewalDate ?? null,
+//       status: status ?? "active",
+//       scanCount: 0,
+//       resetPasswordToken: null,
+//       resetPasswordExpires: null,
+//     });
+
+//     await audioEntry.save();
+
+//     return NextResponse.json(
+//       { message: "Audio service saved successfully", audioId: audioEntry._id },
+//       { status: 201 }
+//     );
+//   } catch (error) {
+//     console.error("❌ Error in POST /api/encryptedServices/audio:", error);
+//     return NextResponse.json(
+//       { error: "Internal Server Error" },
+//       { status: 500 }
+//     );
+//   }
+// }
 
 
 

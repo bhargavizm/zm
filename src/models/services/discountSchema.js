@@ -1,6 +1,7 @@
 // models/services/discountCouponSchema.js
 
 import mongoose from "mongoose";
+import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
 
 const discountCouponSchema = new mongoose.Schema(
   {
@@ -29,8 +30,8 @@ const discountCouponSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-     
     },
+    qrCodeDetails: qrCodeServicesSchema
   },
   {
     timestamps: true, // adds createdAt and updatedAt

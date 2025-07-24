@@ -161,6 +161,7 @@
 // src/models/services/medicalAlertSchema.js
 
 import mongoose from "mongoose";
+import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
 
 const MedicalAlertSchema = new mongoose.Schema(
   {
@@ -211,6 +212,7 @@ const MedicalAlertSchema = new mongoose.Schema(
       },
     ],
     password: { type: String },
+    qrCodeDetails: qrCodeServicesSchema
   },
   {
     timestamps: true,
