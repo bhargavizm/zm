@@ -56,6 +56,17 @@ export const formDataMappers = {
       };
     },
   },
+  "text-messages": {
+    type: "json", // 🟢 JSON body
+    map: (body, state, bgDesign) => {
+      return {
+        sender: state.sender,
+        message: state.message,
+        password: state.password,
+        bgDesign: bgDesign || null,
+      };
+    },
+  },
 
   // ✅ JSON-based body example
   "google-meet": {
