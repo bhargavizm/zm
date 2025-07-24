@@ -196,28 +196,40 @@ const PreviewPanel = () => {
         height: containerHeight,
       };
 
-  const handleDownload = async () => {
-    console.log('download scan')
-    if (!previewRef.current) return;
+ const handleDownload = async () => {
+  if (!previewRef.current) return;
 
-    try {
-      const dataUrl = await toPng(previewRef.current, {
-        cacheBust: true,
-         backgroundColor: "white",
-        width: previewRef.current.offsetWidth,
-        height: previewRef.current.offsetHeight,
-      });
+  try {
+    // Desired export size (you can adjust height proportionally)
+    const exportWidth = 1024;
+    const exportHeight = Math.round(
+      (previewRef.current.offsetHeight / previewRef.current.offsetWidth) * exportWidth
+    );
 
-      const link = document.createElement("a");
-      link.download = "qr-code.png";
-      link.href = dataUrl;
-      link.click();
-      
-       toast.success("QR code downloaded successfully!");
-    } catch (error) {
-      console.error("Download failed:", error);
-    }
-  };
+    const dataUrl = await toPng(previewRef.current, {
+      cacheBust: true,
+      backgroundColor: "white",
+      width: exportWidth,
+      height: exportHeight,
+      style: {
+        transform: `scale(${exportWidth / previewRef.current.offsetWidth})`,
+        transformOrigin: "top left",
+        width: `${previewRef.current.offsetWidth}px`,
+        height: `${previewRef.current.offsetHeight}px`,
+      },
+    });
+
+    const link = document.createElement("a");
+    link.download = "qr-code.png";
+    link.href = dataUrl;
+    link.click();
+
+    toast.success("QR code downloaded successfully!");
+  } catch (error) {
+    console.error("Download failed:", error);
+    toast.error("Download failed. Try again.");
+  }
+};
 
   return (
     <div className="flex justify-center items-center flex-col">
