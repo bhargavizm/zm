@@ -203,7 +203,7 @@ const handleConfirmedSubmit = async () => {
                 onClick={handleInitialSubmit}
                 className="w-full cursor-pointer bg-[#008080] hover:bg-[#006666] text-white py-3 rounded-lg font-medium transition-colors shadow-lg"
               >
-              Submit
+              Next →
               </button>
             </form>
           </div>
@@ -262,7 +262,7 @@ const handleConfirmedSubmit = async () => {
                 onClick={handleConfirmedSubmit}
                 className="px-4 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700"
               >
-                Confirm & Submit
+               Continue
               </button>
             </div>
             </div>
