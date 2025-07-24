@@ -99,6 +99,7 @@
 import { connectDB } from "@/lib/mongoDB";
 import { authUser } from "@/middlewares/authMiddleware";
 import SmsModal from "@/models/services/smsSchema";
+import { getShortenedUrl } from "@/utils/shortenUrl";
 import bcrypt from "bcryptjs";
 
 export async function POST(request) {
@@ -163,11 +164,16 @@ export async function POST(request) {
     await newSms.save();
     const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/sms/${newSms._id}`;
 
+    // const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/sms/${newSms._id}`;
+
+    const qrUrl = await getShortenedUrl(`/sms/${newSms._id}`);
+
     return new Response(
       JSON.stringify({
         success: true,
         message: "SMS message saved successfully!",
-        fileData: newSms,qrUrl
+        data: newSms,
+        qrUrl,
       }),
       {
         status: 201,
