@@ -6,10 +6,11 @@ import { useDispatch } from "react-redux";
 import { formDataMappers } from "./formDataMappers";
 import { reduxDispatchMappers } from "./dispatchMappers";
 import { getInitialFormData } from "./initialFormStates";
+import useDesignContext from "@/components/hooks/useDesignContext";
 
 const useSubmitForm = (activeService, formDataState, bgDesign, setFormDataState, setBgDesign) => {
   const dispatch = useDispatch();
-
+const {setQrCodeUrl} =useDesignContext();
   const submit = async () => {
     const mapperObj = formDataMappers[activeService];
 
@@ -17,7 +18,7 @@ const useSubmitForm = (activeService, formDataState, bgDesign, setFormDataState,
       toast.error(`❌ No mapper found for "${activeService}"`);
       return;
     }
-
+console.log(activeService)
     const { type, map } = mapperObj;
 
     let dataToSend;
@@ -33,15 +34,17 @@ const useSubmitForm = (activeService, formDataState, bgDesign, setFormDataState,
     }
 
     try {
-      const res = await axios.post(
-        `/api/services/${activeService}`,
+      const res = await axios.post(`/api/services/${activeService}`,
         dataToSend,
         { headers }
       );
 console.log(res)
       if (res.data.success) {
         toast.success(res.data.message || "Submitted successfully");
+         const qrUrl = res.data.qrUrl;
 
+  // ✅ Set QR code URL globally
+  setQrCodeUrl(qrUrl);
         const dispatchFn = reduxDispatchMappers[activeService];
         if (typeof dispatchFn === "function") {
           dispatch(dispatchFn(res?.data?.data));
@@ -53,7 +56,8 @@ console.log(res)
         if (typeof setBgDesign === "function") {
           setBgDesign(null);
         }
-         return true;
+
+         return res.data.qrUrl;
       } else {
         toast.error("Something went wrong");
          return false;

@@ -35,7 +35,7 @@ const ConfirmationModal = ({ show, onClose, onConfirm }) => {
             onClick={onConfirm}
             className="px-4 py-2 rounded-md bg-[#008080] text-white hover:bg-[#006666] transition-colors duration-200"
           >
-            Confirm & Submit
+            Continue
           </button>
         </div>
       </div>
@@ -149,48 +149,49 @@ const BusinessContent = () => {
 
   // This function is called when the user confirms in the modal
   const handleConfirmSubmit = async () => {
-    setShowConfirmModal(false); // Close modal
-        setServicesDataLoading(true);
+     setActiveTab(slug, "Backdrop Designs");
+    // setShowConfirmModal(false); // Close modal
+    //     setServicesDataLoading(true);
 
-    const formData = new FormData();
+    // const formData = new FormData();
 
-    for (const key in businessForm) {
-      formData.append(key, businessForm[key]);
-    }
+    // for (const key in businessForm) {
+    //   formData.append(key, businessForm[key]);
+    // }
 
-    if (fileInputRef.current?.files[0]) {
-      formData.append("file", fileInputRef.current.files[0]);
-    }
+    // if (fileInputRef.current?.files[0]) {
+    //   formData.append("file", fileInputRef.current.files[0]);
+    // }
 
-    try {
-      const res = await fetch(`/api/services/${slug}`, {
-        method: "POST",
-        body: formData,
-      });
+    // try {
+    //   const res = await fetch(`/api/services/${slug}`, {
+    //     method: "POST",
+    //     body: formData,
+    //   });
 
-      const data = await res.json();
-      console.log(data);
-      if (res.ok) {
-        toast.success(data.message);
-        setBusinessForm({});
-        setProfileImage(null);
-        dispatch(setCardServices(data.data));
-        setActiveTab(slug, "QR Code");
+    //   const data = await res.json();
+    //   console.log(data);
+    //   if (res.ok) {
+    //     toast.success(data.message);
+    //     setBusinessForm({});
+    //     setProfileImage(null);
+    //     dispatch(setCardServices(data.data));
+    //     setActiveTab(slug, "QR Code");
 
-        if (fileInputRef.current) fileInputRef.current.value = "";
-      } else {
-        toast.error(data.message || "Something went wrong!");
-      }
-    } catch (err) {
-      console.error("Submission error:", err);
-      toast.error(err?.response?.data?.error || "Something went wrong!");
-     if (error.response?.status === 401) {
-        window.location.href = "/login"; // ✅ Auto logout on expiry
-        return;
-      }
-    } finally {
-      setServicesDataLoading(false); // ✅ End loader
-    }
+    //     if (fileInputRef.current) fileInputRef.current.value = "";
+    //   } else {
+    //     toast.error(data.message || "Something went wrong!");
+    //   }
+    // } catch (err) {
+    //   console.error("Submission error:", err);
+    //   toast.error(err?.response?.data?.error || "Something went wrong!");
+    //  if (error.response?.status === 401) {
+    //     window.location.href = "/login"; // ✅ Auto logout on expiry
+    //     return;
+    //   }
+    // } finally {
+    //   setServicesDataLoading(false); // ✅ End loader
+    // }
   };
   return (
     <>
@@ -380,14 +381,15 @@ const BusinessContent = () => {
             </div>
 
             <NFCModal />
-
+<div className="flex justify-center items-center">
             <button
               type="submit"
               onClick={handlePreSubmit} // Call pre-submit to open the modal first
-              className="mt-4 w-full bg-[#008080] text-white font-semibold py-2 rounded hover:bg-[#006666] transition"
+               className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg"
             >
-              Submit
+                Next → 
             </button>
+            </div>
           </div>
         </div>
       </div>

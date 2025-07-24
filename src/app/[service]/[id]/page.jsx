@@ -110,7 +110,7 @@ import MenuCardsServiceModel from "@/models/services/menuCardSchema";
 import MenuBookPreview from "@/components/scanningPreview/menuBookPreview";
 
 const PasswordProtectedPreview = dynamic(() =>
-  import("@/components/common/PasswordModal")
+  import("@/components/common/passwordModal")
 );
 
 // Service map

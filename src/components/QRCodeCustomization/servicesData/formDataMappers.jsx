@@ -1,3 +1,4 @@
+
 export const formDataMappers = {
   "menu-cards": {
     type: "formData",
@@ -17,18 +18,32 @@ export const formDataMappers = {
     },
   },
 
-  businessCard: {
-    type: "formData",
-    map: (formData, state, bgDesign) => {
-      formData.append("companyName", state.companyName || "");
-      formData.append("designation", state.designation || "");
-      formData.append("email", state.email || "");
-      formData.append("phone", state.phone || "");
-      formData.append("website", state.website || "");
-      formData.append("bgDesign", bgDesign || "");
-      if (state.logo) formData.append("logo", state.logo);
-    },
+ "business-cards": {
+  type: "formData",
+  map: (formData, state, bgDesign) => {
+    formData.append("name", state.name || "");
+    formData.append("subheading", state.subheading || "");
+    formData.append("designation", state.designation || "");
+    formData.append("email", state.email || "");
+    formData.append("mobile", state.mobile || "");
+    formData.append("mapLink", state.mapLink || "");
+    formData.append("socialLink", state.socialLink || "");
+    formData.append("socialLink2", state.socialLink2 || "");
+    formData.append("address", state.address || "");
+    formData.append("password", state.password || "");
+    formData.append("selectedTemplate", state.selectedTemplate || "");
+    formData.append("bgDesign", bgDesign || "");
+
+    // Assuming you're passing the image file in state.logo manually (not in the original component though)
+    if (state.logo) {
+      formData.append("file", state.logo);
+    }
   },
+},
+
+// "v-cards": {
+//     ...this["business-cards"],
+//   },
 
   gallery: {
     type: "formData",
@@ -56,6 +71,16 @@ export const formDataMappers = {
       };
     },
   },
+  "text-messages": {
+  type: "json",
+  map: (body, state, bgDesign) => ({
+    sender: state.sender,
+    message: state.message,
+    password: state.password,
+    bgDesign: bgDesign || null,
+  }),
+},
+
 
   // ✅ JSON-based body example
   "google-meet": {
@@ -68,4 +93,8 @@ export const formDataMappers = {
       };
     },
   },
+
+  // formDataMappers["v-cards"] = formDataMappers["business-cards"];
 };
+
+formDataMappers["v-cards"] = formDataMappers["business-cards"];
