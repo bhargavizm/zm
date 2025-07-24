@@ -14,6 +14,12 @@ const initialFormStates = {
     textMessage: '',
     password: ''
   },
+  "text-messages":{
+    sender:"",
+      message:"",
+      password:"",
+  }
+ 
 
 }
 
