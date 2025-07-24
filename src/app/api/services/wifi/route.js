@@ -140,19 +140,19 @@ export async function POST(req) {
       ssid,
       security,
       password: security === "nopass" ? "" : password,
-     qrCodeDetails: {
-    qrCodeImage: body.qrCodeImage ?? "",
+      qrCodeDetails: {
+        qrCodeImage: body.qrCodeImage ?? "",
 
-    location: {
-      latitude: location.latitude ?? null,
-      longitude: location.longitude ?? null,
-      address: location.address ?? "",
-    },
-    renewalDate,
-    status,
-    resetPasswordToken: null,
-    resetPasswordExpires: null,
-  },
+        location: {
+          latitude: location.latitude ?? null,
+          longitude: location.longitude ?? null,
+          address: location.address ?? "",
+        },
+        renewalDate,
+        status,
+        resetPasswordToken: null,
+        resetPasswordExpires: null,
+      },
     });
 
     await wifi.save();
@@ -160,7 +160,7 @@ export async function POST(req) {
     return NextResponse.json(
       {
         message: "WiFi saved successfully!",
-       wifi
+        wifi
       },
       { status: 201 }
     );

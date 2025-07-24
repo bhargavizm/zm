@@ -3,6 +3,7 @@ import { authUser } from "@/middlewares/authMiddleware";
 import CardsModel from "@/models/services/cardsSchema";
 import URLServiceModel from "@/models/services/urlServicesSchema";
 import { cloudinary } from "@/utils/cloudinary";
+import { getShortenedUrl } from "@/utils/shortenUrl";
 import bcrypt from "bcryptjs";
 
 export const config = {
@@ -113,6 +114,9 @@ export async function POST(req, context) {
       ...cardData.qrCodeDetails,
     };
 
+     
+    
+
     const newDoc = await CardsModel.create({
       user: {
         id: user._id,
@@ -122,10 +126,12 @@ export async function POST(req, context) {
       ...cardData,
     });
 
+     const qrUrl = await getShortenedUrl(`/${slug}/${newDoc._id}`);
+
     return Response.json({
       success: true,
       message: `${slug} service data submitted successfully`,
-      data: newDoc,
+      data: newDoc,qrUrl
     }, { status: 201 });
   }
 
@@ -163,10 +169,12 @@ export async function POST(req, context) {
   }, // ✅ include QR data
   });
 
+   const qrUrl = await getShortenedUrl(`/${slug}/${result._id}`);
+
   return Response.json({
     success: true,
     message: `${slug} service data submitted successfully`,
-    URLServicesData: result,
+    data: result,qrUrl
   }, { status: 201 });
 }
 
