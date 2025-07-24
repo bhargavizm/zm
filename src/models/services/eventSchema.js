@@ -1,6 +1,7 @@
 // models/eventSchema.js
 
 import mongoose from "mongoose";
+import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
 
 const eventSchema = new mongoose.Schema({
   user: {
@@ -18,6 +19,7 @@ const eventSchema = new mongoose.Schema({
   contactEmail: { type: String },
   contactPhone: { type: String },
   password:{type:String},
+  qrCodeDetails: qrCodeServicesSchema
 }, {
   timestamps: true, // optional: adds createdAt and updatedAt fields
 });

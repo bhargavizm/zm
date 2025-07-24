@@ -40,6 +40,7 @@
 // models/services/propertySchema.js
 
 import mongoose from "mongoose";
+import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
 
 const propertySchema = new mongoose.Schema(
   {
@@ -68,6 +69,7 @@ const propertySchema = new mongoose.Schema(
     images: {
       galleryImages: [String], // Main image removed
     },
+    qrCodeDetails:qrCodeServicesSchema
   },
   { timestamps: true }
 );

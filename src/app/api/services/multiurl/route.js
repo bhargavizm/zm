@@ -29,7 +29,10 @@ export async function POST(req) {
   try {
     const body = await req.json();
 
-    const { socialLinks = {}, customLinks = [], password = "" } = body;
+    const { socialLinks = {}, customLinks = [], password = "" , qrPassword = "",
+      location = {},
+      renewalDate = null,
+      status = "active",} = body;
 
     // Validate social links
     const socialPlatforms = ["youtube", "instagram", "twitter", "linkedin", "facebook", "custom"];
@@ -67,6 +70,19 @@ export async function POST(req) {
       socialLinks,
       customLinks,
       password,
+      qrCodeDetails: {
+    qrCodeImage: body.qrCodeImage ?? "",
+
+    location: {
+      latitude: location.latitude ?? null,
+      longitude: location.longitude ?? null,
+      address: location.address ?? "",
+    },
+    renewalDate,
+    status,
+    resetPasswordToken: null,
+    resetPasswordExpires: null,
+  },
     });
 
     await newMultiUrl.save();

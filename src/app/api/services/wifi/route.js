@@ -122,12 +122,12 @@ export async function POST(req) {
       );
     }
 
-    if (security !== "nopass" && (!password || password.length < 4)) {
-      return NextResponse.json(
-        { error: "Password must be at least 4 characters." },
-        { status: 400 }
-      );
-    }
+    // if (security !== "nopass" && (!password || password.length < 4)) {
+    //   return NextResponse.json(
+    //     { error: "Password must be at least 4 characters." },
+    //     { status: 400 }
+    //   );
+    // }
 
     // ✅ Connect to MongoDB
     await connectDB();

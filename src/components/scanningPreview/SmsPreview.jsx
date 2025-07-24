@@ -1,7 +1,6 @@
 'use client'
 import React from 'react';
 import { FiUser, FiMessageSquare, FiCalendar } from 'react-icons/fi';
-import Image from 'next/image';
 
 const SmsPreview = ({ data }) => {
   const defaultBg = '/services-service/text-message.webp';
@@ -12,7 +11,6 @@ const SmsPreview = ({ data }) => {
     <div className='flex justify-center'>
       <div className="rounded-[40px] border-[14px] border-gray-800 shadow-xl w-[350px] h-[600px] overflow-hidden flex flex-col relative">
         
-        {/* Background */}
         {isImage && (
           <img
             src={defaultBg}
@@ -21,7 +19,6 @@ const SmsPreview = ({ data }) => {
           />
         )}
 
-        {/* Notch */}
         <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-6 bg-gray-800 rounded-b-xl z-10" />
 
         <div className="flex-1 overflow-y-auto z-20 bg-white/80 pt-8 m-2 rounded-xl pb-4 px-4 w-full">
@@ -67,7 +64,6 @@ const SmsPreview = ({ data }) => {
           )}
         </div>
 
-        {/* Footer */}
         <div className="border-t border-gray-200 text-center text-xs text-gray-500 py-2 relative z-10 bg-white">
           <p>Scan to send SMS</p>
           <p className="mt-1">v1.0.0</p>
@@ -78,6 +74,9 @@ const SmsPreview = ({ data }) => {
 };
 
 export default SmsPreview;
+
+
+
 
 // 'use client'
 
