@@ -19,7 +19,10 @@ export async function POST(req) {
     const user = auth.user;
     await connectDB();
     const body = await req.json();
-    const { nameOfBusiness, code, brandLogo, couponImage, password } = body;
+    const { nameOfBusiness, code, brandLogo, couponImage, password, items = [],
+      location = {}, // Optional location object
+      renewalDate = null,
+      status = "active", } = body;
 
     if (
       !nameOfBusiness?.trim() &&
@@ -56,6 +59,19 @@ export async function POST(req) {
       brandLogo: brandLogoUrl,
       couponImage: couponImageUrl,
       password,
+      qrCodeDetails: {
+        qrCodeImage: body.qrCodeImage ?? "",
+
+        location: {
+          latitude: location.latitude ?? null,
+          longitude: location.longitude ?? null,
+          address: location.address ?? "",
+        },
+        renewalDate,
+        status,
+        resetPasswordToken: null,
+        resetPasswordExpires: null,
+      },
     });
 
     await newCoupon.save();

@@ -6,10 +6,10 @@ import { IoLocation } from "react-icons/io5";
 import { MdCancel } from "react-icons/md";
 import NFCModal from "@/components/modalPopUps/nfcModal";
 import useDesignContext from "@/components/hooks/useDesignContext";
-import axios from "axios";
 import toast from "react-hot-toast";
 import { useParams } from "next/navigation";
 import LoadingSpinner from "@/components/common/spinner";
+import  axios  from 'axios';
 
 const BusinessShopContent = () => {
   const { dynamicForms, updateDynamicForm, servicesDataLoading, setServicesDataLoading } = useServicesContext();
