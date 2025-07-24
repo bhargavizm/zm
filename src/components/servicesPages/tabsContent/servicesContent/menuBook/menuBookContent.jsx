@@ -13,7 +13,7 @@ import { useParams } from "next/navigation";
 import LoadingSpinner from "@/components/common/spinner";
 
 const MenuBookContent = () => {
-  const { setActiveTab } = useDesignContext();
+  const { setActiveTab,bgDesign } = useDesignContext();
   const { slug } = useParams();
   const {
     menuBookFormData,
@@ -129,6 +129,7 @@ const MenuBookContent = () => {
       formData.append("email", menuBookFormData.email);
       formData.append("link", menuBookFormData.link);
       formData.append("password", menuBookFormData.password || "");
+       formData.append("bgDesign", bgDesign || "");
 
       menuBookFormData.menuItems.forEach((item) => {
         formData.append("images", item.file);

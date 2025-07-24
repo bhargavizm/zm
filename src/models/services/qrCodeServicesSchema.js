@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const qrCodeServicesSchema = new mongoose.Schema(
   {
-   
+  
     qrCodeImage: String,
     scanCount: { type: Number,default: 0 },
 

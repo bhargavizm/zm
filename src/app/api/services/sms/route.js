@@ -157,12 +157,13 @@ export async function POST(request) {
     });
 
     await newSms.save();
+    const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/sms/${newSms._id}`;
 
     return new Response(
       JSON.stringify({
         success: true,
         message: "SMS message saved successfully!",
-        fileData: newSms,
+        fileData: newSms,qrUrl
       }),
       {
         status: 201,
