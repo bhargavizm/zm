@@ -1,11 +1,12 @@
 
 // ✅ add all slice actions
 
-import { setMenuCardServices, setSmsServices } from "@/redux/slices/servicesSlice";
+import { setMenuCardServices, setSmsServices, setTextMessageServices } from "@/redux/slices/servicesSlice";
 
 export const reduxDispatchMappers = {
  "menu-cards": setMenuCardServices,
- sms:setSmsServices
+ sms:setSmsServices,
+ "text-messages":setTextMessageServices,
 //   gallery: setGalleryServices,
 //   business: setBusinessServices,
   // 🔁 Add all 50+ services here
