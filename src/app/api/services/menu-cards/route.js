@@ -129,6 +129,7 @@ import { connectDB } from "@/lib/mongoDB";
 import { authUser } from "@/middlewares/authMiddleware";
 import MenuCardsServiceModel from "@/models/services/menuCardSchema";
 import { cloudinary } from "@/utils/cloudinary";
+import { getShortenedUrl } from "@/utils/shortenUrl";
 import bcrypt from "bcrypt"; // ✅ Import bcrypt
 // import { SiCloudinary } from "react-icons/si";
 
@@ -253,7 +254,8 @@ export async function POST(request) {
 
     await newEntry.save();
 
-    const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/menuCard/${newEntry._id}`;
+    // const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/menuCard/${newEntry._id}`;
+     const qrUrl = await getShortenedUrl(`/menuCard/${newEntry._id}`);
 
     // ✅ Step 7: Return Success Response
     return new Response(
