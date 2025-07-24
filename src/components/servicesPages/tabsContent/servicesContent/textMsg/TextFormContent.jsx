@@ -45,7 +45,9 @@ const TextMessageContent = () => {
 
   // ✅ Send raw JSON
   const handleConfirmedSubmit = async () => {
-    setActiveTab(slug, "Backdrop Designs");
+
+      setActiveTab(slug, "Backdrop Designs");
+
 //     const payload = {
 //       sender: textMessageForm.sender,
 //       message: textMessageForm.message,

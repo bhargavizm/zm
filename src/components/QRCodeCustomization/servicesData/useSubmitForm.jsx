@@ -10,7 +10,9 @@ import useDesignContext from "@/components/hooks/useDesignContext";
 
 const useSubmitForm = (activeService, formDataState, bgDesign, setFormDataState, setBgDesign) => {
   const dispatch = useDispatch();
+
   const { setQrCodeUrl } = useDesignContext();
+
 
   const submit = async () => {
     const mapperObj = formDataMappers[activeService];
@@ -19,7 +21,7 @@ const useSubmitForm = (activeService, formDataState, bgDesign, setFormDataState,
       toast.error(`❌ No mapper found for "${activeService}"`);
       return;
     }
-
+console.log(activeService)
     const { type, map } = mapperObj;
 
     let dataToSend;
@@ -35,8 +37,7 @@ const useSubmitForm = (activeService, formDataState, bgDesign, setFormDataState,
     }
 
     try {
-      const res = await axios.post(
-        `/api/services/${activeService}`,
+      const res = await axios.post(`/api/services/${activeService}`,
         dataToSend,
         { headers }
       );
@@ -44,6 +45,7 @@ const useSubmitForm = (activeService, formDataState, bgDesign, setFormDataState,
       console.log(res);
 
       if (res.data.success) {
+
   toast.success(res.data.message || "Submitted successfully");
 
   // ✅ Set QR URL in global context
@@ -64,6 +66,7 @@ const useSubmitForm = (activeService, formDataState, bgDesign, setFormDataState,
   return res.data.qrUrl; // ✅ Return the qrUrl instead of true
 }
  else {
+
         toast.error("Something went wrong");
         return false;
       }

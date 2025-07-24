@@ -1,3 +1,20 @@
+const initialBusinessForm = {
+  name: '',
+  subheading: '',
+  designation: '',
+  email: '',
+  mobile: '',
+  mapLink: '',
+  socialLink: '',
+  socialLink2: '',
+  address: '',
+  password: '',
+  selectedTemplate: '',
+  logo: null,
+  bgDesign: '',
+};
+
+
 const initialFormStates = {
   "menu-cards": {
     restaurantName: '',
@@ -14,12 +31,15 @@ const initialFormStates = {
     textMessage: '',
     password: ''
   },
+
+ "business-cards": initialBusinessForm,
+  "v-cards": initialBusinessForm,
   "text-messages":{
-    sender:"",
-      message:"",
-      password:"",
+     sender: '',
+    message: '',
+    password: '',
+    bgDesign:''
   }
- 
 
 }
 
