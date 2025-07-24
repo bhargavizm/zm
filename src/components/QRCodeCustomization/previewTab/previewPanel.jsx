@@ -18,7 +18,6 @@ import toast from "react-hot-toast";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import useSubmitForm from "../servicesData/useSubmitForm";
 
-// Base64 conversion helper
 const convertToBase64 = async (url) => {
   const response = await fetch(url, { mode: "cors" });
   const blob = await response.blob();
@@ -32,9 +31,7 @@ const convertToBase64 = async (url) => {
 
 const PreviewPanel = () => {
   const previewRef = useRef(null);
-
-  const {activeService,menuBookFormData,setMenuBookFormData,smsFormData, setSmsFormData} = useServicesContext()
-
+  const { activeService, menuBookFormData, setMenuBookFormData, smsFormData, setSmsFormData,textMessageForm, setTextMessageForm } = useServicesContext();
   const {
     qrCodeUrl,
     setText,
@@ -88,20 +85,26 @@ const PreviewPanel = () => {
 
   const [base64Logo, setBase64Logo] = useState(null);
   const [base64Background, setBase64Background] = useState(null);
+  const [qrRenderTrigger, setQrRenderTrigger] = useState(0);
 
-  const effectiveForegroundColor = backgroundImage
-    ? "#000000"
-    : foregroundColor;
+  const effectiveForegroundColor = backgroundImage ? "#000000" : foregroundColor;
   const effectiveBorderColor = backgroundImage ? "#000000" : borderColor;
   const effectiveEyeFrameColor = backgroundImage ? "#000000" : eyeFrameColor;
   const effectiveEyeballColor = backgroundImage ? "#000000" : eyeballColor;
 
+  const generateMatrix = async (textInput) => {
+    const { generateQRMatrix } = await import("../utils/QRMatrixGeneration");
+    const matrixData = generateQRMatrix(textInput ?? text);
+    setMatrix(matrixData);
+  };
+
+  const regenerateMatrixWithText = async (textOverride) => {
+    const { generateQRMatrix } = await import("../utils/QRMatrixGeneration");
+    setMatrix(generateQRMatrix(textOverride));
+  };
+
   useEffect(() => {
-    const generateMatrix = async () => {
-      const { generateQRMatrix } = await import("../utils/QRMatrixGeneration");
-      setMatrix(generateQRMatrix(text));
-    };
-    generateMatrix();
+    generateMatrix(text);
   }, [text]);
 
   useEffect(() => {
@@ -122,6 +125,7 @@ const PreviewPanel = () => {
         }
       } catch (error) {
         console.error("Image conversion failed", error);
+        toast.error("Failed to process images");
       }
     };
 
@@ -204,88 +208,44 @@ const PreviewPanel = () => {
         height: containerHeight,
       };
 
-//      const formDataState = {
-//   "menu-cards": menuBookFormData,
-//   sms:smsFormData
-// }[activeService];
-
-//  const setFormDataState = {
-//     "menu-cards": setMenuBookFormData,
-//     sms:setSmsFormData
-//     // "gallery": setGalleryFormData,
-//     // ...
-//   }[activeService];
-
-//  const submitForm = useSubmitForm(
-//     activeService,
-//     formDataState,
-//     bgDesign,
-//     setFormDataState,
-//     setBgDesign
-//   );
-//  const handleDownload = async () => {
-//   console.log(activeService)
-//   if (!previewRef.current) return;
-
-//   try {
-//      const isSubmitted = await submitForm();
-
-//   if (!isSubmitted) {
-//     toast.error("Submission failed. ");
-//     return;
-//   }
-//     //Desired export size (you can adjust height proportionally)
-//     const exportWidth = 1024;
-//     const exportHeight = Math.round(
-//       (previewRef.current.offsetHeight / previewRef.current.offsetWidth) * exportWidth
-//     );
-
   const formDataState = {
-  "menu-cards": menuBookFormData,
-  sms:smsFormData
-}[activeService];
-
- const setFormDataState = {
-    "menu-cards": setMenuBookFormData,
-    sms:setSmsFormData
-    // "gallery": setGalleryFormData,
-    // ...
+    "menu-cards": menuBookFormData,
+    sms: smsFormData,
+    "text-messages": textMessageForm
   }[activeService];
 
- const submitForm = useSubmitForm(
+  const setFormDataState = {
+    "menu-cards": setMenuBookFormData,
+    sms: setSmsFormData,
+    "text-messages":setTextMessageForm
+  }[activeService];
+
+  const submitForm = useSubmitForm(
     activeService,
     formDataState,
     bgDesign,
     setFormDataState,
     setBgDesign
   );
-// const handleDownload = async () => {
-//   if (!previewRef.current) return;
 
- 
-// };
-  const handleDownload = async () => {
-    console.log('download scan')
-    if (!previewRef.current) return;
-    
- try {
-     const isSubmitted = await submitForm();
-
-  if (!isSubmitted) {
-    toast.error("Submission failed. ");
-    return;
-  }
-    
-  if (!qrCodeUrl) {
-    toast.error("QR Code data is missing");
+const handleDownload = async () => {
+  if (!previewRef.current) {
+    toast.error("Preview element not found");
     return;
   }
 
-  setText(qrCodeUrl); // ✅ Set only during download
+  try {
+    const generatedUrl = await submitForm();
+    if (!generatedUrl) {
+      toast.error("QR Code generation failed. Please try again.");
+      return;
+    }
 
-   
-   
-    // Desired export size (you can adjust height proportionally)
+    await regenerateMatrixWithText(generatedUrl);
+    setQrRenderTrigger(prev => prev + 1);
+
+    await new Promise(resolve => setTimeout(resolve, 150)); // Give time to rerender
+
     const exportWidth = 1024;
     const exportHeight = Math.round(
       (previewRef.current.offsetHeight / previewRef.current.offsetWidth) * exportWidth
@@ -297,7 +257,7 @@ const PreviewPanel = () => {
       width: exportWidth,
       height: exportHeight,
       style: {
-        transform: scale(`${exportWidth / previewRef.current.offsetWidth}`),
+        transform: `scale(${exportWidth / previewRef.current.offsetWidth})`,
         transformOrigin: "top left",
         width: `${previewRef.current.offsetWidth}px`,
         height: `${previewRef.current.offsetHeight}px`,
@@ -312,9 +272,9 @@ const PreviewPanel = () => {
     toast.success("QR code downloaded successfully!");
   } catch (error) {
     console.error("Download failed:", error);
-    toast.error("Download failed. Try again.");
+    toast.error("Download failed. Please try again.");
   }
-  };
+};
 
 
   return (
@@ -324,7 +284,6 @@ const PreviewPanel = () => {
           ref={previewRef}
           className="relative lg:w-[440px] lg:h-[400px] md:w-[350px] md:h-[350px] w-[310px] h-[250px]"
         >
-          {/* Sticker Background */}
           {selectedSticker && (
             <NextImage
               src={selectedSticker}
@@ -335,7 +294,6 @@ const PreviewPanel = () => {
             />
           )}
 
-          {/* QR SVG */}
           <svg
             className="absolute z-10"
             style={{
@@ -346,13 +304,6 @@ const PreviewPanel = () => {
             }}
             viewBox={`0 0 ${canvasSize} ${canvasSize}`}
           >
-             {/* <rect
-    x="0"
-    y="0"
-    width={canvasSize}
-    height={canvasSize}
-    fill="white"
-  /> */}
             <defs>
               <clipPath id="shape-clip">
                 {shapeDefinitions[selectedQRShape] && (
@@ -446,11 +397,6 @@ const PreviewPanel = () => {
                         key={`qr-${row}-${col}`}
                         d={bodyFrames?.[selectedBodyFrame] ?? bodyFrames.square}
                         transform={`translate(${x}, ${y}) scale(1)`}
-                        // fill={
-                        //   foregroundColorMode === "gradient"
-                        //     ? "url(#qrGradient)"
-                        //     : foregroundColor
-                        // }
                         fill={
                           foregroundColorMode === "gradient" && !backgroundImage
                             ? "url(#qrGradient)"
@@ -490,7 +436,7 @@ const PreviewPanel = () => {
                 d={shapeDefinitions[selectedQRShape](canvasSize)}
                 fill="none"
                 stroke={
-                  backgroundImage // 🔁 auto switch to black if image present
+                  backgroundImage
                     ? "#000000"
                     : borderColorMode === "gradient"
                     ? `url(#borderGradient-${selectedQRShape})`
