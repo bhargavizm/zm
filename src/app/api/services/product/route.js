@@ -53,18 +53,20 @@ export async function POST(req) {
       password,
       selectedTemplate,
       items,
-      scanCount: 0,
 
-      // ✅ Defensive defaulting
-      location: {
-        latitude: location.latitude ?? null,
-        longitude: location.longitude ?? null,
-        address: location.address ?? "",
+      qrCodeDetails: {
+        qrCodeImage: body.qrCodeImage ?? "",
+
+        location: {
+          latitude: location.latitude ?? null,
+          longitude: location.longitude ?? null,
+          address: location.address ?? "",
+        },
+        renewalDate,
+        status,
+        resetPasswordToken: null,
+        resetPasswordExpires: null,
       },
-      renewalDate,
-      status,
-      resetPasswordToken: null,
-      resetPasswordExpires: null,
     });
 
     await product.save();
@@ -73,6 +75,7 @@ export async function POST(req) {
       {
         message: "Product saved successfully!",
         productId: product._id,
+        productId: product,
       },
       {
         status: 201,
