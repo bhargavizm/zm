@@ -31,6 +31,7 @@ const initialFormStates = {
     textMessage: '',
     password: ''
   },
+
  "business-cards": initialBusinessForm,
   "v-cards": initialBusinessForm,
   "text-messages":{
@@ -39,6 +40,7 @@ const initialFormStates = {
     password: '',
     bgDesign:''
   }
+
 }
 
 
