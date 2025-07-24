@@ -11,8 +11,7 @@ import useDesignContext from "@/components/hooks/useDesignContext";
 const useSubmitForm = (activeService, formDataState, bgDesign, setFormDataState, setBgDesign) => {
   const dispatch = useDispatch();
 
-  const { setQrCodeUrl } = useDesignContext();
-
+const {setQrCodeUrl} =useDesignContext();
 
   const submit = async () => {
     const mapperObj = formDataMappers[activeService];
@@ -46,6 +45,7 @@ console.log(activeService)
 
       if (res.data.success) {
 
+
   toast.success(res.data.message || "Submitted successfully");
 
   // ✅ Set QR URL in global context
@@ -66,6 +66,7 @@ console.log(activeService)
   return res.data.qrUrl; // ✅ Return the qrUrl instead of true
 }
  else {
+
 
         toast.error("Something went wrong");
         return false;
