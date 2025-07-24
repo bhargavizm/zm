@@ -96,8 +96,12 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
               </div>
 
               {/* Tab Content */}
-              <div className="px-4 pb-6 h-[120vh] overflow-y-auto scrollbar-hide">
-                {activeTab === "Content" && <ContentTabComponent />}
+              <div className="px-4 pb-6 h-[85vh] overflow-y-auto scrollbar-hide ">
+                {activeTab === "Content" && 
+                <div className="">
+<ContentTabComponent />
+                </div>
+                }
 
                 {activeTab === "Backdrop Designs" && (
                   <div className="flex flex-col h-full">

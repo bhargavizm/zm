@@ -45,41 +45,44 @@ const TextMessageContent = () => {
 
   // ✅ Send raw JSON
   const handleConfirmedSubmit = async () => {
-    const payload = {
-      sender: textMessageForm.sender,
-      message: textMessageForm.message,
-      password: textMessageForm.password,
-    };
-setServicesDataLoading(true);
-    try {
-      const response = await axios.post("/api/services/textMessage", payload, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
 
-      const { fileData, qrUrl } = response.data;
+      setActiveTab(slug, "Backdrop Designs");
 
-      if (fileData?._id && qrUrl) {
+//     const payload = {
+//       sender: textMessageForm.sender,
+//       message: textMessageForm.message,
+//       password: textMessageForm.password,
+//     };
+// setServicesDataLoading(true);
+//     try {
+//       const response = await axios.post("/api/services/textMessage", payload, {
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//       });
 
-        setText(qrUrl); // ✅ from backend
-        dispatch(setTextMessageServices(fileData));
-        toast.success("Text submitted successfully!");
-        setActiveTab(slug, "QR Code");
-        setShowConfirmModal(false);
-        setTextMessageForm({ sender: "", message: "", password: "" });
-      }
-    } catch (error) {
-      const errMsg = error?.response?.data?.error || "An unexpected error occurred.";
-      toast.error(`${errMsg}`);
-      console.error("Submit Error:", error);
-         if (error.response?.status === 401) {
-        window.location.href = "/login"; // ✅ Auto logout on expiry
-        return;
-      }
-    } finally {
-      setServicesDataLoading(false); // ✅ End loader
-    }
+//       const { fileData, qrUrl } = response.data;
+
+//       if (fileData?._id && qrUrl) {
+
+//         setText(qrUrl); // ✅ from backend
+//         dispatch(setTextMessageServices(fileData));
+//         toast.success("Text submitted successfully!");
+//         setActiveTab(slug, "QR Code");
+//         setShowConfirmModal(false);
+//         setTextMessageForm({ sender: "", message: "", password: "" });
+//       }
+//     } catch (error) {
+//       const errMsg = error?.response?.data?.error || "An unexpected error occurred.";
+//       toast.error(`${errMsg}`);
+//       console.error("Submit Error:", error);
+//          if (error.response?.status === 401) {
+//         window.location.href = "/login"; // ✅ Auto logout on expiry
+//         return;
+//       }
+//     } finally {
+//       setServicesDataLoading(false); // ✅ End loader
+//     }
   };
 
   return (

@@ -5,6 +5,7 @@ import KidsSafetyModal from '@/models/services/kidSafetySchema';
 import { authUser } from '@/middlewares/authMiddleware';
 import streamifier from 'streamifier';
 
+// Cloudinary Config
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -12,6 +13,7 @@ cloudinary.config({
   secure: true,
 });
 
+// Upload Helper
 const uploadImageToCloudinary = (file) => {
   return new Promise(async (resolve, reject) => {
     const buffer = Buffer.from(await file.arrayBuffer());
@@ -29,7 +31,7 @@ const uploadImageToCloudinary = (file) => {
   });
 };
 
-// Helper to build nested object from dot notation keys
+// Dot notation object builder
 function setNestedValue(obj, path, value) {
   const keys = path.split('.');
   let current = obj;
@@ -54,17 +56,37 @@ export async function POST(req) {
     const user = auth.user;
     const formData = await req.formData();
     const files = formData.getAll('kidsImage');
+
     const data = {};
 
-    // Convert all dot-notation form keys into nested structure
+    // Convert form fields to nested structure
     for (const [key, value] of formData.entries()) {
-      if (key !== 'kidsImage') {
+      if (key !== 'kidsImage' && !key.startsWith('qrCodeDetails.')) {
         setNestedValue(data, key, value);
       }
     }
 
-    // Parse types
+    // ✅ Explicitly build qrCodeDetails object
+    data.qrCodeDetails = {
+      qrCodeImage: formData.get("qrCodeDetails.qrCodeImage")?.toString() || "",
+      scanCount: 0,
+      location: {
+        latitude: parseFloat(formData.get("qrCodeDetails.location.latitude") || "0"),
+        longitude: parseFloat(formData.get("qrCodeDetails.location.longitude") || "0"),
+        address: formData.get("qrCodeDetails.location.address") || "",
+      },
+      renewalDate: formData.get("qrCodeDetails.renewalDate")
+        ? new Date(formData.get("qrCodeDetails.renewalDate"))
+        : null,
+      status: formData.get("qrCodeDetails.status") || "active",
+      resetPasswordToken: null,
+      resetPasswordExpires: null,
+    };
+
+    // Parse dob
     if (data.dob) data.dob = new Date(data.dob);
+
+    // Parse altContact
     if (data.altContact) {
       try {
         const parsed = JSON.parse(data.altContact);
@@ -74,46 +96,52 @@ export async function POST(req) {
       }
     }
 
-    if (data.qrCodeDetails?.renewalDate) {
-      data.qrCodeDetails.renewalDate = new Date(data.qrCodeDetails.renewalDate);
-    }
-
-    if (data.qrCodeDetails?.location) {
-      data.qrCodeDetails.location.latitude = parseFloat(data.qrCodeDetails.location.latitude || 0);
-      data.qrCodeDetails.location.longitude = parseFloat(data.qrCodeDetails.location.longitude || 0);
-    }
-
-    // Upload Images
+    // ✅ Upload image(s)
     const uploadedImages = [];
     let totalSize = 0;
     for (const file of files) {
       if (!file.type.startsWith('image/')) continue;
       totalSize += file.size;
       if (totalSize > 30 * 1024 * 1024) {
-        return NextResponse.json({ message: `Upload size exceeds limit.` }, { status: 400 });
+        return NextResponse.json({ message: `Upload size exceeds 30MB limit.` }, { status: 400 });
       }
       const uploaded = await uploadImageToCloudinary(file);
       uploadedImages.push(uploaded);
     }
 
     data.kidsImage = uploadedImages;
+
+    // Add user info
     data.user = {
       id: user._id,
       name: user.name || user.email,
     };
 
-    // Remove undefined/null values
-    Object.entries(data).forEach(([key, value]) => {
-      if (value === undefined || value === null || value === 'undefined' || value === '') {
+    // Remove empty/undefined/null fields
+    for (const key in data) {
+      if (
+        data[key] === undefined ||
+        data[key] === null ||
+        data[key] === '' ||
+        data[key] === 'undefined'
+      ) {
         delete data[key];
       }
-    });
+    }
 
-    // Save
+    // Save to DB
     const saved = await KidsSafetyModal.create(data);
     const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/kidsSafety/${saved._id}`;
 
-    return NextResponse.json({ success: true, data: saved, qrUrl }, { status: 200 });
+    return NextResponse.json(
+      {
+        success: true,
+        message: 'Data saved successfully',
+        data: saved,
+        qrUrl,
+      },
+      { status: 200 }
+    );
 
   } catch (err) {
     console.error('POST Error:', err);

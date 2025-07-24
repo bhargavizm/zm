@@ -16,7 +16,7 @@ const SmsContent = () => {
   const { smsFormData, setSmsFormData,servicesDataLoading, setServicesDataLoading } = useServicesContext()
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const { setActiveTab,setText } = useDesignContext();
+  const { setActiveTab,setText,setQrCodeUrl } = useDesignContext();
   const { slug } =useParams();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -45,53 +45,54 @@ const SmsContent = () => {
     };
 
 const handleConfirmedSubmit = async () => {
-  const payload = {
-    genderName: smsFormData.genderName,
-    messageType: smsFormData.messageType,
-    textMessage: smsFormData.textMessage,
-    password: smsFormData.password,
-  };
+  setActiveTab(slug, "Backdrop Designs");
+  // const payload = {
+  //   genderName: smsFormData.genderName,
+  //   messageType: smsFormData.messageType,
+  //   textMessage: smsFormData.textMessage,
+  //   password: smsFormData.password,
+  // };
 
-  setServicesDataLoading(true);
+  //setServicesDataLoading(true);
 
-  try {
-    const response = await axios.post("/api/services/sms", payload, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  // try {
+  //   const response = await axios.post("/api/services/sms", payload, {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
 
-    const { fileData, qrUrl } = response.data;
+  //   const { fileData, qrUrl } = response.data;
 
-    if (fileData?._id && qrUrl) {
-      setText(qrUrl); // ✅ from backend
-      dispatch(setSmsServices(fileData));
+  //   if (fileData?._id && qrUrl) {
+  //     setText(qrUrl); // ✅ from backend
+  //     dispatch(setSmsServices(fileData));
 
-      toast.success("Text submitted successfully!");
+  //     toast.success("Text submitted successfully!");
 
-      setActiveTab(slug, "QR Code");
-      setShowConfirmModal(false);
+  //     setActiveTab(slug, "QR Code");
+  //     setShowConfirmModal(false);
 
-      setSmsFormData({
-        genderName: "",
-        messageType: "",
-        textMessage: "",
-        password: "",
-      });
-    } else {
-      toast.error("Failed to create SMS service");
-    }
-  } catch (error) {
-    const errMsg = error?.response?.data?.error || "An unexpected error occurred.";
-    toast.error(errMsg);
-    console.error("Submit Error:", error);
+  //     setSmsFormData({
+  //       genderName: "",
+  //       messageType: "",
+  //       textMessage: "",
+  //       password: "",
+  //     });
+  //   } else {
+  //     toast.error("Failed to create SMS service");
+  //   }
+  // } catch (error) {
+  //   const errMsg = error?.response?.data?.error || "An unexpected error occurred.";
+  //   toast.error(errMsg);
+  //   console.error("Submit Error:", error);
 
-    if (error.response?.status === 401) {
-      window.location.href = "/login";
-    }
-  } finally {
-    setServicesDataLoading(false);
-  }
+  //   if (error.response?.status === 401) {
+  //     window.location.href = "/login";
+  //   }
+  // } finally {
+  //   setServicesDataLoading(false);
+  // }
 };
 
 
@@ -202,7 +203,7 @@ const handleConfirmedSubmit = async () => {
                 onClick={handleInitialSubmit}
                 className="w-full cursor-pointer bg-[#008080] hover:bg-[#006666] text-white py-3 rounded-lg font-medium transition-colors shadow-lg"
               >
-              Submit
+              Next →
               </button>
             </form>
           </div>
@@ -261,7 +262,7 @@ const handleConfirmedSubmit = async () => {
                 onClick={handleConfirmedSubmit}
                 className="px-4 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700"
               >
-                Confirm & Submit
+               Continue
               </button>
             </div>
             </div>
