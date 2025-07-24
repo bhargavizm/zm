@@ -304,7 +304,7 @@ const EncryptedServicesForm = ({
             </div>
           </div>
 
-          <NFCModal />
+          {/* <NFCModal /> */}
 
           {/* Submit Button */}
           <div className="pt-6">

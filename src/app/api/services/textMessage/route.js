@@ -110,6 +110,7 @@ export async function POST(request) {
       sender,
       message,
       password = "",
+      qrPassword = "",
       location = {},
       renewalDate = null,
       status = "active",
