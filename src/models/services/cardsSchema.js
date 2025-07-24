@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
 
 const cardsSchema = new mongoose.Schema(
   {
@@ -26,6 +27,7 @@ const cardsSchema = new mongoose.Schema(
   trim: true,
   default: "",
 },
+qrCodeDetails:qrCodeServicesSchema
 
   },
   { timestamps: true }

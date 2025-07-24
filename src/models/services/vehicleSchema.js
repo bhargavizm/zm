@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { qrCodeServicesSchema } from './qrCodeServicesSchema';
 
 const vehicleSchema = new mongoose.Schema({
    user: {
@@ -72,7 +73,8 @@ const vehicleSchema = new mongoose.Schema({
     password: {
       type: String,
     }
-  }
+  },
+  qrCodeDetails:qrCodeServicesSchema
 }, {
   timestamps: true,
   toJSON: {

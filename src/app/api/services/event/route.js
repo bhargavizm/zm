@@ -31,6 +31,10 @@ export async function POST(request) {
       contactEmail,
       contactPhone,
       password, // ✅ Receive password from frontend
+      qrPassword = "",
+      location = {},
+      renewalDate = null,
+      status = "active",
     } = body;
 
     // ✅ Optional validation
@@ -69,6 +73,19 @@ export async function POST(request) {
       contactEmail,
       contactPhone,
       password: hashedPassword, // ✅ Save hashed password
+      qrCodeDetails: {
+    qrCodeImage: body.qrCodeImage ?? "",
+
+    location: {
+      latitude: location.latitude ?? null,
+      longitude: location.longitude ?? null,
+      address: location.address ?? "",
+    },
+    renewalDate,
+    status,
+    resetPasswordToken: null,
+    resetPasswordExpires: null,
+  },
     });
 
     await newEvent.save();
