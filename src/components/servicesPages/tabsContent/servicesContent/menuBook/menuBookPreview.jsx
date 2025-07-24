@@ -137,7 +137,18 @@ const MenuBookPreview = () => {
               <p>📧 <span>{menuBookFormData.email}</span></p>
             )}
             {menuBookFormData.link && (
-              <p>🔗 <span>{menuBookFormData.link}</span></p>
+             <p>
+  🔗{" "}
+  <a
+    href={menuBookFormData.link}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-blue-600 underline break-all"
+  >
+    {menuBookFormData.link}
+  </a>
+</p>
+
             )}
           </div>
         </div>

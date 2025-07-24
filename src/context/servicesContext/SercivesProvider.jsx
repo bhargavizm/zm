@@ -234,6 +234,42 @@ const ServicesProvider = ({ children }) => {
     password: "",
 
   })
+=======
+const [menuBookFormData, setMenuBookFormData] = useState({
+  restaurantName: '',
+  menuItems: [], // array of { image: "blob-url" }
+  phone: '',
+  email: '',
+  link: '',
+  password:'',
+  bgDesign:''
+});
+
+const [propertyDetails,setPropertyDetails] = useState({
+
+      basicInfo: {
+        propertyName: "",
+        propertyType: "",
+        ownerName: "",
+        contactNumber: "",
+        alternateNumber: "",
+        propertyDescription: "",
+      },
+      addressInfo: {
+        address: "",
+        mapLink: "",
+      },
+      pricingInfo: {
+        price: "",
+        area: "",
+        amenities: "",
+      },
+      images: {
+        galleryImages: [],
+      },
+      password: "",
+    
+})
 
 
   const initialPetIDFormData = {
