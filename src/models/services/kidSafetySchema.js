@@ -69,6 +69,7 @@ const kidsSafetySchema = new mongoose.Schema({
       url: String,
       name: String,
     },
+    
   ],
   qrCodeDetails: qrCodeServicesSchema,
 }, { timestamps: true });

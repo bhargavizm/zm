@@ -160,6 +160,7 @@
 
 // src/models/services/medicalAlertSchema.js
 
+
 import mongoose from "mongoose";
 import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
 
