@@ -129,6 +129,7 @@ import { connectDB } from "@/lib/mongoDB";
 import { authUser } from "@/middlewares/authMiddleware";
 import MenuCardsServiceModel from "@/models/services/menuCardSchema";
 import { cloudinary } from "@/utils/cloudinary";
+import { getShortenedUrl } from "@/utils/shortenUrl";
 import bcrypt from "bcrypt"; // ✅ Import bcrypt
 // import { SiCloudinary } from "react-icons/si";
 
@@ -152,6 +153,7 @@ export async function POST(request) {
     const phone = formData.get("phone");
     const email = formData.get("email");
     const link = formData.get("link");
+    const bgDesign = formData.get("bgDesign");
     const plainPassword = formData.get("password");
 
     // ✅ Step 3: Hash Password
@@ -178,7 +180,7 @@ export async function POST(request) {
             error: `❌ ${file.name} is ${sizeInMB}MB and exceeds 2MB limit.`,
           }),
           { status: 400, headers: { "Content-Type": "application/json" } }
-        );
+        ); 
       }
 
       totalSize += sizeInBytes;
@@ -230,8 +232,10 @@ export async function POST(request) {
       phone,
       email,
       link,
+      bgDesign,
       password: hashedPassword,
       images: uploadedImages,
+        qrCodeDetails: {},
 
       qrCodeDetails: {
         qrCodeImage,
@@ -250,15 +254,17 @@ export async function POST(request) {
 
     await newEntry.save();
 
-    const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/menuCard/${newEntry._id}`;
+    // const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/menuCard/${newEntry._id}`;
+     const qrUrl = await getShortenedUrl(`/menuCard/${newEntry._id}`);
 
     // ✅ Step 7: Return Success Response
     return new Response(
       JSON.stringify({
         success: true,
-        message: "✅ Menu cards data submitted successfully",
-        menuCardData: newEntry,
+        message: " Menu cards data submitted successfully",
+        data: newEntry,
         qrUrl,
+        // qrCodeDetails: newEntry.qrCodeDetails,
       }),
       { status: 201, headers: { "Content-Type": "application/json" } }
     );
