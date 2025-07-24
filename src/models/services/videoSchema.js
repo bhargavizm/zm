@@ -18,7 +18,10 @@ const videoSchema = new mongoose.Schema({
     id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     name: String,
   },
+
 }, { timestamps: true });
+  
+
 
 const VideoServiceModel =
   mongoose.models.VideoService || mongoose.model("VideoService", videoSchema);
