@@ -32,7 +32,7 @@ const VehicleContent = () => {
     insurance: null
   });
 
-  const { setActiveTab } = useDesignContext();
+  const { setActiveTab,setText,setQrcodeUrl } = useDesignContext();
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
@@ -81,7 +81,7 @@ const VehicleContent = () => {
     e.preventDefault();
     
     if (!validateForm()) {
-      toast.error("Please fix the errors in the form");
+      toast.error("Please enter the necessary form details.");
       return;
     }
     
@@ -151,12 +151,17 @@ const VehicleContent = () => {
         },
       });
 
-      dispatch(setVehicleServices(response.data));
+      const { fileData, qrUrl } = response.data;
+
+      
+      setQrcodeUrl(qrUrl);
+      dispatch(setVehicleServices(fileData));
       toast.success('Vehicle details saved successfully!');
       setActiveTab(slug, "QR Code");
       
       // Reset form after successful submission
       resetForm();
+      
 
     } catch (error) {
       console.error('Error submitting vehicle:', error);

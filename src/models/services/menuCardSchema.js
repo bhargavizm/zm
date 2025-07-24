@@ -3,6 +3,10 @@ import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
 
 const menuCardsSchema = new mongoose.Schema(
   {
+        user: {
+      id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+      name: String,
+    },
     restaurantName: String,
     phone: String,
     email: String,
@@ -15,12 +19,7 @@ const menuCardsSchema = new mongoose.Schema(
       },
     ],
     bgDesign: String,
-
-    user: {
-      id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-      name: String,
-    },
-    qrCodeDetails:qrCodeServicesSchema
+    qrCodeDetails: qrCodeServicesSchema
   },
   { timestamps: true }
 );
