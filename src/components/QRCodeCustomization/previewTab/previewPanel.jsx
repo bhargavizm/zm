@@ -497,6 +497,7 @@ const convertToBase64 = async (url) => {
 const PreviewPanel = () => {
   const previewRef = useRef(null);
 
+
    const { submitForm } = useServicesFormData();
 
   const { activeService, menuBookFormData, setMenuBookFormData, smsFormData, setSmsFormData,textMessageForm, setTextMessageForm } = useServicesContext();
@@ -675,6 +676,7 @@ const PreviewPanel = () => {
         width: containerWidth,
         height: containerHeight,
       };
+
 
 
 const handleDownload = async () => {

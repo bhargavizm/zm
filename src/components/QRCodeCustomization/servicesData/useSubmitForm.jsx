@@ -10,7 +10,10 @@ import useDesignContext from "@/components/hooks/useDesignContext";
 
 const useSubmitForm = (activeService, formDataState, bgDesign, setFormDataState, setBgDesign) => {
   const dispatch = useDispatch();
-const {setQrCodeUrl} =useDesignContext();
+
+  const { setQrCodeUrl } = useDesignContext();
+
+
   const submit = async () => {
     const mapperObj = formDataMappers[activeService];
 
@@ -38,29 +41,34 @@ console.log(activeService)
         dataToSend,
         { headers }
       );
-console.log(res)
+
+      console.log(res);
+
       if (res.data.success) {
-        toast.success(res.data.message || "Submitted successfully");
-         const qrUrl = res.data.qrUrl;
 
-  // ✅ Set QR code URL globally
-  setQrCodeUrl(qrUrl);
-        const dispatchFn = reduxDispatchMappers[activeService];
-        if (typeof dispatchFn === "function") {
-          dispatch(dispatchFn(res?.data?.data));
-        }
+  toast.success(res.data.message || "Submitted successfully");
 
-        if (typeof setFormDataState === "function") {
-          setFormDataState(getInitialFormData(activeService));
-        }
-        if (typeof setBgDesign === "function") {
-          setBgDesign(null);
-        }
+  // ✅ Set QR URL in global context
+  setQrCodeUrl(res.data.qrUrl);
 
-         return res.data.qrUrl;
-      } else {
+  const dispatchFn = reduxDispatchMappers[activeService];
+  if (typeof dispatchFn === "function") {
+    dispatch(dispatchFn(res?.data?.data));
+  }
+
+  if (typeof setFormDataState === "function") {
+    setFormDataState(getInitialFormData(activeService));
+  }
+  if (typeof setBgDesign === "function") {
+    setBgDesign(null);
+  }
+
+  return res.data.qrUrl; // ✅ Return the qrUrl instead of true
+}
+ else {
+
         toast.error("Something went wrong");
-         return false;
+        return false;
       }
     } catch (err) {
       console.error("Error submitting:", err.message);

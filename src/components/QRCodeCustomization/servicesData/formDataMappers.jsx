@@ -72,6 +72,7 @@ export const formDataMappers = {
     },
   },
   "text-messages": {
+
   type: "json",
   map: (body, state, bgDesign) => ({
     sender: state.sender,
@@ -80,6 +81,7 @@ export const formDataMappers = {
     bgDesign: bgDesign || null,
   }),
 },
+
 
 
   // ✅ JSON-based body example
