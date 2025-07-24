@@ -297,7 +297,7 @@ const PreviewPanel = () => {
       width: exportWidth,
       height: exportHeight,
       style: {
-        transform: scale(`${exportWidth / previewRef.current.offsetWidth}`),
+        transform: `scale(${exportWidth / previewRef.current.offsetWidth})`,
         transformOrigin: "top left",
         width: `${previewRef.current.offsetWidth}px`,
         height: `${previewRef.current.offsetHeight}px`,

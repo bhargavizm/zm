@@ -6,10 +6,11 @@ import { useDispatch } from "react-redux";
 import { formDataMappers } from "./formDataMappers";
 import { reduxDispatchMappers } from "./dispatchMappers";
 import { getInitialFormData } from "./initialFormStates";
+import useDesignContext from "@/components/hooks/useDesignContext";
 
 const useSubmitForm = (activeService, formDataState, bgDesign, setFormDataState, setBgDesign) => {
   const dispatch = useDispatch();
-
+const {setQrCodeUrl} =useDesignContext();
   const submit = async () => {
     const mapperObj = formDataMappers[activeService];
 
@@ -41,7 +42,7 @@ const useSubmitForm = (activeService, formDataState, bgDesign, setFormDataState,
 console.log(res)
       if (res.data.success) {
         toast.success(res.data.message || "Submitted successfully");
-
+setQrCodeUrl(res.data.qrUrl);
         const dispatchFn = reduxDispatchMappers[activeService];
         if (typeof dispatchFn === "function") {
           dispatch(dispatchFn(res?.data?.data));
