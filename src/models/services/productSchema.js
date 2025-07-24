@@ -1,6 +1,7 @@
 // models/services/productSchema.js
 
 import mongoose from "mongoose";
+import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
 
 const productSchema = new mongoose.Schema(
   {
@@ -24,28 +25,7 @@ const productSchema = new mongoose.Schema(
         videoUrl: String,
       },
     ],
-    qrCodeImage: String,
-    scanCount: { type: Number, default: 0 },
-
-    // ✅ Add this block for LOCATION
-    location: {
-      latitude: { type: Number, default: null },
-      longitude: { type: Number, default: null },
-      address: { type: String, default: "" },
-    },
-
-    // ✅ Add this block for RENEWAL DATE
-    renewalDate: { type: Date, default: null },
-
-    // ✅ Add this block for STATUS
-    status: {
-      type: String,
-      enum: ["active", "expired", "pending"],
-      default: "active",
-    },
-
-    resetPasswordToken: { type: String, default: null },
-    resetPasswordExpires: { type: Date, default: null },
+    qrCodeDetails: qrCodeServicesSchema
   },
   {
     timestamps: true,

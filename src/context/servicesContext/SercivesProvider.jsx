@@ -43,6 +43,19 @@ const ServicesProvider = ({ children }) => {
       twitter: "",
       website: "",
     },
+    qrCodeDetails: {
+      qrCodeImage: '',
+
+      location: {
+        latitude: '',
+        longitude: '',
+        address: "",
+      },
+      renewalDate: '',
+      status: '',
+      resetPasswordToken: '',
+      resetPasswordExpires: '',
+    },
   };
 
   const initialBusinessForm = {
@@ -78,6 +91,19 @@ const ServicesProvider = ({ children }) => {
     description: "",
     file: [],
     password: "",
+    qrCodeDetails: {
+      qrCodeImage: '',
+
+      location: {
+        latitude: '',
+        longitude: '',
+        address: "",
+      },
+      renewalDate: '',
+      status: '',
+      resetPasswordToken: '',
+      resetPasswordExpires: '',
+    },
   };
 
   const initialVideoFormData = {
@@ -85,6 +111,19 @@ const ServicesProvider = ({ children }) => {
     description: "",
     file: [],
     password: "",
+    qrCodeDetails: {
+      qrCodeImage: '',
+
+      location: {
+        latitude: '',
+        longitude: '',
+        address: "",
+      },
+      renewalDate: '',
+      status: '',
+      resetPasswordToken: '',
+      resetPasswordExpires: '',
+    },
   };
 
   const initialPdfFormData = {
@@ -92,6 +131,19 @@ const ServicesProvider = ({ children }) => {
     description: "",
     file: [],
     password: "",
+    qrCodeDetails: {
+      qrCodeImage: '',
+
+      location: {
+        latitude: '',
+        longitude: '',
+        address: "",
+      },
+      renewalDate: '',
+      status: '',
+      resetPasswordToken: '',
+      resetPasswordExpires: '',
+    },
   };
 
   const initialImagesFormData = {
@@ -99,6 +151,19 @@ const ServicesProvider = ({ children }) => {
     description: "",
     images: [],
     password: "",
+    qrCodeDetails: {
+      qrCodeImage: '',
+
+      location: {
+        latitude: '',
+        longitude: '',
+        address: "",
+      },
+      renewalDate: '',
+      status: '',
+      resetPasswordToken: '',
+      resetPasswordExpires: '',
+    },
   };
 
   const initialResumeFormData = {
@@ -243,6 +308,19 @@ const ServicesProvider = ({ children }) => {
         location: "",
       },
       password: "",
+      qrCodeDetails: {
+        qrCodeImage: '',
+
+        location: {
+          latitude: '',
+          longitude: '',
+          address: "",
+        },
+        renewalDate: '',
+        status: '',
+        resetPasswordToken: '',
+        resetPasswordExpires: '',
+      },
     },
 
     multiUrl: {
@@ -262,6 +340,7 @@ const ServicesProvider = ({ children }) => {
         contactNumber: "",
         email: "",
         website: "",
+
       },
       address: {
         street: "",
@@ -339,6 +418,8 @@ const ServicesProvider = ({ children }) => {
         timings: "10AM - 10PM",
         footerText: "OPEN ALL WEEK | TRADITION MEETS ELEGANCE",
         addressLine1: "123 Anywhere St., Any City, ST 12345",
+
+
       },
       template4Data: {
         logoText: "HANVOLK",

@@ -16,7 +16,7 @@ const SmsContent = () => {
   const { smsFormData, setSmsFormData,servicesDataLoading, setServicesDataLoading } = useServicesContext()
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const { setActiveTab,setText } = useDesignContext();
+  const { setActiveTab,setText,setQrCodeUrl } = useDesignContext();
   const { slug } =useParams();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -45,13 +45,14 @@ const SmsContent = () => {
     };
 
 const handleConfirmedSubmit = async () => {
+  setActiveTab(slug, "Backdrop Designs");
   // const payload = {
   //   genderName: smsFormData.genderName,
   //   messageType: smsFormData.messageType,
   //   textMessage: smsFormData.textMessage,
   //   password: smsFormData.password,
   // };
- setActiveTab(slug, "Backdrop Designs");
+
   //setServicesDataLoading(true);
 
   // try {

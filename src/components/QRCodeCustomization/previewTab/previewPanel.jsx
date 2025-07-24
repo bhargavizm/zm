@@ -36,7 +36,10 @@ const PreviewPanel = () => {
   const {activeService,menuBookFormData,setMenuBookFormData,smsFormData, setSmsFormData} = useServicesContext()
 
   const {
-    bgDesign,setBgDesign,
+    qrCodeUrl,
+    setText,
+    bgDesign,
+    setBgDesign,
     foregroundColorMode,
     foregroundColor,
     foregroundGradientStart,
@@ -201,7 +204,43 @@ const PreviewPanel = () => {
         height: containerHeight,
       };
 
-     const formDataState = {
+//      const formDataState = {
+//   "menu-cards": menuBookFormData,
+//   sms:smsFormData
+// }[activeService];
+
+//  const setFormDataState = {
+//     "menu-cards": setMenuBookFormData,
+//     sms:setSmsFormData
+//     // "gallery": setGalleryFormData,
+//     // ...
+//   }[activeService];
+
+//  const submitForm = useSubmitForm(
+//     activeService,
+//     formDataState,
+//     bgDesign,
+//     setFormDataState,
+//     setBgDesign
+//   );
+//  const handleDownload = async () => {
+//   console.log(activeService)
+//   if (!previewRef.current) return;
+
+//   try {
+//      const isSubmitted = await submitForm();
+
+//   if (!isSubmitted) {
+//     toast.error("Submission failed. ");
+//     return;
+//   }
+//     //Desired export size (you can adjust height proportionally)
+//     const exportWidth = 1024;
+//     const exportHeight = Math.round(
+//       (previewRef.current.offsetHeight / previewRef.current.offsetWidth) * exportWidth
+//     );
+
+  const formDataState = {
   "menu-cards": menuBookFormData,
   sms:smsFormData
 }[activeService];
@@ -220,18 +259,33 @@ const PreviewPanel = () => {
     setFormDataState,
     setBgDesign
   );
- const handleDownload = async () => {
-  console.log(activeService)
-  if (!previewRef.current) return;
+// const handleDownload = async () => {
+//   if (!previewRef.current) return;
 
-  try {
+ 
+// };
+  const handleDownload = async () => {
+    console.log('download scan')
+    if (!previewRef.current) return;
+    
+ try {
      const isSubmitted = await submitForm();
 
   if (!isSubmitted) {
     toast.error("Submission failed. ");
     return;
   }
-    //Desired export size (you can adjust height proportionally)
+    
+  if (!qrCodeUrl) {
+    toast.error("QR Code data is missing");
+    return;
+  }
+
+  setText(qrCodeUrl); // ✅ Set only during download
+
+   
+   
+    // Desired export size (you can adjust height proportionally)
     const exportWidth = 1024;
     const exportHeight = Math.round(
       (previewRef.current.offsetHeight / previewRef.current.offsetWidth) * exportWidth
@@ -243,7 +297,7 @@ const PreviewPanel = () => {
       width: exportWidth,
       height: exportHeight,
       style: {
-        transform: `scale(${exportWidth / previewRef.current.offsetWidth})`,
+        transform: scale(`${exportWidth / previewRef.current.offsetWidth}`),
         transformOrigin: "top left",
         width: `${previewRef.current.offsetWidth}px`,
         height: `${previewRef.current.offsetHeight}px`,
@@ -260,7 +314,8 @@ const PreviewPanel = () => {
     console.error("Download failed:", error);
     toast.error("Download failed. Try again.");
   }
-};
+  };
+
 
   return (
     <div className="flex justify-center items-center flex-col">

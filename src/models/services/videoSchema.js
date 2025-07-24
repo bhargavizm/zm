@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
 
 
 
@@ -18,6 +19,7 @@ const videoSchema = new mongoose.Schema({
     id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     name: String,
   },
+  qrCodeDetails: qrCodeServicesSchema
 }, { timestamps: true });
 
 const VideoServiceModel =
