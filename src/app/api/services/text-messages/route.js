@@ -134,6 +134,7 @@ export async function POST(request) {
       message,
       password: hashedPassword,
       qrCodeDetails: {
+
     qrCodeImage: body.qrCodeImage ?? "",
 
     location: {
@@ -146,12 +147,15 @@ export async function POST(request) {
     resetPasswordToken: null,
     resetPasswordExpires: null,
   },
+
     });
 
     await newMessage.save();
 
-    
-        const qrUrl = await getShortenedUrl(`/textMessage/${newMessage._id}`);
+
+    // const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/textMessage/${newMessage._id}`;
+    const qrUrl = await getShortenedUrl(`/textMessage/${newMessage._id}`);
+
 
     return new Response(
       JSON.stringify({ success: true, data: newMessage, qrUrl }),
