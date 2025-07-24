@@ -51,6 +51,7 @@ const serviceMap = {
     model: businessShopSchema,
     component: (data) => <CardPreview data={data} />,
   },
+
   // Add more services as needed
 };
 
