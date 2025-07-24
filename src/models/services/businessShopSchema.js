@@ -21,6 +21,9 @@ const businessShopSchema = new mongoose.Schema({
       logo: String,
       galleryImages: [String],
     },
+
+    qrCodeDetails: qrCodeServicesSchema
+
   },
   shopTimingsTemplate: {
     selectedTemplate: String,

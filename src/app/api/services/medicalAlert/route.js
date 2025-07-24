@@ -138,7 +138,7 @@ import { authUser } from "@/middlewares/authMiddleware";
 
 export async function POST(req) {
   try {
-    // Authenticate user
+    // ✅ Authenticate user
     const auth = await authUser(req);
     if (auth.status !== 200) {
       return new Response(JSON.stringify(auth.json), {
@@ -149,16 +149,14 @@ export async function POST(req) {
 
     const user = auth.user;
 
-    // Connect to DB
+    // ✅ Connect to DB
     await connectDB();
 
-    // Parse multipart/form-data
+    // ✅ Parse multipart/form-data
     const formData = await req.formData();
-
-    // ✅ Debug logs
     console.log("🧾 Form Keys:", Array.from(formData.keys()));
 
-    // Extract basic fields
+    // ✅ Extract form fields
     const patientName = formData.get("patientName");
     const ageStr = formData.get("age");
     const age = ageStr ? parseInt(ageStr, 10) : undefined;
@@ -182,9 +180,30 @@ export async function POST(req) {
 
     const plainPassword = formData.get("password");
 
-    // ✅ File upload logic
-    const maxFileSize = 2 * 1024 * 1024; // 2MB
-    const maxTotalSize = 30 * 1024 * 1024; // 30MB
+    // ✅ Extract QR Code Details
+    const qrCodeImage = formData.get("qrCodeImage") || "";
+    const locationLatitude = formData.get("locationLatitude");
+    const locationLongitude = formData.get("locationLongitude");
+    const locationAddress = formData.get("locationAddress");
+    const renewalDateStr = formData.get("renewalDate");
+    const status = formData.get("status") || "active";
+
+    const qrCodeDetails = {
+      qrCodeImage,
+      location: {
+        latitude: locationLatitude ? parseFloat(locationLatitude) : null,
+        longitude: locationLongitude ? parseFloat(locationLongitude) : null,
+        address: locationAddress || "",
+      },
+      renewalDate: renewalDateStr ? new Date(renewalDateStr) : null,
+      status,
+      resetPasswordToken: null,
+      resetPasswordExpires: null,
+    };
+
+    // ✅ File Upload Handling
+    const maxFileSize = 2 * 1024 * 1024; // 2MB per file
+    const maxTotalSize = 30 * 1024 * 1024; // 30MB total
     let totalSize = 0;
 
     const processFiles = async (fieldName) => {
@@ -192,7 +211,6 @@ export async function POST(req) {
       if (!files || files.length === 0) return [];
 
       const processed = [];
-
       for (const file of files) {
         if (!file || typeof file.arrayBuffer !== "function") continue;
 
@@ -205,21 +223,19 @@ export async function POST(req) {
 
         totalSize += size;
         if (totalSize > maxTotalSize) {
-          throw new Error(`Total file size exceeds 30MB.`);
+          throw new Error("Total file size exceeds 30MB.");
         }
 
         processed.push({
           fileName: file.name,
           fileType: file.type,
-          // Optionally save as base64 or buffer
-          // content: Buffer.from(buffer).toString('base64')
         });
       }
 
       return processed;
     };
 
-    // ✅ Wrap file processing in try-catch
+    // ✅ Process File Inputs
     let medicalReports = [];
     let prescription = [];
     let insuranceImage = [];
@@ -236,21 +252,26 @@ export async function POST(req) {
       );
     }
 
-    // ✅ Hash password if provided
+    // ✅ Hash Password (if provided)
     let hashedPassword = "";
     if (plainPassword && plainPassword.trim() !== "") {
       const salt = await bcrypt.genSalt(10);
       hashedPassword = await bcrypt.hash(plainPassword.trim(), salt);
     }
 
-    // ✅ Create DB record
+    // ✅ Create New Record
     const newRecord = await MedicalAlertModel.create({
       user: {
         id: user._id,
         name: user.name,
       },
       patientInfo: { patientName, age, bloodType },
-      medicalHistory: { medicalConditions, allergies, medications, additionalNotes },
+      medicalHistory: {
+        medicalConditions,
+        allergies,
+        medications,
+        additionalNotes,
+      },
       emergencyContact: { emergencyContact, contactPhone },
       additional: {
         familyDoctorName,
@@ -265,17 +286,19 @@ export async function POST(req) {
       prescription,
       insuranceImage,
       password: hashedPassword,
+      qrCodeDetails, // ✅ Added QR Code data
     });
 
-    console.log("✅ Form submitted successfully!");
+    console.log("✅ Medical alert record saved successfully!");
 
     return NextResponse.json({ success: true, data: newRecord }, { status: 201 });
 
   } catch (err) {
-    console.error("❌ POST error:", err);
+    console.error("❌ POST Error:", err);
     return NextResponse.json(
       { success: false, error: err.message || "Internal Server Error" },
       { status: 500 }
     );
   }
 }
+

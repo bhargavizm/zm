@@ -68,6 +68,7 @@ const kidsSafetySchema = new mongoose.Schema({
       url: String,
       name: String,
     },
+    
   ],
 }, { timestamps: true });
 
