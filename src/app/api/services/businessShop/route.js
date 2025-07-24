@@ -2,6 +2,7 @@ import { connectDB } from "@/lib/mongoDB";
 import BusinessShopModel from "@/models/services/businessShopSchema";
 import { cloudinary } from "@/utils/cloudinary";
 import { v4 as uuidv4 } from "uuid";
+import { authUser } from '@/middlewares/authMiddleware';
 
 // Helper to convert dot-notation FormData into nested object
 function setDeep(obj, path, value) {
@@ -19,41 +20,81 @@ function setDeep(obj, path, value) {
 
 export async function POST(req) {
   try {
+    const auth = await authUser(req);
+    if (auth.status !== 200) {
+      return new Response(JSON.stringify(auth.json), {
+        status: auth.status,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    const user = auth.user;
     await connectDB();
 
     const formData = await req.formData();
-    const data = {};
+    const data = {
+      user: {
+        id: user._id,
+        name: user.name,
+      },
+      qrCodeDetails: {
+        location: {},
+        renewalDate: null,
+        status: "active",
+        resetPasswordToken: null,
+        resetPasswordExpires: null,
+      }
+    };
     const filesToUpload = [];
 
     // Parse FormData
     for (const [key, value] of formData.entries()) {
       if (value instanceof File) {
         filesToUpload.push({ key, file: value });
-      } else {
-        setDeep(data, key, value);
+      } else if (value !== 'undefined') {
+        if (key === "renewalDate") {
+          data.qrCodeDetails.renewalDate = new Date(value);
+        } else if (key === "status") {
+          data.qrCodeDetails.status = value;
+        } else if (key.startsWith("location.")) {
+          const locKey = key.split(".")[1];
+          data.qrCodeDetails.location[locKey] = value;
+        } else if (key === "qrCodeImage") {
+          data.qrCodeDetails.qrCodeImage = value;
+        } else if (key === "selectedTemplate") {
+          data.selectedTemplate = value;
+        } else if (key === "password") {
+          data.password = value;
+        } else {
+          setDeep(data, key, value);
+        }
       }
     }
 
-    // Upload logo to Cloudinary
-    if (data.businessInfo?.media?.logo === undefined) {
-      const logoFile = filesToUpload.find(f => f.key === "businessInfo.media.logo");
-      if (logoFile) {
+    // Upload logo
+    const logoFile = filesToUpload.find(f => f.key === "businessInfo.media.logo");
+    if (logoFile) {
+      try {
         const buffer = Buffer.from(await logoFile.file.arrayBuffer());
         const uploadedLogo = await new Promise((resolve, reject) => {
-          cloudinary.uploader
-            .upload_stream(
-              {
-                resource_type: "image",
-                public_id: `businessShops/logo_${uuidv4()}`,
-              },
-              (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-              }
-            )
-            .end(buffer);
+          cloudinary.uploader.upload_stream(
+            {
+              resource_type: "image",
+              public_id: `businessShops/logo_${uuidv4()}`,
+            },
+            (err, result) => {
+              if (err) reject(err);
+              else resolve(result);
+            }
+          ).end(buffer);
         });
         setDeep(data, "businessInfo.media.logo", uploadedLogo.secure_url);
+      } catch (err) {
+        console.error("Logo upload error:", err);
+        return new Response(
+          JSON.stringify({ error: "Failed to upload logo" }),
+          { status: 500, headers: { "Content-Type": "application/json" } }
+        );
       }
     }
 
@@ -62,10 +103,10 @@ export async function POST(req) {
     const uploadedGallery = [];
 
     for (const img of galleryImages) {
-      const buffer = Buffer.from(await img.file.arrayBuffer());
-      const uploaded = await new Promise((resolve, reject) => {
-        cloudinary.uploader
-          .upload_stream(
+      try {
+        const buffer = Buffer.from(await img.file.arrayBuffer());
+        const uploaded = await new Promise((resolve, reject) => {
+          cloudinary.uploader.upload_stream(
             {
               resource_type: "image",
               public_id: `businessShops/gallery_${uuidv4()}`,
@@ -74,10 +115,13 @@ export async function POST(req) {
               if (err) reject(err);
               else resolve(result);
             }
-          )
-          .end(buffer);
-      });
-      uploadedGallery.push(uploaded.secure_url);
+          ).end(buffer);
+        });
+        uploadedGallery.push(uploaded.secure_url);
+      } catch (err) {
+        console.error("Gallery image upload error:", err);
+        // Continue uploading remaining images
+      }
     }
 
     if (uploadedGallery.length > 0) {
@@ -86,14 +130,35 @@ export async function POST(req) {
 
     // Save to DB
     const newDoc = new BusinessShopModel(data);
+    await newDoc.validate().catch(err => {
+      console.error("Validation error:", err);
+      throw new Error("Validation failed");
+    });
     await newDoc.save();
 
-    return new Response(JSON.stringify({ success: true, data: newDoc }), {
-      status: 201,
-      headers: { "Content-Type": "multipart/form-data" },
-    });
+    return new Response(
+      JSON.stringify({
+        success: true,
+        data: newDoc,
+        message: "Business shop created successfully"
+      }),
+      {
+        status: 201,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
   } catch (err) {
     console.error("Business Shop POST Error:", err);
-    return new Response("Internal Server Error", { status: 500 });
+    return new Response(
+      JSON.stringify({
+        error: err.message || "Internal Server Error",
+        details: process.env.NODE_ENV === 'development' ? err.stack : undefined
+      }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" }
+      }
+    );
   }
 }

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
 
 
 const GallerySchema = new mongoose.Schema({
@@ -16,6 +17,7 @@ const GallerySchema = new mongoose.Schema({
     id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     name: String,
   },
+  qrCodeDetails: qrCodeServicesSchema
 }, { timestamps: true });
 
 const GalleryServiceModel =

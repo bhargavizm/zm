@@ -731,6 +731,7 @@ const KidsSafetyContent = () => {
       if (!fileData?._id && qrUrl) throw new Error('Submission failed');
 
       setShowSuccessModal(true);
+      toast.success("Kids Safety form submitted successfully!");
       setText(qrUrl); // ✅ from backend
       setActiveTab(slug, "QR Code");
       dynamicForms.kidsSafety = {
@@ -947,10 +948,10 @@ const KidsSafetyContent = () => {
         ))}
 
         {/* NFC Section */}
-        <div className="p-6 bg-white rounded-xl shadow-md">
+        {/* <div className="p-6 bg-white rounded-xl shadow-md">
           <h3 className="text-2xl font-semibold mb-6 border-b pb-3">NFC Functionality</h3>
           <NFCModal />
-        </div>
+        </div> */}
 
         {/* Submit Button */}
         <div className="flex justify-center">
