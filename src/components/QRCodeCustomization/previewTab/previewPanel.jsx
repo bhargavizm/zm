@@ -15,6 +15,8 @@ import {
 import DownloadButton from "./downloadButton";
 import { toPng } from "html-to-image";
 import toast from "react-hot-toast";
+import useSubmitForm from "../serviceData/useSubmitForm";
+import useServicesContext from "@/components/hooks/useServiceContext";
 
 // Base64 conversion helper
 const convertToBase64 = async (url) => {
@@ -31,7 +33,13 @@ const convertToBase64 = async (url) => {
 const PreviewPanel = () => {
   const previewRef = useRef(null);
 
+  const {activeService,menuBookFormData,setMenuBookFormData,smsFormData, setSmsFormData} = useServicesContext()
+
   const {
+    qrCodeUrl,
+    setText,
+    bgDesign,
+    setBgDesign,
     foregroundColorMode,
     foregroundColor,
     foregroundGradientStart,
@@ -196,11 +204,43 @@ const PreviewPanel = () => {
         height: containerHeight,
       };
 
+
+  const formDataState = {
+  "menu-cards": menuBookFormData,
+  sms:smsFormData
+}[activeService];
+
+ const setFormDataState = {
+    "menu-cards": setMenuBookFormData,
+    sms:setSmsFormData
+    // "gallery": setGalleryFormData,
+    // ...
+  }[activeService];
+
+ const submitForm = useSubmitForm(
+    activeService,
+    formDataState,
+    bgDesign,
+    setFormDataState,
+    setBgDesign
+  );
+
   const handleDownload = async () => {
     console.log('download scan')
     if (!previewRef.current) return;
+    
+ try {
+      await submitForm()
 
-    try {
+    
+  if (!qrCodeUrl) {
+    toast.error("QR Code data is missing");
+    return;
+  }
+
+  setText(qrCodeUrl); // ✅ Set only during download
+
+   
       const dataUrl = await toPng(previewRef.current, {
         cacheBust: true,
          backgroundColor: "white",

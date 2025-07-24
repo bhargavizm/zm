@@ -1,8 +1,9 @@
 // src/components/ServicesProvider.jsx
 "use client";
 
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { ServicesContext } from "./ServicesContext";
+import { usePathname } from "next/navigation";
 
 const ServicesProvider = ({ children }) => {
   // --- Initial State Definitions for all forms ---
@@ -10,6 +11,16 @@ const ServicesProvider = ({ children }) => {
   // Define these outside the component or memoize them if they are truly static
   // to prevent re-creation on every render, but for clarity, defining them here
   // is fine for now.
+
+  const pathname = usePathname();
+  const [activeService, setActiveService] = useState(null);
+
+   useEffect(() => {
+    if (pathname.includes("/services/")) {
+      const serviceName = pathname.split("/services/")[1]?.split("/")[0];
+      setActiveService(serviceName); // ✅ auto-set based on URL
+    }
+  }, [pathname]);
 
   const [servicesDataLoading, setServicesDataLoading] = useState(false)
 
@@ -569,6 +580,7 @@ const [propertyDetails,setPropertyDetails] = useState({
     <ServicesContext.Provider
       value={{
         // Static forms and their setters
+
         businessShopFormData, setBusinessShopFormData,
         businessForm, setBusinessForm,
         profileImage, setProfileImage,
@@ -601,7 +613,8 @@ const [propertyDetails,setPropertyDetails] = useState({
         // UI Toggles
         showPassword, setShowPassword,
         isAnimating, setIsAnimating,
-        servicesDataLoading, setServicesDataLoading
+        servicesDataLoading, setServicesDataLoading,
+        activeService, setActiveService,pathname,
       }}
     >
       {children}
