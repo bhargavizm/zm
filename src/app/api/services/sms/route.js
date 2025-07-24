@@ -162,7 +162,7 @@ export async function POST(request) {
     });
 
     await newSms.save();
-    const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/sms/${newSms._id}`;
+    // const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/sms/${newSms._id}`;
 
     // const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/sms/${newSms._id}`;
 
@@ -172,8 +172,7 @@ export async function POST(request) {
       JSON.stringify({
         success: true,
         message: "SMS message saved successfully!",
-        data: newSms,
-        qrUrl,
+        data: newSms,qrUrl
       }),
       {
         status: 201,

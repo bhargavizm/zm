@@ -15,8 +15,8 @@ import {
 import DownloadButton from "./downloadButton";
 import { toPng } from "html-to-image";
 import toast from "react-hot-toast";
-import useSubmitForm from "../serviceData/useSubmitForm";
 import useServicesContext from "@/components/hooks/useServiceContext";
+import useSubmitForm from "../servicesData/useSubmitForm";
 
 // Base64 conversion helper
 const convertToBase64 = async (url) => {
@@ -204,6 +204,41 @@ const PreviewPanel = () => {
         height: containerHeight,
       };
 
+//      const formDataState = {
+//   "menu-cards": menuBookFormData,
+//   sms:smsFormData
+// }[activeService];
+
+//  const setFormDataState = {
+//     "menu-cards": setMenuBookFormData,
+//     sms:setSmsFormData
+//     // "gallery": setGalleryFormData,
+//     // ...
+//   }[activeService];
+
+//  const submitForm = useSubmitForm(
+//     activeService,
+//     formDataState,
+//     bgDesign,
+//     setFormDataState,
+//     setBgDesign
+//   );
+//  const handleDownload = async () => {
+//   console.log(activeService)
+//   if (!previewRef.current) return;
+
+//   try {
+//      const isSubmitted = await submitForm();
+
+//   if (!isSubmitted) {
+//     toast.error("Submission failed. ");
+//     return;
+//   }
+//     //Desired export size (you can adjust height proportionally)
+//     const exportWidth = 1024;
+//     const exportHeight = Math.round(
+//       (previewRef.current.offsetHeight / previewRef.current.offsetWidth) * exportWidth
+//     );
 
   const formDataState = {
   "menu-cards": menuBookFormData,
@@ -224,14 +259,22 @@ const PreviewPanel = () => {
     setFormDataState,
     setBgDesign
   );
+// const handleDownload = async () => {
+//   if (!previewRef.current) return;
 
+ 
+// };
   const handleDownload = async () => {
     console.log('download scan')
     if (!previewRef.current) return;
     
  try {
-      await submitForm()
+     const isSubmitted = await submitForm();
 
+  if (!isSubmitted) {
+    toast.error("Submission failed. ");
+    return;
+  }
     
   if (!qrCodeUrl) {
     toast.error("QR Code data is missing");
@@ -241,22 +284,36 @@ const PreviewPanel = () => {
   setText(qrCodeUrl); // ✅ Set only during download
 
    
-      const dataUrl = await toPng(previewRef.current, {
-        cacheBust: true,
-         backgroundColor: "white",
-        width: previewRef.current.offsetWidth,
-        height: previewRef.current.offsetHeight,
-      });
+   
+    // Desired export size (you can adjust height proportionally)
+    const exportWidth = 1024;
+    const exportHeight = Math.round(
+      (previewRef.current.offsetHeight / previewRef.current.offsetWidth) * exportWidth
+    );
 
-      const link = document.createElement("a");
-      link.download = "qr-code.png";
-      link.href = dataUrl;
-      link.click();
-      
-       toast.success("QR code downloaded successfully!");
-    } catch (error) {
-      console.error("Download failed:", error);
-    }
+    const dataUrl = await toPng(previewRef.current, {
+      cacheBust: true,
+      backgroundColor: "white",
+      width: exportWidth,
+      height: exportHeight,
+      style: {
+        transform: scale(`${exportWidth / previewRef.current.offsetWidth}`),
+        transformOrigin: "top left",
+        width: `${previewRef.current.offsetWidth}px`,
+        height: `${previewRef.current.offsetHeight}px`,
+      },
+    });
+
+    const link = document.createElement("a");
+    link.download = "qr-code.png";
+    link.href = dataUrl;
+    link.click();
+
+    toast.success("QR code downloaded successfully!");
+  } catch (error) {
+    console.error("Download failed:", error);
+    toast.error("Download failed. Try again.");
+  }
   };
 
 
