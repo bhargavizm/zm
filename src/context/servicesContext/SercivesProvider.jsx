@@ -44,6 +44,19 @@ const ServicesProvider = ({ children }) => {
       twitter: "",
       website: "",
     },
+    qrCodeDetails: {
+      qrCodeImage: '',
+
+      location: {
+        latitude: '',
+        longitude: '',
+        address: "",
+      },
+      renewalDate: '',
+      status: '',
+      resetPasswordToken: '',
+      resetPasswordExpires: '',
+    },
   };
 
   const initialBusinessForm = {
@@ -79,6 +92,19 @@ const ServicesProvider = ({ children }) => {
     description: "",
     file: [],
     password: "",
+    qrCodeDetails: {
+      qrCodeImage: '',
+
+      location: {
+        latitude: '',
+        longitude: '',
+        address: "",
+      },
+      renewalDate: '',
+      status: '',
+      resetPasswordToken: '',
+      resetPasswordExpires: '',
+    },
   };
 
   const initialVideoFormData = {
@@ -86,6 +112,19 @@ const ServicesProvider = ({ children }) => {
     description: "",
     file: [],
     password: "",
+    qrCodeDetails: {
+      qrCodeImage: '',
+
+      location: {
+        latitude: '',
+        longitude: '',
+        address: "",
+      },
+      renewalDate: '',
+      status: '',
+      resetPasswordToken: '',
+      resetPasswordExpires: '',
+    },
   };
 
   const initialPdfFormData = {
@@ -93,6 +132,19 @@ const ServicesProvider = ({ children }) => {
     description: "",
     file: [],
     password: "",
+    qrCodeDetails: {
+      qrCodeImage: '',
+
+      location: {
+        latitude: '',
+        longitude: '',
+        address: "",
+      },
+      renewalDate: '',
+      status: '',
+      resetPasswordToken: '',
+      resetPasswordExpires: '',
+    },
   };
 
   const initialImagesFormData = {
@@ -100,6 +152,19 @@ const ServicesProvider = ({ children }) => {
     description: "",
     images: [],
     password: "",
+    qrCodeDetails: {
+      qrCodeImage: '',
+
+      location: {
+        latitude: '',
+        longitude: '',
+        address: "",
+      },
+      renewalDate: '',
+      status: '',
+      resetPasswordToken: '',
+      resetPasswordExpires: '',
+    },
   };
 
   const initialResumeFormData = {
@@ -146,13 +211,49 @@ const ServicesProvider = ({ children }) => {
 
   // Menu Book (Original structure)
   // Inside your ServiceContextProvider
+  const [menuBookFormData, setMenuBookFormData] = useState({
+    restaurantName: '',
+    menuItems: [], // array of { image: "blob-url" }
+    phone: '',
+    email: '',
+    link: '',
+    password: ''
+  });
+
+  const [propertyDetails, setPropertyDetails] = useState({
+
+    basicInfo: {
+      propertyName: "",
+      propertyType: "",
+      ownerName: "",
+      contactNumber: "",
+      alternateNumber: "",
+      propertyDescription: "",
+    },
+    addressInfo: {
+      address: "",
+      mapLink: "",
+    },
+    pricingInfo: {
+      price: "",
+      area: "",
+      amenities: "",
+    },
+    images: {
+      galleryImages: [],
+    },
+    password: "",
+
+  })
+=======
 const [menuBookFormData, setMenuBookFormData] = useState({
   restaurantName: '',
   menuItems: [], // array of { image: "blob-url" }
   phone: '',
   email: '',
   link: '',
-  password:''
+  password:'',
+  bgDesign:''
 });
 
 const [propertyDetails,setPropertyDetails] = useState({
@@ -238,15 +339,28 @@ const [propertyDetails,setPropertyDetails] = useState({
         medicalReports: [],
         prescription: [],
         insuranceImage: [],
-        medicalReports:[],
+        medicalReports: [],
         prescription: [],
         insuranceImage: [],
         preferredHospital: "",
         location: ""
       },
       password: "",
+      qrCodeDetails: {
+        qrCodeImage: '',
+
+        location: {
+          latitude: '',
+          longitude: '',
+          address: "",
+        },
+        renewalDate: '',
+        status: '',
+        resetPasswordToken: '',
+        resetPasswordExpires: '',
+      },
     },
-   
+
     multiUrl: {
       socialLinks: {
         youtube: "",
@@ -264,6 +378,7 @@ const [propertyDetails,setPropertyDetails] = useState({
         contactNumber: "",
         email: "",
         website: "",
+
       },
       address: {
         street: "",
@@ -290,10 +405,10 @@ const [propertyDetails,setPropertyDetails] = useState({
         description: "",
         establishedDate: "",
         shopTimings: "",
-        discount:"",
+        discount: "",
       },
       contact: {
-        owner:"",
+        owner: "",
         phone: "",
         altPhone: "",
         email: "",
@@ -312,14 +427,14 @@ const [propertyDetails,setPropertyDetails] = useState({
       selectedTemplate: "none",
       template1Data: {
         title: "Opening Hours",
-       
-        day1:"MONDAY , 10AM - 10PM",
-        day2:"TUESDAY , 10AM - 10PM",
-        day3:"WEDNESDAY , 10AM - 10PM",
-        day4:"THURSDAY , 10AM - 10PM",
-        day5:"FRIDAY , 10AM - 10PM",
-        day6:"SATURDAY , 10AM - 10PM",
-        day7:"SUNDAY , 10AM - 10PM",
+
+        day1: "MONDAY , 10AM - 10PM",
+        day2: "TUESDAY , 10AM - 10PM",
+        day3: "WEDNESDAY , 10AM - 10PM",
+        day4: "THURSDAY , 10AM - 10PM",
+        day5: "FRIDAY , 10AM - 10PM",
+        day6: "SATURDAY , 10AM - 10PM",
+        day7: "SUNDAY , 10AM - 10PM",
         aboutUsLink: "about us",
         siteLink: "@reallygreatsite",
       },
@@ -337,12 +452,12 @@ const [propertyDetails,setPropertyDetails] = useState({
         siteLink: "@GoldGlam.com",
         title: "OUR STORY",
         description: "Experience the best at our shop!",
-        day:"MONDAY - SUNDAY",
-        timings:"10AM - 10PM",
-        footerText:"OPEN ALL WEEK | TRADITION MEETS ELEGANCE",
+        day: "MONDAY - SUNDAY",
+        timings: "10AM - 10PM",
+        footerText: "OPEN ALL WEEK | TRADITION MEETS ELEGANCE",
         addressLine1: "123 Anywhere St., Any City, ST 12345",
-        
-        
+
+
       },
       template4Data: {
         logoText: "HANVOLK",
@@ -354,7 +469,7 @@ const [propertyDetails,setPropertyDetails] = useState({
         addressLine2: "123 Anywhere St., Any City",
         website: "www.reallygreatsite.com",
       },
-      
+
       password: "",
     },
     discountCoupon: {
@@ -411,9 +526,9 @@ const [propertyDetails,setPropertyDetails] = useState({
         licenseBack: null,
         rcFront: null,
         rcBack: null,
-        pollution:null,
+        pollution: null,
         galleryImages: [],
-        insurance:[]
+        insurance: []
       },
       security: {
         password: "",
@@ -601,10 +716,10 @@ const [propertyDetails,setPropertyDetails] = useState({
         menuBookFormData, setMenuBookFormData,
         petIDFormData, setPetIDFormData,
 
-        propertyDetails,setPropertyDetails,
+        propertyDetails, setPropertyDetails,
 
         // Dynamic forms and their handlers
-        dynamicForms,setDynamicForms,
+        dynamicForms, setDynamicForms,
         updateDynamicForm,
         resetDynamicForm, // Expose the new reset function
         addTemplateField,

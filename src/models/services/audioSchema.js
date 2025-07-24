@@ -26,6 +26,7 @@
 
 
 import mongoose from "mongoose";
+import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
 
 // File sub-schema for file uploads
 const fileItemSchema = new mongoose.Schema({
@@ -51,29 +52,7 @@ const audioSchema = new mongoose.Schema(
       },
       name: { type: String },
     },
-    qrCodeImage: String,
-    scanCount: { type: Number, default: 0 },
-
-    // ✅ Location data (optional)
-    location: {
-      latitude: { type: Number, default: null },
-      longitude: { type: Number, default: null },
-      address: { type: String, default: "" },
-    },
-
-    // ✅ QR or subscription renewal date
-    renewalDate: { type: Date, default: null },
-
-    // ✅ Service status
-    status: {
-      type: String,
-      enum: ["active", "expired", "pending"],
-      default: "active",
-    },
-
-    // ✅ Password reset handling
-    resetPasswordToken: { type: String, default: null },
-    resetPasswordExpires: { type: Date, default: null },
+    qrCodeDetails: qrCodeServicesSchema
   },
   {
     timestamps: true,

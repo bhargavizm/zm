@@ -53,6 +53,13 @@ export async function HandleEncryptedServices({
     const formData = await request.formData();
     const title = formData.get("title");
     const description = formData.get("description");
+    const qrCodeImage = formData.get("qrCodeImage");
+const scanCount = formData.get("scanCount");
+const latitude = formData.get("latitude");
+const longitude = formData.get("longitude");
+const address = formData.get("address");
+const renewalDate = formData.get("renewalDate");
+const status = formData.get("status");
     let password = formData.get("password") || "";
 
     if (password) {
@@ -160,6 +167,17 @@ export async function HandleEncryptedServices({
         }
       );
     }
+const qrCodeDetails = {
+  qrCodeImage,
+  scanCount: scanCount ? Number(scanCount) : undefined,
+  location: {
+    latitude: latitude ? Number(latitude) : undefined,
+    longitude: longitude ? Number(longitude) : undefined,
+    address: address || "",
+  },
+  renewalDate: renewalDate ? new Date(renewalDate) : null,
+  status: status || "active",
+};
 
     // 📝 Step 4: Save to database
     const newDoc = await model.create({
@@ -168,6 +186,7 @@ export async function HandleEncryptedServices({
       description,
       password,
       [mediaField]: files,
+      qrCodeDetails
     });
 
     // ✅ Return success
