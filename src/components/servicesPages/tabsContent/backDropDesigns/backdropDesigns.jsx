@@ -54,6 +54,7 @@ const BackdropDesigns = () => {
     setIsLoading(true); // Start loader
     setBgDesign(src);
   };
+  
 console.log(bgDesign);
   return (
     <section className="space-y-4 text-center">

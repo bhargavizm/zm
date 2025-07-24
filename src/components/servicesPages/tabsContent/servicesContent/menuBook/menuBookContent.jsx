@@ -11,11 +11,13 @@ import { useDispatch } from "react-redux";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import { useParams } from "next/navigation";
 import LoadingSpinner from "@/components/common/spinner";
+//import useSubmitForm from "@/components/QRCodeCustomization/servicesData/useSubmitForm";
 
 const MenuBookContent = () => {
   const { setActiveTab,bgDesign } = useDesignContext();
   const { slug } = useParams();
   const {
+    activeService,
     menuBookFormData,
     setMenuBookFormData,
     servicesDataLoading,
@@ -120,47 +122,50 @@ const MenuBookContent = () => {
     setShowConfirmModal(true);
   };
 
+  //  useSubmitForm(activeService, menuBookFormData, bgDesign);
+
   const handleSubmit = async () => {
-    setServicesDataLoading(true);
-    try {
-      const formData = new FormData();
-      formData.append("restaurantName", menuBookFormData.restaurantName);
-      formData.append("phone", menuBookFormData.phone);
-      formData.append("email", menuBookFormData.email);
-      formData.append("link", menuBookFormData.link);
-      formData.append("password", menuBookFormData.password || "");
-       formData.append("bgDesign", bgDesign || "");
+     setActiveTab(slug, "Backdrop Designs");
+    // setServicesDataLoading(true);
+    // try {
+    //   const formData = new FormData();
+    //   formData.append("restaurantName", menuBookFormData.restaurantName);
+    //   formData.append("phone", menuBookFormData.phone);
+    //   formData.append("email", menuBookFormData.email);
+    //   formData.append("link", menuBookFormData.link);
+    //   formData.append("password", menuBookFormData.password || "");
+    //    formData.append("bgDesign", bgDesign || "");
 
-      menuBookFormData.menuItems.forEach((item) => {
-        formData.append("images", item.file);
-      });
+    //   menuBookFormData.menuItems.forEach((item) => {
+    //     formData.append("images", item.file);
+    //   });
 
-      const res = await axios.post("/api/services/menuCards", formData);
+    //   const res = await axios.post("/api/services/menuCards", formData);
 
-      if (res.data.success) {
-        dispatch(setMenuCardServices(res.data.menuCardData));
-        toast.success(res.data.message);
-        setActiveTab(slug, "QR Code");
+    //   if (res.data.success) {
+    //     dispatch(setMenuCardServices(res.data.menuCardData));
+    //     toast.success(res.data.message);
+    //     setActiveTab(slug, "QR Code");
 
-        setMenuBookFormData({
-          restaurantName: "",
-          menuItems: [],
-          phone: "",
-          email: "",
-          link: "",
-          password: "",
-        });
-        setTotalSizeMB(0);
-        if (fileInputRef.current) fileInputRef.current.value = "";
-      } else {
-        toast.error(res.data.message || "Submission failed");
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error(err?.response?.data?.error || "Something went wrong!");
-    } finally {
-      setServicesDataLoading(false);
-    }
+    //     setMenuBookFormData({
+    //       restaurantName: "",
+    //       menuItems: [],
+    //       phone: "",
+    //       email: "",
+    //       link: "",
+    //       password: "",
+    //     });
+    //     setTotalSizeMB(0);
+    //     if (fileInputRef.current) fileInputRef.current.value = "";
+    //   } else {
+    //     toast.error(res.data.message || "Submission failed");
+    //   }
+    // } catch (err) {
+    //   console.error(err);
+    //   toast.error(err?.response?.data?.error || "Something went wrong!");
+    // } finally {
+    //   setServicesDataLoading(false);
+    // }
   };
 
   return (
@@ -170,7 +175,7 @@ const MenuBookContent = () => {
 
       <form>
         <div className="max-w-xl mx-auto p-6 space-y-6 bg-white rounded">
-          <h2 className="text-2xl font-bold text-[#008080]">Create QR Menu</h2>
+          {/* <h2 className="text-2xl font-bold text-[#008080]">Create QR Menu</h2> */}
 
  <label className="font-medium">Restaurant Name:</label>
           <input
@@ -301,13 +306,15 @@ const MenuBookContent = () => {
 
           <NFCModal />
 
+<div className="flex justify-center items-center">
           <button
             type="button"
             onClick={handleInitialSubmit}
-            className="w-full cursor-pointer bg-[#008080] text-white py-2 rounded hover:bg-[#006666] transition disabled:opacity-50"
+            className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg"
           >
-            Submit
+            Next →
           </button>
+          </div>
         </div>
       </form>
 
@@ -385,7 +392,7 @@ const MenuBookContent = () => {
                   handleSubmit();
                 }}
               >
-                Confirm & Submit
+                Continue
               </button>
             </div>
           </div>
