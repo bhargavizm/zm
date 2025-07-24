@@ -81,7 +81,7 @@ const VehicleContent = () => {
     e.preventDefault();
     
     if (!validateForm()) {
-      toast.error("Please fix the errors in the form");
+      toast.error("Please enter the necessary form details.");
       return;
     }
     
