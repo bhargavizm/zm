@@ -15,6 +15,8 @@ import {
 import DownloadButton from "./downloadButton";
 import { toPng } from "html-to-image";
 import toast from "react-hot-toast";
+import useServicesContext from "@/components/hooks/useServiceContext";
+import useSubmitForm from "../servicesData/useSubmitForm";
 
 // Base64 conversion helper
 const convertToBase64 = async (url) => {
@@ -31,7 +33,10 @@ const convertToBase64 = async (url) => {
 const PreviewPanel = () => {
   const previewRef = useRef(null);
 
+  const {activeService,menuBookFormData,setMenuBookFormData,smsFormData, setSmsFormData} = useServicesContext()
+
   const {
+    bgDesign,setBgDesign,
     foregroundColorMode,
     foregroundColor,
     foregroundGradientStart,
@@ -196,11 +201,37 @@ const PreviewPanel = () => {
         height: containerHeight,
       };
 
+     const formDataState = {
+  "menu-cards": menuBookFormData,
+  sms:smsFormData
+}[activeService];
+
+ const setFormDataState = {
+    "menu-cards": setMenuBookFormData,
+    sms:setSmsFormData
+    // "gallery": setGalleryFormData,
+    // ...
+  }[activeService];
+
+ const submitForm = useSubmitForm(
+    activeService,
+    formDataState,
+    bgDesign,
+    setFormDataState,
+    setBgDesign
+  );
  const handleDownload = async () => {
+  console.log(activeService)
   if (!previewRef.current) return;
 
   try {
-    // Desired export size (you can adjust height proportionally)
+     const isSubmitted = await submitForm();
+
+  if (!isSubmitted) {
+    toast.error("Submission failed. ");
+    return;
+  }
+    //Desired export size (you can adjust height proportionally)
     const exportWidth = 1024;
     const exportHeight = Math.round(
       (previewRef.current.offsetHeight / previewRef.current.offsetWidth) * exportWidth

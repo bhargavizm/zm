@@ -90,10 +90,13 @@ export async function POST(req) {
 
     return new Response(JSON.stringify({ success: true, data: newDoc }), {
       status: 201,
-      headers: { "Content-Type": "multipart/form-data" },
+      // headers: { "Content-Type": "multipart/form-data" },
     });
   } catch (err) {
-    console.error("Business Shop POST Error:", err);
-    return new Response("Internal Server Error", { status: 500 });
+   console.error("Upload Error:", err);
+    return new Response(
+      JSON.stringify({ success: false, error: err.message }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
+    );
   }
 }
