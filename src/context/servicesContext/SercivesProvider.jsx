@@ -1,8 +1,9 @@
 // src/components/ServicesProvider.jsx
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ServicesContext } from "./ServicesContext";
+import { usePathname } from "next/navigation";
 
 const ServicesProvider = ({ children }) => {
   // --- Initial State Definitions for all forms ---
@@ -11,7 +12,16 @@ const ServicesProvider = ({ children }) => {
   // to prevent re-creation on every render, but for clarity, defining them here
   // is fine for now.
 
-  const [servicesDataLoading, setServicesDataLoading] = useState(false)
+  const [servicesDataLoading, setServicesDataLoading] = useState(false);
+  const pathname = usePathname();
+  const [activeService, setActiveService] = useState(null);
+
+  useEffect(() => {
+    if (pathname.includes("/services/")) {
+      const serviceName = pathname.split("/services/")[1]?.split("/")[0];
+      setActiveService(serviceName); // ✅ auto-set based on URL
+    }
+  }, [pathname]);
 
   const initialBusinessShopFormData = {
     shopName: "",
@@ -97,9 +107,7 @@ const ServicesProvider = ({ children }) => {
     password: "",
   };
 
-  const initialWifiFormData = [
-    { ssid: "", password: "", security: "WPA" },
-  ];
+  const initialWifiFormData = [{ ssid: "", password: "", security: "WPA" }];
 
   const initialEventsFormData = {
     organizer: "",
@@ -129,48 +137,44 @@ const ServicesProvider = ({ children }) => {
   const initialTextMessageForm = {
     sender: "",
     message: "",
-    password: '',
+    password: "",
   };
-
 
   // Menu Book (Original structure)
   // Inside your ServiceContextProvider
-const [menuBookFormData, setMenuBookFormData] = useState({
-  restaurantName: '',
-  menuItems: [], // array of { image: "blob-url" }
-  phone: '',
-  email: '',
-  link: '',
-  password:'',
-  bgDesign:''
-});
+  const [menuBookFormData, setMenuBookFormData] = useState({
+    restaurantName: "",
+    menuItems: [], // array of { image: "blob-url" }
+    phone: "",
+    email: "",
+    link: "",
+    password: "",
+    bgDesign: "",
+  });
 
-const [propertyDetails,setPropertyDetails] = useState({
-
-      basicInfo: {
-        propertyName: "",
-        propertyType: "",
-        ownerName: "",
-        contactNumber: "",
-        alternateNumber: "",
-        propertyDescription: "",
-      },
-      addressInfo: {
-        address: "",
-        mapLink: "",
-      },
-      pricingInfo: {
-        price: "",
-        area: "",
-        amenities: "",
-      },
-      images: {
-        galleryImages: [],
-      },
-      password: "",
-    
-})
-
+  const [propertyDetails, setPropertyDetails] = useState({
+    basicInfo: {
+      propertyName: "",
+      propertyType: "",
+      ownerName: "",
+      contactNumber: "",
+      alternateNumber: "",
+      propertyDescription: "",
+    },
+    addressInfo: {
+      address: "",
+      mapLink: "",
+    },
+    pricingInfo: {
+      price: "",
+      area: "",
+      amenities: "",
+    },
+    images: {
+      galleryImages: [],
+    },
+    password: "",
+  });
 
   const initialPetIDFormData = {
     tagTitle: "",
@@ -196,8 +200,12 @@ const [propertyDetails,setPropertyDetails] = useState({
       images: [],
       visible: true,
     },
-    emergencyContacts: [{ name: "", relationship: "", phone: "", visible: true }],
-    additionalInfo: [{ type: "", label: "", value: "", visible: true, placeholder: "" }],
+    emergencyContacts: [
+      { name: "", relationship: "", phone: "", visible: true },
+    ],
+    additionalInfo: [
+      { type: "", label: "", value: "", visible: true, placeholder: "" },
+    ],
   };
 
   const initialDynamicForms = {
@@ -217,7 +225,7 @@ const [propertyDetails,setPropertyDetails] = useState({
         emergencyContact: "",
         contactPhone: "",
         preferredHospital: "",
-        location: ""
+        location: "",
       },
       additional: {
         familyDoctorName: "",
@@ -228,15 +236,15 @@ const [propertyDetails,setPropertyDetails] = useState({
         medicalReports: [],
         prescription: [],
         insuranceImage: [],
-        medicalReports:[],
+        medicalReports: [],
         prescription: [],
         insuranceImage: [],
         preferredHospital: "",
-        location: ""
+        location: "",
       },
       password: "",
     },
-   
+
     multiUrl: {
       socialLinks: {
         youtube: "",
@@ -280,10 +288,10 @@ const [propertyDetails,setPropertyDetails] = useState({
         description: "",
         establishedDate: "",
         shopTimings: "",
-        discount:"",
+        discount: "",
       },
       contact: {
-        owner:"",
+        owner: "",
         phone: "",
         altPhone: "",
         email: "",
@@ -302,14 +310,14 @@ const [propertyDetails,setPropertyDetails] = useState({
       selectedTemplate: "none",
       template1Data: {
         title: "Opening Hours",
-       
-        day1:"MONDAY , 10AM - 10PM",
-        day2:"TUESDAY , 10AM - 10PM",
-        day3:"WEDNESDAY , 10AM - 10PM",
-        day4:"THURSDAY , 10AM - 10PM",
-        day5:"FRIDAY , 10AM - 10PM",
-        day6:"SATURDAY , 10AM - 10PM",
-        day7:"SUNDAY , 10AM - 10PM",
+
+        day1: "MONDAY , 10AM - 10PM",
+        day2: "TUESDAY , 10AM - 10PM",
+        day3: "WEDNESDAY , 10AM - 10PM",
+        day4: "THURSDAY , 10AM - 10PM",
+        day5: "FRIDAY , 10AM - 10PM",
+        day6: "SATURDAY , 10AM - 10PM",
+        day7: "SUNDAY , 10AM - 10PM",
         aboutUsLink: "about us",
         siteLink: "@reallygreatsite",
       },
@@ -327,12 +335,10 @@ const [propertyDetails,setPropertyDetails] = useState({
         siteLink: "@GoldGlam.com",
         title: "OUR STORY",
         description: "Experience the best at our shop!",
-        day:"MONDAY - SUNDAY",
-        timings:"10AM - 10PM",
-        footerText:"OPEN ALL WEEK | TRADITION MEETS ELEGANCE",
+        day: "MONDAY - SUNDAY",
+        timings: "10AM - 10PM",
+        footerText: "OPEN ALL WEEK | TRADITION MEETS ELEGANCE",
         addressLine1: "123 Anywhere St., Any City, ST 12345",
-        
-        
       },
       template4Data: {
         logoText: "HANVOLK",
@@ -344,7 +350,7 @@ const [propertyDetails,setPropertyDetails] = useState({
         addressLine2: "123 Anywhere St., Any City",
         website: "www.reallygreatsite.com",
       },
-      
+
       password: "",
     },
     discountCoupon: {
@@ -401,9 +407,9 @@ const [propertyDetails,setPropertyDetails] = useState({
         licenseBack: null,
         rcFront: null,
         rcBack: null,
-        pollution:null,
+        pollution: null,
         galleryImages: [],
-        insurance:[]
+        insurance: [],
       },
       security: {
         password: "",
@@ -412,25 +418,27 @@ const [propertyDetails,setPropertyDetails] = useState({
     vehicleTemplate: {
       selectedTemplate: "none",
       templateV1Data: {
-        bgimage: "/images/background/bikebg.png"
+        bgimage: "/images/background/bikebg.png",
       },
       templateV2Data: {
-        bgimage: "/images/background/carbg.png"
+        bgimage: "/images/background/carbg.png",
       },
       templateV3Data: {
-        bgimage: "/images/background/lorrybg.png"
+        bgimage: "/images/background/lorrybg.png",
       },
       templateV4Data: {
-        bgimage: "/images/background/autobg.png"
-      }
+        bgimage: "/images/background/autobg.png",
+      },
     },
   };
 
   // State for all forms
-  const [businessShopFormData, setBusinessShopFormData] = useState(initialBusinessShopFormData);
+  const [businessShopFormData, setBusinessShopFormData] = useState(
+    initialBusinessShopFormData
+  );
   const [businessForm, setBusinessForm] = useState(initialBusinessForm);
   const [profileImage, setProfileImage] = useState(null); // File state for BusinessForm
-  const [brandLogo, setBrandLogo] = useState(null);     // File state for BusinessForm
+  const [brandLogo, setBrandLogo] = useState(null); // File state for BusinessForm
 
   const [productData, setProductData] = useState(initialProductData);
   const [productLogo, setProductLogo] = useState(null); // File state for ProductData
@@ -445,7 +453,9 @@ const [propertyDetails,setPropertyDetails] = useState({
   const [wifiFormData, setWifiFormData] = useState(initialWifiFormData);
   const [eventsFormData, setEventsFormData] = useState(initialEventsFormData);
   const [smsFormData, setSmsFormData] = useState(initialSmsFormData);
-  const [textMessageForm, setTextMessageForm] = useState(initialTextMessageForm);
+  const [textMessageForm, setTextMessageForm] = useState(
+    initialTextMessageForm
+  );
   const [petIDFormData, setPetIDFormData] = useState(initialPetIDFormData);
   const [dynamicForms, setDynamicForms] = useState(initialDynamicForms); // For medicalAlert, propertyDetails, etc.
 
@@ -457,7 +467,12 @@ const [propertyDetails,setPropertyDetails] = useState({
   const updateDynamicForm = (formKey, sectionKey, fieldKey, value) => {
     setDynamicForms((prev) => {
       // If a sectionKey and fieldKey are provided, update a specific nested field
-      if (sectionKey !== null && sectionKey !== undefined && fieldKey !== null && fieldKey !== undefined) {
+      if (
+        sectionKey !== null &&
+        sectionKey !== undefined &&
+        fieldKey !== null &&
+        fieldKey !== undefined
+      ) {
         return {
           ...prev,
           [formKey]: {
@@ -497,34 +512,34 @@ const [propertyDetails,setPropertyDetails] = useState({
       // Get the initial state for the given formKey
       let initialStateToApply;
       switch (formKey) {
-        case 'medicalAlert':
+        case "medicalAlert":
           initialStateToApply = initialDynamicForms.medicalAlert;
           break;
-        case 'propertyDetails':
+        case "propertyDetails":
           initialStateToApply = initialDynamicForms.propertyDetails;
           break;
-        case 'multiUrl':
+        case "multiUrl":
           initialStateToApply = initialDynamicForms.multiUrl;
           break;
-        case 'businessShop':
+        case "businessShop":
           initialStateToApply = initialDynamicForms.businessShop;
           break;
-        case 'businessInfo':
+        case "businessInfo":
           initialStateToApply = initialDynamicForms.businessInfo;
           break;
-        case 'shopTimingsTemplate':
+        case "shopTimingsTemplate":
           initialStateToApply = initialDynamicForms.shopTimingsTemplate;
           break;
-        case 'discountCoupon':
+        case "discountCoupon":
           initialStateToApply = initialDynamicForms.discountCoupon;
           break;
-        case 'kidsSafety':
+        case "kidsSafety":
           initialStateToApply = initialDynamicForms.kidsSafety;
           break;
-        case 'vehicle':
+        case "vehicle":
           initialStateToApply = initialDynamicForms.vehicle;
           break;
-        case 'vehicleTemplate':
+        case "vehicleTemplate":
           initialStateToApply = initialDynamicForms.vehicleTemplate;
           break;
         // Add cases for other dynamic forms as needed
@@ -541,7 +556,12 @@ const [propertyDetails,setPropertyDetails] = useState({
   };
 
   // Add/Remove template fields (these seem fine for their specific use cases)
-  const addTemplateField = (formKey, sectionKey, fieldKey, defaultValue = "") => {
+  const addTemplateField = (
+    formKey,
+    sectionKey,
+    fieldKey,
+    defaultValue = ""
+  ) => {
     setDynamicForms((prev) => ({
       ...prev,
       [formKey]: {
@@ -570,39 +590,66 @@ const [propertyDetails,setPropertyDetails] = useState({
     <ServicesContext.Provider
       value={{
         // Static forms and their setters
-        businessShopFormData, setBusinessShopFormData,
-        businessForm, setBusinessForm,
-        profileImage, setProfileImage,
-        brandLogo, setBrandLogo,
-        productData, setProductData,
-        productImage, setProductImage,
-        productLogo, setProductLogo,
-        items, setItems,
-        audioFormData, setAudioFormData,
-        videoFormData, setVideoFormData,
-        pdfFormData, setPdfFormData,
-        imagesFormData, setImagesFormData,
-        resumeFormData, setResumeFormData,
-        wifiFormData, setWifiFormData,
-        eventsFormData, setEventsFormData,
-        smsFormData, setSmsFormData,
-        textMessageForm, setTextMessageForm,
-        menuBookFormData, setMenuBookFormData,
-        petIDFormData, setPetIDFormData,
+        businessShopFormData,
+        setBusinessShopFormData,
+        businessForm,
+        setBusinessForm,
+        profileImage,
+        setProfileImage,
+        brandLogo,
+        setBrandLogo,
+        productData,
+        setProductData,
+        productImage,
+        setProductImage,
+        productLogo,
+        setProductLogo,
+        items,
+        setItems,
+        audioFormData,
+        setAudioFormData,
+        videoFormData,
+        setVideoFormData,
+        pdfFormData,
+        setPdfFormData,
+        imagesFormData,
+        setImagesFormData,
+        resumeFormData,
+        setResumeFormData,
+        wifiFormData,
+        setWifiFormData,
+        eventsFormData,
+        setEventsFormData,
+        smsFormData,
+        setSmsFormData,
+        textMessageForm,
+        setTextMessageForm,
+        menuBookFormData,
+        setMenuBookFormData,
+        petIDFormData,
+        setPetIDFormData,
 
-        propertyDetails,setPropertyDetails,
+        propertyDetails,
+        setPropertyDetails,
 
         // Dynamic forms and their handlers
-        dynamicForms,setDynamicForms,
+        dynamicForms,
+        setDynamicForms,
         updateDynamicForm,
         resetDynamicForm, // Expose the new reset function
         addTemplateField,
         removeTemplateField,
 
         // UI Toggles
-        showPassword, setShowPassword,
-        isAnimating, setIsAnimating,
-        servicesDataLoading, setServicesDataLoading
+        showPassword,
+        setShowPassword,
+        isAnimating,
+        setIsAnimating,
+        servicesDataLoading,
+        setServicesDataLoading,
+        activeService,
+        setActiveService,
+        pathname,
       }}
     >
       {children}

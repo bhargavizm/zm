@@ -163,7 +163,7 @@ export async function POST(request) {
       JSON.stringify({
         success: true,
         message: "SMS message saved successfully!",
-        fileData: newSms,qrUrl
+        data: newSms,qrUrl
       }),
       {
         status: 201,
