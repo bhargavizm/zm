@@ -122,6 +122,7 @@ export async function POST(request) {
       messageType,
       textMessage,
       password = "",
+      qrPassword = "",
       location = {},
       renewalDate = null,
       status = "active",
@@ -144,16 +145,19 @@ export async function POST(request) {
       messageType,
       textMessage,
       password: hashedPassword,
-      scanCount: 0,
-      location: {
-        latitude: location.latitude ?? null,
-        longitude: location.longitude ?? null,
-        address: location.address ?? "",
-      },
-      renewalDate,
-      status,
-      resetPasswordToken: null,
-      resetPasswordExpires: null,
+        qrCodeDetails: {
+    qrCodeImage: body.qrCodeImage ?? "",
+
+    location: {
+      latitude: location.latitude ?? null,
+      longitude: location.longitude ?? null,
+      address: location.address ?? "",
+    },
+    renewalDate,
+    status,
+    resetPasswordToken: null,
+    resetPasswordExpires: null,
+  },
     });
 
     await newSms.save();

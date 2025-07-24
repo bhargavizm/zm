@@ -1,6 +1,7 @@
 // models/services/resumeSchema.js
 
 import mongoose from "mongoose"; // ✅ REQUIRED
+import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
 
 
 const resumeSchema = new mongoose.Schema(
@@ -25,6 +26,7 @@ const resumeSchema = new mongoose.Schema(
     password: {
       type: String,
     },
+    qrCodeDetails:qrCodeServicesSchema
   },
   {
     timestamps: true,
