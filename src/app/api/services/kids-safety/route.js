@@ -5,145 +5,118 @@ import KidsSafetyModal from '@/models/services/kidSafetySchema';
 import { authUser } from '@/middlewares/authMiddleware';
 import streamifier from 'streamifier';
 
-// Configure Cloudinary
 cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-    secure: true,
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  secure: true,
 });
 
-// Upload helper
 const uploadImageToCloudinary = (file) => {
-    return new Promise(async (resolve, reject) => {
-        const buffer = Buffer.from(await file.arrayBuffer()); 
-
-        const stream = cloudinary.uploader.upload_stream(
-            {
-                folder: 'kids-safety',
-                resource_type: 'image',
-            },
-            (error, result) => {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve({
-                        url: result.secure_url,
-                        name: file.name,
-                    });
-                }
-            }
-        );
-
-        streamifier.createReadStream(buffer).pipe(stream);
-    });
+  return new Promise(async (resolve, reject) => {
+    const buffer = Buffer.from(await file.arrayBuffer());
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        folder: 'kids-safety',
+        resource_type: 'image',
+      },
+      (error, result) => {
+        if (error) reject(error);
+        else resolve({ url: result.secure_url, name: file.name });
+      }
+    );
+    streamifier.createReadStream(buffer).pipe(stream);
+  });
 };
 
-export async function POST(req) {
-    try {
-        const auth = await authUser(req);
-        if (auth.status !== 200) {
-            return NextResponse.json(auth.json, { status: auth.status });
-        }
-
-        await connectDB();
-        const user = auth.user;
-        const formData = await req.formData();
-        const files = formData.getAll('kidsImage');
-
-        const data = {};
-
-        // Extract all fields except images
-        for (const [key, value] of formData.entries()) {
-            if (key !== 'kidsImage') {
-                data[key] = value;
-            }
-        }
-
-        // Handle parsing of JSON/Array fields
-        if (data.altContact) {
-            try {
-                const parsed = JSON.parse(data.altContact);
-                data.altContact = Array.isArray(parsed) ? parsed : [parsed];
-            } catch {
-                data.altContact = [data.altContact];
-            }
-        }
-
-        if (data.dob) {
-            data.dob = new Date(data.dob);
-        }
-
-        // Validate and Upload Images
-        const maxFileSize = 2 * 1024 * 1024;
-        const maxTotalSize = 30 * 1024 * 1024;
-
-        let totalSize = 0;
-        const validImages = [];
-
-        for (const file of files) {
-            if (!file.type.startsWith('image/')) {
-                return NextResponse.json(
-                    { message: `Invalid file type: ${file.name}` },
-                    { status: 400 }
-                );
-            }
-
-            if (file.size > maxFileSize) {
-                return NextResponse.json(
-                    { message: `${file.name} exceeds 2MB limit.` },
-                    { status: 400 }
-                );
-            }
-
-            totalSize += file.size;
-            if (totalSize > maxTotalSize) {
-                return NextResponse.json(
-                    { message: `Total upload size exceeds 30MB.` },
-                    { status: 400 }
-                );
-            }
-
-            validImages.push(file);
-        }
-
-        const uploadedImages = [];
-        for (const file of validImages) {
-            try {
-                const uploaded = await uploadImageToCloudinary(file);
-                uploadedImages.push(uploaded);
-            } catch (err) {
-                return NextResponse.json(
-                    { message: `Failed to upload ${file.name}`, error: err.message },
-                    { status: 500 }
-                );
-            }
-        }
-
-        data.kidsImage = uploadedImages;
-        data.user = {
-            id: user._id,
-            name: user.name || user.email,
-        };
-
-        // Remove undefined or empty fields
-        for (const key in data) {
-            if (!data[key] || data[key] === 'undefined') {
-                delete data[key];
-            }
-        }
-
-        const existing = await KidsSafetyModal.findOne({ 'user.id': user._id }).sort({ createdAt: -1 });
-        const saved = existing
-            ? await KidsSafetyModal.findByIdAndUpdate(existing._id, { $set: data }, { new: true, runValidators: true })
-            : await KidsSafetyModal.create(data);
-
-        const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/kidsSafety/${saved._id}`;
-        console.log("Saved ID:", saved._id);
-
-        return NextResponse.json({ success: true, data: saved }, { status: 200 },qrUrl);
-    } catch (err) {
-        console.error('POST Error:', err);
-        return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+// Helper to build nested object from dot notation keys
+function setNestedValue(obj, path, value) {
+  const keys = path.split('.');
+  let current = obj;
+  keys.forEach((key, index) => {
+    if (index === keys.length - 1) {
+      current[key] = value;
+    } else {
+      if (!current[key]) current[key] = {};
+      current = current[key];
     }
+  });
+}
+
+export async function POST(req) {
+  try {
+    const auth = await authUser(req);
+    if (auth.status !== 200) {
+      return NextResponse.json(auth.json, { status: auth.status });
+    }
+
+    await connectDB();
+    const user = auth.user;
+    const formData = await req.formData();
+    const files = formData.getAll('kidsImage');
+    const data = {};
+
+    // Convert all dot-notation form keys into nested structure
+    for (const [key, value] of formData.entries()) {
+      if (key !== 'kidsImage') {
+        setNestedValue(data, key, value);
+      }
+    }
+
+    // Parse types
+    if (data.dob) data.dob = new Date(data.dob);
+    if (data.altContact) {
+      try {
+        const parsed = JSON.parse(data.altContact);
+        data.altContact = Array.isArray(parsed) ? parsed : [parsed];
+      } catch {
+        data.altContact = [data.altContact];
+      }
+    }
+
+    if (data.qrCodeDetails?.renewalDate) {
+      data.qrCodeDetails.renewalDate = new Date(data.qrCodeDetails.renewalDate);
+    }
+
+    if (data.qrCodeDetails?.location) {
+      data.qrCodeDetails.location.latitude = parseFloat(data.qrCodeDetails.location.latitude || 0);
+      data.qrCodeDetails.location.longitude = parseFloat(data.qrCodeDetails.location.longitude || 0);
+    }
+
+    // Upload Images
+    const uploadedImages = [];
+    let totalSize = 0;
+    for (const file of files) {
+      if (!file.type.startsWith('image/')) continue;
+      totalSize += file.size;
+      if (totalSize > 30 * 1024 * 1024) {
+        return NextResponse.json({ message: `Upload size exceeds limit.` }, { status: 400 });
+      }
+      const uploaded = await uploadImageToCloudinary(file);
+      uploadedImages.push(uploaded);
+    }
+
+    data.kidsImage = uploadedImages;
+    data.user = {
+      id: user._id,
+      name: user.name || user.email,
+    };
+
+    // Remove undefined/null values
+    Object.entries(data).forEach(([key, value]) => {
+      if (value === undefined || value === null || value === 'undefined' || value === '') {
+        delete data[key];
+      }
+    });
+
+    // Save
+    const saved = await KidsSafetyModal.create(data);
+    const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/kidsSafety/${saved._id}`;
+
+    return NextResponse.json({ success: true, data: saved, qrUrl }, { status: 200 });
+
+  } catch (err) {
+    console.error('POST Error:', err);
+    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+  }
 }

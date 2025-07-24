@@ -40,31 +40,31 @@ const URLServices = ({ setIsModalOpen }) => {
       return;
     }
 
-    setServicesDataLoading(true);
-    try {
-      const res = await axios.post(`/api/services/${slug}`, formData);
+    // setServicesDataLoading(true);
+    // try {
+    //   const res = await axios.post(`/api/services/${slug}`, formData);
 
-      if (res.data.success) {
-        dispatch(setURLServices(res.data.URLServicesData));
-        toast.success(res.data.message || "Data submitted successfully");
-        setIsModalOpen(true);
-        setFormData({ url: "", password: "" });
-      } else {
-        toast.error(res.data.error || "Failed to submit data");
-      }
-    } catch (error) {
-      const errorMessage =
-        error?.response?.data?.error || "Something went wrong";
-      toast.error(errorMessage);
-      console.error("❌ Submit error:", errorMessage);
+    //   if (res.data.success) {
+    //     dispatch(setURLServices(res.data.URLServicesData));
+    //     toast.success(res.data.message || "Data submitted successfully");
+    //     setIsModalOpen(true);
+    //     setFormData({ url: "", password: "" });
+    //   } else {
+    //     toast.error(res.data.error || "Failed to submit data");
+    //   }
+    // } catch (error) {
+    //   const errorMessage =
+    //     error?.response?.data?.error || "Something went wrong";
+    //   toast.error(errorMessage);
+    //   console.error("❌ Submit error:", errorMessage);
 
-      if (error.response?.status === 401) {
-        window.location.href = "/login"; // ✅ Auto logout on expiry
-        return;
-      }
-    } finally {
-      setServicesDataLoading(false); // ✅ End loader
-    }
+    //   if (error.response?.status === 401) {
+    //     window.location.href = "/login"; // ✅ Auto logout on expiry
+    //     return;
+    //   }
+    // } finally {
+    //   setServicesDataLoading(false); // ✅ End loader
+    // }
   };
   return (
     <>
@@ -180,7 +180,7 @@ const URLServices = ({ setIsModalOpen }) => {
           )}
         </div>
 
-        <NFCModal />
+        {/* <NFCModal /> */}
 
         <div
           // onClick={handleClick}
@@ -200,7 +200,7 @@ const URLServices = ({ setIsModalOpen }) => {
             }}
             className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center transition-effects gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
           >
-            submit
+            Next
           </button>
         </div>
       </form>

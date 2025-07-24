@@ -1,12 +1,18 @@
 import mongoose from "mongoose";
+import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
 
 const businessShopSchema = new mongoose.Schema({
+  user: {
+    id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    name: String,
+  },
   businessInfo: {
     general: {
-      businessName: String,
+      businessName: { type: String },
       businessType: String,
       description: String,
       shopTimings: String,
+      discount: String,
     },
     contact: {
       phone: String,
@@ -21,6 +27,9 @@ const businessShopSchema = new mongoose.Schema({
       logo: String,
       galleryImages: [String],
     },
+
+    qrCodeDetails: qrCodeServicesSchema
+
   },
   shopTimingsTemplate: {
     selectedTemplate: String,
@@ -29,6 +38,9 @@ const businessShopSchema = new mongoose.Schema({
     template3Data: mongoose.Schema.Types.Mixed,
     template4Data: mongoose.Schema.Types.Mixed,
   },
+  qrCodeDetails: qrCodeServicesSchema
+}, {
+  timestamps: true,
 });
 
 export default mongoose.models.BusinessShop ||

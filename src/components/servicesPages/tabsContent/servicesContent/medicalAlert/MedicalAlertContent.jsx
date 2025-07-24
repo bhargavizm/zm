@@ -229,7 +229,7 @@ const MedicalAlertContent = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) setShowConfirmModal(true);
-    else toast.error("Please fix validation errors.");
+    else toast.error("Please fill the necessary fields.");
   };
 
   const fetchCurrentLocation = async () => {
