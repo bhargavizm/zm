@@ -7,6 +7,7 @@ import VehicleModel from "@/models/services/vehicleSchema";
 import { v2 as cloudinary } from 'cloudinary';
 import { Readable } from 'stream';
 import bcrypt from "bcryptjs";
+import { getShortenedUrl } from "@/utils/shortenUrl";
 
 // Configure Cloudinary
 cloudinary.config({
@@ -222,11 +223,14 @@ if (fields.password) {
     // Save to database
     const newVehicle = await VehicleModel.create(vehicleData);
 
+    const qrUrl = await getShortenedUrl(`/vehicle/${newVehicle._id}`);
+
     return new Response(
       JSON.stringify({ 
         success: true,
         message: 'Vehicle created successfully',
-        data: newVehicle
+        data: newVehicle,
+        qrUrl: qrUrl
       }),
       { 
         status: 201, 
