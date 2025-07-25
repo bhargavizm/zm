@@ -122,6 +122,7 @@ export async function POST(request) {
       genderName,
       messageType,
       textMessage,
+       bgDesign,
       password = "",
       qrPassword = "",
       location = {},
@@ -145,6 +146,7 @@ export async function POST(request) {
       genderName,
       messageType,
       textMessage,
+       bgDesign,
       password: hashedPassword,
         qrCodeDetails: {
     qrCodeImage: body.qrCodeImage ?? "",

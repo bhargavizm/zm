@@ -1,4 +1,5 @@
-import AudioServiceModel from "@/models/services/audioSchema";
+
+import { AudioServiceModel } from "@/models/services/encryptedServicesSchema";
 import { HandleEncryptedServices } from "../common/encryptedServicesRoute";
 
 
@@ -21,6 +22,7 @@ export const audioMimeTypes = [
 
 export async function POST(request) {
   return HandleEncryptedServices({
+    serviceName:"audios",
     request,
     model: AudioServiceModel,
     useCloudinary: false,
