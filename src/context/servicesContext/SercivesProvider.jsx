@@ -253,7 +253,6 @@ const ServicesProvider = ({ children }) => {
     },
     password: "",
   });
-
   const initialPetIDFormData = {
     tagTitle: "",
     mainImage: null,
