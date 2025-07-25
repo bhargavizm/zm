@@ -1,14 +1,14 @@
+// app/layout.jsx
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 import Footer from "@/components/footer/footer";
 import Navbar from "@/components/navbar/navbar";
 import ScrollToTop from "@/components/scrollToTop/scrollToTop";
-//import OfferScrolling from "@/components/scrolling/offerScrolling";
 import { LanguageProvider } from "@/context/languageContext/LanguageContext";
 import DesignProvider from "@/context/qrCodeDesignContext/DesignProvider";
 import ServicesProvider from "@/context/servicesContext/SercivesProvider";
 import PremiumProvider from "@/context/premiumContext/PremiumProvider";
 import ReduxProvider from "@/redux/reduxProvider/reduxProvider";
-import { Toaster } from "react-hot-toast";
 
 export const metadata = {
   title: "Zm QR Code Services",
@@ -19,22 +19,25 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <Toaster position="top-center" reverseOrder={false} toastOptions={{ duration: 8000,  style: {
-      fontSize: '25px',
-      padding: '12px 16px',
-      width:'100%'
-
-    }, }} />
-        <ReduxProvider> {/* ✅ Wrap entire app with Redux */}
+        <Toaster
+          position="top-center"
+          reverseOrder={false}
+          toastOptions={{
+            duration: 8000,
+            style: {
+              fontSize: "25px",
+              padding: "12px 16px",
+              width: "100%",
+            },
+          }}
+        />
+        <ReduxProvider>
           <LanguageProvider>
             <PremiumProvider>
               <ServicesProvider>
                 <DesignProvider>
                   <ScrollToTop />
-                  <Navbar />
-                  {/* <OfferScrolling />  */}
-                  <main>{children}</main>
-                  <Footer />
+                  {children}
                 </DesignProvider>
               </ServicesProvider>
             </PremiumProvider>
