@@ -1,9 +1,11 @@
-import PDFServiceModel from "@/models/services/pdfSchema";
+
+import { PDFServiceModel } from "@/models/services/encryptedServicesSchema";
 import { HandleEncryptedServices } from "../common/encryptedServicesRoute";
 
 
 export async function POST(request) {
   return HandleEncryptedServices({
+    serviceName:"pdf",
     request,
     model: PDFServiceModel,
     useCloudinary: false,

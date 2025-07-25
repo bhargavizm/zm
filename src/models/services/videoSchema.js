@@ -4,9 +4,14 @@ import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
 
 
 const videoSchema = new mongoose.Schema({
+   user: {
+    id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    name: String,
+  },
   title: String,
   description: String,
   password: String,
+  bgDesign: String,
 
   videos: [
       {
@@ -15,10 +20,7 @@ const videoSchema = new mongoose.Schema({
       },
     ],
 
-  user: {
-    id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    name: String,
-  },
+ 
   qrCodeDetails: qrCodeServicesSchema
 }, { timestamps: true });
 

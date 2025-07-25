@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiUser, FiMessageSquare, FiCalendar } from 'react-icons/fi';
 
 const SmsPreview = ({ data }) => {
@@ -7,14 +7,44 @@ const SmsPreview = ({ data }) => {
   const isVideo = defaultBg?.endsWith(".mp4") || defaultBg?.endsWith(".webm");
   const isImage = defaultBg && !isVideo;
 
+   const [bgDesign, setBgDesign] = useState(defaultBg);
+
+   useEffect(() => {
+    // setIsLoading(true);
+  
+    if (data?.bgDesign) {
+      setBgDesign(data.bgDesign);
+    } else {
+      setBgDesign(defaultBg);
+    }
+  }, [data]);
+
   return (
     <div className='flex justify-center'>
       <div className="rounded-[40px] border-[14px] border-gray-800 shadow-xl w-[350px] h-[600px] overflow-hidden flex flex-col relative">
         
-        {isImage && (
+        {isImage ? (
+          <img
+            src={bgDesign}
+            alt="Background"
+            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
+            className="absolute top-0 left-0 w-full h-full object-cover z-0"
+          />
+        ) : isVideo ? (
+          <video
+            src={bgDesign}
+            autoPlay
+            loop
+            muted
+            playsInline
+            onLoadedData={() => setTimeout(() => setIsLoading(false), 300)}
+            className="absolute top-0 left-0 w-full h-full object-cover z-0"
+          />
+        ) : (
           <img
             src={defaultBg}
-            alt="Background"
+            alt="Default Background"
+            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
             className="absolute top-0 left-0 w-full h-full object-cover z-0"
           />
         )}
