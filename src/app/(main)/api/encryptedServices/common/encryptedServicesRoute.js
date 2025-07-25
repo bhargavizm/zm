@@ -1,6 +1,7 @@
 import { connectDB } from "@/lib/mongoDB";
 import { authUser } from "@/middlewares/authMiddleware";
 import { cloudinary } from "@/utils/cloudinary";
+import { getShortenedUrl } from "@/utils/shortenUrl";
 import bcrypt from "bcryptjs";
 
 export const config = {
@@ -28,12 +29,13 @@ function capitalize(str) {
 
 // ✅ Main Upload Handler
 export async function HandleEncryptedServices({
+  serviceName,
   request,
   model,
   folder = "",
   resourceType = null, // "image", "video", or null
   allowedMimeTypes = null,
-  mediaField = "files",
+  // mediaField = "files",
   useCloudinary = false,
 }) {
   try {
@@ -53,13 +55,14 @@ export async function HandleEncryptedServices({
     const formData = await request.formData();
     const title = formData.get("title");
     const description = formData.get("description");
+    const bgDesign = formData.get("bgDesign");
     const qrCodeImage = formData.get("qrCodeImage");
-const scanCount = formData.get("scanCount");
-const latitude = formData.get("latitude");
-const longitude = formData.get("longitude");
-const address = formData.get("address");
-const renewalDate = formData.get("renewalDate");
-const status = formData.get("status");
+    const scanCount = formData.get("scanCount");
+    const latitude = formData.get("latitude");
+    const longitude = formData.get("longitude");
+    const address = formData.get("address");
+    const renewalDate = formData.get("renewalDate");
+    const status = formData.get("status");
     let password = formData.get("password") || "";
 
     if (password) {
@@ -167,37 +170,37 @@ const status = formData.get("status");
         }
       );
     }
-const qrCodeDetails = {
-  qrCodeImage,
-  scanCount: scanCount ? Number(scanCount) : undefined,
-  location: {
-    latitude: latitude ? Number(latitude) : undefined,
-    longitude: longitude ? Number(longitude) : undefined,
-    address: address || "",
-  },
-  renewalDate: renewalDate ? new Date(renewalDate) : null,
-  status: status || "active",
-};
+    const qrCodeDetails = {
+      qrCodeImage,
+      scanCount: scanCount ? Number(scanCount) : undefined,
+      location: {
+        latitude: latitude ? Number(latitude) : undefined,
+        longitude: longitude ? Number(longitude) : undefined,
+        address: address || "",
+      },
+      renewalDate: renewalDate ? new Date(renewalDate) : null,
+      status: status || "active",
+    };
 
     // 📝 Step 4: Save to database
     const newDoc = await model.create({
       user: { id: user._id, name: user.name },
       title,
       description,
+      bgDesign,
       password,
-      [mediaField]: files,
-      qrCodeDetails
+      files,
+      qrCodeDetails,
     });
-
+    const qrUrl = await getShortenedUrl(`/${serviceName}/${newDoc._id}`);
     // ✅ Return success
     return new Response(
       JSON.stringify({
         success: true,
-        message: `${capitalize(
-          mediaField.replace("file", "")
-        )} service data submitted successfully`,
-        type: totalSize > planLimit ? "upgrade" : "normal",
+        message: `${serviceName} service data submitted successfully`,
+        // type: totalSize > planLimit ? "upgrade" : "normal",
         data: newDoc,
+        qrUrl,
       }),
       { status: 201 }
     );

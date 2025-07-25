@@ -132,15 +132,17 @@ const TextMessageContent = () => {
           </div>
         </div>
 
-        <NFCModal />
-
+        {/* <NFCModal /> */}
+<div className="flex justify-center items-center">
         <button
           type="submit"
           onClick={handleInitialSubmit}
-          className="mt-4 w-full bg-[#008080] text-white font-semibold py-2 rounded hover:bg-[#006666] transition"
+          className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg"
+
         >
-          Submit
+           Next → 
         </button>
+        </div>
       </div>
 
       {showConfirmModal && (
@@ -178,7 +180,7 @@ const TextMessageContent = () => {
                 onClick={handleConfirmedSubmit}
                 className="px-4 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700"
               >
-                Confirm & Submit
+                Continue
               </button>
             </div>
           </div>
