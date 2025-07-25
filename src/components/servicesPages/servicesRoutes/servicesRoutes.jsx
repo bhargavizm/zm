@@ -9,16 +9,16 @@ export const directToCustomize = [
 
 export    const componentMap = {
    audios: {
-    content: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/encryptedServices/audio/audioContent')),
-    preview: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/encryptedServices/audio/audioPreview')),
+    content: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/encryptedServices/audios/audioContent')),
+    preview: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/encryptedServices/audios/audioPreview')),
   },
    "pdf": {
     content: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/encryptedServices/pdf/pdfContent')),
     preview: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/encryptedServices/pdf/pdfPreview')),
   },
   videos: {
-    content: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/encryptedServices/video/videoContent')),
-    preview: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/encryptedServices/video/videoPreview')),
+    content: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/encryptedServices/videos/videoContent')),
+    preview: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/encryptedServices/videos/videoPreview')),
   },
     gallery: {
     content: dynamic(() => import('@/components/servicesPages/tabsContent/servicesContent/encryptedServices/gallery/galleryContent')),

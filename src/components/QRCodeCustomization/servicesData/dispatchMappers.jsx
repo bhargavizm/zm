@@ -1,16 +1,33 @@
-
 // ✅ add all slice actions
 
-
-import { setCardServices, setMenuCardServices, setSmsServices, setTextMessageServices } from "@/redux/slices/servicesSlice";
-
+import {
+  setCardServices,
+  setMenuCardServices,
+  setSmsServices,
+  setTextMessageServices,
+} from "@/redux/slices/servicesSlice";
+import { urlBasedServices } from "./formDataMappers";
+import { setURLServices } from "@/redux/slices/urlServicesSlice";
+import {
+  setAudioServices,
+  setGalleryServices,
+  setPDFServices,
+  setVideoServices,
+} from "@/redux/slices/encryptedServicesSlice";
 
 export const reduxDispatchMappers = {
- "menu-cards": setMenuCardServices,
- sms:setSmsServices,
+  "menu-cards": setMenuCardServices,
+  sms: setSmsServices,
 
-   "business-cards": setCardServices,
-    "v-cards": setCardServices,
-   "text-messages":setTextMessageServices
-
+  "business-cards": setCardServices,
+  "v-cards": setCardServices,
+  "text-messages": setTextMessageServices,
+  audios: setAudioServices,
+  pdf: setPDFServices,
+  gallery: setGalleryServices,
+  videos: setVideoServices,
 };
+
+urlBasedServices.forEach((service) => {
+  reduxDispatchMappers[service] = setURLServices;
+});

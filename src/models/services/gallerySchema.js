@@ -3,9 +3,15 @@ import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
 
 
 const GallerySchema = new mongoose.Schema({
+  user: {
+    id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    name: String,
+  },
   title: String,
   description: String,
   password: String,
+   bgDesign: String,
+    
  images: [
       {
         url: String,
@@ -13,10 +19,7 @@ const GallerySchema = new mongoose.Schema({
       },
     ],
 
-  user: {
-    id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    name: String,
-  },
+  
   qrCodeDetails: qrCodeServicesSchema
 }, { timestamps: true });
 

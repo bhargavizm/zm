@@ -8,16 +8,18 @@ const fileItemSchema = new mongoose.Schema({
 });
 
 const pdfSchema = new mongoose.Schema({
-  title: String,
-  description: String, 
-  password: String,
-
-  files: [fileItemSchema], // multiple file support
-
   user: {
     id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     name: String,
   },
+  title: String,
+  description: String, 
+  password: String,
+  bgDesign: String,
+
+  files: [fileItemSchema], // multiple file support
+
+  
   qrCodeDetails: qrCodeServicesSchema
 }, { timestamps: true });
 
