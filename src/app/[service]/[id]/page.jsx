@@ -88,6 +88,10 @@
 
 // export default Page;
 
+
+
+// app/[service]/[id]/layout.jsx
+
 import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
 import { connectDB } from "@/lib/mongoDB";
