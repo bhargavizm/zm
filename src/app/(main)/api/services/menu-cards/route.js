@@ -203,7 +203,7 @@ export async function POST(request) {
       const base64 = buffer.toString("base64");
       const dataUri = `data:${file.type};base64,${base64}`;
 
-      const uploaded = await cloudinary.uploader.upload(dataUri, {
+      const uploaded = await  cloudinary.uploader.upload(dataUri, {
         public_id: file.name.split(".")[0],
       });
 
