@@ -5,6 +5,8 @@ import {
   setCardServices,
   setMenuCardServices,
   setPetIdServices,
+  setPropertyServices,
+  setResumeServices,
   setMultiUrlServices,
   setSmsServices,
   setTextMessageServices,
@@ -21,7 +23,6 @@ import {
 export const reduxDispatchMappers = {
   "menu-cards": setMenuCardServices,
   sms: setSmsServices,
-
   "business-cards": setCardServices,
   "v-cards": setCardServices,
   "text-messages": setTextMessageServices,
@@ -31,7 +32,10 @@ export const reduxDispatchMappers = {
   videos: setVideoServices,
   "Pet-ID-tags": setPetIdServices,
   "business-shops": setBusinessShopServices,
+  resumes:setResumeServices,
+  "property-qr":setPropertyServices,
   "multi-urls":setMultiUrlServices,
+
 };
 
 urlBasedServices.forEach((service) => {

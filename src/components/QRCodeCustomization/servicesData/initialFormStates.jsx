@@ -128,6 +128,36 @@ const initialFormStates = {
       password: "",
     },
   },
+    resumes: {
+    resumeFiles: [],
+    resumeUrl: "",
+    password: "",
+    bgDesign: "",
+  },
+  "property": {
+  basicInfo: {
+    propertyName: "",
+    propertyType: "",
+    ownerName: "",
+    contactNumber: "",
+    alternateNumber: "",
+    propertyDescription: "",
+  },
+  addressInfo: {
+    address: "",
+    mapLink: "",
+  },
+  pricingInfo: {
+    price: "",
+    area: "",
+    amenities: "",
+  },
+  images: {
+    galleryImages: [],
+  },
+  password: "",
+  bgDesign: "",
+},
 };
 
 

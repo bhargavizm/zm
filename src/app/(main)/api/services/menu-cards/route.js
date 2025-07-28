@@ -128,6 +128,8 @@
 import { connectDB } from "@/lib/mongoDB";
 import { authUser } from "@/middlewares/authMiddleware";
 import MenuCardsServiceModel from "@/models/services/menuCardSchema";
+import TextMessageModal from "@/models/services/textMessage";
+import { authentication } from "@/utils/authentication";
 import { cloudinary } from "@/utils/cloudinary";
 
 import { getShortenedUrl } from "@/utils/shortenUrl";
@@ -197,7 +199,7 @@ export async function POST(request) {
         );
       }
 
-      console.log(`📦 Uploading ${file.name} (${sizeInMB} MB)...`);
+      // console.log(`📦 Uploading ${file.name} (${sizeInMB} MB)...`);
 
       const buffer = Buffer.from(arrayBuffer);
       const base64 = buffer.toString("base64");
@@ -256,7 +258,7 @@ export async function POST(request) {
     await newEntry.save();
 
     // const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/menuCard/${newEntry._id}`;
-     const qrUrl = await getShortenedUrl(`/menuCard/${newEntry._id}`);
+     const qrUrl = await getShortenedUrl(`/menu-cards/${newEntry._id}`);
 
     // ✅ Step 7: Return Success Response
     return new Response(
@@ -275,5 +277,34 @@ export async function POST(request) {
       JSON.stringify({ success: false, error: error.message }),
       { status: 500, headers: { "Content-Type": "application/json" } }
     );
+  }
+}
+
+export async function GET(request) {
+  try {
+    const { user, errorResponse } = await authentication(request);
+    if (errorResponse) return errorResponse;
+
+    const messages = await MenuCardsServiceModel.find({ "user.id": user._id }).sort({ createdAt: -1 });
+
+    return new Response(JSON.stringify({
+      success: true,
+      message: "Menu Cards data fetched successfully.",
+      count: messages.length,
+      data: messages,
+    }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    console.error("Error fetching user text messages:", error);
+    return new Response(JSON.stringify({
+      success: false,
+     
+      error: error.message,
+    }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }

@@ -35,7 +35,13 @@ export const useServicesFormData = () => {
   const businessShopFormData = dynamicForms?.businessShop
   const setBusinessShopFormData = setDynamicForms?.businessShop;
     setImagesFormData,
-    dynamicForms, setDynamicForms
+
+    resumeFormData, 
+    setResumeFormData,
+    propertyDetails,
+    setPropertyDetails
+
+
   } = useServicesContext();
 
   const multiUrlFormData = dynamicForms?.multiUrl
@@ -67,8 +73,13 @@ export const useServicesFormData = () => {
         videos: videoFormData,
         pdf: pdfFormData,
         gallery: imagesFormData,
+
+        resumes: resumeFormData,
+        "property-qr":propertyDetails
+
         "multi-urls":multiUrlFormData,
       
+
       }[activeService];
 
   const setFormDataState = isUrlBasedService
@@ -95,7 +106,12 @@ export const useServicesFormData = () => {
         videos: setVideoFormData,
         pdf: setPdfFormData,
         gallery: setImagesFormData,
+
+        resumes: setResumeFormData,
+        "property-qr":setPropertyDetails
+
         "multi-urls":setMultiUrlFormData,
+
       }[activeService];
 
   const submitForm = useSubmitForm(
