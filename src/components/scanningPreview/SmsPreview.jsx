@@ -1,25 +1,57 @@
 'use client'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiUser, FiMessageSquare, FiCalendar } from 'react-icons/fi';
+import useDesignContext from '../hooks/useDesignContext';
 
 const SmsPreview = ({ data }) => {
+   const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
   const defaultBg = '/services-service/text-message.webp';
   const isVideo = defaultBg?.endsWith(".mp4") || defaultBg?.endsWith(".webm");
   const isImage = defaultBg && !isVideo;
 
+  //  const [bgDesign, setBgDesign] = useState(defaultBg);
+
+   useEffect(() => {
+    // setIsLoading(true);
+  
+    if (data?.bgDesign) {
+      setBgDesign(data.bgDesign);
+    } else {
+      setBgDesign(defaultBg);
+    }
+  }, [data]);
+
   return (
     <div className='flex justify-center'>
-      <div className="rounded-[40px] border-[14px] border-gray-800 shadow-xl w-[350px] h-[600px] overflow-hidden flex flex-col relative">
+      <div className="border-gray-800 shadow-xl w-[350px] h-[600px] overflow-hidden p-2 pr-5 flex flex-col relative">
         
-        {isImage && (
+        {isImage ? (
+          <img
+            src={bgDesign}
+            alt="Background"
+            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
+            className="absolute top-0 left-0 w-full h-full object-cover z-0"
+          />
+        ) : isVideo ? (
+          <video
+            src={bgDesign}
+            autoPlay
+            loop
+            muted
+            playsInline
+            onLoadedData={() => setTimeout(() => setIsLoading(false), 300)}
+            className="absolute top-0 left-0 w-full h-full object-cover z-0"
+          />
+        ) : (
           <img
             src={defaultBg}
-            alt="Background"
+            alt="Default Background"
+            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
             className="absolute top-0 left-0 w-full h-full object-cover z-0"
           />
         )}
 
-        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-6 bg-gray-800 rounded-b-xl z-10" />
+        <div className="" />
 
         <div className="flex-1 overflow-y-auto z-20 bg-white/80 pt-8 m-2 rounded-xl pb-4 px-4 w-full">
           {(data?.genderName || data?.messageType || data?.textMessage) ? (

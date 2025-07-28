@@ -502,7 +502,9 @@ const PreviewPanel = () => {
 
    const { submitForm } = useServicesFormData();
 
-  const { activeService, menuBookFormData, setMenuBookFormData, smsFormData, setSmsFormData,textMessageForm, setTextMessageForm } = useServicesContext();
+  const { activeService, menuBookFormData, setMenuBookFormData, smsFormData, setSmsFormData,textMessageForm, setTextMessageForm ,resetAllDynamicForms
+
+  } = useServicesContext();
   const {
     qrCodeUrl,
     setText,
@@ -723,6 +725,7 @@ const handleDownload = async () => {
     link.click();
 
     toast.success("QR code downloaded successfully!");
+    resetAllDynamicForms();
   } catch (error) {
     console.error("Download failed:", error);
     toast.error("Download failed. Please try again.");
