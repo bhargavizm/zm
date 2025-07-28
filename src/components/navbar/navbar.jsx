@@ -7,8 +7,8 @@ import { useLanguage } from "@/context/languageContext/LanguageContext";
 import LanguageSelector from "./LanguageSelector";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { usePathname, useRouter } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
-import { logoutUser } from "@/redux/slices/authSlice"; // make sure this exists
+import {  useSelector } from "react-redux";
+import useLogout from "../hooks/useLogout";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false); // for mobile menu
@@ -16,9 +16,9 @@ const Navbar = () => {
 
   const supportRef = useRef(null);
   const userDropdownRef = useRef(null);
+  const logout = useLogout()
 
   const userData = useSelector((state) => state?.authentication?.userData);
-  const dispatch = useDispatch();
   const router = useRouter();
   const { dictionary } = useLanguage();
   const pathname = usePathname();
@@ -41,6 +41,12 @@ const isActive = (route) => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+    const handleLogout = async () => {
+    await logout();                // ✅ Logout logic from your hook
+    setOpenDropdown(null);        // ✅ Close dropdown (if applicable)
+    router.push("/");             // ✅ Navigate to homepage or login
+  };
 
   return (
     <nav className="bg-mainGreen h-[10vh] py-2 text-white fixed top-0 left-0 right-0 w-full z-50">
@@ -137,11 +143,7 @@ const isActive = (route) => {
               {openDropdown === "user" && (
                 <div className="absolute top-full right-0 mt-2 bg-white text-mainGreen rounded-md shadow-md w-40 z-50">
                   <button
-                    onClick={() => {
-                      dispatch(logoutUser());
-                      setOpenDropdown(null);
-                      router.push("/");
-                    }}
+                    onClick={handleLogout}
                     className="block cursor-pointer w-full text-left px-4 py-2 hover:bg-mainGreen hover:text-white transition"
                   >
                     Logout
@@ -204,11 +206,7 @@ const isActive = (route) => {
                     Hello, {userData.name}
                   </span>
                   <button
-                    onClick={() => {
-                      dispatch(logoutUser());
-                      setIsOpen(false);
-                      router.push("/");
-                    }}
+                    onClick={handleLogout}
                     className="border border-white px-5 py-2 rounded-lg w-full transition-effects bg-[linear-gradient(to_right,#008080,#001a1a)] text-white"
                   >
                     Logout
