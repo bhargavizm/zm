@@ -36,7 +36,6 @@ const sharedFileUploadMapper = {
     formData.append("description", state.description || "");
     formData.append("password", state.password || "");
     formData.append("bgDesign", bgDesign || "");
-
     if (Array.isArray(state.file)) {
       state.file.forEach((f) => {
         formData.append("files", f);
@@ -88,24 +87,6 @@ export const formDataMappers = {
     },
   },
 
-  // "v-cards": {
-  //     ...this["business-cards"],
-  //   },
-
-  gallery: {
-    type: "formData",
-    map: (formData, state, bgDesign) => {
-      formData.append("title", state.title || "");
-      formData.append("description", state.description || "");
-      formData.append("bgDesign", bgDesign || "");
-      state.galleryImages?.forEach((img) => {
-        if (img.file) {
-          formData.append("images", img.file);
-        }
-      });
-    },
-  },
-
   sms: {
     type: "json", // 🟢 JSON body
     map: (body, state, bgDesign) => {
@@ -128,19 +109,6 @@ export const formDataMappers = {
     }),
   },
 
-  // ✅ JSON-based body example
-  "google-meet": {
-    type: "json",
-    map: (body, state, bgDesign) => {
-      return {
-        url: state.url,
-        password: state.password,
-        bgDesign,
-      };
-    },
-  },
-
-  // formDataMappers["v-cards"] = formDataMappers["business-cards"];
 };
 
 formDataMappers["v-cards"] = formDataMappers["business-cards"];

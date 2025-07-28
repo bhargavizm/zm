@@ -116,7 +116,7 @@ export async function POST(request) {
       renewalDate = null,
       status = "active",
     } = body;
-    console.log("Incoming request body:", body);
+ 
 
     // ✅ Step 3: Hash password if present
     let hashedPassword = null;
@@ -152,7 +152,6 @@ export async function POST(request) {
 
     await newMessage.save();
 
-    console.log(newMessage);
 
     // const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/textMessage/${newMessage._id}`;
     const qrUrl = await getShortenedUrl(`/textMessage/${newMessage._id}`);
