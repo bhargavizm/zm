@@ -53,14 +53,13 @@ const initialFormStates = {
     bgDesign: "",
   },
 
-
   "business-cards": initialBusinessForm,
   "v-cards": initialBusinessForm,
-  "text-messages":{
-     sender: '',
-    message: '',
-    password: '',
-    bgDesign:''
+  "text-messages": {
+    sender: "",
+    message: "",
+    password: "",
+    bgDesign: "",
   },
   "Pet-ID-tags": {
     petName: "",
@@ -128,34 +127,34 @@ const initialFormStates = {
       password: "",
     },
   },
-    resumes: {
+  // resumes: {
 
   vehicles: {
-    selectedTemplate: '',
-    
+    selectedTemplate: "",
+
     general: {
-      vehicleModel: '',
-      vehicleNumber: '',
-      vehicleType: '',
-      description: ''
+      vehicleModel: "",
+      vehicleNumber: "",
+      vehicleType: "",
+      description: "",
     },
-    
+
     registration: {
-      rcNumber: '',
-      driverName: '',
-      ownerName: ''
+      rcNumber: "",
+      driverName: "",
+      ownerName: "",
     },
-    
+
     contact: {
-      contact: '',
-      altContact: '',
-      address: ''
+      contact: "",
+      altContact: "",
+      address: "",
     },
-    
+
     security: {
-      password: ''
+      password: "",
     },
-    
+
     media: {
       vehicleImage: null,
       licenseFront: null,
@@ -163,9 +162,9 @@ const initialFormStates = {
       rcFront: null,
       rcBack: null,
       pollution: null,
-      galleryImages: [],      // multiple images
-      insurance: []           // multiple images
-    }
+      galleryImages: [], // multiple images
+      insurance: [], // multiple images
+    },
   },
   resumes: {
     resumeFiles: [],
@@ -173,32 +172,31 @@ const initialFormStates = {
     password: "",
     bgDesign: "",
   },
-  "property": {
-  basicInfo: {
-    propertyName: "",
-    propertyType: "",
-    ownerName: "",
-    contactNumber: "",
-    alternateNumber: "",
-    propertyDescription: "",
+  property: {
+    basicInfo: {
+      propertyName: "",
+      propertyType: "",
+      ownerName: "",
+      contactNumber: "",
+      alternateNumber: "",
+      propertyDescription: "",
+    },
+    addressInfo: {
+      address: "",
+      mapLink: "",
+    },
+    pricingInfo: {
+      price: "",
+      area: "",
+      amenities: "",
+    },
+    images: {
+      galleryImages: [],
+    },
+    password: "",
+    bgDesign: "",
   },
-  addressInfo: {
-    address: "",
-    mapLink: "",
-  },
-  pricingInfo: {
-    price: "",
-    area: "",
-    amenities: "",
-  },
-  images: {
-    galleryImages: [],
-  },
-  password: "",
-  bgDesign: "",
-},
 };
-
 
 const initialEncryptedForm = {
   title: "",
@@ -207,7 +205,6 @@ const initialEncryptedForm = {
   file: [],
   bgDesign: "",
 };
-
 
 urlBasedServices.forEach((service) => {
   initialFormStates[service] = initialUrlForm;
