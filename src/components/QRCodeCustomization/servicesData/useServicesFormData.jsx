@@ -33,6 +33,12 @@ export const useServicesFormData = () => {
     pdfFormData,
     setPdfFormData,
     imagesFormData,
+    setImagesFormData, petIDFormData, setPetIDFormData, dynamicForms,
+    setDynamicForms,
+  } = useServicesContext();
+
+  const businessShopFormData = dynamicForms?.businessShop
+  const setBusinessShopFormData = setDynamicForms?.businessShop;
     setImagesFormData,
     resumeFormData, 
     setResumeFormData,
@@ -53,6 +59,18 @@ export const useServicesFormData = () => {
   const formDataState = isUrlBasedService
     ? formData
     : {
+      "menu-cards": menuBookFormData,
+      sms: smsFormData,
+      "business-cards": businessForm,
+      "v-cards": businessForm,
+      "text-messages": textMessageForm,
+      audios: audioFormData,
+      videos: videoFormData,
+      pdf: pdfFormData,
+      gallery: imagesFormData,
+      "Pet-ID-tags": petIDFormData,
+      "business-shops": businessShopFormData,
+    }[activeService];
         "menu-cards": menuBookFormData,
         sms: smsFormData,
         "business-cards": businessForm,
@@ -75,6 +93,18 @@ export const useServicesFormData = () => {
   const setFormDataState = isUrlBasedService
     ? setFormData
     : {
+      "menu-cards": setMenuBookFormData,
+      sms: setSmsFormData,
+      "business-cards": setBusinessForm,
+      "v-cards": setBusinessForm,
+      "text-messages": setTextMessageForm,
+      audios: setAudioFormData,
+      videos: setVideoFormData,
+      pdf: setPdfFormData,
+      gallery: setImagesFormData,
+      "Pet-ID-tags": setPetIDFormData,
+      "business-shops": setBusinessShopFormData,
+    }[activeService];
         "menu-cards": setMenuBookFormData,
         sms: setSmsFormData,
         "business-cards": setBusinessForm,
@@ -115,5 +145,5 @@ export const useServicesFormData = () => {
   //   setFormDataState[service] = setFormData;
   // });
 
-  return { submitForm ,encryptSubmitForm};
+  return { submitForm, encryptSubmitForm };
 };

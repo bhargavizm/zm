@@ -1,14 +1,13 @@
 // ✅ add all slice actions
 
 import {
+  setBusinessShopServices,
   setCardServices,
   setMenuCardServices,
-
+  setPetIdServices,
   setPropertyServices,
   setResumeServices,
-
   setMultiUrlServices,
-
   setSmsServices,
   setTextMessageServices,
   setVehicleServices
@@ -34,10 +33,10 @@ export const reduxDispatchMappers = {
   pdf: setPDFServices,
   gallery: setGalleryServices,
   videos: setVideoServices,
-
+  "Pet-ID-tags": setPetIdServices,
+  "business-shops": setBusinessShopServices,
   resumes:setResumeServices,
   "property-qr":setPropertyServices,
-
   "multi-urls":setMultiUrlServices,
 
 };
