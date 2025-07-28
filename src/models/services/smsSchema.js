@@ -50,6 +50,7 @@ const smsMessageSchema = new mongoose.Schema(
     password: {
       type: String,
     },
+     bgDesign: String,
     qrCodeDetails:qrCodeServicesSchema
   },
   { timestamps: true }

@@ -1,7 +1,45 @@
 // import { connectDB } from "@/lib/mongoDB";
+// import SmsModal from "@/models/services/smsSchema";
+
+// export async function POST(request) {
+//   try {
+//     await connectDB();
+
+//     const body = await request.json(); // ⬅️ Parse raw JSON
+//     const { genderName, messageType, textMessage, password } = body;
+
+//     const newSms = new SmsModal({
+//       genderName,
+//       messageType,
+//       textMessage,
+//       password,
+//     });
+
+//     await newSms.save();
+
+//     return new Response(
+//       JSON.stringify({ success: true, fileData: newSms }),
+//       {
+//         status: 201,
+//         headers: { "Content-Type": "application/json" },
+//       }
+//     );
+//   } catch (error) {
+//     console.error("Error saving SMS message:", error);
+//     return new Response(
+//       JSON.stringify({ success: false, error: error.message }),
+//       {
+//         status: 500,
+//         headers: { "Content-Type": "application/json" },
+//       }
+//     );
+//   }
+// }
+
+// import { connectDB } from "@/lib/mongoDB";
 // import { authUser } from "@/middlewares/authMiddleware";
-// import TextMessageModal from "@/models/services/textMessage";
-// import bcrypt from "bcryptjs"; // ✅ Import bcryptjs
+// import SmsModal from "@/models/services/smsSchema";
+// import bcrypt from "bcryptjs"; // ✅ Import bcrypt
 
 // export async function POST(request) {
 //   try {
@@ -15,65 +53,39 @@
 //     }
 
 //     const user = auth.user;
-
 //     await connectDB();
 
-//     // ✅ Step 2: Accept raw JSON
-//     let body;
-//     try {
-//       body = await request.json();
-//     } catch (error) {
-//       return new Response(
-//         JSON.stringify({ success: false, error: "Invalid JSON body" }),
-//         {
-//           status: 400,
-//           headers: { "Content-Type": "application/json" },
-//         }
-//       );
-//     }
+//     // ✅ Step 2: Parse JSON body
+//     const body = await request.json();
+//     const { genderName, messageType, textMessage, password } = body;
 
-//     const { sender, message, password } = body;
+//     // ✅ Step 3: Hash the password
+//     const salt = await bcrypt.genSalt(10);
+//     const hashedPassword = await bcrypt.hash(password, salt);
 
-//     // ✅ Step 3: Validate required fields
-//     // if (!message) {
-//     //   return new Response(
-//     //     JSON.stringify({ success: false, error: "Missing required fields" }),
-//     //     {
-//     //       status: 400,
-//     //       headers: { "Content-Type": "application/json" },
-//     //     }
-//     //   );
-//     // }
-
-//     // ✅ Step 4: Hash the password (if provided)
-//     let hashedPassword = null;
-//     if (password) {
-//       const salt = await bcrypt.genSalt(10);
-//       hashedPassword = await bcrypt.hash(password, salt);
-//     }
-
-//     // ✅ Step 5: Save to DB
-//     const newMessage = new TextMessageModal({
+//     // ✅ Step 4: Create and save the document
+//     const newSms = new SmsModal({
 //       user: {
 //         id: user._id,
 //         name: user.name,
 //       },
-//       sender,
-//       message,
+//       genderName,
+//       messageType,
+//       textMessage,
 //       password: hashedPassword, // Store hashed password
 //     });
 
-//     await newMessage.save();
+//     await newSms.save();
 
 //     return new Response(
-//       JSON.stringify({ success: true, fileData: newMessage }),
+//       JSON.stringify({ success: true, fileData: newSms }),
 //       {
 //         status: 201,
 //         headers: { "Content-Type": "application/json" },
 //       }
 //     );
 //   } catch (error) {
-//     console.error("Server error:", error);
+//     console.error("Error saving SMS message:", error);
 //     return new Response(
 //       JSON.stringify({ success: false, error: error.message }),
 //       {
@@ -84,16 +96,15 @@
 //   }
 // }
 
-
 import { connectDB } from "@/lib/mongoDB";
 import { authUser } from "@/middlewares/authMiddleware";
-import TextMessageModal from "@/models/services/textMessage";
+import SmsModal from "@/models/services/smsSchema";
 import { getShortenedUrl } from "@/utils/shortenUrl";
 import bcrypt from "bcryptjs";
 
 export async function POST(request) {
   try {
-    // ✅ Step 1: Authenticate user
+    // ✅ Step 1: Authenticate User
     const auth = await authUser(request);
     if (auth.status !== 200) {
       return new Response(JSON.stringify(auth.json), {
@@ -105,11 +116,13 @@ export async function POST(request) {
     const user = auth.user;
     await connectDB();
 
-    // ✅ Step 2: Parse body
+    // ✅ Step 2: Parse JSON body
     const body = await request.json();
     const {
-      sender,
-      message,
+      genderName,
+      messageType,
+      textMessage,
+       bgDesign,
       password = "",
       qrPassword = "",
       location = {},
@@ -117,24 +130,25 @@ export async function POST(request) {
       status = "active",
     } = body;
 
-    // ✅ Step 3: Hash password if present
-    let hashedPassword = null;
+    // ✅ Step 3: Hash the password if provided
+    let hashedPassword = "";
     if (password) {
       const salt = await bcrypt.genSalt(10);
       hashedPassword = await bcrypt.hash(password, salt);
     }
 
-    // ✅ Step 4: Create document
-    const newMessage = new TextMessageModal({
+    // ✅ Step 4: Create and save the document
+    const newSms = new SmsModal({
       user: {
         id: user._id,
         name: user.name,
       },
-      sender,
-      message,
+      genderName,
+      messageType,
+      textMessage,
+       bgDesign,
       password: hashedPassword,
-      qrCodeDetails: {
-
+        qrCodeDetails: {
     qrCodeImage: body.qrCodeImage ?? "",
 
     location: {
@@ -147,25 +161,28 @@ export async function POST(request) {
     resetPasswordToken: null,
     resetPasswordExpires: null,
   },
-
     });
 
-    await newMessage.save();
+    await newSms.save();
+    // const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/sms/${newSms._id}`;
 
+    // const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/sms/${newSms._id}`;
 
-    // const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/textMessage/${newMessage._id}`;
-    const qrUrl = await getShortenedUrl(`/textMessage/${newMessage._id}`);
-
+    const qrUrl = await getShortenedUrl(`/sms/${newSms._id}`);
 
     return new Response(
-      JSON.stringify({ success: true, data: newMessage, qrUrl }),
+      JSON.stringify({
+        success: true,
+        message: "SMS message saved successfully!",
+        data: newSms,qrUrl
+      }),
       {
         status: 201,
         headers: { "Content-Type": "application/json" },
       }
     );
   } catch (error) {
-    console.error("Server error:", error);
+    console.error("❌ Error saving SMS message:", error);
     return new Response(
       JSON.stringify({ success: false, error: error.message }),
       {
@@ -175,3 +192,4 @@ export async function POST(request) {
     );
   }
 }
+ 

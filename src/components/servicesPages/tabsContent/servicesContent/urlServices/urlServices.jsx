@@ -14,12 +14,12 @@ const URLServices = ({ setIsModalOpen }) => {
   const { slug } = useParams();
   const urlInputRef = useRef(null);
 
-  const { servicesDataLoading, setServicesDataLoading } = useServicesContext();
+  const { servicesDataLoading, setServicesDataLoading,formData, setFormData } = useServicesContext();
 
-  const [formData, setFormData] = useState({
-    url: "",
-    password: "",
-  });
+  // const [formData, setFormData] = useState({
+  //   url: "",
+  //   password: "",
+  // });
 
   const [showPassword, setShowPassword] = useState(false);
   const [basicInfoOpen, setBasicInfoOpen] = useState(true);
@@ -39,32 +39,32 @@ const URLServices = ({ setIsModalOpen }) => {
       toast.error("URL is required!");
       return;
     }
+setIsModalOpen(true);
+    // setServicesDataLoading(true);
+    // try {
+    //   const res = await axios.post(`/api/services/${slug}`, formData);
 
-    setServicesDataLoading(true);
-    try {
-      const res = await axios.post(`/api/services/${slug}`, formData);
+    //   if (res.data.success) {
+    //     dispatch(setURLServices(res.data.URLServicesData));
+    //     toast.success(res.data.message || "Data submitted successfully");
+    //     setIsModalOpen(true);
+    //     setFormData({ url: "", password: "" });
+    //   } else {
+    //     toast.error(res.data.error || "Failed to submit data");
+    //   }
+    // } catch (error) {
+    //   const errorMessage =
+    //     error?.response?.data?.error || "Something went wrong";
+    //   toast.error(errorMessage);
+    //   console.error("❌ Submit error:", errorMessage);
 
-      if (res.data.success) {
-        dispatch(setURLServices(res.data.URLServicesData));
-        toast.success(res.data.message || "Data submitted successfully");
-        setIsModalOpen(true);
-        setFormData({ url: "", password: "" });
-      } else {
-        toast.error(res.data.error || "Failed to submit data");
-      }
-    } catch (error) {
-      const errorMessage =
-        error?.response?.data?.error || "Something went wrong";
-      toast.error(errorMessage);
-      console.error("❌ Submit error:", errorMessage);
-
-      if (error.response?.status === 401) {
-        window.location.href = "/login"; // ✅ Auto logout on expiry
-        return;
-      }
-    } finally {
-      setServicesDataLoading(false); // ✅ End loader
-    }
+    //   if (error.response?.status === 401) {
+    //     window.location.href = "/login"; // ✅ Auto logout on expiry
+    //     return;
+    //   }
+    // } finally {
+    //   setServicesDataLoading(false); // ✅ End loader
+    // }
   };
   return (
     <>
