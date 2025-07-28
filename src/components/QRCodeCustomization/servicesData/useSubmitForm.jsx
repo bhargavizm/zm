@@ -10,7 +10,6 @@ import useDesignContext from "@/components/hooks/useDesignContext";
 
 const useSubmitForm = (activeService, formDataState, bgDesign, setFormDataState, setBgDesign) => {
   const dispatch = useDispatch();
-
 const {setQrCodeUrl} =useDesignContext();
 
   const submit = async () => {
@@ -37,12 +36,12 @@ const {setQrCodeUrl} =useDesignContext();
 
 
     try {
-      const res = await axios.post(`/api/services/${activeService}`,
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/services/${activeService}`,
         dataToSend,
-        { headers }
+        { headers,withCredentials: true }
       );
 
-      console.log(res);
+
 
       if (res.data.success) {
 

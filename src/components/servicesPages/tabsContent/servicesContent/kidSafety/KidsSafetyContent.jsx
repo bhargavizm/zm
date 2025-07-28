@@ -423,7 +423,6 @@ const KidsSafetyContent = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const { setActiveTab,setText } = useDesignContext();
   const { slug } = useParams();
-  console.log(kidsSafety, dynamicForms);  
   // Validation patterns
   const phoneRegex = /^\+?[0-9]{10,15}$/;
   const mapLinkRegex = /^https:\/\/(www\.)?(google\.[a-z.]+\/maps|maps\.google\.[a-z.]+)\//;

@@ -188,7 +188,7 @@ const PetTagContent = () => {
         toast.success("Pet ID Tag created successfully!");
         setActiveTab(slug, "QR Code");
         dispatch(setPetIdServices(res.data));
-        console.log("Pet ID Tag created successfully:", res.data);
+
         setTimeout(() => {
           setShowSuccessModal(false);
           // Reset form
