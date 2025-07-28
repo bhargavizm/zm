@@ -24,6 +24,7 @@ const multiUrlSchema = new mongoose.Schema({
   socialLinks: socialLinksSchema,
   customLinks: [customLinkSchema],
   password: { type: String },
+  bgDesign:{type:String},
   qrCodeDetails:qrCodeServicesSchema
 }, { timestamps: true });
 

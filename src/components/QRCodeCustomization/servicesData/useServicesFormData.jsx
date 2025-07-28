@@ -34,7 +34,12 @@ export const useServicesFormData = () => {
 
   const businessShopFormData = dynamicForms?.businessShop
   const setBusinessShopFormData = setDynamicForms?.businessShop;
+    setImagesFormData,
+    dynamicForms, setDynamicForms
+  } = useServicesContext();
 
+  const multiUrlFormData = dynamicForms?.multiUrl
+  const setMultiUrlFormData = setDynamicForms?.multiUrl
 
   const isUrlBasedService = urlBasedServices.includes(activeService);
 
@@ -53,6 +58,18 @@ export const useServicesFormData = () => {
       "Pet-ID-tags": petIDFormData,
       "business-shops": businessShopFormData,
     }[activeService];
+        "menu-cards": menuBookFormData,
+        sms: smsFormData,
+        "business-cards": businessForm,
+        "v-cards": businessForm,
+        "text-messages": textMessageForm,
+        audios: audioFormData,
+        videos: videoFormData,
+        pdf: pdfFormData,
+        gallery: imagesFormData,
+        "multi-urls":multiUrlFormData,
+      
+      }[activeService];
 
   const setFormDataState = isUrlBasedService
     ? setFormData
@@ -69,6 +86,17 @@ export const useServicesFormData = () => {
       "Pet-ID-tags": setPetIDFormData,
       "business-shops": setBusinessShopFormData,
     }[activeService];
+        "menu-cards": setMenuBookFormData,
+        sms: setSmsFormData,
+        "business-cards": setBusinessForm,
+        "v-cards": setBusinessForm,
+        "text-messages": setTextMessageForm,
+        audios: setAudioFormData,
+        videos: setVideoFormData,
+        pdf: setPdfFormData,
+        gallery: setImagesFormData,
+        "multi-urls":setMultiUrlFormData,
+      }[activeService];
 
   const submitForm = useSubmitForm(
     activeService,

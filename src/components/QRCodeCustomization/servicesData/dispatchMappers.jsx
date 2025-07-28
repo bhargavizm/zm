@@ -5,6 +5,7 @@ import {
   setCardServices,
   setMenuCardServices,
   setPetIdServices,
+  setMultiUrlServices,
   setSmsServices,
   setTextMessageServices,
 } from "@/redux/slices/servicesSlice";
@@ -30,6 +31,7 @@ export const reduxDispatchMappers = {
   videos: setVideoServices,
   "Pet-ID-tags": setPetIdServices,
   "business-shops": setBusinessShopServices,
+  "multi-urls":setMultiUrlServices,
 };
 
 urlBasedServices.forEach((service) => {

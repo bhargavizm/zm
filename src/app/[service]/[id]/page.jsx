@@ -115,6 +115,8 @@ import MenuCardsServiceModel from "@/models/services/menuCardSchema";
 import MenuBookPreview from "@/components/scanningPreview/menuBookPreview";
 import PetIdPreview from "@/components/scanningPreview/PetIdPreview";
 import BusinessShopPreview from "@/components/scanningPreview/BusinessShopPreview";
+import MultiUrlModal from "@/models/services/multiUrlSchema";
+import MultiUrlPreview from "@/components/scanningPreview/multiUrlPreview";
 
 const PasswordProtectedPreview = dynamic(() =>
   import("@/components/common/passwordModal")
@@ -147,6 +149,11 @@ const serviceMap = {
     model: BusinessShopModel,
     component: BusinessShopPreview
   }
+  "multi-urls": {
+    model: MultiUrlModal,
+    component: MultiUrlPreview,
+  },
+  
 
 };
 
