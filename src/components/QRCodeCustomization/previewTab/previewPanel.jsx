@@ -33,7 +33,7 @@ const convertToBase64 = async (url) => {
 
 const PreviewPanel = () => {
   const previewRef = useRef(null);
-const {activeService} = useServicesContext();
+const {activeService, resetAllDynamicForms} = useServicesContext();
    const { submitForm, encryptSubmitForm } = useServicesFormData();
   const {
     qrCodeUrl,
@@ -244,6 +244,8 @@ const handleDownload = async () => {
     setQrRenderTrigger(prev => prev + 1);
 
     await new Promise(resolve => setTimeout(resolve, 150)); // Give time to rerender
+
+    resetAllDynamicForms()
 
     const exportWidth = 1024;
     const exportHeight = Math.round(
