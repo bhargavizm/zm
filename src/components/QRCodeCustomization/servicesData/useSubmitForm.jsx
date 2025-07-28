@@ -20,7 +20,7 @@ const {setQrCodeUrl} =useDesignContext();
       toast.error(`❌ No mapper found for "${activeService}"`);
       return;
     }
-console.log(activeService)
+
     const { type, map } = mapperObj;
 
     let dataToSend;
@@ -34,6 +34,7 @@ console.log(activeService)
       dataToSend = map({}, formDataState, bgDesign); // Returns JSON object
       headers["Content-Type"] = "application/json";
     }
+
 
     try {
       const res = await axios.post(`/api/services/${activeService}`,

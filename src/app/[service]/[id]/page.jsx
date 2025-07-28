@@ -113,8 +113,12 @@ import TextMessagePreview from "@/components/scanningPreview/TextFormPreview";
 import KidsSafetyPreview from "@/components/scanningPreview/KidsSafetyPreview";
 import MenuCardsServiceModel from "@/models/services/menuCardSchema";
 import MenuBookPreview from "@/components/scanningPreview/menuBookPreview";
+
 import ResumePreview from "@/components/scanningPreview/resumePreview";
 import PropertyPreview from "@/components/scanningPreview/PropertyPreview";
+
+import MultiUrlModal from "@/models/services/multiUrlSchema";
+import MultiUrlPreview from "@/components/scanningPreview/multiUrlPreview";
 
 
 const PasswordProtectedPreview = dynamic(() =>
@@ -139,6 +143,7 @@ const serviceMap = {
     model: KidsSafetyModal,
     component: KidsSafetyPreview,
   },
+
   resume: {
     model: ResumeModel,
     component:ResumePreview, 
@@ -148,6 +153,15 @@ const serviceMap = {
     component:PropertyPreview, 
   },
   
+
+
+  "multi-urls": {
+    model: MultiUrlModal,
+    component: MultiUrlPreview,
+  },
+  
+ 
+ 
 
 
 };

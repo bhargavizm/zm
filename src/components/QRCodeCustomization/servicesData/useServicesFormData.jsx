@@ -29,11 +29,17 @@ export const useServicesFormData = () => {
     setPdfFormData,
     imagesFormData,
     setImagesFormData,
+
     resumeFormData, 
     setResumeFormData,
     propertyDetails,
     setPropertyDetails
+
+
   } = useServicesContext();
+
+  const multiUrlFormData = dynamicForms?.multiUrl
+  const setMultiUrlFormData = setDynamicForms?.multiUrl
 
   const isUrlBasedService = urlBasedServices.includes(activeService);
 
@@ -49,8 +55,13 @@ export const useServicesFormData = () => {
         videos: videoFormData,
         pdf: pdfFormData,
         gallery: imagesFormData,
+
         resumes: resumeFormData,
         "property-qr":propertyDetails
+
+        "multi-urls":multiUrlFormData,
+      
+
       }[activeService];
 
   const setFormDataState = isUrlBasedService
@@ -65,8 +76,12 @@ export const useServicesFormData = () => {
         videos: setVideoFormData,
         pdf: setPdfFormData,
         gallery: setImagesFormData,
+
         resumes: setResumeFormData,
         "property-qr":setPropertyDetails
+
+        "multi-urls":setMultiUrlFormData,
+
       }[activeService];
 
   const submitForm = useSubmitForm(
