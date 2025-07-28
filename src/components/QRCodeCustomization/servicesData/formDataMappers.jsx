@@ -140,6 +140,7 @@ export const formDataMappers = {
     },
   },
 
+
   "resumes": {
   type: "formData",
   map: (formData, state, bgDesign) => {
@@ -201,6 +202,17 @@ if (bgDesign) {
 
     return formData;
   },
+},
+
+
+ "multi-urls": {
+  type: "json",
+  map: (body, state, bgDesign) => ({
+    socialLinks: state.socialLinks || {}, // ✅ direct access, not state.multiUrl.socialLinks
+    customLinks: Array.isArray(state.customLinks) ? state.customLinks : [],
+    password: state.password || "",
+    bgDesign: bgDesign || null,
+  }),
 },
 
 
