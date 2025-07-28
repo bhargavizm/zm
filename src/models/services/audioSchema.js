@@ -38,12 +38,6 @@ const fileItemSchema = new mongoose.Schema({
 // Main audio service schema
 const audioSchema = new mongoose.Schema(
   {
-    title: { type: String },
-    description: { type: String },
-    password: { type: String }, // QR-level password protection
-
-    files: [fileItemSchema], // Multiple file support
-
     user: {
       id: {
         type: mongoose.Schema.Types.ObjectId,
@@ -52,6 +46,16 @@ const audioSchema = new mongoose.Schema(
       },
       name: { type: String },
     },
+    title: { type: String },
+    description: { type: String },
+    password: { type: String }, // QR-level password protection
+ bgDesign:  {
+      type: String,
+    },
+    files: [fileItemSchema], // Multiple file support
+
+    
+       
     qrCodeDetails: qrCodeServicesSchema
   },
   {

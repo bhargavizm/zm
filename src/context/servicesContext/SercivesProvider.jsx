@@ -23,6 +23,12 @@ const ServicesProvider = ({ children }) => {
     }
   }, [pathname]);
 
+  //url services
+  const [formData, setFormData] = useState({
+      url: "",
+      password: "",
+    });
+
   const initialBusinessShopFormData = {
     shopName: "",
     ownerName: "",
@@ -71,6 +77,7 @@ const ServicesProvider = ({ children }) => {
     url: "",
     url1: "",
     password: "",
+    bgDesign:""
   };
 
   const initialProductData = {
@@ -91,6 +98,7 @@ const ServicesProvider = ({ children }) => {
     description: "",
     file: [],
     password: "",
+    bgDesign:"",
     qrCodeDetails: {
       qrCodeImage: '',
 
@@ -111,6 +119,7 @@ const ServicesProvider = ({ children }) => {
     description: "",
     file: [],
     password: "",
+     bgDesign:"",
     qrCodeDetails: {
       qrCodeImage: '',
 
@@ -131,6 +140,7 @@ const ServicesProvider = ({ children }) => {
     description: "",
     file: [],
     password: "",
+     bgDesign:"",
     qrCodeDetails: {
       qrCodeImage: '',
 
@@ -151,6 +161,7 @@ const ServicesProvider = ({ children }) => {
     description: "",
     images: [],
     password: "",
+     bgDesign:"",
     qrCodeDetails: {
       qrCodeImage: '',
 
@@ -197,12 +208,14 @@ const ServicesProvider = ({ children }) => {
     messageType: "",
     textMessage: "",
     password: "",
+     bgDesign: "",
   };
 
   const initialTextMessageForm = {
     sender: "",
     message: "",
     password: "",
+    bgDesign:""
   };
 
   // Menu Book (Original structure)
@@ -670,6 +683,7 @@ const ServicesProvider = ({ children }) => {
     <ServicesContext.Provider
       value={{
         // Static forms and their setters
+        formData, setFormData,
         businessShopFormData,
         setBusinessShopFormData,
         businessForm,

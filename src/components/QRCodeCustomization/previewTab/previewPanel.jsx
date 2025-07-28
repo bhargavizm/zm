@@ -1,3 +1,4 @@
+
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { useRenderEyes } from "../utils/renderEyes";
@@ -32,16 +33,11 @@ const convertToBase64 = async (url) => {
 
 const PreviewPanel = () => {
   const previewRef = useRef(null);
-
-
-   const { submitForm } = useServicesFormData();
-
-  const { activeService, menuBookFormData, setMenuBookFormData, smsFormData, setSmsFormData,textMessageForm, setTextMessageForm } = useServicesContext();
+const {activeService} = useServicesContext();
+   const { submitForm, encryptSubmitForm } = useServicesFormData();
   const {
     qrCodeUrl,
     setText,
-    bgDesign,
-    setBgDesign,
     foregroundColorMode,
     foregroundColor,
     foregroundGradientStart,
@@ -87,6 +83,8 @@ const PreviewPanel = () => {
     strokeWidth = 8,
     modulePath,
   } = useDesignContext();
+
+
 
   const [base64Logo, setBase64Logo] = useState(null);
   const [base64Background, setBase64Background] = useState(null);
@@ -222,7 +220,21 @@ const handleDownload = async () => {
   }
 
   try {
-    const generatedUrl = await submitForm();
+    // const generatedUrl = await submitForm();
+    // if (!generatedUrl) {
+    //   toast.error("QR Code generation failed. Please try again.");
+    //   return;
+    // }
+
+     let generatedUrl = "";
+
+    // 1️⃣ Submit form data to backend and get QR URL
+    if (["pdf", "audios", "videos", "gallery"].includes(activeService)) {
+      generatedUrl = await encryptSubmitForm();
+    } else {
+      generatedUrl = await submitForm();
+    }
+
     if (!generatedUrl) {
       toast.error("QR Code generation failed. Please try again.");
       return;
