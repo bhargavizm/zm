@@ -111,13 +111,13 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
                     <div className="sticky bottom-0 bg-white py-6 pt-9 px-4  z-10 flex justify-between">
                       <button
                         onClick={() => handleTabNavigation("back")}
-                        className="px-4 py-2 bg-mainGreen text-white font-semibold rounded-lg  transition"
+                        className="px-4 py-2 bg-mainGreen text-white font-semibold rounded-lg  transition-effects cursor-pointer"
                       >
                         ← Back
                       </button>
                       <button
                         onClick={() => handleTabNavigation("next")}
-                        className="px-4 py-2 bg-mainGreen text-white font-semibold rounded-lg transition"
+                        className="px-4 py-2 bg-mainGreen text-white font-semibold rounded-lg transition-effects cursor-pointer"
                       >
                         Next →
                       </button>

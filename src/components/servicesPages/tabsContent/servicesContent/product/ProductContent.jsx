@@ -455,7 +455,7 @@ const ProductContent = () => {
         items: itemsWithBase64Images,
       };
 
-      const response = await fetch("/api/services/product", {
+      const response = await fetch("/api/services/product-cards", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

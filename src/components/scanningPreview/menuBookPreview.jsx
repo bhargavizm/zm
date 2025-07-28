@@ -36,10 +36,14 @@ const MenuBookPreview = ({ data = {} }) => {
   useEffect(() => {
     setIsMounted(true);
     setIsLoading(true);
+   if (data?.bgDesign) {
+    setBgDesign(data.bgDesign);
+  } else {
     setBgDesign(defaultBg);
+  }
     const timeout = setTimeout(() => setIsLoading(false), 1000);
     return () => clearTimeout(timeout);
-  }, []);
+  }, [data]);
 
   const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
   const isImage = bgDesign && !isVideo;
