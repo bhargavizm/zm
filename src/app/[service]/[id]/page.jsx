@@ -88,6 +88,10 @@
 
 // export default Page;
 
+
+
+// app/[service]/[id]/layout.jsx
+
 import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
 import { connectDB } from "@/lib/mongoDB";
@@ -108,6 +112,8 @@ import TextMessagePreview from "@/components/scanningPreview/TextFormPreview";
 import KidsSafetyPreview from "@/components/scanningPreview/KidsSafetyPreview";
 import MenuCardsServiceModel from "@/models/services/menuCardSchema";
 import MenuBookPreview from "@/components/scanningPreview/menuBookPreview";
+import MultiUrlModal from "@/models/services/multiUrlSchema";
+import MultiUrlPreview from "@/components/scanningPreview/multiUrlPreview";
 
 const PasswordProtectedPreview = dynamic(() =>
   import("@/components/common/passwordModal")
@@ -131,7 +137,11 @@ const serviceMap = {
     model: KidsSafetyModal,
     component: KidsSafetyPreview,
   },
-
+  "multi-urls": {
+    model: MultiUrlModal,
+    component: MultiUrlPreview,
+  },
+  
  
  
 

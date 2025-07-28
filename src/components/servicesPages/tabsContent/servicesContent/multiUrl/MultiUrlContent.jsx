@@ -80,7 +80,43 @@ const MultiUrlContent = () => {
     setShowPassword(!showPassword);
   };
 
+// const handleSubmit = () => {
+  
+//   const hasSocialLinks = Object.values(socialLinks || {}).some(
+//     (url) => typeof url === "string" && url.trim().length > 0
+//   );
+
+//   const hasCustomLinks = Array.isArray(customLinks) && customLinks
+//     .filter(link => link && (link.label || link.url))
+//     .some(
+//       (link) =>
+//         (typeof link.label === "string" && link.label.trim().length > 0) ||
+//         (typeof link.url === "string" && link.url.trim().length > 0)
+//     );
+
+//   const hasPassword = typeof password === "string" && password.trim().length > 0;
+
+//   if (!hasSocialLinks && !hasCustomLinks && !hasPassword) {
+//     toast.error("Please fill at least one field before submitting.");
+//     return;
+//   }
+
+//   setShowPreviewModal(true);
+// };
+
+const isValidUrl = (url) => {
+  try {
+    new URL(url);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
 const handleSubmit = () => {
+  const socialPlatforms = ["youtube", "instagram", "twitter", "linkedin", "facebook", "custom"];
+
+  // ✅ Check empty form
   const hasSocialLinks = Object.values(socialLinks || {}).some(
     (url) => typeof url === "string" && url.trim().length > 0
   );
@@ -100,57 +136,80 @@ const handleSubmit = () => {
     return;
   }
 
+  // ✅ Social link URL validation
+  for (const platform of socialPlatforms) {
+    const url = socialLinks[platform];
+    if (url && !isValidUrl(url)) {
+      toast.error(`Invalid URL for ${platform}`);
+      return;
+    }
+  }
+
+  // ✅ Custom links validation
+  for (const link of customLinks) {
+    if (!link.label || !link.url) {
+      toast.error("Each custom link must have both a label and URL");
+      return;
+    }
+    if (!isValidUrl(link.url)) {
+      toast.error(`Invalid URL for custom link "${link.label}"`);
+      return;
+    }
+  }
+
+  // ✅ All good — open preview modal
   setShowPreviewModal(true);
 };
 
   const confirmSubmit = async () => {
-      setServicesDataLoading(true);
-    try {
-      const encryptedPassword = password
-        ? CryptoJS.AES.encrypt(password, "secret-key").toString()
-        : "";
+    setActiveTab(slug, "Backdrop Designs");
+    //   setServicesDataLoading(true);
+    // try {
+    //   const encryptedPassword = password
+    //     ? CryptoJS.AES.encrypt(password, "secret-key").toString()
+    //     : "";
 
-      const payload = {
-        socialLinks,
-        customLinks,
-        password: encryptedPassword,
-      };
+    //   const payload = {
+    //     socialLinks,
+    //     customLinks,
+    //     password: encryptedPassword,
+    //   };
 
-      const response = await fetch("/api/services/multiurl", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+    //   const response = await fetch("/api/services/multiurl", {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify(payload),
+    //   });
 
-      const result = await response.json();
+    //   const result = await response.json();
 
-      if (!response.ok) {
-        alert(`Error: ${result.message || result.error}`);
-        return;
-      }
+    //   if (!response.ok) {
+    //     alert(`Error: ${result.message || result.error}`);
+    //     return;
+    //   }
 
-      // ✅ success actions
-      toast.success("Multi URL data successfully submitted");
-      setActiveTab(slug, "QR Code")
-      dispatch(setMultiUrlServices(result.multiUrldata));
-      setShowPreviewModal(false);
-      setShowSuccessModal(true);
+    //   // ✅ success actions
+    //   toast.success("Multi URL data successfully submitted");
+    //   setActiveTab(slug, "QR Code")
+    //   dispatch(setMultiUrlServices(result.multiUrldata));
+    //   setShowPreviewModal(false);
+    //   setShowSuccessModal(true);
 
-      // ✅ reset form data
-      updateDynamicForm("multiUrl", null, null, {});
-      setCustomLabel("");
-      setCustomUrl("");
-      setPassword("");
-    } catch (error) {
-      console.error("Submission failed", error);
-     toast.error(error?.response?.data?.error || "Something went wrong!");
-     if (error.response?.status === 401) {
-        window.location.href = "/login"; // ✅ Auto logout on expiry
-        return;
-      }
-    } finally {
-      setServicesDataLoading(false); // ✅ End loader
-    }
+    //   // ✅ reset form data
+    //   updateDynamicForm("multiUrl", null, null, {});
+    //   setCustomLabel("");
+    //   setCustomUrl("");
+    //   setPassword("");
+    // } catch (error) {
+    //   console.error("Submission failed", error);
+    //  toast.error(error?.response?.data?.error || "Something went wrong!");
+    //  if (error.response?.status === 401) {
+    //     window.location.href = "/login"; // ✅ Auto logout on expiry
+    //     return;
+    //   }
+    // } finally {
+    //   setServicesDataLoading(false); // ✅ End loader
+    // }
   };
 
 

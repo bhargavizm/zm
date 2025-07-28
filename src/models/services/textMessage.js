@@ -27,6 +27,7 @@
 
 // export default TextMessageModal
 
+
 import mongoose from "mongoose";
 import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
 
@@ -44,17 +45,20 @@ const textMessageSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    bgDesign:  {
+      type: String,
+    },
     password: {
       type: String,
     },
-
+  
     qrCodeDetails: qrCodeServicesSchema
   },
   {
     timestamps: true,
   }
 );
-
+console.log(textMessageSchema)
 const TextMessageModal =
   mongoose.models.TextMessage || mongoose.model("TextMessage", textMessageSchema);
 
