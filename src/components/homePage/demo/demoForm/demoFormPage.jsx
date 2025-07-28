@@ -28,9 +28,6 @@ const DemoFormPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // You can add validation or send to API here
-    console.log("Submitted Data:", formData);
-
     // Show coming soon modal
     setShowModal(true);
   };

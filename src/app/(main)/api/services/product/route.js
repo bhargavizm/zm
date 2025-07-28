@@ -34,8 +34,6 @@ export async function POST(req) {
       status = "active",
     } = body;
 
-    // ✅ Debug log — helps you confirm incoming data
-    console.log("📦 Received Body:", body);
 
     // ✅ Connect to MongoDB
     await connectDB();

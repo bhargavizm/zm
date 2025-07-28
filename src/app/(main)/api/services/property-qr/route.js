@@ -285,6 +285,7 @@ import { connectDB } from "@/lib/mongoDB";
 import { authUser } from "@/middlewares/authMiddleware";
 import PropertyModal from "@/models/services/propertySchema";
 import { cloudinary } from "@/utils/cloudinary";
+import { getShortenedUrl } from "@/utils/shortenUrl";
 import bcrypt from "bcryptjs";
 
 export const config = {
@@ -318,6 +319,7 @@ export async function POST(request) {
     }
 
     const formData = await request.formData();
+    const bgDesign=formData.get("bgDesign") || "";
 
     // ✅ Basic Info
     const basicInfo = {
@@ -412,6 +414,7 @@ export async function POST(request) {
       basicInfo,
       addressInfo,
       pricingInfo,
+      bgDesign,
       images: {
         galleryImages: galleryImageUrls,
       },
@@ -426,10 +429,12 @@ export async function POST(request) {
         resetPasswordExpires: null,
       },
     });
+    
 
     const saved = await newProperty.save();
+    const qrUrl = await getShortenedUrl(`/property-qr/${saved._id}`);
 
-    return new Response(JSON.stringify({ success: true, data: saved }), {
+    return new Response(JSON.stringify({ success: true, data: saved,qrUrl }), {
       status: 201,
       headers: { "Content-Type": "application/json" },
     });

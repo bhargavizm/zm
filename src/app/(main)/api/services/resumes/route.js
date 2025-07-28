@@ -127,8 +127,10 @@ import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcryptjs";
 import ResumeModel from "@/models/services/resumeSchema";
 import { authUser } from "@/middlewares/authMiddleware";
+import { getShortenedUrl } from "@/utils/shortenUrl";
 
 export const config = {
+
   api: {
     bodyParser: false,
   },
@@ -148,6 +150,7 @@ export async function POST(request) {
     const formData = await request.formData();
     const password = formData.get("password");
     const resumeUrl = formData.get("resumeUrl");
+    const bgDesign = formData.get("bgDesign")
     const resumeFiles = formData.getAll("resumeFiles");
 
     // ✅ Optional QR-related fields
@@ -221,6 +224,7 @@ export async function POST(request) {
       resumeFiles: uploadedFiles,
       resumeUrl,
       password: hashedPassword,
+      bgDesign,
       qrCodeDetails: {
         qrCodeImage,
         location: {
@@ -236,11 +240,12 @@ export async function POST(request) {
     });
 
     const savedResume = await newResume.save();
+    const qrUrl = await getShortenedUrl(`/resume/${savedResume._id}`);
 
     return Response.json({
       success: true,
       message: "Resumes uploaded successfully",
-      data: savedResume,
+      data: savedResume,qrUrl
     });
 
   } catch (error) {

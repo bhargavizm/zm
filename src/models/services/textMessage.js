@@ -58,7 +58,7 @@ const textMessageSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-console.log(textMessageSchema)
+
 const TextMessageModal =
   mongoose.models.TextMessage || mongoose.model("TextMessage", textMessageSchema);
 
