@@ -128,24 +128,25 @@ const PropertyContent = () => {
   };
 
   const handleInitialSubmit = (e) => {
-    e.preventDefault();
-    const allValues = Object.values(propertyDetails).flatMap(section =>
-      typeof section === 'object' && !Array.isArray(section)
-        ? Object.values(section || {})
-        : [section]
-    );
+    setActiveTab(slug, "Backdrop Designs");
+    // e.preventDefault();
+    // const allValues = Object.values(propertyDetails).flatMap(section =>
+    //   typeof section === 'object' && !Array.isArray(section)
+    //     ? Object.values(section || {})
+    //     : [section]
+    // );
 
-    const hasNonEmptyValue = allValues.some(value =>
-      Array.isArray(value) ? value.length > 0 : typeof value === "string" ? value.trim() !== "" : !!value
-    );
+    // const hasNonEmptyValue = allValues.some(value =>
+    //   Array.isArray(value) ? value.length > 0 : typeof value === "string" ? value.trim() !== "" : !!value
+    // );
 
-    if (!hasNonEmptyValue) {
-      toast.error("Enter at least one field before submitting");
-      return;
-    }
+    // if (!hasNonEmptyValue) {
+    //   toast.error("Enter at least one field before submitting");
+    //   return;
+    // }
 
-    if (!validateForm()) return;
-    setShowConfirmModal(true);
+    // if (!validateForm()) return;
+    // setShowConfirmModal(true);
   };
 
   const handleConfirmedSubmit = async () => {
@@ -168,7 +169,7 @@ const PropertyContent = () => {
 
      setServicesDataLoading(true);
     try {
-      const res = await fetch("/api/services/property", {
+      const res = await fetch("/api/services/property-qr", {
         method: "POST",
         body: formData,
       });

@@ -230,6 +230,65 @@ const PetTagContent = () => {
     //   setServicesDataLoading(false); // ✅ End loader
     // }
 
+    setSubmitting(true);
+    setShowPreviewModal(false);
+  setServicesDataLoading(true);
+    try {
+      const base64Image = file ? await toBase64(file) : null;
+
+      const payload = {
+        ...petIDFormData,
+        image: base64Image,
+      };
+
+      const res = await axios.post("/api/services/petid", payload);
+
+      if (res.status === 201) {
+        setShowSuccessModal(true);
+        toast.success("Pet ID Tag created successfully!");
+        setActiveTab(slug, "QR Code");
+        dispatch(setPetIdServices(res.data));
+
+        setTimeout(() => {
+          setShowSuccessModal(false);
+          // Reset form
+          setPetIDFormData({
+            selectedTemplate: "",
+            mainImage: "",
+            ownerInfo: {
+              name: "",
+              phone: "",
+              email: "",
+              password: "",
+              address: ""
+            },
+            pet: {
+              name: "",
+              breed: "",
+              color: ""
+            }
+          });
+          setFile(null);
+          if (document.getElementById("imageInput")) {
+            document.getElementById("imageInput").value = null;
+          }
+        }, 2000);
+      } else {
+        toast.warn("Failed to create Pet ID Tag.");
+        alert("Failed to create Pet ID Tag.");
+      }
+    } catch (error) {
+      console.error("Submission Error:", error);
+      toast.error(error?.response?.data?.error || "Something went wrong!");
+       if (error.response?.status === 401) {
+        window.location.href = "/login"; // ✅ Auto logout on expiry
+        return;
+      }
+    } finally {
+       setSubmitting(false);
+      setServicesDataLoading(false); // ✅ End loader
+    }
+    
   };
 
   const renderPreviewField = (label, value) => {

@@ -1,4 +1,3 @@
-
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { useRenderEyes } from "../utils/renderEyes";
@@ -10,15 +9,11 @@ import { shapeDefinitions } from "../designTabs/qrShapes/shapes";
 import { bodyFrames } from "../designTabs/qrFrames/qrFrameImages";
 import NextImage from "next/image";
 import {
-  stickerConfig,
-  defaultQRConfig,
+  stickerConfig
 } from "../designTabs/stickers/stickerImages";
 import DownloadButton from "./downloadButton";
-import { toPng } from "html-to-image";
 import toast from "react-hot-toast";
-import useServicesContext from "@/components/hooks/useServiceContext";
-import useSubmitForm from "../servicesData/useSubmitForm";
-import { useServicesFormData } from "../servicesData/useServicesFormData";
+
 
 const convertToBase64 = async (url) => {
   const response = await fetch(url, { mode: "cors" });
@@ -33,11 +28,8 @@ const convertToBase64 = async (url) => {
 
 const PreviewPanel = () => {
   const previewRef = useRef(null);
-const {activeService, resetAllDynamicForms} = useServicesContext();
-   const { submitForm, encryptSubmitForm } = useServicesFormData();
+
   const {
-    qrCodeUrl,
-    setText,
     foregroundColorMode,
     foregroundColor,
     foregroundGradientStart,
@@ -84,13 +76,13 @@ const {activeService, resetAllDynamicForms} = useServicesContext();
     modulePath,
   } = useDesignContext();
 
-
-
   const [base64Logo, setBase64Logo] = useState(null);
   const [base64Background, setBase64Background] = useState(null);
   const [qrRenderTrigger, setQrRenderTrigger] = useState(0);
 
-  const effectiveForegroundColor = backgroundImage ? "#000000" : foregroundColor;
+  const effectiveForegroundColor = backgroundImage
+    ? "#000000"
+    : foregroundColor;
   const effectiveBorderColor = backgroundImage ? "#000000" : borderColor;
   const effectiveEyeFrameColor = backgroundImage ? "#000000" : eyeFrameColor;
   const effectiveEyeballColor = backgroundImage ? "#000000" : eyeballColor;
@@ -210,74 +202,6 @@ const {activeService, resetAllDynamicForms} = useServicesContext();
         width: containerWidth,
         height: containerHeight,
       };
-
-
-
-const handleDownload = async () => {
-  if (!previewRef.current) {
-    toast.error("Preview element not found");
-    return;
-  }
-
-  try {
-    // const generatedUrl = await submitForm();
-    // if (!generatedUrl) {
-    //   toast.error("QR Code generation failed. Please try again.");
-    //   return;
-    // }
-
-     let generatedUrl = "";
-
-    // 1️⃣ Submit form data to backend and get QR URL
-    if (["pdf", "audios", "videos", "gallery"].includes(activeService)) {
-      generatedUrl = await encryptSubmitForm();
-    } else {
-      generatedUrl = await submitForm();
-    }
-
-    if (!generatedUrl) {
-      toast.error("QR Code generation failed. Please try again.");
-      return;
-    }
-
-    await regenerateMatrixWithText(generatedUrl);
-    setQrRenderTrigger(prev => prev + 1);
-
-    await new Promise(resolve => setTimeout(resolve, 150)); // Give time to rerender
-
-    resetAllDynamicForms()
-
-    const exportWidth = 1024;
-    const exportHeight = Math.round(
-      (previewRef.current.offsetHeight / previewRef.current.offsetWidth) * exportWidth
-    );
-
-    const dataUrl = await toPng(previewRef.current, {
-      cacheBust: true,
-      backgroundColor: "white",
-      width: exportWidth,
-      height: exportHeight,
-      style: {
-        transform: `scale(${exportWidth / previewRef.current.offsetWidth})`,
-        transformOrigin: "top left",
-        width: `${previewRef.current.offsetWidth}px`,
-        height: `${previewRef.current.offsetHeight}px`,
-      },
-    });
-
-    const link = document.createElement("a");
-    link.download = "qr-code.png";
-    link.href = dataUrl;
-    link.click();
-
-    toast.success("QR code downloaded successfully!");
-  } catch (error) {
-    console.error("Download failed:", error);
-    toast.error("Download failed. Please try again.");
-  }
-};
-
-
   return (
     <div className="flex justify-center items-center flex-col">
       <div className="flex justify-center items-center">
@@ -450,7 +374,10 @@ const handleDownload = async () => {
         </div>
       </div>
 
-      <DownloadButton handleDownload={handleDownload} />
+      <DownloadButton
+        previewRef={previewRef}
+        regenerateMatrixWithText={regenerateMatrixWithText}
+      />
     </div>
   );
 };

@@ -181,6 +181,7 @@ const ServicesProvider = ({ children }) => {
     resumeFile: [],
     resumeUrl: "",
     password: "",
+    bgDesign:""
   };
 
   const initialWifiFormData = [{ ssid: "", password: "", security: "WPA" }];
@@ -617,9 +618,6 @@ const ServicesProvider = ({ children }) => {
       switch (formKey) {
         case "medicalAlert":
           initialStateToApply = initialDynamicForms.medicalAlert;
-          break;
-        case "propertyDetails":
-          initialStateToApply = initialDynamicForms.propertyDetails;
           break;
         case "multiUrl":
           initialStateToApply = initialDynamicForms.multiUrl;

@@ -18,7 +18,7 @@ const useEncryptedSubmitForm = (
   setBgDesign
 ) => {
   const dispatch = useDispatch();
-  const { setQrCodeUrl } = useDesignContext();
+  const { setQrCodeUrl,bgDesign } = useDesignContext();
 
   const submit = async () => {
     const mapperObj = formDataMappers[activeService];
@@ -35,16 +35,16 @@ const useEncryptedSubmitForm = (
 
     if (type === "formData") {
       dataToSend = new FormData();
-      map(dataToSend, formDataState, formDataState.bgDesign || "");
+      map(dataToSend, formDataState, bgDesign || "");
       headers["Content-Type"] = "multipart/form-data";
     } else if (type === "json") {
-      dataToSend = map({}, formDataState, formDataState.bgDesign || "");
+      dataToSend = map({}, formDataState, bgDesign || "");
       headers["Content-Type"] = "application/json";
     }
 
     try {
-      const res = await axios.post(`/api/encryptedServices/${activeService}`, dataToSend, {
-        headers,
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/encryptedServices/${activeService}`, dataToSend, {
+        headers, withCredentials: true,
       });
 
       if (res.data.success) {

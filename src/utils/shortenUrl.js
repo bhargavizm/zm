@@ -26,7 +26,9 @@ export const getShortenedUrl = async (path) => {
 export const getShortenedUrlServices = async (path) => {
   try {
     const fullUrl = `${path}`;
-    const res = await fetch(`api/shorten`, {
+   
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/shorten`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ fullUrl }),
@@ -34,13 +36,14 @@ export const getShortenedUrlServices = async (path) => {
 
     if (!res.ok) {
       console.error("Shorten API failed:", res.status);
-      return fullUrl; // fallback to original
+      return fullUrl;
     }
 
     const { shortUrl } = await res.json();
     return shortUrl;
   } catch (error) {
     console.error("Error while shortening URL:", error);
-    return `${path}`; // fallback
+    return `${path}`;
   }
 };
+
