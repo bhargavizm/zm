@@ -99,23 +99,27 @@ import { connectDB } from "@/lib/mongoDB";
 // Models
 import PetTagModal from "@/models/services/petIdSchema";
 import ResumeModel from "@/models/services/resumeSchema";
-import businessShopSchema from "@/models/services/businessShopSchema";
 import SmsModal from "@/models/services/smsSchema";
 import TextMessageModal from "@/models/services/textMessage";
+import BusinessShopModel from '@/models/services/businessShopSchema';
 
 // Components
 
 
 import KidsSafetyModal from "@/models/services/kidSafetySchema";
 import SmsPreview from "@/components/scanningPreview/SmsPreview";
+
 import TextMessagePreview from "@/components/scanningPreview/TextFormPreview";
 import KidsSafetyPreview from "@/components/scanningPreview/KidsSafetyPreview";
 import MenuCardsServiceModel from "@/models/services/menuCardSchema";
 import MenuBookPreview from "@/components/scanningPreview/menuBookPreview";
+import PetIdPreview from "@/components/scanningPreview/PetIdPreview";
+import BusinessShopPreview from "@/components/scanningPreview/BusinessShopPreview";
 
 const PasswordProtectedPreview = dynamic(() =>
   import("@/components/common/passwordModal")
 );
+
 
 // Service map
 const serviceMap = {
@@ -135,9 +139,14 @@ const serviceMap = {
     model: KidsSafetyModal,
     component: KidsSafetyPreview,
   },
-
- 
- 
+  "Pet-ID-tags": {
+    model: PetTagModal,
+    component: PetIdPreview
+  },  
+  "business-shops": {
+    model: BusinessShopModel,
+    component: BusinessShopPreview
+  }
 
 };
 

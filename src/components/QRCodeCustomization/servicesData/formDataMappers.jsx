@@ -106,6 +106,73 @@ export const formDataMappers = {
     },
   },
 
+ "business-shops": {
+  type: "formData",
+  map: (formData, state, bgDesign) => {
+    const general = state?.businessInfo?.general || {};
+    const contact = state?.businessInfo?.contact || {};
+    const security = state?.businessInfo?.security || {};
+    const media = state?.businessInfo?.media || {};
+    const shopTemplate = state?.shopTimingsTemplate || {};
+    const selectedTemplate = shopTemplate.selectedTemplate || "";
+    const templateKey = `${selectedTemplate}Data`;
+    const templateData = shopTemplate[templateKey] || {};
+
+    // === General Info ===
+    formData.append("businessInfo.general.businessName", general.businessName || "");
+    formData.append("businessInfo.general.businessType", general.businessType || "");
+    formData.append("businessInfo.general.description", general.description || "");
+    formData.append("businessInfo.general.shopTimings", general.shopTimings || "");
+    formData.append("businessInfo.general.discount", general.discount || "");
+    formData.append("businessInfo.general.establishedDate", general.establishedDate || "");
+
+    // === Contact Info ===
+    formData.append("businessInfo.contact.owner", contact.owner || "");
+    formData.append("businessInfo.contact.phone", contact.phone || "");
+    formData.append("businessInfo.contact.altPhone", contact.altPhone || "");
+    formData.append("businessInfo.contact.email", contact.email || "");
+    formData.append("businessInfo.contact.address", contact.address || "");
+
+    // === Security Info ===
+    formData.append("businessInfo.security.password", security.password || "");
+
+    // === Logo ===
+    if (media.logo instanceof File) {
+      formData.append("businessInfo.media.logo", media.logo);
+    }
+
+    // === Gallery Images ===
+    if (Array.isArray(media.galleryImages)) {
+      media.galleryImages.forEach((img) => {
+        if (img instanceof File) {
+          formData.append("businessInfo.media.galleryImages", img);
+        } else if (img?.file instanceof File) {
+          formData.append("businessInfo.media.galleryImages", img.file);
+        }
+      });
+    }
+
+    // === Video ===
+    if (media.video instanceof File) {
+      formData.append("businessInfo.media.video", media.video);
+    }
+
+    // === Background Design ===
+    if (bgDesign) {
+      formData.append("bgDesign", bgDesign);
+    }
+
+    // === Shop Timings Template ===
+    Object.entries(templateData).forEach(([key, value]) => {
+      formData.append(`shopTimingsTemplate.${templateKey}.${key}`, value || "");
+    });
+
+    formData.append("shopTimingsTemplate.selectedTemplate", selectedTemplate);
+  },
+},
+
+
+
   sms: {
     type: "json", // 🟢 JSON body
     map: (body, state, bgDesign) => {
@@ -140,6 +207,26 @@ export const formDataMappers = {
     },
   },
 
+  "Pet-ID-tags": {
+    type: "json",
+    map: (body, state, bgDesign) => ({
+      ownerInfo: {
+        name: state.ownerInfo?.name || "",
+        phone: state.ownerInfo?.phone || "",
+        email: state.ownerInfo?.email || "",
+        address: state.ownerInfo?.address || "",
+        password: state.ownerInfo?.password || "",
+      },
+      pet: {
+        name: state.pet?.name || "",
+        breed: state.pet?.breed || "",
+        color: state.pet?.color || "",
+      },
+      selectedTemplate: state.selectedTemplate || "",
+      bgDesign: bgDesign || "",
+      image: state.mainImage || "", // base64 string or preview URL
+    }),
+  },
   // formDataMappers["v-cards"] = formDataMappers["business-cards"];
 };
 
