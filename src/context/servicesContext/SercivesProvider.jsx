@@ -181,6 +181,7 @@ const ServicesProvider = ({ children }) => {
     resumeFile: [],
     resumeUrl: "",
     password: "",
+    bgDesign:""
   };
 
   const initialWifiFormData = [{ ssid: "", password: "", security: "WPA" }];
