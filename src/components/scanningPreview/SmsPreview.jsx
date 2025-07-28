@@ -9,7 +9,9 @@ const SmsPreview = ({ data }) => {
   const isVideo = defaultBg?.endsWith(".mp4") || defaultBg?.endsWith(".webm");
   const isImage = defaultBg && !isVideo;
 
-  //  const [bgDesign, setBgDesign] = useState(defaultBg);
+
+   const [bgDesign, setBgDesign] = useState(defaultBg);
+
 
    useEffect(() => {
     // setIsLoading(true);

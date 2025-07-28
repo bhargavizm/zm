@@ -5,7 +5,7 @@ import { FiUser, FiMessageSquare } from "react-icons/fi";
 import Image from "next/image";
 
 const TextMessagePreview = ({ data }) => {
-  const defaultBg = "/services-service/text-message.webp";
+   const defaultBg = "/services-service/text-message.webp";
   const [bgDesign, setBgDesign] = useState(defaultBg);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -14,9 +14,15 @@ const TextMessagePreview = ({ data }) => {
   const isImage = bgDesign && !isVideo;
 
   useEffect(() => {
-    setIsLoading(true);
+  setIsLoading(true);
+
+  if (data?.bgDesign) {
+    setBgDesign(data.bgDesign);
+  } else {
     setBgDesign(defaultBg);
-  }, []);
+  }
+}, [data]);
+
 
   return (
     <div className="flex justify-center">

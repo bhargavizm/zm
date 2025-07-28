@@ -17,7 +17,8 @@ import TextMessagePreview from "@/components/scanningPreview/TextFormPreview";
 import KidsSafetyPreview from "@/components/scanningPreview/KidsSafetyPreview";
 import MenuBookPreview from "@/components/scanningPreview/menuBookPreview";
 import VehiclePreview from "@/components/scanningPreview/vehiclePreview";
-
+import MultiUrlModal from "@/models/services/multiUrlSchema";
+import MultiUrlPreview from "@/components/scanningPreview/multiUrlPreview";
 
 // Client component
 import PasswordModal from "@/components/common/passwordModal"; // ✅ CLIENT COMPONENT
@@ -43,6 +44,11 @@ const serviceMap = {
   kidsSafety: {
     model: KidsSafetyModal,
     component: KidsSafetyPreview,
+  },
+
+  "multi-urls": {
+    model: MultiUrlModal,
+    component: MultiUrlPreview,
   },
 };
 
