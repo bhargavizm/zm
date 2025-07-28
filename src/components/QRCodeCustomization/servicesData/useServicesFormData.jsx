@@ -28,38 +28,47 @@ export const useServicesFormData = () => {
     pdfFormData,
     setPdfFormData,
     imagesFormData,
-    setImagesFormData,
+    setImagesFormData, petIDFormData, setPetIDFormData, dynamicForms,
+    setDynamicForms,
   } = useServicesContext();
+
+  const businessShopFormData = dynamicForms?.businessShop
+  const setBusinessShopFormData = setDynamicForms?.businessShop;
+
 
   const isUrlBasedService = urlBasedServices.includes(activeService);
 
   const formDataState = isUrlBasedService
     ? formData
     : {
-        "menu-cards": menuBookFormData,
-        sms: smsFormData,
-        "business-cards": businessForm,
-        "v-cards": businessForm,
-        "text-messages": textMessageForm,
-        audios: audioFormData,
-        videos: videoFormData,
-        pdf: pdfFormData,
-        gallery: imagesFormData,
-      }[activeService];
+      "menu-cards": menuBookFormData,
+      sms: smsFormData,
+      "business-cards": businessForm,
+      "v-cards": businessForm,
+      "text-messages": textMessageForm,
+      audios: audioFormData,
+      videos: videoFormData,
+      pdf: pdfFormData,
+      gallery: imagesFormData,
+      "Pet-ID-tags": petIDFormData,
+      "business-shops": businessShopFormData,
+    }[activeService];
 
   const setFormDataState = isUrlBasedService
     ? setFormData
     : {
-        "menu-cards": setMenuBookFormData,
-        sms: setSmsFormData,
-        "business-cards": setBusinessForm,
-        "v-cards": setBusinessForm,
-        "text-messages": setTextMessageForm,
-        audios: setAudioFormData,
-        videos: setVideoFormData,
-        pdf: setPdfFormData,
-        gallery: setImagesFormData,
-      }[activeService];
+      "menu-cards": setMenuBookFormData,
+      sms: setSmsFormData,
+      "business-cards": setBusinessForm,
+      "v-cards": setBusinessForm,
+      "text-messages": setTextMessageForm,
+      audios: setAudioFormData,
+      videos: setVideoFormData,
+      pdf: setPdfFormData,
+      gallery: setImagesFormData,
+      "Pet-ID-tags": setPetIDFormData,
+      "business-shops": setBusinessShopFormData,
+    }[activeService];
 
   const submitForm = useSubmitForm(
     activeService,
@@ -82,5 +91,5 @@ export const useServicesFormData = () => {
   //   setFormDataState[service] = setFormData;
   // });
 
-  return { submitForm ,encryptSubmitForm};
+  return { submitForm, encryptSubmitForm };
 };

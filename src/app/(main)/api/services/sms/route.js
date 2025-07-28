@@ -122,7 +122,7 @@ export async function POST(request) {
       genderName,
       messageType,
       textMessage,
-       bgDesign,
+      bgDesign,
       password = "",
       qrPassword = "",
       location = {},
@@ -146,21 +146,21 @@ export async function POST(request) {
       genderName,
       messageType,
       textMessage,
-       bgDesign,
+      bgDesign,
       password: hashedPassword,
-        qrCodeDetails: {
-    qrCodeImage: body.qrCodeImage ?? "",
+      qrCodeDetails: {
+        qrCodeImage: body.qrCodeImage ?? "",
 
-    location: {
-      latitude: location.latitude ?? null,
-      longitude: location.longitude ?? null,
-      address: location.address ?? "",
-    },
-    renewalDate,
-    status,
-    resetPasswordToken: null,
-    resetPasswordExpires: null,
-  },
+        location: {
+          latitude: location.latitude ?? null,
+          longitude: location.longitude ?? null,
+          address: location.address ?? "",
+        },
+        renewalDate,
+        status,
+        resetPasswordToken: null,
+        resetPasswordExpires: null,
+      },
     });
 
     await newSms.save();
@@ -174,7 +174,8 @@ export async function POST(request) {
       JSON.stringify({
         success: true,
         message: "SMS message saved successfully!",
-        data: newSms,qrUrl
+        data: newSms,
+        qrUrl
       }),
       {
         status: 201,
@@ -192,4 +193,4 @@ export async function POST(request) {
     );
   }
 }
- 
+

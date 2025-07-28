@@ -1,8 +1,10 @@
 // ✅ add all slice actions
 
 import {
+  setBusinessShopServices,
   setCardServices,
   setMenuCardServices,
+  setPetIdServices,
   setSmsServices,
   setTextMessageServices,
 } from "@/redux/slices/servicesSlice";
@@ -26,6 +28,8 @@ export const reduxDispatchMappers = {
   pdf: setPDFServices,
   gallery: setGalleryServices,
   videos: setVideoServices,
+  "Pet-ID-tags": setPetIdServices,
+  "business-shops": setBusinessShopServices,
 };
 
 urlBasedServices.forEach((service) => {
