@@ -167,7 +167,7 @@ const serviceMap = {
   "business-shops": {
     model: BusinessShopModel,
     component: BusinessShopPreview
-  }
+  },
   resume: {
     model: ResumeModel,
     component:ResumePreview, 
