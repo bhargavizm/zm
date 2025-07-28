@@ -253,6 +253,8 @@ const ServicesProvider = ({ children }) => {
     },
     password: "",
   });
+
+
   const initialPetIDFormData = {
     tagTitle: "",
     mainImage: null,
@@ -525,6 +527,14 @@ const ServicesProvider = ({ children }) => {
     },
   };
 
+  const resetAllDynamicForms = () => {
+    const resetState = {};
+    Object.keys(initialDynamicForms).forEach((key) => {
+      resetState[key] = { ...initialDynamicForms[key] };
+    });
+    setDynamicForms(resetState);
+  };
+
   // State for all forms
   const [businessShopFormData, setBusinessShopFormData] = useState(
     initialBusinessShopFormData
@@ -730,6 +740,7 @@ const ServicesProvider = ({ children }) => {
         resetDynamicForm, // Expose the new reset function
         addTemplateField,
         removeTemplateField,
+        resetAllDynamicForms,
 
         // UI Toggles
         showPassword,

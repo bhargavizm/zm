@@ -34,6 +34,7 @@ const {setQrCodeUrl} =useDesignContext();
       headers["Content-Type"] = "application/json";
     }
 
+
     try {
       const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/services/${activeService}`,
         dataToSend,
