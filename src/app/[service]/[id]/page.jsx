@@ -1,29 +1,59 @@
+
+
+import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
 import { connectDB } from "@/lib/mongoDB";
 
 // Models
 import PetTagModal from "@/models/services/petIdSchema";
 import ResumeModel from "@/models/services/resumeSchema";
-import businessShopSchema from "@/models/services/businessShopSchema";
 import SmsModal from "@/models/services/smsSchema";
 import TextMessageModal from "@/models/services/textMessage";
+import BusinessShopModel from '@/models/services/businessShopSchema';
+import propertySchema from "@/models/services/propertySchema";
+
+// Components
+
 import KidsSafetyModal from "@/models/services/kidSafetySchema";
 import MenuCardsServiceModel from "@/models/services/menuCardSchema";
 import VehicleModel from "@/models/services/vehicleSchema";
 
 // Components (Server or dynamic server-compatible ones)
 import SmsPreview from "@/components/scanningPreview/SmsPreview";
+
 import TextMessagePreview from "@/components/scanningPreview/TextFormPreview";
 import KidsSafetyPreview from "@/components/scanningPreview/KidsSafetyPreview";
 import MenuBookPreview from "@/components/scanningPreview/menuBookPreview";
-import VehiclePreview from "@/components/scanningPreview/vehiclePreview";
-
-
+import PetIdPreview from "@/components/scanningPreview/PetIdPreview";
+import BusinessShopPreview from "@/components/scanningPreview/BusinessShopPreview";
 // Client component
 import PasswordModal from "@/components/common/passwordModal"; // ✅ CLIENT COMPONENT
+import VehiclePreview from "@/components/scanningPreview/vehiclePreview";
+import ResumePreview from "@/components/scanningPreview/resumePreview";
+import PropertyPreview from "@/components/scanningPreview/PropertyPreview";
+import URLServicesPreview from "@/components/scanningPreview/urlServicesPreview";
+import URLServiceModel from "@/models/services/urlServicesSchema";
+import MultiUrlModal from "@/models/services/multiUrlSchema";
+import MultiUrlPreview from "@/components/scanningPreview/multiUrlPreview";
+
+
+const PasswordProtectedPreview = dynamic(() =>
+  import("@/components/common/passwordModal")
+);
+
+export const urlServices = [
+  'urls', 'meetings', 'google-meets', 'zoom-meets', 'microsoft-teams',
+  'form-qr', 'forms', 'student-forms', 'personal-notes', 'youtube',
+  'facebook', 'instagram', 'linkedin', 'twitter', 'location',
+  , 'landing-page', 'github'
+];
 
 // Service map
 const serviceMap = {
+  urlServices: {
+    model: URLServiceModel, // Replace with your actual model
+    component: URLServicesPreview,
+  },
   sms: {
     model: SmsModal,
     component: SmsPreview,
@@ -32,7 +62,8 @@ const serviceMap = {
     model: VehicleModel,
     component: VehiclePreview,
   },
-  menuCard: {
+  
+  "menu-cards": {
     model: MenuCardsServiceModel,
     component: MenuBookPreview,
   },
@@ -43,6 +74,26 @@ const serviceMap = {
   kidsSafety: {
     model: KidsSafetyModal,
     component: KidsSafetyPreview,
+  },
+  "Pet-ID-tags": {
+    model: PetTagModal,
+    component: PetIdPreview
+  },  
+  "business-shops": {
+    model: BusinessShopModel,
+    component: BusinessShopPreview
+  },
+  resume: {
+    model: ResumeModel,
+    component:ResumePreview, 
+  },
+  "property-qr": {
+    model:propertySchema,
+    component:PropertyPreview, 
+  },
+  "multi-urls": {
+    model: MultiUrlModal,
+    component: MultiUrlPreview,
   },
 };
 
@@ -76,3 +127,4 @@ const Page = async ({ params }) => {
 };
 
 export default Page;
+

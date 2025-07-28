@@ -115,7 +115,6 @@ export default function JobSearchPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form submitted:', { job: selectedJob, applicant: formData });
     setIsSubmitted(true);
     setTimeout(() => {
       setShowModal(false);

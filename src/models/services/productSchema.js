@@ -16,6 +16,7 @@ const productSchema = new mongoose.Schema(
     address: String,
     password: String,
     selectedTemplate: Number,
+    bgDesign: String,
     items: [
       {
         image: String,
@@ -25,11 +26,13 @@ const productSchema = new mongoose.Schema(
         videoUrl: String,
       },
     ],
-    qrCodeDetails: qrCodeServicesSchema
+    bgDesign: String,
+    qrCodeDetails: qrCodeServicesSchema,
   },
   {
     timestamps: true,
   }
 );
 
-export default mongoose.models.Product || mongoose.model("Product", productSchema);
+export default mongoose.models.Product ||
+  mongoose.model("Product", productSchema);

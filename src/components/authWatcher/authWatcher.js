@@ -16,7 +16,7 @@ const AuthWatcher = () => {
       signOut({ redirect: false }); // avoids double redirect
       router.push("/login"); // or "/"
     }
-  }, [status]);
+  }, [status,router]);
 
   return null;
 };
