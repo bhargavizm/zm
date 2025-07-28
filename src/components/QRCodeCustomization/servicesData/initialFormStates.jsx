@@ -56,13 +56,51 @@ const initialFormStates = {
 
   "business-cards": initialBusinessForm,
   "v-cards": initialBusinessForm,
-  "text-messages": {
-    sender: "",
-    message: "",
-    password: "",
-    bgDesign: "",
+  "text-messages":{
+     sender: '',
+    message: '',
+    password: '',
+    bgDesign:''
   },
-    resumes: {
+
+  vehicles: {
+    selectedTemplate: '',
+    
+    general: {
+      vehicleModel: '',
+      vehicleNumber: '',
+      vehicleType: '',
+      description: ''
+    },
+    
+    registration: {
+      rcNumber: '',
+      driverName: '',
+      ownerName: ''
+    },
+    
+    contact: {
+      contact: '',
+      altContact: '',
+      address: ''
+    },
+    
+    security: {
+      password: ''
+    },
+    
+    media: {
+      vehicleImage: null,
+      licenseFront: null,
+      licenseBack: null,
+      rcFront: null,
+      rcBack: null,
+      pollution: null,
+      galleryImages: [],      // multiple images
+      insurance: []           // multiple images
+    }
+  },
+  resumes: {
     resumeFiles: [],
     resumeUrl: "",
     password: "",
@@ -101,6 +139,7 @@ const initialEncryptedForm = {
   file: [],
   bgDesign: "",
 };
+
 
 urlBasedServices.forEach((service) => {
   initialFormStates[service] = initialUrlForm;

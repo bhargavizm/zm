@@ -125,6 +125,7 @@ export async function POST(request) {
        bgDesign,
       password = "",
       qrPassword = "",
+      bgDesign,
       location = {},
       renewalDate = null,
       status = "active",
@@ -146,7 +147,8 @@ export async function POST(request) {
       genderName,
       messageType,
       textMessage,
-       bgDesign,
+      bgDesign,
+
       password: hashedPassword,
         qrCodeDetails: {
     qrCodeImage: body.qrCodeImage ?? "",

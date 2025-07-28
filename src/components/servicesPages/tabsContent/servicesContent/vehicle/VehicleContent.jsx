@@ -49,8 +49,6 @@ const VehicleContent = () => {
     if (!vehicleInfo.media.vehicleImage) {
       newErrors.vehicleImage = 'Vehicle image is required';
     }
-
-    
     
     if (!vehicleInfo.registration.rcNumber?.trim()) {
       newErrors.rcNumber = 'RC number is required';
@@ -90,94 +88,93 @@ const VehicleContent = () => {
 
   // Confirm submission
   const confirmSubmission = async () => {
-    setShowConfirmation(false);
-    setIsSubmitting(true);
-      setServicesDataLoading(true);
-    try {
-      const formData = new FormData();
+    setActiveTab(slug, "Backdrop Designs");
+    // setShowConfirmation(false);
+    // setIsSubmitting(true);
+    //   setServicesDataLoading(true);
+    // try {
+    //   const formData = new FormData();
       
-      // Add all text fields
-      formData.append('selectedTemplate', vehicleTemplate.selectedTemplate || '');
-      formData.append('vehicleModel', vehicleInfo.general.vehicleModel || '');
-      formData.append('vehicleNumber', vehicleInfo.general.vehicleNumber || '');
-      formData.append('vehicleType', vehicleInfo.general.vehicleType || '');
-      formData.append('description', vehicleInfo.general.description || '');
-      formData.append('rcNumber', vehicleInfo.registration.rcNumber || '');
-      formData.append('driverName', vehicleInfo.registration.driverName || '');
-      formData.append('contact', vehicleInfo.contact.contact || '');
-      formData.append('ownerName', vehicleInfo.registration.ownerName || '');
-      formData.append('altContact', vehicleInfo.contact.altContact || '');
-      formData.append('address', vehicleInfo.contact.address || '');
-      formData.append('password', vehicleInfo.security.password || '');
+    //   // Add all text fields
+    //   formData.append('selectedTemplate', vehicleTemplate.selectedTemplate || '');
+    //   formData.append('vehicleModel', vehicleInfo.general.vehicleModel || '');
+    //   formData.append('vehicleNumber', vehicleInfo.general.vehicleNumber || '');
+    //   formData.append('vehicleType', vehicleInfo.general.vehicleType || '');
+    //   formData.append('description', vehicleInfo.general.description || '');
+    //   formData.append('rcNumber', vehicleInfo.registration.rcNumber || '');
+    //   formData.append('driverName', vehicleInfo.registration.driverName || '');
+    //   formData.append('contact', vehicleInfo.contact.contact || '');
+    //   formData.append('ownerName', vehicleInfo.registration.ownerName || '');
+    //   formData.append('altContact', vehicleInfo.contact.altContact || '');
+    //   formData.append('address', vehicleInfo.contact.address || '');
+    //   formData.append('password', vehicleInfo.security.password || '');
 
-      // Add single files
-      if (vehicleInfo.media.vehicleImage) {
-        formData.append('vehicleImage', vehicleInfo.media.vehicleImage);
-      }
-      if (vehicleInfo.media.licenseFront) {
-        formData.append('licenseFront', vehicleInfo.media.licenseFront);
-      }
-      if (vehicleInfo.media.licenseBack) {
-        formData.append('licenseBack', vehicleInfo.media.licenseBack);
-      }
-      if (vehicleInfo.media.rcFront) {
-        formData.append('rcFront', vehicleInfo.media.rcFront);
-      }
-      if (vehicleInfo.media.rcBack) {
-        formData.append('rcBack', vehicleInfo.media.rcBack);
-      }
-      if (vehicleInfo.media.pollution) {
-        formData.append('pollution', vehicleInfo.media.pollution);
-      }
+    //   // Add single files
+    //   if (vehicleInfo.media.vehicleImage) {
+    //     formData.append('vehicleImage', vehicleInfo.media.vehicleImage);
+    //   }
+    //   if (vehicleInfo.media.licenseFront) {
+    //     formData.append('licenseFront', vehicleInfo.media.licenseFront);
+    //   }
+    //   if (vehicleInfo.media.licenseBack) {
+    //     formData.append('licenseBack', vehicleInfo.media.licenseBack);
+    //   }
+    //   if (vehicleInfo.media.rcFront) {
+    //     formData.append('rcFront', vehicleInfo.media.rcFront);
+    //   }
+    //   if (vehicleInfo.media.rcBack) {
+    //     formData.append('rcBack', vehicleInfo.media.rcBack);
+    //   }
+    //   if (vehicleInfo.media.pollution) {
+    //     formData.append('pollution', vehicleInfo.media.pollution);
+    //   }
 
-      // Add gallery images
-      if (vehicleInfo.media.galleryImages?.length > 0) {
-        vehicleInfo.media.galleryImages.forEach((file) => {
-          formData.append('galleryImages', file);
-        });
-      }
+    //   // Add gallery images
+    //   if (vehicleInfo.media.galleryImages?.length > 0) {
+    //     vehicleInfo.media.galleryImages.forEach((file) => {
+    //       formData.append('galleryImages', file);
+    //     });
+    //   }
 
-      // Add insurance files
-      if (vehicleInfo.media.insurance?.length > 0) {
-        vehicleInfo.media.insurance.forEach((file) => {
-          formData.append('insurance', file);
-        });
-      }
+    //   // Add insurance files
+    //   if (vehicleInfo.media.insurance?.length > 0) {
+    //     vehicleInfo.media.insurance.forEach((file) => {
+    //       formData.append('insurance', file);
+    //     });
+    //   }
 
-      // Submit to backend
-      const response = await axios.post('/api/services/vehicle', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+    //   // Submit to backend
+    //   const response = await axios.post('/api/services/vehicle', formData, {
+    //     headers: {
+    //       'Content-Type': 'multipart/form-data',
+    //     },
+    //   });
 
-      const { fileData, qrUrl } = response.data;
+    //   const { fileData, qrUrl } = response.data;
 
+    //   dispatch(setVehicleServices(fileData));
+    //   toast.success('Vehicle details saved successfully!');
+    //   setActiveTab(slug, "QR Code");
       
-      setQrcodeUrl(qrUrl);
-      dispatch(setVehicleServices(fileData));
-      toast.success('Vehicle details saved successfully!');
-      setActiveTab(slug, "QR Code");
-      
-      // Reset form after successful submission
-      resetForm();
+    //   // Reset form after successful submission
+    //   resetForm();
       
 
-    } catch (error) {
-      console.error('Error submitting vehicle:', error);
-      const errorMessage = error.response?.data?.error || 
-                         error.response?.data?.message || 
-                         'Failed to save vehicle details';
-      toast.error(errorMessage);
+    // } catch (error) {
+    //   console.error('Error submitting vehicle:', error);
+    //   const errorMessage = error.response?.data?.error || 
+    //                      error.response?.data?.message || 
+    //                      'Failed to save vehicle details';
+    //   toast.error(errorMessage);
 
-        if (error.response?.status === 401) {
-        window.location.href = "/login"; // ✅ Auto logout on expiry
-        return;
-      }
-    } finally {
-      setIsSubmitting(false);
-      setServicesDataLoading(false); // ✅ End loader
-    }
+    //     if (error.response?.status === 401) {
+    //     window.location.href = "/login"; // ✅ Auto logout on expiry
+    //     return;
+    //   }
+    // } finally {
+    //   setIsSubmitting(false);
+    //   setServicesDataLoading(false); // ✅ End loader
+    // }
   };
 
   // Reset all form fields
