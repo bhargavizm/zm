@@ -140,6 +140,16 @@ export const formDataMappers = {
     },
   },
 
+ "multi-urls": {
+  type: "json",
+  map: (body, state, bgDesign) => ({
+    socialLinks: state.socialLinks || {}, // ✅ direct access, not state.multiUrl.socialLinks
+    customLinks: Array.isArray(state.customLinks) ? state.customLinks : [],
+    password: state.password || "",
+    bgDesign: bgDesign || null,
+  }),
+},
+
   // formDataMappers["v-cards"] = formDataMappers["business-cards"];
 };
 

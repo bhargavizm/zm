@@ -39,6 +39,21 @@ const initialFormStates = {
     password: "",
   },
 
+  "multi-urls": {
+    socialLinks: {
+      youtube: "",
+      instagram: "",
+      twitter: "",
+      linkedin: "",
+      facebook: "",
+      custom: "",
+    },
+    customLinks: [],
+    password: "",
+    bgDesign: "",
+  },
+
+
   "business-cards": initialBusinessForm,
   "v-cards": initialBusinessForm,
   "text-messages": {
