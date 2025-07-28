@@ -7,10 +7,8 @@ import PremiumModal from "@/components/modalPopUps/premiumServicesModal";
 import { shapeDefinitions } from "./shapes";
 
 
-console.log('shapeDefinitions')
-  console.log(shapeDefinitions)
 const QRShapes = () => {
-  console.log(shapeDefinitions)
+
   const {
     selectedQRShape,
     setSelectedQRShape,setStrokeWidth,strokeWidth,
@@ -36,7 +34,6 @@ const QRShapes = () => {
   const premiumShapes = shapeKeys.slice(7);
 
   const handleClick = (shapeKey, isPremium) => {
-    console.log("shapeKey", shapeKey);
     if (isPremium && !premiumEnabled) {
       setShowPremiumModal(true);
     } else {
@@ -52,7 +49,6 @@ const QRShapes = () => {
       setPremiumEnabled(false);
     }
   };
-   console.log("shapeKey", selectedQRShape);
   const renderShapeBox = (shape, isPremium) => {
     const isSelected = selectedQRShape === shape;
 
