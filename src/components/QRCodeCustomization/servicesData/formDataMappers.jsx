@@ -18,6 +18,61 @@ export const formDataMappers = {
     },
   },
 
+  vehicles: {
+  type: "formData",
+  map: (formData, state, bgDesign) => {
+    // Template
+    formData.append("selectedTemplate", state?.selectedTemplate || "");
+
+    // General Info
+    formData.append("vehicleModel", state?.general?.vehicleModel || "");
+    formData.append("vehicleNumber", state?.general?.vehicleNumber || "");
+    formData.append("vehicleType", state?.general?.vehicleType || "");
+    formData.append("description", state?.general?.description || "");
+
+    // Registration Info
+    formData.append("rcNumber", state?.registration?.rcNumber || "");
+    formData.append("driverName", state?.registration?.driverName || "");
+    formData.append("ownerName", state?.registration?.ownerName || "");
+
+    // Contact Info
+    formData.append("contact", state?.contact?.contact || "");
+    formData.append("altContact", state?.contact?.altContact || "");
+    formData.append("address", state?.contact?.address || "");
+
+    // Security
+    formData.append("password", state?.security?.password || "");
+
+    // Media - Single file uploads
+    const singleFileFields = [
+      "vehicleImage",
+      "licenseFront",
+      "licenseBack",
+      "rcFront",
+      "rcBack",
+      "pollution"
+    ];
+    singleFileFields.forEach(field => {
+      const file = state?.media?.[field];
+      if (file) formData.append(field, file);
+    });
+
+    // Media - Multiple file uploads
+    (state?.media?.galleryImages || []).forEach(file => {
+      if (file) formData.append("galleryImages", file);
+    });
+
+    (state?.media?.insurance || []).forEach(file => {
+      if (file) formData.append("insurance", file);
+    });
+
+    // Optional Design
+    formData.append("bgDesign", bgDesign || "");
+  }
+},
+
+
+
  "business-cards": {
   type: "formData",
   map: (formData, state, bgDesign) => {

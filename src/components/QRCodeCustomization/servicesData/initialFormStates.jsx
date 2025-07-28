@@ -39,7 +39,46 @@ const initialFormStates = {
     message: '',
     password: '',
     bgDesign:''
+  },
+
+  vehicles: {
+    selectedTemplate: '',
+    
+    general: {
+      vehicleModel: '',
+      vehicleNumber: '',
+      vehicleType: '',
+      description: ''
+    },
+    
+    registration: {
+      rcNumber: '',
+      driverName: '',
+      ownerName: ''
+    },
+    
+    contact: {
+      contact: '',
+      altContact: '',
+      address: ''
+    },
+    
+    security: {
+      password: ''
+    },
+    
+    media: {
+      vehicleImage: null,
+      licenseFront: null,
+      licenseBack: null,
+      rcFront: null,
+      rcBack: null,
+      pollution: null,
+      galleryImages: [],      // multiple images
+      insurance: []           // multiple images
+    }
   }
+  
 
 }
 

@@ -2,7 +2,7 @@
 // ✅ add all slice actions
 
 
-import { setCardServices, setMenuCardServices, setSmsServices, setTextMessageServices } from "@/redux/slices/servicesSlice";
+import { setCardServices, setMenuCardServices, setSmsServices, setTextMessageServices, setVehicleServices } from "@/redux/slices/servicesSlice";
 
 
 export const reduxDispatchMappers = {
@@ -11,6 +11,7 @@ export const reduxDispatchMappers = {
 
    "business-cards": setCardServices,
     "v-cards": setCardServices,
-   "text-messages":setTextMessageServices
+   "text-messages":setTextMessageServices,
+   vehicles:setVehicleServices,
 
 };

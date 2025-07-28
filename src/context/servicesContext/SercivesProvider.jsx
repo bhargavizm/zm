@@ -196,6 +196,7 @@ const ServicesProvider = ({ children }) => {
     genderName: "",
     messageType: "",
     textMessage: "",
+    bgDesign:"",
     password: "",
   };
 
@@ -494,6 +495,7 @@ const ServicesProvider = ({ children }) => {
       security: {
         password: "",
       },
+      bgDesign:"",
     },
     vehicleTemplate: {
       selectedTemplate: "none",
@@ -635,6 +637,14 @@ const ServicesProvider = ({ children }) => {
     });
   };
 
+  const resetAllDynamicForms = () => {
+    const resetState = {};
+    Object.keys(initialDynamicForms).forEach((key) => {
+      resetState[key] = { ...initialDynamicForms[key] };
+    });
+    setDynamicForms(resetState);
+  };
+
   // Add/Remove template fields (these seem fine for their specific use cases)
   const addTemplateField = (
     formKey,
@@ -717,6 +727,7 @@ const ServicesProvider = ({ children }) => {
         setDynamicForms,
         updateDynamicForm,
         resetDynamicForm, // Expose the new reset function
+        resetAllDynamicForms,
         addTemplateField,
         removeTemplateField,
 
