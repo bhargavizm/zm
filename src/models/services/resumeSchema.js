@@ -26,6 +26,7 @@ const resumeSchema = new mongoose.Schema(
     password: {
       type: String,
     },
+    bgDesign: String,
     qrCodeDetails:qrCodeServicesSchema
   },
   {

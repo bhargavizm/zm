@@ -90,18 +90,19 @@ const ResumeContent = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    setActiveTab(slug, "Backdrop Designs");
+    // e.preventDefault();
 
-    const hasFiles = resumeFormData.resumeFiles?.length > 0;
-    const hasUrl = resumeFormData.resumeUrl?.trim();
-    const hasPassword = resumeFormData.password?.trim();
+    // const hasFiles = resumeFormData.resumeFiles?.length > 0;
+    // const hasUrl = resumeFormData.resumeUrl?.trim();
+    // const hasPassword = resumeFormData.password?.trim();
 
-    if (!hasFiles && !hasUrl && !hasPassword) {
-      toast.error("Please fill at least one field before submitting.");
-      return;
-    }
+    // if (!hasFiles && !hasUrl && !hasPassword) {
+    //   toast.error("Please fill at least one field before submitting.");
+    //   return;
+    // }
 
-    setShowConfirmModal(true);
+    // setShowConfirmModal(true);
   };
 
   const submitToServer = async () => {
@@ -117,7 +118,7 @@ const ResumeContent = () => {
     setServicesDataLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/services/resume",
+        "http://localhost:3000/api/services/resumes",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
