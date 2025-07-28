@@ -3,6 +3,8 @@
 import {
   setCardServices,
   setMenuCardServices,
+  setPropertyServices,
+  setResumeServices,
   setSmsServices,
   setTextMessageServices,
 } from "@/redux/slices/servicesSlice";
@@ -26,6 +28,8 @@ export const reduxDispatchMappers = {
   pdf: setPDFServices,
   gallery: setGalleryServices,
   videos: setVideoServices,
+  resumes:setResumeServices,
+  "property-qr":setPropertyServices,
 };
 
 urlBasedServices.forEach((service) => {

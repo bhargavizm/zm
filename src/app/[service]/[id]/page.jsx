@@ -102,6 +102,7 @@ import ResumeModel from "@/models/services/resumeSchema";
 import businessShopSchema from "@/models/services/businessShopSchema";
 import SmsModal from "@/models/services/smsSchema";
 import TextMessageModal from "@/models/services/textMessage";
+import propertySchema from "@/models/services/propertySchema";
 
 // Components
 
@@ -112,6 +113,9 @@ import TextMessagePreview from "@/components/scanningPreview/TextFormPreview";
 import KidsSafetyPreview from "@/components/scanningPreview/KidsSafetyPreview";
 import MenuCardsServiceModel from "@/models/services/menuCardSchema";
 import MenuBookPreview from "@/components/scanningPreview/menuBookPreview";
+import ResumePreview from "@/components/scanningPreview/resumePreview";
+import PropertyPreview from "@/components/scanningPreview/PropertyPreview";
+
 
 const PasswordProtectedPreview = dynamic(() =>
   import("@/components/common/passwordModal")
@@ -135,9 +139,16 @@ const serviceMap = {
     model: KidsSafetyModal,
     component: KidsSafetyPreview,
   },
+  resume: {
+    model: ResumeModel,
+    component:ResumePreview, 
+  },
+  "property-qr": {
+    model:propertySchema,
+    component:PropertyPreview, 
+  },
+  
 
- 
- 
 
 };
 
