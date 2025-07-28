@@ -14,9 +14,9 @@ import toast from "react-hot-toast";
 import LoadingSpinner from "@/components/common/spinner";
 
 const PetTagContent = () => {
-  const { setActiveTab , setIsLoading, setBgDesign} = useDesignContext();
+  const { setActiveTab, setIsLoading, setBgDesign } = useDesignContext();
   const { slug } = useParams();
-  const { petIDFormData, setPetIDFormData, servicesDataLoading, setServicesDataLoading  } = useServicesContext();
+  const { petIDFormData, setPetIDFormData, servicesDataLoading, setServicesDataLoading } = useServicesContext();
   const [showPassword, setShowPassword] = useState(false);
   const [file, setFile] = useState(null);
   const [submitting, setSubmitting] = useState(false);
@@ -170,6 +170,66 @@ const PetTagContent = () => {
   };
 
   const handleFinalSubmit = async () => {
+    setActiveTab(slug, "Backdrop Designs");
+    // setSubmitting(true);
+    // setShowPreviewModal(false);
+    // setServicesDataLoading(true);
+    // try {
+    //   const base64Image = file ? await toBase64(file) : null;
+
+    //   const payload = {
+    //     ...petIDFormData,
+    //     image: base64Image,
+    //   };
+
+    //   const res = await axios.post("/api/services/Pet-ID-tags", payload);
+
+    //   if (res.status === 201) {
+    //     setShowSuccessModal(true);
+    //     toast.success("Pet ID Tag created successfully!");
+    //     setActiveTab(slug, "QR Code");
+    //     dispatch(setPetIdServices(res.data));
+    //     console.log("Pet ID Tag created successfully:", res.data);
+    //     setTimeout(() => {
+    //       setShowSuccessModal(false);
+    //       // Reset form
+    //       setPetIDFormData({
+    //         selectedTemplate: "",
+    //         mainImage: "",
+    //         ownerInfo: {
+    //           name: "",
+    //           phone: "",
+    //           email: "",
+    //           password: "",
+    //           address: ""
+    //         },
+    //         pet: {
+    //           name: "",
+    //           breed: "",
+    //           color: ""
+    //         }
+    //       });
+    //       setFile(null);
+    //       if (document.getElementById("imageInput")) {
+    //         document.getElementById("imageInput").value = null;
+    //       }
+    //     }, 2000);
+    //   } else {
+    //     toast.warn("Failed to create Pet ID Tag.");
+    //     alert("Failed to create Pet ID Tag.");
+    //   }
+    // } catch (error) {
+    //   console.error("Submission Error:", error);
+    //   toast.error(error?.response?.data?.error || "Something went wrong!");
+    //   if (error.response?.status === 401) {
+    //     window.location.href = "/login"; // ✅ Auto logout on expiry
+    //     return;
+    //   }
+    // } finally {
+    //   setSubmitting(false);
+    //   setServicesDataLoading(false); // ✅ End loader
+    // }
+
     setSubmitting(true);
     setShowPreviewModal(false);
   setServicesDataLoading(true);
@@ -188,7 +248,7 @@ const PetTagContent = () => {
         toast.success("Pet ID Tag created successfully!");
         setActiveTab(slug, "QR Code");
         dispatch(setPetIdServices(res.data));
-        console.log("Pet ID Tag created successfully:", res.data);
+
         setTimeout(() => {
           setShowSuccessModal(false);
           // Reset form
@@ -244,7 +304,7 @@ const PetTagContent = () => {
 
   return (
     <>
-     {servicesDataLoading && <LoadingSpinner />}
+      {servicesDataLoading && <LoadingSpinner />}
 
       <form onSubmit={handlePreviewSubmit}>
         <div className="grid grid-cols-1 gap-10">
@@ -259,11 +319,10 @@ const PetTagContent = () => {
                   <div
                     key={idx}
                     onClick={() => handleTemplateSelect(filename)}
-                    className={`relative rounded-md border-2 cursor-pointer transition-all p-1 ${
-                      petIDFormData.selectedTemplate === filename
-                        ? "border-[#008080] ring-2 ring-[#008080]"
-                        : "border-gray-300"
-                    }`}
+                    className={`relative rounded-md border-2 cursor-pointer transition-all p-1 ${petIDFormData.selectedTemplate === filename
+                      ? "border-[#008080] ring-2 ring-[#008080]"
+                      : "border-gray-300"
+                      }`}
                   >
                     <Image
                       src={`/pet-id/${filename}`}
@@ -324,9 +383,8 @@ const PetTagContent = () => {
                   value={petIDFormData.ownerInfo.phone}
                   onChange={handleOwnerChange}
                   placeholder="Phone Number"
-                  className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 ${
-                    phoneError ? "focus:ring-red-500 border-red-500" : "focus:ring-[#008080]"
-                  }`}
+                  className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 ${phoneError ? "focus:ring-red-500 border-red-500" : "focus:ring-[#008080]"
+                    }`}
                 />
                 {phoneError && (
                   <p className="mt-1 text-sm text-red-600">{phoneError}</p>
@@ -380,7 +438,7 @@ const PetTagContent = () => {
                 ))}
               </div>
             </div>
-              
+
             <div className="relative w-full">
               <input
                 type={showPassword ? "text" : "password"}
@@ -402,7 +460,7 @@ const PetTagContent = () => {
                 )}
               </button>
             </div>
-          
+
             <NFCModal />
             <button
               type="submit"
