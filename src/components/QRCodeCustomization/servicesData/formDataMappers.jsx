@@ -1,3 +1,50 @@
+const sharedUrlJsonMapper = {
+  type: "json",
+  map: (body, state, bgDesign) => ({
+    url: state.url,
+    password: state.password,
+    bgDesign,
+  }),
+};
+
+// Assign shared mapper to all URL-based services
+export const urlBasedServices = [
+  "urls",
+  "meetings",
+  "google-meets",
+  "zoom-meets",
+  "microsoft-teams",
+  "form-qr",
+  "forms",
+  "student-forms",
+  "personal-notes",
+  "youtube",
+  "facebook",
+  "instagram",
+  "linkedin",
+  "twitter",
+  "location",
+  ,
+  "landing-page",
+  "github",
+];
+
+const sharedFileUploadMapper = {
+  type: "formData",
+  map: (formData, state, bgDesign) => {
+    formData.append("title", state.title || "");
+    formData.append("description", state.description || "");
+    formData.append("password", state.password || "");
+    formData.append("bgDesign", bgDesign || "");
+
+    if (Array.isArray(state.file)) {
+      state.file.forEach((f) => {
+        formData.append("files", f);
+      });
+    }
+  },
+};
+
 
 export const formDataMappers = {
   "menu-cards": {
@@ -89,16 +136,16 @@ export const formDataMappers = {
     formData.append("selectedTemplate", state.selectedTemplate || "");
     formData.append("bgDesign", bgDesign || "");
 
-    // Assuming you're passing the image file in state.logo manually (not in the original component though)
-    if (state.logo) {
-      formData.append("file", state.logo);
-    }
+      // Assuming you're passing the image file in state.logo manually (not in the original component though)
+      if (state.logo) {
+        formData.append("file", state.logo);
+      }
+    },
   },
-},
 
-// "v-cards": {
-//     ...this["business-cards"],
-//   },
+  // "v-cards": {
+  //     ...this["business-cards"],
+  //   },
 
   gallery: {
     type: "formData",
@@ -127,17 +174,14 @@ export const formDataMappers = {
     },
   },
   "text-messages": {
-
-  type: "json",
-  map: (body, state, bgDesign) => ({
-    sender: state.sender,
-    message: state.message,
-    password: state.password,
-    bgDesign: bgDesign || null,
-  }),
-},
-
-
+    type: "json",
+    map: (body, state, bgDesign) => ({
+      sender: state.sender,
+      message: state.message,
+      password: state.password,
+      bgDesign: bgDesign || null,
+    }),
+  },
 
   // ✅ JSON-based body example
   "google-meet": {
@@ -151,7 +195,25 @@ export const formDataMappers = {
     },
   },
 
+ "multi-urls": {
+  type: "json",
+  map: (body, state, bgDesign) => ({
+    socialLinks: state.socialLinks || {}, // ✅ direct access, not state.multiUrl.socialLinks
+    customLinks: Array.isArray(state.customLinks) ? state.customLinks : [],
+    password: state.password || "",
+    bgDesign: bgDesign || null,
+  }),
+},
+
   // formDataMappers["v-cards"] = formDataMappers["business-cards"];
 };
 
 formDataMappers["v-cards"] = formDataMappers["business-cards"];
+
+urlBasedServices.forEach((service) => {
+  formDataMappers[service] = sharedUrlJsonMapper;
+});
+
+["pdf", "audios", "videos", "gallery"].forEach((service) => {
+  formDataMappers[service] = sharedFileUploadMapper;
+});

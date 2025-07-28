@@ -1,4 +1,5 @@
-import VideoServiceModel from "@/models/services/videoSchema";
+
+import { VideoServiceModel } from "@/models/services/encryptedServicesSchema";
 import { HandleEncryptedServices } from "../common/encryptedServicesRoute";
 
  const videoMimeTypes = [
@@ -19,6 +20,7 @@ import { HandleEncryptedServices } from "../common/encryptedServicesRoute";
 
 export async function POST(request) {
   return HandleEncryptedServices({
+    serviceName:"videos",
     request,
     model: VideoServiceModel,
     useCloudinary: true,

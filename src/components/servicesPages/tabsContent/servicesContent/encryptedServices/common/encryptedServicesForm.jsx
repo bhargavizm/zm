@@ -44,7 +44,7 @@ const EncryptedServicesForm = ({
   userPlan = "Basic",
   titleLabel = "Title",
   fileLabel = "Upload Files",
-   fileKey = "file",
+  fileKey = "file",
   successMessage = "✅ Uploaded successfully",
 }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -56,7 +56,8 @@ const EncryptedServicesForm = ({
   const { servicesDataLoading, setServicesDataLoading } = useServicesContext();
   const { setActiveTab } = useDesignContext();
   const { slug } = useParams();
-
+console.log(formData)
+console.log('bgDesign',formData.bgDesign)
   const formatBytes = (bytes) => {
     if (!bytes) return "0 Bytes";
     const k = 1024;
@@ -102,61 +103,67 @@ const EncryptedServicesForm = ({
       setTotalSize(updatedSize);
       const warning = getPlanErrorMessage(updatedSize);
       setSizeWarning(warning);
-     setFormData((prev) => ({ ...prev, [fileKey]: updatedFiles }));
+      setFormData((prev) => ({ ...prev, [fileKey]: updatedFiles }));
 
       if (warning) {
-         setShowUpgradeModal(true); // show modal on exceeding plan
-       }
+        setShowUpgradeModal(true); // show modal on exceeding plan
+      }
     } else {
       // ✅ Add this block for other fields
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
+  const getLowerLimit = (planName) => {
+    const plans = Object.entries(planLimits);
+    const index = plans.findIndex(([name]) => name === planName);
+    return index > 0 ? plans[index - 1][1] : 0;
+  };
+
   const confirmUpload = async () => {
-    const fd = new FormData();
-    // ✅ Always upload files under key "files"
-    if (Array.isArray(formData[fileKey])) {
-      formData[fileKey].forEach((f) => fd.append("files", f));
-    }
-    ["title", "description", "password"].forEach((key) => {
-      if (formData[key]) fd.append(key, formData[key]);
-    });
+     setActiveTab(slug, "Backdrop Designs");
+    // const fd = new FormData();
+    // // ✅ Always upload files under key "files"
+    // if (Array.isArray(formData[fileKey])) {
+    //   formData[fileKey].forEach((f) => fd.append("files", f));
+    // }
+    // ["title", "description", "password"].forEach((key) => {
+    //   if (formData[key]) fd.append(key, formData[key]);
+    // });
 
-    setServicesDataLoading(true);
+    // setServicesDataLoading(true);
 
-    try {
-      const res = await fetch(apiRoute, {
-        method: "POST",
-        body: fd,
-      });
+    // try {
+    //   const res = await fetch(apiRoute, {
+    //     method: "POST",
+    //     body: fd,
+    //   });
 
-      const data = await res.json();
-      if (data.success) {
-        dispatch(reduxAction(data));
-        toast.success(successMessage);
-        setActiveTab(slug, "QR Code");
-        setFormData({ title: "", description: "", password: "", file: [] });
-        setTotalSize(0);
-        setSizeWarning("");
-        fileInputRef.current && (fileInputRef.current.value = "");
-        setShowConfirm(false);
-      } else if (data.type === "upgrade") {
-        toast((t) => <span>{data.error}</span>, { icon: "📈" });
-      } else {
-        toast.error(data.error || "Upload failed");
-      }
-    } catch (error) {
-      toast.error(error?.response?.data?.error || "Something went wrong!");
+    //   const data = await res.json();
+    //   if (data.success) {
+    //     dispatch(reduxAction(data));
+    //     toast.success(successMessage);
+    //     setActiveTab(slug, "QR Code");
+    //     setFormData({ title: "", description: "", password: "", file: [] });
+    //     setTotalSize(0);
+    //     setSizeWarning("");
+    //     fileInputRef.current && (fileInputRef.current.value = "");
+    //     setShowConfirm(false);
+    //   } else if (data.type === "upgrade") {
+    //     toast((t) => <span>{data.error}</span>, { icon: "📈" });
+    //   } else {
+    //     toast.error(data.error || "Upload failed");
+    //   }
+    // } catch (error) {
+    //   toast.error(err?.response?.data?.error || "Something went wrong!");
 
-        if (error.response?.status === 401) {
-        window.location.href = "/login"; // ✅ Auto logout on expiry
-        return;
-      }
-      
-    } finally {
-      setServicesDataLoading(false); // ✅ End loader
-    }
+    //   if (error.response?.status === 401) {
+    //     window.location.href = "/login"; // ✅ Auto logout on expiry
+    //     return;
+    //   }
+    // } finally {
+    //   setServicesDataLoading(false); // ✅ End loader
+    // }
   };
 
   const handleSubmit = (e) => {
@@ -197,7 +204,10 @@ const EncryptedServicesForm = ({
 
           {/* File Upload */}
           <div>
-            <label className="text-sm font-semibold">{fileLabel}: {"       "}<span className="font-normal"> (Max File Size limit : 5 GB)</span></label>
+            <label className="text-sm font-semibold">
+              {fileLabel}: {"       "}
+              <span className="font-normal"> (Max File Size limit : 5 GB)</span>
+            </label>
             <div className="relative mt-1 w-full py-2 px-4 border">
               <input
                 type="file"
@@ -251,7 +261,10 @@ const EncryptedServicesForm = ({
                       (acc, f) => acc + f.size,
                       0
                     );
-                   setFormData((prev) => ({ ...prev, [fileKey]: updatedFiles }));
+                    setFormData((prev) => ({
+                      ...prev,
+                      [fileKey]: updatedFiles,
+                    }));
                     setTotalSize(newSize);
                     setSizeWarning(getPlanErrorMessage(newSize));
                     // if (!updatedFiles.length && fileInputRef.current) {
@@ -307,13 +320,13 @@ const EncryptedServicesForm = ({
           {/* <NFCModal /> */}
 
           {/* Submit Button */}
-          <div className="pt-6">
-          <button
-            type="submit"
-            className="w-full cursor-pointer bg-teal-600 text-white py-2 rounded-md font-semibold"
-          >
-            Submit
-          </button>
+          <div className="flex justify-center items-center pt-6">
+            <button
+              type="submit"
+  className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg"
+            >
+               Next → 
+            </button>
           </div>
         </form>
       </div>
@@ -323,17 +336,7 @@ const EncryptedServicesForm = ({
         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
           <div className="bg-white rounded-xl shadow-xl w-full max-w-xl  overflow-y-auto scrollbar-hide p-6 border border-teal-200 mx-auto">
             {/* <div className="flex justify-between items-center pb-4"> */}
-               <div className="text-right pb-2">
-              {/* <button
-                onClick={() => {
-                  setShowConfirm(false);
-                  setShowUpgradeModal(true);
-                }}
-                className="text-md  text-darkGreen hover:underline font-semibold hover:text-mainGreen cursor-pointer  transition"
-              >
-                ← Back to storage limit check
-              </button> */}
-
+            <div className="text-right pb-2">
               <button
                 onClick={() => setShowConfirm(false)}
                 className="text-md pb-2 cursor-pointer  text-gray-600 hover:text-red-600"
@@ -362,98 +365,69 @@ const EncryptedServicesForm = ({
               )}
 
               <p className="pt-2 font-semibold">Uploaded Files:</p>
-              {/* <ul className="list-none grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3 mt-2">
+
+              <ul className="list-none grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3 mt-2">
                 {formData[fileKey]?.map((f, i) => {
                   const previewUrl = URL.createObjectURL(f);
                   const fileType = f.type;
+
+                  const isImage = fileType.startsWith("image");
+                  const isVideo = fileType.startsWith("video");
+
                   return (
                     <li key={i} className="relative group cursor-pointer">
-                      <a
-                        href={previewUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block w-full h-24 border rounded-lg flex items-center justify-center bg-gray-100 overflow-hidden"
-                      >
-                        {fileType.startsWith("image") ? (
-                          <img
-                            src={previewUrl}
-                            alt={f.name}
-                            className="h-full w-full object-cover"
-                          />
-                        ) : fileType.startsWith("video") ? (
-                          <video src={previewUrl} className="h-full" controls />
-                        ) : fileType.startsWith("audio") ? (
-                          <audio src={previewUrl} className="w-full" controls />
-                        ) : (
-                          <div className="text-center px-2 text-sm text-gray-700">
-                            📄 {f.name}
-                          </div>
-                        )}
-                      </a>
+                      {isImage || isVideo ? (
+                        <a
+                          href={previewUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block w-full h-24 border rounded-lg flex items-center justify-center bg-gray-100 overflow-hidden"
+                        >
+                          {isImage ? (
+                            <img
+                              src={previewUrl}
+                              alt={f.name}
+                              className="h-full w-full object-cover"
+                            />
+                          ) : (
+                            <video
+                              src={previewUrl}
+                              className="h-full"
+                              controls
+                            />
+                          )}
+                        </a>
+                      ) : (
+                        <a
+                          href={previewUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-300 underline text-sm"
+                        >
+                          📄 {f.name}
+                        </a>
+                      )}
+
                       <p className="text-xs text-center mt-1 truncate">
                         {f.name}
                       </p>
                     </li>
                   );
                 })}
-              </ul> */}
-              <ul className="list-none grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3 mt-2">
-  {formData[fileKey]?.map((f, i) => {
-    const previewUrl = URL.createObjectURL(f);
-    const fileType = f.type;
-
-    const isImage = fileType.startsWith("image");
-    const isVideo = fileType.startsWith("video");
-
-    return (
-      <li key={i} className="relative group cursor-pointer">
-        {isImage || isVideo ? (
-          <a
-            href={previewUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block w-full h-24 border rounded-lg flex items-center justify-center bg-gray-100 overflow-hidden"
-          >
-            {isImage ? (
-              <img
-                src={previewUrl}
-                alt={f.name}
-                className="h-full w-full object-cover"
-              />
-            ) : (
-              <video src={previewUrl} className="h-full" controls />
-            )}
-          </a>
-        ) : (
-          <a
-            href={previewUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-300 underline text-sm"
-          >
-            📄 {f.name}
-          </a>
-        )}
-
-        <p className="text-xs text-center mt-1 truncate">{f.name}</p>
-      </li>
-    );
-  })}
-</ul>
-
+              </ul>
             </div>
             <div className="flex justify-end flex-wrap gap-3 pt-4 text-md">
               <button
                 onClick={() => setShowConfirm(false)}
                 className="px-4 py-1.5 border rounded-lg cursor-pointer"
               >
-                Back To Form
+                Back 
               </button>
               <button
                 onClick={confirmUpload}
                 className="px-4 py-1.5 bg-teal-600 text-white rounded-lg cursor-pointer"
               >
-                Confirm & Submit
+               Continue
               </button>
             </div>
           </div>
@@ -471,19 +445,24 @@ const EncryptedServicesForm = ({
               ❌
             </button> */}
 
-            <h2 className="text-xl font-bold text-center  text-red-600">
-              ⚠️ Storage Limit 
+            <h2 className="text-xl font-bold text-center text-red-600">
+              🚫 Upload Limit Exceeded
             </h2>
 
-            <div className="my-4 space-y-4 text-gray-800 text-md  leading-relaxed">
+            <div className="my-4 space-y-4 text-gray-800 text-md leading-relaxed">
               <p>
-                Your total upload size is <b>{formatBytes(totalSize)}</b>.
+                📦 Your File size:{" "}
+                <b>
+                  {"> "}
+                  {formatBytes(getLowerLimit(getRequiredPlan(totalSize)))}
+                </b>
               </p>
-              <p>{/* You are currently on the <b>{userPlan}</b> plan. */}</p>
+
               <p>
-                You are currently on the {"  "}
+                You are currently on:{" "}
                 <b className="text-green-700">
-                  {getRequiredPlan(totalSize)} Plan
+                  {getRequiredPlan(totalSize)} Plan (
+                  {planPrices[getRequiredPlan(totalSize)]})
                 </b>
               </p>
             </div>
@@ -497,7 +476,7 @@ const EncryptedServicesForm = ({
         </button> */}
               <button
                 onClick={() => {
-                  setShowUpgradeModal(false)
+                  setShowUpgradeModal(false);
                 }}
                 className="px-5 py-2 bg-teal-600 text-white text-md rounded-lg hover:bg-teal-700 transition"
               >
@@ -507,9 +486,6 @@ const EncryptedServicesForm = ({
           </div>
         </div>
       )}
-
-
-
     </>
   );
 };

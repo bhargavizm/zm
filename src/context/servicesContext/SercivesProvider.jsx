@@ -23,6 +23,12 @@ const ServicesProvider = ({ children }) => {
     }
   }, [pathname]);
 
+  //url services
+  const [formData, setFormData] = useState({
+      url: "",
+      password: "",
+    });
+
   const initialBusinessShopFormData = {
     shopName: "",
     ownerName: "",
@@ -71,6 +77,7 @@ const ServicesProvider = ({ children }) => {
     url: "",
     url1: "",
     password: "",
+    bgDesign:""
   };
 
   const initialProductData = {
@@ -91,6 +98,7 @@ const ServicesProvider = ({ children }) => {
     description: "",
     file: [],
     password: "",
+    bgDesign:"",
     qrCodeDetails: {
       qrCodeImage: '',
 
@@ -111,6 +119,7 @@ const ServicesProvider = ({ children }) => {
     description: "",
     file: [],
     password: "",
+     bgDesign:"",
     qrCodeDetails: {
       qrCodeImage: '',
 
@@ -131,6 +140,7 @@ const ServicesProvider = ({ children }) => {
     description: "",
     file: [],
     password: "",
+     bgDesign:"",
     qrCodeDetails: {
       qrCodeImage: '',
 
@@ -151,6 +161,7 @@ const ServicesProvider = ({ children }) => {
     description: "",
     images: [],
     password: "",
+     bgDesign:"",
     qrCodeDetails: {
       qrCodeImage: '',
 
@@ -198,12 +209,14 @@ const ServicesProvider = ({ children }) => {
     textMessage: "",
     bgDesign:"",
     password: "",
+     bgDesign: "",
   };
 
   const initialTextMessageForm = {
     sender: "",
     message: "",
     password: "",
+    bgDesign:""
   };
 
   // Menu Book (Original structure)
@@ -241,6 +254,8 @@ const ServicesProvider = ({ children }) => {
     },
     password: "",
   });
+
+
   const initialPetIDFormData = {
     tagTitle: "",
     mainImage: null,
@@ -514,6 +529,14 @@ const ServicesProvider = ({ children }) => {
     },
   };
 
+  const resetAllDynamicForms = () => {
+    const resetState = {};
+    Object.keys(initialDynamicForms).forEach((key) => {
+      resetState[key] = { ...initialDynamicForms[key] };
+    });
+    setDynamicForms(resetState);
+  };
+
   // State for all forms
   const [businessShopFormData, setBusinessShopFormData] = useState(
     initialBusinessShopFormData
@@ -680,6 +703,7 @@ const ServicesProvider = ({ children }) => {
     <ServicesContext.Provider
       value={{
         // Static forms and their setters
+        formData, setFormData,
         businessShopFormData,
         setBusinessShopFormData,
         businessForm,
@@ -730,6 +754,7 @@ const ServicesProvider = ({ children }) => {
         resetAllDynamicForms,
         addTemplateField,
         removeTemplateField,
+        resetAllDynamicForms,
 
         // UI Toggles
         showPassword,

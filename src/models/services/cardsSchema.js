@@ -22,13 +22,15 @@ const cardsSchema = new mongoose.Schema(
     address: { type: String, trim: true },
     password: { type: String },
     selectedTemplate: { type: String },
-   profileImageUrl: {
-  type: String,
-  trim: true,
-  default: "",
-},
-qrCodeDetails:qrCodeServicesSchema
-
+     bgDesign:  {
+      type: String,
+    },
+    profileImageUrl: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    qrCodeDetails: qrCodeServicesSchema,
   },
   { timestamps: true }
 );
