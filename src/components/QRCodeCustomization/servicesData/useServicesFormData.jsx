@@ -33,20 +33,20 @@ export const useServicesFormData = () => {
     pdfFormData,
     setPdfFormData,
     imagesFormData,
-    setImagesFormData, petIDFormData, setPetIDFormData, dynamicForms,
+    setImagesFormData, petIDFormData, setPetIDFormData,
     setDynamicForms,
-  } = useServicesContext();
-
-  const businessShopFormData = dynamicForms?.businessShop
-  const setBusinessShopFormData = setDynamicForms?.businessShop;
-    setImagesFormData,
     resumeFormData, 
     setResumeFormData,
     propertyDetails,
     setPropertyDetails
-
-
   } = useServicesContext();
+
+  const businessShopFormData = dynamicForms?.businessShop
+  const setBusinessShopFormData = setDynamicForms?.businessShop;
+   
+
+
+ 
 
   const vehicleData = dynamicForms?.vehicle; // ✅ Correct
   const setVehicleData = updateDynamicForm?.vehicle; // ✅ Correct
@@ -70,7 +70,7 @@ export const useServicesFormData = () => {
       gallery: imagesFormData,
       "Pet-ID-tags": petIDFormData,
       "business-shops": businessShopFormData,
-    }[activeService];
+    // }[activeService];
         "menu-cards": menuBookFormData,
         sms: smsFormData,
         "business-cards": businessForm,
@@ -83,7 +83,7 @@ export const useServicesFormData = () => {
         gallery: imagesFormData,
 
         resumes: resumeFormData,
-        "property-qr":propertyDetails
+        "property-qr":propertyDetails,
 
         "multi-urls":multiUrlFormData,
       
@@ -104,7 +104,7 @@ export const useServicesFormData = () => {
       gallery: setImagesFormData,
       "Pet-ID-tags": setPetIDFormData,
       "business-shops": setBusinessShopFormData,
-    }[activeService];
+    // }[activeService];
         "menu-cards": setMenuBookFormData,
         sms: setSmsFormData,
         "business-cards": setBusinessForm,
@@ -117,7 +117,7 @@ export const useServicesFormData = () => {
         gallery: setImagesFormData,
 
         resumes: setResumeFormData,
-        "property-qr":setPropertyDetails
+        "property-qr":setPropertyDetails,
 
         "multi-urls":setMultiUrlFormData,
 
