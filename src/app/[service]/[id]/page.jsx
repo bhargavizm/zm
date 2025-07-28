@@ -95,6 +95,7 @@ import ResumeModel from "@/models/services/resumeSchema";
 import businessShopSchema from "@/models/services/businessShopSchema";
 import SmsModal from "@/models/services/smsSchema";
 import TextMessageModal from "@/models/services/textMessage";
+import propertySchema from "@/models/services/propertySchema";
 
 // Components
 
@@ -104,7 +105,8 @@ import TextMessagePreview from "@/components/scanningPreview/TextFormPreview";
 import KidsSafetyPreview from "@/components/scanningPreview/KidsSafetyPreview";
 import MenuCardsServiceModel from "@/models/services/menuCardSchema";
 import MenuBookPreview from "@/components/scanningPreview/menuBookPreview";
-
+import ResumePreview from "@/components/scanningPreview/resumePreview";
+import PropertyPreview from "@/components/scanningPreview/PropertyPreview";
 import URLServicesPreview from "@/components/scanningPreview/urlServicesPreview";
 import URLServiceModel from "@/models/services/urlServicesSchema";
 import MultiUrlModal from "@/models/services/multiUrlSchema";
@@ -144,15 +146,18 @@ const serviceMap = {
     model: KidsSafetyModal,
     component: KidsSafetyPreview,
   },
-
+  resume: {
+    model: ResumeModel,
+    component:ResumePreview, 
+  },
+  "property-qr": {
+    model:propertySchema,
+    component:PropertyPreview, 
+  },
   "multi-urls": {
     model: MultiUrlModal,
     component: MultiUrlPreview,
   },
-  
- 
-
-
 };
 
 // Metadata

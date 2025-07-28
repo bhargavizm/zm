@@ -111,6 +111,71 @@ export const formDataMappers = {
 
 
 
+
+  "resumes": {
+  type: "formData",
+  map: (formData, state, bgDesign) => {
+    // Append resume files
+    (state.resumeFiles || []).forEach((file) => {
+      formData.append("resumeFiles", file);
+    });
+
+    // Append resume URL
+    formData.append("resumeUrl", state.resumeUrl || "");
+
+    // Append password
+    formData.append("password", state.password || "");
+
+    // Optionally append background design
+    formData.append("bgDesign", bgDesign || "");
+  },
+},
+"property-qr": {
+  type: "formData",
+  map: (formData, state = {}, bgDesign) => {
+    const basicInfo = state.basicInfo || {};
+    const addressInfo = state.addressInfo || {};
+    const pricingInfo = state.pricingInfo || {};
+    const images = state.images || {};
+
+    // Basic Info
+formData.append("basicInfo.propertyName", basicInfo.propertyName || "");
+formData.append("basicInfo.propertyType", basicInfo.propertyType || "");
+formData.append("basicInfo.ownerName", basicInfo.ownerName || "");
+formData.append("basicInfo.contactNumber", basicInfo.contactNumber || "");
+formData.append("basicInfo.alternateNumber", basicInfo.alternateNumber || "");
+formData.append("basicInfo.propertyDescription", basicInfo.propertyDescription || "");
+
+// Address Info
+formData.append("addressInfo.address", addressInfo.address || "");
+formData.append("addressInfo.mapLink", addressInfo.mapLink || "");
+
+// Pricing Info
+formData.append("pricingInfo.price", pricingInfo.price || "");
+formData.append("pricingInfo.area", pricingInfo.area || "");
+formData.append("pricingInfo.amenities", pricingInfo.amenities || "");
+
+// Password
+formData.append("password", state.password || "");
+
+// Gallery Images
+if (Array.isArray(images.galleryImages)) {
+  images.galleryImages.forEach((file) => {
+    formData.append("images.galleryImages", file);
+  });
+}
+
+// Background Design
+if (bgDesign) {
+  formData.append("images.bgDesign", bgDesign);
+}
+
+
+    return formData;
+  },
+},
+
+
  "multi-urls": {
   type: "json",
   map: (body, state, bgDesign) => ({
@@ -120,7 +185,6 @@ export const formDataMappers = {
     bgDesign: bgDesign || null,
   }),
 },
-
 
 };
 
