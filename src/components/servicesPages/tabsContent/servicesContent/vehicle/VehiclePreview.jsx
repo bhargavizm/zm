@@ -43,26 +43,7 @@ const VehiclePreview = () => {
     security = {},
   } = vehicle;
 
-  //const { selectedTemplate = "none" } = vehicleTemplate;
-
-  // const hasData =
-  //   general.vehicleModel ||
-  //   general.vehicleType ||
-  //   general.buyDate ||
-  //   general.description ||
-  //   registration.rcNumber ||
-  //   registration.driverName ||
-  //   registration.ownerName ||
-  //   contact.contact ||
-  //   contact.altContact ||
-  //   contact.address ||
-  //   contact.mapLink ||
-  //   media.vehicleImage ||
-  //   media.licenseFront ||
-  //   media.licenseBack ||
-  //   media.galleryImages?.length > 0 ||
-  //   security.password ||
-  //   selectedTemplate !== "none";
+  
   const { selectedTemplate } = vehicleTemplate;
 
   const hasData =
@@ -72,28 +53,8 @@ const VehiclePreview = () => {
     media.vehicleImage || media.licenseFront || media.licenseBack || media.rcFront || media.rcBack || media.pollution || (media.galleryImages?.length > 0) ||
     (media.insurance?.length > 0) ||security.password;
 
-  // const hasData =
-  //   general.vehicleModel ||
-  //   general.vehicleType ||
-  //   general.buyDate ||
-  //   general.description ||
-  //   registration.rcNumber ||
-  //   registration.driverName ||
-  //   registration.ownerName ||
-  //   contact.contact ||
-  //   contact.altContact ||
-  //   contact.address ||
-  //   contact.mapLink ||
-  //   media.vehicleImage ||
-  //   media.licenseFront ||
-  //   media.licenseBack ||
-  //   media.galleryImages?.length > 0 ||
-  //   security.password ||
-  //   selectedTemplate !== "none";
-  
-
-
  
+  
 
 const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
   const isImage = bgDesign && !isVideo;

@@ -287,6 +287,8 @@
 // Located at: app/api/services/vehicle/route.js (App Router)
 // Or: pages/api/services/vehicle.js (Pages Router)
 
+
+
 import { connectDB } from "@/lib/mongoDB";
 import { authUser } from "@/middlewares/authMiddleware";
 import VehicleModel from "@/models/services/vehicleSchema";
@@ -323,6 +325,7 @@ async function parseFormData(request) {
     altContact: formData.get('altContact'),
     address: formData.get('address'),
     password: formData.get('password'),
+    bgDesign:formData.get('bgDesign'),
     qrCodeImage: formData.get("qrCodeImage") || "",
     qrPassword: formData.get("qrPassword") || "",
     latitude: parseFloat(formData.get("latitude") || "0"),
@@ -335,7 +338,9 @@ async function parseFormData(request) {
     licenseBack: formData.get("licenseBack"),
     rcFront: formData.get("rcFront"),
     rcBack: formData.get("rcBack"),
+    pollution:formData.get("pollution"),
     galleryImages: formData.getAll("galleryImages").filter(file => file.size > 0),
+    insurance: formData.getAll("insurance").filter(file=>file.size>0),
   };
 }
 
@@ -371,8 +376,10 @@ async function handleFileUploads(fields) {
     { field: 'licenseBack', folder: 'vehicle_docs' },
     { field: 'rcFront', folder: 'vehicle_docs' },
     { field: 'rcBack', folder: 'vehicle_docs' },
+    { field: 'pollution', folder: 'vehicle_docs' },
   ];
 
+  // Single file fields
   for (const { field, folder } of fileFields) {
     const file = fields[field];
     if (file && file.size > 0) {
@@ -381,16 +388,33 @@ async function handleFileUploads(fields) {
     }
   }
 
-  // Gallery images
+  // Multiple file fields: galleryImages
   uploads.galleryImages = [];
-  for (const file of fields.galleryImages) {
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const url = await uploadToCloudinary(buffer, file.name, "vehicle_gallery");
-    uploads.galleryImages.push(url);
+  if (Array.isArray(fields.galleryImages)) {
+    for (const file of fields.galleryImages) {
+      if (file && file.size > 0) {
+        const buffer = Buffer.from(await file.arrayBuffer());
+        const url = await uploadToCloudinary(buffer, file.name, "vehicle_gallery");
+        uploads.galleryImages.push(url);
+      }
+    }
+  }
+
+  // Multiple file fields: insurance
+  uploads.insurance = [];
+  if (Array.isArray(fields.insurance)) {
+    for (const file of fields.insurance) {
+      if (file && file.size > 0) {
+        const buffer = Buffer.from(await file.arrayBuffer());
+        const url = await uploadToCloudinary(buffer, file.name, "vehicle_gallery");
+        uploads.insurance.push(url);
+      }
+    }
   }
 
   return uploads;
 }
+
 
 // Basic validation
 function validateVehicleData(data) {
@@ -460,6 +484,7 @@ export async function POST(request) {
       security: {
         password: hashedPassword,
       },
+      bgDesign: fields.bgDesign || "", // ✅ FIXED LINE
       qrCodeDetails: {
         qrCodeImage: fields.qrCodeImage || "",
         location: {
@@ -472,6 +497,7 @@ export async function POST(request) {
         resetPasswordToken: null,
         resetPasswordExpires: null,
       },
+      
     };
 
     const newVehicle = await VehicleModel.create(vehicleData);
