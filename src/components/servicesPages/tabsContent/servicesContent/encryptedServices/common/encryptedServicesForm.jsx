@@ -56,8 +56,7 @@ const EncryptedServicesForm = ({
   const { servicesDataLoading, setServicesDataLoading } = useServicesContext();
   const { setActiveTab } = useDesignContext();
   const { slug } = useParams();
-console.log(formData)
-console.log('bgDesign',formData.bgDesign)
+
   const formatBytes = (bytes) => {
     if (!bytes) return "0 Bytes";
     const k = 1024;

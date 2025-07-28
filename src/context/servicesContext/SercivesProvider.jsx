@@ -619,9 +619,6 @@ const ServicesProvider = ({ children }) => {
         case "medicalAlert":
           initialStateToApply = initialDynamicForms.medicalAlert;
           break;
-        case "propertyDetails":
-          initialStateToApply = initialDynamicForms.propertyDetails;
-          break;
         case "multiUrl":
           initialStateToApply = initialDynamicForms.multiUrl;
           break;

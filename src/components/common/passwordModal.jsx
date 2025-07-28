@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import bcrypt from "bcryptjs";
 
 const PasswordModal = ({ data, Component }) => {
-  const [isUnlocked, setIsUnlocked] = useState(!data.password); // auto-unlock if no password
+  const [isUnlocked, setIsUnlocked] = useState(!data.password);
   const [input, setInput] = useState("");
   const [error, setError] = useState("");
 
@@ -24,28 +24,32 @@ const PasswordModal = ({ data, Component }) => {
   };
 
   if (isUnlocked) {
-    return <Component data={data} />;
+    return <Component data={data} isUnlocked={true} />;
   }
 
   return (
-    <div className="min-h-screen flex justify-center items-center flex-col p-4">
-      <h2 className="text-xl mb-2">Enter Password</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="password"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          className="border px-3 py-1 rounded w-64"
-          placeholder="Password"
-        />
-        <button
-          type="submit"
-          className="ml-2 bg-black text-white px-4 py-1 rounded"
-        >
-          Unlock
-        </button>
-      </form>
-      {error && <p className="text-red-500 mt-2">{error}</p>}
+    <div className="min-h-screen flex items-center justify-center bg-white/90 px-4">
+      <div className="bg-white space-y-9 shadow-lg rounded-2xl p-6 w-full max-w-sm text-center border border-gray-200">
+        <h2 className="text-2xl font-bold  text-mainGreen mb-4">
+          🔐 Enter Password
+        </h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="password"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Enter password"
+            className="w-full px-4 py-3 mb-6 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-mainGreen "
+          />
+          <button
+            type="submit"
+            className="w-full bg-mainGreen text-white font-bold py-2 rounded-lg transition-effects "
+          >
+            Unlock
+          </button>
+        </form>
+        {error && <p className="text-red-500 text-lg mt-3">{error}</p>}
+      </div>
     </div>
   );
 };
