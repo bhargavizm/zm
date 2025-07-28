@@ -3,6 +3,7 @@ import BusinessShopModel from "@/models/services/businessShopSchema";
 import { cloudinary } from "@/utils/cloudinary";
 import { v4 as uuidv4 } from "uuid";
 import { authUser } from '@/middlewares/authMiddleware';
+import { getShortenedUrl } from "@/utils/shortenUrl";
 
 // Helper to convert dot-notation FormData into nested object
 function setDeep(obj, path, value) {
@@ -134,12 +135,17 @@ export async function POST(req) {
       console.error("Validation error:", err);
       throw new Error("Validation failed");
     });
+
     await newDoc.save();
+    
+    const qrUrl = await getShortenedUrl(`/business-shops/${newDoc._id}`);
+
 
     return new Response(
       JSON.stringify({
         success: true,
         data: newDoc,
+        qrUrl,
         message: "Business shop created successfully"
       }),
       {

@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
-import MultiUrlModal from "@/models/services/multiUrlSchema";
+
 import { connectDB } from "@/lib/mongoDB";
 import { authUser } from "@/middlewares/authMiddleware";
+import { getShortenedUrl } from "@/utils/shortenUrl";
+import MultiUrlModal from "@/models/services/multiUrlSchema";
 
 // URL validation regex
 const isValidUrl = (url) => {
@@ -29,38 +31,38 @@ export async function POST(req) {
   try {
     const body = await req.json();
 
-    const { socialLinks = {}, customLinks = [], password = "" , qrPassword = "",
+    const { socialLinks = {}, customLinks = [], password = "" , bgDesign = "", qrPassword = "", 
       location = {},
       renewalDate = null,
       status = "active",} = body;
 
     // Validate social links
-    const socialPlatforms = ["youtube", "instagram", "twitter", "linkedin", "facebook", "custom"];
-    for (const platform of socialPlatforms) {
-      const url = socialLinks[platform];
-      if (url && !isValidUrl(url)) {
-        return NextResponse.json(
-          { error: `Invalid URL for ${platform}` },
-          { status: 400 }
-        );
-      }
-    }
+    // const socialPlatforms = ["youtube", "instagram", "twitter", "linkedin", "facebook", "custom"];
+    // for (const platform of socialPlatforms) {
+    //   const url = socialLinks[platform];
+    //   if (url && !isValidUrl(url)) {
+    //     return NextResponse.json(
+    //       { error: `Invalid URL for ${platform}` },
+    //       { status: 400 }
+    //     );
+    //   }
+    // }
 
-    // Validate custom links
-    for (const link of customLinks) {
-      if (!link.label || !link.url) {
-        return NextResponse.json(
-          { error: "Each custom link must have both label and URL" },
-          { status: 400 }
-        );
-      }
-      if (!isValidUrl(link.url)) {
-        return NextResponse.json(
-          { error: `Invalid URL for custom link "${link.label}"` },
-          { status: 400 }
-        );
-      }
-    }
+    // // Validate custom links
+    // for (const link of customLinks) {
+    //   if (!link.label || !link.url) {
+    //     return NextResponse.json(
+    //       { error: "Each custom link must have both label and URL" },
+    //       { status: 400 }
+    //     );
+    //   }
+    //   if (!isValidUrl(link.url)) {
+    //     return NextResponse.json(
+    //       { error: `Invalid URL for custom link "${link.label}"` },
+    //       { status: 400 }
+    //     );
+    //   }
+    // }
 
     const newMultiUrl = new MultiUrlModal({
        user: {
@@ -70,6 +72,7 @@ export async function POST(req) {
       socialLinks,
       customLinks,
       password,
+      bgDesign,
       qrCodeDetails: {
     qrCodeImage: body.qrCodeImage ?? "",
 
@@ -86,11 +89,13 @@ export async function POST(req) {
     });
 
     await newMultiUrl.save();
+    const qrUrl = await getShortenedUrl(`/multi-urls/${newMultiUrl._id}`);
 
     return NextResponse.json(
-      { message: "Multi URL content saved successfully" ,multiUrldata:newMultiUrl},
+      { success: true, message: "Multi URL content saved successfully" ,data:newMultiUrl,qrUrl},
       
-      { status: 201 }
+      { status: 201 },
+     
     );
 
   } catch (error) {

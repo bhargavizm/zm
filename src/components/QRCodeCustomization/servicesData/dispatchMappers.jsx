@@ -1,11 +1,18 @@
 // ✅ add all slice actions
 
 import {
+  setBusinessShopServices,
   setCardServices,
   setMenuCardServices,
+  setPetIdServices,
+  setPropertyServices,
+  setResumeServices,
+  setMultiUrlServices,
   setSmsServices,
   setTextMessageServices,
+  setVehicleServices
 } from "@/redux/slices/servicesSlice";
+
 import { urlBasedServices } from "./formDataMappers";
 import { setURLServices } from "@/redux/slices/urlServicesSlice";
 import {
@@ -18,14 +25,20 @@ import {
 export const reduxDispatchMappers = {
   "menu-cards": setMenuCardServices,
   sms: setSmsServices,
-
   "business-cards": setCardServices,
   "v-cards": setCardServices,
   "text-messages": setTextMessageServices,
+  vehicles:setVehicleServices,
   audios: setAudioServices,
   pdf: setPDFServices,
   gallery: setGalleryServices,
   videos: setVideoServices,
+  "Pet-ID-tags": setPetIdServices,
+  "business-shops": setBusinessShopServices,
+  resumes:setResumeServices,
+  "property-qr":setPropertyServices,
+  "multi-urls":setMultiUrlServices,
+
 };
 
 urlBasedServices.forEach((service) => {
