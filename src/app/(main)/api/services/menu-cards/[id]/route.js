@@ -50,6 +50,7 @@
 //     });
 //   }
 // }
+  
 import MenuCardsServiceModel from "@/models/services/menuCardSchema";
 import { connectDB } from "@/lib/mongoDB";
 
@@ -90,4 +91,6 @@ export async function GET(request, { params }) {
       { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
+
 }
+
