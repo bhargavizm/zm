@@ -10,7 +10,9 @@ import {
   setMultiUrlServices,
   setSmsServices,
   setTextMessageServices,
+  setVehicleServices
 } from "@/redux/slices/servicesSlice";
+
 import { urlBasedServices } from "./formDataMappers";
 import { setURLServices } from "@/redux/slices/urlServicesSlice";
 import {
@@ -26,6 +28,7 @@ export const reduxDispatchMappers = {
   "business-cards": setCardServices,
   "v-cards": setCardServices,
   "text-messages": setTextMessageServices,
+  vehicles:setVehicleServices,
   audios: setAudioServices,
   pdf: setPDFServices,
   gallery: setGalleryServices,

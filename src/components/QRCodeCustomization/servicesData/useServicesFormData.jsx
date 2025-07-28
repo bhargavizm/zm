@@ -4,8 +4,10 @@
 import useDesignContext from "@/components/hooks/useDesignContext";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import useSubmitForm from "./useSubmitForm";
+
 import { urlBasedServices } from "./formDataMappers";
 import useEncryptedSubmitForm from "./useEncryptedServicesSubmitForm";
+
 
 export const useServicesFormData = () => {
   const { bgDesign, setBgDesign } = useDesignContext();
@@ -14,14 +16,17 @@ export const useServicesFormData = () => {
     menuBookFormData,
     setMenuBookFormData,
     smsFormData,
+
     formData,
     setFormData,
+
     setSmsFormData,
     businessForm,
     setBusinessForm,
     textMessageForm,
     setTextMessageForm,
-    audioFormData,
+    dynamicForms, updateDynamicForm,
+     audioFormData,
     setAudioFormData,
     videoFormData,
     setVideoFormData,
@@ -35,7 +40,6 @@ export const useServicesFormData = () => {
   const businessShopFormData = dynamicForms?.businessShop
   const setBusinessShopFormData = setDynamicForms?.businessShop;
     setImagesFormData,
-
     resumeFormData, 
     setResumeFormData,
     propertyDetails,
@@ -44,6 +48,9 @@ export const useServicesFormData = () => {
 
   } = useServicesContext();
 
+  const vehicleData = dynamicForms?.vehicle; // ✅ Correct
+  const setVehicleData = updateDynamicForm?.vehicle; // ✅ Correct
+  
   const multiUrlFormData = dynamicForms?.multiUrl
   const setMultiUrlFormData = setDynamicForms?.multiUrl
 
@@ -69,6 +76,7 @@ export const useServicesFormData = () => {
         "business-cards": businessForm,
         "v-cards": businessForm,
         "text-messages": textMessageForm,
+         "vehicles": vehicleData,    
         audios: audioFormData,
         videos: videoFormData,
         pdf: pdfFormData,
@@ -102,6 +110,7 @@ export const useServicesFormData = () => {
         "business-cards": setBusinessForm,
         "v-cards": setBusinessForm,
         "text-messages": setTextMessageForm,
+        "vehicles": setVehicleData, 
         audios: setAudioFormData,
         videos: setVideoFormData,
         pdf: setPdfFormData,
@@ -113,6 +122,7 @@ export const useServicesFormData = () => {
         "multi-urls":setMultiUrlFormData,
 
       }[activeService];
+
 
   const submitForm = useSubmitForm(
     activeService,

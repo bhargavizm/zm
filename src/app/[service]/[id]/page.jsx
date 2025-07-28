@@ -100,14 +100,20 @@ import propertySchema from "@/models/services/propertySchema";
 // Components
 
 import KidsSafetyModal from "@/models/services/kidSafetySchema";
+import MenuCardsServiceModel from "@/models/services/menuCardSchema";
+import VehicleModel from "@/models/services/vehicleSchema";
+
+// Components (Server or dynamic server-compatible ones)
 import SmsPreview from "@/components/scanningPreview/SmsPreview";
 
 import TextMessagePreview from "@/components/scanningPreview/TextFormPreview";
 import KidsSafetyPreview from "@/components/scanningPreview/KidsSafetyPreview";
-import MenuCardsServiceModel from "@/models/services/menuCardSchema";
 import MenuBookPreview from "@/components/scanningPreview/menuBookPreview";
 import PetIdPreview from "@/components/scanningPreview/PetIdPreview";
 import BusinessShopPreview from "@/components/scanningPreview/BusinessShopPreview";
+// Client component
+import PasswordModal from "@/components/common/passwordModal"; // ✅ CLIENT COMPONENT
+import VehiclePreview from "@/components/scanningPreview/vehiclePreview";
 import ResumePreview from "@/components/scanningPreview/resumePreview";
 import PropertyPreview from "@/components/scanningPreview/PropertyPreview";
 import URLServicesPreview from "@/components/scanningPreview/urlServicesPreview";
@@ -137,6 +143,11 @@ const serviceMap = {
     model: SmsModal,
     component: SmsPreview,
   },
+  vehicle: {
+    model: VehicleModel,
+    component: VehiclePreview,
+  },
+  
   "menu-cards": {
     model: MenuCardsServiceModel,
     component: MenuBookPreview,
@@ -171,7 +182,7 @@ const serviceMap = {
   },
 };
 
-// Metadata
+// Metadata generation
 export async function generateMetadata({ params }) {
   const { service } = params;
   return {
@@ -179,7 +190,7 @@ export async function generateMetadata({ params }) {
   };
 }
 
-// Main Page
+// Page component
 const Page = async ({ params }) => {
   const { service, id } = params;
   const serviceConfig = serviceMap[service];
@@ -187,17 +198,16 @@ const Page = async ({ params }) => {
   if (!serviceConfig) return notFound();
 
   await connectDB();
-
   let data = await serviceConfig.model.findById(id).lean();
   if (!data) return notFound();
 
   data = JSON.parse(JSON.stringify(data)); // Make serializable
+  const ComponentToRender = serviceConfig.component;
 
   return (
-    <PasswordProtectedPreview
-      data={data}
-      Component={serviceConfig.component}
-    />
+    <PasswordModal data={data}>
+      <ComponentToRender data={data} />
+    </PasswordModal>
   );
 };
 
