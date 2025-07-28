@@ -3,6 +3,7 @@
 import { connectDB } from "@/lib/mongoDB";
 import { authUser } from "@/middlewares/authMiddleware";
 import ProductModal from "@/models/services/productSchema";
+import { getShortenedUrl } from "@/utils/shortenUrl";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
@@ -17,6 +18,9 @@ export async function POST(req) {
     }
 
     const user = auth.user;
+    if (!user || !user._id) {
+      throw new Error("Invalid authenticated user.");
+    }
 
     // ✅ Parse Request Body
     const body = await req.json();
@@ -26,18 +30,20 @@ export async function POST(req) {
       email,
       phone,
       address,
-      password = "", // Optional QR code password
-      selectedTemplate,
+      password = "",
+      selectedTemplate = 0,
+      bgDesign = "",
       items = [],
-      location = {}, // Optional location object
+      qrCodeImage = "",
+      location = {},
       renewalDate = null,
       status = "active",
     } = body;
 
-
     // ✅ Connect to MongoDB
     await connectDB();
 
+    // ✅ Create Product
     const product = new ProductModal({
       user: {
         id: user._id,
@@ -50,11 +56,10 @@ export async function POST(req) {
       address,
       password,
       selectedTemplate,
+      bgDesign,
       items,
-
       qrCodeDetails: {
-        qrCodeImage: body.qrCodeImage ?? "",
-
+        qrCodeImage,
         location: {
           latitude: location.latitude ?? null,
           longitude: location.longitude ?? null,
@@ -67,22 +72,23 @@ export async function POST(req) {
       },
     });
 
+    // ✅ Save to DB
     await product.save();
+    const qrUrl = await getShortenedUrl(`/product-cards/${product._id}`);
 
     return NextResponse.json(
       {
         message: "Product saved successfully!",
-        productId: product._id,
-        productId: product,
+        data: product, 
+        qrUrl
       },
       {
         status: 201,
         headers: { "Content-Type": "application/json" },
       }
     );
-
   } catch (error) {
-    console.error("❌ Error in POST /api/services/product:", error);
+    console.error("❌ Error in POST /api/services/product-cards:", error.message, error);
     return new Response(
       JSON.stringify({ error: "Internal Server Error" }),
       { status: 500 }
