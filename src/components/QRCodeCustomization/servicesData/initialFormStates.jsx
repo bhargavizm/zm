@@ -62,6 +62,73 @@ const initialFormStates = {
     password: '',
     bgDesign:''
   },
+  "Pet-ID-tags": {
+    petName: "",
+    ownerName: "",
+    contactNumber: "",
+    email: "",
+    address: "",
+    location: {
+      latitude: null,
+      longitude: null,
+      address: "",
+    },
+    renewalDate: null,
+    status: "active",
+    qrCodeImage: "",
+    bgDesign: "",
+    password: "",
+  },
+  "business-shops": {
+    businessInfo: {
+      general: {
+        businessName: "",
+        businessType: "",
+        description: "",
+        shopTimings: "",
+        discount: "",
+      },
+      contact: {
+        phone: "",
+        altPhone: "",
+        email: "",
+        address: "",
+      },
+      security: {
+        password: "",
+      },
+      media: {
+        logo: null, // File
+        galleryImages: [], // Array of Files or URLs
+      },
+      qrCodeDetails: {
+        title: "",
+        description: "",
+        qrType: "",
+        url: "",
+        file: null,
+        bgDesign: "",
+        password: "",
+      },
+    },
+    shopTimingsTemplate: {
+      selectedTemplate: "",
+      template1Data: {},
+      template2Data: {},
+      template3Data: {},
+      template4Data: {},
+    },
+    qrCodeDetails: {
+      title: "",
+      description: "",
+      qrType: "",
+      url: "",
+      file: null,
+      bgDesign: "",
+      password: "",
+    },
+  },
+    resumes: {
 
   vehicles: {
     selectedTemplate: '',
@@ -131,6 +198,7 @@ const initialFormStates = {
   bgDesign: "",
 },
 };
+
 
 const initialEncryptedForm = {
   title: "",

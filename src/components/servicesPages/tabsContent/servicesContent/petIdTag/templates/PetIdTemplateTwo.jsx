@@ -57,7 +57,7 @@ const PetIdTemplateOne = ({ petIDFormData }) => {
             </div>
 
             {/* Scrollable Content */}
-            <div className="h-full overflow-y-auto scrollbar-hide pt-[150px] pb-6 px-4 flex flex-col items-center z-0">
+            <div className="h-full overflow-y-auto scrollbar-hide pt-[150px] pb-6 px-4 my-13 flex flex-col items-center z-0">
                 {/* Pet Name */}
                 <h2 className="text-2xl font-semibold text-[#8B4513] mb-6 drop-shadow">
                     {petIDFormData.pet.name}

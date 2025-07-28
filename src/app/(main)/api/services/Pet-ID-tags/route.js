@@ -3,6 +3,7 @@ import { connectDB } from "@/lib/mongoDB";
 import PetTagModal from "@/models/services/petIdSchema";
 import { authUser } from "@/middlewares/authMiddleware";
 import { v2 as cloudinary } from "cloudinary";
+import { getShortenedUrl } from "@/utils/shortenUrl";
 
 // 🔐 Cloudinary Configuration
 cloudinary.config({
@@ -77,10 +78,16 @@ export async function POST(req) {
 
     await newPetTag.save();
 
-    return NextResponse.json(
-      { message: "Pet ID Tag created successfully!" },
-      { status: 201 }
-    );
+    const qrUrl = await getShortenedUrl(`/Pet-ID-tags/${newPetTag._id}`);
+
+    return NextResponse.json({
+  success: true,
+  message: "Pet ID Tag created successfully!",
+  data: newPetTag,
+  qrUrl
+}, { status: 201 });
+
+
   } catch (error) {
     console.error("POST Error:", error);
     return NextResponse.json(

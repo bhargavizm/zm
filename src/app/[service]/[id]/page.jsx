@@ -92,9 +92,9 @@ import { connectDB } from "@/lib/mongoDB";
 // Models
 import PetTagModal from "@/models/services/petIdSchema";
 import ResumeModel from "@/models/services/resumeSchema";
-import businessShopSchema from "@/models/services/businessShopSchema";
 import SmsModal from "@/models/services/smsSchema";
 import TextMessageModal from "@/models/services/textMessage";
+import BusinessShopModel from '@/models/services/businessShopSchema';
 import propertySchema from "@/models/services/propertySchema";
 
 // Components
@@ -105,10 +105,12 @@ import VehicleModel from "@/models/services/vehicleSchema";
 
 // Components (Server or dynamic server-compatible ones)
 import SmsPreview from "@/components/scanningPreview/SmsPreview";
+
 import TextMessagePreview from "@/components/scanningPreview/TextFormPreview";
 import KidsSafetyPreview from "@/components/scanningPreview/KidsSafetyPreview";
 import MenuBookPreview from "@/components/scanningPreview/menuBookPreview";
-
+import PetIdPreview from "@/components/scanningPreview/PetIdPreview";
+import BusinessShopPreview from "@/components/scanningPreview/BusinessShopPreview";
 // Client component
 import PasswordModal from "@/components/common/passwordModal"; // ✅ CLIENT COMPONENT
 import VehiclePreview from "@/components/scanningPreview/vehiclePreview";
@@ -158,7 +160,14 @@ const serviceMap = {
     model: KidsSafetyModal,
     component: KidsSafetyPreview,
   },
-
+  "Pet-ID-tags": {
+    model: PetTagModal,
+    component: PetIdPreview
+  },  
+  "business-shops": {
+    model: BusinessShopModel,
+    component: BusinessShopPreview
+  }
   resume: {
     model: ResumeModel,
     component:ResumePreview, 
