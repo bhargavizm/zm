@@ -55,7 +55,7 @@ const BackdropDesigns = () => {
     setBgDesign(src);
   };
   
-console.log(bgDesign);
+
   return (
     <section className="space-y-4 text-center">
       {/* Image grid */}
