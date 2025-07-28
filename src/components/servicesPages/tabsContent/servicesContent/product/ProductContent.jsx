@@ -455,7 +455,7 @@ const ProductContent = () => {
         items: itemsWithBase64Images,
       };
 
-      const response = await fetch("/api/services/product", {
+      const response = await fetch("/api/services/product-cards", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -464,7 +464,6 @@ const ProductContent = () => {
       });
 
       const responseData = await response.json();
-      console.log("Submission response:", responseData);
       if (response.ok) {
         toast.success("Product Data Successfully Submitted..");
         setActiveTab(slug, "QR Code");

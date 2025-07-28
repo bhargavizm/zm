@@ -9,7 +9,7 @@ import useDesignContext from "@/components/hooks/useDesignContext";
 import toast from "react-hot-toast";
 import { useParams } from "next/navigation";
 import LoadingSpinner from "@/components/common/spinner";
-import  axios  from 'axios';
+import axios from 'axios';
 
 const BusinessShopContent = () => {
   const { dynamicForms, updateDynamicForm, servicesDataLoading, setServicesDataLoading } = useServicesContext();
@@ -25,7 +25,7 @@ const BusinessShopContent = () => {
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const shopTimingsTemplate = dynamicForms.shopTimingsTemplate;
-  
+
   // Refs for file inputs
   const logoInputRef = useRef(null);
   const galleryInputRef = useRef(null);
@@ -82,10 +82,10 @@ const BusinessShopContent = () => {
         logoInputRef.current.value = "";
       }
     }
-    
+
     // Reset gallery input if all images are removed
-    if (field === "galleryImages" && galleryInputRef.current && 
-        (!businessInfo[section][field] || businessInfo[section][field].length === 0)) {
+    if (field === "galleryImages" && galleryInputRef.current &&
+      (!businessInfo[section][field] || businessInfo[section][field].length === 0)) {
       galleryInputRef.current.value = "";
     }
   };
@@ -205,73 +205,74 @@ const BusinessShopContent = () => {
   };
 
   const handleModalOk = async () => {
-    setIsModalOpen(false);
- setServicesDataLoading(true);
-    const formData = new FormData();
+    setActiveTab(slug, "Backdrop Designs");
+    // setIsModalOpen(false);
+    // setServicesDataLoading(true);
+    // const formData = new FormData();
 
-    // General Info
-    Object.entries(businessInfo.general).forEach(([key, value]) => {
-      formData.append(`businessInfo.general.${key}`, value || "");
-    });
+    // // General Info
+    // Object.entries(businessInfo.general).forEach(([key, value]) => {
+    //   formData.append(`businessInfo.general.${key}`, value || "");
+    // });
 
-    // Contact Info
-    Object.entries(businessInfo.contact).forEach(([key, value]) => {
-      formData.append(`businessInfo.contact.${key}`, value || "");
-    });
+    // // Contact Info
+    // Object.entries(businessInfo.contact).forEach(([key, value]) => {
+    //   formData.append(`businessInfo.contact.${key}`, value || "");
+    // });
 
-    // Security
-    formData.append(`businessInfo.security.password`, businessInfo.security.password || "");
+    // // Security
+    // formData.append(`businessInfo.security.password`, businessInfo.security.password || "");
 
-    // Logo
-    if (businessInfo.media.logo instanceof File) {
-      formData.append(`businessInfo.media.logo`, businessInfo.media.logo);
-    }
+    // // Logo
+    // if (businessInfo.media.logo instanceof File) {
+    //   formData.append(`businessInfo.media.logo`, businessInfo.media.logo);
+    // }
 
-    // Gallery Images
-    if (Array.isArray(businessInfo.media.galleryImages)) {
-      businessInfo.media.galleryImages.forEach((file) => {
-        if (file instanceof File) {
-          formData.append(`businessInfo.media.galleryImages`, file);
-        }
-      });
-    }
+    // // Gallery Images
+    // if (Array.isArray(businessInfo.media.galleryImages)) {
+    //   businessInfo.media.galleryImages.forEach((file) => {
+    //     if (file instanceof File) {
+    //       formData.append(`businessInfo.media.galleryImages`, file);
+    //     }
+    //   });
+    // }
 
-    // Shop Timings Template
-    formData.append(`shopTimingsTemplate.selectedTemplate`, shopTimingsTemplate.selectedTemplate);
+    // // Shop Timings Template
+    // formData.append(`shopTimingsTemplate.selectedTemplate`, shopTimingsTemplate.selectedTemplate);
 
-    const templateKey = shopTimingsTemplate.selectedTemplate + 'Data';
-    const templateData = shopTimingsTemplate[templateKey] || {};
+    // const templateKey = shopTimingsTemplate.selectedTemplate + 'Data';
+    // const templateData = shopTimingsTemplate[templateKey] || {};
 
-    Object.entries(templateData).forEach(([key, value]) => {
-      formData.append(`shopTimingsTemplate.${templateKey}.${key}`, value || "");
-    });
+    // Object.entries(templateData).forEach(([key, value]) => {
+    //   formData.append(`shopTimingsTemplate.${templateKey}.${key}`, value || "");
+    // });
+    // setActiveTab(slug, "Backdrop Designs");
+    // // try {
+    // //   const response = await axios.post('/api/services/business-shop', formData, {
+    // //     headers: { "Content-Type": "multipart/form-data" },
+    // //   });
 
-    try {
-      const response = await axios.post('/api/services/businessShop', formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+    // //   if (response.data.success) {
+    // //     toast.success("Business data saved successfully");
+    // //     setActiveTab(slug, "QR Code");
 
-      if (response.data.success) {
-        toast.success("Business data saved successfully");
-        setActiveTab(slug, "QR Code");
-
-        resetFormFields();
-      }
-    } catch (error) {
-      toast.error(error?.response?.data?.error || "Something went wrong!");
-      console.error("Submit error:", error);
-     if (error.response?.status === 401) {
-        window.location.href = "/login"; // ✅ Auto logout on expiry
-        return;
-      }
-    } finally {
-      setServicesDataLoading(false); // ✅ End loader
-    }
+    // //     resetFormFields();
+    // //   }
+    // // } catch (error) {
+    // //   toast.error(error?.response?.data?.error || "Something went wrong!");
+    // //   console.error("Submit error:", error);
+    // //   if (error.response?.status === 401) {
+    // //     window.location.href = "/login"; // ✅ Auto logout on expiry
+    // //     return;
+    // //   }
+    // // } finally {
+    // //   setServicesDataLoading(false); // ✅ End loader
+    // // }
   };
 
   return (
     <>
-     {servicesDataLoading && <LoadingSpinner />}
+      {servicesDataLoading && <LoadingSpinner />}
 
       <div className="space-y-8 p-4 md:p-8 lg:p-12 bg-gray-50 rounded-xl shadow-lg overflow-auto hide-scrollbar">
         {/* Template Selection Section */}

@@ -84,7 +84,6 @@
 //   }
 // }
 
-
 import { connectDB } from "@/lib/mongoDB";
 import { authUser } from "@/middlewares/authMiddleware";
 import TextMessageModal from "@/models/services/textMessage";
@@ -110,12 +109,14 @@ export async function POST(request) {
     const {
       sender,
       message,
+      bgDesign,
       password = "",
       qrPassword = "",
       location = {},
       renewalDate = null,
       status = "active",
     } = body;
+ 
 
     // ✅ Step 3: Hash password if present
     let hashedPassword = null;
@@ -132,22 +133,21 @@ export async function POST(request) {
       },
       sender,
       message,
+      bgDesign,
       password: hashedPassword,
       qrCodeDetails: {
+        qrCodeImage: body.qrCodeImage ?? "",
 
-    qrCodeImage: body.qrCodeImage ?? "",
-
-    location: {
-      latitude: location.latitude ?? null,
-      longitude: location.longitude ?? null,
-      address: location.address ?? "",
-    },
-    renewalDate,
-    status,
-    resetPasswordToken: null,
-    resetPasswordExpires: null,
-  },
-
+        location: {
+          latitude: location.latitude ?? null,
+          longitude: location.longitude ?? null,
+          address: location.address ?? "",
+        },
+        renewalDate,
+        status,
+        resetPasswordToken: null,
+        resetPasswordExpires: null,
+      },
     });
 
     await newMessage.save();
@@ -156,9 +156,8 @@ export async function POST(request) {
     // const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/textMessage/${newMessage._id}`;
     const qrUrl = await getShortenedUrl(`/textMessage/${newMessage._id}`);
 
-
     return new Response(
-      JSON.stringify({ success: true, data: newMessage, qrUrl }),
+      JSON.stringify({ success: true,  data: newMessage, qrUrl }),
       {
         status: 201,
         headers: { "Content-Type": "application/json" },

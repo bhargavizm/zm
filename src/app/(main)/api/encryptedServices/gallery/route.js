@@ -1,4 +1,5 @@
-import GalleryServiceModel from "@/models/services/gallerySchema";
+
+import { GalleryServiceModel } from "@/models/services/encryptedServicesSchema";
 import { HandleEncryptedServices } from "../common/encryptedServicesRoute";
 
  const imageMimeTypes = [
@@ -19,6 +20,7 @@ import { HandleEncryptedServices } from "../common/encryptedServicesRoute";
 
 export async function POST(request) {
   return HandleEncryptedServices({
+    serviceName:"gallery",
     request,
     model: GalleryServiceModel,
     useCloudinary: true,
@@ -28,6 +30,12 @@ export async function POST(request) {
     allowedMimeTypes:imageMimeTypes , // allow all image types
   });
 }
+
+
+
+
+
+
 
 
 // import { connectDB } from "@/lib/mongoDB";
