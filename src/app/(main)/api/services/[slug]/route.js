@@ -171,7 +171,6 @@ export async function POST(req, context) {
   });
 
    const qrUrl = await getShortenedUrlServices(`${url}`);
-console.log(qrUrl)
   return Response.json({
     success: true,
     message: `${slug} service data submitted successfully`,

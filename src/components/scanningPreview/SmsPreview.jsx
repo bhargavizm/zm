@@ -1,21 +1,15 @@
-'use client'
-import React, { useEffect, useState } from 'react';
-import { FiUser, FiMessageSquare, FiCalendar } from 'react-icons/fi';
-import useDesignContext from '../hooks/useDesignContext';
+
+"use client";
+import React, { useEffect } from "react";
+import { FiUser, FiMessageSquare, FiCalendar } from "react-icons/fi";
+import useDesignContext from "../hooks/useDesignContext";
+import BgDesignRenderer from "./bgDesignRender";
 
 const SmsPreview = ({ data }) => {
-   const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
-  const defaultBg = '/services-service/text-message.webp';
-  const isVideo = defaultBg?.endsWith(".mp4") || defaultBg?.endsWith(".webm");
-  const isImage = defaultBg && !isVideo;
+  const { bgDesign, setBgDesign } = useDesignContext();
+  const defaultBg = "/services-service/text-message.webp";
 
-
-   const [bgDesign, setBgDesign] = useState(defaultBg);
-
-
-   useEffect(() => {
-    // setIsLoading(true);
-  
+  useEffect(() => {
     if (data?.bgDesign) {
       setBgDesign(data.bgDesign);
     } else {
@@ -24,41 +18,17 @@ const SmsPreview = ({ data }) => {
   }, [data]);
 
   return (
-    <div className='flex justify-center'>
-      <div className="border-gray-800 shadow-xl w-[350px] h-[600px] overflow-hidden p-2 pr-5 flex flex-col relative">
-        
-        {isImage ? (
-          <img
-            src={bgDesign}
-            alt="Background"
-            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
-            className="absolute top-0 left-0 w-full h-full object-cover z-0"
-          />
-        ) : isVideo ? (
-          <video
-            src={bgDesign}
-            autoPlay
-            loop
-            muted
-            playsInline
-            onLoadedData={() => setTimeout(() => setIsLoading(false), 300)}
-            className="absolute top-0 left-0 w-full h-full object-cover z-0"
-          />
-        ) : (
-          <img
-            src={defaultBg}
-            alt="Default Background"
-            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
-            className="absolute top-0 left-0 w-full h-full object-cover z-0"
-          />
-        )}
 
-        <div className="" />
+    <div className="w-full px-6 ">
+      <div>
+        <BgDesignRenderer bgDesign={bgDesign} defaultBg={defaultBg} />
 
-        <div className="flex-1 overflow-y-auto z-20 bg-white/80 pt-8 m-2 rounded-xl pb-4 px-4 w-full">
-          {(data?.genderName || data?.messageType || data?.textMessage) ? (
+        <div className="relative flex-1 w-full bg-white/70 m-2 rounded-xl overflow-y-auto pt-6 pb-3 px-3 z-20 ">
+          {data?.genderName || data?.messageType || data?.textMessage ? (
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-center text-[#008080]">SMS QR Code</h2>
+              <h2 className="text-xl font-bold text-center text-[#008080]">
+                SMS QR Code
+              </h2>
 
               <div className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20 text-black">
                 <div className="flex items-center text-[#008080] mb-1">
@@ -81,11 +51,11 @@ const SmsPreview = ({ data }) => {
 
               {data.date && (
                 <div className="bg-gray-100 p-3 rounded text-black">
-                  <div className="flex items-center text-gray-700 mb-1">
+                  <div className="flex items-center  mb-1">
                     <FiCalendar className="mr-2" />
                     <span className="font-medium">Date</span>
                   </div>
-                  <p>{new Date(data.date).toLocaleDateString('en-GB')}</p>
+                  <p>{new Date(data.date).toLocaleDateString("en-GB")}</p>
                 </div>
               )}
             </div>
@@ -97,20 +67,12 @@ const SmsPreview = ({ data }) => {
             </div>
           )}
         </div>
-
-        <div className="border-t border-gray-200 text-center text-xs text-gray-500 py-2 relative z-10 bg-white">
-          <p>Scan to send SMS</p>
-          <p className="mt-1">v1.0.0</p>
-        </div>
       </div>
     </div>
   );
 };
 
 export default SmsPreview;
-
-
-
 
 // 'use client'
 
@@ -245,3 +207,4 @@ export default SmsPreview;
 // }
 
 // export default SmsPreview;
+

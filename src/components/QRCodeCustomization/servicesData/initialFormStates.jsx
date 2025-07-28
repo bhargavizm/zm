@@ -99,7 +99,38 @@ const initialFormStates = {
       galleryImages: [],      // multiple images
       insurance: []           // multiple images
     }
-  }
+  },
+  resumes: {
+    resumeFiles: [],
+    resumeUrl: "",
+    password: "",
+    bgDesign: "",
+  },
+  "property": {
+  basicInfo: {
+    propertyName: "",
+    propertyType: "",
+    ownerName: "",
+    contactNumber: "",
+    alternateNumber: "",
+    propertyDescription: "",
+  },
+  addressInfo: {
+    address: "",
+    mapLink: "",
+  },
+  pricingInfo: {
+    price: "",
+    area: "",
+    amenities: "",
+  },
+  images: {
+    galleryImages: [],
+  },
+  password: "",
+  bgDesign: "",
+},
+};
 
 const initialEncryptedForm = {
   title: "",
