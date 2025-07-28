@@ -464,7 +464,6 @@ const ProductContent = () => {
       });
 
       const responseData = await response.json();
-      console.log("Submission response:", responseData);
       if (response.ok) {
         toast.success("Product Data Successfully Submitted..");
         setActiveTab(slug, "QR Code");

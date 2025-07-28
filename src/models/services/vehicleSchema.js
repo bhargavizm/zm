@@ -2,10 +2,10 @@ import mongoose from 'mongoose';
 import { qrCodeServicesSchema } from './qrCodeServicesSchema';
 
 const vehicleSchema = new mongoose.Schema({
-   user: {
-        id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-        name: String,
-      },
+  user: {
+    id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    name: String,
+  },
   template: {
     selectedTemplate: {
       type: String,
@@ -67,18 +67,25 @@ const vehicleSchema = new mongoose.Schema({
     licenseBack: String,
     rcFront: String,
     rcBack: String,
+    pollution: String,             // ✅ Add this
+    insurance: [String],           // ✅ Add this
     galleryImages: [String]
   },
+
   security: {
     password: {
       type: String,
-    }
+    },
+
   },
-  qrCodeDetails:qrCodeServicesSchema
+  bgDesign: {
+    type: String,
+  },
+  qrCodeDetails: qrCodeServicesSchema
 }, {
   timestamps: true,
   toJSON: {
-    transform: function(doc, ret) {
+    transform: function (doc, ret) {
       delete ret.security.password;
       delete ret.__v;
       return ret;

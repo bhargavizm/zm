@@ -39,15 +39,166 @@ const initialFormStates = {
     password: "",
   },
 
-  "business-cards": initialBusinessForm,
-  "v-cards": initialBusinessForm,
-  "text-messages": {
-    sender: "",
-    message: "",
+  "multi-urls": {
+    socialLinks: {
+      youtube: "",
+      instagram: "",
+      twitter: "",
+      linkedin: "",
+      facebook: "",
+      custom: "",
+    },
+    customLinks: [],
     password: "",
     bgDesign: "",
   },
+
+
+  "business-cards": initialBusinessForm,
+  "v-cards": initialBusinessForm,
+  "text-messages":{
+     sender: '',
+    message: '',
+    password: '',
+    bgDesign:''
+  },
+  "Pet-ID-tags": {
+    petName: "",
+    ownerName: "",
+    contactNumber: "",
+    email: "",
+    address: "",
+    location: {
+      latitude: null,
+      longitude: null,
+      address: "",
+    },
+    renewalDate: null,
+    status: "active",
+    qrCodeImage: "",
+    bgDesign: "",
+    password: "",
+  },
+  "business-shops": {
+    businessInfo: {
+      general: {
+        businessName: "",
+        businessType: "",
+        description: "",
+        shopTimings: "",
+        discount: "",
+      },
+      contact: {
+        phone: "",
+        altPhone: "",
+        email: "",
+        address: "",
+      },
+      security: {
+        password: "",
+      },
+      media: {
+        logo: null, // File
+        galleryImages: [], // Array of Files or URLs
+      },
+      qrCodeDetails: {
+        title: "",
+        description: "",
+        qrType: "",
+        url: "",
+        file: null,
+        bgDesign: "",
+        password: "",
+      },
+    },
+    shopTimingsTemplate: {
+      selectedTemplate: "",
+      template1Data: {},
+      template2Data: {},
+      template3Data: {},
+      template4Data: {},
+    },
+    qrCodeDetails: {
+      title: "",
+      description: "",
+      qrType: "",
+      url: "",
+      file: null,
+      bgDesign: "",
+      password: "",
+    },
+  },
+    resumes: {
+
+  vehicles: {
+    selectedTemplate: '',
+    
+    general: {
+      vehicleModel: '',
+      vehicleNumber: '',
+      vehicleType: '',
+      description: ''
+    },
+    
+    registration: {
+      rcNumber: '',
+      driverName: '',
+      ownerName: ''
+    },
+    
+    contact: {
+      contact: '',
+      altContact: '',
+      address: ''
+    },
+    
+    security: {
+      password: ''
+    },
+    
+    media: {
+      vehicleImage: null,
+      licenseFront: null,
+      licenseBack: null,
+      rcFront: null,
+      rcBack: null,
+      pollution: null,
+      galleryImages: [],      // multiple images
+      insurance: []           // multiple images
+    }
+  },
+  resumes: {
+    resumeFiles: [],
+    resumeUrl: "",
+    password: "",
+    bgDesign: "",
+  },
+  "property": {
+  basicInfo: {
+    propertyName: "",
+    propertyType: "",
+    ownerName: "",
+    contactNumber: "",
+    alternateNumber: "",
+    propertyDescription: "",
+  },
+  addressInfo: {
+    address: "",
+    mapLink: "",
+  },
+  pricingInfo: {
+    price: "",
+    area: "",
+    amenities: "",
+  },
+  images: {
+    galleryImages: [],
+  },
+  password: "",
+  bgDesign: "",
+},
 };
+
 
 const initialEncryptedForm = {
   title: "",
@@ -56,6 +207,7 @@ const initialEncryptedForm = {
   file: [],
   bgDesign: "",
 };
+
 
 urlBasedServices.forEach((service) => {
   initialFormStates[service] = initialUrlForm;

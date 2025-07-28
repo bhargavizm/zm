@@ -307,7 +307,6 @@ export async function POST(req) {
 
     // ✅ Parse multipart/form-data
     const formData = await req.formData();
-    console.log("🧾 Form Keys:", Array.from(formData.keys()));
 
     // ✅ Extract form fields
     const patientName = formData.get("patientName");
@@ -442,7 +441,7 @@ export async function POST(req) {
       qrCodeDetails, // ✅ Added QR Code data
     });
 
-    console.log("✅ Medical alert record saved successfully!");
+
 
     return NextResponse.json({ success: true, data: newRecord }, { status: 201 });
 

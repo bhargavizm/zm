@@ -181,6 +181,7 @@ const ServicesProvider = ({ children }) => {
     resumeFile: [],
     resumeUrl: "",
     password: "",
+    bgDesign:""
   };
 
   const initialWifiFormData = [{ ssid: "", password: "", security: "WPA" }];
@@ -207,6 +208,7 @@ const ServicesProvider = ({ children }) => {
     genderName: "",
     messageType: "",
     textMessage: "",
+    bgDesign:"",
     password: "",
      bgDesign: "",
   };
@@ -253,6 +255,8 @@ const ServicesProvider = ({ children }) => {
     },
     password: "",
   });
+
+
   const initialPetIDFormData = {
     tagTitle: "",
     mainImage: null,
@@ -507,6 +511,7 @@ const ServicesProvider = ({ children }) => {
       security: {
         password: "",
       },
+      bgDesign:"",
     },
     vehicleTemplate: {
       selectedTemplate: "none",
@@ -523,6 +528,14 @@ const ServicesProvider = ({ children }) => {
         bgimage: "/images/background/autobg.png",
       },
     },
+  };
+
+  const resetAllDynamicForms = () => {
+    const resetState = {};
+    Object.keys(initialDynamicForms).forEach((key) => {
+      resetState[key] = { ...initialDynamicForms[key] };
+    });
+    setDynamicForms(resetState);
   };
 
   // State for all forms
@@ -608,9 +621,6 @@ const ServicesProvider = ({ children }) => {
         case "medicalAlert":
           initialStateToApply = initialDynamicForms.medicalAlert;
           break;
-        case "propertyDetails":
-          initialStateToApply = initialDynamicForms.propertyDetails;
-          break;
         case "multiUrl":
           initialStateToApply = initialDynamicForms.multiUrl;
           break;
@@ -646,6 +656,14 @@ const ServicesProvider = ({ children }) => {
         [formKey]: initialStateToApply,
       };
     });
+  };
+
+  const resetAllDynamicForms = () => {
+    const resetState = {};
+    Object.keys(initialDynamicForms).forEach((key) => {
+      resetState[key] = { ...initialDynamicForms[key] };
+    });
+    setDynamicForms(resetState);
   };
 
   // Add/Remove template fields (these seem fine for their specific use cases)
@@ -731,8 +749,10 @@ const ServicesProvider = ({ children }) => {
         setDynamicForms,
         updateDynamicForm,
         resetDynamicForm, // Expose the new reset function
+        resetAllDynamicForms,
         addTemplateField,
         removeTemplateField,
+        resetAllDynamicForms,
 
         // UI Toggles
         showPassword,
