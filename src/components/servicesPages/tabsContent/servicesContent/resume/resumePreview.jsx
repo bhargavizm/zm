@@ -107,7 +107,6 @@ import useServicesContext from "@/components/hooks/useServiceContext";
 import useDesignContext from "@/components/hooks/useDesignContext";
 
 const ResumePreview = ({data}) => {
-  console.log(data)
   const { resumeFormData } = useServicesContext();
   const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
   const { resumeFiles, resumeUrl } = resumeFormData || {};

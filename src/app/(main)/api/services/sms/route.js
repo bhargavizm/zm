@@ -125,7 +125,6 @@ export async function POST(request) {
       bgDesign,
       password = "",
       qrPassword = "",
-      bgDesign,
       location = {},
       renewalDate = null,
       status = "active",
