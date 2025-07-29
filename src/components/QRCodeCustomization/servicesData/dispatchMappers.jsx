@@ -12,6 +12,7 @@ import {
   setTextMessageServices,
   setVehicleServices,
   setKidsSafetyServices
+  setDiscountServices,
 } from "@/redux/slices/servicesSlice";
 
 import { urlBasedServices } from "./formDataMappers";
