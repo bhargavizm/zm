@@ -172,7 +172,7 @@ const initialFormStates = {
     password: "",
     bgDesign: "",
   },
-  property: {
+  "property-qr": {
     basicInfo: {
       propertyName: "",
       propertyType: "",
@@ -196,6 +196,53 @@ const initialFormStates = {
     password: "",
     bgDesign: "",
   },
+  // 📌 Add this inside `initialFormStates`:
+"medical-alert": {
+  patientInfo: {
+    patientName: "",
+    age: "",
+    bloodType: "",
+  },
+  medicalHistory: {
+    medicalConditions: "",
+    allergies: "",
+    medications: "",
+    additionalNotes: "",
+  },
+  emergencyContact: {
+    emergencyContact: "",
+    contactPhone: "",
+    preferredHospital: "",
+    location: "",
+  },
+  additional: {
+    familyDoctorName: "",
+    familyDoctorPhone: "",
+    emergencyInstructions: "",
+    insuranceProvider: "",
+    policyNumber: "",
+    medicalReports: { displayValue: "", files: [] },
+    prescription: { displayValue: "", files: [] },
+    insuranceImage: { displayValue: "", files: [] },
+  },
+  password: "",
+  bgDesign: "",
+},
+  events: {
+    eventTitle: "",
+    eventDate: "",
+    eventTime: "",
+    location: "",
+    description: "",
+    contactPhone: "",
+    contactEmail: "",
+    registrationLink: "",
+    galleryImages: [], // multiple images or event posters
+    password: "",
+    bgDesign: "",
+  },
+
+
 };
 
 const initialEncryptedForm = {

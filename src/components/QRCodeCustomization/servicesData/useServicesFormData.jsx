@@ -38,14 +38,13 @@ export const useServicesFormData = () => {
     resumeFormData, 
     setResumeFormData,
     propertyDetails,
-    setPropertyDetails
+    setPropertyDetails,
+    eventsFormData, setEventsFormData,
   } = useServicesContext();
 
   const businessShopFormData = dynamicForms?.businessShop
   const setBusinessShopFormData = setDynamicForms?.businessShop;
    
-
-
  
 
   const vehicleData = dynamicForms?.vehicle; // ✅ Correct
@@ -53,6 +52,9 @@ export const useServicesFormData = () => {
   
   const multiUrlFormData = dynamicForms?.multiUrl
   const setMultiUrlFormData = setDynamicForms?.multiUrl
+
+   const medicalAlertFormData = dynamicForms?.medicalAlert
+  const setMedicalAlertFormData = setDynamicForms?.medicalAlert
 
   const isUrlBasedService = urlBasedServices.includes(activeService);
 
@@ -84,10 +86,9 @@ export const useServicesFormData = () => {
 
         resumes: resumeFormData,
         "property-qr":propertyDetails,
-
+        "medical-alerts":medicalAlertFormData,
         "multi-urls":multiUrlFormData,
-      
-
+        events:eventsFormData,
       }[activeService];
 
   const setFormDataState = isUrlBasedService
@@ -118,8 +119,10 @@ export const useServicesFormData = () => {
 
         resumes: setResumeFormData,
         "property-qr":setPropertyDetails,
+        "medical-alerts":setMedicalAlertFormData,
 
         "multi-urls":setMultiUrlFormData,
+        events:setEventsFormData,
 
       }[activeService];
 
