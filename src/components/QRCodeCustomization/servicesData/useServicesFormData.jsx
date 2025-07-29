@@ -7,6 +7,7 @@ import useSubmitForm from "./useSubmitForm";
 
 import { urlBasedServices } from "./formDataMappers";
 import useEncryptedSubmitForm from "./useEncryptedServicesSubmitForm";
+import DiscountCouponContent from './../../servicesPages/tabsContent/servicesContent/discountCoupon/DiscountCouponContent';
 
 
 export const useServicesFormData = () => {
@@ -26,7 +27,7 @@ export const useServicesFormData = () => {
     textMessageForm,
     setTextMessageForm,
     dynamicForms, updateDynamicForm,
-     audioFormData,
+    audioFormData,
     setAudioFormData,
     videoFormData,
     setVideoFormData,
@@ -38,19 +39,19 @@ export const useServicesFormData = () => {
     resumeFormData, 
     setResumeFormData,
     propertyDetails,
-    setPropertyDetails
+    setPropertyDetails,
   } = useServicesContext();
 
   const businessShopFormData = dynamicForms?.businessShop
   const setBusinessShopFormData = setDynamicForms?.businessShop;
-   
-
-
- 
-
+  const discountCouponFormData = dynamicForms?.discountCoupon
+  const setDiscountCouponFormData = setDynamicForms?.discountCoupon
   const vehicleData = dynamicForms?.vehicle; // ✅ Correct
   const setVehicleData = updateDynamicForm?.vehicle; // ✅ Correct
   
+
+
+
   const multiUrlFormData = dynamicForms?.multiUrl
   const setMultiUrlFormData = setDynamicForms?.multiUrl
 
@@ -76,18 +77,17 @@ export const useServicesFormData = () => {
         "business-cards": businessForm,
         "v-cards": businessForm,
         "text-messages": textMessageForm,
-         "vehicles": vehicleData,    
+        "vehicles": vehicleData,    
         audios: audioFormData,
         videos: videoFormData,
         pdf: pdfFormData,
         gallery: imagesFormData,
 
         resumes: resumeFormData,
-        "property-qr":propertyDetails,
+        "property-qr": propertyDetails,
 
-        "multi-urls":multiUrlFormData,
-      
-
+        "multi-urls": multiUrlFormData,
+        discounts: discountCouponFormData
       }[activeService];
 
   const setFormDataState = isUrlBasedService
@@ -120,7 +120,7 @@ export const useServicesFormData = () => {
         "property-qr":setPropertyDetails,
 
         "multi-urls":setMultiUrlFormData,
-
+        discounts: setDiscountCouponFormData
       }[activeService];
 
 
