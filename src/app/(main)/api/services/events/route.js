@@ -1,6 +1,7 @@
 import { connectDB } from "@/lib/mongoDB";
 import { authUser } from "@/middlewares/authMiddleware";
 import EventModel from "@/models/services/eventSchema";
+import { getShortenedUrl } from "@/utils/shortenUrl";
 import bcrypt from "bcryptjs"; // ✅ Import bcrypt
 
 export async function POST(request) {
@@ -30,6 +31,7 @@ export async function POST(request) {
       contactName,
       contactEmail,
       contactPhone,
+      bgDesign,
       password, // ✅ Receive password from frontend
       qrPassword = "",
       location = {},
@@ -72,6 +74,7 @@ export async function POST(request) {
       contactName,
       contactEmail,
       contactPhone,
+      bgDesign,
       password: hashedPassword, // ✅ Save hashed password
       qrCodeDetails: {
     qrCodeImage: body.qrCodeImage ?? "",
@@ -89,9 +92,10 @@ export async function POST(request) {
     });
 
     await newEvent.save();
+    const qrUrl = await getShortenedUrl(`/events/${newEvent._id}`);
 
     return new Response(
-      JSON.stringify({ success: true, fileData: newEvent }),
+      JSON.stringify({ success: true, fileData: newEvent,qrUrl }),
       {
         status: 201,
         headers: { "Content-Type": "application/json" },

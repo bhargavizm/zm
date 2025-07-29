@@ -4,6 +4,9 @@ import { toPng } from "html-to-image";
 import toast from "react-hot-toast";
 import { FaLongArrowAltDown } from "react-icons/fa";
 import { useServicesFormData } from "../servicesData/useServicesFormData";
+import useServicesContext from "@/components/hooks/useServiceContext";
+
+
 
 
 const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
@@ -12,6 +15,8 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
     submitForm,
     encryptSubmitForm,
   } = useServicesFormData();
+
+  const {resetAllDynamicForms} = useServicesContext()
 
   const handleDownload = async () => {
     if (!previewRef?.current) {
@@ -38,6 +43,8 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
       const exportHeight = Math.round(
         (previewRef.current.offsetHeight / previewRef.current.offsetWidth) * exportWidth
       );
+
+      resetAllDynamicForms()
 
       const dataUrl = await toPng(previewRef.current, {
         cacheBust: true,

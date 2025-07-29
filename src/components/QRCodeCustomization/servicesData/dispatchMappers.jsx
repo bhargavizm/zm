@@ -10,7 +10,9 @@ import {
   setMultiUrlServices,
   setSmsServices,
   setTextMessageServices,
-  setVehicleServices
+  setVehicleServices,
+  setMedicalServices,
+  setEventServices
 } from "@/redux/slices/servicesSlice";
 
 import { urlBasedServices } from "./formDataMappers";
@@ -38,7 +40,8 @@ export const reduxDispatchMappers = {
   resumes:setResumeServices,
   "property-qr":setPropertyServices,
   "multi-urls":setMultiUrlServices,
-
+  "medical-alerts":setMedicalServices,
+  events:setEventServices,
 };
 
 urlBasedServices.forEach((service) => {

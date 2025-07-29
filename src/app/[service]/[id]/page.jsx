@@ -1,5 +1,3 @@
-
-
 import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
 import { connectDB } from "@/lib/mongoDB";
@@ -11,6 +9,8 @@ import SmsModal from "@/models/services/smsSchema";
 import TextMessageModal from "@/models/services/textMessage";
 import BusinessShopModel from '@/models/services/businessShopSchema';
 import propertySchema from "@/models/services/propertySchema";
+import MedicalAlertModel from "@/models/services/medicalAlertSchema";
+import EventModel from "@/models/services/eventSchema";
 
 // Components
 
@@ -35,6 +35,9 @@ import URLServicesPreview from "@/components/scanningPreview/urlServicesPreview"
 import URLServiceModel from "@/models/services/urlServicesSchema";
 import MultiUrlModal from "@/models/services/multiUrlSchema";
 import MultiUrlPreview from "@/components/scanningPreview/multiUrlPreview";
+import medicalalertsPreview from "@/components/scanningPreview/medicalalertsPreview";
+import EventsPreview from "@/components/scanningPreview/eventsPreview";
+
 
 
 const PasswordProtectedPreview = dynamic(() =>
@@ -95,17 +98,26 @@ const serviceMap = {
     model: MultiUrlModal,
     component: MultiUrlPreview,
   },
+  "medical-alerts":{
+    model:MedicalAlertModel,
+    component:medicalalertsPreview,
+  },
+  events:{
+    model:EventModel,
+    component:EventsPreview,
+  },
 };
 
-// Metadata generation
+
+// Metadata
 export async function generateMetadata({ params }) {
   const { service } = params;
   return {
-    title: `${service.charAt(0).toUpperCase() + service.slice(1)} - Details`,
+    title:` ${service.charAt(0).toUpperCase() + service.slice(1)} - Details`,
   };
 }
 
-// Page component
+// Main Page
 const Page = async ({ params }) => {
   const { service, id } = params;
   const serviceConfig = serviceMap[service];
@@ -113,18 +125,51 @@ const Page = async ({ params }) => {
   if (!serviceConfig) return notFound();
 
   await connectDB();
+
   let data = await serviceConfig.model.findById(id).lean();
   if (!data) return notFound();
 
   data = JSON.parse(JSON.stringify(data)); // Make serializable
-  const ComponentToRender = serviceConfig.component;
 
   return (
-    <PasswordModal data={data}>
-      <ComponentToRender data={data} />
-    </PasswordModal>
+    <PasswordProtectedPreview
+      data={data}
+      Component={serviceConfig.component}
+    />
   );
 };
 
 export default Page;
 
+
+
+// // Metadata generation
+// export async function generateMetadata({ params }) {
+//   const { service } = params;
+//   return {
+//     title: ${service.charAt(0).toUpperCase() + service.slice(1)} - Details,
+//   };
+// }
+
+// // Page component
+// const Page = async ({ params }) => {
+//   const { service, id } = params;
+//   const serviceConfig = serviceMap[service];
+
+//   if (!serviceConfig) return notFound();
+
+//   await connectDB();
+//   let data = await serviceConfig.model.findById(id).lean();
+//   if (!data) return notFound();
+
+//   data = JSON.parse(JSON.stringify(data)); // Make serializable
+//   const ComponentToRender = serviceConfig.component;
+
+//   return (
+//     <PasswordModal data={data}>
+//       <ComponentToRender data={data} />
+//     </PasswordModal>
+//   );
+// };
+
+// export default Page;

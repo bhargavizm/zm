@@ -270,6 +270,50 @@ export const formDataMappers = {
     formData.append("bgDesign", bgDesign || "");
   },
 },
+// "property-qr": {
+//   type: "formData",
+//   map: (formData, state = {}, bgDesign) => {
+//     const basicInfo = state.basicInfo || {};
+//     const addressInfo = state.addressInfo || {};
+//     const pricingInfo = state.pricingInfo || {};
+//     const images = state.images || {};
+
+//     // Basic Info
+// formData.append("basicInfo.propertyName", basicInfo.propertyName || "");
+// formData.append("basicInfo.propertyType", basicInfo.propertyType || "");
+// formData.append("basicInfo.ownerName", basicInfo.ownerName || "");
+// formData.append("basicInfo.contactNumber", basicInfo.contactNumber || "");
+// formData.append("basicInfo.alternateNumber", basicInfo.alternateNumber || "");
+// formData.append("basicInfo.propertyDescription", basicInfo.propertyDescription || "");
+
+// // Address Info
+// formData.append("addressInfo.address", addressInfo.address || "");
+// formData.append("addressInfo.mapLink", addressInfo.mapLink || "");
+
+// // Pricing Info
+// formData.append("pricingInfo.price", pricingInfo.price || "");
+// formData.append("pricingInfo.area", pricingInfo.area || "");
+// formData.append("pricingInfo.amenities", pricingInfo.amenities || "");
+
+// // Password
+// formData.append("password", state.password || "");
+
+// // Gallery Images
+// if (Array.isArray(images.galleryImages)) {
+//   images.galleryImages.forEach((file) => {
+//     formData.append("images.galleryImages", file);
+//   });
+// }
+
+// // Background Design
+// if (bgDesign) {
+//   formData.append("images.bgDesign", bgDesign);
+// }
+
+
+//     return formData;
+//   },
+// },
 "property-qr": {
   type: "formData",
   map: (formData, state = {}, bgDesign) => {
@@ -278,42 +322,135 @@ export const formDataMappers = {
     const pricingInfo = state.pricingInfo || {};
     const images = state.images || {};
 
-    // Basic Info
-formData.append("basicInfo.propertyName", basicInfo.propertyName || "");
-formData.append("basicInfo.propertyType", basicInfo.propertyType || "");
-formData.append("basicInfo.ownerName", basicInfo.ownerName || "");
-formData.append("basicInfo.contactNumber", basicInfo.contactNumber || "");
-formData.append("basicInfo.alternateNumber", basicInfo.alternateNumber || "");
-formData.append("basicInfo.propertyDescription", basicInfo.propertyDescription || "");
+    // Flatten and append all basic info fields
+    formData.append("propertyName", basicInfo.propertyName || "");
+    formData.append("propertyType", basicInfo.propertyType || "");
+    formData.append("ownerName", basicInfo.ownerName || "");
+    formData.append("contactNumber", basicInfo.contactNumber || "");
+    formData.append("alternateNumber", basicInfo.alternateNumber || "");
+    formData.append("propertyDescription", basicInfo.propertyDescription || "");
 
-// Address Info
-formData.append("addressInfo.address", addressInfo.address || "");
-formData.append("addressInfo.mapLink", addressInfo.mapLink || "");
+    // Address Info
+    formData.append("address", addressInfo.address || "");
+    formData.append("mapLink", addressInfo.mapLink || "");
 
-// Pricing Info
-formData.append("pricingInfo.price", pricingInfo.price || "");
-formData.append("pricingInfo.area", pricingInfo.area || "");
-formData.append("pricingInfo.amenities", pricingInfo.amenities || "");
+    // Pricing Info
+    formData.append("price", pricingInfo.price || "");
+    formData.append("area", pricingInfo.area || "");
 
-// Password
-formData.append("password", state.password || "");
+    // Amenities (support array or string)
+    const amenities = pricingInfo.amenities;
+    if (Array.isArray(amenities)) {
+      amenities.forEach((a) => formData.append("amenities", a));
+    } else {
+      formData.append("amenities", amenities || "");
+    }
 
-// Gallery Images
-if (Array.isArray(images.galleryImages)) {
-  images.galleryImages.forEach((file) => {
-    formData.append("images.galleryImages", file);
-  });
-}
+    // Password
+    formData.append("password", state.password || "");
 
-// Background Design
-if (bgDesign) {
-  formData.append("images.bgDesign", bgDesign);
-}
+    // Gallery Images (multi)
+    if (Array.isArray(images.galleryImages)) {
+      images.galleryImages.forEach((file) => {
+        formData.append("galleryImages", file); // NOT images.galleryImages — just galleryImages
+      });
+    }
 
+    // Background Image (optional)
+    if (bgDesign) {
+      formData.append("bgDesign", bgDesign); // NOT images.bgDesign — just bgDesign
+    }
 
     return formData;
   },
 },
+"events": {
+  type: "json",  // 🟢 JSON body
+  map: (body, state = {}, bgDesign) => {
+    return {
+      organizer: state.organizer || "",
+      title: state.title || "",
+      summary: state.summary || "",
+      fromDate: state.fromDate || "",
+      toDate: state.toDate || "",
+      venue: state.venue || "",
+      address: state.address || "",
+
+      contactName: state.contactName || "",
+      contactEmail: state.contactEmail || "",
+      contactPhone: state.contactPhone || "",
+
+      qrCodeImage: state.qrCodeImage || null,
+
+      location: {
+        latitude: (state.location && state.location.latitude) || "",
+        longitude: (state.location && state.location.longitude) || "",
+        address: (state.location && state.location.address) || "",
+      },
+
+      password: state.password || "",
+      
+      bgDesign: bgDesign || null,
+    };
+  },
+},
+
+
+"medical-alerts": {
+  type: "formData",
+  map: (formData, state = {}, bgDesign) => {
+    const patientInfo = state.patientInfo || {};
+    const medicalHistory = state.medicalHistory || {};
+    const emergencyContact = state.emergencyContact || {};
+    const additional = state.additional || {};
+    const password = state.password  // ✅ Fix is here
+
+    // Patient Info
+    formData.append("patientName", patientInfo.patientName || "");
+    formData.append("age", patientInfo.age || "");
+    formData.append("bloodType", patientInfo.bloodType || "");
+
+    // Medical History
+    formData.append("medicalConditions", medicalHistory.medicalConditions || "");
+    formData.append("allergies", medicalHistory.allergies || "");
+    formData.append("medications", medicalHistory.medications || "");
+    formData.append("additionalNotes", medicalHistory.additionalNotes || "");
+
+    // Emergency Contact
+    formData.append("emergencyContact", emergencyContact.emergencyContact || "");
+    formData.append("contactPhone", emergencyContact.contactPhone || "");
+    formData.append("preferredHospital", emergencyContact.preferredHospital || "");
+    formData.append("location", emergencyContact.location || "");
+
+    // Additional Info
+    formData.append("familyDoctorName", additional.familyDoctorName || "");
+    formData.append("familyDoctorPhone", additional.familyDoctorPhone || "");
+    formData.append("emergencyInstructions", additional.emergencyInstructions || "");
+    formData.append("insuranceProvider", additional.insuranceProvider || "");
+    formData.append("policyNumber", additional.policyNumber || "");
+
+    // ✅ FIXED PASSWORD:
+    formData.append("password", password);
+    console.log(`password : ${password}`)
+
+    // ✅ Design
+    formData.append("bgDesign", bgDesign || "");
+
+    // Multi-file fields
+    const multiFileFields = ["medicalReports", "prescription", "insuranceImage"];
+    multiFileFields.forEach((key) => {
+      const fieldData = additional[key];
+      if (fieldData?.files && Array.isArray(fieldData.files)) {
+        fieldData.files.forEach((file) => {
+          formData.append(key, file);
+        });
+      }
+    });
+
+    return formData;
+  },
+},
+
 
 
   "Pet-ID-tags": {
