@@ -37,6 +37,9 @@ import MultiUrlModal from "@/models/services/multiUrlSchema";
 import MultiUrlPreview from "@/components/scanningPreview/multiUrlPreview";
 import medicalalertsPreview from "@/components/scanningPreview/medicalalertsPreview";
 import EventsPreview from "@/components/scanningPreview/eventsPreview";
+import EventModal from "@/models/services/eventSchema";
+import DiscountModal from "@/models/services/discountSchema";
+import DiscountCouponPreview from "@/components/scanningPreview/DiscountCouponPreview";
 
 
 
@@ -105,6 +108,9 @@ const serviceMap = {
   events:{
     model:EventModel,
     component:EventsPreview,
+  discounts: {
+    model: DiscountModal,
+    component: DiscountCouponPreview,
   },
 };
 

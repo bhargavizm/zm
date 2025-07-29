@@ -1,6 +1,7 @@
 import { connectDB } from "@/lib/mongoDB";
 import { authUser } from "@/middlewares/authMiddleware";
 import EventModel from "@/models/services/eventSchema";
+
 import { getShortenedUrl } from "@/utils/shortenUrl";
 import bcrypt from "bcryptjs"; // ✅ Import bcrypt
 
