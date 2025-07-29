@@ -135,6 +135,7 @@ export const formDataMappers = {
       formData.append("bgDesign", bgDesign || "");
       formData.append("file", state.profileImageUrl || "");
 
+
       // Assuming you're passing the image file in state.logo manually (not in the original component though)
       if (state.profileImageUrl) {
         formData.append("file", state.profileImageUrl); // ✅ now it's a real File
@@ -146,19 +147,19 @@ export const formDataMappers = {
   //     ...this["business-cards"],
   //   },
 
-  gallery: {
-    type: "formData",
-    map: (formData, state, bgDesign) => {
-      formData.append("title", state.title || "");
-      formData.append("description", state.description || "");
-      formData.append("bgDesign", bgDesign || "");
-      state.galleryImages?.forEach((img) => {
-        if (img.file) {
-          formData.append("images", img.file);
-        }
-      });
-    },
-  },
+//   gallery: {
+//     type: "formData",
+//     map: (formData, state, bgDesign) => {
+//       formData.append("title", state.title || "");
+//       formData.append("description", state.description || "");
+//       formData.append("bgDesign", bgDesign || "");
+//       state.galleryImages?.forEach((img) => {
+//         if (img.file) {
+//           formData.append("images", img.file);
+//         }
+//       });
+//     },
+//   },
 
   "business-shops": {
     type: "formData",
@@ -173,6 +174,7 @@ export const formDataMappers = {
       const templateData = shopTemplate[templateKey] || {};
 
       // === General Info ===
+
       formData.append(
         "businessInfo.general.businessName",
         general.businessName || ""
@@ -195,6 +197,14 @@ export const formDataMappers = {
         general.establishedDate || ""
       );
 
+      formData.append("businessInfo.general.businessName", general.businessName || "");
+      formData.append("businessInfo.general.businessType", general.businessType || "");
+      formData.append("businessInfo.general.description", general.description || "");
+      formData.append("businessInfo.general.shopTimings", general.shopTimings || "");
+      formData.append("businessInfo.general.discount", general.discount || "");
+      formData.append("businessInfo.general.establishedDate", general.establishedDate || "");
+
+
       // === Contact Info ===
       formData.append("businessInfo.contact.owner", contact.owner || "");
       formData.append("businessInfo.contact.phone", contact.phone || "");
@@ -203,10 +213,9 @@ export const formDataMappers = {
       formData.append("businessInfo.contact.address", contact.address || "");
 
       // === Security Info ===
-      formData.append(
-        "businessInfo.security.password",
-        security.password || ""
-      );
+
+      formData.append("businessInfo.security.password", security.password || "");
+
 
       // === Logo ===
       if (media.logo instanceof File) {
@@ -236,15 +245,14 @@ export const formDataMappers = {
 
       // === Shop Timings Template ===
       Object.entries(templateData).forEach(([key, value]) => {
-        formData.append(
-          `shopTimingsTemplate.${templateKey}.${key}`,
-          value || ""
-        );
+
+        formData.append(`shopTimingsTemplate.${templateKey}.${key}`, value || "");
       });
 
       formData.append("shopTimingsTemplate.selectedTemplate", selectedTemplate);
     },
   },
+
 
   sms: {
     type: "json", // 🟢 JSON body
@@ -268,7 +276,7 @@ export const formDataMappers = {
     }),
   },
 
-  resumes: {
+  "resumes": {
     type: "formData",
     map: (formData, state, bgDesign) => {
       // Append resume files
@@ -299,14 +307,8 @@ export const formDataMappers = {
       formData.append("basicInfo.propertyType", basicInfo.propertyType || "");
       formData.append("basicInfo.ownerName", basicInfo.ownerName || "");
       formData.append("basicInfo.contactNumber", basicInfo.contactNumber || "");
-      formData.append(
-        "basicInfo.alternateNumber",
-        basicInfo.alternateNumber || ""
-      );
-      formData.append(
-        "basicInfo.propertyDescription",
-        basicInfo.propertyDescription || ""
-      );
+      formData.append("basicInfo.alternateNumber", basicInfo.alternateNumber || "");
+      formData.append("basicInfo.propertyDescription", basicInfo.propertyDescription || "");
 
       // Address Info
       formData.append("addressInfo.address", addressInfo.address || "");
@@ -332,8 +334,55 @@ export const formDataMappers = {
         formData.append("images.bgDesign", bgDesign);
       }
 
+
       return formData;
     },
+  },
+
+  "discounts": {
+  type: "formData",
+  map: (formData, state = {}, bgDesign) => {
+    const {
+      nameOfBusiness = "",
+      code = "",
+      password = "",
+      brandLogo = null,
+      couponImage = null,
+      qrCodeImage = "", // ✅ FIX: add this line to avoid ReferenceError
+      location = {},
+      renewalDate = "",
+      status = "active",
+    } = state;
+
+    // Basic Fields
+    formData.append("nameOfBusiness", nameOfBusiness);
+    formData.append("code", code);
+    formData.append("password", password);
+    formData.append("qrCodeImage", qrCodeImage);
+    formData.append("status", status);
+    formData.append("renewalDate", renewalDate);
+
+    // Location
+    formData.append("location.latitude", location.latitude || "");
+    formData.append("location.longitude", location.longitude || "");
+    formData.append("location.address", location.address || "");
+
+    // Images
+    if (brandLogo) {
+      formData.append("brandLogo", brandLogo); // File
+    }
+
+    if (couponImage) {
+      formData.append("couponImage", couponImage); // File
+    }
+
+    // Background Design (optional)
+    if (bgDesign) {
+      formData.append("bgDesign", bgDesign); // Optional background
+    }
+
+    return formData;
+
   },
 
   "Pet-ID-tags": {
@@ -356,6 +405,7 @@ export const formDataMappers = {
       image: state.mainImage || "", // base64 string or preview URL
     }),
   },
+
   "multi-urls": {
     type: "json",
     map: (body, state, bgDesign) => ({

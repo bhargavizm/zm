@@ -1,5 +1,3 @@
-
-
 import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
 import { connectDB } from "@/lib/mongoDB";
@@ -27,6 +25,12 @@ import MultiUrlModal from "@/models/services/multiUrlSchema";
 import MultiUrlPreview from "@/components/scanningPreview/multiUrlPreview";
 import CardsModel from "@/models/services/cardsSchema";
 import BusinessPreview from "@/components/servicesPages/tabsContent/servicesContent/business/businessPreview";
+import EventModal from "@/models/services/eventSchema";
+import EventModel from "@/models/services/eventSchema";
+import EventPreview from "@/components/servicesPages/tabsContent/servicesContent/events/eventPreview";
+import DiscountModal from "@/models/services/discountSchema";
+import DiscountCouponPreview from "@/components/scanningPreview/DiscountCouponPreview";
+
 
 
 const PasswordProtectedPreview = dynamic(() =>
@@ -91,6 +95,10 @@ const serviceMap = {
     model: CardsModel,
     component: BusinessPreview,
   }
+  discounts: {
+    model: DiscountModal,
+    component: DiscountCouponPreview,
+  },
 };
 
 
@@ -131,7 +139,10 @@ export default Page;
 // export async function generateMetadata({ params }) {
 //   const { service } = params;
 //   return {
+
 //     title: `${service.charAt(0).toUpperCase() + service.slice(1)} - Details`,
+
+//     title: ${service.charAt(0).toUpperCase() + service.slice(1)} - Details,
 //   };
 // }
 
@@ -155,6 +166,10 @@ export default Page;
 //     </PasswordModal>
 //   );
 // };
+
+
+// export default Page;
+
 
 // export default Page;
 
