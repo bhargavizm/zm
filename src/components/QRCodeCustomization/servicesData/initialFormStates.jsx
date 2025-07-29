@@ -196,6 +196,28 @@ const initialFormStates = {
     password: "",
     bgDesign: "",
   },
+   "product-cards": {
+    productLogo: "", // string (Cloudinary URL or file name after upload)
+    brandName: "",
+    items: [
+      {
+        productImage: "", // string (Cloudinary URL or file name)
+        description: "",
+        heading: "",
+        pageUrl: "",
+        videoUrl: "",
+      },
+    ],
+    email: "",
+    phone: "",
+    address: "",
+    password: "",
+    selectedTemplate: null,
+    bgDesign: "", // if you're using design selection for product cards too
+  },
+
+
+
 };
 
 const initialEncryptedForm = {

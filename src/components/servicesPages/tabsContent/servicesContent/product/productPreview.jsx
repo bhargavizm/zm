@@ -136,7 +136,7 @@ const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
     setBgDesign(null); // Clears background on initial load/mount
     setIsLoading(false); // Ensures loader is off after initial render
   }, []); // Empty dependency array means this runs only once on mount
-
+console.log('productData', productData)
   return (
     <div className="flex justify-center items-center w-full">
       <div className="relative w-[350px] h-[600px] border-[14px] border-gray-800 rounded-[36px] bg-white overflow-hidden shadow-2xl p-2">

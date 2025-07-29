@@ -10,7 +10,8 @@ import {
   setMultiUrlServices,
   setSmsServices,
   setTextMessageServices,
-  setVehicleServices
+  setVehicleServices,
+  setProductCardServices
 } from "@/redux/slices/servicesSlice";
 
 import { urlBasedServices } from "./formDataMappers";
@@ -38,6 +39,7 @@ export const reduxDispatchMappers = {
   resumes:setResumeServices,
   "property-qr":setPropertyServices,
   "multi-urls":setMultiUrlServices,
+  "product-cards":setProductCardServices,
 
 };
 
