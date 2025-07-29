@@ -116,9 +116,6 @@ export const formDataMappers = {
       formData.append("bgDesign", bgDesign || "");
     }
   },
-
-
-
   "business-cards": {
     type: "formData",
     map: (formData, state, bgDesign) => {
@@ -249,6 +246,7 @@ export const formDataMappers = {
     }),
   },
 
+ 
 
 
 
@@ -309,7 +307,51 @@ export const formDataMappers = {
       if (bgDesign) {
         formData.append("images.bgDesign", bgDesign);
       }
+      return formData;
+    },
+  },
 
+  "discounts": {
+  type: "formData",
+  map: (formData, state = {}, bgDesign) => {
+    const {
+      nameOfBusiness = "",
+      code = "",
+      password = "",
+      brandLogo = null,
+      couponImage = null,
+      qrCodeImage = "", // ✅ FIX: add this line to avoid ReferenceError
+      location = {},
+      renewalDate = "",
+      status = "active",
+    } = state;
+
+    // Basic Fields
+    formData.append("nameOfBusiness", nameOfBusiness);
+    formData.append("code", code);
+    formData.append("password", password);
+    formData.append("qrCodeImage", qrCodeImage);
+    formData.append("status", status);
+    formData.append("renewalDate", renewalDate);
+
+    // Location
+    formData.append("location.latitude", location.latitude || "");
+    formData.append("location.longitude", location.longitude || "");
+    formData.append("location.address", location.address || "");
+
+    // Images
+    if (brandLogo) {
+      formData.append("brandLogo", brandLogo); // File
+    }
+
+    if (couponImage) {
+      formData.append("couponImage", couponImage); // File
+    }
+
+    // Background Design (optional)
+    if (bgDesign) {
+      formData.append("bgDesign", bgDesign); // Optional background
+    }
 
       return formData;
     },
@@ -361,7 +403,6 @@ export const formDataMappers = {
     if (state.productLogo?.file) {
       formData.append("productLogo", state.productLogo.file);
     }
-
     // Items - Text fields as JSON
     if (state.items?.length) {
       const textItems = state.items.map(({ heading, description, pageUrl, videoUrl }) => ({
