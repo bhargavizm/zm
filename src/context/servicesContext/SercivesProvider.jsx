@@ -477,6 +477,7 @@ const ServicesProvider = ({ children }) => {
       homeAddress: "",
       mapLink: "",
       password: "",
+      bgDesign:"",
       selectedTemplate: "",
       kidsImage: null,
     },

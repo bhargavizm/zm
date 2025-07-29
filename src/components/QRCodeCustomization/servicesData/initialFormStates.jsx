@@ -166,6 +166,37 @@ const initialFormStates = {
       insurance: [], // multiple images
     },
   },
+
+  "kids-safety-qr-tags": {
+    childInfo: {
+      childName: "",
+      dob: "",
+      classGrade: "",
+      kidsImage: null, // File or URL
+    },
+    schoolInfo: {
+      schoolName: "",
+      schoolAddress: "",
+      schoolContact: "",
+    },
+    parentContacts: {
+      parentName: "",
+      primaryContact: "",
+      secondaryContact: "",
+      altContacts: [], // Array of strings
+    },
+    homeLocation: {
+      homeAddress: "",
+      mapLink: "",
+    },
+    security: {
+      password: "",
+    },
+    qrCustomization: {
+      selectedTemplate: "",
+      bgDesign: "",
+    },
+  },
   resumes: {
     resumeFiles: [],
     resumeUrl: "",
