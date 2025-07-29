@@ -7,6 +7,7 @@ import useSubmitForm from "./useSubmitForm";
 
 import { urlBasedServices } from "./formDataMappers";
 import useEncryptedSubmitForm from "./useEncryptedServicesSubmitForm";
+import DiscountCouponContent from './../../servicesPages/tabsContent/servicesContent/discountCoupon/DiscountCouponContent';
 
 const encryptedServices = ["pdf", "audios", "videos", "gallery"];
 
@@ -24,8 +25,7 @@ export const useServicesFormData = () => {
     setBusinessForm,
     textMessageForm,
     setTextMessageForm,
-    dynamicForms,
-    updateDynamicForm,
+    dynamicForms, updateDynamicForm,
     audioFormData,
     setAudioFormData,
     videoFormData,
@@ -45,12 +45,13 @@ export const useServicesFormData = () => {
 
   const businessShopFormData = dynamicForms?.businessShop;
   const setBusinessShopFormData = setDynamicForms?.businessShop;
-
+  const discountCouponFormData = dynamicForms?.discountCoupon
+  const setDiscountCouponFormData = setDynamicForms?.discountCoupon
   const vehicleData = dynamicForms?.vehicle; // ✅ Correct
   const setVehicleData = updateDynamicForm?.vehicle; // ✅ Correct
+  const multiUrlFormData = dynamicForms?.multiUrl
+  const setMultiUrlFormData = setDynamicForms?.multiUrl
 
-  const multiUrlFormData = dynamicForms?.multiUrl;
-  const setMultiUrlFormData = setDynamicForms?.multiUrl;
 
   const isUrlBasedService = urlBasedServices.includes(activeService);
 
@@ -62,6 +63,7 @@ export const useServicesFormData = () => {
         "business-cards": businessForm,
         "v-cards": businessForm,
         "text-messages": textMessageForm,
+        "vehicles": vehicleData,    
         audios: audioFormData,
         videos: videoFormData,
         pdf: pdfFormData,
@@ -81,6 +83,7 @@ export const useServicesFormData = () => {
         resumes: resumeFormData,
         "property-qr": propertyDetails,
         "multi-urls": multiUrlFormData,
+        discounts: discountCouponFormData
       }[activeService];
 
   const setFormDataState = isUrlBasedService
@@ -108,8 +111,9 @@ export const useServicesFormData = () => {
         pdf: setPdfFormData,
         gallery: setImagesFormData,
         resumes: setResumeFormData,
-        "property-qr": setPropertyDetails,
-        "multi-urls": setMultiUrlFormData,
+        "property-qr":setPropertyDetails,
+        "multi-urls":setMultiUrlFormData,
+        discounts: setDiscountCouponFormData
       }[activeService];
 
   const submitForm = useSubmitForm(
