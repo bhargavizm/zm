@@ -64,6 +64,48 @@ export const formDataMappers = {
     },
   },
 
+  
+ "business-cards": {
+  type: "formData",
+  map: (formData, state, bgDesign) => {
+    formData.append("name", state.name || "");
+    formData.append("subheading", state.subheading || "");
+    formData.append("designation", state.designation || "");
+    formData.append("email", state.email || "");
+    formData.append("mobile", state.mobile || "");
+    formData.append("mapLink", state.mapLink || "");
+    formData.append("socialLink", state.socialLink || "");
+    formData.append("socialLink2", state.socialLink2 || "");
+    formData.append("address", state.address || "");
+    formData.append("password", state.password || "");
+    formData.append("selectedTemplate", state.selectedTemplate || "");
+    formData.append("bgDesign", bgDesign || "");
+
+      // Assuming you're passing the image file in state.logo manually (not in the original component though)
+      if (state.logo) {
+        formData.append("file", state.logo);
+      }
+    },
+  },
+
+  // "v-cards": {
+  //     ...this["business-cards"],
+  //   },
+
+  gallery: {
+    type: "formData",
+    map: (formData, state, bgDesign) => {
+      formData.append("title", state.title || "");
+      formData.append("description", state.description || "");
+      formData.append("bgDesign", bgDesign || "");
+      state.galleryImages?.forEach((img) => {
+        if (img.file) {
+          formData.append("images", img.file);
+        }
+      });
+    },
+  },
+
   vehicles: {
   type: "formData",
   map: (formData, state, bgDesign) => {
@@ -116,115 +158,64 @@ export const formDataMappers = {
     formData.append("bgDesign", bgDesign || "");
   }
 },
+// In formDataMappers.js
+"business-shops": {
+    type: "formData",
+    map: (formData, state, bgDesign) => {
+      const general = state?.general || {};
+      const contact = state?.contact || {};
+      const security = state?.security || {};
+      const media = state?.media || {};
+      const shopTimingsTemplate = state?.shopTimingsTemplate || {};
 
+      // General Info - USING DOT NOTATION
+      formData.append("businessInfo.general.businessName", general.businessName || "");
+      formData.append("businessInfo.general.businessType", general.businessType || "");
+      formData.append("businessInfo.general.description", general.description || "");
+      formData.append("businessInfo.general.shopTimings", general.shopTimings || "");
+      formData.append("businessInfo.general.discount", general.discount || "");
 
+      // Contact Info - USING DOT NOTATION
+      formData.append("businessInfo.contact.owner", contact.owner || ""); // Ensure 'owner' is in your state
+      formData.append("businessInfo.contact.phone", contact.phone || "");
+      formData.append("businessInfo.contact.altPhone", contact.altPhone || "");
+      formData.append("businessInfo.contact.email", contact.email || "");
+      formData.append("businessInfo.contact.address", contact.address || "");
 
- "business-cards": {
-  type: "formData",
-  map: (formData, state, bgDesign) => {
-    formData.append("name", state.name || "");
-    formData.append("subheading", state.subheading || "");
-    formData.append("designation", state.designation || "");
-    formData.append("email", state.email || "");
-    formData.append("mobile", state.mobile || "");
-    formData.append("mapLink", state.mapLink || "");
-    formData.append("socialLink", state.socialLink || "");
-    formData.append("socialLink2", state.socialLink2 || "");
-    formData.append("address", state.address || "");
-    formData.append("password", state.password || "");
-    formData.append("selectedTemplate", state.selectedTemplate || "");
-    formData.append("bgDesign", bgDesign || "");
+      // Security Info - USING DOT NOTATION
+      formData.append("businessInfo.security.password", security.password || "");
 
-      // Assuming you're passing the image file in state.logo manually (not in the original component though)
-      if (state.logo) {
-        formData.append("file", state.logo);
+      // Media Files - USING DOT NOTATION
+      if (media.logo instanceof File) {
+        formData.append("businessInfo.media.logo", media.logo);
+      }
+      if (media.video instanceof File) { // Added video here
+        formData.append("businessInfo.media.video", media.video);
+      }
+      if (Array.isArray(media.galleryImages)) {
+        media.galleryImages.forEach((img) => {
+          const file = img instanceof File ? img : img.file;
+          if (file instanceof File) {
+            formData.append("businessInfo.media.galleryImages", file);
+          }
+        });
+      }
+
+      // Top-level fields (as per your current schema and backend handler expectations)
+      formData.append("bgDesign", bgDesign || ""); // Moved to top-level
+      formData.append("shopTimingsTemplate.selectedTemplate", shopTimingsTemplate.selectedTemplate || "none");
+
+      // Handle dynamic template data if applicable
+      if (shopTimingsTemplate.selectedTemplate) {
+        const templateKey = `${shopTimingsTemplate.selectedTemplate}Data`;
+        const templateData = shopTimingsTemplate[templateKey];
+        if (templateData && typeof templateData === 'object' && Object.keys(templateData).length > 0) {
+            // IMPORTANT: Stringify nested template data
+            formData.append(`shopTimingsTemplate.${templateKey}`, JSON.stringify(templateData));
+        }
       }
     },
   },
-
-  // "v-cards": {
-  //     ...this["business-cards"],
-  //   },
-
-  gallery: {
-    type: "formData",
-    map: (formData, state, bgDesign) => {
-      formData.append("title", state.title || "");
-      formData.append("description", state.description || "");
-      formData.append("bgDesign", bgDesign || "");
-      state.galleryImages?.forEach((img) => {
-        if (img.file) {
-          formData.append("images", img.file);
-        }
-      });
-    },
-  },
-
- "business-shops": {
-  type: "formData",
-  map: (formData, state, bgDesign) => {
-    const general = state?.businessInfo?.general || {};
-    const contact = state?.businessInfo?.contact || {};
-    const security = state?.businessInfo?.security || {};
-    const media = state?.businessInfo?.media || {};
-    const shopTemplate = state?.shopTimingsTemplate || {};
-    const selectedTemplate = shopTemplate.selectedTemplate || "";
-    const templateKey = `${selectedTemplate}Data`;
-    const templateData = shopTemplate[templateKey] || {};
-
-    // === General Info ===
-    formData.append("businessInfo.general.businessName", general.businessName || "");
-    formData.append("businessInfo.general.businessType", general.businessType || "");
-    formData.append("businessInfo.general.description", general.description || "");
-    formData.append("businessInfo.general.shopTimings", general.shopTimings || "");
-    formData.append("businessInfo.general.discount", general.discount || "");
-    formData.append("businessInfo.general.establishedDate", general.establishedDate || "");
-
-    // === Contact Info ===
-    formData.append("businessInfo.contact.owner", contact.owner || "");
-    formData.append("businessInfo.contact.phone", contact.phone || "");
-    formData.append("businessInfo.contact.altPhone", contact.altPhone || "");
-    formData.append("businessInfo.contact.email", contact.email || "");
-    formData.append("businessInfo.contact.address", contact.address || "");
-
-    // === Security Info ===
-    formData.append("businessInfo.security.password", security.password || "");
-
-    // === Logo ===
-    if (media.logo instanceof File) {
-      formData.append("businessInfo.media.logo", media.logo);
-    }
-
-    // === Gallery Images ===
-    if (Array.isArray(media.galleryImages)) {
-      media.galleryImages.forEach((img) => {
-        if (img instanceof File) {
-          formData.append("businessInfo.media.galleryImages", img);
-        } else if (img?.file instanceof File) {
-          formData.append("businessInfo.media.galleryImages", img.file);
-        }
-      });
-    }
-
-    // === Video ===
-    if (media.video instanceof File) {
-      formData.append("businessInfo.media.video", media.video);
-    }
-
-    // === Background Design ===
-    if (bgDesign) {
-      formData.append("bgDesign", bgDesign);
-    }
-
-    // === Shop Timings Template ===
-    Object.entries(templateData).forEach(([key, value]) => {
-      formData.append(`shopTimingsTemplate.${templateKey}.${key}`, value || "");
-    });
-
-    formData.append("shopTimingsTemplate.selectedTemplate", selectedTemplate);
-  },
-},
-
 
 
   sms: {
@@ -315,27 +306,39 @@ if (bgDesign) {
   },
 },
 
+"Pet-ID-tags":{
+  type: "formData",
+  map: (formData, state, bgDesign) => {
+    // Owner Info
+    formData.append("ownerInfo.name", state.ownerInfo?.name || "");
+    formData.append("ownerInfo.phone", state.ownerInfo?.phone || "");
+    formData.append("ownerInfo.email", state.ownerInfo?.email || "");
+    formData.append("ownerInfo.address", state.ownerInfo?.address || "");
+    formData.append("password", state?.password || "");
 
-  "Pet-ID-tags": {
-    type: "json",
-    map: (body, state, bgDesign) => ({
-      ownerInfo: {
-        name: state.ownerInfo?.name || "",
-        phone: state.ownerInfo?.phone || "",
-        email: state.ownerInfo?.email || "",
-        address: state.ownerInfo?.address || "",
-        password: state.ownerInfo?.password || "",
-      },
-      pet: {
-        name: state.pet?.name || "",
-        breed: state.pet?.breed || "",
-        color: state.pet?.color || "",
-      },
-      selectedTemplate: state.selectedTemplate || "",
-      bgDesign: bgDesign || "",
-      image: state.mainImage || "", // base64 string or preview URL
-    }),
+    // Pet Info
+    formData.append("pet.name", state.pet?.name || "");
+    formData.append("pet.breed", state.pet?.breed || "");
+    formData.append("pet.color", state.pet?.color || "");
+
+    // Selected Template
+    formData.append("selectedTemplate", state.selectedTemplate || "");
+
+    // Background Design
+    formData.append("bgDesign", bgDesign || "");
+    console.log(`bgDesign ${bgDesign}`)
+    console.log(`mainImage ${state.mainImage}`)
+
+    // Image File (assumed to be a File object)
+    if (state.mainImage instanceof File) {
+      formData.append("image", state.mainImage);
+    }
+    console.log("main image",state.mainImage)
   },
+},
+
+ 
+
  "multi-urls": {
   type: "json",
   map: (body, state, bgDesign) => ({
