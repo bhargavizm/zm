@@ -3,31 +3,21 @@
 import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
 import { connectDB } from "@/lib/mongoDB";
-
-// Models
 import PetTagModal from "@/models/services/petIdSchema";
 import ResumeModel from "@/models/services/resumeSchema";
 import SmsModal from "@/models/services/smsSchema";
 import TextMessageModal from "@/models/services/textMessage";
 import BusinessShopModel from '@/models/services/businessShopSchema';
 import propertySchema from "@/models/services/propertySchema";
-
-// Components
-
 import KidsSafetyModal from "@/models/services/kidSafetySchema";
 import MenuCardsServiceModel from "@/models/services/menuCardSchema";
 import VehicleModel from "@/models/services/vehicleSchema";
-
-// Components (Server or dynamic server-compatible ones)
 import SmsPreview from "@/components/scanningPreview/SmsPreview";
-
 import TextMessagePreview from "@/components/scanningPreview/TextFormPreview";
 import KidsSafetyPreview from "@/components/scanningPreview/KidsSafetyPreview";
 import MenuBookPreview from "@/components/scanningPreview/menuBookPreview";
 import PetIdPreview from "@/components/scanningPreview/PetIdPreview";
 import BusinessShopPreview from "@/components/scanningPreview/BusinessShopPreview";
-// Client component
-import PasswordModal from "@/components/common/passwordModal"; // ✅ CLIENT COMPONENT
 import VehiclePreview from "@/components/scanningPreview/vehiclePreview";
 import ResumePreview from "@/components/scanningPreview/resumePreview";
 import PropertyPreview from "@/components/scanningPreview/PropertyPreview";
@@ -35,6 +25,8 @@ import URLServicesPreview from "@/components/scanningPreview/urlServicesPreview"
 import URLServiceModel from "@/models/services/urlServicesSchema";
 import MultiUrlModal from "@/models/services/multiUrlSchema";
 import MultiUrlPreview from "@/components/scanningPreview/multiUrlPreview";
+import CardsModel from "@/models/services/cardsSchema";
+import BusinessPreview from "@/components/servicesPages/tabsContent/servicesContent/business/businessPreview";
 
 
 const PasswordProtectedPreview = dynamic(() =>
@@ -95,9 +87,14 @@ const serviceMap = {
     model: MultiUrlModal,
     component: MultiUrlPreview,
   },
+  "business-cards":{
+    model: CardsModel,
+    component: BusinessPreview,
+  }
 };
 
-// Metadata generation
+
+// Metadata
 export async function generateMetadata({ params }) {
   const { service } = params;
   return {
@@ -105,7 +102,7 @@ export async function generateMetadata({ params }) {
   };
 }
 
-// Page component
+// Main Page
 const Page = async ({ params }) => {
   const { service, id } = params;
   const serviceConfig = serviceMap[service];
@@ -113,18 +110,51 @@ const Page = async ({ params }) => {
   if (!serviceConfig) return notFound();
 
   await connectDB();
+
   let data = await serviceConfig.model.findById(id).lean();
   if (!data) return notFound();
 
   data = JSON.parse(JSON.stringify(data)); // Make serializable
-  const ComponentToRender = serviceConfig.component;
-
   return (
-    <PasswordModal data={data}>
-      <ComponentToRender data={data} />
-    </PasswordModal>
+    <PasswordProtectedPreview
+      data={data}
+      Component={serviceConfig.component}
+    />
   );
 };
 
 export default Page;
+
+
+
+// // Metadata generation
+// export async function generateMetadata({ params }) {
+//   const { service } = params;
+//   return {
+//     title: `${service.charAt(0).toUpperCase() + service.slice(1)} - Details`,
+//   };
+// }
+
+// // Page component
+// const Page = async ({ params }) => {
+//   const { service, id } = params;
+//   const serviceConfig = serviceMap[service];
+
+//   if (!serviceConfig) return notFound();
+
+//   await connectDB();
+//   let data = await serviceConfig.model.findById(id).lean();
+//   if (!data) return notFound();
+
+//   data = JSON.parse(JSON.stringify(data)); // Make serializable
+//   const ComponentToRender = serviceConfig.component;
+
+//   return (
+//     <PasswordModal data={data}>
+//       <ComponentToRender data={data} />
+//     </PasswordModal>
+//   );
+// };
+
+// export default Page;
 
