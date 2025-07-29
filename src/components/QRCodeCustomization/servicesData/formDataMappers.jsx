@@ -36,14 +36,15 @@ const sharedFileUploadMapper = {
     formData.append("description", state.description || "");
     formData.append("password", state.password || "");
     formData.append("bgDesign", bgDesign || "");
+
+    // ✅ Use "files" (same as backend)
     if (Array.isArray(state.file)) {
       state.file.forEach((f) => {
-        formData.append("files", f);
+        formData.append("files", f); // ✅ corrected key
       });
     }
   },
 };
-
 
 export const formDataMappers = {
   "menu-cards": {
@@ -96,29 +97,26 @@ export const formDataMappers = {
         "licenseBack",
         "rcFront",
         "rcBack",
-        "pollution"
+        "pollution",
       ];
-      singleFileFields.forEach(field => {
+      singleFileFields.forEach((field) => {
         const file = state?.media?.[field];
         if (file) formData.append(field, file);
       });
 
       // Media - Multiple file uploads
-      (state?.media?.galleryImages || []).forEach(file => {
+      (state?.media?.galleryImages || []).forEach((file) => {
         if (file) formData.append("galleryImages", file);
       });
 
-      (state?.media?.insurance || []).forEach(file => {
+      (state?.media?.insurance || []).forEach((file) => {
         if (file) formData.append("insurance", file);
       });
 
       // Optional Design
       formData.append("bgDesign", bgDesign || "");
-    }
+    },
   },
-
-  
-
 
   "business-cards": {
     type: "formData",
@@ -135,10 +133,12 @@ export const formDataMappers = {
       formData.append("password", state.password || "");
       formData.append("selectedTemplate", state.selectedTemplate || "");
       formData.append("bgDesign", bgDesign || "");
+      formData.append("file", state.profileImageUrl || "");
+
 
       // Assuming you're passing the image file in state.logo manually (not in the original component though)
-      if (state.logo) {
-        formData.append("file", state.logo);
+      if (state.profileImageUrl) {
+        formData.append("file", state.profileImageUrl); // ✅ now it's a real File
       }
     },
   },
@@ -147,19 +147,19 @@ export const formDataMappers = {
   //     ...this["business-cards"],
   //   },
 
-  gallery: {
-    type: "formData",
-    map: (formData, state, bgDesign) => {
-      formData.append("title", state.title || "");
-      formData.append("description", state.description || "");
-      formData.append("bgDesign", bgDesign || "");
-      state.galleryImages?.forEach((img) => {
-        if (img.file) {
-          formData.append("images", img.file);
-        }
-      });
-    },
-  },
+//   gallery: {
+//     type: "formData",
+//     map: (formData, state, bgDesign) => {
+//       formData.append("title", state.title || "");
+//       formData.append("description", state.description || "");
+//       formData.append("bgDesign", bgDesign || "");
+//       state.galleryImages?.forEach((img) => {
+//         if (img.file) {
+//           formData.append("images", img.file);
+//         }
+//       });
+//     },
+//   },
 
   "business-shops": {
     type: "formData",
@@ -174,12 +174,36 @@ export const formDataMappers = {
       const templateData = shopTemplate[templateKey] || {};
 
       // === General Info ===
+
+      formData.append(
+        "businessInfo.general.businessName",
+        general.businessName || ""
+      );
+      formData.append(
+        "businessInfo.general.businessType",
+        general.businessType || ""
+      );
+      formData.append(
+        "businessInfo.general.description",
+        general.description || ""
+      );
+      formData.append(
+        "businessInfo.general.shopTimings",
+        general.shopTimings || ""
+      );
+      formData.append("businessInfo.general.discount", general.discount || "");
+      formData.append(
+        "businessInfo.general.establishedDate",
+        general.establishedDate || ""
+      );
+
       formData.append("businessInfo.general.businessName", general.businessName || "");
       formData.append("businessInfo.general.businessType", general.businessType || "");
       formData.append("businessInfo.general.description", general.description || "");
       formData.append("businessInfo.general.shopTimings", general.shopTimings || "");
       formData.append("businessInfo.general.discount", general.discount || "");
       formData.append("businessInfo.general.establishedDate", general.establishedDate || "");
+
 
       // === Contact Info ===
       formData.append("businessInfo.contact.owner", contact.owner || "");
@@ -189,7 +213,9 @@ export const formDataMappers = {
       formData.append("businessInfo.contact.address", contact.address || "");
 
       // === Security Info ===
+
       formData.append("businessInfo.security.password", security.password || "");
+
 
       // === Logo ===
       if (media.logo instanceof File) {
@@ -219,13 +245,13 @@ export const formDataMappers = {
 
       // === Shop Timings Template ===
       Object.entries(templateData).forEach(([key, value]) => {
+
         formData.append(`shopTimingsTemplate.${templateKey}.${key}`, value || "");
       });
 
       formData.append("shopTimingsTemplate.selectedTemplate", selectedTemplate);
     },
   },
-
 
 
   sms: {
@@ -249,10 +275,6 @@ export const formDataMappers = {
       bgDesign: bgDesign || null,
     }),
   },
-
- 
-
-
 
   "resumes": {
     type: "formData",
@@ -360,9 +382,8 @@ export const formDataMappers = {
     }
 
     return formData;
-  },
-},
 
+  },
 
   "Pet-ID-tags": {
     type: "json",
@@ -385,7 +406,6 @@ export const formDataMappers = {
     }),
   },
 
-
   "multi-urls": {
     type: "json",
     map: (body, state, bgDesign) => ({
@@ -395,13 +415,6 @@ export const formDataMappers = {
       bgDesign: bgDesign || null,
     }),
   },
-
-
-
-
-
-
-
 };
 
 formDataMappers["v-cards"] = formDataMappers["business-cards"];
