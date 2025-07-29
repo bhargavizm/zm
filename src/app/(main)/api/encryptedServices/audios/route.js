@@ -1,6 +1,6 @@
 
 import { AudioServiceModel } from "@/models/services/encryptedServicesSchema";
-import { HandleEncryptedServices } from "../common/encryptedServicesRoute";
+import { HandleEncryptedServices } from "../../common/encryptedServicesRoute";
 
 
 export const audioMimeTypes = [
