@@ -26,7 +26,7 @@ export const useServicesFormData = () => {
     textMessageForm,
     setTextMessageForm,
     dynamicForms, updateDynamicForm,
-     audioFormData,
+    audioFormData,
     setAudioFormData,
     videoFormData,
     setVideoFormData,
@@ -35,22 +35,22 @@ export const useServicesFormData = () => {
     imagesFormData,
     setImagesFormData, petIDFormData, setPetIDFormData,
     setDynamicForms,
-    resumeFormData, 
+    resumeFormData,
     setResumeFormData,
     propertyDetails,
-    setPropertyDetails
+    setPropertyDetails, productData, setProductData
   } = useServicesContext();
 
   const businessShopFormData = dynamicForms?.businessShop
   const setBusinessShopFormData = setDynamicForms?.businessShop;
-   
 
 
- 
+
+
 
   const vehicleData = dynamicForms?.vehicle; // ✅ Correct
   const setVehicleData = updateDynamicForm?.vehicle; // ✅ Correct
-  
+
   const multiUrlFormData = dynamicForms?.multiUrl
   const setMultiUrlFormData = setDynamicForms?.multiUrl
 
@@ -70,25 +70,25 @@ export const useServicesFormData = () => {
       gallery: imagesFormData,
       "Pet-ID-tags": petIDFormData,
       "business-shops": businessShopFormData,
-    // }[activeService];
-        "menu-cards": menuBookFormData,
-        sms: smsFormData,
-        "business-cards": businessForm,
-        "v-cards": businessForm,
-        "text-messages": textMessageForm,
-         "vehicles": vehicleData,    
-        audios: audioFormData,
-        videos: videoFormData,
-        pdf: pdfFormData,
-        gallery: imagesFormData,
+      // }[activeService];
+      "menu-cards": menuBookFormData,
+      sms: smsFormData,
+      "business-cards": businessForm,
+      "v-cards": businessForm,
+      "text-messages": textMessageForm,
+      "vehicles": vehicleData,
+      audios: audioFormData,
+      videos: videoFormData,
+      pdf: pdfFormData,
+      gallery: imagesFormData,
 
-        resumes: resumeFormData,
-        "property-qr":propertyDetails,
+      resumes: resumeFormData,
+      "property-qr": propertyDetails,
 
-        "multi-urls":multiUrlFormData,
-      
+      "multi-urls": multiUrlFormData,
+      "product-cards": productData,
 
-      }[activeService];
+    }[activeService];
 
   const setFormDataState = isUrlBasedService
     ? setFormData
@@ -104,24 +104,25 @@ export const useServicesFormData = () => {
       gallery: setImagesFormData,
       "Pet-ID-tags": setPetIDFormData,
       "business-shops": setBusinessShopFormData,
-    // }[activeService];
-        "menu-cards": setMenuBookFormData,
-        sms: setSmsFormData,
-        "business-cards": setBusinessForm,
-        "v-cards": setBusinessForm,
-        "text-messages": setTextMessageForm,
-        "vehicles": setVehicleData, 
-        audios: setAudioFormData,
-        videos: setVideoFormData,
-        pdf: setPdfFormData,
-        gallery: setImagesFormData,
+      // }[activeService];
+      "menu-cards": setMenuBookFormData,
+      sms: setSmsFormData,
+      "business-cards": setBusinessForm,
+      "v-cards": setBusinessForm,
+      "text-messages": setTextMessageForm,
+      "vehicles": setVehicleData,
+      audios: setAudioFormData,
+      videos: setVideoFormData,
+      pdf: setPdfFormData,
+      gallery: setImagesFormData,
 
-        resumes: setResumeFormData,
-        "property-qr":setPropertyDetails,
+      resumes: setResumeFormData,
+      "property-qr": setPropertyDetails,
 
-        "multi-urls":setMultiUrlFormData,
+      "multi-urls": setMultiUrlFormData,
+      "product-cards": setProductData,
 
-      }[activeService];
+    }[activeService];
 
 
   const submitForm = useSubmitForm(

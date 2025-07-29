@@ -81,16 +81,21 @@ const ServicesProvider = ({ children }) => {
   };
 
   const initialProductData = {
-    heading: "",
-    description: "",
-    pageUrl: "",
+    productLogo:"",
+    brandName: "",
+    items:[{
+      productImage:"",
+       description: "",
+       heading:'',
+        pageUrl: "",
     videoUrl: "",
-    manual: null,
+    }],
     email: "",
     phone: "",
     address: "",
     password: "",
     selectedTemplate: null,
+    bgDesign:"",
   };
 
   const initialAudioFormData = {
