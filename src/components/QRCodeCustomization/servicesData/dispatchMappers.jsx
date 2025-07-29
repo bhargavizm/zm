@@ -1,7 +1,7 @@
 // ✅ add all slice actions
 
 import {
-  setBusinessShopServices,
+  
   setCardServices,
   setMenuCardServices,
   setPetIdServices,
@@ -10,7 +10,8 @@ import {
   setMultiUrlServices,
   setSmsServices,
   setTextMessageServices,
-  setVehicleServices
+  setVehicleServices,
+  setBusinessShopServices
 } from "@/redux/slices/servicesSlice";
 
 import { urlBasedServices } from "./formDataMappers";
