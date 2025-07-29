@@ -33,6 +33,11 @@ import URLServicesPreview from "@/components/scanningPreview/urlServicesPreview"
 import URLServiceModel from "@/models/services/urlServicesSchema";
 import MultiUrlModal from "@/models/services/multiUrlSchema";
 import MultiUrlPreview from "@/components/scanningPreview/multiUrlPreview";
+import EventModal from "@/models/services/eventSchema";
+import EventModel from "@/models/services/eventSchema";
+import EventPreview from "@/components/servicesPages/tabsContent/servicesContent/events/eventPreview";
+import DiscountModal from "@/models/services/discountSchema";
+import DiscountCouponPreview from "@/components/scanningPreview/DiscountCouponPreview";
 
 
 const PasswordProtectedPreview = dynamic(() =>
@@ -92,6 +97,10 @@ const serviceMap = {
   "multi-urls": {
     model: MultiUrlModal,
     component: MultiUrlPreview,
+  },
+  discounts: {
+    model: DiscountModal,
+    component: DiscountCouponPreview,
   },
 };
 

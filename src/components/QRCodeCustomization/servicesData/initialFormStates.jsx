@@ -131,7 +131,6 @@ const initialFormStates = {
 
   vehicles: {
     selectedTemplate: "",
-
     general: {
       vehicleModel: "",
       vehicleNumber: "",
@@ -165,6 +164,15 @@ const initialFormStates = {
       galleryImages: [], // multiple images
       insurance: [], // multiple images
     },
+  },
+
+  discounts: {
+    nameOfBusiness: "",
+      code: "",
+      brandLogo: "",
+      couponImage: "",
+      password: "",
+      bgDesign: "",
   },
   resumes: {
     resumeFiles: [],
