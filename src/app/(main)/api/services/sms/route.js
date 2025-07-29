@@ -122,7 +122,6 @@ export async function POST(request) {
       genderName,
       messageType,
       textMessage,
-      bgDesign,
       password = "",
       qrPassword = "",
       location = {},
