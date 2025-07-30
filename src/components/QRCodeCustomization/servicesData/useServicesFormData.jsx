@@ -40,6 +40,7 @@ export const useServicesFormData = () => {
     resumeFormData,
     setResumeFormData,
     propertyDetails,
+    setPropertyDetails, productData, setProductData
     setPropertyDetails,
     eventsFormData, setEventsFormData,
   } = useServicesContext();
@@ -62,6 +63,17 @@ export const useServicesFormData = () => {
   const formDataState = isUrlBasedService
     ? formData
     : {
+      "menu-cards": menuBookFormData,
+      sms: smsFormData,
+      "business-cards": businessForm,
+      "v-cards": businessForm,
+      "text-messages": textMessageForm,
+      audios: audioFormData,
+      videos: videoFormData,
+      pdf: pdfFormData,
+      gallery: imagesFormData,
+      "Pet-ID-tags": petIDFormData,
+      "business-shops": businessShopFormData,
         "menu-cards": menuBookFormData,
         sms: smsFormData,
         "business-cards": businessForm,
@@ -82,9 +94,21 @@ export const useServicesFormData = () => {
         discounts: discountCouponFormData
       }[activeService];
 
+
   const setFormDataState = isUrlBasedService
     ? setFormData
     : {
+      "menu-cards": setMenuBookFormData,
+      sms: setSmsFormData,
+      "business-cards": setBusinessForm,
+      "v-cards": setBusinessForm,
+      "text-messages": setTextMessageForm,
+      audios: setAudioFormData,
+      videos: setVideoFormData,
+      pdf: setPdfFormData,
+      gallery: setImagesFormData,
+      "Pet-ID-tags": setPetIDFormData,
+      "business-shops": setBusinessShopFormData,
      
         "menu-cards": setMenuBookFormData,
         sms: setSmsFormData,

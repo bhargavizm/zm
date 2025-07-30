@@ -11,6 +11,7 @@ import {
   setSmsServices,
   setTextMessageServices,
   setVehicleServices,
+  setProductCardServices
   setMedicalServices,
   setEventServices,
   setBusinessShopServices,
@@ -43,6 +44,7 @@ export const reduxDispatchMappers = {
   resumes:setResumeServices,
   "property-qr":setPropertyServices,
   "multi-urls":setMultiUrlServices,
+  "product-cards":setProductCardServices,
   "medical-alerts":setMedicalServices,
   events:setEventServices,
   discounts: setDiscountServices
