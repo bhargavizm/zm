@@ -33,7 +33,6 @@ const BusinessShopPreview = () => {
     security = {}
   } = businessInfo;
 
-  // Get the selected template number (1-4)
   const templateNum = shopTimingsTemplate.selectedTemplate?.replace('template', '') || '1';
   const backgroundImageUrl = `/images/templates/businessShop${templateNum}.webp`;
 
@@ -60,133 +59,147 @@ const BusinessShopPreview = () => {
 
   return (
     <div className="flex justify-center items-center w-full">
-      <div className="relative w-[350px] h-[600px] border-[14px] border-gray-800 rounded-[36px] overflow-hidden shadow-2xl">
+      <div className="relative w-[350px] h-[600px] border-[14px] border-gray-800 rounded-[36px] overflow-hidden shadow-2xl bg-white">
+        
+        {/* === Background Layer === */}
+        {isImage && (
+          <img
+            src={bgDesign}
+            alt="Background"
+            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          />
+        )}
 
-        {/* Background Layer - Template Image */}
-        <div 
-          className="absolute inset-0 w-full h-full z-0"
-          style={{
-            backgroundImage: `url(${backgroundImageUrl})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            filter: 'brightness(0.9)'
-          }}
-        >
-          {/* Overlay for better readability */}
-          <div className="absolute inset-0 bg-black/10 backdrop-blur-[1px]"></div>
-        </div>
+        {isVideo && (
+          <video
+            src={bgDesign}
+            autoPlay
+            loop
+            muted
+            playsInline
+            onLoadedData={() => setTimeout(() => setIsLoading(false), 300)}
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          />
+        )}
 
-        {/* Loading */}
+        {!bgDesign && (
+          <img
+            src={backgroundImageUrl}
+            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          />
+        )}
+
+        {/* === Overlay === */}
+        <div className="absolute inset-0 bg-black/10 backdrop-blur-[1px] z-0" />
+
+        {/* === Loading Spinner === */}
         {isLoading && (
-          <div className="absolute inset-0 z-50 bg-mainGreen backdrop-blur-sm flex justify-center items-center">
+          <div className="absolute inset-0 z-40 bg-mainGreen/50 backdrop-blur-sm flex justify-center items-center">
             <Image
               src="/logos/ZM LOGO.webp"
               alt="Loading"
-              width={100}
-              height={100}
+              width={80}
+              height={80}
               className="w-20 h-20 animate-bounce"
             />
           </div>
         )}
 
-        {/* Content */}
-        <div className="relative z-10 h-full overflow-y-auto scrollbar-hide pt-8 pb-4 px-4">
-          {!hasData ? (
-            <div className="flex items-center justify-center h-full text-center text-gray-500 text-lg font-medium">
-              Start entering business details to see a live preview!
-            </div>
-          ) : (
-            <>
-              {/* Logo Section */}
-              <div className="flex flex-col items-center justify-center mb-6">
-                {media.logo && (
-                  <div className="relative w-32 h-32 rounded-full shadow-lg overflow-hidden border-2 border-teal-100 bg-white/90 backdrop-blur-sm">
-                    <div className="absolute inset-0 flex items-center justify-center">
+        {/* === Content === */}
+        {!isLoading && (
+          <div className="absolute inset-0 z-10 overflow-y-auto pt-8 pb-4 px-4 scrollbar-hide">
+            {!hasData ? (
+              <div className="flex items-center justify-center h-full text-center text-gray-500 text-lg font-medium">
+                Start entering business details to see a live preview!
+              </div>
+            ) : (
+              <>
+                {/* Logo & Name */}
+                <div className="flex flex-col items-center justify-center mb-6">
+                  {media.logo && (
+                    <div className="relative w-28 h-28 rounded-full overflow-hidden border-2 border-white bg-white/90 backdrop-blur-sm shadow">
                       <img
                         src={getMediaSrc(media.logo)}
                         alt="Business Logo"
-                        className="min-w-full min-h-full object-cover"
-                        style={{
-                          borderRadius: '50%',
-                          aspectRatio: '1/1'
-                        }}
+                        className="w-full h-full object-cover"
                       />
                     </div>
-                  </div>
-                )}
-                {general.businessName && (
-                  <div className="bg-white/90 mt-5 rounded-2xl pb-2 px-2 backdrop-blur-sm">
-                    <h1 className="text-xl font-bold mt-3 text-center text-[#008080]">
-                      {general.businessName}
-                    </h1>
-                  </div>
-                )}
-              </div>
-
-              {/* Info Sections */}
-              <Section
-                title="Business Info"
-                condition={general.businessType || general.description || general.establishedDate || general.shopTimings}
-              >
-                {general.businessType && <p><strong>Type:</strong> {general.businessType}</p>}
-                {general.description && <p><strong>Description:</strong> {general.description}</p>}
-                {general.establishedDate && <p><strong>Established:</strong> {general.establishedDate}</p>}
-                {general.shopTimings && <p><strong>Timings:</strong> {general.shopTimings}</p>}
-                {general.discount && <p className="text-red-600 font-medium"><strong>Special Offer:</strong> {general.discount}</p>}
-              </Section>
-
-              <Section
-                title="Contact Info"
-                condition={contact.owner || contact.phone || contact.altPhone || contact.email || contact.address}
-              >
-                {contact.owner && <p><strong>Owner:</strong> {contact.owner}</p>}
-                {contact.phone && <p><strong>Phone:</strong> {contact.phone}</p>}
-                {contact.altPhone && <p><strong>Alternate Phone:</strong> {contact.altPhone}</p>}
-                {contact.email && <p><strong>Email:</strong> {contact.email}</p>}
-                {contact.address && <p><strong>Address:</strong> {contact.address}</p>}
-              </Section>
-
-              <Section
-                title="Media Gallery"
-                condition={media.video || gallery.length > 0}
-              >
-                {media.video && (
-                  <div className="mb-4">
-                    <p className="font-medium">Promotional Video:</p>
-                    <video
-                      src={getMediaSrc(media.video)}
-                      controls
-                      className="w-full rounded-lg border mt-2"
-                    />
-                  </div>
-                )}
-                {gallery.length > 0 && (
-                  <div>
-                    <p className="font-medium mb-2">Photo Gallery:</p>
-                    <div className="grid grid-cols-2 gap-2">
-                      {gallery.map((img, idx) => (
-                        <div key={idx} className="aspect-square overflow-hidden rounded-lg border">
-                          <img
-                            src={getMediaSrc(img)}
-                            alt={`Gallery ${idx + 1}`}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                      ))}
+                  )}
+                  {general.businessName && (
+                    <div className="bg-white/90 mt-3 rounded-xl px-2 py-1 backdrop-blur-sm">
+                      <h1 className="text-xl font-bold text-center text-[#008080]">
+                        {general.businessName}
+                      </h1>
                     </div>
-                  </div>
-                )}
-              </Section>
-            </>
-          )}
-        </div>
+                  )}
+                </div>
 
-        {/* Footer */}
-        <div className="relative z-10 border-t border-gray-200 text-center text-xs text-gray-500 py-2 bg-white/90 backdrop-blur-sm">
-          <p>Scan for Business Info</p>
-          <p className="mt-1">v1.0.0</p>
-        </div>
+                {/* Sections */}
+                <Section
+                  title="Business Info"
+                  condition={general.businessType || general.description || general.establishedDate || general.shopTimings}
+                >
+                  {general.businessType && <p><strong>Type:</strong> {general.businessType}</p>}
+                  {general.description && <p><strong>Description:</strong> {general.description}</p>}
+                  {general.establishedDate && <p><strong>Established:</strong> {general.establishedDate}</p>}
+                  {general.shopTimings && <p><strong>Timings:</strong> {general.shopTimings}</p>}
+                  {general.discount && <p className="text-red-600 font-medium"><strong>Offer:</strong> {general.discount}</p>}
+                </Section>
+
+                <Section
+                  title="Contact Info"
+                  condition={contact.owner || contact.phone || contact.altPhone || contact.email || contact.address}
+                >
+                  {contact.owner && <p><strong>Owner:</strong> {contact.owner}</p>}
+                  {contact.phone && <p><strong>Phone:</strong> {contact.phone}</p>}
+                  {contact.altPhone && <p><strong>Alt Phone:</strong> {contact.altPhone}</p>}
+                  {contact.email && <p><strong>Email:</strong> {contact.email}</p>}
+                  {contact.address && <p><strong>Address:</strong> {contact.address}</p>}
+                </Section>
+
+                <Section
+                  title="Media Gallery"
+                  condition={media.video || gallery.length > 0}
+                >
+                  {media.video && (
+                    <div className="mb-4">
+                      <p className="font-medium">Promo Video:</p>
+                      <video
+                        src={getMediaSrc(media.video)}
+                        controls
+                        className="w-full rounded-lg border mt-2"
+                      />
+                    </div>
+                  )}
+                  {gallery.length > 0 && (
+                    <div>
+                      <p className="font-medium mb-2">Photo Gallery:</p>
+                      <div className="grid grid-cols-2 gap-2">
+                        {gallery.map((img, idx) => (
+                          <div key={idx} className="aspect-square overflow-hidden rounded-lg border">
+                            <img
+                              src={getMediaSrc(img)}
+                              alt={`Gallery ${idx + 1}`}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </Section>
+              </>
+            )}
+
+            {/* Footer */}
+            <div className="text-center text-xs text-gray-600 mt-4 py-2 bg-white/80 rounded-xl">
+              <p>Scan for Business Info</p>
+              <p className="mt-1">v1.0.0</p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

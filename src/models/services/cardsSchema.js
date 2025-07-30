@@ -7,10 +7,6 @@ const cardsSchema = new mongoose.Schema(
       id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
       name: String,
     },
-    serviceName: {
-      type: String,
-      required: true, // "business-cards", "v-cards", etc.
-    },
     name: { type: String, trim: true },
     subheading: { type: String, trim: true },
     mobile: { type: String, trim: true },
@@ -27,18 +23,19 @@ const cardsSchema = new mongoose.Schema(
     },
     profileImageUrl: {
       type: String,
-      trim: true,
-      default: "",
     },
     qrCodeDetails: qrCodeServicesSchema,
   },
   { timestamps: true }
 );
 
-// 🔍 Add index to speed up queries by user + service type
-cardsSchema.index({ "user.id": 1, serviceType: 1 });
+// // 🔍 Add index to speed up queries by user + service type
+// cardsSchema.index({ "user.id": 1 });
 
-const CardsModel =
-  mongoose.models.Cards || mongoose.model("Cards", cardsSchema);
 
-export default CardsModel;
+const BusinessCardsModel = mongoose.models.BusinessCards || mongoose.model("business-cards", cardsSchema);
+
+const VCardsModel = mongoose.models.VCards || mongoose.model("v-cards", cardsSchema);
+
+
+export { BusinessCardsModel, VCardsModel };
