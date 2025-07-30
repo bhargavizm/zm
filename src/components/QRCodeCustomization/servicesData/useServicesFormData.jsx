@@ -40,8 +40,10 @@ export const useServicesFormData = () => {
     resumeFormData,
     setResumeFormData,
     propertyDetails,
-    setPropertyDetails, productData, setProductData
-    setPropertyDetails,
+    setPropertyDetails, 
+    productData,
+     setProductData,
+  
     eventsFormData, setEventsFormData,
   } = useServicesContext();
 
