@@ -288,6 +288,7 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import MedicalAlertModel from "@/models/services/medicalAlertSchema";
 import { authUser } from "@/middlewares/authMiddleware";
+import { getShortenedUrl } from "@/utils/shortenUrl";
 
 export async function POST(req) {
   try {
@@ -307,7 +308,7 @@ export async function POST(req) {
 
     // ✅ Parse multipart/form-data
     const formData = await req.formData();
-
+    const  bgDesign = formData.get("bgDesign");
     // ✅ Extract form fields
     const patientName = formData.get("patientName");
     const ageStr = formData.get("age");
@@ -417,6 +418,7 @@ export async function POST(req) {
         id: user._id,
         name: user.name,
       },
+      bgDesign,
       patientInfo: { patientName, age, bloodType },
       medicalHistory: {
         medicalConditions,
@@ -438,12 +440,13 @@ export async function POST(req) {
       prescription,
       insuranceImage,
       password: hashedPassword,
+      bgDesign,
       qrCodeDetails, // ✅ Added QR Code data
     });
 
 
-
-    return NextResponse.json({ success: true, data: newRecord }, { status: 201 });
+    const qrUrl = await getShortenedUrl(`/medical-alerts/${newRecord._id}`);
+    return NextResponse.json({ success: true, data: newRecord,qrUrl }, { status: 201 });
 
   } catch (err) {
     console.error("❌ POST Error:", err);

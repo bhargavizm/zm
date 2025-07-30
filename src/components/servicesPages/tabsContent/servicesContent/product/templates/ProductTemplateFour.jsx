@@ -117,7 +117,7 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md"; // I
  * @param {string} [props.productImage] - Optional main product image URL (though individual item images are preferred).
  * @param {string} [props.bgDesign] - Optional background design URL (image or video).
  */
-const ProductTemplateOne = ({ items, productData, productLogo, productImage, bgDesign }) => {
+const ProductTemplateFour = ({ items, productData, productLogo, productImage, bgDesign }) => {
   const {
     brandName = "Your Brand Name",
     email = "contact@example.com",
@@ -139,15 +139,15 @@ const ProductTemplateOne = ({ items, productData, productLogo, productImage, bgD
 
   // No useEffect for auto-play in this template
 
-  const currentItem = items && items.length > 0 ? items[currentSlide] : null;
+  const currentItem = productData?.items && productData?.items.length > 0 ? productData?.items[currentSlide] : null;
 
   return (
     <div className="min-h-full w-full bg-gradient-to-br from-[#c82222] to-[#d70823] px-4 py-6 space-y-6 rounded-lg shadow-inner">
       {/* Header Section - Displays Brand Logo and Name */}
       <div className="text-center text-white">
-        {productLogo && (
+        {productData?.productLogo && (
           <img
-            src={productLogo}
+            src={productData?.productLogo?.preview}
             alt="Brand Logo"
             className="mx-auto h-20 w-auto object-contain mb-2"
           />
@@ -157,16 +157,16 @@ const ProductTemplateOne = ({ items, productData, productLogo, productImage, bgD
       </div>
 
       {/* Product Carousel Section */}
-      {items && items.length > 0 ? (
+      {productData?.items && productData?.items.length > 0 ? (
         <div className="relative">
           <div
             key={currentSlide} // Key helps React re-render/animate the slide content
             className="bg-white rounded-xl shadow-md p-4 space-y-2 border border-gray-200 transition-all duration-300 ease-in-out"
           >
             {/* Product Image */}
-            {currentItem.image && (
+            {currentItem.productImage && (
               <img
-                src={currentItem.image}
+                src={currentItem.productImage?.preview}
                 alt={`Product ${currentSlide + 1}`}
                 className="w-full h-48 object-fit rounded-md border border-gray-100"
               />
@@ -204,7 +204,7 @@ const ProductTemplateOne = ({ items, productData, productLogo, productImage, bgD
           </div>
 
           {/* Carousel Navigation Buttons */}
-          {items.length > 1 && (
+          {productData?.items.length > 1 && (
             <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-2">
               <button
                 onClick={goToPreviousSlide}
@@ -269,4 +269,4 @@ const ProductTemplateOne = ({ items, productData, productLogo, productImage, bgD
   );
 };
 
-export default ProductTemplateOne;
+export default ProductTemplateFour;
