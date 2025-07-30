@@ -29,40 +29,7 @@ const ServicesProvider = ({ children }) => {
       password: "",
     });
 
-  const initialBusinessShopFormData = {
-    shopName: "",
-    ownerName: "",
-    contactNumber: "",
-    email: "",
-    address: "",
-    mapLink: "",
-    openingHours: "",
-    closingHours: "",
-    shopType: "",
-    servicesOffered: "",
-    shopLogo: null,
-    bannerImage: null,
-    password: "",
-    socialMediaLinks: {
-      facebook: "",
-      instagram: "",
-      twitter: "",
-      website: "",
-    },
-    qrCodeDetails: {
-      qrCodeImage: '',
-
-      location: {
-        latitude: '',
-        longitude: '',
-        address: "",
-      },
-      renewalDate: '',
-      status: '',
-      resetPasswordToken: '',
-      resetPasswordExpires: '',
-    },
-  };
+  
 
   const initialBusinessForm = {
     name: "",
@@ -74,6 +41,7 @@ const ServicesProvider = ({ children }) => {
     address: "",
     mapLink: "",
     email: "",
+    profileImageUrl:'',
     url: "",
     url1: "",
     password: "",
@@ -263,7 +231,6 @@ const ServicesProvider = ({ children }) => {
 
 
   const initialPetIDFormData = {
-    tagTitle: "",
     mainImage: null,
     ownerInfo: {
       name: "",
@@ -275,23 +242,13 @@ const ServicesProvider = ({ children }) => {
     pet: {
       name: "",
       breed: "",
-      species: "",
-      gender: "",
-      birthDate: "",
       color: "",
-      microchip: "",
-      specialNeeds: "",
-      vetInfo: "",
-      diet: "",
       images: [],
       visible: true,
     },
-    emergencyContacts: [
-      { name: "", relationship: "", phone: "", visible: true },
-    ],
-    additionalInfo: [
-      { type: "", label: "", value: "", visible: true, placeholder: "" },
-    ],
+    password:"",
+    bgDesign:""
+   
   };
 
   const initialDynamicForms = {
@@ -354,39 +311,12 @@ const ServicesProvider = ({ children }) => {
       customLinks: [],
       password: "",
     },
-    businessShop: {
-      general: {
-        shopName: "",
-        ownerName: "",
-        contactNumber: "",
-        email: "",
-        website: "",
-
-      },
-      address: {
-        street: "",
-        city: "",
-        state: "",
-        pincode: "",
-        mapLink: "",
-      },
-      shopImages: {
-        logo: null,
-        banner: null,
-        gallery: [],
-      },
-      about: {
-        description: "",
-        services: "",
-      },
-      password: "",
-    },
+    //BusinessShop Named as BusinessInfo, 
     businessInfo: {
       general: {
         businessName: "",
         businessType: "",
         description: "",
-        establishedDate: "",
         shopTimings: "",
         discount: "",
       },
@@ -405,54 +335,10 @@ const ServicesProvider = ({ children }) => {
       security: {
         password: "",
       },
+      bgDesign:"",
     },
     shopTimingsTemplate: {
       selectedTemplate: "none",
-      template1Data: {
-        title: "Opening Hours",
-
-        day1: "MONDAY , 10AM - 10PM",
-        day2: "TUESDAY , 10AM - 10PM",
-        day3: "WEDNESDAY , 10AM - 10PM",
-        day4: "THURSDAY , 10AM - 10PM",
-        day5: "FRIDAY , 10AM - 10PM",
-        day6: "SATURDAY , 10AM - 10PM",
-        day7: "SUNDAY , 10AM - 10PM",
-        aboutUsLink: "about us",
-        siteLink: "@reallygreatsite",
-      },
-      template2Data: {
-        logoText: "GIGGLING PLATYPUS",
-        mainHeading: "WE'RE OPEN",
-        subHeading: "TUESDAY TO SUNDAY",
-        timeRange: "12 AM - 10 PM",
-        closedDay: "CLOSED MONDAY",
-        addressLine1: "123 Anywhere St., Any City, ST 12345",
-        addressLine2: "123 Anywhere St., Any City",
-        website: "www.reallygreatsite.com",
-      },
-      template3Data: {
-        siteLink: "@GoldGlam.com",
-        title: "OUR STORY",
-        description: "Experience the best at our shop!",
-        day: "MONDAY - SUNDAY",
-        timings: "10AM - 10PM",
-        footerText: "OPEN ALL WEEK | TRADITION MEETS ELEGANCE",
-        addressLine1: "123 Anywhere St., Any City, ST 12345",
-
-
-      },
-      template4Data: {
-        logoText: "HANVOLK",
-        mainHeading: "WE'RE OPEN",
-        subHeading: "MONDAY TO SUNDAY",
-        timeRange: "10 AM - 10 PM",
-        closedDay: "CLOSED TUESDAY",
-        addressLine1: "123 Anywhere St., Any City, ST 12345",
-        addressLine2: "123 Anywhere St., Any City",
-        website: "www.reallygreatsite.com",
-      },
-
       password: "",
     },
     discountCoupon: {
@@ -543,10 +429,8 @@ const ServicesProvider = ({ children }) => {
     setDynamicForms(resetState);
   };
 
-  // State for all forms
-  const [businessShopFormData, setBusinessShopFormData] = useState(
-    initialBusinessShopFormData
-  );
+ 
+  
   const [businessForm, setBusinessForm] = useState(initialBusinessForm);
   const [profileImage, setProfileImage] = useState(null); // File state for BusinessForm
   const [brandLogo, setBrandLogo] = useState(null); // File state for BusinessForm
@@ -629,9 +513,7 @@ const ServicesProvider = ({ children }) => {
         case "multiUrl":
           initialStateToApply = initialDynamicForms.multiUrl;
           break;
-        case "businessShop":
-          initialStateToApply = initialDynamicForms.businessShop;
-          break;
+       
         case "businessInfo":
           initialStateToApply = initialDynamicForms.businessInfo;
           break;
@@ -701,8 +583,6 @@ const ServicesProvider = ({ children }) => {
       value={{
         // Static forms and their setters
         formData, setFormData,
-        businessShopFormData,
-        setBusinessShopFormData,
         businessForm,
         setBusinessForm,
         profileImage,

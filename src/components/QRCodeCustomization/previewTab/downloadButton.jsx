@@ -4,25 +4,25 @@ import { toPng } from "html-to-image";
 import toast from "react-hot-toast";
 import { FaLongArrowAltDown } from "react-icons/fa";
 import { useServicesFormData } from "../servicesData/useServicesFormData";
+import useServicesContext from "@/components/hooks/useServiceContext";
 
 
 const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
   const {
-    activeService,
     submitForm,
     encryptSubmitForm,
   } = useServicesFormData();
+const { activeService } = useServicesContext();
+
 
   const handleDownload = async () => {
     if (!previewRef?.current) {
       toast.error("Preview not available");
       return;
     }
-
     const submitFn = ["pdf", "audios", "videos", "gallery"].includes(activeService)
       ? encryptSubmitForm
       : submitForm;
-
     try {
       let generatedUrl = await submitFn();
 
@@ -65,12 +65,12 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
   };
 
   return (
-   <div className="pt-4 pb-2 flex justify-center border-t">
+   <div className="pt-4 pb-2 flex justify-center">
       <button
         onClick={handleDownload}
         className="px-6 py-2 text-xl text-white cursor-pointer font-bold rounded-lg flex items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
       >
-        Download Large Files
+        Submit To Download 
         <FaLongArrowAltDown />
       </button>
     </div>

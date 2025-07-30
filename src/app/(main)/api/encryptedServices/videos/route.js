@@ -1,6 +1,6 @@
 
 import { VideoServiceModel } from "@/models/services/encryptedServicesSchema";
-import { HandleEncryptedServices } from "../common/encryptedServicesRoute";
+import { HandleEncryptedServices } from "../../common/encryptedServicesRoute";
 
  const videoMimeTypes = [
   "video/mp4",
@@ -26,7 +26,7 @@ export async function POST(request) {
     useCloudinary: true,
     folder: "video_uploads",
     resourceType: "video",
-    mediaField: "videos",
+    mediaField: "files",
     allowedMimeTypes: videoMimeTypes, // allow all video types
   });
 }
