@@ -70,10 +70,12 @@ const PetTagContent = () => {
   const handleImageUpload = (e) => {
     const uploadedFile = e.target.files[0];
     if (uploadedFile) {
+      const previewUrl = URL.createObjectURL(uploadedFile);
       setFile(uploadedFile);
       setPetIDFormData((prev) => ({
         ...prev,
-        mainImage: URL.createObjectURL(uploadedFile),
+        mainImage: uploadedFile,
+        previewUrl,
       }));
     }
   };
@@ -230,10 +232,10 @@ const PetTagContent = () => {
                 onChange={handleImageUpload}
                 className="w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#008080] file:text-white hover:file:bg-[#006666] transition duration-200 cursor-pointer"
               />
-              {petIDFormData.mainImage && (
+              {petIDFormData.previewUrl && (
                 <div className="mt-3 relative w-max">
                   <Image
-                    src={petIDFormData.mainImage}
+                    src={petIDFormData.previewUrl}
                     alt="Pet"
                     width={100}
                     height={100}
