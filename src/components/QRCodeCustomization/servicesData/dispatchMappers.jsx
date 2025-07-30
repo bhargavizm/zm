@@ -1,7 +1,7 @@
 // ✅ add all slice actions
 
 import {
-  setBusinessShopServices,
+  
   setCardServices,
   setMenuCardServices,
   setPetIdServices,
@@ -13,6 +13,7 @@ import {
   setVehicleServices,
   setMedicalServices,
   setEventServices,
+  setBusinessShopServices,
   setDiscountServices,
 
 } from "@/redux/slices/servicesSlice";

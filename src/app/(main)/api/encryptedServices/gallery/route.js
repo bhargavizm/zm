@@ -1,6 +1,6 @@
 
 import { GalleryServiceModel } from "@/models/services/encryptedServicesSchema";
-import { HandleEncryptedServices } from "../common/encryptedServicesRoute";
+import { HandleEncryptedServices } from "../../common/encryptedServicesRoute";
 
  const imageMimeTypes = [
   "image/jpeg",
@@ -26,7 +26,7 @@ export async function POST(request) {
     useCloudinary: true,
     folder: "gallery_uploads",
     resourceType: "image",
-    mediaField: "images",
+    mediaField: "files",
     allowedMimeTypes:imageMimeTypes , // allow all image types
   });
 }
