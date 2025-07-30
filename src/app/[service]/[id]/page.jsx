@@ -42,6 +42,7 @@ import ProductPreview from "@/components/scanningPreview/productPreview";
 
 
 
+
 const PasswordProtectedPreview = dynamic(() =>
   import("@/components/common/passwordModal")
 );
@@ -108,10 +109,7 @@ const serviceMap = {
     model:EventModel,
     component:EventsPreview,
   },
-  "business-cards":{
-    model: BusinessCardsModel,
-    component: BusinessPreview,
-  },
+
   discounts: {
     model: DiscountModal,
     component: DiscountCouponPreview,
