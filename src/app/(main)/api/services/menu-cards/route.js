@@ -291,7 +291,6 @@ export async function POST(request) {
 
 
 
-
 export async function GET(request) {
   try {
     const { user, errorResponse } = await authentication(request);

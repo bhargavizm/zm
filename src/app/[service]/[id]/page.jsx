@@ -136,6 +136,7 @@ const Page = async ({ params }) => {
   if (!data) return notFound();
 
   data = JSON.parse(JSON.stringify(data)); // Make serializable
+
   return (
     <PasswordProtectedPreview
       data={data}
@@ -152,11 +153,8 @@ export default Page;
 // export async function generateMetadata({ params }) {
 //   const { service } = params;
 //   return {
-
 //     title: `${service.charAt(0).toUpperCase() + service.slice(1)} - Details`,
 
-//     title: ${service.charAt(0).toUpperCase() + service.slice(1)} - Details,
-//   };
 // }
 
 // // Page component
@@ -180,6 +178,7 @@ export default Page;
 //   );
 // };
 
+// export default Page;
 
 // export default Page;
 
