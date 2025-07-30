@@ -405,7 +405,14 @@
 "use client";
 import React, { useRef, useState } from "react";
 import useServicesContext from "@/components/hooks/useServiceContext";
-import { Eye, EyeOff, PlusCircle, MinusCircle, MapPin, CheckCircle } from "lucide-react";
+import {
+  Eye,
+  EyeOff,
+  PlusCircle,
+  MinusCircle,
+  MapPin,
+  CheckCircle,
+} from "lucide-react";
 import NFCModal from "@/components/modalPopUps/nfcModal";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
@@ -421,11 +428,12 @@ const KidsSafetyContent = () => {
   const imageInputRef = useRef(null);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const { setActiveTab,setText } = useDesignContext();
+  const { setActiveTab, setText } = useDesignContext();
   const { slug } = useParams();
   // Validation patterns
   const phoneRegex = /^\+?[0-9]{10,15}$/;
-  const mapLinkRegex = /^https:\/\/(www\.)?(google\.[a-z.]+\/maps|maps\.google\.[a-z.]+)\//;
+  const mapLinkRegex =
+    /^https:\/\/(www\.)?(google\.[a-z.]+\/maps|maps\.google\.[a-z.]+)\//;
 
   const primaryFields = [
     {
@@ -526,55 +534,62 @@ const KidsSafetyContent = () => {
 
   // Validation functions
   const validateField = (fieldKey, value) => {
-    const field = primaryFields.find(f => f.key === fieldKey);
-    if (!field) return '';
+    const field = primaryFields.find((f) => f.key === fieldKey);
+    if (!field) return "";
 
     if (field.required && !value?.trim()) {
       return `${field.placeholder} is required`;
     }
 
-    if ((fieldKey === 'schoolContact' || fieldKey === 'contact' || fieldKey === 'contact2') && value) {
+    if (
+      (fieldKey === "schoolContact" ||
+        fieldKey === "contact" ||
+        fieldKey === "contact2") &&
+      value
+    ) {
       if (!phoneRegex.test(value)) {
-        return 'Please enter a valid phone number (10-15 digits, +country code optional)';
+        return "Please enter a valid phone number (10-15 digits, +country code optional)";
       }
     }
 
-    if (fieldKey === 'dob' && value) {
+    if (fieldKey === "dob" && value) {
       const dob = new Date(value);
       const today = new Date();
-      if (dob > today) return 'Date of birth cannot be in the future';
+      if (dob > today) return "Date of birth cannot be in the future";
     }
 
-    if (fieldKey === 'mapLink' && value && !mapLinkRegex.test(value)) {
-      return 'Please enter a valid Google Maps link';
+    if (fieldKey === "mapLink" && value && !mapLinkRegex.test(value)) {
+      return "Please enter a valid Google Maps link";
     }
 
-    return '';
+    return "";
   };
 
   const validateAltContacts = (contacts) => {
     if (!contacts) return [];
-    return contacts.map(contact =>
-      contact && !phoneRegex.test(contact) ? 'Please enter a valid phone number' : ''
+    return contacts.map((contact) =>
+      contact && !phoneRegex.test(contact)
+        ? "Please enter a valid phone number"
+        : ""
     );
   };
 
   const validateImage = (file) => {
-    if (!file) return 'Child image is required';
+    if (!file) return "Child image is required";
 
     const minSize = 1024; // 1KB
     const maxSize = 30 * 1024 * 1024; // 30MB
 
-    if (file.size < minSize) return 'Image must be larger than 1KB';
-    if (file.size > maxSize) return 'Image must be smaller than 30MB';
+    if (file.size < minSize) return "Image must be larger than 1KB";
+    if (file.size > maxSize) return "Image must be smaller than 30MB";
 
-    return '';
+    return "";
   };
 
   const validateForm = () => {
     const newErrors = {};
 
-    primaryFields.forEach(field => {
+    primaryFields.forEach((field) => {
       if (!removedOptionalFields[field.section]?.includes(field.key)) {
         const error = validateField(field.key, kidsSafety[field.key]);
         if (error) newErrors[field.key] = error;
@@ -583,13 +598,13 @@ const KidsSafetyContent = () => {
 
     if (kidsSafety.altContact) {
       const altContactErrors = validateAltContacts(kidsSafety.altContact);
-      if (altContactErrors.some(err => err)) {
+      if (altContactErrors.some((err) => err)) {
         newErrors.altContact = altContactErrors;
       }
     }
 
     if (!kidsSafety.kidsImage) {
-      newErrors.kidsImage = 'Child image is required';
+      newErrors.kidsImage = "Child image is required";
     } else if (kidsSafety.kidsImage instanceof File) {
       const imageError = validateImage(kidsSafety.kidsImage);
       if (imageError) newErrors.kidsImage = imageError;
@@ -602,7 +617,7 @@ const KidsSafetyContent = () => {
   const handleInputChange = (fieldKey, value) => {
     updateDynamicForm("kidsSafety", null, fieldKey, value);
     if (errors[fieldKey]) {
-      setErrors(prev => ({ ...prev, [fieldKey]: '' }));
+      setErrors((prev) => ({ ...prev, [fieldKey]: "" }));
     }
   };
 
@@ -611,19 +626,19 @@ const KidsSafetyContent = () => {
     if (file) {
       const error = validateImage(file);
       if (error) {
-        setErrors(prev => ({ ...prev, kidsImage: error }));
-        if (imageInputRef.current) imageInputRef.current.value = '';
+        setErrors((prev) => ({ ...prev, kidsImage: error }));
+        if (imageInputRef.current) imageInputRef.current.value = "";
         return;
       }
       updateDynamicForm("kidsSafety", null, "kidsImage", file);
-      setErrors(prev => ({ ...prev, kidsImage: '' }));
+      setErrors((prev) => ({ ...prev, kidsImage: "" }));
     }
   };
 
   const addAltContact = () => {
     updateDynamicForm("kidsSafety", null, "altContact", [
       ...(kidsSafety.altContact || []),
-      ""
+      "",
     ]);
   };
 
@@ -634,7 +649,7 @@ const KidsSafetyContent = () => {
 
     if (errors.altContact?.[index]) {
       const updatedErrors = [...errors.altContact];
-      updatedErrors[index] = '';
+      updatedErrors[index] = "";
       setErrors({ ...errors, altContact: updatedErrors });
     }
   };
@@ -653,20 +668,20 @@ const KidsSafetyContent = () => {
 
   const handleAddField = (sectionName, fieldKey) => {
     handleInputChange(fieldKey, "");
-    setRemovedOptionalFields(prev => ({
+    setRemovedOptionalFields((prev) => ({
       ...prev,
-      [sectionName]: prev[sectionName].filter(key => key !== fieldKey)
+      [sectionName]: prev[sectionName].filter((key) => key !== fieldKey),
     }));
   };
 
   const handleRemoveField = (sectionName, fieldKey) => {
     handleInputChange(fieldKey, undefined);
-    setRemovedOptionalFields(prev => ({
+    setRemovedOptionalFields((prev) => ({
       ...prev,
-      [sectionName]: [...(prev[sectionName] || []), fieldKey]
+      [sectionName]: [...(prev[sectionName] || []), fieldKey],
     }));
     if (errors[fieldKey]) {
-      setErrors(prev => ({ ...prev, [fieldKey]: '' }));
+      setErrors((prev) => ({ ...prev, [fieldKey]: "" }));
     }
   };
 
@@ -701,62 +716,64 @@ const KidsSafetyContent = () => {
   };
 
   const confirmSubmission = async () => {
-    setShowConfirmationModal(false);
-    setIsSubmitting(true);
+    setActiveTab(slug, "Backdrop Designs");
 
-    try {
-      const formData = new FormData();
-      Object.entries(kidsSafety).forEach(([key, value]) => {
-        if (key === 'altContact') {
-          formData.append(key, JSON.stringify(value));
-        } else if (key === 'dob') {
-          formData.append(key, new Date(value).toISOString());
-        } else if (key !== 'kidsImage' && value != null) {
-          formData.append(key, value);
-        }
-      });
+    // setShowConfirmationModal(false);
+    // setIsSubmitting(true);
 
-      if (kidsSafety.kidsImage instanceof File) {
-        formData.append('kidsImage', kidsSafety.kidsImage);
-      }
+    // try {
+    //   const formData = new FormData();
+    //   Object.entries(kidsSafety).forEach(([key, value]) => {
+    //     if (key === "altContact") {
+    //       formData.append(key, JSON.stringify(value));
+    //     } else if (key === "dob") {
+    //       formData.append(key, new Date(value).toISOString());
+    //     } else if (key !== "kidsImage" && value != null) {
+    //       formData.append(key, value);
+    //     }
+    //   });
 
-      const response = await fetch('/api/services/kids-safety', {
-        method: 'POST',
-        body: formData,
-      });
+    //   if (kidsSafety.kidsImage instanceof File) {
+    //     formData.append("kidsImage", kidsSafety.kidsImage);
+    //   }
 
-      const { fileData, qrUrl } = response.body;
+    //   const response = await fetch("/api/services/kids-safety-qr-tags", {
+    //     method: "POST",
+    //     body: formData,
+    //   });
 
-      if (!fileData?._id && qrUrl) throw new Error('Submission failed');
+    //   const { fileData, qrUrl } = response.body;
 
-      setShowSuccessModal(true);
-      toast.success("Kids Safety form submitted successfully!");
-      setText(qrUrl); // ✅ from backend
-      setActiveTab(slug, "QR Code");
-      dynamicForms.kidsSafety = {
-          childName: "",
-      dob: "",
-      classGrade: "",
-      schoolName: "",
-      schoolAddress: "",
-      parentName: "",
-      contact: "",
-      contact2: "",
-      schoolContact: "",
-      altContact: [],
-      homeAddress: "",
-      mapLink: "",
-      password: "",
-      selectedTemplate: "",
-      kidsImage: null,
-      };
+    //   if (!fileData?._id && qrUrl) throw new Error("Submission failed");
 
-      router.refresh();
-    } catch (error) {
-     toast.error(error?.response?.data?.error || "Something went wrong!");
-    } finally {
-      setIsSubmitting(false);
-    }
+    //   setShowSuccessModal(true);
+    //   toast.success("Kids Safety form submitted successfully!");
+    //   setText(qrUrl); // ✅ from backend
+    //   setActiveTab(slug, "QR Code");
+    //   dynamicForms.kidsSafety = {
+    //     childName: "",
+    //     dob: "",
+    //     classGrade: "",
+    //     schoolName: "",
+    //     schoolAddress: "",
+    //     parentName: "",
+    //     contact: "",
+    //     contact2: "",
+    //     schoolContact: "",
+    //     altContact: [],
+    //     homeAddress: "",
+    //     mapLink: "",
+    //     password: "",
+    //     selectedTemplate: "",
+    //     kidsImage: null,
+    //   };
+
+    //   router.refresh();
+    // } catch (error) {
+    //   toast.error(error?.response?.data?.error || "Something went wrong!");
+    // } finally {
+    //   setIsSubmitting(false);
+    // }
   };
 
   const closeSuccessModal = () => {
@@ -764,40 +781,48 @@ const KidsSafetyContent = () => {
   };
 
   const hasError = (fieldKey, index = null) => {
-    return index !== null
-      ? errors.altContact?.[index]
-      : errors[fieldKey];
+    return index !== null ? errors.altContact?.[index] : errors[fieldKey];
   };
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="space-y-8 p-4 md:p-8 lg:p-12 bg-gray-50 rounded-xl shadow-lg">
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-8 p-4 md:p-8 lg:p-12 bg-gray-50 rounded-xl shadow-lg"
+      >
         {/* Child's Profile Image */}
         <div className="p-6 bg-white rounded-xl shadow-md">
-          <h3 className="text-2xl font-semibold mb-6 border-b pb-3">Child's Profile Image</h3>
+          <h3 className="text-2xl font-semibold mb-6 border-b pb-3">
+            Child's Profile Image
+          </h3>
           <div className="space-y-2">
             <input
               ref={imageInputRef}
               type="file"
               accept="image/*"
               onChange={handleImageChange}
-              className={`w-full file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 border ${errors.kidsImage ? 'border-red-500' : 'border-gray-300'
-                } rounded-lg`}
+              className={`w-full file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 border ${
+                errors.kidsImage ? "border-red-500" : "border-gray-300"
+              } rounded-lg`}
             />
-            {errors.kidsImage && <p className="text-red-500 text-sm">{errors.kidsImage}</p>}
+            {errors.kidsImage && (
+              <p className="text-red-500 text-sm">{errors.kidsImage}</p>
+            )}
             {kidsSafety.kidsImage && (
               <div className="relative mt-4 w-fit">
                 <img
-                  src={kidsSafety.kidsImage instanceof File
-                    ? URL.createObjectURL(kidsSafety.kidsImage)
-                    : kidsSafety.kidsImage}
+                  src={
+                    kidsSafety.kidsImage instanceof File
+                      ? URL.createObjectURL(kidsSafety.kidsImage)
+                      : kidsSafety.kidsImage
+                  }
                   alt="Child preview"
                   className="w-24 h-24 object-cover rounded-2xl border"
                 />
                 <button
                   onClick={() => {
                     updateDynamicForm("kidsSafety", null, "kidsImage", null);
-                    if (imageInputRef.current) imageInputRef.current.value = '';
+                    if (imageInputRef.current) imageInputRef.current.value = "";
                   }}
                   className="absolute top-0 right-0 bg-white rounded-full p-1 shadow"
                 >
@@ -809,26 +834,40 @@ const KidsSafetyContent = () => {
         </div>
 
         {/* Form Sections */}
-        {Object.entries(primaryFields.reduce((sections, field) => {
-          (sections[field.section] = sections[field.section] || []).push(field);
-          return sections;
-        }, {})).map(([sectionName, fields]) => (
+        {Object.entries(
+          primaryFields.reduce((sections, field) => {
+            (sections[field.section] = sections[field.section] || []).push(
+              field
+            );
+            return sections;
+          }, {})
+        ).map(([sectionName, fields]) => (
           <div key={sectionName} className="p-6 bg-white rounded-xl shadow-md">
-            <h3 className="text-2xl font-semibold mb-6 border-b pb-3 capitalize">{sectionName}</h3>
+            <h3 className="text-2xl font-semibold mb-6 border-b pb-3 capitalize">
+              {sectionName}
+            </h3>
             <div className="space-y-5">
               {fields
-                .filter(field => !removedOptionalFields[sectionName]?.includes(field.key))
-                .map(field => (
+                .filter(
+                  (field) =>
+                    !removedOptionalFields[sectionName]?.includes(field.key)
+                )
+                .map((field) => (
                   <div key={field.key} className="space-y-1">
                     <div className="flex items-center space-x-3">
                       {field.type === "textarea" ? (
                         <textarea
                           placeholder={field.placeholder}
                           value={kidsSafety[field.key] || ""}
-                          onChange={(e) => handleInputChange(field.key, e.target.value)}
+                          onChange={(e) =>
+                            handleInputChange(field.key, e.target.value)
+                          }
                           rows={3}
-                          className={`w-full p-3 border rounded-lg ${hasError(field.key) ? 'border-red-500' : 'border-gray-300'
-                            }`}
+                          className={`w-full p-3 border rounded-lg ${
+                            hasError(field.key)
+                              ? "border-red-500"
+                              : "border-gray-300"
+                          }`}
                         />
                       ) : field.type === "password" ? (
                         <div className="relative flex-1">
@@ -836,16 +875,25 @@ const KidsSafetyContent = () => {
                             type={showPassword ? "text" : "password"}
                             placeholder={field.placeholder}
                             value={kidsSafety[field.key] || ""}
-                            onChange={(e) => handleInputChange(field.key, e.target.value)}
-                            className={`w-full p-3 border rounded-lg pr-10 ${hasError(field.key) ? 'border-red-500' : 'border-gray-300'
-                              }`}
+                            onChange={(e) =>
+                              handleInputChange(field.key, e.target.value)
+                            }
+                            className={`w-full p-3 border rounded-lg pr-10 ${
+                              hasError(field.key)
+                                ? "border-red-500"
+                                : "border-gray-300"
+                            }`}
                           />
                           <button
                             type="button"
                             onClick={() => setShowPassword(!showPassword)}
                             className="absolute right-3 top-1/2 transform -translate-y-1/2"
                           >
-                            {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
+                            {showPassword ? (
+                              <Eye size={18} />
+                            ) : (
+                              <EyeOff size={18} />
+                            )}
                           </button>
                         </div>
                       ) : (
@@ -853,22 +901,33 @@ const KidsSafetyContent = () => {
                           type={field.type}
                           placeholder={field.placeholder}
                           value={kidsSafety[field.key] || ""}
-                          onChange={(e) => handleInputChange(field.key, e.target.value)}
-                          className={`w-full p-3 border rounded-lg ${hasError(field.key) ? 'border-red-500' : 'border-gray-300'
-                            }`}
+                          onChange={(e) =>
+                            handleInputChange(field.key, e.target.value)
+                          }
+                          className={`w-full p-3 border rounded-lg ${
+                            hasError(field.key)
+                              ? "border-red-500"
+                              : "border-gray-300"
+                          }`}
                         />
                       )}
                       {field.optional && (
                         <button
                           type="button"
-                          onClick={() => handleRemoveField(sectionName, field.key)}
+                          onClick={() =>
+                            handleRemoveField(sectionName, field.key)
+                          }
                           className="p-2 text-red-600 hover:bg-red-50 rounded-full"
                         >
                           <MinusCircle size={20} />
                         </button>
                       )}
                     </div>
-                    {hasError(field.key) && <p className="text-red-500 text-sm">{errors[field.key]}</p>}
+                    {hasError(field.key) && (
+                      <p className="text-red-500 text-sm">
+                        {errors[field.key]}
+                      </p>
+                    )}
                   </div>
                 ))}
 
@@ -892,9 +951,14 @@ const KidsSafetyContent = () => {
                           type="tel"
                           placeholder={`Contact ${index + 1}`}
                           value={contact || ""}
-                          onChange={(e) => handleAltContactChange(index, e.target.value)}
-                          className={`flex-1 p-3 border rounded-lg ${hasError(null, index) ? 'border-red-500' : 'border-gray-300'
-                            }`}
+                          onChange={(e) =>
+                            handleAltContactChange(index, e.target.value)
+                          }
+                          className={`flex-1 p-3 border rounded-lg ${
+                            hasError(null, index)
+                              ? "border-red-500"
+                              : "border-gray-300"
+                          }`}
                         />
                         <button
                           type="button"
@@ -904,7 +968,11 @@ const KidsSafetyContent = () => {
                           <MinusCircle size={20} />
                         </button>
                       </div>
-                      {hasError(null, index) && <p className="text-red-500 text-sm">{errors.altContact[index]}</p>}
+                      {hasError(null, index) && (
+                        <p className="text-red-500 text-sm">
+                          {errors.altContact[index]}
+                        </p>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -923,20 +991,28 @@ const KidsSafetyContent = () => {
 
               {removedOptionalFields[sectionName]?.length > 0 && (
                 <div className="pt-2">
-                  <h4 className="text-sm text-gray-500 mb-2">Add Optional Fields:</h4>
+                  <h4 className="text-sm text-gray-500 mb-2">
+                    Add Optional Fields:
+                  </h4>
                   <div className="flex flex-wrap gap-2">
-                    {removedOptionalFields[sectionName].map(fieldKey => {
-                      const field = primaryFields.find(f => f.key === fieldKey);
-                      return field && (
-                        <button
-                          key={fieldKey}
-                          type="button"
-                          onClick={() => handleAddField(sectionName, fieldKey)}
-                          className="flex items-center text-xs text-teal-600 bg-teal-50 px-3 py-1 rounded-full"
-                        >
-                          <PlusCircle size={14} className="mr-1" />
-                          {field.placeholder}
-                        </button>
+                    {removedOptionalFields[sectionName].map((fieldKey) => {
+                      const field = primaryFields.find(
+                        (f) => f.key === fieldKey
+                      );
+                      return (
+                        field && (
+                          <button
+                            key={fieldKey}
+                            type="button"
+                            onClick={() =>
+                              handleAddField(sectionName, fieldKey)
+                            }
+                            className="flex items-center text-xs text-teal-600 bg-teal-50 px-3 py-1 rounded-full"
+                          >
+                            <PlusCircle size={14} className="mr-1" />
+                            {field.placeholder}
+                          </button>
+                        )
                       );
                     })}
                   </div>
@@ -959,7 +1035,7 @@ const KidsSafetyContent = () => {
             disabled={isSubmitting}
             className="w-full bg-teal-600 hover:bg-teal-700 text-white py-3 rounded-lg font-semibold"
           >
-            {isSubmitting ? 'Submitting...' : 'Submit'}
+            {isSubmitting ? "Submitting..." : "Submit"}
           </button>
         </div>
       </form>
@@ -969,7 +1045,9 @@ const KidsSafetyContent = () => {
         <div className="fixed inset-0 bg-blur bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl p-6 max-w-md w-full">
             <h3 className="text-2xl font-semibold mb-4">Confirm Submission</h3>
-            <p className="text-gray-600 mb-6">Are you sure you want to submit this information?</p>
+            <p className="text-gray-600 mb-6">
+              Are you sure you want to submit this information?
+            </p>
             <div className="flex justify-end space-x-4">
               <button
                 onClick={() => setShowConfirmationModal(false)}
@@ -997,7 +1075,9 @@ const KidsSafetyContent = () => {
               <CheckCircle className="h-6 w-6 text-green-600" />
             </div>
             <h3 className="text-2xl font-semibold mb-2">Success!</h3>
-            <p className="text-gray-600 mb-6">Information submitted successfully.</p>
+            <p className="text-gray-600 mb-6">
+              Information submitted successfully.
+            </p>
             <button
               onClick={closeSuccessModal}
               className="w-full px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700"
@@ -1010,6 +1090,5 @@ const KidsSafetyContent = () => {
     </>
   );
 };
-
 
 export default KidsSafetyContent;

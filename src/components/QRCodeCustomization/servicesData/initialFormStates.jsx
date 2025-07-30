@@ -131,7 +131,6 @@ const initialFormStates = {
 
   vehicles: {
     selectedTemplate: "",
-
     general: {
       vehicleModel: "",
       vehicleNumber: "",
@@ -166,13 +165,51 @@ const initialFormStates = {
       insurance: [], // multiple images
     },
   },
+
+  "kids-safety-qr-tags": {
+    childInfo: {
+      childName: "",
+      dob: "",
+      classGrade: "",
+      kidsImage: null, // File or URL
+    },
+    schoolInfo: {
+      schoolName: "",
+      schoolAddress: "",
+      schoolContact: "",
+    },
+    parentContacts: {
+      parentName: "",
+      primaryContact: "",
+      secondaryContact: "",
+      altContacts: [], // Array of strings
+    },
+    homeLocation: {
+      homeAddress: "",
+      mapLink: "",
+    },
+    security: {
+      password: "",
+    },
+    qrCustomization: {
+      selectedTemplate: "",
+      bgDesign: "",
+    },
+  discounts: {
+    nameOfBusiness: "",
+      code: "",
+      brandLogo: "",
+      couponImage: "",
+      password: "",
+      bgDesign: "",
+  },
   resumes: {
     resumeFiles: [],
     resumeUrl: "",
     password: "",
     bgDesign: "",
   },
-  property: {
+  "property-qr": {
     basicInfo: {
       propertyName: "",
       propertyType: "",
@@ -216,6 +253,51 @@ const initialFormStates = {
     bgDesign: "", // if you're using design selection for product cards too
   },
 
+  // 📌 Add this inside `initialFormStates`:
+"medical-alert": {
+  patientInfo: {
+    patientName: "",
+    age: "",
+    bloodType: "",
+  },
+  medicalHistory: {
+    medicalConditions: "",
+    allergies: "",
+    medications: "",
+    additionalNotes: "",
+  },
+  emergencyContact: {
+    emergencyContact: "",
+    contactPhone: "",
+    preferredHospital: "",
+    location: "",
+  },
+  additional: {
+    familyDoctorName: "",
+    familyDoctorPhone: "",
+    emergencyInstructions: "",
+    insuranceProvider: "",
+    policyNumber: "",
+    medicalReports: { displayValue: "", files: [] },
+    prescription: { displayValue: "", files: [] },
+    insuranceImage: { displayValue: "", files: [] },
+  },
+  password: "",
+  bgDesign: "",
+},
+  events: {
+    eventTitle: "",
+    eventDate: "",
+    eventTime: "",
+    location: "",
+    description: "",
+    contactPhone: "",
+    contactEmail: "",
+    registrationLink: "",
+    galleryImages: [], // multiple images or event posters
+    password: "",
+    bgDesign: "",
+  },
 
 
 };

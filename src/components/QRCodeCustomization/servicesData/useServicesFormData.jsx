@@ -7,7 +7,9 @@ import useSubmitForm from "./useSubmitForm";
 
 import { urlBasedServices } from "./formDataMappers";
 import useEncryptedSubmitForm from "./useEncryptedServicesSubmitForm";
+import DiscountCouponContent from './../../servicesPages/tabsContent/servicesContent/discountCoupon/DiscountCouponContent';
 
+const encryptedServices = ["pdf", "audios", "videos", "gallery"];
 
 export const useServicesFormData = () => {
   const { bgDesign, setBgDesign } = useDesignContext();
@@ -16,10 +18,8 @@ export const useServicesFormData = () => {
     menuBookFormData,
     setMenuBookFormData,
     smsFormData,
-
     formData,
     setFormData,
-
     setSmsFormData,
     businessForm,
     setBusinessForm,
@@ -33,97 +33,96 @@ export const useServicesFormData = () => {
     pdfFormData,
     setPdfFormData,
     imagesFormData,
-    setImagesFormData, petIDFormData, setPetIDFormData,
+    setImagesFormData,
+    petIDFormData,
+    setPetIDFormData,
     setDynamicForms,
     resumeFormData,
     setResumeFormData,
     propertyDetails,
     setPropertyDetails, productData, setProductData
+    setPropertyDetails,
+    eventsFormData, setEventsFormData,
   } = useServicesContext();
 
+
   const businessShopFormData = dynamicForms?.businessShop
+
   const setBusinessShopFormData = setDynamicForms?.businessShop;
-
-
-
-
-
+  const discountCouponFormData = dynamicForms?.discountCoupon
+  const setDiscountCouponFormData = setDynamicForms?.discountCoupon
   const vehicleData = dynamicForms?.vehicle; // ✅ Correct
   const setVehicleData = updateDynamicForm?.vehicle; // ✅ Correct
-
   const multiUrlFormData = dynamicForms?.multiUrl
   const setMultiUrlFormData = setDynamicForms?.multiUrl
+   const medicalAlertFormData = dynamicForms?.medicalAlert
+  const setMedicalAlertFormData = setDynamicForms?.medicalAlert
+
+
+  const kidSafetyFormData = dynamicForms?.kidsSafety
+  const setKidSafetyFormData = setDynamicForms?.kidsSafety
 
   const isUrlBasedService = urlBasedServices.includes(activeService);
 
   const formDataState = isUrlBasedService
     ? formData
     : {
-      "menu-cards": menuBookFormData,
-      sms: smsFormData,
-      "business-cards": businessForm,
-      "v-cards": businessForm,
-      "text-messages": textMessageForm,
-      audios: audioFormData,
-      videos: videoFormData,
-      pdf: pdfFormData,
-      gallery: imagesFormData,
       "Pet-ID-tags": petIDFormData,
       "business-shops": businessShopFormData,
-      // }[activeService];
-      "menu-cards": menuBookFormData,
-      sms: smsFormData,
-      "business-cards": businessForm,
-      "v-cards": businessForm,
-      "text-messages": textMessageForm,
-      "vehicles": vehicleData,
-      audios: audioFormData,
-      videos: videoFormData,
-      pdf: pdfFormData,
-      gallery: imagesFormData,
+        "menu-cards": menuBookFormData,
+        sms: smsFormData,
+        "business-cards": businessForm,
+        "kids-safety-qr-tags": kidSafetyFormData,
+        "v-cards": businessForm,
+        "text-messages": textMessageForm,
+        "vehicles": vehicleData,    
+        audios: audioFormData,
+        videos: videoFormData,
+        pdf: pdfFormData,
+        gallery: imagesFormData,
+        "medical-alerts":medicalAlertFormData,
+        events:eventsFormData,
+        "Pet-ID-tags": petIDFormData,
+        "business-shops": businessShopFormData,
+        resumes: resumeFormData,
+        "property-qr":propertyDetails,
+        "multi-urls":multiUrlFormData,
+        "property-qr": propertyDetails,
+        "multi-urls": multiUrlFormData,
+        discounts: discountCouponFormData
+      }[activeService];
 
-      resumes: resumeFormData,
-      "property-qr": propertyDetails,
-
-      "multi-urls": multiUrlFormData,
-      "product-cards": productData,
-
-    }[activeService];
 
   const setFormDataState = isUrlBasedService
     ? setFormData
     : {
-      "menu-cards": setMenuBookFormData,
-      sms: setSmsFormData,
-      "business-cards": setBusinessForm,
-      "v-cards": setBusinessForm,
-      "text-messages": setTextMessageForm,
-      audios: setAudioFormData,
-      videos: setVideoFormData,
-      pdf: setPdfFormData,
-      gallery: setImagesFormData,
+      
       "Pet-ID-tags": setPetIDFormData,
       "business-shops": setBusinessShopFormData,
-      // }[activeService];
-      "menu-cards": setMenuBookFormData,
-      sms: setSmsFormData,
-      "business-cards": setBusinessForm,
-      "v-cards": setBusinessForm,
-      "text-messages": setTextMessageForm,
-      "vehicles": setVehicleData,
-      audios: setAudioFormData,
-      videos: setVideoFormData,
-      pdf: setPdfFormData,
-      gallery: setImagesFormData,
+     
+        "menu-cards": setMenuBookFormData,
+        sms: setSmsFormData,
+        "business-cards": setBusinessForm,
+        "v-cards": setBusinessForm,
+        "text-messages": setTextMessageForm,
+        "kids-safety-qr-tags": setKidSafetyFormData,
+        "vehicles": setVehicleData, 
+        audios: setAudioFormData,
+        videos: setVideoFormData,
+        pdf: setPdfFormData,
+        gallery: setImagesFormData,
 
-      resumes: setResumeFormData,
-      "property-qr": setPropertyDetails,
 
-      "multi-urls": setMultiUrlFormData,
-      "product-cards": setProductData,
-
-    }[activeService];
-
+        "Pet-ID-tags": setPetIDFormData,
+        "business-shops": setBusinessShopFormData,
+        vehicles: setVehicleData,
+        resumes: setResumeFormData,
+        "property-qr":setPropertyDetails,
+        "medical-alerts":setMedicalAlertFormData,
+        "multi-urls":setMultiUrlFormData,
+        events:setEventsFormData,
+        discounts: setDiscountCouponFormData
+      }[activeService];
 
   const submitForm = useSubmitForm(
     activeService,

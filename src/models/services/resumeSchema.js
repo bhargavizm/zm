@@ -14,6 +14,7 @@ const resumeSchema = new mongoose.Schema(
     resumeFiles: [
       {
         fileName: String,
+        fileType: String,
         url: String,
       },
     ],
