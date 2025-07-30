@@ -163,6 +163,8 @@ const handleSubmit = () => {
 
   const confirmSubmit = async () => {
     setActiveTab(slug, "Backdrop Designs");
+    updateDynamicForm("multiUrl", null,  "password", password.trim()); // ✅ Save into context
+    console.log(`passwordInHandle : ${password} `)
     //   setServicesDataLoading(true);
     // try {
     //   const encryptedPassword = password
@@ -311,10 +313,10 @@ const handleSubmit = () => {
         <div className="text-center mt-4 w-full">
           <button
             type="button"
-            className="mt-4 w-full bg-[#008080] text-white font-semibold py-2 rounded hover:bg-[#006666] transition"
+            className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg"
             onClick={handleSubmit}
           >
-            Submit
+            Next → 
           </button>
         </div>
       </div>
@@ -381,7 +383,7 @@ const handleSubmit = () => {
                     confirmSubmit()
                 }}
               >
-                Confirm
+                Continue
               </button>
             </div>
           </div>

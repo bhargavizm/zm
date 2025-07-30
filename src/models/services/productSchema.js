@@ -19,7 +19,7 @@ const productSchema = new mongoose.Schema(
     bgDesign: String,
     items: [
       {
-        image: String,
+        productImage: String,
         heading: String,
         description: String,
         pageUrl: String,
@@ -34,5 +34,7 @@ const productSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.models.Product ||
-  mongoose.model("Product", productSchema);
+const ProductsModel =  mongoose.models.Product ||
+  mongoose.model("Products", productSchema);
+
+  export default ProductsModel
