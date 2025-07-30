@@ -1,12 +1,13 @@
 import mongoose from "mongoose";
 import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
+import { string } from "zod";
 
 // Sub-schema for Owner Info
 const ownerInfoSchema = new mongoose.Schema({
   name: { type: String },
   phone: { type: String },
   email: { type: String },
-  password: { type: String }, // ⚠️ Consider hashing in production
+  // ⚠️ Consider hashing in production
   address: { type: String }
 }, { _id: false });
 
@@ -41,6 +42,8 @@ const petTagSchema = new mongoose.Schema({
   selectedTemplate: { type: String },
   ownerInfo: ownerInfoSchema,
   pet: petSchema,
+  password: { type: String },
+  bgDesign:{type:String},
   qrCodeDetails: qrCodeServicesSchema
 }, { timestamps: true });
 
