@@ -76,13 +76,13 @@ const ConfirmModal = ({ onCancel, onConfirm }) => (
           onClick={onCancel}
           className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400"
         >
-          Back
+          Edit
         </button>
         <button
           onClick={onConfirm}
           className="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700"
         >
-          Confirm
+          Continue
         </button>
       </div>
     </div>
@@ -180,49 +180,53 @@ const MedicalAlertContent = () => {
   };
 
   const handleFinalSubmit = async () => {
-    setIsSubmitting(true);
-    setError(null);
-    setServicesDataLoading(true);
-    try {
-      const formData = new FormData();
-      Object.entries(medicalAlert).forEach(([section, fields]) => {
-        Object.entries(fields).forEach(([key, value]) => {
-          if (["medicalReports", "prescription", "insuranceImage"].includes(key)) {
-            if (value?.files) {
-              value.files.forEach((file) => formData.append(key, file));
-            }
-          } else {
-            formData.append(key, value);
-          }
-        });
-      });
-      if (password.trim() !== "") {
-        formData.append("password", password.trim());
-      }
-      const response = await fetch("/api/services/medicalAlert", {
-        method: "POST",
-        body: formData,
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.error || "Submission failed");
-      }
-      toast.success("Medical alert submitted successfully!");
-      resetForm();
-      setActiveTab(slug, "QR Code");
-      setShowConfirmModal(false);
-    } catch (err) {
-       toast.error(err?.response?.data?.error || "Something went wrong!");
-      setError(err.message);
+   
+    updateDynamicForm("medicalAlert", null,  "password", password.trim()); // ✅ Save into context
+    console.log(`passwordInHandle : ${password} `)
+     setActiveTab(slug, "Backdrop Designs");
+    // setIsSubmitting(true);
+    // setError(null);
+    // setServicesDataLoading(true);
+    // try {
+    //   const formData = new FormData();
+    //   Object.entries(medicalAlert).forEach(([section, fields]) => {
+    //     Object.entries(fields).forEach(([key, value]) => {
+    //       if (["medicalReports", "prescription", "insuranceImage"].includes(key)) {
+    //         if (value?.files) {
+    //           value.files.forEach((file) => formData.append(key, file));
+    //         }
+    //       } else {
+    //         formData.append(key, value);
+    //       }
+    //     });
+    //   });
+    //   if (password.trim() !== "") {
+    //     formData.append("password", password.trim());
+    //   }
+    //   const response = await fetch("/api/services/medicalAlert", {
+    //     method: "POST",
+    //     body: formData,
+    //   });
+    //   const data = await response.json();
+    //   if (!response.ok) {
+    //     throw new Error(data.error || "Submission failed");
+    //   }
+    //   toast.success("Medical alert submitted successfully!");
+    //   resetForm();
+    //   setActiveTab(slug, "QR Code");
+    //   setShowConfirmModal(false);
+    // } catch (err) {
+    //    toast.error(err?.response?.data?.error || "Something went wrong!");
+    //   setError(err.message);
 
-      if (error.response?.status === 401) {
-        window.location.href = "/login"; // ✅ Auto logout on expiry
-        return;
-      }
-    } finally {
-       setIsSubmitting(false);
-      setServicesDataLoading(false); // ✅ End loader
-    }
+    //   if (error.response?.status === 401) {
+    //     window.location.href = "/login"; // ✅ Auto logout on expiry
+    //     return;
+    //   }
+    // } finally {
+    //    setIsSubmitting(false);
+    //   setServicesDataLoading(false); // ✅ End loader
+    // }
 
   };
 
@@ -320,17 +324,14 @@ const MedicalAlertContent = () => {
       </div>
 
       <NFCModal />
-
+      <div className="flex justify-center items-center">
       <button
         type="submit"
         disabled={isSubmitting}
-        className={`w-full bg-teal-600 hover:bg-teal-700 text-white py-2 rounded-lg font-semibold mt-4 ${
-          isSubmitting ? "opacity-50 cursor-not-allowed" : ""
-        }`}
-      >
-        {isSubmitting ? "Submitting..." : "Submit"}
+        className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg">
+         Next → 
       </button>
-
+      </div>
       {showConfirmModal && (
         <ConfirmModal
           onCancel={() => setShowConfirmModal(false)}
