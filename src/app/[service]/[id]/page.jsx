@@ -1,8 +1,6 @@
 import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
 import { connectDB } from "@/lib/mongoDB";
-
-// Models
 import PetTagModal from "@/models/services/petIdSchema";
 import ResumeModel from "@/models/services/resumeSchema";
 import SmsModal from "@/models/services/smsSchema";
@@ -17,17 +15,12 @@ import EventModel from "@/models/services/eventSchema";
 import KidsSafetyModal from "@/models/services/kidSafetySchema";
 import MenuCardsServiceModel from "@/models/services/menuCardSchema";
 import VehicleModel from "@/models/services/vehicleSchema";
-
-// Components (Server or dynamic server-compatible ones)
 import SmsPreview from "@/components/scanningPreview/SmsPreview";
-
 import TextMessagePreview from "@/components/scanningPreview/TextFormPreview";
 import KidsSafetyPreview from "@/components/scanningPreview/KidsSafetyPreview";
 import MenuBookPreview from "@/components/scanningPreview/menuBookPreview";
 import PetIdPreview from "@/components/scanningPreview/PetIdPreview";
 import BusinessShopPreview from "@/components/scanningPreview/BusinessShopPreview";
-// Client component
-import PasswordModal from "@/components/common/passwordModal"; // ✅ CLIENT COMPONENT
 import VehiclePreview from "@/components/scanningPreview/vehiclePreview";
 import ResumePreview from "@/components/scanningPreview/resumePreview";
 import PropertyPreview from "@/components/scanningPreview/PropertyPreview";
@@ -35,9 +28,11 @@ import URLServicesPreview from "@/components/scanningPreview/urlServicesPreview"
 import URLServiceModel from "@/models/services/urlServicesSchema";
 import MultiUrlModal from "@/models/services/multiUrlSchema";
 import MultiUrlPreview from "@/components/scanningPreview/multiUrlPreview";
+import medicalalertsPreview from "@/components/scanningPreview/medicalalertsPreview";
+import EventsPreview from "@/components/scanningPreview/eventsPreview";
+import CardsModel from "@/models/services/cardsSchema";
+import BusinessPreview from "@/components/servicesPages/tabsContent/servicesContent/business/businessPreview";
 import EventModal from "@/models/services/eventSchema";
-import EventModel from "@/models/services/eventSchema";
-import EventPreview from "@/components/servicesPages/tabsContent/servicesContent/events/eventPreview";
 import DiscountModal from "@/models/services/discountSchema";
 import DiscountCouponPreview from "@/components/scanningPreview/DiscountCouponPreview";
 
@@ -102,6 +97,17 @@ const serviceMap = {
     model: MultiUrlModal,
     component: MultiUrlPreview,
   },
+  "medical-alerts":{
+    model:MedicalAlertModel,
+    component:medicalalertsPreview,
+  },
+  events:{
+    model:EventModel,
+    component:EventsPreview,
+  "business-cards":{
+    model: CardsModel,
+    component: BusinessPreview,
+  }
   discounts: {
     model: DiscountModal,
     component: DiscountCouponPreview,
@@ -130,7 +136,6 @@ const Page = async ({ params }) => {
   if (!data) return notFound();
 
   data = JSON.parse(JSON.stringify(data)); // Make serializable
-
   return (
     <PasswordProtectedPreview
       data={data}
@@ -147,6 +152,9 @@ export default Page;
 // export async function generateMetadata({ params }) {
 //   const { service } = params;
 //   return {
+
+//     title: `${service.charAt(0).toUpperCase() + service.slice(1)} - Details`,
+
 //     title: ${service.charAt(0).toUpperCase() + service.slice(1)} - Details,
 //   };
 // }
@@ -172,4 +180,9 @@ export default Page;
 //   );
 // };
 
+
 // export default Page;
+
+
+// export default Page;
+
