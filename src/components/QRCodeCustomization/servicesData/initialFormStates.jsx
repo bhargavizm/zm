@@ -195,6 +195,9 @@ const initialFormStates = {
       selectedTemplate: "",
       bgDesign: "",
     },
+
+  },
+  
   discounts: {
     nameOfBusiness: "",
       code: "",
