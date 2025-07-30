@@ -29,7 +29,7 @@ const VehiclePreview = ({ data }) => {
 
   return (
     <div className="flex justify-center">
-      <div className="border-gray-800 shadow-xl w-[350px] h-[600px] overflow-hidden p-2 pr-5 flex flex-col relative rounded-[30px] border-[12px]">
+      <div className=" shadow-xl w-[350px] h-[600px] overflow-hidden p-2 pr-5 flex flex-col relative rounded-[30px]">
         
         {/* Background Layer */}
         {isImage ? (

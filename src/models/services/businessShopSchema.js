@@ -23,6 +23,11 @@ const businessShopSchema = new mongoose.Schema({
     security: {
       password: String,
     },
+
+    bgDesign: {
+    type: String,
+  },
+
     media: {
       logo: String,
       galleryImages: [String],
@@ -43,5 +48,8 @@ const businessShopSchema = new mongoose.Schema({
   timestamps: true,
 });
 
-export default mongoose.models.BusinessShop ||
+const businessShopModal =  mongoose.models.BusinessShop ||
   mongoose.model("BusinessShop", businessShopSchema);
+
+
+export default businessShopModal
