@@ -63,6 +63,8 @@ const kidsSafetySchema = new mongoose.Schema({
   },
 
   password: { type: String },
+  bgDesign:{type:String},
+
   kidsImage: [
     {
       url: String,

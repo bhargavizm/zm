@@ -204,6 +204,7 @@ export const formDataMappers = {
         "pollution",
       ];
       singleFileFields.forEach((field) => {
+
         const file = state?.media?.[field];
         if (file) formData.append(field, file);
       });
@@ -214,6 +215,7 @@ export const formDataMappers = {
       });
 
       (state?.media?.insurance || []).forEach((file) => {
+
         if (file) formData.append("insurance", file);
       });
 
@@ -265,6 +267,54 @@ export const formDataMappers = {
 //     },
 //   },
 
+  "kids-safety-qr-tags": {
+    type: "formData",
+    map: (formData, state, bgDesign) => {
+      // Child Information
+      formData.append("childName", state.childName || "");
+      formData.append("dob", state.dob || "");
+      formData.append("classGrade", state.classGrade || "");
+
+      // School Information
+      formData.append("schoolName", state.schoolName || "");
+      formData.append("schoolAddress", state.schoolAddress || "");
+      formData.append("schoolContact", state.schoolContact || "");
+
+      // Parent Contacts
+      formData.append("parentName", state.parentName || "");
+      formData.append("contact", state.contact || "");
+      formData.append("contact2", state.contact2 || "");
+
+      formData.append("bgDesign", bgDesign || "");
+
+      console.log(`bgDesign: ${bgDesign}`)
+
+      // Handle altContact array
+      if (Array.isArray(state.altContact)) {
+        state.altContact.forEach((contact, index) => {
+          formData.append(`altContact[${index}]`, contact || "");
+        });
+      }
+
+      // Home Location
+      formData.append("homeAddress", state.homeAddress || "");
+      formData.append("mapLink", state.mapLink || "");
+
+      // Security
+      formData.append("password", state.password || "");
+
+      // Image handling
+      if (state.kidsImage instanceof File || state.kidsImage instanceof Blob) {
+        formData.append("kidsImage", state.kidsImage);
+      } else if (typeof state.kidsImage === "string") {
+        // If it's a base64 string or URL
+        formData.append("kidsImageUrl", state.kidsImage);
+      }
+
+    
+
+      // Optional: Add any metadata or timestamps
+      formData.append("createdAt", new Date().toISOString());
   "business-shops": {
     type: "formData",
     map: (formData, state, bgDesign) => {
@@ -394,6 +444,91 @@ export const formDataMappers = {
     },
   },
 
+  "business-shops": {
+    type: "formData", 
+    map: (formData, state, bgDesign) => {
+      const general = state?.businessInfo?.general || {};
+      const contact = state?.businessInfo?.contact || {};
+      const security = state?.businessInfo?.security || {};
+      const media = state?.businessInfo?.media || {};
+      const shopTemplate = state?.shopTimingsTemplate || {};
+      const selectedTemplate = shopTemplate.selectedTemplate || "";
+      const templateKey = `${selectedTemplate}Data`;
+      const templateData = shopTemplate[templateKey] || {};
+
+      // === General Info ===
+      formData.append(
+        "businessInfo.general.businessName",
+        general.businessName || ""
+      );
+      formData.append(
+        "businessInfo.general.businessType",
+        general.businessType || ""
+      );
+      formData.append(
+        "businessInfo.general.description",
+        general.description || ""
+      );
+      formData.append(
+        "businessInfo.general.shopTimings",
+        general.shopTimings || ""
+      );
+      formData.append("businessInfo.general.discount", general.discount || "");
+      formData.append(
+        "businessInfo.general.establishedDate",
+        general.establishedDate || ""
+      );
+
+      // === Contact Info ===
+      formData.append("businessInfo.contact.owner", contact.owner || "");
+      formData.append("businessInfo.contact.phone", contact.phone || "");
+      formData.append("businessInfo.contact.altPhone", contact.altPhone || "");
+      formData.append("businessInfo.contact.email", contact.email || "");
+      formData.append("businessInfo.contact.address", contact.address || "");
+
+      // === Security Info ===
+      formData.append(
+        "businessInfo.security.password",
+        security.password || ""
+      );
+
+      // === Logo ===
+      if (media.logo instanceof File) {
+        formData.append("businessInfo.media.logo", media.logo);
+      }
+
+      // === Gallery Images ===
+      if (Array.isArray(media.galleryImages)) {
+        media.galleryImages.forEach((img) => {
+          if (img instanceof File) {
+            formData.append("businessInfo.media.galleryImages", img);
+          } else if (img?.file instanceof File) {
+            formData.append("businessInfo.media.galleryImages", img.file);
+          }
+        });
+      }
+
+      // === Video ===
+      if (media.video instanceof File) {
+        formData.append("businessInfo.media.video", media.video);
+      }
+
+      // === Background Design ===
+      if (bgDesign) {
+        formData.append("bgDesign", bgDesign);
+      }
+
+      // === Shop Timings Template ===
+      Object.entries(templateData).forEach(([key, value]) => {
+        formData.append(
+          `shopTimingsTemplate.${templateKey}.${key}`,
+          value || ""
+        );
+      });
+
+      formData.append("shopTimingsTemplate.selectedTemplate", selectedTemplate);
+    },
+  },
 
   sms: {
     type: "json", // 🟢 JSON body
@@ -417,6 +552,73 @@ export const formDataMappers = {
     }),
   },
 
+  resumes: {
+    type: "formData",
+    map: (formData, state, bgDesign) => {
+      // Append resume files
+      (state.resumeFiles || []).forEach((file) => {
+        formData.append("resumeFiles", file);
+      });
+
+
+      // Append resume URL
+      formData.append("resumeUrl", state.resumeUrl || "");
+
+      // Append password
+      formData.append("password", state.password || "");
+
+      // Optionally append background design
+      formData.append("bgDesign", bgDesign || "");
+    },
+  },
+  "property-qr": {
+    type: "formData",
+    map: (formData, state = {}, bgDesign) => {
+      const basicInfo = state.basicInfo || {};
+      const addressInfo = state.addressInfo || {};
+      const pricingInfo = state.pricingInfo || {};
+      const images = state.images || {};
+
+      // Basic Info
+      formData.append("basicInfo.propertyName", basicInfo.propertyName || "");
+      formData.append("basicInfo.propertyType", basicInfo.propertyType || "");
+      formData.append("basicInfo.ownerName", basicInfo.ownerName || "");
+      formData.append("basicInfo.contactNumber", basicInfo.contactNumber || "");
+      formData.append(
+        "basicInfo.alternateNumber",
+        basicInfo.alternateNumber || ""
+      );
+      formData.append(
+        "basicInfo.propertyDescription",
+        basicInfo.propertyDescription || ""
+      );
+
+      // Address Info
+      formData.append("addressInfo.address", addressInfo.address || "");
+      formData.append("addressInfo.mapLink", addressInfo.mapLink || "");
+
+      // Pricing Info
+      formData.append("pricingInfo.price", pricingInfo.price || "");
+      formData.append("pricingInfo.area", pricingInfo.area || "");
+      formData.append("pricingInfo.amenities", pricingInfo.amenities || "");
+
+      // Password
+      formData.append("password", state.password || "");
+
+      // Gallery Images
+      if (Array.isArray(images.galleryImages)) {
+        images.galleryImages.forEach((file) => {
+          formData.append("images.galleryImages", file);
+        });
+      }
+
+      // Background Design
+      if (bgDesign) {
+        formData.append("images.bgDesign", bgDesign);
+      }
+
+      return formData;
+    },
   "resumes": {
     type: "formData",
     map: (formData, state, bgDesign) => {
@@ -613,8 +815,9 @@ export const formDataMappers = {
       formData.append("bgDesign", bgDesign); // Optional background
     }
 
-      return formData;
-    },
+    return formData;
+  },
+
 
 "Pet-ID-tags":{
   type: "formData",
@@ -693,7 +896,7 @@ export const formDataMappers = {
   },
 }
 
-};
+
 
 formDataMappers["v-cards"] = formDataMappers["business-cards"];
 

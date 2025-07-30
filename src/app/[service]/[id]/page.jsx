@@ -38,6 +38,7 @@ import DiscountCouponPreview from "@/components/scanningPreview/DiscountCouponPr
 
 
 
+
 const PasswordProtectedPreview = dynamic(() =>
   import("@/components/common/passwordModal")
 );
@@ -72,7 +73,7 @@ const serviceMap = {
     model: TextMessageModal,
     component: TextMessagePreview,
   },
-  kidsSafety: {
+  "kids-safety-qr-tags": {
     model: KidsSafetyModal,
     component: KidsSafetyPreview,
   },

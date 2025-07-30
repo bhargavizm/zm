@@ -46,7 +46,8 @@ export const useServicesFormData = () => {
   } = useServicesContext();
 
 
-  const businessShopFormData = dynamicForms?.businessShop;
+  const businessShopFormData = dynamicForms?.businessShop
+
   const setBusinessShopFormData = setDynamicForms?.businessShop;
   const discountCouponFormData = dynamicForms?.discountCoupon
   const setDiscountCouponFormData = setDynamicForms?.discountCoupon
@@ -58,25 +59,20 @@ export const useServicesFormData = () => {
   const setMedicalAlertFormData = setDynamicForms?.medicalAlert
 
 
+  const kidSafetyFormData = dynamicForms?.kidsSafety
+  const setKidSafetyFormData = setDynamicForms?.kidsSafety
+
   const isUrlBasedService = urlBasedServices.includes(activeService);
 
   const formDataState = isUrlBasedService
     ? formData
     : {
-      "menu-cards": menuBookFormData,
-      sms: smsFormData,
-      "business-cards": businessForm,
-      "v-cards": businessForm,
-      "text-messages": textMessageForm,
-      audios: audioFormData,
-      videos: videoFormData,
-      pdf: pdfFormData,
-      gallery: imagesFormData,
       "Pet-ID-tags": petIDFormData,
       "business-shops": businessShopFormData,
         "menu-cards": menuBookFormData,
         sms: smsFormData,
         "business-cards": businessForm,
+        "kids-safety-qr-tags": kidSafetyFormData,
         "v-cards": businessForm,
         "text-messages": textMessageForm,
         "vehicles": vehicleData,    
@@ -89,6 +85,8 @@ export const useServicesFormData = () => {
         "Pet-ID-tags": petIDFormData,
         "business-shops": businessShopFormData,
         resumes: resumeFormData,
+        "property-qr":propertyDetails,
+        "multi-urls":multiUrlFormData,
         "property-qr": propertyDetails,
         "multi-urls": multiUrlFormData,
         discounts: discountCouponFormData
@@ -98,15 +96,7 @@ export const useServicesFormData = () => {
   const setFormDataState = isUrlBasedService
     ? setFormData
     : {
-      "menu-cards": setMenuBookFormData,
-      sms: setSmsFormData,
-      "business-cards": setBusinessForm,
-      "v-cards": setBusinessForm,
-      "text-messages": setTextMessageForm,
-      audios: setAudioFormData,
-      videos: setVideoFormData,
-      pdf: setPdfFormData,
-      gallery: setImagesFormData,
+      
       "Pet-ID-tags": setPetIDFormData,
       "business-shops": setBusinessShopFormData,
      
@@ -115,10 +105,14 @@ export const useServicesFormData = () => {
         "business-cards": setBusinessForm,
         "v-cards": setBusinessForm,
         "text-messages": setTextMessageForm,
+        "kids-safety-qr-tags": setKidSafetyFormData,
+        "vehicles": setVehicleData, 
         audios: setAudioFormData,
         videos: setVideoFormData,
         pdf: setPdfFormData,
         gallery: setImagesFormData,
+
+
         "Pet-ID-tags": setPetIDFormData,
         "business-shops": setBusinessShopFormData,
         vehicles: setVehicleData,
