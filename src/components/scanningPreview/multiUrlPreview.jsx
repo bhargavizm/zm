@@ -1,9 +1,5 @@
 "use client";
-
 import React, { useEffect } from "react";
-import Image from "next/image";
-import useServicesContext from "@/components/hooks/useServiceContext";
-import useDesignContext from "@/components/hooks/useDesignContext";
 import {
   FaYoutube,
   FaInstagram,
@@ -11,24 +7,21 @@ import {
   FaLinkedin,
   FaLink,
 } from "react-icons/fa";
+import { FiLink } from "react-icons/fi";
+import useServicesContext from "@/components/hooks/useServiceContext";
+import useDesignContext from "@/components/hooks/useDesignContext";
+import BgDesignRenderer from "./bgDesignRender";
 
-const MultiUrlPreview = ({data}) => {
-  const { dynamicForms } = useServicesContext();
-  const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
+const MultiUrlPreview = ({ data }) => {
+  const { bgDesign, setBgDesign } = useDesignContext();
+  const defaultBg = "/services-service/multi-url.webp";
 
-  const socialLinks = dynamicForms?.multiUrl?.socialLinks || {};
-  const customLinks = Array.isArray(dynamicForms?.multiUrl?.customLinks)
-    ? dynamicForms.multiUrl.customLinks
-    : [];
+  const socialLinks = data?.socialLinks || {};
+  const customLinks = Array.isArray(data?.customLinks) ? data.customLinks : [];
 
   const hasLinks =
     Object.values(socialLinks).some(Boolean) ||
     customLinks.some((link) => link?.label && link?.url);
-
-    const defaultBg = "/services-service/multi-url.webp"
-
-  const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
-  const isImage = bgDesign && !isVideo;
 
   const platformIcons = {
     youtube: <FaYoutube className="text-red-600 w-5 h-5" />,
@@ -39,66 +32,38 @@ const MultiUrlPreview = ({data}) => {
   };
 
   useEffect(() => {
-    setIsLoading(true);
-    setBgDesign(defaultBg); // ❌ Do NOT set default video or image
-    //setTimeout(() => setIsLoading(false), 300); // Optional fade-in delay
-  }, []);
+    if (data?.bgDesign) {
+      setBgDesign(data.bgDesign);
+    } else {
+      setBgDesign(defaultBg);
+    }
+  }, [data]);
 
   return (
-    <div className="flex justify-center items-center w-full">
-      <div className="relative w-[350px] h-[600px] border-4 border-[#001a1a] rounded-3xl shadow-2xl overflow-hidden">
+    <div className="w-full px-6">
+      <div>
+        <BgDesignRenderer bgDesign={bgDesign} defaultBg={defaultBg} />
 
-        {/* 🔄 Background Layer */}
-        {isImage && (
-          <img
-            src={bgDesign}
-            alt="Background"
-            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
-            className="absolute inset-0 w-full h-full object-cover z-0"
-          />
-        )}
-        {isVideo && (
-          <video
-            src={bgDesign}
-            autoPlay
-            loop
-            muted
-            playsInline
-            onLoadedData={() => setTimeout(() => setIsLoading(false), 300)}
-            className="absolute inset-0 w-full h-full object-cover z-0"
-          />
-        )}
-        {!bgDesign && (
-          <div className="absolute inset-0 bg-white z-0" />
-        )}
-
-        {/* ⏳ Loader */}
-        {isLoading && (
-          <div className="absolute inset-0 z-50 bg-mainGreen backdrop-blur-sm flex justify-center items-center">
-            <Image
-              src="/logos/ZM LOGO.webp"
-              alt="Loading"
-              width={100}
-              height={100}
-              className="w-20 h-20 animate-bounce"
-            />
-          </div>
-        )}
-
-        {/* 📄 Foreground Content */}
-        <div className="relative z-10 w-full h-full p-4 flex flex-col items-center justify-center space-y-4 text-gray-800 text-center overflow-y-auto scrollbar-hide">
-          <h2 className="text-lg font-bold text-[#008080]">Your Links</h2>
-
+        <div className="relative flex-1 w-full bg-white/70 m-2 rounded-xl overflow-y-auto pt-6 pb-3 px-3 z-20">
           {hasLinks ? (
-            <>
+            <div className="space-y-4">
+              <h2 className="text-xl font-bold text-center text-[#008080]">
+                Multi-URL QR Code
+              </h2>
+
               {/* Social Links */}
               {Object.entries(socialLinks).map(([platform, url]) =>
                 url ? (
                   <div
                     key={platform}
-                    className="flex items-center gap-2 bg-gray-100 px-3 py-2 rounded w-full max-w-[300px] justify-center"
+                    className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20 text-black"
                   >
-                    {platformIcons[platform] || platformIcons.custom}
+                    <div className="flex items-center text-[#008080] mb-1">
+                      {platformIcons[platform] || platformIcons.custom}
+                      <span className="font-medium ml-2 capitalize">
+                        {platform}
+                      </span>
+                    </div>
                     <a
                       href={url}
                       target="_blank"
@@ -117,24 +82,30 @@ const MultiUrlPreview = ({data}) => {
                 .map((link, index) => (
                   <div
                     key={`custom-${index}`}
-                    className="flex items-center gap-2 bg-gray-100 px-3 py-2 rounded w-full max-w-[300px] justify-center"
+                    className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20 text-black"
                   >
-                    {platformIcons.custom}
+                    <div className="flex items-center text-[#008080] mb-1">
+                      {platformIcons.custom}
+                      <span className="font-medium ml-2">
+                        {link.label}
+                      </span>
+                    </div>
                     <a
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-600 underline break-all text-sm"
                     >
-                      {link.label}: {link.url}
+                      {link.url}
                     </a>
                   </div>
                 ))}
-            </>
+            </div>
           ) : (
-            <div className="text-gray-400 mt-8">
-              <p className="text-base font-medium">No links added</p>
-              <p className="text-sm">Fill the form to see preview</p>
+            <div className="h-full flex flex-col items-center justify-center text-center text-gray-400">
+              <FiLink className="text-4xl mb-4 text-[#008080]" />
+              <h3 className="text-lg font-medium">Multi-URL QR Preview</h3>
+              <p className="mt-2">No links added yet.</p>
             </div>
           )}
         </div>
