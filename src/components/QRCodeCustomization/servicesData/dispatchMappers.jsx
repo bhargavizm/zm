@@ -11,8 +11,8 @@ import {
   setSmsServices,
   setTextMessageServices,
   setVehicleServices,
-  setKidsSafetyServices
-  setProductCardServices
+  setKidsSafetyServices,
+  setProductCardServices,
   setMedicalServices,
   setEventServices,
   setBusinessShopServices,

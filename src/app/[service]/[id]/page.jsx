@@ -30,11 +30,12 @@ import MultiUrlModal from "@/models/services/multiUrlSchema";
 import MultiUrlPreview from "@/components/scanningPreview/multiUrlPreview";
 import medicalalertsPreview from "@/components/scanningPreview/medicalalertsPreview";
 import EventsPreview from "@/components/scanningPreview/eventsPreview";
-import CardsModel from "@/models/services/cardsSchema";
+
 import BusinessPreview from "@/components/servicesPages/tabsContent/servicesContent/business/businessPreview";
 import EventModal from "@/models/services/eventSchema";
 import DiscountModal from "@/models/services/discountSchema";
 import DiscountCouponPreview from "@/components/scanningPreview/DiscountCouponPreview";
+import { BusinessCardsModel } from "@/models/services/cardsSchema";
 
 
 
@@ -104,17 +105,18 @@ const serviceMap = {
   events:{
     model:EventModel,
     component:EventsPreview,
+  },
   "business-cards":{
-    model: CardsModel,
+    model: BusinessCardsModel,
     component: BusinessPreview,
-  }
+  },
   discounts: {
     model: DiscountModal,
     component: DiscountCouponPreview,
   },
-};
 
 
+}
 // Metadata
 export async function generateMetadata({ params }) {
   const { service } = params;
