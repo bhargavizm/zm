@@ -10,7 +10,7 @@ const discountCouponSchema = new mongoose.Schema(
           name: String,
         },
     brandLogo: {
-      type: String, // store Cloudinary URL or base64-encoded string
+      type: String, // store Cloudinary URL 
     
     },
     nameOfBusiness: {
@@ -25,7 +25,7 @@ const discountCouponSchema = new mongoose.Schema(
       uppercase: true,
     },
     couponImage: {
-      type: String, // store Cloudinary URL or base64-encoded string
+      type: String, // store Cloudinary URL 
     
     },
     password: {
