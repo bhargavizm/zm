@@ -131,7 +131,6 @@ const initialFormStates = {
 
   vehicles: {
     selectedTemplate: "",
-
     general: {
       vehicleModel: "",
       vehicleNumber: "",
@@ -166,6 +165,44 @@ const initialFormStates = {
       insurance: [], // multiple images
     },
   },
+
+  "kids-safety-qr-tags": {
+    childInfo: {
+      childName: "",
+      dob: "",
+      classGrade: "",
+      kidsImage: null, // File or URL
+    },
+    schoolInfo: {
+      schoolName: "",
+      schoolAddress: "",
+      schoolContact: "",
+    },
+    parentContacts: {
+      parentName: "",
+      primaryContact: "",
+      secondaryContact: "",
+      altContacts: [], // Array of strings
+    },
+    homeLocation: {
+      homeAddress: "",
+      mapLink: "",
+    },
+    security: {
+      password: "",
+    },
+    qrCustomization: {
+      selectedTemplate: "",
+      bgDesign: "",
+    },
+  discounts: {
+    nameOfBusiness: "",
+      code: "",
+      brandLogo: "",
+      couponImage: "",
+      password: "",
+      bgDesign: "",
+  },
   resumes: {
     resumeFiles: [],
     resumeUrl: "",
@@ -196,6 +233,26 @@ const initialFormStates = {
     password: "",
     bgDesign: "",
   },
+   "product-cards": {
+    productLogo: "", // string (Cloudinary URL or file name after upload)
+    brandName: "",
+    items: [
+      {
+        productImage: "", // string (Cloudinary URL or file name)
+        description: "",
+        heading: "",
+        pageUrl: "",
+        videoUrl: "",
+      },
+    ],
+    email: "",
+    phone: "",
+    address: "",
+    password: "",
+    selectedTemplate: null,
+    bgDesign: "", // if you're using design selection for product cards too
+  },
+
   // 📌 Add this inside `initialFormStates`:
 "medical-alert": {
   patientInfo: {
