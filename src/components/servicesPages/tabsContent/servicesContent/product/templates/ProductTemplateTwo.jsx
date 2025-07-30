@@ -42,15 +42,15 @@ const ProductTemplateTwo = ({ items, productData, productLogo, productImage, bgD
     }
   }, [items, handleNext]);
 
-  const currentItem = items && items.length > 0 ? items[currentSlide] : null;
+  const currentItem = productData?.items && productData?.items.length > 0 ? productData?.items[currentSlide] : null;
 
   return (
     <div className="min-h-full w-full bg-gradient-to-br from-blue-600 to-blue-800 px-4 py-6 space-y-6 rounded-lg shadow-inner">
       {/* Header Section - Displays Brand Logo and Name */}
       <div className="text-center text-white">
-        {productLogo && (
+        {productData?.productLogo && (
           <img
-            src={productLogo}
+            src={productData?.productLogo?.preview}
             alt="Brand Logo"
             className="mx-auto h-20 w-auto object-contain mb-2"
           />
@@ -60,15 +60,15 @@ const ProductTemplateTwo = ({ items, productData, productLogo, productImage, bgD
       </div>
 
       {/* Product Carousel Section (Automatic Only) */}
-      {items && items.length > 0 ? (
+      {productData?.items && productData?.items.length > 0 ? (
         <div className="relative">
           <div
             key={currentSlide}
             className="bg-white rounded-xl shadow-md p-4 space-y-2 border border-blue-200 transition-all duration-300 ease-in-out"
           >
-            {currentItem.image && (
+            {currentItem.productImage && (
               <img
-                src={currentItem.image}
+                src={currentItem.productImage?.preview}
                 alt={`Product ${currentSlide + 1}`}
                 className="w-full h-48 object-fit rounded-md border border-gray-100"
               />

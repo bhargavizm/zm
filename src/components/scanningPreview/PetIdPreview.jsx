@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 
 const PetIdPreview = ({ data }) => {
   if (!data) return null;
@@ -7,6 +8,7 @@ const PetIdPreview = ({ data }) => {
   const {
     mainImage,
     selectedTemplate,
+    backgroundVideo,
     ownerInfo = {},
     pet = {},
     qrCodeDetails = {},
@@ -22,20 +24,33 @@ const PetIdPreview = ({ data }) => {
   );
 
   return (
-    <div className="w-full max-w-3xl mx-auto relative rounded-xl overflow-hidden shadow-xl">
-      {/* Background Template Image */}
-      {selectedTemplate && (
+    <div className="w-full max-w-3xl mx-auto relative rounded-xl overflow-hidden shadow-2xl">
+      {/* Background: Video or Image */}
+      {backgroundVideo ? (
+        <video
+          className="absolute top-0 left-0 w-full h-full object-cover"
+          src={backgroundVideo}
+          autoPlay
+          muted
+          loop
+          playsInline
+        />
+      ) : selectedTemplate ? (
         <Image
           src={`/pet-id/${selectedTemplate}`}
           alt="Background Template"
           fill
           className="object-cover"
         />
+      ) : (
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-700 to-gray-900" />
       )}
 
-      {/* Overlay content */}
+      {/* Overlay Content */}
       <div className="relative z-10 p-6 space-y-6 bg-black/60 backdrop-blur-sm">
-        <h2 className="text-2xl font-bold text-center text-teal-300">Pet ID Tag Preview</h2>
+        <h2 className="text-2xl font-bold text-center text-teal-300">
+          Pet ID Tag Preview
+        </h2>
 
         {/* Main Pet Image */}
         {mainImage && (
@@ -53,7 +68,9 @@ const PetIdPreview = ({ data }) => {
 
         {/* Owner Info */}
         <div>
-          <h3 className="text-lg font-semibold text-teal-100 border-b border-teal-200 pb-1 mb-3">Owner Information</h3>
+          <h3 className="text-lg font-semibold text-teal-100 border-b border-teal-200 pb-1 mb-3">
+            Owner Information
+          </h3>
           {renderField("Name", ownerInfo.name)}
           {renderField("Phone", ownerInfo.phone)}
           {renderField("Email", ownerInfo.email)}
@@ -62,7 +79,9 @@ const PetIdPreview = ({ data }) => {
 
         {/* Pet Info */}
         <div>
-          <h3 className="text-lg font-semibold text-teal-100 border-b border-teal-200 pb-1 mb-3">Pet Information</h3>
+          <h3 className="text-lg font-semibold text-teal-100 border-b border-teal-200 pb-1 mb-3">
+            Pet Information
+          </h3>
           {renderField("Pet Name", pet.name)}
           {renderField("Breed", pet.breed)}
           {renderField("Color", pet.color)}
@@ -70,7 +89,9 @@ const PetIdPreview = ({ data }) => {
 
         {/* QR Code Details */}
         <div>
-          <h3 className="text-lg font-semibold text-teal-100 border-b border-teal-200 pb-1 mb-3">QR Code Details</h3>
+          <h3 className="text-lg font-semibold text-teal-100 border-b border-teal-200 pb-1 mb-3">
+            QR Code Details
+          </h3>
           {qrCodeDetails.qrCodeImage && (
             <div className="text-center mb-4">
               <Image
@@ -85,9 +106,11 @@ const PetIdPreview = ({ data }) => {
           {renderField("Status", qrCodeDetails.status)}
           {renderField("Scans", qrCodeDetails.scanCount)}
           {renderField("Location Address", qrCodeDetails.location?.address)}
-          {renderField("Renewal Date", qrCodeDetails.renewalDate
-            ? new Date(qrCodeDetails.renewalDate).toLocaleDateString()
-            : null
+          {renderField(
+            "Renewal Date",
+            qrCodeDetails.renewalDate
+              ? new Date(qrCodeDetails.renewalDate).toLocaleDateString()
+              : null
           )}
         </div>
       </div>

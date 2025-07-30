@@ -37,7 +37,7 @@ const discountCouponSchema = new mongoose.Schema(
     timestamps: true, // adds createdAt and updatedAt
   }
 );
-
+ 
 const DiscountModal = mongoose.models.DiscountCoupon || mongoose.model("DiscountCoupon", discountCouponSchema);
 
 export default DiscountModal

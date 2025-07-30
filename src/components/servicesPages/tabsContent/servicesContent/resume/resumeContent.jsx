@@ -90,64 +90,65 @@ const ResumeContent = () => {
   };
 
   const handleSubmit = (e) => {
-    setActiveTab(slug, "Backdrop Designs");
-    // e.preventDefault();
+    
+    e.preventDefault();
 
-    // const hasFiles = resumeFormData.resumeFiles?.length > 0;
-    // const hasUrl = resumeFormData.resumeUrl?.trim();
-    // const hasPassword = resumeFormData.password?.trim();
+    const hasFiles = resumeFormData.resumeFiles?.length > 0;
+    const hasUrl = resumeFormData.resumeUrl?.trim();
+    const hasPassword = resumeFormData.password?.trim();
 
-    // if (!hasFiles && !hasUrl && !hasPassword) {
-    //   toast.error("Please fill at least one field before submitting.");
-    //   return;
-    // }
+    if (!hasFiles && !hasUrl && !hasPassword) {
+      toast.error("Please fill at least one field before submitting.");
+      return;
+    }
 
-    // setShowConfirmModal(true);
+    setShowConfirmModal(true);
   };
 
   const submitToServer = async () => {
-    const formData = new FormData();
+    setActiveTab(slug, "Backdrop Designs");
+    // const formData = new FormData();
 
-    (resumeFormData.resumeFiles || []).forEach((file) => {
-      formData.append("resumeFiles", file);
-    });
+    // (resumeFormData.resumeFiles || []).forEach((file) => {
+    //   formData.append("resumeFiles", file);
+    // });
 
-    formData.append("resumeUrl", resumeFormData.resumeUrl || "");
-    formData.append("password", resumeFormData.password || "");
+    // formData.append("resumeUrl", resumeFormData.resumeUrl || "");
+    // formData.append("password", resumeFormData.password || "");
 
-    setServicesDataLoading(true);
-    try {
-      const res = await axios.post(
-        "http://localhost:3000/api/services/resumes",
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-          withCredentials: true,
-        }
-      );
+    // setServicesDataLoading(true);
+    // try {
+    //   const res = await axios.post(
+    //     "http://localhost:3000/api/services/resumes",
+    //     formData,
+    //     {
+    //       headers: { "Content-Type": "multipart/form-data" },
+    //       withCredentials: true,
+    //     }
+    //   );
 
-      if (res.data.success) {
-        dispatch(setResumeServices(res.data));
+    //   if (res.data.success) {
+    //     dispatch(setResumeServices(res.data));
 
         
 
-        setActiveTab(slug, "QR Code");
+    //     setActiveTab(slug, "QR Code");
 
-        setResumeFormData({ resumeFiles: [], resumeUrl: "", password: "" });
-        if (fileInputRef.current) fileInputRef.current.value = "";
-        setShowConfirmModal(false);
-        toast.success("Uploaded successfully!");
-      }
-    } catch (err) {
-      console.error("Upload failed:", err);
-      toast.error(err?.response?.data?.error || "Something went wrong!");
-      if (error.response?.status === 401) {
-        window.location.href = "/login"; // ✅ Auto logout on expiry
-        return;
-      }
-    } finally {
-      setServicesDataLoading(false); // ✅ End loader
-    }
+    //     setResumeFormData({ resumeFiles: [], resumeUrl: "", password: "" });
+    //     if (fileInputRef.current) fileInputRef.current.value = "";
+    //     setShowConfirmModal(false);
+    //     toast.success("Uploaded successfully!");
+    //   }
+    // } catch (err) {
+    //   console.error("Upload failed:", err);
+    //   toast.error(err?.response?.data?.error || "Something went wrong!");
+    //   if (error.response?.status === 401) {
+    //     window.location.href = "/login"; // ✅ Auto logout on expiry
+    //     return;
+    //   }
+    // } finally {
+    //   setServicesDataLoading(false); // ✅ End loader
+    // }
   };
 
   return (
@@ -257,13 +258,14 @@ const ResumeContent = () => {
               </div>
 
               <NFCModal />
-
+              <div className="flex justify-center items-center">
               <button
-                type="submit"
-                className="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 rounded-lg font-semibold text-sm transition"
+                type="submit" onClick={handleSubmit}
+                className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg"
               >
-                Submit
+                Next → 
               </button>
+             </div>
             </form>
           </div>
         </div>
@@ -331,14 +333,16 @@ const ResumeContent = () => {
                   onClick={() => setShowConfirmModal(false)}
                   className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 cursor-pointer"
                 >
-                  Back
+                  Edit
                 </button>
+
+               <div className="flex justify-center items-center">
                 <button
                   onClick={submitToServer}
-                  className="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 cursor-pointer transition duration-150"
-                >
-                  Confirm & Submit
+                  className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg" >
+                 Continue
                 </button>
+                </div>
               </div>
             </div>
           </div>
