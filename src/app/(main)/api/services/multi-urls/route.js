@@ -4,7 +4,7 @@ import { connectDB } from "@/lib/mongoDB";
 import { authUser } from "@/middlewares/authMiddleware";
 import { getShortenedUrl } from "@/utils/shortenUrl";
 import MultiUrlModal from "@/models/services/multiUrlSchema";
-
+import bcrypt from "bcryptjs"
 // URL validation regex
 const isValidUrl = (url) => {
   try {
@@ -63,6 +63,12 @@ export async function POST(req) {
     //     );
     //   }
     // }
+     // ✅ Step 3: Hash the password if provided
+        let hashedPassword = "";
+        if (password) {
+          const salt = await bcrypt.genSalt(10);
+          hashedPassword = await bcrypt.hash(password, salt);
+        }
 
     const newMultiUrl = new MultiUrlModal({
        user: {
@@ -71,7 +77,7 @@ export async function POST(req) {
       },
       socialLinks,
       customLinks,
-      password,
+      password : hashedPassword,
       bgDesign,
       qrCodeDetails: {
     qrCodeImage: body.qrCodeImage ?? "",

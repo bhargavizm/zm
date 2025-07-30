@@ -470,6 +470,12 @@ export const formDataMappers = {
     // Password
     formData.append("password", state.password || "");
 
+      // Background Design
+      if (bgDesign) {
+        formData.append("images.bgDesign", bgDesign);
+      }
+      return formData;
+    },
     // Gallery Images (multi)
     if (Array.isArray(images.galleryImages)) {
       images.galleryImages.forEach((file) => {
@@ -606,7 +612,9 @@ export const formDataMappers = {
     if (bgDesign) {
       formData.append("bgDesign", bgDesign); // Optional background
     }
-    return formData;
+
+      return formData;
+    },
 
 "Pet-ID-tags":{
   type: "formData",
@@ -638,40 +646,6 @@ export const formDataMappers = {
     }
     console.log("main image",state.mainImage)
   },
-},
-  "Pet-ID-tags": {
-    type: "json",
-    map: (body, state, bgDesign) => ({
-      ownerInfo: {
-        name: state.ownerInfo?.name || "",
-        phone: state.ownerInfo?.phone || "",
-        email: state.ownerInfo?.email || "",
-        address: state.ownerInfo?.address || "",
-        password: state.ownerInfo?.password || "",
-      },
-      pet: {
-        name: state.pet?.name || "",
-        breed: state.pet?.breed || "",
-        color: state.pet?.color || "",
-      },
-      selectedTemplate: state.selectedTemplate || "",
-      bgDesign: bgDesign || "",
-      image: state.mainImage || "", // base64 string or preview URL
-    }),
-  },
-
- 
-
- "multi-urls": {
-  type: "json",
-  map: (body, state, bgDesign) => ({
-    socialLinks: state.socialLinks || {}, // ✅ direct access, not state.multiUrl.socialLinks
-    customLinks: Array.isArray(state.customLinks) ? state.customLinks : [],
-    password: state.password || "",
-    bgDesign: bgDesign || null,
-  }),
-},
-
 
   "multi-urls": {
     type: "json",
@@ -682,7 +656,42 @@ export const formDataMappers = {
       bgDesign: bgDesign || null,
     }),
   },
+'product-cards': {
+  type: "formData",
+  map: (formData, state, bgDesign) => {
+    // General info
+    formData.append("brandName", state.brandName || "");
+    formData.append("email", state.email || "");
+    formData.append("phone", state.phone || "");
+    formData.append("address", state.address || "");
+    formData.append("password", state.password || "");
+    formData.append("selectedTemplate", state.selectedTemplate || "");
+    formData.append("bgDesign", bgDesign || "");
 
+    // Product Logo
+    if (state.productLogo?.file) {
+      formData.append("productLogo", state.productLogo.file);
+    }
+    // Items - Text fields as JSON
+    if (state.items?.length) {
+      const textItems = state.items.map(({ heading, description, pageUrl, videoUrl }) => ({
+        heading,
+        description,
+        pageUrl,
+        videoUrl,
+      }));
+
+      formData.append("items", JSON.stringify(textItems));
+
+      // Product Images
+      state.items.forEach((item) => {
+        if (item.productImage?.file) {
+          formData.append("productImage", item.productImage.file);
+        }
+      });
+    }
+  },
+}
 
 };
 
