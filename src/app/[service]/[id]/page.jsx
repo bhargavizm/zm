@@ -35,6 +35,9 @@ import BusinessPreview from "@/components/servicesPages/tabsContent/servicesCont
 import EventModal from "@/models/services/eventSchema";
 import DiscountModal from "@/models/services/discountSchema";
 import DiscountCouponPreview from "@/components/scanningPreview/DiscountCouponPreview";
+import { BusinessCardsModel } from "@/models/services/cardsSchema";
+import ProductsModel from "@/models/services/productSchema";
+import ProductPreview from "@/components/scanningPreview/productPreview";
 
 
 
@@ -111,7 +114,6 @@ const serviceMap = {
     model: DiscountModal,
     component: DiscountCouponPreview,
   },
-
 
 }
 // Metadata
