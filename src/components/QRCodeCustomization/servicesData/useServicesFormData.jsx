@@ -9,6 +9,7 @@ import { urlBasedServices } from "./formDataMappers";
 import useEncryptedSubmitForm from "./useEncryptedServicesSubmitForm";
 import DiscountCouponContent from './../../servicesPages/tabsContent/servicesContent/discountCoupon/DiscountCouponContent';
 
+const encryptedServices = ["pdf", "audios", "videos", "gallery"];
 
 export const useServicesFormData = () => {
   const { bgDesign, setBgDesign } = useDesignContext();
@@ -17,10 +18,8 @@ export const useServicesFormData = () => {
     menuBookFormData,
     setMenuBookFormData,
     smsFormData,
-
     formData,
     setFormData,
-
     setSmsFormData,
     businessForm,
     setBusinessForm,
@@ -34,35 +33,32 @@ export const useServicesFormData = () => {
     pdfFormData,
     setPdfFormData,
     imagesFormData,
-    setImagesFormData, petIDFormData, setPetIDFormData,
+    setImagesFormData,
+    petIDFormData,
+    setPetIDFormData,
     setDynamicForms,
-    resumeFormData, 
+    resumeFormData,
     setResumeFormData,
     propertyDetails,
     setPropertyDetails,
   } = useServicesContext();
 
 
-  const businessShopFormData = dynamicForms?.businessShop
+  const businessShopFormData = dynamicForms?.businessShop;
   const setBusinessShopFormData = setDynamicForms?.businessShop;
   const discountCouponFormData = dynamicForms?.discountCoupon
   const setDiscountCouponFormData = setDynamicForms?.discountCoupon
   const vehicleData = dynamicForms?.vehicle; // ✅ Correct
   const setVehicleData = updateDynamicForm?.vehicle; // ✅ Correct
-  
-
-
-
   const multiUrlFormData = dynamicForms?.multiUrl
   const setMultiUrlFormData = setDynamicForms?.multiUrl
+
 
   const isUrlBasedService = urlBasedServices.includes(activeService);
 
   const formDataState = isUrlBasedService
     ? formData
     : {
-      "Pet-ID-tags": petIDFormData,
-      "business-shops": businessShopFormData,
         "menu-cards": menuBookFormData,
         sms: smsFormData,
         "business-cards": businessForm,
@@ -73,10 +69,20 @@ export const useServicesFormData = () => {
         videos: videoFormData,
         pdf: pdfFormData,
         gallery: imagesFormData,
-
+        "Pet-ID-tags": petIDFormData,
+        "business-shops": businessShopFormData,
+        "menu-cards": menuBookFormData,
+        sms: smsFormData,
+        "business-cards": businessForm,
+        "v-cards": businessForm,
+        "text-messages": textMessageForm,
+        vehicles: vehicleData,
+        audios: audioFormData,
+        videos: videoFormData,
+        pdf: pdfFormData,
+        gallery: imagesFormData,
         resumes: resumeFormData,
         "property-qr": propertyDetails,
-
         "multi-urls": multiUrlFormData,
         discounts: discountCouponFormData
       }[activeService];
@@ -84,27 +90,33 @@ export const useServicesFormData = () => {
   const setFormDataState = isUrlBasedService
     ? setFormData
     : {
-      
-      "Pet-ID-tags": setPetIDFormData,
-      "business-shops": setBusinessShopFormData,
+     
         "menu-cards": setMenuBookFormData,
         sms: setSmsFormData,
         "business-cards": setBusinessForm,
         "v-cards": setBusinessForm,
         "text-messages": setTextMessageForm,
-        "vehicles": setVehicleData, 
         audios: setAudioFormData,
         videos: setVideoFormData,
         pdf: setPdfFormData,
         gallery: setImagesFormData,
-
+        "Pet-ID-tags": setPetIDFormData,
+        "business-shops": setBusinessShopFormData,
+        "menu-cards": setMenuBookFormData,
+        sms: setSmsFormData,
+        "business-cards": setBusinessForm,
+        "v-cards": setBusinessForm,
+        "text-messages": setTextMessageForm,
+        vehicles: setVehicleData,
+        audios: setAudioFormData,
+        videos: setVideoFormData,
+        pdf: setPdfFormData,
+        gallery: setImagesFormData,
         resumes: setResumeFormData,
         "property-qr":setPropertyDetails,
-
         "multi-urls":setMultiUrlFormData,
         discounts: setDiscountCouponFormData
       }[activeService];
-
 
   const submitForm = useSubmitForm(
     activeService,
