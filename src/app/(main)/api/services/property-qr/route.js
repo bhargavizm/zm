@@ -297,7 +297,7 @@ export const config = {
 
 export async function POST(request) {
   try {
-    // ✅ Step 1: Authenticate User
+    // Authenticate user
     const auth = await authUser(request);
     if (auth.status !== 200) {
       return new Response(JSON.stringify(auth.json), {
@@ -305,11 +305,11 @@ export async function POST(request) {
         headers: { "Content-Type": "application/json" },
       });
     }
-
     const user = auth.user;
 
     await connectDB();
 
+    // Check content-type header
     const contentType = request.headers.get("content-type") || "";
     if (!contentType.includes("multipart/form-data")) {
       return new Response(
@@ -319,9 +319,31 @@ export async function POST(request) {
     }
 
     const formData = await request.formData();
-    const bgDesign=formData.get("bgDesign") || "";
 
-    // ✅ Basic Info
+    // --- Debug log all keys and values ---
+    for (const [key, value] of formData.entries()) {
+      if (value instanceof File) {
+        console.log(`Key: ${key}, File name: ${value.name}, size: ${value.size}`);
+      } else {
+        console.log(`Key: ${key}, Value: ${value}`);
+      }
+    }
+
+    // Extract password and log it
+    const password = formData.get("password");
+    console.log("Password extracted:", password);
+
+    // Hash password if valid
+    let hashedPassword = null;
+    if (password && password.length >= 1) {
+      const salt = await bcrypt.genSalt(10);
+      hashedPassword = await bcrypt.hash(password, salt);
+      console.log("Hashed password:", hashedPassword);
+    }
+
+    // Other form fields
+    const bgDesign = formData.get("bgDesign") || "";
+
     const basicInfo = {
       propertyName: formData.get("propertyName") || "",
       propertyType: formData.get("propertyType") || "",
@@ -339,18 +361,10 @@ export async function POST(request) {
     const pricingInfo = {
       price: formData.get("price") || "",
       area: formData.get("area") || "",
-      amenities: formData.getAll("amenities").map((item) => String(item)),
+      amenities: formData.getAll("amenities").map(String),
     };
 
-    // ✅ Password (optional)
-    const password = formData.get("password") || "";
-    let hashedPassword = null;
-    if (password && password.length >= 4) {
-      const salt = await bcrypt.genSalt(10);
-      hashedPassword = await bcrypt.hash(password, salt);
-    }
-
-    // ✅ Gallery Image Upload
+    // Handle gallery images upload
     const galleryImages = formData.getAll("galleryImages");
     let totalSize = 0;
 
@@ -363,7 +377,6 @@ export async function POST(request) {
         );
       }
     }
-
     if (totalSize > 30 * 1024 * 1024) {
       return new Response(
         JSON.stringify({ success: false, error: "Total file size must be ≤ 30MB" }),
@@ -392,7 +405,7 @@ export async function POST(request) {
       }
     }
 
-    // ✅ QR Code Metadata Fields
+    // QR code metadata fields
     const qrCodeImage = formData.get("qrCodeImage") || "";
     const qrPassword = formData.get("qrPassword") || "";
 
@@ -405,7 +418,7 @@ export async function POST(request) {
     const renewalDate = formData.get("renewalDate") || null;
     const status = formData.get("status") || "active";
 
-    // ✅ Save to MongoDB
+    // Save to DB
     const newProperty = new PropertyModal({
       user: {
         id: user._id,
@@ -418,7 +431,7 @@ export async function POST(request) {
       images: {
         galleryImages: galleryImageUrls,
       },
-      ...(hashedPassword && { password: hashedPassword }),
+      password: hashedPassword,
       qrCodeDetails: {
         qrCodeImage,
         qrPassword,
@@ -429,20 +442,19 @@ export async function POST(request) {
         resetPasswordExpires: null,
       },
     });
-    
 
     const saved = await newProperty.save();
     const qrUrl = await getShortenedUrl(`/property-qr/${saved._id}`);
 
-    return new Response(JSON.stringify({ success: true, data: saved,qrUrl }), {
-      status: 201,
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({ success: true, data: saved, qrUrl }),
+      { status: 201, headers: { "Content-Type": "application/json" } }
+    );
   } catch (error) {
     console.error("Server error:", error);
-    return new Response(JSON.stringify({ success: false, error: error.message }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({ success: false, error: error.message }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
+    );
   }
 }
