@@ -7,6 +7,8 @@ import { useServicesFormData } from "../servicesData/useServicesFormData";
 import useServicesContext from "@/components/hooks/useServiceContext";
 
 
+
+
 const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
   const {
     submitForm,
@@ -14,6 +16,8 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
   } = useServicesFormData();
 const { activeService } = useServicesContext();
 
+
+  const {resetAllDynamicForms} = useServicesContext()
 
   const handleDownload = async () => {
     if (!previewRef?.current) {
@@ -38,6 +42,8 @@ const { activeService } = useServicesContext();
       const exportHeight = Math.round(
         (previewRef.current.offsetHeight / previewRef.current.offsetWidth) * exportWidth
       );
+
+      resetAllDynamicForms()
 
       const dataUrl = await toPng(previewRef.current, {
         cacheBust: true,

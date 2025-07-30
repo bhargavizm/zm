@@ -41,6 +41,8 @@ export const useServicesFormData = () => {
     setResumeFormData,
     propertyDetails,
     setPropertyDetails, productData, setProductData
+    setPropertyDetails,
+    eventsFormData, setEventsFormData,
   } = useServicesContext();
 
 
@@ -52,6 +54,8 @@ export const useServicesFormData = () => {
   const setVehicleData = updateDynamicForm?.vehicle; // ✅ Correct
   const multiUrlFormData = dynamicForms?.multiUrl
   const setMultiUrlFormData = setDynamicForms?.multiUrl
+   const medicalAlertFormData = dynamicForms?.medicalAlert
+  const setMedicalAlertFormData = setDynamicForms?.medicalAlert
 
 
   const isUrlBasedService = urlBasedServices.includes(activeService);
@@ -80,18 +84,10 @@ export const useServicesFormData = () => {
         videos: videoFormData,
         pdf: pdfFormData,
         gallery: imagesFormData,
+        "medical-alerts":medicalAlertFormData,
+        events:eventsFormData,
         "Pet-ID-tags": petIDFormData,
         "business-shops": businessShopFormData,
-        "menu-cards": menuBookFormData,
-        sms: smsFormData,
-        "business-cards": businessForm,
-        "v-cards": businessForm,
-        "text-messages": textMessageForm,
-        vehicles: vehicleData,
-        audios: audioFormData,
-        videos: videoFormData,
-        pdf: pdfFormData,
-        gallery: imagesFormData,
         resumes: resumeFormData,
         "property-qr": propertyDetails,
         "multi-urls": multiUrlFormData,
@@ -125,19 +121,12 @@ export const useServicesFormData = () => {
         gallery: setImagesFormData,
         "Pet-ID-tags": setPetIDFormData,
         "business-shops": setBusinessShopFormData,
-        "menu-cards": setMenuBookFormData,
-        sms: setSmsFormData,
-        "business-cards": setBusinessForm,
-        "v-cards": setBusinessForm,
-        "text-messages": setTextMessageForm,
         vehicles: setVehicleData,
-        audios: setAudioFormData,
-        videos: setVideoFormData,
-        pdf: setPdfFormData,
-        gallery: setImagesFormData,
         resumes: setResumeFormData,
         "property-qr":setPropertyDetails,
+        "medical-alerts":setMedicalAlertFormData,
         "multi-urls":setMultiUrlFormData,
+        events:setEventsFormData,
         discounts: setDiscountCouponFormData
       }[activeService];
 

@@ -12,8 +12,11 @@ import {
   setTextMessageServices,
   setVehicleServices,
   setProductCardServices
+  setMedicalServices,
+  setEventServices,
   setBusinessShopServices,
   setDiscountServices,
+
 } from "@/redux/slices/servicesSlice";
 
 import { urlBasedServices } from "./formDataMappers";
@@ -42,6 +45,8 @@ export const reduxDispatchMappers = {
   "property-qr":setPropertyServices,
   "multi-urls":setMultiUrlServices,
   "product-cards":setProductCardServices,
+  "medical-alerts":setMedicalServices,
+  events:setEventServices,
   discounts: setDiscountServices
 };
 
