@@ -124,7 +124,6 @@ export async function POST(request) {
       textMessage,
       password = "",
       qrPassword = "",
-      bgDesign,
       location = {},
       renewalDate = null,
       status = "active",

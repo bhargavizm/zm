@@ -9,6 +9,7 @@ import { urlBasedServices } from "./formDataMappers";
 import useEncryptedSubmitForm from "./useEncryptedServicesSubmitForm";
 import DiscountCouponContent from './../../servicesPages/tabsContent/servicesContent/discountCoupon/DiscountCouponContent';
 
+const encryptedServices = ["pdf", "audios", "videos", "gallery"];
 
 export const useServicesFormData = () => {
   const { bgDesign, setBgDesign } = useDesignContext();
@@ -17,10 +18,8 @@ export const useServicesFormData = () => {
     menuBookFormData,
     setMenuBookFormData,
     smsFormData,
-
     formData,
     setFormData,
-
     setSmsFormData,
     businessForm,
     setBusinessForm,
@@ -34,27 +33,31 @@ export const useServicesFormData = () => {
     pdfFormData,
     setPdfFormData,
     imagesFormData,
-    setImagesFormData, petIDFormData, setPetIDFormData,
+    setImagesFormData,
+    petIDFormData,
+    setPetIDFormData,
     setDynamicForms,
-    resumeFormData, 
+    resumeFormData,
     setResumeFormData,
     propertyDetails,
+    setPropertyDetails, productData, setProductData
     setPropertyDetails,
+    eventsFormData, setEventsFormData,
   } = useServicesContext();
 
 
   const businessShopFormData = dynamicForms?.businessShop
+
   const setBusinessShopFormData = setDynamicForms?.businessShop;
   const discountCouponFormData = dynamicForms?.discountCoupon
   const setDiscountCouponFormData = setDynamicForms?.discountCoupon
   const vehicleData = dynamicForms?.vehicle; // ✅ Correct
   const setVehicleData = updateDynamicForm?.vehicle; // ✅ Correct
-  
-
-
-
   const multiUrlFormData = dynamicForms?.multiUrl
   const setMultiUrlFormData = setDynamicForms?.multiUrl
+   const medicalAlertFormData = dynamicForms?.medicalAlert
+  const setMedicalAlertFormData = setDynamicForms?.medicalAlert
+
 
   const kidSafetyFormData = dynamicForms?.kidsSafety
   const setKidSafetyFormData = setDynamicForms?.kidsSafety
@@ -77,16 +80,18 @@ export const useServicesFormData = () => {
         videos: videoFormData,
         pdf: pdfFormData,
         gallery: imagesFormData,
-
+        "medical-alerts":medicalAlertFormData,
+        events:eventsFormData,
+        "Pet-ID-tags": petIDFormData,
+        "business-shops": businessShopFormData,
         resumes: resumeFormData,
         "property-qr":propertyDetails,
-
         "multi-urls":multiUrlFormData,
-
-
+        "property-qr": propertyDetails,
         "multi-urls": multiUrlFormData,
         discounts: discountCouponFormData
       }[activeService];
+
 
   const setFormDataState = isUrlBasedService
     ? setFormData
@@ -94,6 +99,7 @@ export const useServicesFormData = () => {
       
       "Pet-ID-tags": setPetIDFormData,
       "business-shops": setBusinessShopFormData,
+     
         "menu-cards": setMenuBookFormData,
         sms: setSmsFormData,
         "business-cards": setBusinessForm,
@@ -107,13 +113,16 @@ export const useServicesFormData = () => {
         gallery: setImagesFormData,
 
 
+        "Pet-ID-tags": setPetIDFormData,
+        "business-shops": setBusinessShopFormData,
+        vehicles: setVehicleData,
         resumes: setResumeFormData,
         "property-qr":setPropertyDetails,
-
+        "medical-alerts":setMedicalAlertFormData,
         "multi-urls":setMultiUrlFormData,
+        events:setEventsFormData,
         discounts: setDiscountCouponFormData
       }[activeService];
-
 
   const submitForm = useSubmitForm(
     activeService,
