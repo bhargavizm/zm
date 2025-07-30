@@ -128,78 +128,79 @@ const PropertyContent = () => {
   };
 
   const handleInitialSubmit = (e) => {
-    setActiveTab(slug, "Backdrop Designs");
-    // e.preventDefault();
-    // const allValues = Object.values(propertyDetails).flatMap(section =>
-    //   typeof section === 'object' && !Array.isArray(section)
-    //     ? Object.values(section || {})
-    //     : [section]
-    // );
+    e.preventDefault();
+    const allValues = Object.values(propertyDetails).flatMap(section =>
+      typeof section === 'object' && !Array.isArray(section)
+        ? Object.values(section || {})
+        : [section]
+    );
 
-    // const hasNonEmptyValue = allValues.some(value =>
-    //   Array.isArray(value) ? value.length > 0 : typeof value === "string" ? value.trim() !== "" : !!value
-    // );
+    const hasNonEmptyValue = allValues.some(value =>
+      Array.isArray(value) ? value.length > 0 : typeof value === "string" ? value.trim() !== "" : !!value
+    );
 
-    // if (!hasNonEmptyValue) {
-    //   toast.error("Enter at least one field before submitting");
-    //   return;
-    // }
+    if (!hasNonEmptyValue) {
+      toast.error("Enter at least one field before submitting");
+      return;
+    }
 
-    // if (!validateForm()) return;
-    // setShowConfirmModal(true);
+    if (!validateForm()) return;
+    setShowConfirmModal(true);
   };
 
   const handleConfirmedSubmit = async () => {
-    setShowConfirmModal(false);
-    const formData = new FormData();
+    
+     setActiveTab(slug, "Backdrop Designs");
+    // setShowConfirmModal(false);
+    // const formData = new FormData();
 
-    Object.entries(propertyDetails).forEach(([sectionKey, sectionFields]) => {
-      if (typeof sectionFields === "object" && !Array.isArray(sectionFields)) {
-        Object.entries(sectionFields).forEach(([fieldKey, value]) => {
-          if (Array.isArray(value)) {
-            value.forEach((v) => formData.append(fieldKey, v));
-          } else {
-            formData.append(fieldKey, value);
-          }
-        });
-      } else {
-        formData.append(sectionKey, sectionFields);
-      }
-    });
+    // Object.entries(propertyDetails).forEach(([sectionKey, sectionFields]) => {
+    //   if (typeof sectionFields === "object" && !Array.isArray(sectionFields)) {
+    //     Object.entries(sectionFields).forEach(([fieldKey, value]) => {
+    //       if (Array.isArray(value)) {
+    //         value.forEach((v) => formData.append(fieldKey, v));
+    //       } else {
+    //         formData.append(fieldKey, value);
+    //       }
+    //     });
+    //   } else {
+    //     formData.append(sectionKey, sectionFields);
+    //   }
+    // });
 
-     setServicesDataLoading(true);
-    try {
-      const res = await fetch("/api/services/property-qr", {
-        method: "POST",
-        body: formData,
-      });
-      const result = await res.json();
+    //  setServicesDataLoading(true);
+    // try {
+    //   const res = await fetch("/api/services/property-qr", {
+    //     method: "POST",
+    //     body: formData,
+    //   });
+    //   const result = await res.json();
 
-      if (result.success) {
-        toast.success("Property submitted!");
-        setActiveTab(slug, "QR Code");
-        dispatch(setPropertyServices(result.data));
-        setPropertyDetails({
-          basicInfo: { propertyName: "", propertyType: "", ownerName: "", contactNumber: "", alternateNumber: "", propertyDescription: "" },
-          addressInfo: { address: "", mapLink: "" },
-          pricingInfo: { price: "", area: "", amenities: "" },
-          images: { galleryImages: [] },
-          password: "",
-        });
-        setGalleryPreview([]);
-        if (galleryInputRef.current) galleryInputRef.current.value = "";
-      } else {
-        toast.error(result.error || "Submission failed");
-      }
-    } catch (err) {
-     toast.error(err?.response?.data?.error || "Something went wrong!");
-    if (error.response?.status === 401) {
-        window.location.href = "/login"; // ✅ Auto logout on expiry
-        return;
-      }
-    } finally {
-      setServicesDataLoading(false); // ✅ End loader
-    }
+    //   if (result.success) {
+    //     toast.success("Property submitted!");
+    //     setActiveTab(slug, "QR Code");
+    //     dispatch(setPropertyServices(result.data));
+    //     setPropertyDetails({
+    //       basicInfo: { propertyName: "", propertyType: "", ownerName: "", contactNumber: "", alternateNumber: "", propertyDescription: "" },
+    //       addressInfo: { address: "", mapLink: "" },
+    //       pricingInfo: { price: "", area: "", amenities: "" },
+    //       images: { galleryImages: [] },
+    //       password: "",
+    //     });
+    //     setGalleryPreview([]);
+    //     if (galleryInputRef.current) galleryInputRef.current.value = "";
+    //   } else {
+    //     toast.error(result.error || "Submission failed");
+    //   }
+    // } catch (err) {
+    //  toast.error(err?.response?.data?.error || "Something went wrong!");
+    // if (error.response?.status === 401) {
+    //     window.location.href = "/login"; // ✅ Auto logout on expiry
+    //     return;
+    //   }
+    // } finally {
+    //   setServicesDataLoading(false); // ✅ End loader
+    // }
   };
 
   return (
@@ -313,15 +314,18 @@ onChange={(e) =>
         </span>
       </div>
 
-      <NFCModal />
+      {/* <NFCModal /> */}
 
+
+      <div className="flex justify-center items-center pt-6">
       <button
         type="submit"
         onClick={handleInitialSubmit}
-        className="mt-4 w-full bg-[#008080] text-white font-semibold py-2 rounded hover:bg-[#006666] transition"
-      >
-        Submit
+        className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg">
+      Next →
       </button>
+    </div>
+
 
       {showConfirmModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
@@ -335,13 +339,13 @@ onChange={(e) =>
                 onClick={() => setShowConfirmModal(false)}
                 className="px-4 py-2 rounded-lg text-gray-600 border border-gray-300 hover:bg-gray-100"
               >
-                Back
+                Edit
               </button>
               <button
                 onClick={handleConfirmedSubmit}
                 className="px-4 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700"
               >
-                Confirm & Submit
+                Continue
               </button>
             </div>
           </div>

@@ -7,6 +7,11 @@ import SmsModal from "@/models/services/smsSchema";
 import TextMessageModal from "@/models/services/textMessage";
 import BusinessShopModel from '@/models/services/businessShopSchema';
 import propertySchema from "@/models/services/propertySchema";
+import MedicalAlertModel from "@/models/services/medicalAlertSchema";
+import EventModel from "@/models/services/eventSchema";
+
+// Components
+
 import KidsSafetyModal from "@/models/services/kidSafetySchema";
 import MenuCardsServiceModel from "@/models/services/menuCardSchema";
 import VehicleModel from "@/models/services/vehicleSchema";
@@ -23,11 +28,11 @@ import URLServicesPreview from "@/components/scanningPreview/urlServicesPreview"
 import URLServiceModel from "@/models/services/urlServicesSchema";
 import MultiUrlModal from "@/models/services/multiUrlSchema";
 import MultiUrlPreview from "@/components/scanningPreview/multiUrlPreview";
+import medicalalertsPreview from "@/components/scanningPreview/medicalalertsPreview";
+import EventsPreview from "@/components/scanningPreview/eventsPreview";
 import CardsModel from "@/models/services/cardsSchema";
 import BusinessPreview from "@/components/servicesPages/tabsContent/servicesContent/business/businessPreview";
 import EventModal from "@/models/services/eventSchema";
-import EventModel from "@/models/services/eventSchema";
-import EventPreview from "@/components/servicesPages/tabsContent/servicesContent/events/eventPreview";
 import DiscountModal from "@/models/services/discountSchema";
 import DiscountCouponPreview from "@/components/scanningPreview/DiscountCouponPreview";
 
@@ -91,6 +96,13 @@ const serviceMap = {
     model: MultiUrlModal,
     component: MultiUrlPreview,
   },
+  "medical-alerts":{
+    model:MedicalAlertModel,
+    component:medicalalertsPreview,
+  },
+  events:{
+    model:EventModel,
+    component:EventsPreview,
   "business-cards":{
     model: CardsModel,
     component: BusinessPreview,
@@ -106,7 +118,7 @@ const serviceMap = {
 export async function generateMetadata({ params }) {
   const { service } = params;
   return {
-    title: `${service.charAt(0).toUpperCase() + service.slice(1)} - Details`,
+    title:` ${service.charAt(0).toUpperCase() + service.slice(1)} - Details`,
   };
 }
 

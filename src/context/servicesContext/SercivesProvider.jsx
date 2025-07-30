@@ -173,6 +173,8 @@ const ServicesProvider = ({ children }) => {
     contactName: "",
     contactEmail: "",
     contactPhone: "",
+    bgDesign:"",
+    password:"",
     // webLabel: "My Website",
     // webUrl: "www.yourweburl.com",
   };
@@ -227,6 +229,7 @@ const ServicesProvider = ({ children }) => {
       galleryImages: [],
     },
     password: "",
+    bgDesign:"",
   });
 
 
@@ -286,6 +289,7 @@ const ServicesProvider = ({ children }) => {
         location: "",
       },
       password: "",
+      bgDesign:"",
       qrCodeDetails: {
         qrCodeImage: '',
 
