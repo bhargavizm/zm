@@ -41,6 +41,7 @@ const ServicesProvider = ({ children }) => {
     address: "",
     mapLink: "",
     email: "",
+    profileImageUrl:'',
     url: "",
     url1: "",
     password: "",

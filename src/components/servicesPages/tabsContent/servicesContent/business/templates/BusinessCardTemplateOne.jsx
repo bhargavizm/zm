@@ -17,6 +17,7 @@ const BusinessCardTemplateOne = ({ businessForm, profileImage, brandLogo }) => {
         mapLink,
         socialLink,
         socialLink2,
+        profileImageUrl
     } = businessForm;
 
     return (
@@ -42,7 +43,7 @@ const BusinessCardTemplateOne = ({ businessForm, profileImage, brandLogo }) => {
             <div className="flex justify-center -mt-12 mb-2">
                 <div className="my-15 w-30 h-30 rounded-full border-4 border-yellow-500 overflow-hidden">
                     <Image
-                        src={profileImage || "/default-user.webp"}
+                        src={businessForm.previewImageUrl  || "/default-user.webp"}
                         alt={""}
                         width={96}
                         height={96}

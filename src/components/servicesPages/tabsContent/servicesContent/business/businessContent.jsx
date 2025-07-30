@@ -44,8 +44,12 @@ const ConfirmationModal = ({ show, onClose, onConfirm }) => {
 };
 
 const BusinessContent = () => {
-  const { businessForm, setBusinessForm, profileImage, setProfileImage,servicesDataLoading, setServicesDataLoading } =
-    useServicesContext();
+  const {
+    businessForm,
+    setBusinessForm,
+    servicesDataLoading,
+    setServicesDataLoading,
+  } = useServicesContext();
   const dispatch = useDispatch();
   const { setActiveTab } = useDesignContext();
   const { slug } = useParams();
@@ -95,16 +99,33 @@ const BusinessContent = () => {
     }
   };
 
+  //  const handleImageUpload = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     const imageUrl = URL.createObjectURL(file);
+  //       console.log(imageUrl)
+  //     setBusinessForm({ ...businessForm, profileImageUrl: imageUrl });
+  //   }
+
+  // };
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setProfileImage(imageUrl);
+      const previewUrl = URL.createObjectURL(file);
+      setBusinessForm((prev) => ({
+        ...prev,
+        profileImageUrl: file, // ✅ save actual File object here
+        previewImageUrl: previewUrl, // optional, if you want to show preview
+      }));
     }
   };
 
   const handleImageRemove = () => {
-    setProfileImage(null);
+    setBusinessForm((prev) => ({
+      ...prev,
+      profileImageUrl: "",
+      previewImageUrl: "", // ✅ also clear the preview image
+    }));
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
@@ -149,7 +170,8 @@ const BusinessContent = () => {
 
   // This function is called when the user confirms in the modal
   const handleConfirmSubmit = async () => {
-     setActiveTab(slug, "Backdrop Designs");
+    console.log(businessForm);
+    setActiveTab(slug, "Backdrop Designs");
     // setShowConfirmModal(false); // Close modal
     //     setServicesDataLoading(true);
 
@@ -195,7 +217,7 @@ const BusinessContent = () => {
   };
   return (
     <>
-     {servicesDataLoading && <LoadingSpinner />}
+      {servicesDataLoading && <LoadingSpinner />}
 
       <div>
         <div className="grid grid-cols-1 gap-10">
@@ -253,10 +275,28 @@ const BusinessContent = () => {
       transition duration-200 cursor-pointer"
                 />
 
-                {profileImage && (
+                {/* {profileImage && (
                   <div className="mt-4 relative w-[90px] sm:w-[100px]">
                     <Image
                       src={profileImage}
+                      alt="Uploaded Logo"
+                      width={100}
+                      height={100}
+                      className="w-full h-auto rounded border object-contain"
+                    />
+                    <button
+                      onClick={handleImageRemove}
+                      className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center hover:bg-red-700"
+                      title="Remove image"
+                    >
+                      ❌
+                    </button>
+                  </div>
+                )} */}
+                {businessForm.previewImageUrl && (
+                  <div className="mt-4 relative w-[90px] sm:w-[100px]">
+                    <Image
+                      src={businessForm.previewImageUrl}
                       alt="Uploaded Logo"
                       width={100}
                       height={100}
@@ -381,14 +421,14 @@ const BusinessContent = () => {
             </div>
 
             <NFCModal />
-<div className="flex justify-center items-center">
-            <button
-              type="submit"
-              onClick={handlePreSubmit} // Call pre-submit to open the modal first
-               className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg"
-            >
-                Next → 
-            </button>
+            <div className="flex justify-center items-center">
+              <button
+                type="submit"
+                onClick={handlePreSubmit} // Call pre-submit to open the modal first
+                className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg"
+              >
+                Next →
+              </button>
             </div>
           </div>
         </div>
