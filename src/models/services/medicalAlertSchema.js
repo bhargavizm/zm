@@ -212,6 +212,7 @@ const MedicalAlertSchema = new mongoose.Schema(
         fileType: String,
       },
     ],
+    bgDesign: String,
     password: { type: String },
     qrCodeDetails: qrCodeServicesSchema
   },

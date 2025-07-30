@@ -11,6 +11,7 @@ import { useParams } from "next/navigation";
 import LoadingSpinner from "@/components/common/spinner";
 import axios from 'axios';
 
+
 const BusinessShopContent = () => {
   const { dynamicForms, updateDynamicForm, servicesDataLoading, setServicesDataLoading } = useServicesContext();
   const { setIsLoading, setBgDesign } = useDesignContext();

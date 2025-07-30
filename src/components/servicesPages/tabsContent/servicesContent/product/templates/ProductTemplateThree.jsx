@@ -37,15 +37,15 @@ const ProductTemplateThree = ({ items, productData, productLogo, productImage, b
     }
   }, [items, handleNext]);
 
-  const currentItem = items && items.length > 0 ? items[currentSlide] : null;
+  const currentItem = productData?.items && productData?.items.length > 0 ? productData?.items[currentSlide] : null;
 
   return (
     <div className="min-h-full w-full bg-[#4c2707] px-4 py-6 space-y-6 rounded-lg shadow-inner">
       {/* Header Section - Displays Brand Logo and Name */}
       <div className="text-center text-white">
-        {productLogo && (
+        {productData?.productLogo && (
           <img
-            src={productLogo}
+            src={productData?.productLogo?.preview}
             alt="Brand Logo"
             className="mx-auto h-20 w-auto object-contain mb-2"
           />
@@ -55,15 +55,15 @@ const ProductTemplateThree = ({ items, productData, productLogo, productImage, b
       </div>
 
       {/* Product Carousel Section */}
-      {items && items.length > 0 ? (
+      {productData?.items && productData?.items.length > 0 ? (
         <div className="relative">
           <div
             key={currentSlide}
             className="bg-white rounded-xl shadow-md p-4 space-y-2 border border-purple-200 transition-all duration-300 ease-in-out"
           >
-            {currentItem.image && (
+            {currentItem.productImage && (
               <img
-                src={currentItem.image}
+                src={currentItem.productImage?.preview}
                 alt={`Product ${currentSlide + 1}`}
                 className="w-full h-48 object-fit rounded-md border border-gray-100"
               />
@@ -96,9 +96,9 @@ const ProductTemplateThree = ({ items, productData, productLogo, productImage, b
             )}
           </div>
 
-          {items.length > 1 && (
+          {productData?.items.length > 1 && (
             <div className="flex justify-center mt-4 space-x-2">
-              {items.map((_, idx) => (
+              {productData?.items.map((_, idx) => (
                 <button
                   key={idx}
                   onClick={() => setCurrentSlide(idx)}

@@ -116,60 +116,61 @@ const EventContent = () => {
   };
 
   const handleConfirmedSubmit = async () => {
-    setServicesDataLoading
-    const payload = {
-      organizer: eventsFormData.organizer,
-      title: eventsFormData.title,
-      summary: eventsFormData.summary,
-      fromDate: eventsFormData.fromDate,
-      toDate: eventsFormData.toDate,
-      venue: eventsFormData.venue,
-      address: eventsFormData.address,
-      contactName: eventsFormData.contactName,
-      contactEmail: eventsFormData.contactEmail,
-      contactPhone: eventsFormData.contactPhone,
-      password: eventsFormData.password
-    };
+     setActiveTab(slug, "Backdrop Designs");
+    // setServicesDataLoading
+    // const payload = {
+    //   organizer: eventsFormData.organizer,
+    //   title: eventsFormData.title,
+    //   summary: eventsFormData.summary,
+    //   fromDate: eventsFormData.fromDate,
+    //   toDate: eventsFormData.toDate,
+    //   venue: eventsFormData.venue,
+    //   address: eventsFormData.address,
+    //   contactName: eventsFormData.contactName,
+    //   contactEmail: eventsFormData.contactEmail,
+    //   contactPhone: eventsFormData.contactPhone,
+    //   password: eventsFormData.password
+    // };
 
-    try {
-      const response = await axios.post("/api/services/event", payload, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+    // try {
+    //   const response = await axios.post("/api/services/event", payload, {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   });
 
-      if (response.data.success) {
-        toast.success("Text submitted successfully!");
-        dispatch(setEventServices(response.data.fileData));
-        setShowConfirmModal(false);
-        setActiveTab(slug, "QR Code");
+    //   if (response.data.success) {
+    //     toast.success("Text submitted successfully!");
+    //     dispatch(setEventServices(response.data.fileData));
+    //     setShowConfirmModal(false);
+    //     setActiveTab(slug, "QR Code");
 
-        // Reset form
-        setEventsFormData({
-          organizer: "",
-          title: "",
-          summary: "",
-          fromDate: "",
-          toDate: "",
-          venue: "",
-          address: "",
-          contactName: "",
-          contactEmail: "",
-          contactPhone: "",
-          password: "",
-        });
-      }
-    } catch (error) {
-      const errMsg = error?.response?.data?.error || "An unexpected error occurred.";
-      toast.error(` ${errMsg}`);
-      console.error("Submit Error:", errMsg);
-    if (error.response?.status === 401) {
-        window.location.href = "/login"; // ✅ Auto logout on expiry
-        return;
-      }
-    } finally {
-      setServicesDataLoading(false); // ✅ End loader
-    }
+    //     // Reset form
+    //     setEventsFormData({
+    //       organizer: "",
+    //       title: "",
+    //       summary: "",
+    //       fromDate: "",
+    //       toDate: "",
+    //       venue: "",
+    //       address: "",
+    //       contactName: "",
+    //       contactEmail: "",
+    //       contactPhone: "",
+    //       password: "",
+    //     });
+    //   }
+    // } catch (error) {
+    //   const errMsg = error?.response?.data?.error || "An unexpected error occurred.";
+    //   toast.error(` ${errMsg}`);
+    //   console.error("Submit Error:", errMsg);
+    // if (error.response?.status === 401) {
+    //     window.location.href = "/login"; // ✅ Auto logout on expiry
+    //     return;
+    //   }
+    // } finally {
+    //   setServicesDataLoading(false); // ✅ End loader
+    // }
   };
 
   return (
@@ -368,14 +369,15 @@ const EventContent = () => {
             </div>
 
             <NFCModal />
-
+            <div className="flex justify-center items-center">
             <button
               type="button"
               onClick={handleInitialSubmit}
-              className="w-full py-2 cursor-pointer bg-[#008080] text-white font-semibold rounded hover:bg-[#006666] transition"
+               className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg"
             >
-              Submit
+               Next → 
             </button>
+          </div>
           </form>
         </div>
 
@@ -424,13 +426,13 @@ const EventContent = () => {
                   onClick={() => setShowConfirmModal(false)}
                   className="px-4 py-2 rounded-lg text-gray-600 border border-gray-300 hover:bg-gray-100"
                 >
-                  Back
+                  Edit
                 </button>
                 <button
                   onClick={handleConfirmedSubmit}
                   className="px-4 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700"
                 >
-                  Confirm & Submit
+                  Continue
                 </button>
               </div>
             </div>
