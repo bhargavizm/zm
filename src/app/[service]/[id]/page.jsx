@@ -25,6 +25,13 @@ import MultiUrlModal from "@/models/services/multiUrlSchema";
 import MultiUrlPreview from "@/components/scanningPreview/multiUrlPreview";
 import medicalalertsPreview from "@/components/scanningPreview/medicalalertsPreview";
 import EventsPreview from "@/components/scanningPreview/eventsPreview";
+//import BusinessPreview from "@/components/servicesPages/tabsContent/servicesContent/business/businessPreview";
+import EventModal from "@/models/services/eventSchema";
+import DiscountModal from "@/models/services/discountSchema";
+import DiscountCouponPreview from "@/components/scanningPreview/DiscountCouponPreview";
+import ProductsModel from "@/models/services/productSchema";
+import ProductPreview from "@/components/scanningPreview/product/productPreview";
+//import { BusinessCardsModel } from "@/models/services/cardsSchema";
 import EventModal from "@/models/services/eventSchema";
 import DiscountModal from "@/models/services/discountSchema";
 import DiscountCouponPreview from "@/components/scanningPreview/DiscountCouponPreview";
@@ -37,6 +44,7 @@ import GalleryPreview from "@/components/scanningPreview/galleryPreview";
 import URLServiceModel from "@/models/services/urlServicesSchema";
 import UrlPreview from "@/components/scanningPreview/urlServicesPreview";
 import { BusinessCardsModel } from "@/models/services/cardsSchema";
+
 
 
 
@@ -129,6 +137,10 @@ const serviceMap = {
   discounts: {
     model: DiscountModal,
     component: DiscountCouponPreview,
+  },
+  "product-cards":{
+    model:ProductsModel,
+    component:ProductPreview,
   },
 
 }

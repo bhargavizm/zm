@@ -256,13 +256,14 @@ const PropertyPreview = () => {
           )}
 
           {/* Address Info */}
-          {hasAddressInfo && (
-            <div className="border p-4 rounded shadow mb-4">
-              <h2 className="text-lg font-semibold text-[#008080] mb-2">Address Info</h2>
-              {property.addressInfo.address && <p><strong>Address:</strong> {property.addressInfo.address}</p>}
-              {property.addressInfo.mapLink && <p><strong>Map Link:</strong> {property.addressInfo.mapLink}</p>}
-            </div>
-          )}
+          {property.addressInfo.mapLink && (
+              <p>
+                <strong>Map Link:</strong>{" "}
+                <a href={property.addressInfo.mapLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
+                  {property.addressInfo.mapLink}
+                </a>
+              </p>
+            )}
 
           {/* Pricing Info */}
           {hasPricingInfo && (
