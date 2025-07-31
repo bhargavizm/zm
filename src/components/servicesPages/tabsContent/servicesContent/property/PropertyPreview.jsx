@@ -138,7 +138,7 @@
 //                     <Image
 //                       key={index}
 //                       src={URL.createObjectURL(img)}
-//                       alt={`Gallery ${index + 1}`}
+//                       alt={Gallery ${index + 1}}
 //                       width={150}
 //                       height={100}
 //                       className="rounded w-full object-cover"
@@ -189,7 +189,7 @@ const PropertyPreview = () => {
   const hasMainImage = !!property?.images?.mainImage;
   const hasGalleryImages = property?.images?.galleryImages?.length > 0;
 
-  const isVideo = bgDesign?.endsWith(".mp4");
+  const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
   const isImage = bgDesign && !isVideo;
 
   return (
@@ -216,6 +216,8 @@ const PropertyPreview = () => {
             className="absolute inset-0 w-full h-full object-cover z-0"
           />
         )}
+      
+
         {!bgDesign && (
           <img
             src={defaultBg}
@@ -295,13 +297,13 @@ const PropertyPreview = () => {
                   <div key={index} className="flex flex-col items-center space-y-1">
                     <Image
                       src={URL.createObjectURL(img)}
-                      alt={img.name || `Gallery ${index + 1}`}
+                      alt={img.name ||` Gallery ${index + 1}`}
                       width={150}
                       height={100}
                       className="rounded w-full object-cover"
                     />
                     {/* <p className="text-xs text-gray-600 text-center truncate max-w-[140px]">
-                      {img.name || `Image ${index + 1}`}
+                      {img.name || Image ${index + 1}}
                     </p> */}
                   </div>
                 ))}

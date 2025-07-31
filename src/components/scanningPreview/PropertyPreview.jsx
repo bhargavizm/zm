@@ -1,186 +1,160 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import useServicesContext from "@/components/hooks/useServiceContext";
+import useDesignContext from "@/components/hooks/useDesignContext";
+import BgDesignRenderer from "./bgDesignRender";
+import { FiHome, FiUser, FiPhone, FiMapPin, FiImage } from "react-icons/fi";
 
-const PropertyPreview = () => {
-  const { propertyDetails } = useServicesContext();
-
+const PropertyPreview = ({ data }) => {
   const defaultBg = "/services-service/property.webp";
-  const [bgDesign, setBgDesign] = useState(defaultBg);
-  const [isLoading, setIsLoading] = useState(true);
+  const { bgDesign, setBgDesign } = useDesignContext();
+  const { propertyFormData } = useServicesContext();
 
-  const property = propertyDetails || {};
+  // Use passed data if available, else fallback to context data
+  const filledData = data && Object.keys(data).length ? data : propertyFormData || {};
 
-  const hasBasicInfo = Object.values(property?.basicInfo || {}).some(Boolean);
-  const hasAddressInfo = Object.values(property?.addressInfo || {}).some(Boolean);
-  const hasPricingInfo = Object.values(property?.pricingInfo || {}).some(Boolean);
-  const hasGalleryImages =
-    Array.isArray(property?.images?.galleryImages) && property.images.galleryImages.length > 0;
+  // Extract fields
+  const basicInfo = filledData.basicInfo || {};
+  const addressInfo = filledData.addressInfo || {};
+  const images = filledData.images || {};
+
+  const {
+    propertyName,
+    propertyType,
+    ownerName,
+    contactNumber,
+    alternateNumber,
+  } = basicInfo;
+
+  const { address, mapLink } = addressInfo;
+
+  const galleryImages = Array.isArray(images.galleryImages)
+    ? images.galleryImages.filter((img) => img?.trim() !== "")
+    : [];
+
+  const dataBgDesign = filledData.bgDesign;
+
+  const hasData =
+    propertyName ||
+    propertyType ||
+    ownerName ||
+    contactNumber ||
+    alternateNumber ||
+    address ||
+    mapLink ||
+    galleryImages.length > 0;
 
   useEffect(() => {
-    setIsLoading(true);
-    setBgDesign(property?.bgDesign || defaultBg);
-  }, [property?.bgDesign]);
-
-  const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
-  const isImage = bgDesign && !isVideo;
-
-  const noData =
-    !hasBasicInfo && !hasAddressInfo && !hasPricingInfo && !hasGalleryImages;
+    if (dataBgDesign) {
+      setBgDesign(dataBgDesign);
+    } else {
+      setBgDesign(defaultBg);
+    }
+  }, [dataBgDesign, setBgDesign]);
 
   return (
-    <div className="flex justify-center p-4">
-      <div className="relative w-[360px] rounded-xl shadow-lg overflow-hidden bg-white/90 backdrop-blur-md max-h-[620px] flex flex-col z-10">
+     <div className="w-full px-6 min-h-screen">
+      <div className="relative min-h-screen">
+      <div>
         {/* Background */}
-        {isImage ? (
-          <img
-            src={bgDesign}
-            alt="Background"
-            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
-            className="absolute inset-0 w-full h-full object-cover opacity-20 -z-10"
-          />
-        ) : isVideo ? (
-          <video
-            src={bgDesign}
-            autoPlay
-            loop
-            muted
-            playsInline
-            onLoadedData={() => setTimeout(() => setIsLoading(false), 300)}
-            className="absolute inset-0 w-full h-full object-cover opacity-20 -z-10"
-          />
-        ) : (
-          <img
-            src={defaultBg}
-            alt="Default Background"
-            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
-            className="absolute inset-0 w-full h-full object-cover opacity-20 -z-10"
-          />
-        )}
-
-        {/* Loader */}
-        {isLoading && (
-          <div className="absolute inset-0 z-20 bg-mainGreen/80 backdrop-blur-sm flex justify-center items-center">
-            <Image
-              src="/logos/ZM LOGO.webp"
-              alt="Loading"
-              width={100}
-              height={100}
-              className="w-20 h-20 animate-bounce"
-            />
-          </div>
-        )}
+        <BgDesignRenderer bgDesign={bgDesign} defaultBg={defaultBg} />
 
         {/* Content */}
-        <div className="relative flex-1 overflow-y-auto p-5 space-y-5">
-          <h2 className="text-2xl font-bold text-center text-teal-800">
-            Property Preview
-          </h2>
+        <div className="relative flex-1 w-full bg-white/70 m-2 rounded-xl overflow-y-auto pt-6 pb-3 px-3 z-20 min-h-[250px]">
+          {hasData ? (
+            <div className="space-y-4">
+              <h2 className="text-xl font-bold text-center text-[#008080]">
+                Property Details Preview
+              </h2>
 
-          {noData ? (
-            <div className="flex flex-col items-center justify-center text-center text-gray-400 mt-10 space-y-2">
-              <Image
-                src="/icons/empty-box.png"
-                alt="No Data"
-                width={64}
-                height={64}
-                className="opacity-60"
-              />
-              <p>No property data found.</p>
-            </div>
-          ) : (
-            <>
-              {hasBasicInfo && (
-                <section className="p-3 rounded border border-teal-300 bg-teal-50">
-                  <h3 className="text-teal-700 font-semibold mb-2">Basic Information</h3>
-                  {property.basicInfo.propertyName && (
-                    <p><strong>Name:</strong> {property.basicInfo.propertyName}</p>
-                  )}
-                  {property.basicInfo.propertyType && (
-                    <p><strong>Type:</strong> {property.basicInfo.propertyType}</p>
-                  )}
-                  {property.basicInfo.ownerName && (
-                    <p><strong>Owner:</strong> {property.basicInfo.ownerName}</p>
-                  )}
-                  {property.basicInfo.contactNumber && (
-                    <p><strong>Contact:</strong> {property.basicInfo.contactNumber}</p>
-                  )}
-                  {property.basicInfo.alternateNumber && (
-                    <p><strong>Alt. Contact:</strong> {property.basicInfo.alternateNumber}</p>
-                  )}
-                  {property.basicInfo.propertyDescription && (
-                    <p><strong>Description:</strong> {property.basicInfo.propertyDescription}</p>
-                  )}
-                </section>
+              {propertyName && (
+                <PreviewCard icon={<FiHome />} label="Property Name" value={propertyName} />
               )}
 
-              {hasAddressInfo && (
-                <section className="p-3 rounded border border-teal-300 bg-teal-50">
-                  <h3 className="text-teal-700 font-semibold mb-2">Address Information</h3>
-                  {property.addressInfo.address && (
-                    <p><strong>Address:</strong> {property.addressInfo.address}</p>
-                  )}
-                  {property.addressInfo.mapLink && (
-                    <p>
-                      <strong>Map Link:</strong>{" "}
-                      <a
-                        href={property.addressInfo.mapLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-teal-700 underline"
-                      >
-                        View Map
-                      </a>
-                    </p>
-                  )}
-                </section>
+              {propertyType && (
+                <PreviewCard icon={<FiHome />} label="Property Type" value={propertyType} />
               )}
 
-              {hasPricingInfo && (
-                <section className="p-3 rounded border border-teal-300 bg-teal-50">
-                  <h3 className="text-teal-700 font-semibold mb-2">Pricing Details</h3>
-                  {property.pricingInfo.price && (
-                    <p><strong>Price:</strong> {property.pricingInfo.price}</p>
-                  )}
-                  {property.pricingInfo.area && (
-                    <p><strong>Area:</strong> {property.pricingInfo.area}</p>
-                  )}
-                  {property.pricingInfo.amenities && (
-                    <p><strong>Amenities:</strong> {property.pricingInfo.amenities}</p>
-                  )}
-                </section>
+              {ownerName && (
+                <PreviewCard icon={<FiUser />} label="Owner Name" value={ownerName} />
               )}
 
-              {hasGalleryImages && (
-                <section className="p-3 rounded border border-teal-300 bg-teal-50">
-                  <h3 className="text-teal-700 font-semibold mb-2">Gallery</h3>
-                  <div className="grid grid-cols-2 gap-3">
-                    {property.images.galleryImages.map((img, i) => (
-                      <div key={i} className="rounded overflow-hidden shadow-sm">
-                        <img
-                          src={typeof img === "object" ? URL.createObjectURL(img) : img}
-                          alt={`Gallery Image ${i + 1}`}
-                          className="w-full h-24 object-cover rounded"
+              {contactNumber && (
+                <PreviewCard icon={<FiPhone />} label="Contact Number" value={contactNumber} />
+              )}
+
+              {alternateNumber && (
+                <PreviewCard icon={<FiPhone />} label="Alternate Number" value={alternateNumber} />
+              )}
+
+              {address && (
+                <PreviewCard icon={<FiMapPin />} label="Address" value={address} />
+              )}
+
+              {mapLink && (
+                <PreviewCard
+                  icon={<FiMapPin />}
+                  label="Map Link"
+                  value={
+                    <a
+                      href={mapLink}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-blue-600 underline break-all"
+                    >
+                      {mapLink}
+                    </a>
+                  }
+                />
+              )}
+
+              {galleryImages.length > 0 && (
+                <div className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20">
+                  <div className="flex items-center text-[#008080] mb-2">
+                    <FiImage className="mr-2" />
+                    <span className="font-medium">Gallery Images</span>
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {galleryImages.map((img, idx) => (
+                      <div key={idx} className="rounded overflow-hidden">
+                        <Image
+                          src={img}
+                          alt={`property-image-${idx}`}
+                          width={300}
+                          height={200}
+                          className="w-full h-auto object-cover rounded shadow"
                         />
                       </div>
                     ))}
                   </div>
-                </section>
+                </div>
               )}
-            </>
+            </div>
+          ) : (
+            <div className="h-full flex flex-col items-center justify-center text-center text-gray-400">
+              <FiHome className="text-4xl mb-4 text-[#008080]" />
+              <h3 className="text-lg font-medium">Property Preview</h3>
+              <p className="mt-2">No property data found.</p>
+            </div>
           )}
-        </div>
-
-        {/* Footer */}
-        <div className="text-center text-xs text-teal-700 py-2 bg-white/80 backdrop-blur-sm border-t border-teal-200 select-none">
-          <p>Scan to view property</p>
-          <p className="mt-1">v1.0.0</p>
         </div>
       </div>
     </div>
+    </div>
   );
 };
+
+// Reusable preview field block
+const PreviewCard = ({ icon, label, value }) => (
+  <div className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20">
+    <div className="flex items-center text-[#008080] mb-1">
+      <span className="mr-2">{icon}</span>
+      <span className="font-medium">{label}</span>
+    </div>
+    <div className="break-words max-w-full whitespace-pre-wrap">{value}</div>
+  </div>
+);
 
 export default PropertyPreview;

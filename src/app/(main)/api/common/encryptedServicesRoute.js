@@ -75,101 +75,153 @@ export async function HandleEncryptedServices({
     let totalSize = 0;
 
     // 📂 Step 3: Process all uploaded files
-    for (const [key, value] of formData.entries()) {
-      if (key === "files" && typeof value.arrayBuffer === "function") {
-        // 🔎 Check file type if allowed
-        if (allowedMimeTypes && !allowedMimeTypes.includes(value.type)) {
-          return new Response(
-            JSON.stringify({
-              success: false,
-              error: `Unsupported file format: ${value.name}`,
-            }),
-            { status: 400 }
-          );
-        }
+    const uploadedFiles = formData.getAll("files"); // always returns an array (even for one file)
 
-        // 🧮 File size check
-        // const arrayBuffer = await value.arrayBuffer();
-        // const fileSize = arrayBuffer.byteLength;
-        // totalSize += fileSize;
-        let fileSize = 0;
-        let arrayBuffer = null;
+for (const file of uploadedFiles) {
+  if (!file || typeof file.arrayBuffer !== "function") continue;
 
-        if (useCloudinary && resourceType) {
-          arrayBuffer = await value.arrayBuffer();
-          fileSize = arrayBuffer.byteLength;
-        } else {
-          fileSize = value.size ?? 0;
-        }
+  // 🔎 Validate type
+  if (allowedMimeTypes && !allowedMimeTypes.includes(file.type)) {
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: `Unsupported file format: ${file.name}`,
+      }),
+      { status: 400 }
+    );
+  }
 
-        totalSize += fileSize;
+  // 🧮 Size checks
+  let fileSize = 0;
+  let arrayBuffer = null;
 
-        // if (totalSize > planLimit) {
-        //   return new Response(JSON.stringify({
-        //     success: false,
-        //     error: `File size too large. Got ${totalSize}. Maximum is ${planLimit}. Upgrade your plan.`,
-        //   }), { status: 413 });
-        // }
+  if (useCloudinary && resourceType) {
+    arrayBuffer = await file.arrayBuffer();
+    fileSize = arrayBuffer.byteLength;
+  } else {
+    fileSize = file.size ?? 0;
+  }
 
-        //        if (totalSize > planLimit) {
-        //   return new Response(JSON.stringify({
-        //     success: false,
-        //     error: `🚫 Upload size (${(totalSize / (1024 ** 3)).toFixed(2)} GB) exceeds the maximum limit allowed by your ${user.plan} plan (${(planLimit / (1024 ** 3)).toFixed(2)} GB). Please reduce the total file size and try again.`,
-        //   }), { status: 413 });
-        // }
+  totalSize += fileSize;
 
-        const maxLimit = planLimits["Ultima"]; // Hard limit
+  // ☁️ Upload or collect file info
+  if (useCloudinary && resourceType) {
+    const base64Data = `data:${file.type};base64,${Buffer.from(
+      arrayBuffer
+    ).toString("base64")}`;
 
-        if (totalSize > maxLimit) {
-          return new Response(
-            JSON.stringify({
-              success: false,
-              error: `🚫 Upload size (${(totalSize / 1024 ** 3).toFixed(
-                2
-              )} GB) exceeds the maximum limit of 5 GB. Please reduce your total file size.`,
-            }),
-            { status: 413 }
-          );
-        }
+    const result = await cloudinary.uploader.upload(base64Data, {
+      folder,
+      resource_type: resourceType,
+    });
 
-        // User exceeded their current plan but still within 5GB → allow upload, but send upgrade hint
-        if (totalSize > planLimit) {
-          // Add flag in response so frontend can suggest upgrade
-          request.upgradeWarning = true; // You can also collect this info for logs
-        }
+    files.push({
+      url: result.secure_url,
+      name: file.name || result.original_filename,
+    });
+  } else {
+    files.push({
+      fileName: file.name,
+      fileType: file.type,
+    });
+  }
+}
 
-        // ☁️ Upload to Cloudinary or push raw file info
-        if (useCloudinary && resourceType) {
-          const base64Data = `data:${value.type};base64,${Buffer.from(
-            arrayBuffer
-          ).toString("base64")}`;
-          const result = await cloudinary.uploader.upload(base64Data, {
-            folder,
-            resource_type: resourceType,
-          });
+    // for (const [key, value] of formData.entries()) {
+    //   if (key === "files" && typeof value.arrayBuffer === "function") {
+    //     // 🔎 Check file type if allowed
+    //     if (allowedMimeTypes && !allowedMimeTypes.includes(value.type)) {
+    //       return new Response(
+    //         JSON.stringify({
+    //           success: false,
+    //           error: `Unsupported file format: ${value.name}`,
+    //         }),
+    //         { status: 400 }
+    //       );
+    //     }
 
-          files.push({
-            url: result.secure_url,
-            name: value.name || result.original_filename,
-          });
-        } else {
-          files.push({
-            fileName: value.name,
-            fileType: value.type,
-          });
-        }
-      }
-    }
+    //     // 🧮 File size check
+    //     // const arrayBuffer = await value.arrayBuffer();
+    //     // const fileSize = arrayBuffer.byteLength;
+    //     // totalSize += fileSize;
+    //     let fileSize = 0;
+    //     let arrayBuffer = null;
+
+    //     if (useCloudinary && resourceType) {
+    //       arrayBuffer = await value.arrayBuffer();
+    //       fileSize = arrayBuffer.byteLength;
+    //     } else {
+    //       fileSize = value.size ?? 0;
+    //     }
+
+    //     totalSize += fileSize;
+
+    //     // if (totalSize > planLimit) {
+    //     //   return new Response(JSON.stringify({
+    //     //     success: false,
+    //     //     error: `File size too large. Got ${totalSize}. Maximum is ${planLimit}. Upgrade your plan.`,
+    //     //   }), { status: 413 });
+    //     // }
+
+    //     //        if (totalSize > planLimit) {
+    //     //   return new Response(JSON.stringify({
+    //     //     success: false,
+    //     //     error: `🚫 Upload size (${(totalSize / (1024 ** 3)).toFixed(2)} GB) exceeds the maximum limit allowed by your ${user.plan} plan (${(planLimit / (1024 ** 3)).toFixed(2)} GB). Please reduce the total file size and try again.`,
+    //     //   }), { status: 413 });
+    //     // }
+
+    //    // const maxLimit = planLimits["Ultima"]; // Hard limit
+
+    //     // if (totalSize > maxLimit) {
+    //     //   return new Response(
+    //     //     JSON.stringify({
+    //     //       success: false,
+    //     //       error: `🚫 Upload size (${(totalSize / 1024 ** 3).toFixed(
+    //     //         2
+    //     //       )} GB) exceeds the maximum limit of 5 GB. Please reduce your total file size.`,
+    //     //     }),
+    //     //     { status: 413 }
+    //     //   );
+    //     // }
+
+    //     // User exceeded their current plan but still within 5GB → allow upload, but send upgrade hint
+    //     // if (totalSize > planLimit) {
+    //     //   // Add flag in response so frontend can suggest upgrade
+    //     //   request.upgradeWarning = true; // You can also collect this info for logs
+    //     // }
+
+    //     // ☁️ Upload to Cloudinary or push raw file info
+    //     if (useCloudinary && resourceType) {
+    //       const base64Data = `data:${value.type};base64,${Buffer.from(
+    //         arrayBuffer
+    //       ).toString("base64")}`;
+    //       const result = await cloudinary.uploader.upload(base64Data, {
+    //         folder,
+    //         resource_type: resourceType,
+    //       });
+
+    //       files.push({
+    //         url: result.secure_url,
+    //         name: value.name || result.original_filename,
+    //       });
+    //     } else {
+    //       files.push({
+    //         fileName: value.name,
+    //         fileType: value.type,
+    //       });
+    //     }
+    //   }
+    // }
 
     // ❌ No valid files?
-    if (!files.length) {
-      return new Response(
-        JSON.stringify({ success: false, error: "No valid files uploaded" }),
-        {
-          status: 400,
-        }
-      );
-    }
+      // if (!files.length) {
+      //   return new Response(
+      //     JSON.stringify({ success: false, error: "No valid files uploaded" }),
+      //     {
+      //       status: 400,
+      //     }
+      //   );
+      // }
     const qrCodeDetails = {
       qrCodeImage,
       scanCount: scanCount ? Number(scanCount) : undefined,
@@ -216,6 +268,22 @@ export async function HandleEncryptedServices({
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

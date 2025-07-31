@@ -4,6 +4,8 @@ import { connectDB } from '@/lib/mongoDB';
 import KidsSafetyModal from '@/models/services/kidSafetySchema';
 import { authUser } from '@/middlewares/authMiddleware';
 import streamifier from 'streamifier';
+import { getShortenedUrl } from '@/utils/shortenUrl';
+import bcrypt from 'bcryptjs';
 
 // Cloudinary Config
 cloudinary.config({
@@ -66,6 +68,9 @@ export async function POST(req) {
       }
     }
 
+    // ✅ Add bgDesign to root level
+    data.bgDesign = formData.get("bgDesign");
+
     // ✅ Explicitly build qrCodeDetails object
     data.qrCodeDetails = {
       qrCodeImage: formData.get("qrCodeDetails.qrCodeImage")?.toString() || "",
@@ -81,12 +86,13 @@ export async function POST(req) {
       status: formData.get("qrCodeDetails.status") || "active",
       resetPasswordToken: null,
       resetPasswordExpires: null,
+      password: formData.get("qrCodeDetails.password") || null,
     };
 
-    // Parse dob
+    // ✅ Parse dob
     if (data.dob) data.dob = new Date(data.dob);
 
-    // Parse altContact
+    // ✅ Parse altContact
     if (data.altContact) {
       try {
         const parsed = JSON.parse(data.altContact);
@@ -111,13 +117,21 @@ export async function POST(req) {
 
     data.kidsImage = uploadedImages;
 
-    // Add user info
+    // ✅ Add user info
     data.user = {
       id: user._id,
       name: user.name || user.email,
     };
 
-    // Remove empty/undefined/null fields
+    // ✅ Hash password if provided
+    if (data?.password) {
+      const salt = await bcrypt.genSalt(10);
+      data.password = await bcrypt.hash(data.password, salt);
+    } else {
+      delete data.password;
+    }
+
+    // ✅ Remove empty/undefined/null fields
     for (const key in data) {
       if (
         data[key] === undefined ||
@@ -129,9 +143,11 @@ export async function POST(req) {
       }
     }
 
-    // Save to DB
+    // ✅ Save to DB
     const saved = await KidsSafetyModal.create(data);
-    const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/kidsSafety/${saved._id}`;
+
+    // ✅ Generate short QR URL
+    const qrUrl = await getShortenedUrl(`/kids-safety-qr-tags/${saved._id}`);
 
     return NextResponse.json(
       {

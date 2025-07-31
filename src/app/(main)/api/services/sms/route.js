@@ -122,11 +122,10 @@ export async function POST(request) {
       genderName,
       messageType,
       textMessage,
-      bgDesign,
       password = "",
       qrPassword = "",
-      bgDesign,
       location = {},
+      bgDesign,
       renewalDate = null,
       status = "active",
     } = body;

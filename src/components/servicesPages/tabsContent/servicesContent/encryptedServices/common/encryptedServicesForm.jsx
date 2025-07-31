@@ -44,7 +44,7 @@ const EncryptedServicesForm = ({
   userPlan = "Basic",
   titleLabel = "Title",
   fileLabel = "Upload Files",
-  fileKey = "file",
+  fileKey = "files",
   successMessage = "✅ Uploaded successfully",
 }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -52,6 +52,7 @@ const EncryptedServicesForm = ({
   const [sizeWarning, setSizeWarning] = useState("");
   const [showConfirm, setShowConfirm] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [upgradeInfo, setUpgradeInfo] = useState(null);
   const fileInputRef = useRef(null);
   const { servicesDataLoading, setServicesDataLoading } = useServicesContext();
   const { setActiveTab } = useDesignContext();
@@ -84,34 +85,78 @@ const EncryptedServicesForm = ({
     return msg;
   };
 
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
 
-    if (name === "files" && files.length) {
-      const newFiles = Array.from(files);
-      const invalidFile = newFiles.find(
-        (file) => accept && !file.type.match(accept)
-      );
-      if (invalidFile) {
-        toast.error(`Unsupported file type: ${invalidFile.name}`);
-        return;
-      }
+const handleChange = (e) => {
+  const { name, value, files } = e.target;
 
-      const updatedFiles = [...(formData[fileKey] || []), ...newFiles];
-      const updatedSize = updatedFiles.reduce((acc, f) => acc + f.size, 0);
-      setTotalSize(updatedSize);
-      const warning = getPlanErrorMessage(updatedSize);
-      setSizeWarning(warning);
-      setFormData((prev) => ({ ...prev, [fileKey]: updatedFiles }));
+  if (name === "files" && files.length) {
+    const newFiles = Array.from(files);
 
-      if (warning) {
-        setShowUpgradeModal(true); // show modal on exceeding plan
-      }
-    } else {
-      // ✅ Add this block for other fields
-      setFormData((prev) => ({ ...prev, [name]: value }));
+    const invalidFile = newFiles.find(
+      (file) => accept && !file.type.match(accept)
+    );
+    if (invalidFile) {
+      toast.error(`Unsupported file type: ${invalidFile.name}`);
+      return;
     }
-  };
+
+    const updatedFiles = [...(formData[fileKey] || []), ...newFiles];
+    const updatedSize = updatedFiles.reduce((acc, f) => acc + f.size, 0);
+    setTotalSize(updatedSize);
+
+    const currentLimit = planLimits[userPlan];
+    const requiredPlan = getRequiredPlan(updatedSize);
+
+    if (updatedSize > currentLimit) {
+      setUpgradeInfo({
+        fileSize: updatedSize,
+        requiredPlan,
+        requiredPlanLimit: planLimits[requiredPlan],
+        currentPlan: userPlan,
+        currentLimit,
+        nextPrice: planPrices[requiredPlan],
+      });
+
+      setShowUpgradeModal(true);
+    } else {
+      setUpgradeInfo(null);
+    }
+
+    setFormData((prev) => ({ ...prev, [fileKey]: updatedFiles }));
+  } else {
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  }
+};
+
+
+  // const handleChange = (e) => {
+  //   const { name, value, files } = e.target;
+
+  //   if (name === "files" && files.length) {
+  //     const newFiles = Array.from(files);
+  //     const invalidFile = newFiles.find(
+  //       (file) => accept && !file.type.match(accept)
+  //     );
+  //     if (invalidFile) {
+  //       toast.error(`Unsupported file type: ${invalidFile.name}`);
+  //       return;
+  //     }
+
+  //     const updatedFiles = [...(formData[fileKey] || []), ...newFiles];
+  //     const updatedSize = updatedFiles.reduce((acc, f) => acc + f.size, 0);
+  //     setTotalSize(updatedSize);
+  //     const warning = getPlanErrorMessage(updatedSize);
+  //     setSizeWarning(warning);
+  //     setFormData((prev) => ({ ...prev, [fileKey]: updatedFiles }));
+
+  //     if (warning) {
+  //       setShowUpgradeModal(true); // show modal on exceeding plan
+  //     }
+  //   } else {
+  //     // ✅ Add this block for other fields
+  //     setFormData((prev) => ({ ...prev, [name]: value }));
+  //   }
+  // };
 
   const getLowerLimit = (planName) => {
     const plans = Object.entries(planLimits);
@@ -232,15 +277,7 @@ const EncryptedServicesForm = ({
               </span>
             </div>
 
-            {/* {totalSize > 0 && (
-              <p className="text-sm mt-2 font-semibold text-teal-700">
-                📦 Total Upload Size:{" "}
-                <span className="font-bold">{formatBytes(totalSize)}</span>
-              </p>
-            )} */}
-            {/* {sizeWarning && (
-              <p className="text-sm text-red-600 mt-1">{sizeWarning}</p>
-            )} */}
+           
 
             {formData[fileKey]?.map((f, i) => (
               <div
@@ -434,15 +471,69 @@ const EncryptedServicesForm = ({
       )}
 
       {/* Upgrade Modal */}
-      {showUpgradeModal && (
+      {showUpgradeModal && upgradeInfo && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+    <div className="bg-white relative rounded-xl p-6 w-full max-w-md shadow-xl border border-teal-200 animate-fade-in">
+      <h2 className="text-xl font-bold text-center text-red-600">
+        🚫 Upload Limit Exceeded
+      </h2>
+
+      <div className="my-4 space-y-4 text-gray-800 text-lg leading-relaxed">
+    <p>
+  📁 Your total upload size is: <b>
+    {upgradeInfo.fileSize > 5 * 1024 ** 3
+      ? "greater than 5GB"
+      : upgradeInfo.fileSize > 4 * 1024 ** 3
+      ? "greater than 4GB"
+      : upgradeInfo.fileSize > 3 * 1024 ** 3
+      ? "greater than 3GB"
+      : upgradeInfo.fileSize > 2 * 1024 ** 3
+      ? "greater than 2GB"
+      : upgradeInfo.fileSize > 1 * 1024 ** 3
+      ? "greater than 1GB"
+      : formatBytes(upgradeInfo.fileSize)}
+  </b>
+</p>
+
+
+        {/* <p>
+          🧾 Your current plan (<b>{upgradeInfo.currentPlan}</b>) allows up to{" "}
+          <b>{formatBytes(upgradeInfo.currentLimit)}</b>.
+        </p> */}
+
+        {upgradeInfo.requiredPlan === "Exceeds all plans" ? (
+          <p>❌  {"  "}
+            {/*  Even our highest plan (<b>Ultima</b>) with{" "}
+            <b>{formatBytes(planLimits["Ultima"])}</b> limit */}
+             Any plan is not enough to
+            support this upload.
+          </p>
+        ) : (
+          <p>
+            💡 Now, You are in  <b>{upgradeInfo.requiredPlan}</b> plan (
+            <b>{upgradeInfo.nextPrice}</b>) 
+            {/* to upload up to{" "}
+            <b>{formatBytes(upgradeInfo.requiredPlanLimit)}</b>. */}
+          </p>
+        )}
+      </div>
+
+      <div className="mt-4 text-end">
+        <button
+          onClick={() => setShowUpgradeModal(false)}
+          className="px-5 py-2 bg-teal-600 text-white text-md rounded-lg hover:bg-teal-700 transition"
+        >
+          Continue
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+      {/* {showUpgradeModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
           <div className="bg-white relative rounded-xl p-6 w-full max-w-md shadow-xl border border-teal-200 animate-fade-in">
-            {/* <button
-              onClick={() => setShowUpgradeModal(false)}
-              className="absolute cursor-pointer top-2 right-3 text-md pb-4 text-gray-600 hover:text-red-600"
-            >
-              ❌
-            </button> */}
+           
 
             <h2 className="text-xl font-bold text-center text-red-600">
               🚫 Upload Limit Exceeded
@@ -467,12 +558,7 @@ const EncryptedServicesForm = ({
             </div>
 
             <div className=" mt-4 text-end">
-              {/* <button
-          onClick={() => setShowUpgradeModal(false)}
-          className="px-5 py-2 text-lg border rounded-lg"
-        >
-          Cancel
-        </button> */}
+             
               <button
                 onClick={() => {
                   setShowUpgradeModal(false);
@@ -484,7 +570,7 @@ const EncryptedServicesForm = ({
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </>
   );
 };

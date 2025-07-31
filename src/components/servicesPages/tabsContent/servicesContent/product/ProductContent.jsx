@@ -16,19 +16,14 @@ const ProductContent = () => {
   // Context states
   const {
     productData,
-    productLogo,
-    setProductLogo,
     setProductData,
-    setProductImage,
-    items,
-    setItems,
+
      servicesDataLoading, setServicesDataLoading 
   } = useServicesContext();
 
 
   // State variables
   const [showPassword, setShowPassword] = useState(false);
-  const [isNFCModalOpen, setIsNFCModalOpen] = useState(false);
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
   const [validationError, setValidationError] = useState("");
   const [showValidationModal, setShowValidationModal] = useState(false);
@@ -49,21 +44,29 @@ const ProductContent = () => {
   const templateImages = ["temp1.webp", "temp2.webp", "temp3.webp", "temp4.webp"];
 
   // Initialize items array if empty
-  useEffect(() => {
-    if (!items || items.length === 0) {
-      setItems([
-        { image: "", heading: "", description: "", videoUrl: "", pageUrl: "" },
-      ]);
-      setFieldErrors(prev => ({
-        ...prev,
-        items: [{
-          heading: "",
-          pageUrl: "",
-          videoUrl: ""
-        }]
-      }));
-    }
-  }, [items, setItems]);
+ useEffect(() => {
+  if (!productData.items || productData.items.length === 0) {
+    setProductData((prev) => ({
+      ...prev,
+      items: [{
+        productImage: "",
+        heading: "",
+        description: "",
+        pageUrl: "",
+        videoUrl: "",
+      }],
+    }));
+    setFieldErrors((prev) => ({
+      ...prev,
+      items: [{
+        heading: "",
+        pageUrl: "",
+        videoUrl: "",
+      }],
+    }));
+  }
+}, [productData.items, setProductData]);
+
 
   // Validate email format
   const validateEmail = (email) => {
@@ -104,7 +107,7 @@ const ProductContent = () => {
     }
 
     // Check items
-    return items.some(item => 
+    return productData?.items.some(item => 
       item.heading ||
       item.description ||
       item.pageUrl ||
@@ -133,113 +136,104 @@ const ProductContent = () => {
   };
 
   // Handle item field changes with validation
-  const handleItemChange = (index, field, value) => {
-    setItems((prevItems) => {
-      const updatedItems = [...prevItems];
-      updatedItems[index] = { ...updatedItems[index], [field]: value };
-      return updatedItems;
+const handleItemChange = (index, field, value) => {
+  const updatedItems = [...productData.items];
+  updatedItems[index] = { ...updatedItems[index], [field]: value };
+  setProductData((prev) => ({ ...prev, items: updatedItems }));
+
+  if (field === "pageUrl" || field === "videoUrl") {
+    const isValid = validateUrl(value);
+    setFieldErrors((prev) => {
+      const newItemsErrors = [...prev.items];
+      newItemsErrors[index] = {
+        ...newItemsErrors[index],
+        [field]: !isValid ? "Invalid URL format" : ""
+      };
+      return { ...prev, items: newItemsErrors };
     });
+  }
+};
 
-    // Validate URLs in real-time
-    if (field === "pageUrl" || field === "videoUrl") {
-      const isValid = validateUrl(value);
-      setFieldErrors(prev => {
-        const newItemsErrors = [...prev.items];
-        newItemsErrors[index] = {
-          ...newItemsErrors[index],
-          [field]: !isValid ? "Invalid URL format" : ""
-        };
-        return { ...prev, items: newItemsErrors };
-      });
-    }
-  };
 
-  // Convert image URL to base64 for database storage
-  const convertImageToBase64 = async (imageUrl) => {
-    if (!imageUrl) return null;
-
-    try {
-      if (imageUrl.startsWith('data:')) {
-        return imageUrl;
-      }
-
-      const response = await fetch(imageUrl);
-      const blob = await response.blob();
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result);
-        reader.onerror = reject;
-        reader.readAsDataURL(blob);
-      });
-    } catch (error) {
-      console.error("Error converting image to base64:", error);
-      return null;
-    }
-  };
 
   // Handle product logo upload with validation
-  const handleProductLogoUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+const handleProductLogoUpload = async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
 
-    if (file.size > MAX_SINGLE_FILE_SIZE) {
-      showFileSizeError();
-      e.target.value = ""; // Clear the file input
-      return;
-    }
+  if (file.size > MAX_SINGLE_FILE_SIZE) {
+    showFileSizeError();
+    e.target.value = "";
+    return;
+  }
 
-    const logoUrl = URL.createObjectURL(file);
-    setProductLogo(logoUrl);
-  };
+  const totalSize = calculateTotalImageSize(file);
+  if (totalSize > MAX_TOTAL_SIZE) {
+    setValidationError("Total image size exceeds 30MB limit");
+    setShowValidationModal(true);
+    e.target.value = "";
+    return;
+  }
+
+  const previewUrl  = URL.createObjectURL(file);
+ setProductData((prev) => ({
+    ...prev,
+    productLogo: {
+      preview: previewUrl,
+      file: file, // store actual File
+    },
+  }));
+};
+
 
   // Handle item image upload with validation
-  const handleItemImageUpload = async (index, e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+const handleItemImageUpload = async (index, e) => {
+  const file = e.target.files[0];
+  if (!file) return;
 
-    // Check single file size limit
-    if (file.size > MAX_SINGLE_FILE_SIZE) {
-      showFileSizeError();
-      e.target.value = ""; // Clear the file input
-      return;
-    }
+  if (file.size > MAX_SINGLE_FILE_SIZE) {
+    showFileSizeError();
+    e.target.value = "";
+    return;
+  }
 
-    // Check total size limit (logo + all item images)
-    const totalSize = calculateTotalImageSize(file);
-    if (totalSize > MAX_TOTAL_SIZE) {
-      setValidationError("Total size of all images exceeds 30MB limit");
-      setShowValidationModal(true);
-      e.target.value = ""; // Clear the file input
-      return;
-    }
+  const totalSize = calculateTotalImageSize(file);
+  if (totalSize > MAX_TOTAL_SIZE) {
+    setValidationError("Total image size exceeds 30MB limit");
+    setShowValidationModal(true);
+    e.target.value = "";
+    return;
+  }
 
-    const imageUrl = URL.createObjectURL(file);
-    setItems((prevItems) => {
-      const updatedItems = [...prevItems];
-      updatedItems[index] = { ...updatedItems[index], image: imageUrl };
-      return updatedItems;
-    });
+  const previewUrl = URL.createObjectURL(file);
 
-    if (index === 0) {
-      setProductImage(imageUrl);
-    }
+  const updatedItems = [...productData.items];
+  updatedItems[index].productImage = {
+    preview: previewUrl,
+    file: file, // store actual File
   };
+
+  setProductData((prev) => ({
+    ...prev,
+    items: updatedItems,
+  }));
+};
 
   // Calculate total size of all uploaded images
-  const calculateTotalImageSize = (newFile) => {
-    let totalSize = newFile ? newFile.size : 0;
+const calculateTotalImageSize = (newFile) => {
+  let totalSize = newFile ? newFile.size : 0;
 
-    if (productLogo) {
-      totalSize += MAX_SINGLE_FILE_SIZE; // Approximate
+  if (productData.productLogo?.file) totalSize += productData.productLogo.file.size;
+
+  productData.items.forEach(item => {
+    if (item.productImage?.file) {
+      totalSize += item.productImage.file.size;
     }
+  });
 
-    items.forEach(item => {
-      if (item.image) {
-        totalSize += MAX_SINGLE_FILE_SIZE; // Approximate
-      }
-    });
-    return totalSize;
-  };
+  return totalSize;
+};
+
 
   // Show file size error modal
   const showFileSizeError = () => {
@@ -249,36 +243,41 @@ const ProductContent = () => {
   };
 
   // Remove product logo
-  const handleRemoveProductLogo = () => {
-    if (productLogo) {
-      URL.revokeObjectURL(productLogo);
-    }
-    setProductLogo(null);
-    if (logoInputRef.current) {
-      logoInputRef.current.value = ""; // Clear the file input
-    }
-  };
+const handleRemoveProductLogo = () => {
+  if (productData.productLogo?.preview) {
+    URL.revokeObjectURL(productData.productLogo.preview);
+  }
+
+  setProductData((prev) => ({
+    ...prev,
+    productLogo: null,
+  }));
+
+  if (logoInputRef.current) logoInputRef.current.value = "";
+};
+
 
   // Remove item image
-  const handleRemoveItemImage = (index) => {
-    setItems((prevItems) => {
-      const updatedItems = [...prevItems];
-      if (updatedItems[index].image) {
-        URL.revokeObjectURL(updatedItems[index].image);
-      }
-      updatedItems[index] = { ...updatedItems[index], image: "" };
-      return updatedItems;
-    });
+const handleRemoveItemImage = (index) => {
+  const updatedItems = [...productData.items];
 
-    // Clear the file input value
-    if (fileInputRefs.current[index]) {
-      fileInputRefs.current[index].value = "";
-    }
+  if (updatedItems[index]?.productImage?.preview) {
+    URL.revokeObjectURL(updatedItems[index].productImage.preview);
+  }
 
-    if (index === 0) {
-      setProductImage(null);
-    }
-  };
+  updatedItems[index].productImage = null;
+
+  setProductData((prev) => ({
+    ...prev,
+    items: updatedItems,
+  }));
+
+  if (fileInputRefs.current[index]) {
+    fileInputRefs.current[index].value = "";
+  }
+};
+
+
 
   // Handle template selection
   const handleTemplateSelect = (filename, index) => {
@@ -294,53 +293,52 @@ const ProductContent = () => {
   };
 
   // Add new product item
-  const addNewItem = () => {
-    setItems((prevItems) => [
-      ...prevItems,
-      { image: "", heading: "", description: "", videoUrl: "", pageUrl: "" },
-    ]);
-    setFieldErrors(prev => ({
-      ...prev,
-      items: [
-        ...prev.items,
-        { heading: "", pageUrl: "", videoUrl: "" }
-      ]
-    }));
-  };
-
-  // Remove product item
-  const removeItem = (index) => {
-    if (items[index].image) {
-      URL.revokeObjectURL(items[index].image);
-    }
-    setItems((prevItems) => prevItems.filter((_, i) => i !== index));
-    setFieldErrors(prev => ({
-      ...prev,
-      items: prev.items.filter((_, i) => i !== index)
-    }));
-  };
-
-  // Prepare NFC data
-  const getNFCData = () => {
-    const allProductDetails = items.map((item) => ({
-      heading: item.heading,
-      description: item.description,
-      pageUrl: item.pageUrl,
-      videoUrl: item.videoUrl,
-    }));
-    return JSON.stringify(
+ const addNewItem = () => {
+  setProductData((prev) => ({
+    ...prev,
+    items: [
+      ...prev.items,
       {
-        brandName: productData.brandName || "",
-        contactEmail: productData.email || "",
-        contactPhone: productData.phone || "",
-        contactAddress: productData.address || "",
-        qrPassword: productData.password || "",
-        products: allProductDetails,
+        productImage: "",
+        heading: "",
+        description: "",
+        videoUrl: "",
+        pageUrl: "",
       },
-      null,
-      2
-    );
-  };
+    ],
+  }));
+  setFieldErrors((prev) => ({
+    ...prev,
+    items: [
+      ...prev.items,
+      {
+        heading: "",
+        pageUrl: "",
+        videoUrl: "",
+      },
+    ],
+  }));
+};
+
+const removeItem = (index) => {
+  const updatedItems = [...productData.items];
+  if (updatedItems[index].productImage) {
+    URL.revokeObjectURL(updatedItems[index].productImage);
+  }
+  updatedItems.splice(index, 1);
+
+  setProductData((prev) => ({
+    ...prev,
+    items: updatedItems,
+  }));
+  setFieldErrors((prev) => ({
+    ...prev,
+    items: prev.items.filter((_, i) => i !== index),
+  }));
+};
+
+
+
 
   // Fetch current location
   const fetchCurrentLocation = async () => {
@@ -379,7 +377,7 @@ const ProductContent = () => {
     const newErrors = {
       email: "",
       phone: "",
-      items: items.map(item => ({
+      items: productData?.items.map(item => ({
         pageUrl: "",
         videoUrl: ""
       }))
@@ -398,7 +396,7 @@ const ProductContent = () => {
     }
 
     // Validate URLs in items
-    items.forEach((item, index) => {
+    productData?.items.forEach((item, index) => {
       if (item.pageUrl && !validateUrl(item.pageUrl)) {
         newErrors.items[index].pageUrl = "Invalid URL format";
         isValid = false;
@@ -413,8 +411,8 @@ const ProductContent = () => {
     
     // Check if at least one field is filled
     if (!hasAtLeastOneFieldFilled()) {
-      setValidationError("Please fill at least one field");
-      setShowValidationModal(true);
+      toast.error("Please fill at least one field");
+      // setShowValidationModal(true);
       return false;
     }
 
@@ -430,91 +428,17 @@ const ProductContent = () => {
   };
 
   // Confirm submission
-  const confirmSubmit = async () => {
-    setShowSubmitModal(false);
-  setServicesDataLoading(true);
-    try {
-      // Convert all images to base64 for database storage
-      const logoBase64 = await convertImageToBase64(productLogo);
+const confirmSubmit = async () => {
+    setActiveTab(slug, "Backdrop Designs");
+  setShowSubmitModal(false);
+ 
+  const submissionData = {
+      ...productData,
 
-      const itemsWithBase64Images = await Promise.all(
-        items.map(async (item) => ({
-          ...item,
-          image: await convertImageToBase64(item.image)
-        }))
-      );
-
-      const submissionData = {
-        brandName: productData.brandName,
-        email: productData.email,
-        phone: productData.phone,
-        address: productData.address,
-        password: productData.password,
-        selectedTemplate: productData.selectedTemplate,
-        productLogo: logoBase64,
-        items: itemsWithBase64Images,
-      };
-
-      const response = await fetch("/api/services/product-cards", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(submissionData),
-      });
-
-      const responseData = await response.json();
-      if (response.ok) {
-        toast.success("Product Data Successfully Submitted..");
-        setActiveTab(slug, "QR Code");
-        // Reset all form data
-        setProductData({
-          brandName: "",
-          email: "",
-          phone: "",
-          address: "",
-          password: "",
-          selectedTemplate: null,
-        });
-        
-        setProductLogo(null);
-        setItems([
-          { 
-            image: "", 
-            heading: "", 
-            description: "", 
-            videoUrl: "", 
-            pageUrl: "" 
-          }
-        ]);
-        
-        // Clear all file inputs
-        if (logoInputRef.current) logoInputRef.current.value = "";
-        fileInputRefs.current.forEach(ref => {
-          if (ref) ref.value = "";
-        });
-      }
-      if (!response.ok) {
-        toast.warn("Product Data Submission Failed..");
-        throw new Error(responseData.message || "Failed to submit product");
-      }
-
-      setShowSuccessModal(true);
-      setTimeout(() => setShowSuccessModal(false), 2000);
-    } catch (error) {
-      console.error("Submission error:", error);
-       toast.error(error?.response?.data?.error || "Something went wrong!");
-      setValidationError(error.message || "Failed to submit product. Please try again.");
-      setShowValidationModal(true);
-     if (error.response?.status === 401) {
-        window.location.href = "/login"; // ✅ Auto logout on expiry
-        return;
-      }
-    } finally {
-      setServicesDataLoading(false); // ✅ End loader
-    }
-  };
-
+    };
+console.log(submissionData)
+  
+  }
   // Modal backdrop component
   const ModalBackdrop = ({ children, onClose }) => {
     return (
@@ -525,7 +449,7 @@ const ProductContent = () => {
       </div>
     );
   };
-
+  
   return (
     <>
      {servicesDataLoading && <LoadingSpinner />}
@@ -581,10 +505,10 @@ const ProductContent = () => {
                     file:bg-[#008080] file:text-white
                     hover:file:bg-[#006666] transition duration-200 cursor-pointer mb-4"
             />
-            {productLogo && (
+            {productData?.productLogo && (
               <div className="relative w-fit">
                 <img
-                  src={productLogo}
+                  src={productData?.productLogo?.preview}
                   alt="Brand Logo Preview"
                   className="mt-2 rounded-md object-contain h-20 w-auto max-w-[150px] border border-gray-300 shadow-sm"
                 />
@@ -614,13 +538,13 @@ const ProductContent = () => {
           </div>
 
           {/* Product Items */}
-          {items && items.length > 0 ? (
-            items.map((item, index) => (
+          {productData?.items && productData?.items.length > 0 ? (
+            productData?.items.map((item, index) => (
               <div
                 key={index}
                 className="p-4 border rounded-xl shadow-md bg-gray-50 relative space-y-4"
               >
-                {items.length > 1 && (
+                {productData?.items.length > 1 && (
                   <button
                     className="absolute top-2 right-2 text-red-500 font-bold text-xl"
                     onClick={() => removeItem(index)}
@@ -647,10 +571,10 @@ const ProductContent = () => {
                       file:bg-[#008080] file:text-white
                       hover:file:bg-[#006666] transition duration-200 cursor-pointer"
                   />
-                  {item.image && (
+                  {item.productImage && (
                     <div className="relative w-fit">
                       <img
-                        src={item.image}
+                        src={item.productImage?.preview}
                         alt={`Uploaded ${index}`}
                         className="mt-4 rounded object-cover w-24 h-24 border border-gray-300 shadow-sm"
                       />
@@ -820,21 +744,18 @@ const ProductContent = () => {
             </button>
           </div>
 
-          {/* NFC Modal */}
-          <NFCModal
-            isOpen={isNFCModalOpen}
-            onClose={() => setIsNFCModalOpen(false)}
-            qrCodeData={getNFCData()}
-          />
+         
 
           {/* Submit Button */}
+          <div className="flex justify-center items-center">
           <button
             type="button"
             onClick={handleSubmit}
-            className="mt-6 w-full bg-[#008080] text-white font-semibold py-2 rounded hover:bg-[#006666] transition"
+           className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg"
           >
-            Submit
+            Next → 
           </button>
+          </div>
         </div>
       </div>
 
@@ -870,7 +791,7 @@ const ProductContent = () => {
                 onClick={confirmSubmit}
                 className="px-4 py-2 bg-[#008080] text-white rounded hover:bg-[#006666] transition"
               >
-                Submit
+                Continue
               </button>
             </div>
           </div>
