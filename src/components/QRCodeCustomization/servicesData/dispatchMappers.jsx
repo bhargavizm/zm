@@ -17,6 +17,7 @@ import {
   setEventServices,
   setBusinessShopServices,
   setDiscountServices,
+  setWifiServices,
 
 } from "@/redux/slices/servicesSlice";
 
@@ -49,7 +50,8 @@ export const reduxDispatchMappers = {
   "product-cards":setProductCardServices,
   "medical-alerts":setMedicalServices,
   events:setEventServices,
-  discounts: setDiscountServices
+  discounts: setDiscountServices,
+  wifi:setWifiServices
 };
 
 urlBasedServices.forEach((service) => {

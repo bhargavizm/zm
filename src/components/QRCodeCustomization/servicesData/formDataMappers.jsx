@@ -399,6 +399,22 @@ export const formDataMappers = {
     }),
   },
 
+
+"wifi": {
+    type: "json",
+    map: (body, state, bgDesign) => ({
+      ssid: state?.ssid || "",
+      security: state?.security || "",
+      password: state?.password || "",
+      qrPassword: state?.qrPassword || "",
+      bgDesign: bgDesign || "",
+      location: state?.location || {},
+      renewalDate: state?.renewalDate || null,
+      status: state?.status || "active",
+      qrCodeImage: state?.qrCodeImage || "",
+    }),
+  },
+
   resumes: {
     type: "formData",
     map: (formData, state, bgDesign) => {

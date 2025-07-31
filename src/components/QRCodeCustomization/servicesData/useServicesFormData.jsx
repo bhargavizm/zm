@@ -42,9 +42,11 @@ export const useServicesFormData = () => {
     propertyDetails,
     setPropertyDetails, 
     productData,
-     setProductData,
-  
-    eventsFormData, setEventsFormData,
+    setProductData,
+    eventsFormData, 
+    setEventsFormData,
+    wifiFormData,
+    setWifiFormData,
   } = useServicesContext();
 
 
@@ -93,6 +95,7 @@ export const useServicesFormData = () => {
         "multi-urls": multiUrlFormData,
         discounts: discountCouponFormData,
         "product-cards": productData,
+        wifi:wifiFormData
       }[activeService];
 
 
@@ -126,6 +129,7 @@ export const useServicesFormData = () => {
         events:setEventsFormData,
         discounts: setDiscountCouponFormData,
         "product-cards":setProductData,
+        wifi:setWifiFormData
       }[activeService];
 
   const submitForm = useSubmitForm(
