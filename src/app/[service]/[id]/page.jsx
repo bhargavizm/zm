@@ -36,6 +36,8 @@ import GalleryPreview from "@/components/scanningPreview/galleryPreview";
 //import UrlServicePreview from "@/components/scanningPreview/urlServicesPreview";
 import URLServiceModel from "@/models/services/urlServicesSchema";
 import UrlPreview from "@/components/scanningPreview/urlServicesPreview";
+import { BusinessCardsModel } from "@/models/services/cardsSchema";
+
 
 
 
