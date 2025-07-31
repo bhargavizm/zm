@@ -419,58 +419,57 @@ export const formDataMappers = {
     },
   },
 
-  
 
-  "property-qr": {
-    type: "formData",
-    map: (formData, state = {}, bgDesign) => {
-      const basicInfo = state.basicInfo || {};
-      const addressInfo = state.addressInfo || {};
-      const pricingInfo = state.pricingInfo || {};
-      const images = state.images || {};
 
-      // Basic Info
-      formData.append("basicInfo.propertyName", basicInfo.propertyName || "");
-      formData.append("basicInfo.propertyType", basicInfo.propertyType || "");
-      formData.append("basicInfo.ownerName", basicInfo.ownerName || "");
-      formData.append("basicInfo.contactNumber", basicInfo.contactNumber || "");
-      formData.append(
-        "basicInfo.alternateNumber",
-        basicInfo.alternateNumber || ""
-      );
-      formData.append(
-        "basicInfo.propertyDescription",
-        basicInfo.propertyDescription || ""
-      );
+   "property-qr": {
+  type: "formData",
+  map: (formData, state = {}, bgDesign) => {
+    const basicInfo = state.basicInfo || {};
+    const addressInfo = state.addressInfo || {};
+    const pricingInfo = state.pricingInfo || {};
+    const images = state.images || {};
 
-      // Address Info
-      formData.append("addressInfo.address", addressInfo.address || "");
-      formData.append("addressInfo.mapLink", addressInfo.mapLink || "");
+    // Basic Info
+    formData.append("propertyName", basicInfo.propertyName || "");
+    formData.append("propertyType", basicInfo.propertyType || "");
+    formData.append("ownerName", basicInfo.ownerName || "");
+    formData.append("contactNumber", basicInfo.contactNumber || "");
+    formData.append("alternateNumber", basicInfo.alternateNumber || "");
+    formData.append("propertyDescription", basicInfo.propertyDescription || "");
 
-      // Pricing Info
-      formData.append("pricingInfo.price", pricingInfo.price || "");
-      formData.append("pricingInfo.area", pricingInfo.area || "");
-      formData.append("pricingInfo.amenities", pricingInfo.amenities || "");
+    // Address Info
+    formData.append("address", addressInfo.address || "");
+    formData.append("mapLink", addressInfo.mapLink || "");
 
-      // Password
-      formData.append("password", state.password || "");
+    // Pricing Info
+    formData.append("price", pricingInfo.price || "");
+    formData.append("area", pricingInfo.area || "");
 
-      // Gallery Images
-      if (Array.isArray(images.galleryImages)) {
-        images.galleryImages.forEach((file) => {
-          formData.append("images.galleryImages", file);
-        });
-      }
+    const amenities = pricingInfo.amenities;
+    if (Array.isArray(amenities)) {
+      amenities.forEach((a) => formData.append("amenities", a));
+    } else if (amenities) {
+      formData.append("amenities", amenities);
+    }
 
-      // Background Design
-      if (bgDesign) {
-        formData.append("images.bgDesign", bgDesign);
-      }
+    // Password
+    formData.append("password", state.password || "");
 
-      return formData;
-    },
+    // Gallery Images (multi)
+    if (Array.isArray(images.galleryImages)) {
+      images.galleryImages.forEach((file) => {
+        formData.append("galleryImages", file);
+      });
+    }
+
+    // Background Design (optional)
+    if (bgDesign) {
+      formData.append("bgDesign", bgDesign);
+    }
+
+    return formData;
   },
-
+},
   "resumes": {
     type: "formData",
     map: (formData, state, bgDesign) => {
