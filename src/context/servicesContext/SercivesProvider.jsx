@@ -132,7 +132,7 @@ const ServicesProvider = ({ children }) => {
   const initialImagesFormData = {
     title: "",
     description: "",
-    images: [],
+    file: [],
     password: "",
      bgDesign:"",
     qrCodeDetails: {
