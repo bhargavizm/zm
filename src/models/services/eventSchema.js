@@ -19,6 +19,7 @@ const eventSchema = new mongoose.Schema({
   contactEmail: { type: String },
   contactPhone: { type: String },
   password:{type:String},
+  bgDesign: { type: String },
   qrCodeDetails: qrCodeServicesSchema
 }, {
   timestamps: true, // optional: adds createdAt and updatedAt fields

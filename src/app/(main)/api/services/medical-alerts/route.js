@@ -281,17 +281,222 @@
 // }
 
 
+// export const runtime = "nodejs";
+
+// import { connectDB } from "@/lib/mongoDB";
+// import { NextResponse } from "next/server";
+// import bcrypt from "bcryptjs";
+// import MedicalAlertModel from "@/models/services/medicalAlertSchema";
+// import { authUser } from "@/middlewares/authMiddleware";
+// import { getShortenedUrl } from "@/utils/shortenUrl";
+
+// export async function POST(req) {
+//   try {
+//     // ✅ Authenticate user
+//     const auth = await authUser(req);
+//     if (auth.status !== 200) {
+//       return new Response(JSON.stringify(auth.json), {
+//         status: auth.status,
+//         headers: { "Content-Type": "application/json" },
+//       });
+//     }
+
+//     const user = auth.user;
+
+//     // ✅ Connect to DB
+//     await connectDB();
+
+//     // ✅ Parse multipart/form-data
+//     const formData = await req.formData();
+//     const  bgDesign = formData.get("bgDesign");
+//     // ✅ Extract form fields
+//     const patientName = formData.get("patientName");
+//     const ageStr = formData.get("age");
+//     const age = ageStr ? parseInt(ageStr, 10) : undefined;
+//     const bloodType = formData.get("bloodType");
+
+//     const medicalConditions = formData.get("medicalConditions");
+//     const allergies = formData.get("allergies");
+//     const medications = formData.get("medications");
+//     const additionalNotes = formData.get("additionalNotes");
+
+//     const emergencyContact = formData.get("emergencyContact");
+//     const contactPhone = formData.get("contactPhone");
+
+//     const familyDoctorName = formData.get("familyDoctorName");
+//     const familyDoctorPhone = formData.get("familyDoctorPhone");
+//     const emergencyInstructions = formData.get("emergencyInstructions");
+//     const insuranceProvider = formData.get("insuranceProvider");
+//     const policyNumber = formData.get("policyNumber");
+//     const preferredHospital = formData.get("preferredHospital");
+//     const location = formData.get("location");
+
+//     const plainPassword = formData.get("password");
+
+//     // ✅ Extract QR Code Details
+//     const qrCodeImage = formData.get("qrCodeImage") || "";
+//     const locationLatitude = formData.get("locationLatitude");
+//     const locationLongitude = formData.get("locationLongitude");
+//     const locationAddress = formData.get("locationAddress");
+//     const renewalDateStr = formData.get("renewalDate");
+//     const status = formData.get("status") || "active";
+
+//     const qrCodeDetails = {
+//       qrCodeImage,
+//       location: {
+//         latitude: locationLatitude ? parseFloat(locationLatitude) : null,
+//         longitude: locationLongitude ? parseFloat(locationLongitude) : null,
+//         address: locationAddress || "",
+//       },
+//       renewalDate: renewalDateStr ? new Date(renewalDateStr) : null,
+//       status,
+//       resetPasswordToken: null,
+//       resetPasswordExpires: null,
+//     };
+
+//     // ✅ File Upload Handling
+//     const maxFileSize = 2 * 1024 * 1024; // 2MB per file
+//     const maxTotalSize = 30 * 1024 * 1024; // 30MB total
+//     let totalSize = 0;
+
+//     const processFiles = async (fieldName) => {
+//       const files = formData.getAll(fieldName);
+//       if (!files || files.length === 0) return [];
+
+//       const processed = [];
+//       for (const file of files) {
+//         if (!file || typeof file.arrayBuffer !== "function") continue;
+
+//         const buffer = await file.arrayBuffer();
+//         const size = buffer.byteLength;
+
+//         if (size > maxFileSize) {
+//           throw new Error(`File "${file.name}" in "${fieldName}" exceeds 2MB limit.`);
+//         }
+
+//         totalSize += size;
+//         if (totalSize > maxTotalSize) {
+//           throw new Error("Total file size exceeds 30MB.");
+//         }
+
+//         processed.push({
+//           fileName: file.name,
+//           fileType: file.type,
+//         });
+//       }
+
+//       return processed;
+//     };
+
+//     // ✅ Process File Inputs
+//     let medicalReports = [];
+//     let prescription = [];
+//     let insuranceImage = [];
+
+//     try {
+//       medicalReports = await processFiles("medicalReports");
+//       prescription = await processFiles("prescription");
+//       insuranceImage = await processFiles("insuranceImage");
+//     } catch (fileError) {
+//       console.error("❌ File Processing Error:", fileError);
+//       return NextResponse.json(
+//         { success: false, error: fileError.message },
+//         { status: 400 }
+//       );
+//     }
+
+//     // ✅ Hash Password (if provided)
+//     let hashedPassword = "";
+//     if (plainPassword && plainPassword.trim() !== "") {
+//       const salt = await bcrypt.genSalt(10);
+//       hashedPassword = await bcrypt.hash(plainPassword.trim(), salt);
+//     }
+
+//     // ✅ Create New Record
+//     const newRecord = await MedicalAlertModel.create({
+//       user: {
+//         id: user._id,
+//         name: user.name,
+//       },
+//       bgDesign,
+//       patientInfo: { patientName, age, bloodType },
+//       medicalHistory: {
+//         medicalConditions,
+//         allergies,
+//         medications,
+//         additionalNotes,
+//       },
+//       emergencyContact: { emergencyContact, contactPhone },
+//       additional: {
+//         familyDoctorName,
+//         familyDoctorPhone,
+//         emergencyInstructions,
+//         insuranceProvider,
+//         policyNumber,
+//         preferredHospital,
+//         location,
+//       },
+//       medicalReports,
+//       prescription,
+//       insuranceImage,
+//       password: hashedPassword,
+//       bgDesign,
+//       qrCodeDetails, // ✅ Added QR Code data
+//     });
+
+
+//     const qrUrl = await getShortenedUrl(`/medical-alerts/${newRecord._id}`);
+//     return NextResponse.json({ success: true, data: newRecord,qrUrl }, { status: 201 });
+
+//   } catch (err) {
+//     console.error("❌ POST Error:", err);
+//     return NextResponse.json(
+//       { success: false, error: err.message || "Internal Server Error" },
+//       { status: 500 }
+//     );
+//   }
+// }
+
 export const runtime = "nodejs";
 
 import { connectDB } from "@/lib/mongoDB";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import fs from "fs";
+import path from "path";
+import { v4 as uuidv4 } from "uuid";
 import MedicalAlertModel from "@/models/services/medicalAlertSchema";
 import { authUser } from "@/middlewares/authMiddleware";
+import { getShortenedUrl } from "@/utils/shortenUrl";
+
+const saveFiles = async (formData, fieldName) => {
+  const files = formData.getAll(fieldName);
+  const savedFiles = [];
+  const uploadDir = path.join(process.cwd(), "public", "uploads", "medical-alert");
+
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
+
+  for (const file of files) {
+    if (!file || typeof file.arrayBuffer !== "function") continue;
+
+    const buffer = Buffer.from(await file.arrayBuffer());
+    const safeName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_')}`;
+    const filePath = path.join(uploadDir, safeName);
+    fs.writeFileSync(filePath, buffer);
+
+    savedFiles.push({
+      //_id: uuidv4(),
+      fileName: safeName,
+      fileType: file.type,
+    });
+  }
+  return savedFiles;
+};
 
 export async function POST(req) {
   try {
-    // ✅ Authenticate user
     const auth = await authUser(req);
     if (auth.status !== 200) {
       return new Response(JSON.stringify(auth.json), {
@@ -301,150 +506,76 @@ export async function POST(req) {
     }
 
     const user = auth.user;
-
-    // ✅ Connect to DB
     await connectDB();
 
-    // ✅ Parse multipart/form-data
     const formData = await req.formData();
 
-    // ✅ Extract form fields
-    const patientName = formData.get("patientName");
-    const ageStr = formData.get("age");
-    const age = ageStr ? parseInt(ageStr, 10) : undefined;
-    const bloodType = formData.get("bloodType");
-
-    const medicalConditions = formData.get("medicalConditions");
-    const allergies = formData.get("allergies");
-    const medications = formData.get("medications");
-    const additionalNotes = formData.get("additionalNotes");
-
-    const emergencyContact = formData.get("emergencyContact");
-    const contactPhone = formData.get("contactPhone");
-
-    const familyDoctorName = formData.get("familyDoctorName");
-    const familyDoctorPhone = formData.get("familyDoctorPhone");
-    const emergencyInstructions = formData.get("emergencyInstructions");
-    const insuranceProvider = formData.get("insuranceProvider");
-    const policyNumber = formData.get("policyNumber");
-    const preferredHospital = formData.get("preferredHospital");
-    const location = formData.get("location");
-
-    const plainPassword = formData.get("password");
-
-    // ✅ Extract QR Code Details
-    const qrCodeImage = formData.get("qrCodeImage") || "";
-    const locationLatitude = formData.get("locationLatitude");
-    const locationLongitude = formData.get("locationLongitude");
-    const locationAddress = formData.get("locationAddress");
-    const renewalDateStr = formData.get("renewalDate");
-    const status = formData.get("status") || "active";
+    // Extract basic fields
+    const getString = (key) => formData.get(key)?.toString().trim();
+    const age = parseInt(getString("age"), 10) || undefined;
 
     const qrCodeDetails = {
-      qrCodeImage,
+      qrCodeImage: getString("qrCodeImage") || "",
       location: {
-        latitude: locationLatitude ? parseFloat(locationLatitude) : null,
-        longitude: locationLongitude ? parseFloat(locationLongitude) : null,
-        address: locationAddress || "",
+        latitude: parseFloat(getString("locationLatitude")) || null,
+        longitude: parseFloat(getString("locationLongitude")) || null,
+        address: getString("locationAddress") || "",
       },
-      renewalDate: renewalDateStr ? new Date(renewalDateStr) : null,
-      status,
+      renewalDate: getString("renewalDate") ? new Date(getString("renewalDate")) : null,
+      status: getString("status") || "active",
       resetPasswordToken: null,
       resetPasswordExpires: null,
     };
 
-    // ✅ File Upload Handling
-    const maxFileSize = 2 * 1024 * 1024; // 2MB per file
-    const maxTotalSize = 30 * 1024 * 1024; // 30MB total
-    let totalSize = 0;
-
-    const processFiles = async (fieldName) => {
-      const files = formData.getAll(fieldName);
-      if (!files || files.length === 0) return [];
-
-      const processed = [];
-      for (const file of files) {
-        if (!file || typeof file.arrayBuffer !== "function") continue;
-
-        const buffer = await file.arrayBuffer();
-        const size = buffer.byteLength;
-
-        if (size > maxFileSize) {
-          throw new Error(`File "${file.name}" in "${fieldName}" exceeds 2MB limit.`);
-        }
-
-        totalSize += size;
-        if (totalSize > maxTotalSize) {
-          throw new Error("Total file size exceeds 30MB.");
-        }
-
-        processed.push({
-          fileName: file.name,
-          fileType: file.type,
-        });
-      }
-
-      return processed;
-    };
-
-    // ✅ Process File Inputs
-    let medicalReports = [];
-    let prescription = [];
-    let insuranceImage = [];
-
-    try {
-      medicalReports = await processFiles("medicalReports");
-      prescription = await processFiles("prescription");
-      insuranceImage = await processFiles("insuranceImage");
-    } catch (fileError) {
-      console.error("❌ File Processing Error:", fileError);
-      return NextResponse.json(
-        { success: false, error: fileError.message },
-        { status: 400 }
-      );
-    }
-
-    // ✅ Hash Password (if provided)
+    const plainPassword = getString("password");
     let hashedPassword = "";
-    if (plainPassword && plainPassword.trim() !== "") {
+    if (plainPassword) {
       const salt = await bcrypt.genSalt(10);
-      hashedPassword = await bcrypt.hash(plainPassword.trim(), salt);
+      hashedPassword = await bcrypt.hash(plainPassword, salt);
     }
 
-    // ✅ Create New Record
+    // Save files
+    const medicalReports = await saveFiles(formData, "medicalReports");
+    const prescription = await saveFiles(formData, "prescription");
+    const insuranceImage = await saveFiles(formData, "insuranceImage");
+
+    // Create DB record
     const newRecord = await MedicalAlertModel.create({
-      user: {
-        id: user._id,
-        name: user.name,
+      user: { id: user._id, name: user.name },
+      bgDesign: getString("bgDesign"),
+      patientInfo: {
+        patientName: getString("patientName"),
+        age,
+        bloodType: getString("bloodType"),
       },
-      patientInfo: { patientName, age, bloodType },
       medicalHistory: {
-        medicalConditions,
-        allergies,
-        medications,
-        additionalNotes,
+        medicalConditions: getString("medicalConditions"),
+        allergies: getString("allergies"),
+        medications: getString("medications"),
+        additionalNotes: getString("additionalNotes"),
       },
-      emergencyContact: { emergencyContact, contactPhone },
+      emergencyContact: {
+        emergencyContact: getString("emergencyContact"),
+        contactPhone: getString("contactPhone"),
+      },
       additional: {
-        familyDoctorName,
-        familyDoctorPhone,
-        emergencyInstructions,
-        insuranceProvider,
-        policyNumber,
-        preferredHospital,
-        location,
+        familyDoctorName: getString("familyDoctorName"),
+        familyDoctorPhone: getString("familyDoctorPhone"),
+        emergencyInstructions: getString("emergencyInstructions"),
+        insuranceProvider: getString("insuranceProvider"),
+        policyNumber: getString("policyNumber"),
+        preferredHospital: getString("preferredHospital"),
+        location: getString("location"),
       },
+      password: hashedPassword,
+      qrCodeDetails,
       medicalReports,
       prescription,
       insuranceImage,
-      password: hashedPassword,
-      qrCodeDetails, // ✅ Added QR Code data
     });
 
-
-
-    return NextResponse.json({ success: true, data: newRecord }, { status: 201 });
-
+    const qrUrl = await getShortenedUrl(`/medical-alerts/${newRecord._id}`);
+    return NextResponse.json({ success: true, data: newRecord, qrUrl }, { status: 201 });
   } catch (err) {
     console.error("❌ POST Error:", err);
     return NextResponse.json(
@@ -453,4 +584,3 @@ export async function POST(req) {
     );
   }
 }
-

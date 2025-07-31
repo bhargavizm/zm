@@ -70,10 +70,12 @@ const PetTagContent = () => {
   const handleImageUpload = (e) => {
     const uploadedFile = e.target.files[0];
     if (uploadedFile) {
+      const previewUrl = URL.createObjectURL(uploadedFile);
       setFile(uploadedFile);
       setPetIDFormData((prev) => ({
         ...prev,
-        mainImage: URL.createObjectURL(uploadedFile),
+        mainImage: uploadedFile,
+        previewUrl,
       }));
     }
   };
@@ -171,123 +173,7 @@ const PetTagContent = () => {
 
   const handleFinalSubmit = async () => {
     setActiveTab(slug, "Backdrop Designs");
-    // setSubmitting(true);
-    // setShowPreviewModal(false);
-    // setServicesDataLoading(true);
-    // try {
-    //   const base64Image = file ? await toBase64(file) : null;
-
-    //   const payload = {
-    //     ...petIDFormData,
-    //     image: base64Image,
-    //   };
-
-    //   const res = await axios.post("/api/services/Pet-ID-tags", payload);
-
-    //   if (res.status === 201) {
-    //     setShowSuccessModal(true);
-    //     toast.success("Pet ID Tag created successfully!");
-    //     setActiveTab(slug, "QR Code");
-    //     dispatch(setPetIdServices(res.data));
-    //     console.log("Pet ID Tag created successfully:", res.data);
-    //     setTimeout(() => {
-    //       setShowSuccessModal(false);
-    //       // Reset form
-    //       setPetIDFormData({
-    //         selectedTemplate: "",
-    //         mainImage: "",
-    //         ownerInfo: {
-    //           name: "",
-    //           phone: "",
-    //           email: "",
-    //           password: "",
-    //           address: ""
-    //         },
-    //         pet: {
-    //           name: "",
-    //           breed: "",
-    //           color: ""
-    //         }
-    //       });
-    //       setFile(null);
-    //       if (document.getElementById("imageInput")) {
-    //         document.getElementById("imageInput").value = null;
-    //       }
-    //     }, 2000);
-    //   } else {
-    //     toast.warn("Failed to create Pet ID Tag.");
-    //     alert("Failed to create Pet ID Tag.");
-    //   }
-    // } catch (error) {
-    //   console.error("Submission Error:", error);
-    //   toast.error(error?.response?.data?.error || "Something went wrong!");
-    //   if (error.response?.status === 401) {
-    //     window.location.href = "/login"; // ✅ Auto logout on expiry
-    //     return;
-    //   }
-    // } finally {
-    //   setSubmitting(false);
-    //   setServicesDataLoading(false); // ✅ End loader
-    // }
-
-    setSubmitting(true);
-    setShowPreviewModal(false);
-  setServicesDataLoading(true);
-    try {
-      const base64Image = file ? await toBase64(file) : null;
-
-      const payload = {
-        ...petIDFormData,
-        image: base64Image,
-      };
-
-      const res = await axios.post("/api/services/petid", payload);
-
-      if (res.status === 201) {
-        setShowSuccessModal(true);
-        toast.success("Pet ID Tag created successfully!");
-        setActiveTab(slug, "QR Code");
-        dispatch(setPetIdServices(res.data));
-
-        setTimeout(() => {
-          setShowSuccessModal(false);
-          // Reset form
-          setPetIDFormData({
-            selectedTemplate: "",
-            mainImage: "",
-            ownerInfo: {
-              name: "",
-              phone: "",
-              email: "",
-              password: "",
-              address: ""
-            },
-            pet: {
-              name: "",
-              breed: "",
-              color: ""
-            }
-          });
-          setFile(null);
-          if (document.getElementById("imageInput")) {
-            document.getElementById("imageInput").value = null;
-          }
-        }, 2000);
-      } else {
-        toast.warn("Failed to create Pet ID Tag.");
-        alert("Failed to create Pet ID Tag.");
-      }
-    } catch (error) {
-      console.error("Submission Error:", error);
-      toast.error(error?.response?.data?.error || "Something went wrong!");
-       if (error.response?.status === 401) {
-        window.location.href = "/login"; // ✅ Auto logout on expiry
-        return;
-      }
-    } finally {
-       setSubmitting(false);
-      setServicesDataLoading(false); // ✅ End loader
-    }
+   
     
   };
 
@@ -346,10 +232,10 @@ const PetTagContent = () => {
                 onChange={handleImageUpload}
                 className="w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#008080] file:text-white hover:file:bg-[#006666] transition duration-200 cursor-pointer"
               />
-              {petIDFormData.mainImage && (
+              {petIDFormData.previewUrl && (
                 <div className="mt-3 relative w-max">
                   <Image
-                    src={petIDFormData.mainImage}
+                    src={petIDFormData.previewUrl}
                     alt="Pet"
                     width={100}
                     height={100}
@@ -497,35 +383,7 @@ const PetTagContent = () => {
                 </button>
               </div>
 
-              {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <h3 className="text-lg font-semibold mb-4">Owner Information</h3>
-                  {renderPreviewField("Name", petIDFormData.ownerInfo.name)}
-                  {renderPreviewField("Phone", petIDFormData.ownerInfo.phone)}
-                  {renderPreviewField("Email", petIDFormData.ownerInfo.email)}
-                  {renderPreviewField("Address", petIDFormData.ownerInfo.address)}
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold mb-4">Pet Information</h3>
-                  {renderPreviewField("Pet Name", petIDFormData.pet.name)}
-                  {renderPreviewField("Breed", petIDFormData.pet.breed)}
-                  {renderPreviewField("Color", petIDFormData.pet.color)}
-
-                  {petIDFormData.mainImage && (
-                    <div className="mt-4">
-                      <h4 className="text-sm font-medium text-gray-500 mb-2">Pet Image</h4>
-                      <Image
-                        src={petIDFormData.mainImage}
-                        alt="Pet Preview"
-                        width={120}
-                        height={120}
-                        className="rounded-lg"
-                      />
-                    </div>
-                  )}
-                </div>
-              </div> */}
+              
               <div className="mt-8 flex flex-col sm:flex-row justify-end gap-3">
                 <button
                   type="button"
