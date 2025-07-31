@@ -125,6 +125,7 @@ export async function POST(request) {
       password = "",
       qrPassword = "",
       location = {},
+      bgDesign,
       renewalDate = null,
       status = "active",
     } = body;

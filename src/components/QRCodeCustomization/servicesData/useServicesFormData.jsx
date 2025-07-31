@@ -91,7 +91,8 @@ export const useServicesFormData = () => {
         "multi-urls":multiUrlFormData,
         "property-qr": propertyDetails,
         "multi-urls": multiUrlFormData,
-        discounts: discountCouponFormData
+        discounts: discountCouponFormData,
+        "product-cards": productData,
       }[activeService];
 
 
@@ -123,7 +124,8 @@ export const useServicesFormData = () => {
         "medical-alerts":setMedicalAlertFormData,
         "multi-urls":setMultiUrlFormData,
         events:setEventsFormData,
-        discounts: setDiscountCouponFormData
+        discounts: setDiscountCouponFormData,
+        "product-cards":setProductData,
       }[activeService];
 
   const submitForm = useSubmitForm(

@@ -139,8 +139,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import Image from "next/image";
-import { FiLock, FiFileText } from "react-icons/fi";
+import { FiLock } from "react-icons/fi";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import BgDesignRenderer from "./bgDesignRender";
 
@@ -151,9 +150,7 @@ const MedicalAlertPreview = ({ data }) => {
   const defaultBg = "/services-service/medical-alert.webp";
   const { bgDesign, setBgDesign } = useDesignContext();
 
-  // Sections to exclude from preview
-  const excludedSections = ["userId", "status", "qrCodeDetails"];
-
+  const excludedSections = ["user", "userId", "status", "qrCodeDetails"];
   useEffect(() => {
     setBgDesign(data?.bgDesign || defaultBg);
   }, [data, setBgDesign]);
@@ -198,123 +195,139 @@ const MedicalAlertPreview = ({ data }) => {
         </h2>
 
         {Object.entries(data).map(([sectionKey, sectionValue]) => {
+  if (excludedSections.includes(sectionKey)) return null;
+
+  // ✅ Handle direct file arrays at root level
+  if (
+    Array.isArray(sectionValue) &&
+    sectionValue.length > 0 &&
+    sectionValue[0]?.fileName &&
+    sectionValue[0]?.fileType
+  ) {
+    return (
+      <section
+        key={sectionKey}
+        className="mb-6 p-4 bg-[#004d4d]/10 rounded border border-[#004d4d]/30"
+      >
+        <h3 className="text-[#004d4d] font-semibold mb-3 capitalize">
+          {formatLabel(sectionKey)}
+        </h3>
+        <ul className="text-sm space-y-1">
+          {sectionValue.map((file, index) => {
+            const fileName = file?.fileName || "File";
+            const fileUrl = `/uploads/medical-alert/${fileName}`;
+            return (
+              <li key={index}>
+                <button
+                  type="button"
+                  onClick={() => window.open(fileUrl, "_blank")}
+                  className="text-blue-600 underline break-words"
+                >
+                  📄 {fileName}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+    );
+  }
+
+  // ✅ Handle nested objects (original logic)
+  if (
+    typeof sectionValue === "object" &&
+    sectionValue !== null
+  ) {
+    const filledFields = Object.entries(sectionValue).filter(([key, val]) => {
+      if (typeof val === "string") return val.trim() !== "";
+      if (typeof val === "object" && val !== null) {
+        return Object.values(val).some((v) => v && v.toString().trim() !== "");
+      }
+      return !!val;
+    });
+
+    if (filledFields.length === 0) return null;
+
+    return (
+      <section
+        key={sectionKey}
+        className="mb-6 p-4 bg-[#004d4d]/10 rounded border border-[#004d4d]/30"
+      >
+        <h3 className="text-[#004d4d] font-semibold mb-3 capitalize">
+          {formatLabel(sectionKey)}
+        </h3>
+
+        {filledFields.map(([fieldKey, fieldValue]) => {
           if (
-            excludedSections.includes(sectionKey) ||
-            !sectionValue ||
-            typeof sectionValue !== "object"
-          )
-            return null;
+            typeof fieldValue === "object" &&
+            fieldValue !== null &&
+            "latitude" in fieldValue &&
+            "longitude" in fieldValue &&
+            "address" in fieldValue
+          ) {
+            return (
+              <div key={fieldKey} className="mb-2">
+                <strong>{formatLabel(fieldKey)}:</strong>
+                <div className="pl-4 mt-1 text-gray-700">
+                  <p>Latitude: {fieldValue.latitude ?? "N/A"}</p>
+                  <p>Longitude: {fieldValue.longitude ?? "N/A"}</p>
+                  <p>Address: {fieldValue.address || "N/A"}</p>
+                </div>
+              </div>
+            );
+          }
 
-          const filledFields = Object.entries(sectionValue).filter(([key, val]) => {
-            if (excludedSections.includes(key)) return false;
-            if (typeof val === "string") return val.trim() !== "";
-            if (typeof val === "object" && val !== null) {
-              return Object.values(val).some((v) => v && v.toString().trim() !== "");
-            }
-            return !!val;
-          });
+          if (
+            Array.isArray(fieldValue) &&
+            fieldValue.length > 0 &&
+            fieldValue[0]?.fileName &&
+            fieldValue[0]?.fileType
+          ) {
+            return (
+              <div key={fieldKey} className="mb-4">
+                <strong className="block mb-2">{formatLabel(fieldKey)}:</strong>
+                <ul className="text-sm space-y-1">
+                  {fieldValue.map((file, index) => {
+                    const fileUrl = `/uploads/medical-alert/${file.fileName}`;
+                    return (
+                      <li key={index}>
+                        <button
+                          type="button"
+                          onClick={() => window.open(fileUrl, "_blank")}
+                          className="text-blue-600 underline break-words"
+                        >
+                          📄 {file.fileName}
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            );
+          }
 
-          if (filledFields.length === 0) return null;
+          if (typeof fieldValue === "object" && fieldValue !== null) {
+            return (
+              <p key={fieldKey} className="mb-2">
+                <strong>{formatLabel(fieldKey)}:</strong>{" "}
+                {JSON.stringify(fieldValue)}
+              </p>
+            );
+          }
 
           return (
-            <section
-              key={sectionKey}
-              className="mb-6 p-4 bg-[#004d4d]/10 rounded border border-[#004d4d]/30"
-            >
-              <h3 className="text-[#004d4d] font-semibold mb-3 capitalize">
-                {formatLabel(sectionKey)}
-              </h3>
-
-              {filledFields.map(([fieldKey, fieldValue]) => {
-                // Render location object
-                if (
-                  typeof fieldValue === "object" &&
-                  fieldValue !== null &&
-                  "latitude" in fieldValue &&
-                  "longitude" in fieldValue &&
-                  "address" in fieldValue
-                ) {
-                  return (
-                    <div key={fieldKey} className="mb-2">
-                      <strong>{formatLabel(fieldKey)}:</strong>
-                      <div className="pl-4 mt-1 text-gray-700">
-                        <p>Latitude: {fieldValue.latitude ?? "N/A"}</p>
-                        <p>Longitude: {fieldValue.longitude ?? "N/A"}</p>
-                        <p>Address: {fieldValue.address || "N/A"}</p>
-                      </div>
-                    </div>
-                  );
-                }
-
-                // Render file arrays (images and PDFs)
-                if (
-                  Array.isArray(fieldValue) &&
-                  fieldValue.length > 0 &&
-                  fieldValue[0]?.fileName &&
-                  fieldValue[0]?.fileType
-                ) {
-                  return (
-                    <div key={fieldKey} className="mb-4">
-                      <strong className="block mb-2">{formatLabel(fieldKey)}:</strong>
-                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                        {fieldValue.map((file, index) => {
-                          const fileUrl = `/uploads/medical-alert/${file.fileName}`;
-
-                          if (file.fileType.startsWith("image/")) {
-                            return (
-                              <div key={index} className="border p-1 rounded">
-                                <Image
-                                  src={fileUrl}
-                                  alt={file.fileName}
-                                  width={200}
-                                  height={200}
-                                  className="rounded object-cover h-40 w-full"
-                                />
-                              </div>
-                            );
-                          }
-
-                          if (file.fileType === "application/pdf") {
-                            return (
-                              <div
-                                key={index}
-                                className="text-sm text-blue-600 underline flex items-center gap-2"
-                              >
-                                <FiFileText />
-                                <a href={fileUrl} target="_blank" rel="noopener noreferrer">
-                                  {file.fileName}
-                                </a>
-                              </div>
-                            );
-                          }
-
-                          return null; // Skip unsupported file types
-                        })}
-                      </div>
-                    </div>
-                  );
-                }
-
-                // Other nested objects
-                if (typeof fieldValue === "object" && fieldValue !== null) {
-                  return (
-                    <p key={fieldKey} className="mb-2">
-                      <strong>{formatLabel(fieldKey)}:</strong>{" "}
-                      {JSON.stringify(fieldValue)}
-                    </p>
-                  );
-                }
-
-                // Plain text fields
-                return (
-                  <p key={fieldKey} className="mb-2">
-                    <strong>{formatLabel(fieldKey)}:</strong> {fieldValue}
-                  </p>
-                );
-              })}
-            </section>
+            <p key={fieldKey} className="mb-2">
+              <strong>{formatLabel(fieldKey)}:</strong> {fieldValue}
+            </p>
           );
         })}
+      </section>
+    );
+  }
+
+  return null;
+})}
+
       </div>
     </div>
   );
