@@ -36,9 +36,12 @@ import EventsPreview from "@/components/scanningPreview/eventsPreview";
 import EventModal from "@/models/services/eventSchema";
 import DiscountModal from "@/models/services/discountSchema";
 import DiscountCouponPreview from "@/components/scanningPreview/DiscountCouponPreview";
+
 import ProductsModel from "@/models/services/productSchema";
 import ProductPreview from "@/components/scanningPreview/product/productPreview";
 //import { BusinessCardsModel } from "@/models/services/cardsSchema";
+import { BusinessCardsModel } from "@/models/services/cardsSchema";
+
 
 
 
