@@ -85,49 +85,47 @@ const EncryptedServicesForm = ({
     return msg;
   };
 
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
 
-const handleChange = (e) => {
-  const { name, value, files } = e.target;
+    if (name === "files" && files.length) {
+      const newFiles = Array.from(files);
 
-  if (name === "files" && files.length) {
-    const newFiles = Array.from(files);
+      const invalidFile = newFiles.find(
+        (file) => accept && !file.type.match(accept)
+      );
+      if (invalidFile) {
+        toast.error(`Unsupported file type: ${invalidFile.name}`);
+        return;
+      }
 
-    const invalidFile = newFiles.find(
-      (file) => accept && !file.type.match(accept)
-    );
-    if (invalidFile) {
-      toast.error(`Unsupported file type: ${invalidFile.name}`);
-      return;
-    }
+      const updatedFiles = [...(formData[fileKey] || []), ...newFiles];
+      const updatedSize = updatedFiles.reduce((acc, f) => acc + f.size, 0);
+      setTotalSize(updatedSize);
 
-    const updatedFiles = [...(formData[fileKey] || []), ...newFiles];
-    const updatedSize = updatedFiles.reduce((acc, f) => acc + f.size, 0);
-    setTotalSize(updatedSize);
+      const currentLimit = planLimits[userPlan];
+      const requiredPlan = getRequiredPlan(updatedSize);
 
-    const currentLimit = planLimits[userPlan];
-    const requiredPlan = getRequiredPlan(updatedSize);
+      if (updatedSize > currentLimit) {
+        setUpgradeInfo({
+          fileSize: updatedSize,
+          requiredPlan,
+          requiredPlanLimit: planLimits[requiredPlan],
+          currentPlan: userPlan,
+          currentLimit,
+          nextPrice: planPrices[requiredPlan],
+        });
 
-    if (updatedSize > currentLimit) {
-      setUpgradeInfo({
-        fileSize: updatedSize,
-        requiredPlan,
-        requiredPlanLimit: planLimits[requiredPlan],
-        currentPlan: userPlan,
-        currentLimit,
-        nextPrice: planPrices[requiredPlan],
-      });
+        setShowUpgradeModal(true);
+      } else {
+        setUpgradeInfo(null);
+      }
 
-      setShowUpgradeModal(true);
+      setFormData((prev) => ({ ...prev, [fileKey]: updatedFiles }));
     } else {
-      setUpgradeInfo(null);
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
-
-    setFormData((prev) => ({ ...prev, [fileKey]: updatedFiles }));
-  } else {
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  }
-};
-
+  };
 
   // const handleChange = (e) => {
   //   const { name, value, files } = e.target;
@@ -165,7 +163,7 @@ const handleChange = (e) => {
   };
 
   const confirmUpload = async () => {
-     setActiveTab(slug, "Backdrop Designs");
+    setActiveTab(slug, "Backdrop Designs");
     // const fd = new FormData();
     // // ✅ Always upload files under key "files"
     // if (Array.isArray(formData[fileKey])) {
@@ -277,8 +275,6 @@ const handleChange = (e) => {
               </span>
             </div>
 
-           
-
             {formData[fileKey]?.map((f, i) => (
               <div
                 key={i}
@@ -359,9 +355,9 @@ const handleChange = (e) => {
           <div className="flex justify-center items-center pt-6">
             <button
               type="submit"
-  className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg"
+              className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg"
             >
-               Next → 
+              Next →
             </button>
           </div>
         </form>
@@ -370,7 +366,7 @@ const handleChange = (e) => {
       {/* Confirm Modal */}
       {showConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-xl  overflow-y-auto scrollbar-hide p-6 border border-teal-200 mx-auto">
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-xl   overflow-y-auto scrollbar-hide p-6 border border-teal-200 mx-auto">
             {/* <div className="flex justify-between items-center pb-4"> */}
             <div className="text-right pb-2">
               <button
@@ -457,13 +453,13 @@ const handleChange = (e) => {
                 onClick={() => setShowConfirm(false)}
                 className="px-4 py-1.5 border rounded-lg cursor-pointer"
               >
-                Back 
+                Back
               </button>
               <button
                 onClick={confirmUpload}
                 className="px-4 py-1.5 bg-teal-600 text-white rounded-lg cursor-pointer"
               >
-               Continue
+                Continue
               </button>
             </div>
           </div>
@@ -472,97 +468,55 @@ const handleChange = (e) => {
 
       {/* Upgrade Modal */}
       {showUpgradeModal && upgradeInfo && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-    <div className="bg-white relative rounded-xl p-6 w-full max-w-md shadow-xl border border-teal-200 animate-fade-in">
-      <h2 className="text-xl font-bold text-center text-red-600">
-        🚫 Upload Limit Exceeded
-      </h2>
-
-      <div className="my-4 space-y-4 text-gray-800 text-lg leading-relaxed">
-    <p>
-  📁 Your total upload size is: <b>
-    {upgradeInfo.fileSize > 5 * 1024 ** 3
-      ? "greater than 5GB"
-      : upgradeInfo.fileSize > 4 * 1024 ** 3
-      ? "greater than 4GB"
-      : upgradeInfo.fileSize > 3 * 1024 ** 3
-      ? "greater than 3GB"
-      : upgradeInfo.fileSize > 2 * 1024 ** 3
-      ? "greater than 2GB"
-      : upgradeInfo.fileSize > 1 * 1024 ** 3
-      ? "greater than 1GB"
-      : formatBytes(upgradeInfo.fileSize)}
-  </b>
-</p>
-
-
-        {/* <p>
-          🧾 Your current plan (<b>{upgradeInfo.currentPlan}</b>) allows up to{" "}
-          <b>{formatBytes(upgradeInfo.currentLimit)}</b>.
-        </p> */}
-
-        {upgradeInfo.requiredPlan === "Exceeds all plans" ? (
-          <p>❌  {"  "}
-            {/*  Even our highest plan (<b>Ultima</b>) with{" "}
-            <b>{formatBytes(planLimits["Ultima"])}</b> limit */}
-             Any plan is not enough to
-            support this upload.
-          </p>
-        ) : (
-          <p>
-            💡 Now, You are in  <b>{upgradeInfo.requiredPlan}</b> plan (
-            <b>{upgradeInfo.nextPrice}</b>) 
-            {/* to upload up to{" "}
-            <b>{formatBytes(upgradeInfo.requiredPlanLimit)}</b>. */}
-          </p>
-        )}
-      </div>
-
-      <div className="mt-4 text-end">
-        <button
-          onClick={() => setShowUpgradeModal(false)}
-          className="px-5 py-2 bg-teal-600 text-white text-md rounded-lg hover:bg-teal-700 transition"
-        >
-          Continue
-        </button>
-      </div>
-    </div>
-  </div>
-)}
-
-      {/* {showUpgradeModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
           <div className="bg-white relative rounded-xl p-6 w-full max-w-md shadow-xl border border-teal-200 animate-fade-in">
-           
-
             <h2 className="text-xl font-bold text-center text-red-600">
               🚫 Upload Limit Exceeded
             </h2>
 
-            <div className="my-4 space-y-4 text-gray-800 text-md leading-relaxed">
+            <div className="my-4 space-y-4 text-gray-800 text-lg leading-relaxed">
               <p>
-                📦 Your File size:{" "}
+                📁 Your total upload size is:{" "}
                 <b>
-                  {"> "}
-                  {formatBytes(getLowerLimit(getRequiredPlan(totalSize)))}
+                  {upgradeInfo.fileSize > 5 * 1024 ** 3
+                    ? "greater than 5GB"
+                    : upgradeInfo.fileSize > 4 * 1024 ** 3
+                    ? "greater than 4GB"
+                    : upgradeInfo.fileSize > 3 * 1024 ** 3
+                    ? "greater than 3GB"
+                    : upgradeInfo.fileSize > 2 * 1024 ** 3
+                    ? "greater than 2GB"
+                    : upgradeInfo.fileSize > 1 * 1024 ** 3
+                    ? "greater than 1GB"
+                    : formatBytes(upgradeInfo.fileSize)}
                 </b>
               </p>
 
-              <p>
-                You are currently on:{" "}
-                <b className="text-green-700">
-                  {getRequiredPlan(totalSize)} Plan (
-                  {planPrices[getRequiredPlan(totalSize)]})
-                </b>
-              </p>
+              {/* <p>
+          🧾 Your current plan (<b>{upgradeInfo.currentPlan}</b>) allows up to{" "}
+          <b>{formatBytes(upgradeInfo.currentLimit)}</b>.
+        </p> */}
+
+              {upgradeInfo.requiredPlan === "Exceeds all plans" ? (
+                <p>
+                  ❌ {"  "}
+                  {/*  Even our highest plan (<b>Ultima</b>) with{" "}
+            <b>{formatBytes(planLimits["Ultima"])}</b> limit */}
+                  Any plan is not enough to support this upload.
+                </p>
+              ) : (
+                <p>
+                  💡 Now, You are in <b>{upgradeInfo.requiredPlan}</b> plan (
+                  <b>{upgradeInfo.nextPrice}</b>)
+                  {/* to upload up to{" "}
+            <b>{formatBytes(upgradeInfo.requiredPlanLimit)}</b>. */}
+                </p>
+              )}
             </div>
 
-            <div className=" mt-4 text-end">
-             
+            <div className="mt-4 text-end">
               <button
-                onClick={() => {
-                  setShowUpgradeModal(false);
-                }}
+                onClick={() => setShowUpgradeModal(false)}
                 className="px-5 py-2 bg-teal-600 text-white text-md rounded-lg hover:bg-teal-700 transition"
               >
                 Continue
@@ -570,7 +524,7 @@ const handleChange = (e) => {
             </div>
           </div>
         </div>
-      )} */}
+      )}
     </>
   );
 };
