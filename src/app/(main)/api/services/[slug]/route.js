@@ -1,7 +1,7 @@
 import { connectDB } from "@/lib/mongoDB";
 import { authUser } from "@/middlewares/authMiddleware";
 import URLServiceModel from "@/models/services/urlServicesSchema";
-import { getShortenedUrlServices } from "@/utils/shortenUrl";
+import { getShortenedUrl, getShortenedUrlServices } from "@/utils/shortenUrl";
 import bcrypt from "bcryptjs";
 
 export const config = {
@@ -57,7 +57,9 @@ export async function POST(req, context) {
     }, // ✅ include QR data
   });
 
-  const qrUrl = await getShortenedUrlServices(`${url}`);
+  // const qrUrl = await getShortenedUrlServices(`${url}`);
+   const qrUrl = await getShortenedUrl(`/${slug}/${result._id}`);
+  
   return Response.json(
     {
       success: true,
