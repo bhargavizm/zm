@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
 import { connectDB } from "@/lib/mongoDB";
-import PetTagModal from "@/models/services/petIdSchema";
+
 import ResumeModel from "@/models/services/resumeSchema";
 import SmsModal from "@/models/services/smsSchema";
 import TextMessageModal from "@/models/services/textMessage";
@@ -16,7 +16,7 @@ import SmsPreview from "@/components/scanningPreview/SmsPreview";
 import TextMessagePreview from "@/components/scanningPreview/TextFormPreview";
 import KidsSafetyPreview from "@/components/scanningPreview/KidsSafetyPreview";
 import MenuBookPreview from "@/components/scanningPreview/menuBookPreview";
-import PetIdPreview from "@/components/scanningPreview/PetIdPreview";
+
 import BusinessShopPreview from "@/components/scanningPreview/BusinessShopPreview";
 import VehiclePreview from "@/components/scanningPreview/vehiclePreview";
 import ResumePreview from "@/components/scanningPreview/resumePreview";
@@ -29,6 +29,12 @@ import EventsPreview from "@/components/scanningPreview/eventsPreview";
 import EventModal from "@/models/services/eventSchema";
 import DiscountModal from "@/models/services/discountSchema";
 import DiscountCouponPreview from "@/components/scanningPreview/DiscountCouponPreview";
+import { BusinessCardsModel } from "@/models/services/cardsSchema";
+
+import { model } from "mongoose";
+import WifiModel from "@/models/services/wifiSchema";
+import PetIdPreview from "@/components/scanningPreview/PetIdPreview";
+import PetTagModal from "@/models/services/petIdSchema";
 import ProductsModel from "@/models/services/productSchema";
 import ProductPreview from "@/components/scanningPreview/product/productPreview";
 //import { BusinessCardsModel } from "@/models/services/cardsSchema";
@@ -43,7 +49,6 @@ import GalleryPreview from "@/components/scanningPreview/galleryPreview";
 //import UrlServicePreview from "@/components/scanningPreview/urlServicesPreview";
 import URLServiceModel from "@/models/services/urlServicesSchema";
 import UrlPreview from "@/components/scanningPreview/urlServicesPreview";
-import { BusinessCardsModel } from "@/models/services/cardsSchema";
 
 
 
@@ -142,6 +147,11 @@ const serviceMap = {
     model:ProductsModel,
     component:ProductPreview,
   },
+
+  wifi:{
+    model:WifiModel,
+    component:SmsPreview,
+  }
 
 }
 
