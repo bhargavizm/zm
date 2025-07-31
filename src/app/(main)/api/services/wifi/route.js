@@ -89,6 +89,7 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongoDB";
 import WifiModel from "@/models/services/wifiSchema";
 import { authUser } from "@/middlewares/authMiddleware";
+import { getShortenedUrl } from "@/utils/shortenUrl";
 
 export async function POST(req) {
   try {
@@ -110,18 +111,13 @@ export async function POST(req) {
       security,
       password = "",
       qrPassword = "",
+      bgDesign="",
       location = {},
       renewalDate = null,
       status = "active",
     } = body;
 
-    if (!ssid || !security) {
-      return NextResponse.json(
-        { error: "SSID and security are required." },
-        { status: 400 }
-      );
-    }
-
+   
     // if (security !== "nopass" && (!password || password.length < 4)) {
     //   return NextResponse.json(
     //     { error: "Password must be at least 4 characters." },
@@ -140,6 +136,7 @@ export async function POST(req) {
       ssid,
       security,
       password: security === "nopass" ? "" : password,
+      bgDesign,
       qrCodeDetails: {
         qrCodeImage: body.qrCodeImage ?? "",
 
@@ -157,10 +154,17 @@ export async function POST(req) {
 
     await wifi.save();
 
+     const wifiString = `WIFI:T:${security};S:${ssid};P:${password || ""};;`;
+
+    const qrUrl = wifiString
+    
+
     return NextResponse.json(
       {
+        success: true,
         message: "WiFi saved successfully!",
-        wifi
+        wifi,
+        qrUrl,
       },
       { status: 201 }
     );

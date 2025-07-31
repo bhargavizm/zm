@@ -209,7 +209,7 @@ export async function POST(req) {
 
     await petTagDoc.save();
 
-    const qrUrl = await getShortenedUrl(`/services/Pet-ID-tags/${petTagDoc._id}`);
+    const qrUrl = await getShortenedUrl(`/Pet-ID-tags/${petTagDoc._id}`);
 
     return NextResponse.json({
       success: true,
