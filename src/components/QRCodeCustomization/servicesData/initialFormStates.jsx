@@ -61,6 +61,12 @@ const initialFormStates = {
     password: "",
     bgDesign: "",
   },
+  wifi:{
+    ssid:"",
+    password:"",
+    bgDesign: "",
+    security:""
+  },
   "Pet-ID-tags": {
     petName: "",
     ownerName: "",

@@ -17,7 +17,8 @@ const WifiPreview = () => {
     setBgDesign(defaultBg);
   }, []);
 
-  const { ssid, security } = wifiFormData[0] || {};
+  const { ssid, security } = wifiFormData || {};
+
 
 const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
   const isImage = bgDesign && !isVideo;

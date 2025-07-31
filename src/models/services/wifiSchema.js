@@ -96,6 +96,10 @@ const wifiSchema = new mongoose.Schema(
       },
     },
 
+    bgDesign:{
+      type:String,
+    },
+
    qrCodeDetails: qrCodeServicesSchema
   },
   {
