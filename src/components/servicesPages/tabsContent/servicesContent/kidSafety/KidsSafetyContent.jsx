@@ -1033,9 +1033,9 @@ const KidsSafetyContent = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-teal-600 hover:bg-teal-700 text-white py-3 rounded-lg font-semibold"
+             className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg"
           >
-            {isSubmitting ? "Submitting..." : "Submit"}
+            {isSubmitting ? "Submitting..." : "Next → "}
           </button>
         </div>
       </form>
@@ -1060,7 +1060,7 @@ const KidsSafetyContent = () => {
                 className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700"
                 disabled={isSubmitting}
               >
-                Confirm & Submit
+                Continue
               </button>
             </div>
           </div>

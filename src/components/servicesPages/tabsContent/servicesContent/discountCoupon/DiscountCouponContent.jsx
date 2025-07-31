@@ -245,10 +245,10 @@ const DiscountCouponContent = () => {
         <div className="text-center my-6">
           <button
             type="button"
-            className="w-full bg-[#008080] hover:bg-[#006666] text-white py-3 rounded-lg font-medium shadow-lg transition-colors"
+             className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg"
             onClick={handleSubmit}
           >
-            Submit
+            Next → 
           </button>
         </div>
 
@@ -265,7 +265,7 @@ const DiscountCouponContent = () => {
                   <p><strong>Coupon Code:</strong> {discountCoupon.code}</p>
                 )}
                 {discountCoupon.password && (
-                  <p><strong>Password:</strong> ••••••</p>
+                  <p><strong>Password:</strong> {discountCoupon.password}</p>
                 )}
                 {discountCoupon.brandLogo && (
                   <div>
@@ -291,7 +291,7 @@ const DiscountCouponContent = () => {
                   className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700"
                   onClick={handleConfirm}
                 >
-                  Confirm
+                  Continue
                 </button>
               </div>
             </div>
