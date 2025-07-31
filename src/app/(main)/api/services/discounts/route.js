@@ -4,6 +4,7 @@ import DiscountModal from '@/models/services/discountSchema';
 import { cloudinary } from '@/utils/cloudinary';
 import { getShortenedUrl } from '@/utils/shortenUrl';
 import { NextResponse } from 'next/server';
+import bcrypt from 'bcryptjs'
 
 export async function POST(req) {
   try {
@@ -69,6 +70,12 @@ export async function POST(req) {
 
     const brandLogoUrl = await uploadImage(brandLogoBase64, 'brandLogos');
     const couponImageUrl = await uploadImage(couponImageBase64, 'couponImages');
+    // ✅ Step 3: Hash the password if provided
+            let hashedPassword = "";
+            if (password) {
+              const salt = await bcrypt.genSalt(10);
+              hashedPassword = await bcrypt.hash(password, salt);
+            }
 
     const newCoupon = new DiscountModal({
       user: {
@@ -79,7 +86,7 @@ export async function POST(req) {
       code,
       brandLogo: brandLogoUrl,
       couponImage: couponImageUrl,
-      password,
+      password: hashedPassword,
       qrCodeDetails: {
         qrCodeImage,
         location: {
