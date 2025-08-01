@@ -15,9 +15,9 @@ import {
   setProductCardServices,
   setMedicalServices,
   setEventServices,
-  setBusinessShopServices,
   setDiscountServices,
   setWifiServices,
+  setBusinessShopServices,
 
 } from "@/redux/slices/servicesSlice";
 

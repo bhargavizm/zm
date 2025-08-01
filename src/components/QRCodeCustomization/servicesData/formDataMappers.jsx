@@ -160,68 +160,7 @@ export const formDataMappers = {
   }
 },
 // In formDataMappers.js
-"business-shops": {
-  type: "formData",
-  map: (formData, state = {}, bgDesign) => {
-    const general = state.general || {};
-    const contact = state.contact || {};
-    const security = state.security || {};
-    const media = state.media || {};
-    const registration = state.registration || {};
 
-    // Selected Template
-    formData.append("selectedTemplate", state.selectedTemplate || "");
-
-    // General Info
-    formData.append("vehicleModel", general.vehicleModel || "");
-    formData.append("vehicleNumber", general.vehicleNumber || "");
-    formData.append("vehicleType", general.vehicleType || "");
-    formData.append("description", general.description || "");
-
-    // Registration Info
-    formData.append("rcNumber", registration.rcNumber || "");
-    formData.append("driverName", registration.driverName || "");
-    formData.append("ownerName", registration.ownerName || "");
-
-    // Contact Info
-    formData.append("contact", contact.contact || "");
-    formData.append("altContact", contact.altContact || "");
-    formData.append("address", contact.address || "");
-
-    // Security
-    formData.append("password", security.password || "");
-
-    // Media - Single file uploads
-    const singleFileFields = [
-      "vehicleImage",
-      "licenseFront",
-      "licenseBack",
-      "rcFront",
-      "rcBack",
-      "pollution",
-    ];
-    singleFileFields.forEach((field) => {
-      const file = media[field];
-      if (file) {
-        formData.append(field, file);
-      }
-    });
-
-    // Media - Multiple file uploads
-    (media.galleryImages || []).forEach((file) => {
-      if (file) formData.append("galleryImages", file);
-    });
-
-    (media.insurance || []).forEach((file) => {
-      if (file) formData.append("insurance", file);
-    });
-
-    // Optional Background Design
-    formData.append("bgDesign", bgDesign || "");
-
-    return formData;
-  },
-},
 
 
 
@@ -290,9 +229,9 @@ export const formDataMappers = {
 },
 
 
-  "business-shops": {
+ "business-shops": {
     type: "formData", 
-    map: (formData, state, bgDesign) => {
+    map: (formData, state={}, bgDesign) => {
       const general = state?.businessInfo?.general || {};
       const contact = state?.businessInfo?.contact || {};
       const security = state?.businessInfo?.security || {};
@@ -375,6 +314,7 @@ export const formDataMappers = {
       formData.append("shopTimingsTemplate.selectedTemplate", selectedTemplate);
     },
   },
+
 
   sms: {
     type: "json", // 🟢 JSON body
