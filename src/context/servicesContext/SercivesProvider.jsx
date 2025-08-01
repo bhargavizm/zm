@@ -157,7 +157,7 @@ const ServicesProvider = ({ children }) => {
     bgDesign:""
   };
 
-  const initialWifiFormData = { ssid: "", password: "", security: "WPA",bgDesign:"" };
+  const initialWifiFormData = [{ ssid: "", password: "", security: "WPA" }];
 
   const initialEventsFormData = {
     organizer: "",

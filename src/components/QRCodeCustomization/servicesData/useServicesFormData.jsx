@@ -50,9 +50,9 @@ export const useServicesFormData = () => {
   } = useServicesContext();
 
 
-  const businessShopFormData = dynamicForms?.businessShop
+  const businessShopFormData = dynamicForms?.businessInfo
+  const setBusinessShopFormData = setDynamicForms?.businessInfo;
 
-  const setBusinessShopFormData = setDynamicForms?.businessShop;
   const discountCouponFormData = dynamicForms?.discountCoupon
   const setDiscountCouponFormData = setDynamicForms?.discountCoupon
   const vehicleData = dynamicForms?.vehicle; // ✅ Correct
@@ -72,7 +72,7 @@ export const useServicesFormData = () => {
     ? formData
     : {
       "Pet-ID-tags": petIDFormData,
-      "business-shops": businessShopFormData,
+     
         "menu-cards": menuBookFormData,
         sms: smsFormData,
         "business-cards": businessForm,
@@ -104,7 +104,7 @@ export const useServicesFormData = () => {
     : {
       
       "Pet-ID-tags": setPetIDFormData,
-      "business-shops": setBusinessShopFormData,
+      
      
         "menu-cards": setMenuBookFormData,
         sms: setSmsFormData,
