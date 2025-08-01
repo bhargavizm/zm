@@ -34,19 +34,26 @@ const PetTagContent = () => {
     }));
   };
 
-  const handleOwnerChange = (e) => {
-    const { id, value } = e.target;
+   const handleOwnerChange = (e) => {
+  const { id, value } = e.target;
 
-    // Phone number validation
-    if (id === "phone") {
-      const phoneRegex = /^[0-9]{10,15}$/;
-      if (value && !phoneRegex.test(value)) {
-        setPhoneError("Please enter a valid phone number (10-15 digits)");
-      } else {
-        setPhoneError("");
-      }
+  if (id === "phone") {
+    const phoneRegex = /^[0-9]{10,15}$/;
+    if (value && !phoneRegex.test(value)) {
+      setPhoneError("Please enter a valid phone number (10-15 digits)");
+    } else {
+      setPhoneError("");
     }
+  }
 
+  // If the field is 'password', update it directly at root level
+  if (id === "password") {
+    setPetIDFormData((prev) => ({
+      ...prev,
+      password: value,
+    }));
+  } else {
+    // Otherwise treat it as part of ownerInfo
     setPetIDFormData((prev) => ({
       ...prev,
       ownerInfo: {
@@ -54,7 +61,8 @@ const PetTagContent = () => {
         [id]: value,
       },
     }));
-  };
+  }
+};
 
   const handlePetChange = (e) => {
     const { id, value } = e.target;
@@ -81,13 +89,16 @@ const PetTagContent = () => {
   };
 
   const clearImage = () => {
-    setFile(null);
-    setPetIDFormData((prev) => ({
-      ...prev,
-      mainImage: "",
-    }));
-    document.getElementById("imageInput").value = null;
-  };
+  setFile(null);
+  setPetIDFormData((prev) => ({
+    ...prev,
+    mainImage: "",
+    previewUrl: "",
+  }));
+  // Safely clear file input (if needed)
+  const input = document.getElementById("imageInput");
+  if (input) input.value = "";
+};
 
   const handleTemplateSelect = (selectedTemplate) => {
     if (petIDFormData.selectedTemplate !== selectedTemplate) {
@@ -329,7 +340,7 @@ const PetTagContent = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
-                value={petIDFormData.ownerInfo.password}
+                value={petIDFormData?.password}
                 onChange={handleOwnerChange}
                 placeholder="QR Password"
                 className="border p-2 pr-10 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
@@ -346,15 +357,19 @@ const PetTagContent = () => {
                 )}
               </button>
             </div>
-
-            <NFCModal />
+{/* 
+            <NFCModal /> */}
+            <div className="flex justify-center items-center">
             <button
               type="submit"
-              disabled={submitting}
-              className="mt-4 w-full bg-[#008080] text-white font-semibold py-2 rounded hover:bg-[#006666] transition disabled:opacity-60"
+            
+              className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg"
+
             >
-              {submitting ? "Submitting..." : "Submit"}
+              
+ Next → 
             </button>
+            </div>
           </div>
         </div>
       </form>
@@ -390,7 +405,7 @@ const PetTagContent = () => {
                   onClick={() => setShowPreviewModal(false)}
                   className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition"
                 >
-                  Edit Information
+                  Back
                 </button>
                 <button
                   type="button"
@@ -408,8 +423,7 @@ const PetTagContent = () => {
                     </>
                   ) : (
                     <>
-                      <Check className="mr-1" size={18} />
-                      Confirm and Submit
+                      Continue
                     </>
                   )}
                 </button>

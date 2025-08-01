@@ -32,10 +32,9 @@ const cardsSchema = new mongoose.Schema(
 // // 🔍 Add index to speed up queries by user + service type
 // cardsSchema.index({ "user.id": 1 });
 
+const BusinessCardsModel = mongoose.models["business-cards"] || mongoose.model("business-cards", cardsSchema);
+const VCardsModel = mongoose.models["v-cards"] || mongoose.model("v-cards", cardsSchema);
 
-const BusinessCardsModel = mongoose.models.BusinessCards || mongoose.model("business-cards", cardsSchema);
-
-const VCardsModel = mongoose.models.VCards || mongoose.model("v-cards", cardsSchema);
 
 
 export { BusinessCardsModel, VCardsModel };

@@ -7,6 +7,7 @@ import { formDataMappers } from "./formDataMappers";
 import { reduxDispatchMappers } from "./dispatchMappers";
 import { getInitialFormData } from "./initialFormStates";
 import useDesignContext from "@/components/hooks/useDesignContext";
+import axiosInstance from "@/lib/axiosInstance";
 
 const useSubmitForm = (activeService, formDataState, bgDesign, setFormDataState, setBgDesign) => {
   const dispatch = useDispatch();
@@ -36,7 +37,7 @@ const {setQrCodeUrl} =useDesignContext();
 
 
     try {
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/services/${activeService}`,
+      const res = await axiosInstance.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/services/${activeService}`,
         dataToSend,
         { headers,withCredentials: true }
       );

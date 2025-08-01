@@ -8,6 +8,7 @@ import { formDataMappers } from "./formDataMappers";
 import { reduxDispatchMappers } from "./dispatchMappers";
 import { getInitialFormData } from "./initialFormStates";
 import useDesignContext from "@/components/hooks/useDesignContext";
+import axiosInstance from "@/lib/axiosInstance";
 
 const useEncryptedSubmitForm = (
   activeService,
@@ -43,7 +44,7 @@ const useEncryptedSubmitForm = (
     }
 
     try {
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/encryptedServices/${activeService}`, dataToSend, {
+      const res = await axiosInstance.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/encryptedServices/${activeService}`, dataToSend, {
         headers, withCredentials: true,
       });
 
