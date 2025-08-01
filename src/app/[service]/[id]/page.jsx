@@ -26,9 +26,9 @@ import MultiUrlPreview from "@/components/scanningPreview/multiUrlPreview";
 import medicalalertsPreview from "@/components/scanningPreview/medicalalertsPreview";
 import EventsPreview from "@/components/scanningPreview/eventsPreview";
 //import BusinessPreview from "@/components/servicesPages/tabsContent/servicesContent/business/businessPreview";
-import EventModal from "@/models/services/eventSchema";
-import DiscountModal from "@/models/services/discountSchema";
-import DiscountCouponPreview from "@/components/scanningPreview/DiscountCouponPreview";
+//import EventModal from "@/models/services/eventSchema";
+// import DiscountModal from "@/models/services/discountSchema";
+// import DiscountCouponPreview from "@/components/scanningPreview/DiscountCouponPreview";
 import { BusinessCardsModel } from "@/models/services/cardsSchema";
 
 import { model } from "mongoose";
