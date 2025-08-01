@@ -107,6 +107,9 @@ export const formDataMappers = {
   },
 
   vehicles: {
+
+// In formDataMappers.js
+
     type: "formData",
     map: (formData, state, bgDesign) => {
       // Template
@@ -268,6 +271,7 @@ export const formDataMappers = {
     },
   },
 
+
   "business-shops": {
     type: "formData",
     map: (formData, state, bgDesign) => {
@@ -353,6 +357,7 @@ export const formDataMappers = {
       formData.append("shopTimingsTemplate.selectedTemplate", selectedTemplate);
     },
   },
+
 
   sms: {
     type: "json", // 🟢 JSON body
