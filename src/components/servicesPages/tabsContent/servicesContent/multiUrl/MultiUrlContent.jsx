@@ -164,7 +164,6 @@ const handleSubmit = () => {
   const confirmSubmit = async () => {
     setActiveTab(slug, "Backdrop Designs");
     updateDynamicForm("multiUrl", null,  "password", password.trim()); // ✅ Save into context
-    console.log(`passwordInHandle : ${password} `)
     //   setServicesDataLoading(true);
     // try {
     //   const encryptedPassword = password
