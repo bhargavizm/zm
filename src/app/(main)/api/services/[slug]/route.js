@@ -1,7 +1,7 @@
 import { connectDB } from "@/lib/mongoDB";
 import { authUser } from "@/middlewares/authMiddleware";
 import URLServiceModel from "@/models/services/urlServicesSchema";
-import { getShortenedUrlServices } from "@/utils/shortenUrl";
+import { getShortenedUrl } from "@/utils/shortenUrl";
 import bcrypt from "bcryptjs";
 
 export const config = {
@@ -11,63 +11,75 @@ export const config = {
 };
 
 export async function POST(req, context) {
-  const { slug } = context.params;
+  try {
+    const { slug } = context.params;
 
-  const auth = await authUser(req);
-  if (auth.status !== 200) {
-    return Response.json(auth.json, { status: auth.status });
-  }
+    const auth = await authUser(req);
+    if (auth.status !== 200) {
+      return Response.json(auth.json, { status: auth.status });
+    }
 
-  const user = auth.user;
-  await connectDB();
+    const user = auth.user;
+    await connectDB();
 
-  // ✅ Handle JSON-based service (e.g., URL)
-  const body = await req.json();
-  const {
-    url,
-    password,
-    qrPassword = "",
-    location = {},
-    renewalDate = null,
-    status = "active",
-  } = body;
+    const body = await req.json();
+    const {
+      url,
+      password,
+      qrPassword = "",
+      location = {},
+      renewalDate = null,
+      status = "active",
+    } = body;
 
-  const hashedPassword = password ? await bcrypt.hash(password, 10) : null;
+    const hashedPassword = password ? await bcrypt.hash(password, 10) : null;
 
-  const result = await URLServiceModel.create({
-    user: {
-      id: user._id,
-      name: user.name,
-    },
-    url,
-    password: hashedPassword,
-    serviceName: slug,
-    qrCodeDetails: {
-      qrCodeImage: body.qrCodeImage ?? "",
-
-      location: {
-        latitude: location.latitude ?? null,
-        longitude: location.longitude ?? null,
-        address: location.address ?? "",
+    const result = await URLServiceModel.create({
+      user: {
+        id: user._id,
+        name: user.name,
       },
-      renewalDate,
-      status,
-      resetPasswordToken: null,
-      resetPasswordExpires: null,
-    }, // ✅ include QR data
-  });
+      url,
+      password: hashedPassword,
+      serviceName: slug,
+      qrCodeDetails: {
+        qrCodeImage: body.qrCodeImage ?? "",
+        location: {
+          latitude: location.latitude ?? null,
+          longitude: location.longitude ?? null,
+          address: location.address ?? "",
+        },
+        renewalDate,
+        status,
+        resetPasswordToken: null,
+        resetPasswordExpires: null,
+      },
+    });
 
-  const qrUrl = await getShortenedUrlServices(`${url}`);
-  return Response.json(
-    {
-      success: true,
-      message: `${slug} service data submitted successfully`,
-      data: result,
-      qrUrl,
-    },
-    { status: 201 }
-  );
+    const qrUrl = await getShortenedUrl(`/${slug}/${result._id}`);
+
+    return Response.json(
+      {
+        success: true,
+        message: `${slug} service data submitted successfully`,
+        data: result,
+        qrUrl,
+      },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error("Error creating service:", error);
+    return Response.json(
+      {
+        success: false,
+        message: "Upload failed",
+        error: error.message || "Internal Server Error",
+      },
+      { status: 500 }
+    );
+  }
 }
+
 
 // import { connectDB } from "@/lib/mongoDB";
 // import { authUser } from "@/middlewares/authMiddleware";
