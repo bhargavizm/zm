@@ -37,9 +37,9 @@ const PetIdTemplateOne = ({ petIDFormData }) => {
         >
             {/* Fixed Pet Image inside card */}
             <div className="absolute top-10 left-0 w-full z-10 flex justify-center pt-4 ">
-                {petIDFormData.mainImage ? (
+                {petIDFormData.previewUrl ? (
                     <Image
-                        src={petIDFormData.mainImage}
+                        src={petIDFormData.previewUrl}
                         alt="Pet"
                         width={120}
                         height={120}

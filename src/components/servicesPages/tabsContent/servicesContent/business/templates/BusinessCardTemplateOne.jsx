@@ -47,7 +47,7 @@ const BusinessCardTemplateOne = ({ businessForm, profileImage, brandLogo }) => {
                         alt={""}
                         width={96}
                         height={96}
-                        className="object-cover w-full h-full"
+                        className="object-center w-full h-full"
                     />
                 </div>
             </div>
