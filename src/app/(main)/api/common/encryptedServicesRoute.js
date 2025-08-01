@@ -193,16 +193,18 @@ export async function HandleEncryptedServices({
       { status: 201 }
     );
   } catch (error) {
-    console.error("Upload Error:", error, error.message);
-    return new Response(
-      JSON.stringify({
+  console.error("Upload Error:", error);
+
+    return Response.json(
+      {
         success: false,
         message: "Upload failed",
-        error: error.message || error.toString(),
-      }),
+        error: error.message || "Internal Server Error",
+      },
       { status: 500 }
     );
-  }
+}
+
 }
 
 // for (const [key, value] of formData.entries()) {
