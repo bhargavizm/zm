@@ -21,6 +21,7 @@ const fileItemSchema = new mongoose.Schema({
   fileData: Buffer, // Optional if using Cloudinary
   fileName: String,
   fileType: String,
+   localPath: String,
  
 });
 

@@ -1,24 +1,41 @@
+// "use client";
+// import { useEffect } from "react";
+
+// const UrlServicePreview = ({ data }) => {
+//   console.log(data);
+//   useEffect(() => {
+//     if (data?.url) {
+//       const newTab = window.open(data.url, "_blank", "noopener,noreferrer");
+//       if (newTab) newTab.opener = null; // extra safety
+//     }
+//   }, [data?.url]);
+
+//   return null;
+// };
+
+// export default UrlServicePreview;
+
+
+
 "use client";
-import { useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import React from "react";
+import { HiArrowRight } from "react-icons/hi";
 
-const URLServicesPreview = ({ data }) => {
-  const router = useRouter();
-  const params = useSearchParams();
-
-  useEffect(() => {
-    // If password exists, user must input it
-    if (data.password) return;
-
-    // No password? Instantly redirect to URL
-    window.location.href = data.url;
-  }, [data]);
-
+const UrlServicePreview = ({ data }) => {
   return (
-    <div className="h-screen flex items-center justify-center text-center">
-      <p>🔒 This URL is password protected. Please enter the password to continue.</p>
+    <div className="flex justify-center items-center h-screen bg-mainGreen p-4">
+      <a
+        href={data?.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-2  border-white border-4 border-double  p-4 text-white font-bold underline text-xl hover:text-blue-500 transition-all duration-200 rounded-2xl shadow-xl"
+      >
+        Go to Link <HiArrowRight size={22} />
+      </a>
     </div>
   );
 };
 
-export default URLServicesPreview;
+export default UrlServicePreview;
+
+

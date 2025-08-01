@@ -68,21 +68,24 @@ const initialFormStates = {
     security:""
   },
   "Pet-ID-tags": {
-    petName: "",
-    ownerName: "",
-    contactNumber: "",
-    email: "",
-    address: "",
-    location: {
-      latitude: null,
-      longitude: null,
+    mainImage: null,
+    ownerInfo: {
+      name: "",
+      phone: "",
+      email: "",
       address: "",
+      visible: true,
     },
-    renewalDate: null,
-    status: "active",
-    qrCodeImage: "",
-    bgDesign: "",
-    password: "",
+    pet: {
+      name: "",
+      breed: "",
+      color: "",
+      images: [],
+      visible: true,
+    },
+    password:"",
+    bgDesign:"",
+   selectedTemplate: "",
   },
   "business-shops": {
     businessInfo: {

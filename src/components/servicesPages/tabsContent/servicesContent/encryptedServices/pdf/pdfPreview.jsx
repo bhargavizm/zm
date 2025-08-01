@@ -77,15 +77,15 @@ const PDFPreview = () => {
           )}
           {description && (
             <div className="flex gap-4">
-              <p className="text-xl font-semibold">Description</p>
+              <p className="text-xl font-semibold">Description :</p>
               <p className="text-xl font-medium whitespace-pre-wrap">
                 {description}
               </p>
             </div>
           )}
           <div className="w-full">
-            <p className="text-lg font-semibold mb-1">PDF Files</p>
-            <div className="flex flex-col items-center gap-1">
+            <p className="text-lg text-left font-semibold mb-1">PDF Files :</p>
+            <div className="flex flex-col  gap-1">
               {files?.length > 0 ? (
                 files.map((f, idx) => {
                   const isLocal = f instanceof File;

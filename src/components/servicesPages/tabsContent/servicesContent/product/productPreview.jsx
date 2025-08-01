@@ -36,7 +36,7 @@
 //   return (
 //     <div className="flex justify-center items-center w-full">
 //       <div className="relative w-[350px] h-[600px] border-[14px] border-gray-800 rounded-[36px] bg-white overflow-hidden shadow-2xl p-2">
-        
+
 //         {/* Background */}
 //         {isImage && (
 //           <img
@@ -114,19 +114,26 @@ const templateComponentMap = {
 
 const ProductPreview = () => {
   // Destructure product-related data from ServicesContext
-  const { productData, productLogo, productImage, items = [] } = useServicesContext();
+  const {
+    productData,
+    productLogo,
+    productImage,
+    items = [],
+  } = useServicesContext();
   // Destructure design-related data from DesignContext
   const { bgDesign, isLoading, setIsLoading, setBgDesign } = useDesignContext();
 
   // Determine the selected template filename based on productData.selectedTemplate index
   const selectedFilename =
-    ["temp1.webp", "temp2.webp", "temp3.webp", "temp4.webp"][productData.selectedTemplate] || "temp1.webp";
+    ["temp1.webp", "temp2.webp", "temp3.webp", "temp4.webp"][
+      productData.selectedTemplate
+    ] || "temp1.webp";
 
   // Get the actual React component for the selected template
   const SelectedTemplate = templateComponentMap[selectedFilename];
 
   // Check if the background design is a video or image
-const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
+  const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
   const isImage = bgDesign && !isVideo;
 
   // Effect to manage initial loading state and potentially clear background
@@ -136,11 +143,9 @@ const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
     setBgDesign(null); // Clears background on initial load/mount
     setIsLoading(false); // Ensures loader is off after initial render
   }, []); // Empty dependency array means this runs only once on mount
-console.log('productData', productData)
   return (
     <div className="flex justify-center items-center w-full">
       <div className="relative w-[350px] h-[600px] border-[14px] border-gray-800 rounded-[36px] bg-white overflow-hidden shadow-2xl p-2">
-
         {/* Background Handling (Image or Video) */}
         {isImage && (
           <img
@@ -190,7 +195,9 @@ console.log('productData', productData)
               bgDesign={bgDesign} // Pass background design to template if it needs to adjust its content based on it
             />
           ) : (
-            <p className="text-center text-gray-500 mt-4">Please select a template</p>
+            <p className="text-center text-gray-500 mt-4">
+              Please select a template
+            </p>
           )}
         </div>
       </div>

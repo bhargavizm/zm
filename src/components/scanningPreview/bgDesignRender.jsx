@@ -19,7 +19,7 @@ const BgDesignRenderer = ({ bgDesign, defaultBg }) => {
     );
   }
 
-  return <img src={defaultBg} alt="Default Background" {...commonProps} />;
+  // return <img src={defaultBg} alt="Default Background" {...commonProps} />;
 };
 
 export default BgDesignRenderer;
