@@ -323,22 +323,22 @@ export async function POST(request) {
     // --- Debug log all keys and values ---
     for (const [key, value] of formData.entries()) {
       if (value instanceof File) {
-        console.log(`Key: ${key}, File name: ${value.name}, size: ${value.size}`);
+        // console.log(`Key: ${key}, File name: ${value.name}, size: ${value.size}`);
       } else {
-        console.log(`Key: ${key}, Value: ${value}`);
+        // console.log(`Key: ${key}, Value: ${value}`);
       }
     }
 
     // Extract password and log it
     const password = formData.get("password");
-    console.log("Password extracted:", password);
+    // console.log("Password extracted:", password);
 
     // Hash password if valid
     let hashedPassword = null;
     if (password && password.length >= 1) {
       const salt = await bcrypt.genSalt(10);
       hashedPassword = await bcrypt.hash(password, salt);
-      console.log("Hashed password:", hashedPassword);
+      // console.log("Hashed password:", hashedPassword);
     }
 
     // Other form fields

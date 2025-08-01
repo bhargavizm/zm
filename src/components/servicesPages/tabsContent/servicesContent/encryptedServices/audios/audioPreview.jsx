@@ -68,16 +68,16 @@ const AudioPreview = () => {
           )}
           {description && (
             <div className="flex gap-4">
-              <p className="text-xl font-semibold">Description</p>
+              <p className="text-xl font-semibold">Description :</p>
               <p className="text-xl font-medium whitespace-pre-wrap">
                 {description}
               </p>
             </div>
           )}
           <div>
-  <p className="text-xs font-semibold">Audio File{file.length !== 1 ? "s" : ""}</p>
+  <p className="text-xl font-semibold">Audio File{file.length !== 1 ? "s" : ""}</p>
   {file.length > 0 ? (
-    <ul className="text-sm space-y-4 w-full px-2">
+    <ul className="text-sm space-y-4 w-full p-4">
       {file.map((f, i) => {
         const isLocal = f instanceof File;
         const audioUrl = isLocal ? URL.createObjectURL(f) : f?.fileUrl || ""; // fallbacks

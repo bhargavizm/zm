@@ -44,7 +44,7 @@ export default async function RedirectPage({ params }) {
   try {
     const res = await fetch(`https://ipwho.is/${ip}`);
     const data = await res.json();
-    console.log("Geo response:", data);
+    // console.log("Geo response:", data);
 
     if (data.success && data.city && data.country) {
       location = `${data.city}, ${data.country}`;
