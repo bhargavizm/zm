@@ -2,10 +2,9 @@
 
 import CardsTemplate from "./cardsTemplate";
 
-const TemplateOne = ({ businessForm, profileImage }) => (
+const TemplateOne = ({ businessForm }) => (
   <CardsTemplate
     businessForm={businessForm}
-    profileImage={profileImage}
     styles={{
       containerBg: "bg-black/70 text-white",
       fontFamily: "Montserrat, sans-serif",

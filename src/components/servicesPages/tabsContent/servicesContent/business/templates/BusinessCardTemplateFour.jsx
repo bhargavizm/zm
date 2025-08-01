@@ -27,7 +27,7 @@ const BusinessCardTemplateFour = ({ businessForm, profileImage, brandLogo }) => 
             <div className="flex justify-center mt-18">
                 <div className="w-30 h-30 rounded-full overflow-hidden border-4 border-white shadow">
                     <Image
-                        src={profileImage || "/default-user.webp"}
+                        src={businessForm.previewImageUrl || "/default-user.webp"}
                         alt={""}
                         width={80}
                         height={80}

@@ -63,17 +63,17 @@ const handler = NextAuth({
     // ✅ This is the important part: store OAuth users in your custom User model
     events: {
         async signIn({ user, account, profile, isNewUser }) {
-            console.log('[JWT User]', user);
-            console.log('[Account Provider]', account.provider);
-            console.log('[Profile Data]', profile);
-            console.log('[isNewUser]', isNewUser);
+            // console.log('[JWT User]', user);
+            // console.log('[Account Provider]', account.provider);
+            // console.log('[Profile Data]', profile);
+            // console.log('[isNewUser]', isNewUser);
 
             if (account.provider === 'google' || account.provider === 'facebook') {
                 await connectDB();
                 console.log('Connected to DB');
 
                 const existing = await User.findOne({ email: user.email });
-                console.log('[Existing User]', existing);
+                // console.log('[Existing User]', existing);
 
                 if (!existing) {
                     const randomPassword = crypto.randomBytes(16).toString('hex'); // user-specific

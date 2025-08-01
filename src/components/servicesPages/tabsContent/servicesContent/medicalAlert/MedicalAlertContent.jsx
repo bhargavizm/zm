@@ -182,7 +182,6 @@ const MedicalAlertContent = () => {
   const handleFinalSubmit = async () => {
    
     updateDynamicForm("medicalAlert", null,  "password", password.trim()); // ✅ Save into context
-    console.log(`passwordInHandle : ${password} `)
      setActiveTab(slug, "Backdrop Designs");
     // setIsSubmitting(true);
     // setError(null);
