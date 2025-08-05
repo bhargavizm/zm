@@ -629,7 +629,7 @@ export default function PricingPage() {
         },
         { 
           name: "Max Upload Size of a Single File / PDF", 
-          values: ["Upto 5GB", "Upto 5GB", "Upto 5GB", "Upto 5GB", "Upto 5GB"] 
+          values: ["Upto 1GB", "Upto 2GB", "Upto 3GB", "Upto 4GB", "Upto 5GB"] 
         },
       ],
     },
