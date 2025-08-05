@@ -162,68 +162,48 @@ export const formDataMappers = {
     },
   },
   // In formDataMappers.js
-  "business-shops": {
-    type: "formData",
-    map: (formData, state = {}, bgDesign) => {
-      const general = state.general || {};
-      const contact = state.contact || {};
-      const security = state.security || {};
-      const media = state.media || {};
-      const registration = state.registration || {};
+"business-shops": {
+  type: "formData",
+  map: (formData, state = {}, bgDesign) => {
+    console.log('formData',formData);
+    const contact = state.contact || {};
+    // General Info
+    formData.append("businessName", state.businessName || "");
+    formData.append("businessType", state.businessType || "");
+    formData.append("description", state.description || "");
+    formData.append("shopTimings", state.shopTimings || "");
+    formData.append("discount", state.discount || "");
+    // Password
+    formData.append("password", state.password || "");
 
-      // Selected Template
-      formData.append("selectedTemplate", state.selectedTemplate || "");
+     formData.append("bgDesign", bgDesign || "");
+   // Selected Template
+    formData.append("selectedTemplate", state.selectedTemplate || "");
 
-      // General Info
-      formData.append("vehicleModel", general.vehicleModel || "");
-      formData.append("vehicleNumber", general.vehicleNumber || "");
-      formData.append("vehicleType", general.vehicleType || "");
-      formData.append("description", general.description || "");
+    // Contact Info
+    formData.append("ownerName", contact.ownerName || "");
+    formData.append("phone", contact.phone || "");
+    formData.append("altPhone", contact.altPhone || "");
+    formData.append("email", contact.email || "");
+    formData.append("address", contact.address || "");
 
-      // Registration Info
-      formData.append("rcNumber", registration.rcNumber || "");
-      formData.append("driverName", registration.driverName || "");
-      formData.append("ownerName", registration.ownerName || "");
+   
+    // Media
+    if (state.shopLogo) {
+      formData.append("shopLogo", state.shopLogo);
+    }
 
-      // Contact Info
-      formData.append("contact", contact.contact || "");
-      formData.append("altContact", contact.altContact || "");
-      formData.append("address", contact.address || "");
+    (state.shopImages || []).forEach((img) => {
+      if (img) formData.append("shopImages", img);
+    });
 
-      // Security
-      formData.append("password", security.password || "");
-
-      // Media - Single file uploads
-      const singleFileFields = [
-        "vehicleImage",
-        "licenseFront",
-        "licenseBack",
-        "rcFront",
-        "rcBack",
-        "pollution",
-      ];
-      singleFileFields.forEach((field) => {
-        const file = media[field];
-        if (file) {
-          formData.append(field, file);
-        }
-      });
-
-      // Media - Multiple file uploads
-      (media.galleryImages || []).forEach((file) => {
-        if (file) formData.append("galleryImages", file);
-      });
-
-      (media.insurance || []).forEach((file) => {
-        if (file) formData.append("insurance", file);
-      });
-
-      // Optional Background Design
-      formData.append("bgDesign", bgDesign || "");
-
-      return formData;
-    },
+    // Optional Background Design
+   
+console.log('formData',formData);
+    return formData;
   },
+},
+
 
   "kids-safety-qr-tags": {
     type: "formData",
@@ -270,95 +250,6 @@ export const formDataMappers = {
       return formData;
     },
   },
-
-
-  "business-shops": {
-    type: "formData",
-    map: (formData, state, bgDesign) => {
-      const general = state?.businessInfo?.general || {};
-      const contact = state?.businessInfo?.contact || {};
-      const security = state?.businessInfo?.security || {};
-      const media = state?.businessInfo?.media || {};
-      const shopTemplate = state?.shopTimingsTemplate || {};
-      const selectedTemplate = shopTemplate.selectedTemplate || "";
-      const templateKey = `${selectedTemplate}Data`;
-      const templateData = shopTemplate[templateKey] || {};
-
-      // === General Info ===
-      formData.append(
-        "businessInfo.general.businessName",
-        general.businessName || ""
-      );
-      formData.append(
-        "businessInfo.general.businessType",
-        general.businessType || ""
-      );
-      formData.append(
-        "businessInfo.general.description",
-        general.description || ""
-      );
-      formData.append(
-        "businessInfo.general.shopTimings",
-        general.shopTimings || ""
-      );
-      formData.append("businessInfo.general.discount", general.discount || "");
-      formData.append(
-        "businessInfo.general.establishedDate",
-        general.establishedDate || ""
-      );
-
-      // === Contact Info ===
-      formData.append("businessInfo.contact.owner", contact.owner || "");
-      formData.append("businessInfo.contact.phone", contact.phone || "");
-      formData.append("businessInfo.contact.altPhone", contact.altPhone || "");
-      formData.append("businessInfo.contact.email", contact.email || "");
-      formData.append("businessInfo.contact.address", contact.address || "");
-
-      // === Security Info ===
-      formData.append(
-        "businessInfo.security.password",
-        security.password || ""
-      );
-
-      // === Logo ===
-      if (media.logo instanceof File) {
-        formData.append("businessInfo.media.logo", media.logo);
-      }
-
-      // === Gallery Images ===
-      if (Array.isArray(media.galleryImages)) {
-        media.galleryImages.forEach((img) => {
-          if (img instanceof File) {
-            formData.append("businessInfo.media.galleryImages", img);
-          } else if (img?.file instanceof File) {
-            formData.append("businessInfo.media.galleryImages", img.file);
-          }
-        });
-      }
-
-      // === Video ===
-      if (media.video instanceof File) {
-        formData.append("businessInfo.media.video", media.video);
-      }
-
-      // === Background Design ===
-      if (bgDesign) {
-        formData.append("bgDesign", bgDesign);
-      }
-
-      // === Shop Timings Template ===
-      Object.entries(templateData).forEach(([key, value]) => {
-        formData.append(
-          `shopTimingsTemplate.${templateKey}.${key}`,
-          value || ""
-        );
-      });
-
-      formData.append("shopTimingsTemplate.selectedTemplate", selectedTemplate);
-    },
-  },
-
-
   sms: {
     type: "json", // 🟢 JSON body
     map: (body, state, bgDesign) => {

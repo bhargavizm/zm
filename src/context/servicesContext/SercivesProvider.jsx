@@ -25,12 +25,11 @@ const ServicesProvider = ({ children }) => {
 
   //url services
   const [formData, setFormData] = useState({
-      url: "",
-      password: "",
-    });
+    url: "",
+    password: "",
+  });
 
-  
-
+  //business cards
   const initialBusinessForm = {
     name: "",
     heading: "",
@@ -41,29 +40,51 @@ const ServicesProvider = ({ children }) => {
     address: "",
     mapLink: "",
     email: "",
-    profileImageUrl:'',
+    profileImageUrl: "",
     url: "",
     url1: "",
     password: "",
-    bgDesign:""
+    bgDesign: "",
   };
 
+  //businessshops
+  const [businessShopFormData, setBusinessShopFormData] = useState({
+    businessName: "",
+    businessType: "",
+    description: "",
+    shopTimings: "",
+    discount: "",
+    contact: {
+      owner: "",
+      phone: "",
+      altPhone: "",
+      email: "",
+      address: "",
+    },
+    shopLogo: "",
+    shopImages: [],
+    password: "",
+    bgDesign: "",
+  });
+
   const initialProductData = {
-    productLogo:"",
+    productLogo: "",
     brandName: "",
-    items:[{
-      productImage:"",
-       description: "",
-       heading:'',
+    items: [
+      {
+        productImage: "",
+        description: "",
+        heading: "",
         pageUrl: "",
-    videoUrl: "",
-    }],
+        videoUrl: "",
+      },
+    ],
     email: "",
     phone: "",
     address: "",
     password: "",
     selectedTemplate: null,
-    bgDesign:"",
+    bgDesign: "",
   };
 
   const initialAudioFormData = {
@@ -71,19 +92,19 @@ const ServicesProvider = ({ children }) => {
     description: "",
     file: [],
     password: "",
-    bgDesign:"",
+    bgDesign: "",
     qrCodeDetails: {
-      qrCodeImage: '',
+      qrCodeImage: "",
 
       location: {
-        latitude: '',
-        longitude: '',
+        latitude: "",
+        longitude: "",
         address: "",
       },
-      renewalDate: '',
-      status: '',
-      resetPasswordToken: '',
-      resetPasswordExpires: '',
+      renewalDate: "",
+      status: "",
+      resetPasswordToken: "",
+      resetPasswordExpires: "",
     },
   };
 
@@ -92,19 +113,19 @@ const ServicesProvider = ({ children }) => {
     description: "",
     file: [],
     password: "",
-     bgDesign:"",
+    bgDesign: "",
     qrCodeDetails: {
-      qrCodeImage: '',
+      qrCodeImage: "",
 
       location: {
-        latitude: '',
-        longitude: '',
+        latitude: "",
+        longitude: "",
         address: "",
       },
-      renewalDate: '',
-      status: '',
-      resetPasswordToken: '',
-      resetPasswordExpires: '',
+      renewalDate: "",
+      status: "",
+      resetPasswordToken: "",
+      resetPasswordExpires: "",
     },
   };
 
@@ -113,19 +134,19 @@ const ServicesProvider = ({ children }) => {
     description: "",
     file: [],
     password: "",
-     bgDesign:"",
+    bgDesign: "",
     qrCodeDetails: {
-      qrCodeImage: '',
+      qrCodeImage: "",
 
       location: {
-        latitude: '',
-        longitude: '',
+        latitude: "",
+        longitude: "",
         address: "",
       },
-      renewalDate: '',
-      status: '',
-      resetPasswordToken: '',
-      resetPasswordExpires: '',
+      renewalDate: "",
+      status: "",
+      resetPasswordToken: "",
+      resetPasswordExpires: "",
     },
   };
 
@@ -134,19 +155,19 @@ const ServicesProvider = ({ children }) => {
     description: "",
     file: [],
     password: "",
-     bgDesign:"",
+    bgDesign: "",
     qrCodeDetails: {
-      qrCodeImage: '',
+      qrCodeImage: "",
 
       location: {
-        latitude: '',
-        longitude: '',
+        latitude: "",
+        longitude: "",
         address: "",
       },
-      renewalDate: '',
-      status: '',
-      resetPasswordToken: '',
-      resetPasswordExpires: '',
+      renewalDate: "",
+      status: "",
+      resetPasswordToken: "",
+      resetPasswordExpires: "",
     },
   };
 
@@ -154,7 +175,7 @@ const ServicesProvider = ({ children }) => {
     resumeFile: [],
     resumeUrl: "",
     password: "",
-    bgDesign:""
+    bgDesign: "",
   };
 
   const initialWifiFormData = [{ ssid: "", password: "", security: "WPA" }];
@@ -173,8 +194,8 @@ const ServicesProvider = ({ children }) => {
     contactName: "",
     contactEmail: "",
     contactPhone: "",
-    bgDesign:"",
-    password:"",
+    bgDesign: "",
+    password: "",
     // webLabel: "My Website",
     // webUrl: "www.yourweburl.com",
   };
@@ -183,16 +204,16 @@ const ServicesProvider = ({ children }) => {
     genderName: "",
     messageType: "",
     textMessage: "",
-    bgDesign:"",
+    bgDesign: "",
     password: "",
-     bgDesign: "",
+    bgDesign: "",
   };
 
   const initialTextMessageForm = {
     sender: "",
     message: "",
     password: "",
-    bgDesign:""
+    bgDesign: "",
   };
 
   // Menu Book (Original structure)
@@ -229,9 +250,8 @@ const ServicesProvider = ({ children }) => {
       galleryImages: [],
     },
     password: "",
-    bgDesign:"",
+    bgDesign: "",
   });
-
 
   const initialPetIDFormData = {
     mainImage: null,
@@ -249,9 +269,8 @@ const ServicesProvider = ({ children }) => {
       images: [],
       visible: true,
     },
-    password:"",
-    bgDesign:""
-   
+    password: "",
+    bgDesign: "",
   };
 
   const initialDynamicForms = {
@@ -289,19 +308,19 @@ const ServicesProvider = ({ children }) => {
         location: "",
       },
       password: "",
-      bgDesign:"",
+      bgDesign: "",
       qrCodeDetails: {
-        qrCodeImage: '',
+        qrCodeImage: "",
 
         location: {
-          latitude: '',
-          longitude: '',
+          latitude: "",
+          longitude: "",
           address: "",
         },
-        renewalDate: '',
-        status: '',
-        resetPasswordToken: '',
-        resetPasswordExpires: '',
+        renewalDate: "",
+        status: "",
+        resetPasswordToken: "",
+        resetPasswordExpires: "",
       },
     },
 
@@ -315,32 +334,7 @@ const ServicesProvider = ({ children }) => {
       customLinks: [],
       password: "",
     },
-    //BusinessShop Named as BusinessInfo, 
-    businessInfo: {
-      general: {
-        businessName: "",
-        businessType: "",
-        description: "",
-        shopTimings: "",
-        discount: "",
-      },
-      contact: {
-        owner: "",
-        phone: "",
-        altPhone: "",
-        email: "",
-        address: "",
-      },
-      media: {
-        logo: null,
-        video: null,
-        galleryImages: [],
-      },
-      security: {
-        password: "",
-      },
-      bgDesign:"",
-    },
+
     shopTimingsTemplate: {
       selectedTemplate: "none",
       password: "",
@@ -372,7 +366,7 @@ const ServicesProvider = ({ children }) => {
       homeAddress: "",
       mapLink: "",
       password: "",
-      bgDesign:"",
+      bgDesign: "",
       selectedTemplate: "",
       kidsImage: null,
     },
@@ -407,7 +401,7 @@ const ServicesProvider = ({ children }) => {
       security: {
         password: "",
       },
-      bgDesign:"",
+      bgDesign: "",
     },
     vehicleTemplate: {
       selectedTemplate: "none",
@@ -434,8 +428,6 @@ const ServicesProvider = ({ children }) => {
     setDynamicForms(resetState);
   };
 
- 
-  
   const [businessForm, setBusinessForm] = useState(initialBusinessForm);
   const [profileImage, setProfileImage] = useState(null); // File state for BusinessForm
   const [brandLogo, setBrandLogo] = useState(null); // File state for BusinessForm
@@ -457,7 +449,7 @@ const ServicesProvider = ({ children }) => {
     initialTextMessageForm
   );
   const [petIDFormData, setPetIDFormData] = useState(initialPetIDFormData);
-  const [dynamicForms, setDynamicForms] = useState(initialDynamicForms); // For medicalAlert, propertyDetails, etc.
+  const [dynamicForms, setDynamicForms] = useState(initialDynamicForms); // For medicalAlert
 
   // UI Toggles
   const [showPassword, setShowPassword] = useState(false);
@@ -518,10 +510,6 @@ const ServicesProvider = ({ children }) => {
         case "multiUrl":
           initialStateToApply = initialDynamicForms.multiUrl;
           break;
-       
-        case "businessInfo":
-          initialStateToApply = initialDynamicForms.businessInfo;
-          break;
         case "shopTimingsTemplate":
           initialStateToApply = initialDynamicForms.shopTimingsTemplate;
           break;
@@ -549,8 +537,6 @@ const ServicesProvider = ({ children }) => {
       };
     });
   };
-
-
 
   // Add/Remove template fields (these seem fine for their specific use cases)
   const addTemplateField = (
@@ -587,7 +573,10 @@ const ServicesProvider = ({ children }) => {
     <ServicesContext.Provider
       value={{
         // Static forms and their setters
-        formData, setFormData,
+        businessShopFormData,
+        setBusinessShopFormData,
+        formData,
+        setFormData,
         businessForm,
         setBusinessForm,
         profileImage,
@@ -636,7 +625,6 @@ const ServicesProvider = ({ children }) => {
         resetAllDynamicForms,
         addTemplateField,
         removeTemplateField,
- 
 
         // UI Toggles
         showPassword,

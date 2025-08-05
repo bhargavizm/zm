@@ -33,7 +33,7 @@ export default function KidsSafetyPreview({ data }) {
 
   return (
     <div className="flex justify-center">
-      <div className="relative w-[350px] h-[600px]  shadow-xl overflow-hidden">
+      <div className="relative w-[350px] h-[650px]  shadow-xl overflow-hidden">
         {/* 🖼 Background */}
         {isImage && (
           <img

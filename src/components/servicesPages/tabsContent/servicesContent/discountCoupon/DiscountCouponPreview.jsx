@@ -42,8 +42,8 @@ const DiscountCouponPreview = () => {
   return (
     // <div className="flex justify-center items-center mt-10">
     <div className="flex justify-center">
-      {/* <div className="relative bg-gradient-to-br from-gray-900 to-gray-800 p-3 rounded-[40px] w-[350px] h-[600px] shadow-2xl border-4 border-gray-700 overflow-y-auto scrollbar-hide"> */}
-      <div className="relative w-[350px] h-[600px] rounded-[40px] border-[14px] border-gray-800 shadow-xl  flex flex-col">
+      {/* <div className="relative bg-gradient-to-br from-gray-900 to-gray-800 p-3 rounded-[40px] w-[350px] h-[650px] shadow-2xl border-4 border-gray-700 overflow-y-auto scrollbar-hide"> */}
+      <div className="relative w-[350px] h-[650px] rounded-[40px] border-[14px] border-gray-800 shadow-xl  flex flex-col">
         {/* 🔳 Background */}
         {isImage && (
           <img

@@ -16,16 +16,17 @@ axiosInstance.interceptors.response.use(
     const message = error?.response?.data?.error || "";
 
     // 🔐 Handle session expiration
-    if (status === 401 && message.toLowerCase().includes("session expired")) {
-      toast.error("Session expired. Redirecting to login...");
+   if (status === 401 && message.toLowerCase().includes("session expired")) {
+  toast.error("Session expired. Redirecting to login...");
 
-      // Optional: clear any auth storage or cookies
-      // document.cookie = "token=; Max-Age=0; path=/;";
+  // Save current path to sessionStorage
+  sessionStorage.setItem("redirectAfterLogin", window.location.pathname);
 
-      setTimeout(() => {
-        window.location.href = "/login"; // redirect to login
-      }, 1000);
-    }
+  setTimeout(() => {
+    window.location.href = "/login";
+  }, 1000);
+}
+
 
     // Let other handlers deal with it
     return Promise.reject(error);
