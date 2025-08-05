@@ -1,45 +1,87 @@
-'use client'
+'use client';
 import React, { useEffect } from 'react';
-import { FiUser, FiPhone, FiMapPin, FiTruck, FiCalendar } from 'react-icons/fi';
+import Image from 'next/image';
+import { FiUser, FiPhone, FiTruck } from 'react-icons/fi';
 import useDesignContext from '../hooks/useDesignContext';
+
+const resolveImageUrl = (image) => {
+  if (image instanceof File) return URL.createObjectURL(image);
+  if (typeof image === 'string') return image;
+  return null;
+};
+
+const Section = ({ title, children, condition }) => {
+  if (!condition) return null;
+  return (
+    <div className="mb-4 px-4">
+      <div className="bg-white/80 backdrop-blur-md rounded-xl shadow-md p-4">
+        <h2 className="text-xl font-semibold mb-2 text-[#008080]">{title}</h2>
+        <div className="space-y-1.5 text-sm text-gray-800">{children}</div>
+      </div>
+    </div>
+  );
+};
 
 const VehiclePreview = ({ data }) => {
   const {
-    user,
-    general,
-    registration,
-    contact,
-    media,
+    general = {},
+    registration = {},
+    contact = {},
+    media = {},
     createdAt,
-  } = data;
+    password = '',
+    vehicleTemplate = 'none',
+    bgDesign: incomingBgDesign,
+  } = data || {};
 
-  const defaultBg = '/services-service/vehicle-preview.webp';
   const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
 
-  const isVideo = defaultBg?.endsWith('.mp4') || defaultBg?.endsWith('.webm');
-  const isImage = defaultBg && !isVideo;
+  const templateBgMap = {
+    templateV1: "/images/back/bgcar.webp",
+    templateV2: "/images/back/bgauto.webp",
+    templateV3: "/images/back/bglorry.webp",
+    templateV4: "/images/back/bgbike.webp",
+  };
+
+  const templateBackground = templateBgMap[vehicleTemplate] || null;
+  const useTemplateBg = vehicleTemplate !== 'none' && templateBackground;
+
+  const isVideo = bgDesign?.endsWith('.mp4') || bgDesign?.endsWith('.webm');
+  const isImage = bgDesign && !isVideo;
 
   useEffect(() => {
-    if (data?.bgDesign) {
-      setBgDesign(data.bgDesign);
-    } else {
-      setBgDesign(defaultBg);
-    }
-  }, [data]);
+    setBgDesign(incomingBgDesign || templateBackground || null);
+    setIsLoading(false);
+  }, [incomingBgDesign, templateBackground]);
+
+  const hasData =
+    general.vehicleModel ||
+    general.vehicleType ||
+    general.vehicleNumber ||
+    general.description ||
+    registration.rcNumber ||
+    registration.driverName ||
+    registration.ownerName ||
+    contact.contact ||
+    contact.altContact ||
+    contact.address ||
+    contact.mapLink ||
+    media.vehicleImage ||
+    media.licenseFront ||
+    media.licenseBack ||
+    media.rcFront ||
+    media.rcBack ||
+    media.pollution ||
+    (media.galleryImages?.length > 0) ||
+    (media.insurance?.length > 0) ||
+    password;
 
   return (
     <div className="flex justify-center">
-      <div className=" shadow-xl w-[350px] h-[650px] overflow-hidden p-2 pr-5 flex flex-col relative rounded-[30px]">
-        
+      <div className="relative w-[350px] h-[600px] rounded-[40px] border-[14px] border-gray-800 shadow-xl overflow-hidden flex flex-col text-gray-800 bg-white">
+
         {/* Background Layer */}
-        {isImage ? (
-          <img
-            src={bgDesign}
-            alt="Background"
-            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
-            className="absolute top-0 left-0 w-full h-full object-cover z-0"
-          />
-        ) : isVideo ? (
+        {isVideo && (
           <video
             src={bgDesign}
             autoPlay
@@ -47,87 +89,214 @@ const VehiclePreview = ({ data }) => {
             muted
             playsInline
             onLoadedData={() => setTimeout(() => setIsLoading(false), 300)}
-            className="absolute top-0 left-0 w-full h-full object-cover z-0"
-          />
-        ) : (
-          <img
-            src={defaultBg}
-            alt="Default Background"
-            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
-            className="absolute top-0 left-0 w-full h-full object-cover z-0"
+            className="absolute inset-0 w-full h-full object-cover z-0"
           />
         )}
+        {isImage && (
+          <img
+            src={bgDesign}
+            alt="Background Design"
+            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          />
+        )}
+        {useTemplateBg && (
+          <img
+            src={templateBackground}
+            alt="Template Background"
+            className="absolute inset-0 w-full h-full opacity-70 object-contain z-10 p-2 pointer-events-none"
+          />
+        )}
+        {!isVideo && !isImage && !useTemplateBg && (
+          <div className="absolute inset-0 bg-gradient-to-b from-[#d1f0f0] to-white z-0" />
+        )}
+
+        {/* Loader */}
+        {isLoading && (
+          <div className="absolute inset-0 z-50 bg-mainGreen backdrop-blur-sm flex justify-center items-center">
+            <Image
+              src="/logos/ZM LOGO.webp"
+              alt="Loading Logo"
+              width={300}
+              height={150}
+              className="w-20 h-20 animate-bounce"
+            />
+          </div>
+        )}
+
+        {/* Notch */}
+        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-6 bg-gray-800 rounded-b-xl z-10" />
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto z-20 bg-white/80 pt-8 m-2 rounded-xl pb-4 px-4 w-full">
-          <h2 className="text-xl font-bold text-center text-[#008080] mb-4">Vehicle QR Info</h2>
-
-          <div className="space-y-4 text-black">
-            {/* General Info */}
-            {(general?.vehicleModel || general?.vehicleType || general?.description) && (
-              <div className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20">
-                <div className="flex items-center text-[#008080] mb-1">
-                  <FiTruck className="mr-2" />
-                  <span className="font-medium">General Info</span>
-                </div>
-                <p><strong>Model:</strong> {general?.vehicleModel || "N/A"}</p>
-                <p><strong>Type:</strong> {general?.vehicleType || "N/A"}</p>
-                <p><strong>Description:</strong> {general?.description || "N/A"}</p>
-              </div>
-            )}
-
-            {/* Registration Info */}
-            {(registration?.rcNumber || registration?.ownerName || registration?.driverName) && (
-              <div className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20">
-                <div className="flex items-center text-[#008080] mb-1">
-                  <FiUser className="mr-2" />
-                  <span className="font-medium">Registration</span>
-                </div>
-                <p><strong>RC:</strong> {registration?.rcNumber || "N/A"}</p>
-                <p><strong>Owner:</strong> {registration?.ownerName || "N/A"}</p>
-                <p><strong>Driver:</strong> {registration?.driverName || "N/A"}</p>
-              </div>
-            )}
-
-            {/* Contact Info */}
-            {(contact?.contact || contact?.altContact || contact?.address) && (
-              <div className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20">
-                <div className="flex items-center text-[#008080] mb-1">
-                  <FiPhone className="mr-2" />
-                  <span className="font-medium">Contact Info</span>
-                </div>
-                <p><strong>Phone:</strong> {contact?.contact || "N/A"}</p>
-                <p><strong>Alt:</strong> {contact?.altContact || "N/A"}</p>
-                <p><strong>Address:</strong> {contact?.address || "N/A"}</p>
-              </div>
-            )}
-
-            {/* Media Images */}
-            {(media?.vehicleImage || media?.licenseFront || media?.licenseBack) && (
-              <div className="space-y-2">
-                {media?.vehicleImage && (
-                  <img src={media.vehicleImage} alt="Vehicle" className="rounded w-full object-cover" />
-                )}
-                {media?.licenseFront && (
-                  <img src={media.licenseFront} alt="License Front" className="rounded w-full object-cover" />
-                )}
-                {media?.licenseBack && (
-                  <img src={media.licenseBack} alt="License Back" className="rounded w-full object-cover" />
-                )}
-              </div>
-            )}
-
-            {/* Created Info */}
-            <div className="text-sm text-gray-600">
-              <p><strong>User:</strong> {user?.name || "Unknown"}</p>
-              <p><strong>Date:</strong> {new Date(createdAt).toLocaleDateString('en-GB')}</p>
+        <div className="relative z-10 flex-1 overflow-y-auto scrollbar-hide pt-8 pb-4">
+          {!hasData ? (
+            <div className="flex items-center justify-center h-full text-center text-gray-500 text-lg font-medium px-4">
+              Start entering vehicle details to see a live preview!
             </div>
-          </div>
+          ) : (
+            <div>
+              {/* Vehicle Image */}
+              {resolveImageUrl(media.vehicleImage) && (
+                <div className="flex justify-center mb-4 px-4">
+                  <div className="bg-white/80 backdrop-blur-md rounded-full shadow-md p-2 w-40 h-40 flex items-center justify-center overflow-hidden">
+                    <img
+                      src={resolveImageUrl(media.vehicleImage)}
+                      alt="Main Vehicle"
+                      className="w-full h-full object-cover rounded-full"
+                    />
+                  </div>
+                </div>
+              )}
+
+              <h2 className="text-center text-xl font-bold mb-4 text-[#008080]">
+                Vehicle Profile
+              </h2>
+
+              <Section
+                title="General Information"
+                condition={
+                  general.vehicleModel ||
+                  general.vehicleType ||
+                  general.vehicleNumber ||
+                  general.description
+                }
+              >
+                {general.vehicleModel && (
+                  <p><strong>Name:</strong> {general.vehicleModel}</p>
+                )}
+                {general.vehicleType && (
+                  <p><strong>Type:</strong> {general.vehicleType}</p>
+                )}
+                {general.vehicleNumber && (
+                  <p><strong>Vehicle Number:</strong> {general.vehicleNumber}</p>
+                )}
+                {general.description && (
+                  <p><strong>Description:</strong> {general.description}</p>
+                )}
+              </Section>
+
+              <Section
+                title="Registration Details"
+                condition={
+                  registration.rcNumber ||
+                  registration.driverName ||
+                  registration.ownerName
+                }
+              >
+                {registration.rcNumber && (
+                  <p><strong>RC Number:</strong> {registration.rcNumber}</p>
+                )}
+                {registration.driverName && (
+                  <p><strong>Driver Name:</strong> {registration.driverName}</p>
+                )}
+                {registration.ownerName && (
+                  <p><strong>Owner Name:</strong> {registration.ownerName}</p>
+                )}
+              </Section>
+
+              <Section
+                title="Contact Information"
+                condition={
+                  contact.contact ||
+                  contact.altContact ||
+                  contact.address ||
+                  contact.mapLink
+                }
+              >
+                {contact.contact && (
+                  <p><strong>Contact:</strong> {contact.contact}</p>
+                )}
+                {contact.altContact && (
+                  <p><strong>Alt. Contact:</strong> {contact.altContact}</p>
+                )}
+                {contact.address && (
+                  <p><strong>Address:</strong> {contact.address}</p>
+                )}
+                {contact.mapLink && (
+                  <p>
+                    <strong>Map Link:</strong>{" "}
+                    <a
+                      href={contact.mapLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:underline"
+                    >
+                      {contact.mapLink}
+                    </a>
+                  </p>
+                )}
+              </Section>
+
+              <Section
+                title="Additional Images"
+                condition={
+                  media.licenseFront ||
+                  media.licenseBack ||
+                  media.rcFront ||
+                  media.rcBack ||
+                  media.pollution ||
+                  media.galleryImages?.length > 0 ||
+                  media.insurance?.length > 0
+                }
+              >
+                <div className="grid grid-cols-1 gap-2">
+                  {resolveImageUrl(media.licenseFront) && (
+                    <div>
+                      <p className="font-medium text-xs mb-1">License Front:</p>
+                      <img src={resolveImageUrl(media.licenseFront)} alt="License Front" className="w-full object-cover rounded border" />
+                    </div>
+                  )}
+                  {resolveImageUrl(media.licenseBack) && (
+                    <div>
+                      <p className="font-medium text-xs mb-1">License Back:</p>
+                      <img src={resolveImageUrl(media.licenseBack)} alt="License Back" className="w-full object-cover rounded border" />
+                    </div>
+                  )}
+                  {resolveImageUrl(media.rcFront) && (
+                    <div>
+                      <p className="font-medium text-xs mb-1">RC Front:</p>
+                      <img src={resolveImageUrl(media.rcFront)} alt="RC Front" className="w-full object-cover rounded border" />
+                    </div>
+                  )}
+                  {resolveImageUrl(media.rcBack) && (
+                    <div>
+                      <p className="font-medium text-xs mb-1">RC Back:</p>
+                      <img src={resolveImageUrl(media.rcBack)} alt="RC Back" className="w-full object-cover rounded border" />
+                    </div>
+                  )}
+                  {resolveImageUrl(media.pollution) && (
+                    <div>
+                      <p className="font-medium text-xs mb-1">Pollution:</p>
+                      <img src={resolveImageUrl(media.pollution)} alt="Pollution" className="w-full object-cover rounded border" />
+                    </div>
+                  )}
+                  {media.galleryImages?.map((img, idx) => {
+                    const src = resolveImageUrl(img);
+                    return src ? (
+                      <div key={idx}>
+                        <p className="font-medium text-xs mb-1">Gallery {idx + 1}:</p>
+                        <img src={src} alt={`Gallery ${idx + 1}`} className="w-full object-cover rounded border" />
+                      </div>
+                    ) : null;
+                  })}
+                  {media.insurance?.map((img, idx) => {
+                    const src = resolveImageUrl(img);
+                    return src ? (
+                      <div key={idx}>
+                        <p className="font-medium text-xs mb-1">Insurance {idx + 1}:</p>
+                        <img src={src} alt={`Insurance ${idx + 1}`} className="w-full object-cover rounded border" />
+                      </div>
+                    ) : null;
+                  })}
+                </div>
+              </Section>
+            </div>
+          )}
         </div>
 
         {/* Footer */}
-        <div className="border-t border-gray-200 text-center text-xs text-gray-500 py-2 relative z-10 bg-white">
-          <p>Scan for vehicle info</p>
+        <div className="relative z-10 border-t border-gray-200 text-center text-xs text-gray-500 py-2 bg-white/70">
+          <p>Scan for Vehicle Info</p>
           <p className="mt-1">v1.0.0</p>
         </div>
       </div>

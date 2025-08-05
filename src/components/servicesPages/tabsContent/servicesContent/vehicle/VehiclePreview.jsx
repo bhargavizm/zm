@@ -33,25 +33,25 @@ const VehiclePreview = () => {
     setIsLoading(false);
   }, []);
 
-  const { vehicle = {}, vehicleTemplate = {} } = dynamicForms;
+  const { vehicle = {} } = dynamicForms;
 
   const {
     general = {},
     registration = {},
     contact = {},
     media = {},
-    security = {},
+    password="",
+    vehicleTemplate = "none"
   } = vehicle;
 
   
-  const { selectedTemplate } = vehicleTemplate;
 
   const hasData =
     general.vehicleModel || general.vehicleType || general.vehicleNumber || general.description ||
     registration.rcNumber || registration.driverName || registration.ownerName ||
     contact.contact || contact.altContact || contact.address || contact.mapLink ||
     media.vehicleImage || media.licenseFront || media.licenseBack || media.rcFront || media.rcBack || media.pollution || (media.galleryImages?.length > 0) ||
-    (media.insurance?.length > 0) ||security.password;
+    (media.insurance?.length > 0) || password;
 
  
   
@@ -67,15 +67,15 @@ const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
   };
 
 
-  const templateBackground = templateBgMap[selectedTemplate] || null;
-  const useTemplateBg = selectedTemplate !== "none" && templateBackground;
+  const templateBackground = templateBgMap[vehicleTemplate] || null;
+  const useTemplateBg = vehicleTemplate !== "none" && templateBackground;
   // Always use templateV1 as default if no template is selected
 //   const templateBackground = templateBgMap[selectedTemplate] || templateBgMap.templateV1;
 //   const useTemplateBg = true; // Always true since we always want a template background
 
   return (
     <div className="flex justify-center">
-      <div className="relative w-[350px] h-[650px] rounded-[40px] border-[14px] border-gray-800 shadow-xl overflow-hidden flex flex-col text-gray-800 bg-white">
+      <div className="relative w-[350px] h-[600px] rounded-[40px] border-[14px] border-gray-800 shadow-xl overflow-hidden flex flex-col text-gray-800 bg-white">
         {/* Background Layer */}
         {/* {useTemplateBg ? (
           <img
