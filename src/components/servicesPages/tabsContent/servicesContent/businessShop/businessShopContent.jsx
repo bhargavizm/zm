@@ -9,27 +9,25 @@ import useDesignContext from "@/components/hooks/useDesignContext";
 import toast from "react-hot-toast";
 import { useParams } from "next/navigation";
 import LoadingSpinner from "@/components/common/spinner";
-import axios from 'axios';
+import axios from "axios";
 
+const MAX_FILE_SIZE_MB = 2; // Per file
+const MAX_TOTAL_SIZE_MB = 30;
 
 const BusinessShopContent = () => {
-  const { dynamicForms, updateDynamicForm, servicesDataLoading, setServicesDataLoading } = useServicesContext();
-  const { setIsLoading, setBgDesign } = useDesignContext();
+  const { businessShopFormData, setBusinessShopFormData } =
+    useServicesContext();
+  const { setBgDesign } = useDesignContext();
   const { setActiveTab } = useDesignContext();
   const { slug } = useParams();
-  const businessInfo = dynamicForms.businessInfo;
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({
     phone: "",
     altPhone: "",
-    email: ""
+    email: "",
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const shopTimingsTemplate = dynamicForms.shopTimingsTemplate;
-
-  // Refs for file inputs
   const logoInputRef = useRef(null);
-  const galleryInputRef = useRef(null);
 
   const validatePhone = (phone) => {
     if (phone && !/^\d{10,15}$/.test(phone)) {
@@ -45,57 +43,95 @@ const BusinessShopContent = () => {
     return "";
   };
 
-  const handleChange = (formKey, sectionKey, fieldKey, value) => {
-    updateDynamicForm(formKey, sectionKey, fieldKey, value);
-
-    if (fieldKey === 'phone') {
-      setErrors(prev => ({ ...prev, phone: validatePhone(value) }));
-    } else if (fieldKey === 'altPhone') {
-      setErrors(prev => ({ ...prev, altPhone: validatePhone(value) }));
-    } else if (fieldKey === 'email') {
-      setErrors(prev => ({ ...prev, email: validateEmail(value) }));
+  const handleChange = (section, field, value) => {
+    if (section === "contact") {
+      setBusinessShopFormData((prev) => ({
+        ...prev,
+        contact: {
+          ...prev.contact,
+          [field]: value,
+        },
+      }));
+    } else {
+      setBusinessShopFormData((prev) => ({
+        ...prev,
+        [field]: value,
+      }));
     }
   };
 
-  const handleFileChange = (section, field, files, isMultiple = false) => {
-    let updatedValue;
+  const handleFileChange = (field, files) => {
+    const newFiles = Array.from(files);
 
-    if (isMultiple) {
-      const newFiles = Array.from(files || []);
-      const existingFiles = businessInfo[section][field] || [];
-      updatedValue = [...existingFiles, ...newFiles];
-    } else {
-      updatedValue = files?.[0] || null;
-    }
-
-    updateDynamicForm("businessInfo", section, field, updatedValue);
-  };
-
-  const removeImage = (section, field, index = null) => {
-    if (index !== null) {
-      const updatedImages = [...businessInfo[section][field]];
-      updatedImages.splice(index, 1);
-      updateDynamicForm("businessInfo", section, field, updatedImages);
-    } else {
-      updateDynamicForm("businessInfo", section, field, null);
-      // Reset the file input when removing the logo
-      if (field === "logo" && logoInputRef.current) {
-        logoInputRef.current.value = "";
+    // Validate per-file size
+    for (const file of newFiles) {
+      const sizeInMB = file.size / (1024 * 1024);
+      if (sizeInMB > MAX_FILE_SIZE_MB) {
+        toast.error(`${file.name} exceeds 2MB limit`);
+        return;
       }
     }
 
-    // Reset gallery input if all images are removed
-    if (field === "galleryImages" && galleryInputRef.current &&
-      (!businessInfo[section][field] || businessInfo[section][field].length === 0)) {
-      galleryInputRef.current.value = "";
+    // Calculate total size with existing files
+    let totalSize = 0;
+
+    if (field === "shopImages") {
+      const existingFiles = businessShopFormData.shopImages || [];
+      const allFiles = [...existingFiles, ...newFiles];
+
+      totalSize = allFiles.reduce((acc, file) => {
+        const size = typeof file === "string" ? 0 : file.size;
+        return acc + size;
+      }, 0);
+
+      if (totalSize > MAX_TOTAL_SIZE_MB * 1024 * 1024) {
+        toast.error("Total gallery size must not exceed 30MB");
+        return;
+      }
+
+      setBusinessShopFormData((prev) => ({
+        ...prev,
+        shopImages: allFiles,
+      }));
+    }
+
+    if (field === "shopLogo") {
+      const sizeInMB = newFiles[0]?.size / (1024 * 1024);
+      if (sizeInMB > MAX_FILE_SIZE_MB) {
+        toast.error(`${newFiles[0].name} exceeds 2MB limit`);
+        return;
+      }
+
+      setBusinessShopFormData((prev) => ({
+        ...prev,
+        shopLogo: newFiles[0],
+      }));
+    }
+  };
+
+  const removeImage = (field, index = null) => {
+    if (field === "shopLogo") {
+      setBusinessShopFormData((prev) => ({ ...prev, shopLogo: "" }));
+      if (logoInputRef.current) {
+        logoInputRef.current.value = ""; // ✅ Clears the file name from input
+      }
+    } else if (field === "shopImages" && index !== null) {
+      const updatedImages = [...businessShopFormData.shopImages];
+      updatedImages.splice(index, 1);
+      setBusinessShopFormData((prev) => ({
+        ...prev,
+        shopImages: updatedImages,
+      }));
     }
   };
 
   const handleTemplateSelect = (templateName) => {
-    setIsLoading(true);
-    updateDynamicForm("shopTimingsTemplate", null, "selectedTemplate", templateName);
-    setBgDesign(null);
-    setTimeout(() => setIsLoading(false), 300);
+    setBusinessShopFormData((prev) => ({
+      ...prev,
+      selectedTemplate: templateName,
+    }));
+
+    setBgDesign("");
   };
 
   const togglePasswordVisibility = () => {
@@ -116,34 +152,44 @@ const BusinessShopContent = () => {
         const data = await response.json();
         const fullAddress = data.display_name || "Address not found";
 
-        handleChange(
-          "businessInfo",
-          "contact",
-          "address",
-          fullAddress
-        );
+        handleChange("contact", "address", fullAddress);
       } catch (err) {
         console.error("Error fetching current location:", err.message);
+        toast.error("Could not fetch current location. Please enter manually.");
       }
     } else {
-      console.warn("Geolocation is not supported by this browser.");
+      toast.warn("Geolocation is not supported by this browser.");
     }
   };
 
   const isFormEmpty = () => {
-    const generalFields = Object.values(businessInfo.general);
-    const hasGeneralInfo = generalFields.some(value => value && value.toString().trim() !== "");
+    const {
+      businessName,
+      businessType,
+      description,
+      shopTimings,
+      discount,
+      contact,
+      shopLogo,
+      shopImages,
+      password,
+    } = businessShopFormData;
 
-    const contactFields = Object.values(businessInfo.contact);
-    const hasContactInfo = contactFields.some(value => value && value.toString().trim() !== "");
-
-    const hasSecurityInfo = businessInfo.security.password && businessInfo.security.password.trim() !== "";
-
-    const hasMediaInfo =
-      businessInfo.media.logo ||
-      (businessInfo.media.galleryImages && businessInfo.media.galleryImages.length > 0);
-
-    return !(hasGeneralInfo || hasContactInfo || hasSecurityInfo || hasMediaInfo);
+    return !(
+      businessName ||
+      businessType ||
+      description ||
+      shopTimings ||
+      discount ||
+      contact.ownerName ||
+      contact.phone ||
+      contact.altPhone ||
+      contact.email ||
+      contact.address ||
+      shopLogo ||
+      shopImages.length > 0 ||
+      password
+    );
   };
 
   const handleSubmit = async (e) => {
@@ -154,15 +200,17 @@ const BusinessShopContent = () => {
       return;
     }
 
+    const { contact } = businessShopFormData;
+
     const validationErrors = {
-      phone: validatePhone(businessInfo.contact.phone),
-      altPhone: validatePhone(businessInfo.contact.altPhone),
-      email: validateEmail(businessInfo.contact.email)
+      phone: validatePhone(contact.phone),
+      altPhone: validatePhone(contact.altPhone),
+      email: validateEmail(contact.email),
     };
 
     setErrors(validationErrors);
 
-    if (Object.values(validationErrors).some(error => error)) {
+    if (Object.values(validationErrors).some((error) => error)) {
       toast.error("Please fix the validation errors before submitting");
       return;
     }
@@ -172,144 +220,60 @@ const BusinessShopContent = () => {
 
   const handleModalEdit = () => {
     setIsModalOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const resetFormFields = () => {
-    // Reset general info
-    Object.keys(businessInfo.general).forEach(key => {
-      updateDynamicForm("businessInfo", "general", key, "");
-    });
-
-    // Reset contact info
-    Object.keys(businessInfo.contact).forEach(key => {
-      updateDynamicForm("businessInfo", "contact", key, "");
-    });
-
-    // Reset security
-    updateDynamicForm("businessInfo", "security", "password", "");
-
-    // Reset media
-    updateDynamicForm("businessInfo", "media", "logo", null);
-    updateDynamicForm("businessInfo", "media", "galleryImages", []);
-
-    // Reset file inputs
-    if (logoInputRef.current) logoInputRef.current.value = "";
-    if (galleryInputRef.current) galleryInputRef.current.value = "";
-
-    // Reset errors
-    setErrors({
-      phone: "",
-      altPhone: "",
-      email: ""
-    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleModalOk = async () => {
-    setActiveTab(slug, "Backdrop Designs");
-    // setIsModalOpen(false);
-    // setServicesDataLoading(true);
-    // const formData = new FormData();
+    // Here you would typically send the businessShopFormData to your backend
+    // For now, we'll just close the modal and navigate
+    console.log("Submitting form data:", businessShopFormData);
 
-    // // General Info
-    // Object.entries(businessInfo.general).forEach(([key, value]) => {
-    //   formData.append(`businessInfo.general.${key}`, value || "");
-    // });
-
-    // // Contact Info
-    // Object.entries(businessInfo.contact).forEach(([key, value]) => {
-    //   formData.append(`businessInfo.contact.${key}`, value || "");
-    // });
-
-    // // Security
-    // formData.append(`businessInfo.security.password`, businessInfo.security.password || "");
-
-    // // Logo
-    // if (businessInfo.media.logo instanceof File) {
-    //   formData.append(`businessInfo.media.logo`, businessInfo.media.logo);
-    // }
-
-    // // Gallery Images
-    // if (Array.isArray(businessInfo.media.galleryImages)) {
-    //   businessInfo.media.galleryImages.forEach((file) => {
-    //     if (file instanceof File) {
-    //       formData.append(`businessInfo.media.galleryImages`, file);
-    //     }
-    //   });
-    // }
-
-    // // Shop Timings Template
-    // formData.append(`shopTimingsTemplate.selectedTemplate`, shopTimingsTemplate.selectedTemplate);
-
-    // const templateKey = shopTimingsTemplate.selectedTemplate + 'Data';
-    // const templateData = shopTimingsTemplate[templateKey] || {};
-
-    // Object.entries(templateData).forEach(([key, value]) => {
-    //   formData.append(`shopTimingsTemplate.${templateKey}.${key}`, value || "");
-    // });
-    // setActiveTab(slug, "Backdrop Designs");
-    // // try {
-    // //   const response = await axios.post('/api/services/business-shop', formData, {
-    // //     headers: { "Content-Type": "multipart/form-data" },
-    // //   });
-
-    // //   if (response.data.success) {
-    // //     toast.success("Business data saved successfully");
-    // //     setActiveTab(slug, "QR Code");
-
-    // //     resetFormFields();
-    // //   }
-    // // } catch (error) {
-    // //   toast.error(error?.response?.data?.error || "Something went wrong!");
-    // //   console.error("Submit error:", error);
-    // //   if (error.response?.status === 401) {
-    // //     window.location.href = "/login"; // ✅ Auto logout on expiry
-    // //     return;
-    // //   }
-    // // } finally {
-    // //   setServicesDataLoading(false); // ✅ End loader
-    // // }
+    setIsModalOpen(false);
+    setActiveTab(slug, "Backdrop Designs"); // Assuming this is the desired next step
   };
 
   return (
     <>
-      {servicesDataLoading && <LoadingSpinner />}
-
-      <div className="space-y-8 p-4 md:p-8 lg:p-12 bg-gray-50 rounded-xl shadow-lg overflow-auto hide-scrollbar">
+      <div className="space-y-6 p-4 md:p-8 bg-gray-50 rounded-xl shadow-lg overflow-auto hide-scrollbar">
         {/* Template Selection Section */}
-        <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200">
+        <div className="p-4 bg-white rounded-xl shadow border border-gray-100 transition-all duration-300 hover:shadow-lg">
+          <h3 className="text-xl font-semibold text-gray-800 mb-4 border-b pb-2 border-gray-200">
             Shop Timings Template
           </h3>
-          <div className="space-y-5">
+          <div className="space-y-4">
             <label className="block text-base font-medium text-gray-700 mb-2">
               Choose a Template:
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
               {[1, 2, 3, 4].map((templateNum) => {
                 const isSelected =
-                  shopTimingsTemplate.selectedTemplate === `template${templateNum}`;
+                  businessShopFormData.selectedTemplate ===
+                  `template${templateNum}`;
+
                 const backgroundImageUrl = `/images/templates/businessShop${templateNum}.webp`;
 
                 return (
                   <div
                     key={templateNum}
-                    className={`relative cursor-pointer rounded-lg overflow-hidden border-2 ${isSelected
-                      ? "border-teal-500 ring-2 ring-teal-300"
-                      : "border-gray-300 hover:border-gray-400"
-                      } transition-all duration-200 shadow-sm hover:shadow-md h-40 bg-cover bg-center`}
+                    className={`relative cursor-pointer rounded-lg overflow-hidden border-2 ${
+                      isSelected
+                        ? "border-teal-500 ring-2 ring-teal-300"
+                        : "border-gray-300 hover:border-gray-400"
+                    } transition-all duration-200 shadow-sm hover:shadow-md h-40 bg-cover bg-center`}
                     style={
                       isSelected
                         ? { backgroundImage: `url(${backgroundImageUrl})` }
                         : {}
                     }
-                    onClick={() => handleTemplateSelect(`template${templateNum}`)}
+                    onClick={() =>
+                      handleTemplateSelect(`template${templateNum}`)
+                    }
                   >
                     {!isSelected && (
                       <img
                         src={backgroundImageUrl}
                         alt={`Template ${templateNum}`}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-center"
                       />
                     )}
                   </div>
@@ -320,241 +284,298 @@ const BusinessShopContent = () => {
         </div>
 
         {/* General Information Section */}
-        <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200">
-            General Information
-          </h3>
-          <div className="space-y-2">
-            <label className="block text-base font-medium text-gray-700">
-              Business Logo
-            </label>
-            {businessInfo.media.logo && (
-              <div className="flex items-center gap-4">
-                <div className="relative">
-                  <img
-                    src={typeof businessInfo.media.logo === 'string'
-                      ? businessInfo.media.logo
-                      : URL.createObjectURL(businessInfo.media.logo)}
-                    alt="Business Logo"
-                    className="h-20 w-20 object-cover rounded-lg"
-                  />
-                  <button
-                    onClick={() => removeImage("media", "logo")}
-                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
-                    aria-label="Remove logo"
-                  >
-                    <MdCancel />
-                  </button>
-                </div>
+        <h3 className="text-xl font-semibold text-gray-800 mb-4 border-b pb-2 border-gray-200">
+          General Information
+        </h3>
+        <div className="space-y-2">
+          <label className="block text-base font-medium text-gray-700">
+            Business Logo{" "}
+            <span className="text-gray-500 text-sm">(Max 2MB)</span>
+          </label>
+          {businessShopFormData.shopLogo && (
+            <div className="flex items-center gap-4">
+              <div className="relative">
+                <img
+                  src={
+                    typeof businessShopFormData.shopLogo === "string"
+                      ? businessShopFormData.shopLogo
+                      : URL.createObjectURL(businessShopFormData.shopLogo)
+                  }
+                  alt="Business Logo"
+                  className="h-20 w-20 object-center rounded-lg"
+                />
+                <button
+                  onClick={() => removeImage("shopLogo")}
+                  className="absolute -top-2 -right-2 bg-red-500 cursor-pointer text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                  aria-label="Remove logo"
+                >
+                  <MdCancel />
+                </button>
               </div>
-            )}
-            <input
-              type="file"
-              accept="image/*"
-              ref={logoInputRef}
-              className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
-              onChange={(e) => handleFileChange("media", "logo", e.target.files)}
-            />
-          </div>
+            </div>
+          )}
+          <input
+            type="file"
+            accept="image/*"
+            ref={logoInputRef}
+            className="w-full  text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
+            onChange={(e) => handleFileChange("shopLogo", e.target.files)}
+          />
+        </div>
 
-          <div className="space-y-5 mt-10">
-            {['businessName', 'businessType', 'description', 'shopTimings', 'discount'].map((field) => (
-              field === 'description' ? (
+        <div className="space-y-5 mt-10">
+          {[
+            "businessName",
+            "businessType",
+            "description",
+            "shopTimings",
+            "discount",
+          ].map((field) =>
+            field === "description" ? (
+              <div key={field}>
+                <label
+                  htmlFor={field}
+                  className="block text-base font-medium text-gray-700"
+                >
+                  {field
+                    .replace(/([A-Z])/g, " $1")
+                    .replace(/^./, (str) => str.toUpperCase())}
+                </label>
                 <textarea
                   key={field}
-                  placeholder={field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                  placeholder={field
+                    .replace(/([A-Z])/g, " $1")
+                    .replace(/^./, (str) => str.toUpperCase())}
                   rows={4}
-                  className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200 resize-y"
-                  value={businessInfo.general[field] || ""}
-                  onChange={(e) =>
-                    handleChange("businessInfo", "general", field, e.target.value)
-                  }
+                  className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none transition-all duration-200 resize-y"
+                  value={businessShopFormData[field]}
+                  onChange={(e) => handleChange("", field, e.target.value)}
                 />
-              ) : (
+              </div>
+            ) : (
+              <div key={field} className="space-y-1">
+                <label
+                  htmlFor={field}
+                  className="block text-base font-medium text-gray-700"
+                >
+                  {field
+                    .replace(/([A-Z])/g, " $1")
+                    .replace(/^./, (str) => str.toUpperCase())}
+                </label>
                 <input
-                  key={field}
+                  id={field}
                   type="text"
-                  placeholder={field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                  placeholder={field
+                    .replace(/([A-Z])/g, " $1")
+                    .replace(/^./, (str) => str.toUpperCase())}
                   className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
-                  value={businessInfo.general[field] || ""}
-                  onChange={(e) =>
-                    handleChange("businessInfo", "general", field, e.target.value)
-                  }
+                  value={businessShopFormData[field]}
+                  onChange={(e) => handleChange("", field, e.target.value)}
                 />
-              )
-            ))}
-          </div>
+              </div>
+            )
+          )}
         </div>
 
         {/* Contact Information Section */}
-        <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200">
-            Contact Information
-          </h3>
-          <div className="space-y-5">
+        <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200">
+          Contact Information
+        </h3>
+        <div className="space-y-5">
+          <div className="space-y-1">
+            <label
+              htmlFor="owner"
+              className="block text-base font-medium text-gray-700"
+            >
+              Owner Name
+            </label>
             <input
+              id="ownerName"
               type="text"
               placeholder="Owner Name"
               className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
-              value={businessInfo.contact.owner || ""}
+              value={businessShopFormData.contact.ownerName || ""}
               onChange={(e) =>
-                handleChange("businessInfo", "contact", "owner", e.target.value)
+                handleChange("contact", "ownerName", e.target.value)
               }
             />
-
-            <div className="space-y-1">
-              <input
-                type="text"
-                placeholder="Phone Number"
-                className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
-                value={businessInfo.contact.phone || ""}
-                onChange={(e) =>
-                  handleChange("businessInfo", "contact", "phone", e.target.value)
-                }
-              />
-              {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
-            </div>
-
-            <div className="space-y-1">
-              <input
-                type="text"
-                placeholder="Alternate Phone Number"
-                className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
-                value={businessInfo.contact.altPhone || ""}
-                onChange={(e) =>
-                  handleChange("businessInfo", "contact", "altPhone", e.target.value)
-                }
-              />
-              {errors.altPhone && <p className="text-red-500 text-sm mt-1">{errors.altPhone}</p>}
-            </div>
-
-            <div className="space-y-1">
-              <input
-                type="email"
-                placeholder="Email"
-                className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
-                value={businessInfo.contact.email || ""}
-                onChange={(e) =>
-                  handleChange("businessInfo", "contact", "email", e.target.value)
-                }
-              />
-              {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
-            </div>
-
-            <div className="relative">
-              <textarea
-                placeholder="Full Address"
-                rows={3}
-                className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200 resize-y pr-12"
-                value={businessInfo.contact.address || ""}
-                onChange={(e) =>
-                  handleChange("businessInfo", "contact", "address", e.target.value)
-                }
-              />
-              <button
-                type="button"
-                onClick={fetchCurrentLocation}
-                className="absolute right-2 bottom-2 p-2 bg-teal-500 text-white rounded-md hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-400 text-sm"
-                title="Get current location"
-              >
-                <IoLocation />
-              </button>
-            </div>
           </div>
-        </div>
 
-        {/* Media Section */}
-        <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200">
-            Media
-          </h3>
-
-          <div className="space-y-6">
-            <div className="space-y-2 mt-6">
-              <div className="flex items-center justify-start gap-6 pb-4">
-                <label className="block text-base font-medium text-gray-700">
-                  Gallery Images
-                </label>
-                <p className="text-sm text-gray-600">
-                  {businessInfo.media.galleryImages?.length > 0
-                    ? `${businessInfo.media.galleryImages.length} file(s) selected`
-                    : "No files chosen"}
-                </p>
-              </div>
-
-              <label className="bg-teal-700 text-white px-4 py-2 rounded cursor-pointer">
-                Choose Files
-                <input
-                  type="file"
-                  multiple
-                  ref={galleryInputRef}
-                  onChange={(e) =>
-                    handleFileChange("media", "galleryImages", e.target.files, true)
-                  }
-                  className="hidden"
-                />
-              </label>
-
-              <div className="flex flex-wrap gap-4 mt-6">
-                {Array.isArray(businessInfo.media.galleryImages) &&
-                  businessInfo.media.galleryImages.map((file, index) => (
-                    <div key={index} className="relative">
-                      <img
-                        src={
-                          typeof file === "string" ? file : URL.createObjectURL(file)
-                        }
-                        alt={`Gallery ${index}`}
-                        className="h-20 w-20 object-cover rounded-lg"
-                      />
-                      <button
-                        onClick={() => removeImage("media", "galleryImages", index)}
-                        className="absolute -top-2 -right-2 bg-red-500 text-white cursor-pointer rounded-full p-1 hover:bg-red-600"
-                      >
-                        <MdCancel />
-                      </button>
-                    </div>
-                  ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Security Section */}
-        <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200">
-            Security
-          </h3>
-          <div className="relative">
+          <div className="space-y-1">
+            <label
+              htmlFor="phone"
+              className="block text-base font-medium text-gray-700"
+            >
+              Phone Number
+            </label>
             <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Password"
-              className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 pr-12 transition-all duration-200"
-              value={businessInfo.security.password || ""}
+              id="phone"
+              type="text"
+              placeholder="Phone Number"
+              className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
+              value={businessShopFormData.contact.phone || ""}
+              onChange={(e) => handleChange("contact", "phone", e.target.value)}
+            />
+            {errors.phone && (
+              <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
+            )}
+          </div>
+
+          <div className="space-y-1">
+            <label
+              htmlFor="altPhone"
+              className="block text-base font-medium text-gray-700"
+            >
+              Alternate Phone Number
+            </label>
+            <input
+              id="altPhone"
+              type="text"
+              placeholder="Alternate Phone Number"
+              className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
+              value={businessShopFormData.contact.altPhone || ""}
               onChange={(e) =>
-                handleChange("businessInfo", "security", "password", e.target.value)
+                handleChange("contact", "altPhone", e.target.value)
+              }
+            />
+            {errors.altPhone && (
+              <p className="text-red-500 text-sm mt-1">{errors.altPhone}</p>
+            )}
+          </div>
+
+          <div className="space-y-1">
+            <label
+              htmlFor="email"
+              className="block text-base font-medium text-gray-700"
+            >
+              Email
+            </label>
+            <input
+              id="email"
+              type="email"
+              placeholder="Email"
+              className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
+              value={businessShopFormData.contact.email || ""}
+              onChange={(e) => handleChange("contact", "email", e.target.value)}
+            />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            )}
+          </div>
+
+          <div className="relative">
+            <label
+              htmlFor="address"
+              className="block text-base font-medium text-gray-700"
+            >
+              Full Address
+            </label>
+            <textarea
+              id="address"
+              placeholder="Full Address"
+              rows={3}
+              className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200 resize-y pr-12"
+              value={businessShopFormData.contact.address || ""}
+              onChange={(e) =>
+                handleChange("contact", "address", e.target.value)
               }
             />
             <button
               type="button"
-              className="absolute inset-y-0 right-0 pr-4 flex items-center text-teal-600 hover:text-teal-800 transition-colors duration-200"
-              onClick={togglePasswordVisibility}
-              aria-label={showPassword ? "Hide password" : "Show password"}
+              onClick={fetchCurrentLocation}
+              className="mt-2 w-full flex items-center justify-center cursor-pointer px-4 py-2 bg-[#0e7b7b] text-white rounded-lg hover:bg-[#066666] transition-colors"
             >
-              {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+              Use Current Location
             </button>
           </div>
         </div>
-      </div>
 
-      <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
-        <NFCModal />
+        <div className="space-y-6">
+          <div className="space-y-2 mt-6">
+            <div className="flex items-center justify-start gap-6 pb-4">
+              <label className="block text-base font-medium text-gray-700">
+                Shop Images{" "}
+                <span className="text-gray-500 text-sm">
+                  (Max Single File Size: 2 MB )
+                </span>
+              </label>
+            </div>
+
+            <div className="flex items-center justify-start gap-9">
+              <label className="bg-teal-700  text-white px-4 py-2 rounded cursor-pointer">
+                Choose Files
+                <input
+                  type="file"
+                  multiple
+                  onChange={(e) =>
+                    handleFileChange("shopImages", e.target.files)
+                  }
+                  className="hidden"
+                />
+              </label>
+              <p className="text-sm text-gray-600">
+                {businessShopFormData.shopImages?.length > 0
+                  ? `${businessShopFormData.shopImages.length} file(s) selected`
+                  : "No files chosen"}
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-4 mt-6">
+              {Array.isArray(businessShopFormData.shopImages) &&
+                businessShopFormData.shopImages.map((file, index) => (
+                  <div key={index} className="relative">
+                    <img
+                      src={
+                        typeof file === "string"
+                          ? file
+                          : URL.createObjectURL(file)
+                      }
+                      alt={`Gallery ${index}`}
+                      className="h-20 w-20 object-cover rounded-lg"
+                    />
+                    <button
+                      onClick={() => removeImage("shopImages", index)}
+                      className="absolute -top-2 -right-2 bg-red-500 text-white cursor-pointer rounded-full p-1 hover:bg-red-600"
+                    >
+                      <MdCancel />
+                    </button>
+                  </div>
+                ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="relative">
+          <label htmlFor="password" className="sr-only">
+            Password
+          </label>{" "}
+          {/* For accessibility */}
+          <input
+            id="password"
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 pr-12 transition-all duration-200"
+            value={businessShopFormData.password || ""}
+            onChange={(e) => handleChange("", "password", e.target.value)}
+          />
+          <button
+            type="button"
+            className="absolute inset-y-0 right-0 pr-4 flex items-center text-teal-600 hover:text-teal-800 transition-colors duration-200"
+            onClick={togglePasswordVisibility}
+            aria-label={showPassword ? "Hide password" : "Show password"}
+          >
+            {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+          </button>
+        </div>
+
+        <div className="flex justify-center items-center">
+          <button
+            onClick={handleSubmit}
+            className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg"
+          >
+            Next →
+          </button>
+        </div>
       </div>
-      <button
-        onClick={handleSubmit}
-        className="w-full py-2 my-4 cursor-pointer bg-[#008080] text-white font-semibold rounded hover:bg-[#006666] transition"
-      >
-        Submit
-      </button>
 
       {/* Custom Modal */}
       {isModalOpen && (
@@ -564,20 +585,21 @@ const BusinessShopContent = () => {
               Confirm Submission
             </h3>
             <p className="text-gray-600 mb-6">
-              Are you sure you want to submit this form? You can edit it now or confirm to proceed.
+              Are you sure you want to submit this form? You can edit it now or
+              confirm to proceed.
             </p>
             <div className="flex justify-end space-x-3">
               <button
                 onClick={handleModalEdit}
-                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
+                className="px-4 py-2 border cursor-pointer border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
               >
-                Edit
+                Back
               </button>
               <button
                 onClick={handleModalOk}
-                className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition-colors"
+                className="px-4 py-2 bg-teal-600 cursor-pointer text-white rounded-md hover:bg-teal-700 transition-colors"
               >
-                OK
+                Continue
               </button>
             </div>
           </div>

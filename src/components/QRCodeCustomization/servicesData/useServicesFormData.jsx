@@ -46,12 +46,11 @@ export const useServicesFormData = () => {
     eventsFormData, 
     setEventsFormData,
     wifiFormData,
-    setWifiFormData,
+    setWifiFormData,businessShopFormData, setBusinessShopFormData
   } = useServicesContext();
 
 
-  const businessShopFormData = dynamicForms?.businessInfo
-  const setBusinessShopFormData = setDynamicForms?.businessInfo;
+
 
   const discountCouponFormData = dynamicForms?.discountCoupon
   const setDiscountCouponFormData = setDynamicForms?.discountCoupon
@@ -153,5 +152,6 @@ export const useServicesFormData = () => {
   //   setFormDataState[service] = setFormData;
   // });
 
-  return { submitForm, encryptSubmitForm };
+  return { submitForm, encryptSubmitForm, formDataState,
+  setFormDataState, };
 };

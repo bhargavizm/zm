@@ -23,13 +23,10 @@ import MultiUrlModal from "@/models/services/multiUrlSchema";
 import MultiUrlPreview from "@/components/scanningPreview/multiUrlPreview";
 import medicalalertsPreview from "@/components/scanningPreview/medicalalertsPreview";
 import EventsPreview from "@/components/scanningPreview/eventsPreview";
-//import BusinessPreview from "@/components/servicesPages/tabsContent/servicesContent/business/businessPreview";
-import { BusinessCardsModel } from "@/models/services/cardsSchema";
 import WifiModel from "@/models/services/wifiSchema";
 import PetTagModal from "@/models/services/petIdSchema";
 import ProductsModel from "@/models/services/productSchema";
 import ProductPreview from "@/components/scanningPreview/product/productPreview";
-import EventModal from "@/models/services/eventSchema";
 import DiscountModal from "@/models/services/discountSchema";
 import DiscountCouponPreview from "@/components/scanningPreview/DiscountCouponPreview";
 import {

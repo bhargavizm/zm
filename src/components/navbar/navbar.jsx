@@ -7,8 +7,9 @@ import { useLanguage } from "@/context/languageContext/LanguageContext";
 import LanguageSelector from "./LanguageSelector";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { usePathname, useRouter } from "next/navigation";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import useLogout from "../hooks/useLogout";
+import NavbarAvatar from "./navbarAvatar";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false); // for mobile menu
@@ -16,17 +17,17 @@ const Navbar = () => {
 
   const supportRef = useRef(null);
   const userDropdownRef = useRef(null);
-  const logout = useLogout()
 
+  const logout = useLogout();
   const userData = useSelector((state) => state?.authentication?.userData);
   const router = useRouter();
+
   const { dictionary } = useLanguage();
   const pathname = usePathname();
-const isActive = (route) => {
-  if (route === "/") return pathname === "/";
-  return pathname.startsWith(route);
-};
-
+  const isActive = (route) => {
+    if (route === "/") return pathname === "/";
+    return pathname.startsWith(route);
+  };
 
   // Close dropdowns on outside click
   useEffect(() => {
@@ -42,10 +43,10 @@ const isActive = (route) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-    const handleLogout = async () => {
-    await logout();                // ✅ Logout logic from your hook
-    setOpenDropdown(null);        // ✅ Close dropdown (if applicable)
-    router.push("/");             // ✅ Navigate to homepage or login
+  const handleLogout = async () => {
+    await logout(); // ✅ Logout logic from your hook
+    setOpenDropdown(null); // ✅ Close dropdown (if applicable)
+    router.push("/"); // ✅ Navigate to homepage or login
   };
 
   return (
@@ -121,44 +122,19 @@ const isActive = (route) => {
 
           <LanguageSelector />
 
+           {/* <Link
+                      href="/user-dashboard"
+                      className="border border-white px-5 py-2 rounded-lg transition bg-[linear-gradient(to_right,#008080,#001a1a)]"
+                    >
+                      Dashboard
+                    </Link> */}
+
           {/* User Dropdown */}
-          {/* USER DROPDOWN (DESKTOP) */}
-          {userData ? (
-            <div className="relative" ref={userDropdownRef}>
-              <button
-                onClick={() =>
-                  setOpenDropdown(openDropdown === "user" ? null : "user")
-                }
-                className="hover:text-gray-300 flex items-center gap-1 cursor-pointer"
-              >
-                {userData && userData?.name && userData?.name?.charAt(0)?.toUpperCase() + userData.name.slice(1)}
-
-                <MdKeyboardArrowDown
-                  className={`transition-transform ${
-                    openDropdown === "user" ? "rotate-180" : "rotate-0"
-                  }`}
-                />
-              </button>
-
-              {openDropdown === "user" && (
-                <div className="absolute top-full right-0 mt-2 bg-white text-mainGreen rounded-md shadow-md w-40 z-50">
-                  <button
-                    onClick={handleLogout}
-                    className="block cursor-pointer w-full text-left px-4 py-2 hover:bg-mainGreen hover:text-white transition"
-                  >
-                    Logout
-                  </button>
-                </div>
-              )}
-            </div>
-          ) : (
-            <Link
-              href="/login"
-              className="border border-white px-5 py-2 rounded-lg transition bg-[linear-gradient(to_right,#008080,#001a1a)]"
-            >
-              {dictionary.login}
-            </Link>
-          )}
+          <NavbarAvatar
+            setOpenDropdown={setOpenDropdown}
+            openDropdown={openDropdown}
+            userDropdownRef={userDropdownRef}
+          />
         </div>
 
         {/* Hamburger for Mobile */}
@@ -201,17 +177,25 @@ const isActive = (route) => {
               <LanguageSelector isOpen={isOpen} />
 
               {userData ? (
-                <div className="flex flex-col items-start gap-2">
-                  <span className="text-mainGreen font-semibold px-2">
-                    Hello, {userData.name}
-                  </span>
-                  <button
-                    onClick={handleLogout}
-                    className="border border-white px-5 py-2 rounded-lg w-full transition-effects bg-[linear-gradient(to_right,#008080,#001a1a)] text-white"
+                <>
+                  <Link
+                    href="/user-dashboard"
+                    className="border border-white px-5 py-2 rounded-lg transition bg-[linear-gradient(to_right,#008080,#001a1a)] text-white"
                   >
-                    Logout
-                  </button>
-                </div>
+                    {dictionary.dashboard || "Dashboard"}
+                  </Link>
+                  <div className="flex flex-col items-start gap-2">
+                    <span className="text-mainGreen font-semibold px-2">
+                      Hello, {userData.name}
+                    </span>
+                    <button
+                      onClick={handleLogout}
+                      className="border border-white px-5 py-2 rounded-lg w-full transition-effects bg-[linear-gradient(to_right,#008080,#001a1a)] text-white"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                </>
               ) : (
                 <Link
                   href="/login"

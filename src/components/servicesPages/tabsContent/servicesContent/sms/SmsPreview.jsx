@@ -25,7 +25,7 @@ const SmsPreview = () => {
 
   return (
     <div className='flex justify-center'>
-      <div className=" rounded-[40px] border-[14px] border-gray-800 shadow-xl w-[350px] h-[600px] overflow-hidden flex flex-col relative">
+      <div className=" rounded-[40px] border-[14px] border-gray-800 shadow-xl w-[350px] h-[650px] overflow-hidden flex flex-col relative">
 
         {/* 🌆 Background Layer */}
         {isImage ? (
@@ -158,7 +158,7 @@ export default SmsPreview;
 
 //   return (
 //     <div className='flex justify-center'>
-//     <div className=" rounded-[40px] border-[14px] border-gray-800 shadow-xl w-[350px] h-[600px] overflow-hidden flex flex-col relative">
+//     <div className=" rounded-[40px] border-[14px] border-gray-800 shadow-xl w-[350px] h-[650px] overflow-hidden flex flex-col relative">
 
 //             {/* 🌆 Background Layer */}
 //         {isImage ? (

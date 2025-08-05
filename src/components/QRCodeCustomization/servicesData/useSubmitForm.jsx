@@ -10,6 +10,7 @@ import useDesignContext from "@/components/hooks/useDesignContext";
 import axiosInstance from "@/lib/axiosInstance";
 
 const useSubmitForm = (activeService, formDataState, bgDesign, setFormDataState, setBgDesign) => {
+  console.log('formDataState',formDataState);
   const dispatch = useDispatch();
 const {setQrCodeUrl} =useDesignContext();
 
@@ -20,7 +21,7 @@ const {setQrCodeUrl} =useDesignContext();
       toast.error(`❌ No mapper found for "${activeService}"`);
       return;
     }
-
+  console.log('mapperObj',mapperObj);
     const { type, map } = mapperObj;
 
     let dataToSend;
@@ -35,7 +36,7 @@ const {setQrCodeUrl} =useDesignContext();
       headers["Content-Type"] = "application/json";
     }
 
-
+console.log('dataToSend',dataToSend);
     try {
       const res = await axiosInstance.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/services/${activeService}`,
         dataToSend,
