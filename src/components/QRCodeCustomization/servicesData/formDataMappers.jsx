@@ -106,61 +106,58 @@ export const formDataMappers = {
     },
   },
 
-  vehicles: {
+   vehicles: {
+  type: "formData",
+  map: (formData, state, bgDesign) => {
+    // Template
+    formData.append("vehicleTemplate", state?.vehicleTemplate || "");
 
-// In formDataMappers.js
+    // General Info
+    formData.append("vehicleModel", state?.general?.vehicleModel || "");
+    formData.append("vehicleNumber", state?.general?.vehicleNumber || "");
+    formData.append("vehicleType", state?.general?.vehicleType || "");
+    formData.append("description", state?.general?.description || "");
 
-    type: "formData",
-    map: (formData, state, bgDesign) => {
-      // Template
-      formData.append("selectedTemplate", state?.selectedTemplate || "");
+    // Registration Info
+    formData.append("rcNumber", state?.registration?.rcNumber || "");
+    formData.append("driverName", state?.registration?.driverName || "");
+    formData.append("ownerName", state?.registration?.ownerName || "");
 
-      // General Info
-      formData.append("vehicleModel", state?.general?.vehicleModel || "");
-      formData.append("vehicleNumber", state?.general?.vehicleNumber || "");
-      formData.append("vehicleType", state?.general?.vehicleType || "");
-      formData.append("description", state?.general?.description || "");
+    // Contact Info
+    formData.append("contact", state?.contact?.contact || "");
+    formData.append("altContact", state?.contact?.altContact || "");
+    formData.append("address", state?.contact?.address || "");
 
-      // Registration Info
-      formData.append("rcNumber", state?.registration?.rcNumber || "");
-      formData.append("driverName", state?.registration?.driverName || "");
-      formData.append("ownerName", state?.registration?.ownerName || "");
+    // Security
+    formData.append("password", state?.password || "");
 
-      // Contact Info
-      formData.append("contact", state?.contact?.contact || "");
-      formData.append("altContact", state?.contact?.altContact || "");
-      formData.append("address", state?.contact?.address || "");
+    // Media - Single file uploads
+    const singleFileFields = [
+      "vehicleImage",
+      "licenseFront",
+      "licenseBack",
+      "rcFront",
+      "rcBack",
+      "pollution"
+    ];
+    singleFileFields.forEach(field => {
+      const file = state?.media?.[field];
+      if (file) formData.append(field, file);
+    });
 
-      // Security
-      formData.append("password", state?.security?.password || "");
+    // Media - Multiple file uploads
+    (state?.media?.galleryImages || []).forEach(file => {
+      if (file) formData.append("galleryImages", file);
+    });
 
-      // Media - Single file uploads
-      const singleFileFields = [
-        "vehicleImage",
-        "licenseFront",
-        "licenseBack",
-        "rcFront",
-        "rcBack",
-        "pollution",
-      ];
-      singleFileFields.forEach((field) => {
-        const file = state?.media?.[field];
-        if (file) formData.append(field, file);
-      });
+    (state?.media?.insurance || []).forEach(file => {
+      if (file) formData.append("insurance", file);
+    });
 
-      // Media - Multiple file uploads
-      (state?.media?.galleryImages || []).forEach((file) => {
-        if (file) formData.append("galleryImages", file);
-      });
-
-      (state?.media?.insurance || []).forEach((file) => {
-        if (file) formData.append("insurance", file);
-      });
-
-      // Optional Design
-      formData.append("bgDesign", bgDesign || "");
-    },
-  },
+    // Optional Design
+    formData.append("bgDesign", bgDesign || "");
+  }
+},
   // In formDataMappers.js
 "business-shops": {
   type: "formData",
@@ -273,7 +270,7 @@ console.log('formData',formData);
     }),
   },
 
-  wifi: {
+  "wifi": {
     type: "json",
     map: (body, state, bgDesign) => ({
       ssid: state?.ssid || "",
@@ -287,7 +284,7 @@ console.log('formData',formData);
       qrCodeImage: state?.qrCodeImage || "",
     }),
   },
-
+  
   resumes: {
     type: "formData",
     map: (formData, state, bgDesign) => {

@@ -1,102 +1,72 @@
 import mongoose from 'mongoose';
-import { qrCodeServicesSchema } from './qrCodeServicesSchema';
+
 
 const vehicleSchema = new mongoose.Schema({
   user: {
-    id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    name: String,
+    id: { 
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: 'User',
+      required: true
+    },
+    name: String
   },
-  template: {
-    selectedTemplate: {
-      type: String,
-      enum: ['templateV1', 'templateV2', 'templateV3', 'templateV4', 'none'],
-      default: 'none'
-    }
-  },
+
   general: {
-    vehicleModel: {
-      type: String,
-      required: [true, 'Vehicle model is required'],
-      trim: true
-    },
-    vehicleType: {
-      type: String,
-      trim: true
-    },
-    description: {
-      type: String,
-      trim: true
-    }
+    vehicleModel: { type: String, required: true },
+    vehicleType: { type: String },
+    vehicleNumber: { type: String },
+    description: { type: String }
   },
+
   registration: {
-    rcNumber: {
-      type: String,
-      required: [true, 'RC number is required'],
-      trim: true,
-      uppercase: true
-    },
-    driverName: {
-      type: String,
-      trim: true
-    },
-    ownerName: {
-      type: String,
-      trim: true
-    }
+    rcNumber: { type: String, required: true, unique: true },
+    driverName: String,
+    ownerName: String
   },
+
   contact: {
-    contact: {
-      type: String,
-      trim: true
-    },
-    altContact: {
-      type: String,
-      trim: true
-    },
-    address: {
-      type: String,
-      trim: true
-    }
+    contact: String,
+    altContact: String,
+    address: String,
+    mapLink: String
   },
+
   media: {
-    vehicleImage: {
-      type: String,
-      required: [true, 'Vehicle image is required']
-    },
+    vehicleImage: { type: String, required: true },
     licenseFront: String,
     licenseBack: String,
     rcFront: String,
     rcBack: String,
-    pollution: String,             // ✅ Add this
-    insurance: [String],           // ✅ Add this
-    galleryImages: [String]
+    pollution: String,
+    galleryImages: [String],
+    insurance: [String]
   },
 
-  security: {
-    password: {
-      type: String,
-    },
-
-  },
-  bgDesign: {
+  password: {
     type: String,
   },
-  qrCodeDetails: qrCodeServicesSchema
-}, {
-  timestamps: true,
-  toJSON: {
-    transform: function (doc, ret) {
-      delete ret.security.password;
-      delete ret.__v;
-      return ret;
-    }
+
+  vehicleTemplate: {
+    type: String,
+    default: 'none'
+  },
+
+  bgDesign: String,
+
+  status: {
+    type: String,
+    default: 'active'
+  },
+
+  lastUpdated: {
+    type: Date,
+    default: Date.now
   }
+}, {
+  timestamps: true // Adds createdAt and updatedAt automatically
 });
 
-// Add indexes for better performance
-vehicleSchema.index({ 'general.vehicleModel': 'text' });
-vehicleSchema.index({ 'registration.rcNumber': 1 }, { unique: true });
+
 
 const VehicleModel = mongoose.models.Vehicle || mongoose.model('Vehicle', vehicleSchema);
-
 export default VehicleModel;

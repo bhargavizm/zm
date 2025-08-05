@@ -177,8 +177,7 @@ const ServicesProvider = ({ children }) => {
     password: "",
     bgDesign: "",
   };
-
-  const initialWifiFormData = [{ ssid: "", password: "", security: "WPA" }];
+const initialWifiFormData = { ssid: "", password: "", security: "WPA",bgDesign:"" };
 
   const initialEventsFormData = {
     organizer: "",
@@ -398,25 +397,9 @@ const ServicesProvider = ({ children }) => {
         galleryImages: [],
         insurance: [],
       },
-      security: {
-        password: "",
-      },
-      bgDesign: "",
-    },
-    vehicleTemplate: {
-      selectedTemplate: "none",
-      templateV1Data: {
-        bgimage: "/images/background/bikebg.png",
-      },
-      templateV2Data: {
-        bgimage: "/images/background/carbg.png",
-      },
-      templateV3Data: {
-        bgimage: "/images/background/lorrybg.png",
-      },
-      templateV4Data: {
-        bgimage: "/images/background/autobg.png",
-      },
+      password: "",
+      bgDesign:"",
+      vehicleTemplate: "none",
     },
   };
 

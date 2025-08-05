@@ -1,294 +1,3 @@
-// // Located at: app/api/services/vehicle/route.js (App Router)
-// // Or: pages/api/services/vehicle.js (Pages Router)
-
-// import { connectDB } from "@/lib/mongoDB";
-// import { authUser } from "@/middlewares/authMiddleware";
-// import VehicleModel from "@/models/services/vehicleSchema";
-// import { v2 as cloudinary } from 'cloudinary';
-// import { Readable } from 'stream';
-// import bcrypt from "bcryptjs";
-
-// // Configure Cloudinary
-// cloudinary.config({
-//   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-//   api_key: process.env.CLOUDINARY_API_KEY,
-//   api_secret: process.env.CLOUDINARY_API_SECRET,
-// });
-
-// export const config = {
-//   api: {
-//     bodyParser: false,
-//   },
-// };
-
-// /**
-//  * Parses FormData from the request
-//  */
-// async function parseFormData(request) {
-//   const formData = await request.formData();
-
-//   return {
-//     selectedTemplate: formData.get('selectedTemplate'),
-//     vehicleModel: formData.get('vehicleModel'),
-//     vehicleType: formData.get('vehicleType'),
-//     description: formData.get('description'),
-//     rcNumber: formData.get('rcNumber'),
-//     driverName: formData.get('driverName'),
-//     contact: formData.get('contact'),
-//     ownerName: formData.get('ownerName'),
-//     altContact: formData.get('altContact'),
-//     address: formData.get('address'),
-//     password: formData.get('password'),
-//     vehicleImage: formData.get('vehicleImage'),
-//     licenseFront: formData.get('licenseFront'),
-//     licenseBack: formData.get('licenseBack'),
-//     rcFront: formData.get('rcFront'),
-//     rcBack: formData.get('rcBack'),
-//     galleryImages: formData.getAll('galleryImages').filter(file => file.size > 0),
-//   };
-// }
-
-// /**
-//  * Uploads a file to Cloudinary
-//  */
-// async function uploadToCloudinary(buffer, originalFileName, folder) {
-//   return new Promise((resolve, reject) => {
-//     const uploadStream = cloudinary.uploader.upload_stream(
-//       {
-//         resource_type: 'auto',
-//         folder: folder,
-//         public_id: originalFileName.split('.')[0],
-//         overwrite: true,
-//       },
-//       (error, result) => {
-//         if (error) return reject(error);
-//         resolve(result.secure_url);
-//       }
-//     );
-
-//     const readableStream = new Readable();
-//     readableStream.push(buffer);
-//     readableStream.push(null);
-//     readableStream.pipe(uploadStream);
-//   });
-// }
-
-// /**
-//  * Handles file uploads to Cloudinary
-//  */
-// async function handleFileUploads(fields) {
-//   const uploads = {};
-//   const fileFields = [
-//     { field: 'vehicleImage', folder: 'vehicles' },
-//     { field: 'licenseFront', folder: 'vehicle_docs' },
-//     { field: 'licenseBack', folder: 'vehicle_docs' },
-//     { field: 'rcFront', folder: 'vehicle_docs' },
-//     { field: 'rcBack', folder: 'vehicle_docs' },
-//   ];
-
-//   // Upload single files
-//   for (const { field, folder } of fileFields) {
-//     const file = fields[field];
-//     if (file && file.size > 0) {
-//       try {
-//         const buffer = Buffer.from(await file.arrayBuffer());
-//         uploads[field] = await uploadToCloudinary(buffer, file.name, folder);
-//       } catch (error) {
-//         console.error(`Failed to upload ${field}:`, error);
-//         throw new Error(`Failed to upload ${field}`);
-//       }
-//     }
-//   }
-
-//   // Upload gallery images
-//   if (fields.galleryImages?.length > 0) {
-//     uploads.galleryImages = [];
-//     for (const file of fields.galleryImages) {
-//       try {
-//         const buffer = Buffer.from(await file.arrayBuffer());
-//         const url = await uploadToCloudinary(buffer, file.name, 'vehicle_gallery');
-//         uploads.galleryImages.push(url);
-//       } catch (error) {
-//         console.error('Failed to upload gallery image:', error);
-//         throw new Error('Failed to upload one or more gallery images');
-//       }
-//     }
-//   }
-
-//   return uploads;
-// }
-
-// /**
-//  * Validate vehicle data
-//  */
-// function validateVehicleData(data) {
-//   const errors = {};
-
-
-//   if (!data.rcNumber?.trim()) {
-//     errors.rcNumber = 'RC number is required';
-//   }
-
-//   if (!data.vehicleImage) {
-//     errors.vehicleImage = 'Vehicle image is required';
-//   }
-
-  
-
-//   return {
-//     isValid: Object.keys(errors).length === 0,
-//     errors
-//   };
-// }
-
-// export async function POST(request) {
-
-//   const auth = await authUser(request);
-//       if (auth.status !== 200) {
-//         return Response.json(auth.json, { status: auth.status });
-//       }
-  
-//       const user = auth.user;
-
-//   await connectDB();
-
-//   try {
-//     // Parse form data
-//     const fields = await parseFormData(request);
-
-    
-
-//     // Validate data
-//     const { isValid, errors } = validateVehicleData({
-//       vehicleModel: fields.vehicleModel,
-//       rcNumber: fields.rcNumber,
-//       vehicleImage: fields.vehicleImage,
-//       password: fields.password,
-//     });
-
-//     if (!isValid) {
-//       return new Response(
-//         JSON.stringify({ 
-//           error: 'Validation failed',
-//           errors 
-//         }), 
-//         { 
-//           status: 400, 
-//           headers: { 'Content-Type': 'application/json' } 
-//         }
-//       );
-//     }
-
-//     // Handle file uploads
-//     const mediaUrls = await handleFileUploads(fields);
-
-//   let hashedPassword = '';
-// if (fields.password) {
-//   const salt = await bcrypt.genSalt(10);
-//   hashedPassword = await bcrypt.hash(fields.password, salt);
-// }
-
-
-//     // Prepare vehicle data for database
-//     const vehicleData = {
-//        user: {
-//         id: user._id,
-//         name: user.name,
-//       },
-//       template: {
-//         selectedTemplate: fields.selectedTemplate || 'none',
-//       },
-//       general: {
-//         vehicleModel: fields.vehicleModel,
-//         vehicleType: fields.vehicleType,
-//         description: fields.description,
-//       },
-//       registration: {
-//         rcNumber: fields.rcNumber,
-//         driverName: fields.driverName,
-//         ownerName: fields.ownerName,
-//       },
-//       contact: {
-//         contact: fields.contact,
-//         altContact: fields.altContact,
-//         address: fields.address,
-//       },
-//       media: mediaUrls,
-//       security: {
-//         password: hashedPassword, // In production, hash this password
-//       },
-//     };
-
-//     // Save to database
-//     const newVehicle = await VehicleModel.create(vehicleData);
-
-//     return new Response(
-//       JSON.stringify({ 
-//         success: true,
-//         message: 'Vehicle created successfully',
-//         data: newVehicle
-//       }),
-//       { 
-//         status: 201, 
-//         headers: { 'Content-Type': 'application/json' } 
-//       }
-//     );
-
-//   } catch (error) {
-//     console.error('Error creating vehicle:', error);
-//     return new Response(
-//       JSON.stringify({ 
-//         error: error.message || 'Failed to create vehicle',
-//         ...(process.env.NODE_ENV === 'development' && { stack: error.stack })
-//       }),
-//       { 
-//         status: error.message.includes('Validation') ? 400 : 500,
-//         headers: { 'Content-Type': 'application/json' } 
-//       }
-//     );
-//   }
-// }
-
-// export async function GET() {
-//   await connectDB();
-
-//   try {
-//     const vehicles = await VehicleModel.find({})
-//       .select('-security.password')
-//       .sort({ createdAt: -1 })
-//       .limit(50);
-
-//     return new Response(
-//       JSON.stringify({ 
-//         success: true,
-//         count: vehicles.length,
-//         data: vehicles 
-//       }),
-//       { 
-//         status: 200, 
-//         headers: { 'Content-Type': 'application/json' } 
-//       }
-//     );
-//   } catch (error) {
-//     console.error('Error fetching vehicles:', error);
-//     return new Response(
-//       JSON.stringify({ 
-//         error: 'Failed to fetch vehicles',
-//         ...(process.env.NODE_ENV === 'development' && { details: error.message })
-//       }),
-//       { 
-//         status: 500, 
-//         headers: { 'Content-Type': 'application/json' } 
-//       }
-//     );
-//   }
-// }
-
-// Located at: app/api/services/vehicle/route.js (App Router)
-// Or: pages/api/services/vehicle.js (Pages Router)
-
-
-
 import { connectDB } from "@/lib/mongoDB";
 import { authUser } from "@/middlewares/authMiddleware";
 import VehicleModel from "@/models/services/vehicleSchema";
@@ -297,6 +6,7 @@ import { Readable } from 'stream';
 import bcrypt from "bcryptjs";
 import { getShortenedUrl } from "@/utils/shortenUrl";
 
+// Configure Cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -309,53 +19,21 @@ export const config = {
   },
 };
 
-// Parse multipart/form-data from request
-async function parseFormData(request) {
-  const formData = await request.formData();
-
-  return {
-    selectedTemplate: formData.get('selectedTemplate'),
-    vehicleModel: formData.get('vehicleModel'),
-    vehicleType: formData.get('vehicleType'),
-    description: formData.get('description'),
-    rcNumber: formData.get('rcNumber'),
-    driverName: formData.get('driverName'),
-    ownerName: formData.get('ownerName'),
-    contact: formData.get('contact'),
-    altContact: formData.get('altContact'),
-    address: formData.get('address'),
-    password: formData.get('password'),
-    bgDesign:formData.get('bgDesign'),
-    qrCodeImage: formData.get("qrCodeImage") || "",
-    qrPassword: formData.get("qrPassword") || "",
-    latitude: parseFloat(formData.get("latitude") || "0"),
-    longitude: parseFloat(formData.get("longitude") || "0"),
-    qrAddress: formData.get("qrAddress") || "",
-    renewalDate: formData.get("renewalDate") || null,
-    status: formData.get("status") || "active",
-    vehicleImage: formData.get("vehicleImage"),
-    licenseFront: formData.get("licenseFront"),
-    licenseBack: formData.get("licenseBack"),
-    rcFront: formData.get("rcFront"),
-    rcBack: formData.get("rcBack"),
-    pollution:formData.get("pollution"),
-    galleryImages: formData.getAll("galleryImages").filter(file => file.size > 0),
-    insurance: formData.getAll("insurance").filter(file=>file.size>0),
-  };
-}
-
-// Upload file to Cloudinary
+// Enhanced file upload function with error handling
 async function uploadToCloudinary(buffer, originalFileName, folder) {
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       {
         resource_type: 'auto',
-        folder,
-        public_id: originalFileName.split('.')[0],
-        overwrite: true,
+        folder: `vehicle_services/${folder}`,
+        public_id: `${Date.now()}-${originalFileName.split('.')[0]}`,
+        overwrite: false,
       },
       (error, result) => {
-        if (error) return reject(error);
+        if (error) {
+          console.error(`Cloudinary upload error for ${originalFileName}:`, error);
+          return reject(new Error(`Failed to upload ${originalFileName}`));
+        }
         resolve(result.secure_url);
       }
     );
@@ -367,47 +45,119 @@ async function uploadToCloudinary(buffer, originalFileName, folder) {
   });
 }
 
-// Upload all files
+// Improved form data parser with validation
+async function parseFormData(request) {
+  try {
+    const formData = await request.formData();
+    
+    return {
+      // Vehicle details
+      vehicleTemplate: formData.get('vehicleTemplate') || 'none',
+      vehicleModel: formData.get('vehicleModel'),
+      vehicleType: formData.get('vehicleType'),
+      vehicleNumber: formData.get('vehicleNumber'),
+      description: formData.get('description'),
+      
+      // Registration
+      rcNumber: formData.get('rcNumber'),
+      driverName: formData.get('driverName'),
+      ownerName: formData.get('ownerName'),
+      
+      // Contact
+      contact: formData.get('contact'),
+      altContact: formData.get('altContact'),
+      address: formData.get('address'),
+      
+      // Security
+      password: formData.get('password'),
+      
+      // Design
+      bgDesign: formData.get('bgDesign'),
+      
+      // QR Code details
+      qrCodeImage: formData.get('qrCodeImage'),
+      qrPassword: formData.get('qrPassword'),
+      latitude: parseFloat(formData.get('latitude') || 0),
+      longitude: parseFloat(formData.get('longitude') || 0),
+      qrAddress: formData.get('qrAddress'),
+      renewalDate: formData.get('renewalDate'),
+      status: formData.get('status') || 'active',
+      
+      // Files
+      vehicleImage: formData.get('vehicleImage'),
+      licenseFront: formData.get('licenseFront'),
+      licenseBack: formData.get('licenseBack'),
+      rcFront: formData.get('rcFront'),
+      rcBack: formData.get('rcBack'),
+      pollution: formData.get('pollution'),
+      galleryImages: formData.getAll('galleryImages').filter(file => file.size > 0),
+      insurance: formData.getAll('insurance').filter(file => file.size > 0),
+    };
+  } catch (error) {
+    console.error('Error parsing form data:', error);
+    throw new Error('Invalid form data submission');
+  }
+}
+
+// Enhanced file upload handler
 async function handleFileUploads(fields) {
-  const uploads = {};
-  const fileFields = [
-    { field: 'vehicleImage', folder: 'vehicles' },
-    { field: 'licenseFront', folder: 'vehicle_docs' },
-    { field: 'licenseBack', folder: 'vehicle_docs' },
-    { field: 'rcFront', folder: 'vehicle_docs' },
-    { field: 'rcBack', folder: 'vehicle_docs' },
-    { field: 'pollution', folder: 'vehicle_docs' },
+  const uploads = {
+    vehicleImage: null,
+    licenseFront: null,
+    licenseBack: null,
+    rcFront: null,
+    rcBack: null,
+    pollution: null,
+    galleryImages: [],
+    insurance: []
+  };
+
+  // Process single file uploads
+  const singleFiles = [
+    { field: 'vehicleImage', folder: 'main' },
+    { field: 'licenseFront', folder: 'documents' },
+    { field: 'licenseBack', folder: 'documents' },
+    { field: 'rcFront', folder: 'documents' },
+    { field: 'rcBack', folder: 'documents' },
+    { field: 'pollution', folder: 'documents' }
   ];
 
-  // Single file fields
-  for (const { field, folder } of fileFields) {
-    const file = fields[field];
-    if (file && file.size > 0) {
-      const buffer = Buffer.from(await file.arrayBuffer());
-      uploads[field] = await uploadToCloudinary(buffer, file.name, folder);
-    }
-  }
-
-  // Multiple file fields: galleryImages
-  uploads.galleryImages = [];
-  if (Array.isArray(fields.galleryImages)) {
-    for (const file of fields.galleryImages) {
-      if (file && file.size > 0) {
-        const buffer = Buffer.from(await file.arrayBuffer());
-        const url = await uploadToCloudinary(buffer, file.name, "vehicle_gallery");
-        uploads.galleryImages.push(url);
+  for (const { field, folder } of singleFiles) {
+    if (fields[field]?.size > 0) {
+      try {
+        const buffer = Buffer.from(await fields[field].arrayBuffer());
+        uploads[field] = await uploadToCloudinary(buffer, fields[field].name, folder);
+      } catch (error) {
+        console.error(`Error uploading ${field}:`, error);
+        throw new Error(`Failed to upload ${field}`);
       }
     }
   }
 
-  // Multiple file fields: insurance
-  uploads.insurance = [];
-  if (Array.isArray(fields.insurance)) {
-    for (const file of fields.insurance) {
-      if (file && file.size > 0) {
+  // Process gallery images
+  if (fields.galleryImages?.length > 0) {
+    for (const [index, file] of fields.galleryImages.entries()) {
+      try {
         const buffer = Buffer.from(await file.arrayBuffer());
-        const url = await uploadToCloudinary(buffer, file.name, "vehicle_gallery");
+        const url = await uploadToCloudinary(buffer, `gallery-${index}-${file.name}`, 'gallery');
+        uploads.galleryImages.push(url);
+      } catch (error) {
+        console.error(`Error uploading gallery image ${index}:`, error);
+        // Continue with other images even if one fails
+      }
+    }
+  }
+
+  // Process insurance documents
+  if (fields.insurance?.length > 0) {
+    for (const [index, file] of fields.insurance.entries()) {
+      try {
+        const buffer = Buffer.from(await file.arrayBuffer());
+        const url = await uploadToCloudinary(buffer, `insurance-${index}-${file.name}`, 'insurance');
         uploads.insurance.push(url);
+      } catch (error) {
+        console.error(`Error uploading insurance document ${index}:`, error);
+        // Continue with other documents even if one fails
       }
     }
   }
@@ -415,155 +165,162 @@ async function handleFileUploads(fields) {
   return uploads;
 }
 
-
-// Basic validation
+// Enhanced validation
 function validateVehicleData(data) {
   const errors = {};
 
-  if (!data.rcNumber?.trim()) errors.rcNumber = "RC number is required";
-  if (!data.vehicleImage) errors.vehicleImage = "Vehicle image is required";
+  if (!data.vehicleModel?.trim()) {
+    errors.vehicleModel = 'Vehicle model is required';
+  }
+
+  if (!data.rcNumber?.trim()) {
+    errors.rcNumber = 'RC number is required';
+  }
+
+  if (!data.vehicleImage) {
+    errors.vehicleImage = 'Vehicle image is required';
+  }
+
+  if (data.contact && !/^\d{10,15}$/.test(data.contact)) {
+    errors.contact = 'Invalid contact number format';
+  }
+
+  if (data.altContact && !/^\d{10,15}$/.test(data.altContact)) {
+    errors.altContact = 'Invalid alternate contact number format';
+  }
 
   return {
     isValid: Object.keys(errors).length === 0,
-    errors,
+    errors
   };
 }
 
-// POST route - create vehicle
 export async function POST(request) {
-  const auth = await authUser(request);
-  if (auth.status !== 200) {
-    return new Response(JSON.stringify(auth.json), { status: auth.status });
-  }
-
-  await connectDB();
-
   try {
-    const fields = await parseFormData(request);
+    // Authentication check
+    const auth = await authUser(request);
+    if (auth.status !== 200) {
+      return Response.json(auth.json, { status: auth.status });
+    }
 
-    const { isValid, errors } = validateVehicleData(fields);
+    await connectDB();
+
+    // Parse and validate form data
+    const formFields = await parseFormData(request);
+    const { isValid, errors } = validateVehicleData(formFields);
+    
     if (!isValid) {
-      return new Response(JSON.stringify({ error: "Validation failed", errors }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
+      return Response.json(
+        { error: 'Validation failed', errors },
+        { status: 400 }
+      );
     }
 
-    const mediaUrls = await handleFileUploads(fields);
+    // Handle file uploads
+    const mediaUrls = await handleFileUploads(formFields);
 
-    let hashedPassword = "";
-    if (fields.password) {
+    // Hash password if provided
+    let hashedPassword = '';
+    if (formFields.password) {
       const salt = await bcrypt.genSalt(10);
-      hashedPassword = await bcrypt.hash(fields.password, salt);
+      hashedPassword = await bcrypt.hash(formFields.password, salt);
     }
 
+    
+
+    // Prepare vehicle data
     const vehicleData = {
       user: {
         id: auth.user._id,
         name: auth.user.name,
       },
-      template: {
-        selectedTemplate: fields.selectedTemplate || "none",
-      },
       general: {
-        vehicleModel: fields.vehicleModel,
-        vehicleType: fields.vehicleType,
-        description: fields.description,
+        vehicleModel: formFields.vehicleModel,
+        vehicleType: formFields.vehicleType,
+        vehicleNumber: formFields.vehicleNumber,
+        description: formFields.description,
       },
       registration: {
-        rcNumber: fields.rcNumber,
-        driverName: fields.driverName,
-        ownerName: fields.ownerName,
+        rcNumber: formFields.rcNumber,
+        driverName: formFields.driverName,
+        ownerName: formFields.ownerName,
       },
       contact: {
-        contact: fields.contact,
-        altContact: fields.altContact,
-        address: fields.address,
+        contact: formFields.contact,
+        altContact: formFields.altContact,
+        address: formFields.address,
       },
       media: mediaUrls,
-      security: {
-        password: hashedPassword,
-      },
-      bgDesign: fields.bgDesign || "", // ✅ FIXED LINE
+      password: hashedPassword,
+      vehicleTemplate: formFields.vehicleTemplate,
+      bgDesign: formFields.bgDesign,
       qrCodeDetails: {
-        qrCodeImage: fields.qrCodeImage || "",
+        qrCodeImage: formFields.qrCodeImage || '',
         location: {
-          latitude: fields.latitude || null,
-          longitude: fields.longitude || null,
-          address: fields.qrAddress || "",
+          latitude: formFields.latitude,
+          longitude: formFields.longitude,
+          address: formFields.qrAddress || '',
         },
-        renewalDate: fields.renewalDate ? new Date(fields.renewalDate) : null,
-        status: fields.status || "active",
-        resetPasswordToken: null,
-        resetPasswordExpires: null,
-      },
-      
+        renewalDate: formFields.renewalDate ? new Date(formFields.renewalDate) : null,
+        status: formFields.status || 'active',
+      }
     };
 
+    // Create vehicle record
     const newVehicle = await VehicleModel.create(vehicleData);
-
+    
+    // Generate shortened URL for QR code
     const qrUrl = await getShortenedUrl(`/vehicle/${newVehicle._id}`);
 
-    return new Response(
-      JSON.stringify({
+    return Response.json(
+      {
         success: true,
         message: 'Vehicle created successfully',
         data: newVehicle,
-        qrUrl: qrUrl
-
-      }),
-      {
-        status: 201,
-        headers: { "Content-Type": "application/json" },
-      }
+        qrUrl
+      },
+      { status: 201 }
     );
+
   } catch (error) {
-    console.error("Error creating vehicle:", error);
-    return new Response(
-      JSON.stringify({
-        error: error.message || "Failed to create vehicle",
-        ...(process.env.NODE_ENV === "development" && { stack: error.stack }),
-      }),
+    console.error('Error in vehicle creation:', error);
+    return Response.json(
       {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      }
+        error: error.message || 'Failed to create vehicle',
+        ...(process.env.NODE_ENV === 'development' && { details: error.stack })
+      },
+      { status: 500 }
     );
   }
 }
 
-// GET route - list vehicles
 export async function GET() {
-  await connectDB();
-
   try {
-    const vehicles = await VehicleModel.find({})
-      .select("-security.password")
-      .sort({ createdAt: -1 })
-      .limit(50);
+    await connectDB();
 
-    return new Response(
-      JSON.stringify({
+    const vehicles = await VehicleModel.find({})
+      .select('-password -__v')
+      .sort({ createdAt: -1 })
+      .limit(50)
+      .lean();
+
+    return Response.json(
+      {
         success: true,
         count: vehicles.length,
-        data: vehicles,
-      }),
-      {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      }
+        data: vehicles
+      },
+      { status: 200 }
     );
+
   } catch (error) {
-    console.error("Error fetching vehicles:", error);
-    return new Response(
-      JSON.stringify({
-        error: "Failed to fetch vehicles",
-        ...(process.env.NODE_ENV === "development" && { details: error.message }),
-      }),
+    console.error('Error fetching vehicles:', error);
+    return Response.json(
       {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      }
+        error: 'Failed to fetch vehicles',
+        ...(process.env.NODE_ENV === 'development' && { details: error.message })
+      },
+      { status: 500 }
     );
   }
 }
