@@ -1,25 +1,17 @@
-import LoadingSpinner from "@/components/common/spinner";
+import axios from "axios";
 import useServicesContext from "@/components/hooks/useServiceContext";
-import NFCModal from "@/components/modalPopUps/nfcModal";
-import { setURLServices } from "@/redux/slices/urlServicesSlice";
 import { useParams } from "next/navigation";
 import React, { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import axios from "axios";
 
 const URLServices = ({ setIsModalOpen }) => {
   const dispatch = useDispatch();
   const { slug } = useParams();
   const urlInputRef = useRef(null);
 
-  const { servicesDataLoading, setServicesDataLoading,formData, setFormData } = useServicesContext();
-
-  // const [formData, setFormData] = useState({
-  //   url: "",
-  //   password: "",
-  // });
+  const { formData, setFormData } = useServicesContext();
 
   const [showPassword, setShowPassword] = useState(false);
   const [basicInfoOpen, setBasicInfoOpen] = useState(true);
@@ -39,7 +31,7 @@ const URLServices = ({ setIsModalOpen }) => {
       toast.error("URL is required!");
       return;
     }
-setIsModalOpen(true);
+    setIsModalOpen(true);
     // setServicesDataLoading(true);
     // try {
     //   const res = await axios.post(`/api/services/${slug}`, formData);
@@ -68,8 +60,6 @@ setIsModalOpen(true);
   };
   return (
     <>
-      {servicesDataLoading && <LoadingSpinner />}
-
       <h2 className="text-darkGreen font-bold text-xl sm:text-2xl mb-4">
         {slug
           ? slug
@@ -200,7 +190,7 @@ setIsModalOpen(true);
             }}
             className="px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center transition-effects gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
           >
-             Next → 
+            Next →
           </button>
         </div>
       </form>
@@ -259,7 +249,7 @@ setIsModalOpen(true);
                 }}
                 className="px-4 py-2 cursor-pointer bg-teal-700 text-white rounded hover:bg-teal-800 transition"
               >
-               Continue
+                Continue
               </button>
             </div>
           </div>

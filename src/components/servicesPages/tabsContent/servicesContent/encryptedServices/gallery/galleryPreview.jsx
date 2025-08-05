@@ -45,7 +45,7 @@ const GalleryPreview = () => {
   }, [imagePreviews]);
   return (
     <div className="flex justify-center items-start w-full">
-      <div className="relative w-[350px] h-[600px] border-4 border-[#001a1a] text-white rounded-3xl shadow-2xl overflow-hidden">
+      <div className="relative w-[350px] h-[650px] border-4 border-[#001a1a] text-white rounded-3xl shadow-2xl overflow-hidden">
         {/* 🌄 Background */}
         {isImage && (
           <img

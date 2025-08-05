@@ -1,33 +1,36 @@
 import { toPng } from "html-to-image";
-import toast from "react-hot-toast";
 
-export const generateMergedImage = async (previewRef) => {
-  try {
-    const exportWidth = 1024;
-    const exportHeight = Math.round(
-      (previewRef.current.offsetHeight / previewRef.current.offsetWidth) * exportWidth
-    );
+export const generateImageFromRef = async (ref, options = {}) => {
+  if (!ref?.current) throw new Error("Ref is missing");
 
-    const dataUrl = await toPng(previewRef.current, {
-      cacheBust: true,
-      backgroundColor: "white",
-      width: exportWidth,
-      height: exportHeight,
-      style: {
-        transform: `scale(${exportWidth / previewRef.current.offsetWidth})`,
-        transformOrigin: "top left",
-        width: `${previewRef.current.offsetWidth}px`,
-        height: `${previewRef.current.offsetHeight}px`,
-      },
-    });
+  const exportWidth = 1024;
+  const exportHeight = Math.round(
+    (ref.current.offsetHeight / ref.current.offsetWidth) * exportWidth
+  );
 
-    const blob = await (await fetch(dataUrl)).blob();
-    const file = new File([blob], "merged.png", { type: "image/png" });
+  const dataUrl = await toPng(ref.current, {
+    cacheBust: true,
+    backgroundColor: "white",
+    width: exportWidth,
+    height: exportHeight,
+    style: {
+      transform: `scale(${exportWidth / ref.current.offsetWidth})`,
+      transformOrigin: "top left",
+      width: `${ref.current.offsetWidth}px`,
+      height: `${ref.current.offsetHeight}px`,
+    },
+    ...options,
+  });
 
-    return file; // ✅ Return merged File
-  } catch (err) {
-    console.error("Image merging failed", err);
-    toast.error("Image merging failed");
-    return null;
-  }
+  return dataUrl;
 };
+
+
+
+export const downloadImage = (dataUrl) => {
+  const link = document.createElement("a");
+  link.download = "qr-code.png";
+  link.href = dataUrl;
+  link.click();
+};
+

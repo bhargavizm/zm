@@ -60,7 +60,15 @@ export default function LoginPage() {
       if (res.ok) {
         dispatch(setUserData(data.user));
         toast.success(data.message);
-        router.push('/');
+       // 👇 Redirect to saved path if available
+      const redirectPath = sessionStorage.getItem("redirectAfterLogin");
+      if (redirectPath) {
+        sessionStorage.removeItem("redirectAfterLogin");
+        router.push(redirectPath);
+      } else {
+        router.push('/'); // ✅ default fallback
+      }
+
       } else {
         toast.error(data.error);
       }

@@ -7,35 +7,25 @@ const businessShopSchema = new mongoose.Schema(
       id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
       name: String,
     },
-    businessInfo: {
-      general: {
-        businessName: { type: String },
-        businessType: String,
-        description: String,
-        shopTimings: String,
-        discount: String,
-      },
-      contact: {
-        phone: String,
-        altPhone: String,
-        email: String,
-        address: String,
-      },
-      password: String,
-      bgDesign: {
-        type: String,
-      },
-      selectedTemplate: {
-        type: String,
-      },
-
-      media: {
-        logo: String,
-        galleryImages: [String],
-      },
-
-      qrCodeDetails: qrCodeServicesSchema,
+    businessName: { type: String },
+    businessType: String,
+    description: String,
+    shopTimings: String,
+    shopLogo: String,
+    shopImages: [String],
+    discount: String,
+    password: String,
+    bgDesign: String,
+    selectedTemplate: String,
+    contact: {
+      ownerName: String,
+      phone: String,
+      altPhone: String,
+      email: String,
+      address: String,
     },
+
+    qrCodeDetails: qrCodeServicesSchema,
   },
   {
     timestamps: true,

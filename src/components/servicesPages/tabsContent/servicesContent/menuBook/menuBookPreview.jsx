@@ -61,7 +61,7 @@ const MenuBookPreview = () => {
 
   return (
     <section className="flex justify-center items-start ">
-      <div className="relative w-[350px] h-[600px] rounded-[40px] border-[14px] sm:border-[12px] border-gray-900 sm:rounded-[40px] shadow-xl overflow-hidden bg-white">
+      <div className="relative w-[350px] h-[650px] rounded-[40px] border-[14px] sm:border-[12px] border-gray-900 sm:rounded-[40px] shadow-xl overflow-hidden bg-white">
         {/* Background */}
         {isImage ? (
           <img
