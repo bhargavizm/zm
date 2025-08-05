@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  fullUserDetails:{},
   userData: [], // called in the return state of the reducer
   error: null,
 };
@@ -16,6 +17,13 @@ const authSlice = createSlice({
         error: null,
       };
     },
+     setGetUserFullData: (state, action) => {
+      return {
+        ...state,
+        fullUserDetails: action.payload,
+        error: null,
+      };
+    },
     logoutUser: (state) => {
       state.userData = null;
     },
@@ -26,6 +34,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { setUserData, logoutUser, clearError } = authSlice.actions;
+export const { setUserData, setGetUserFullData,logoutUser, clearError } = authSlice.actions;
 
 export default authSlice.reducer;

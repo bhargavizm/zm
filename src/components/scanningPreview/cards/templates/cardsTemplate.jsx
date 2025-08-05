@@ -41,76 +41,77 @@ const CardsTemplate = ({ businessForm, styles = {} }) => {
         {name || "Your Name"}
       </h2>
       {subheading && (
-        <p className={`text-sm mb-4 ${styles.subheadingColor}`}>
-          {subheading}
-        </p>
+        <p className={`text-sm mb-4 ${styles.subheadingColor}`}>{subheading}</p>
       )}
 
       {/* Info Buttons */}
-     <div className="flex flex-col gap-3 px-8 pb-4">
-  {/* Designation (just text) */}
-  {designation && (
-    <div className={`py-2 rounded font-semibold text-center ${styles.button}`}>
-      {designation}
-    </div>
-  )}
+      <div className="flex flex-col gap-3 px-8 pb-4">
+        {/* Designation (just text) */}
+        {designation && (
+          <div
+            className={`py-2 rounded font-semibold text-center ${styles.button}`}
+          >
+            {designation}
+          </div>
+        )}
 
-  {/* Mobile (tel link) */}
-  {mobile && (
-    <a
-      href={`tel:${mobile}`}
-      className={`py-2 rounded font-semibold text-center transition ${styles.button}`}
-    >
-      {mobile}
-    </a>
-  )}
+        {/* Mobile (tel link) */}
+        {mobile && (
+          <a
+            href={`tel:${mobile}`}
+            className={`py-2 rounded font-semibold text-center transition ${styles.button}`}
+          >
+            {mobile}
+          </a>
+        )}
 
-  {/* Email (mailto link) */}
-  {email && (
-    <a
-      href={`mailto:${email}`}
-      className={`py-2 rounded font-semibold text-center transition ${styles.button}`}
-    >
-      {email}
-    </a>
-  )}
+        {/* Email (mailto link) */}
+        {email && (
+          <a
+            href={`mailto:${email}`}
+            className={`py-2 rounded font-semibold text-center transition ${styles.button}`}
+          >
+            {email}
+          </a>
+        )}
 
-  {/* Map Link */}
-  {mapLink && (
-    <a
-      href={mapLink}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`py-2 rounded font-semibold text-center transition ${styles.button}`}
-    >
-      View Location
-    </a>
-  )}
+        {/* Map Link */}
+        {mapLink && (
+          <a
+            href={mapLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`py-2 rounded font-semibold text-center transition ${styles.button}`}
+          >
+            View Location
+          </a>
+        )}
 
-  {/* Social Links */}
-  {[socialLink, socialLink2].map(
-    (link, index) =>
-      link && (
-        <a
-          key={index}
-          href={link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={`py-2 rounded font-semibold text-center transition ${styles.button}`}
-        >
-          Social Link {index + 1}
-        </a>
-      )
-  )}
+        {/* Social Links */}
+        {[socialLink, socialLink2].map(
+          (link, index) =>
+            link && (
+              <a
+                key={index}
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`py-2 rounded font-semibold text-center transition ${styles.button}`}
+              >
+                Social Link {index + 1}
+              </a>
+            )
+        )}
 
-  {/* Address (just text) */}
-  {address && (
-    <div className={`py-2 rounded font-semibold text-center ${styles.button}`}>
-      {address}
-    </div>
-  )}
-</div>
-
+        {/* Address (just text) */}
+        {address && (
+          <div
+            className={`py-2 rounded font-semibold text-center ${styles.button}`}
+          >
+            {address}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

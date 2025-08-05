@@ -95,7 +95,20 @@ export async function CardsServicesRoute({
       password: hashedPassword,
       selectedTemplate,
       bgDesign,
-      profileImageUrl
+      profileImageUrl,
+       qrCodeDetails: {
+    qrCodeImage: "", // (Optional) set QR image later if needed
+    scanCount: 0,
+    location: {
+      latitude: null,
+      longitude: null,
+      address: "",
+    },
+    renewalDate: null,
+    status: "active",
+    resetPasswordToken: null,
+    resetPasswordExpires: null,
+  },
     });
 
     const qrUrl = await getShortenedUrl(`/${serviceName}/${newDoc._id}`);

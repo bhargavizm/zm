@@ -88,53 +88,22 @@ const initialFormStates = {
    selectedTemplate: "",
   },
   "business-shops": {
-    businessInfo: {
-      general: {
-        businessName: "",
-        businessType: "",
-        description: "",
-        shopTimings: "",
-        discount: "",
-      },
-      contact: {
-        phone: "",
-        altPhone: "",
-        email: "",
-        address: "",
-      },
-      security: {
-        password: "",
-      },
-      media: {
-        logo: null, // File
-        galleryImages: [], // Array of Files or URLs
-      },
-      qrCodeDetails: {
-        title: "",
-        description: "",
-        qrType: "",
-        url: "",
-        file: null,
-        bgDesign: "",
-        password: "",
-      },
+    businessName: "",
+    businessType: "",
+    description: "",
+    shopTimings: "",
+    discount: "",
+    contact: {
+      owner: "",
+      phone: "",
+      altPhone: "",
+      email: "",
+      address: "",
     },
-    shopTimingsTemplate: {
-      selectedTemplate: "",
-      template1Data: {},
-      template2Data: {},
-      template3Data: {},
-      template4Data: {},
-    },
-    qrCodeDetails: {
-      title: "",
-      description: "",
-      qrType: "",
-      url: "",
-      file: null,
-      bgDesign: "",
-      password: "",
-    },
+    shopLogo: "",
+    shopImages: [],
+    password: "",
+    bgDesign: "",
   },
   // resumes: {
 
