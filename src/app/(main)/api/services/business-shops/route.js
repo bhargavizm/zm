@@ -37,6 +37,7 @@ export async function POST(req) {
     const altPhone = formData.get("altPhone");
     const email = formData.get("email");
     const address = formData.get("address");
+    const qrCodeImage = formData.get("qrCodeImage");
 
     // Upload shop logo
     let shopLogo = "";
@@ -95,7 +96,7 @@ export async function POST(req) {
         address,
       },
       qrCodeDetails: {
-        qrCodeImage:"",
+        qrCodeImage,
         scanCount: 0,
         location: {
           latitude: null,

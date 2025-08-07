@@ -48,7 +48,7 @@ const DiscountCouponPreview = ({ data = {} }) => {
                             <img
                                 src={brandLogo}
                                 alt="Brand Logo"
-                                className="w-24 h-24 rounded-full shadow-md object-cover border border-gray-300"
+                                className="w-24 h-24 rounded-full shadow-md object-center border border-gray-300"
                             />
                         </div>
                     )}
