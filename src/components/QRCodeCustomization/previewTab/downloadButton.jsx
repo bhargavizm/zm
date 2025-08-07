@@ -1,87 +1,104 @@
-  "use client";
+"use client";
 
-  import { toPng } from "html-to-image";
-  import toast from "react-hot-toast";
-  import { FaLongArrowAltDown } from "react-icons/fa";
-  import { useServicesFormData } from "../servicesData/useServicesFormData";
-  import useServicesContext from "@/components/hooks/useServiceContext";
-  import LoadingSpinner from "@/components/common/spinner";
-  import {
-    downloadImage,
-    generateImageFromRef,
-  } from "../utils/generateMergedImage";
+import { toPng } from "html-to-image";
+import toast from "react-hot-toast";
+import { FaLongArrowAltDown } from "react-icons/fa";
+import { useServicesFormData } from "../servicesData/useServicesFormData";
+import useServicesContext from "@/components/hooks/useServiceContext";
+import LoadingSpinner from "@/components/common/spinner";
+import {
+  downloadImage,
+  generateImageFromRef,
+} from "../utils/generateMergedImage";
+import { useState } from "react";
+import EncryptedPricesModalPopUp from "./modalPopUps/encryptedPricesModalPopUp";
+import SecuredPricesModalPopUp from "./modalPopUps/securedPricesModalPopUp";
 
-  const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
-    const { submitForm, encryptSubmitForm } = useServicesFormData();
-    const {
-      activeService,
-      resetAllDynamicForms,
-      servicesDataLoading,
-      setServicesDataLoading,
-    } = useServicesContext();
+export const uploadImageToCloudinary = async (dataUrl) => {
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME; // 🔁 Replace this
+  const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESETS; // 🔁 Replace this
 
-    const handleDownload = async () => {
-      if (!previewRef?.current) {
-        toast.error("Preview not available");
+  const formData = new FormData();
+  formData.append("file", dataUrl);
+  formData.append("upload_preset", uploadPreset);
+  formData.append("folder", "qr_codes");
+
+  const response = await fetch(
+    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+    {
+      method: "POST",
+      body: formData,
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to upload to Cloudinary");
+  }
+
+  const data = await response.json();
+  return data.secure_url; // 🔥 Cloud-hosted image URL
+};
+
+const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
+  const { submitForm, encryptSubmitForm } = useServicesFormData();
+  const {
+    activeService,
+    resetAllDynamicForms,
+    servicesDataLoading,
+    setServicesDataLoading,
+  } = useServicesContext();
+
+  const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState("normal");
+
+  const handleDownload = async () => {
+    if (!previewRef?.current) {
+      toast.error("Preview not available");
+      return;
+    }
+
+    const isEncryptedService = ["pdf", "audios", "videos", "gallery"].includes(
+      activeService
+    );
+    const submitFn = isEncryptedService ? encryptSubmitForm : submitForm;
+
+    try {
+      setServicesDataLoading(true);
+
+      let generatedUrl = await submitFn();
+
+      if (!generatedUrl) {
+        toast.error("QR Code generation failed. Please try again.");
+        setServicesDataLoading(false);
         return;
       }
-      const submitFn = ["pdf", "audios", "videos", "gallery"].includes(
-        activeService
-      )
-        ? encryptSubmitForm
-        : submitForm;
-      try {
-        setServicesDataLoading(true);
-        let generatedUrl = await submitFn();
+ setServicesDataLoading(false);
+      setModalType(isEncryptedService ? "encrypted" : "normal");
+      setShowModal(true);
+console.log('generatedUrl',generatedUrl)
+      await regenerateMatrixWithText(generatedUrl);
+      await new Promise((res) => setTimeout(res, 150));
 
-        if (!generatedUrl) {
-          toast.error("QR Code generation failed. Please try again.");
-          setServicesDataLoading(false);
-          return;
-        }
+      // ✅ Generate image separately
+      const dataUrl = await generateImageFromRef(previewRef);
 
-        await regenerateMatrixWithText(generatedUrl);
-        await new Promise((res) => setTimeout(res, 150));
+      //  // ✅ Frontend-only Cloudinary upload
+      //     const cloudinaryImageUrl = await uploadImageToCloudinary(dataUrl);
 
-        // ✅ Generate image separately
-        const dataUrl = await generateImageFromRef(previewRef);
+      resetAllDynamicForms();
 
-        // const exportWidth = 1024;
-        // const exportHeight = Math.round(
-        //   (previewRef.current.offsetHeight / previewRef.current.offsetWidth) *
-        //     exportWidth
-        // );
+      downloadImage(dataUrl);
+      toast.success("QR Code downloaded successfully!");
+    } catch (error) {
+      console.error("Download failed:", error);
+      toast.error(error?.response?.data?.error);
+    } finally {
+      setServicesDataLoading(false);
+    }
+  };
 
-        resetAllDynamicForms();
-
-        // const dataUrl = await toPng(previewRef.current, {y
-        //   cacheBust: true,
-        //   backgroundColor: "white",
-        //   width: exportWidth,
-        //   height: exportHeight,
-        //   style: {
-        //     transform: `scale(${exportWidth / previewRef.current.offsetWidth})`,
-        //     transformOrigin: "top left",
-        //     width: `${previewRef.current.offsetWidth}px`,
-        //     height: `${previewRef.current.offsetHeight}px`,
-        //   },
-        // });
-
-        // const link = document.createElement("a");
-        // link.download = "qr-code.png";
-        // link.href = dataUrl;
-        // link.click();
-        downloadImage(dataUrl);
-        toast.success("QR Code downloaded successfully!");
-      } catch (error) {
-        console.error("Download failed:", error);
-        toast.error(error?.response?.data?.error);
-      } finally {
-        setServicesDataLoading(false);
-      }
-    };
-
-    return (
+  return (
+    <>
       <div className="pt-4 pb-2 flex flex-col items-center justify-center">
         {servicesDataLoading && <LoadingSpinner />}{" "}
         {/* ← Spinner visible only while loading */}
@@ -121,7 +138,21 @@
           )}
         </button>
       </div>
-    );
-  };
 
-  export default DownloadButton;
+      {modalType === "normal" && (
+        <SecuredPricesModalPopUp
+          open={showModal}
+          onClose={() => setShowModal(false)}
+        />
+      )}
+      {modalType === "encrypted" && (
+        <EncryptedPricesModalPopUp
+          open={showModal}
+          onClose={() => setShowModal(false)}
+        />
+      )}
+    </>
+  );
+};
+
+export default DownloadButton;

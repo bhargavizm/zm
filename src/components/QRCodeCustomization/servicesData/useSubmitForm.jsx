@@ -9,10 +9,15 @@ import { getInitialFormData } from "./initialFormStates";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import axiosInstance from "@/lib/axiosInstance";
 
-const useSubmitForm = (activeService, formDataState, bgDesign, setFormDataState, setBgDesign) => {
-  console.log('formDataState',formDataState);
+const useSubmitForm = (
+  activeService,
+  formDataState,
+  bgDesign,
+  setFormDataState,
+  setBgDesign
+) => {
   const dispatch = useDispatch();
-const {setQrCodeUrl} =useDesignContext();
+  const { setQrCodeUrl } = useDesignContext();
 
   const submit = async () => {
     const mapperObj = formDataMappers[activeService];
@@ -21,7 +26,6 @@ const {setQrCodeUrl} =useDesignContext();
       toast.error(`❌ No mapper found for "${activeService}"`);
       return;
     }
-  console.log('mapperObj',mapperObj);
     const { type, map } = mapperObj;
 
     let dataToSend;
@@ -36,40 +40,33 @@ const {setQrCodeUrl} =useDesignContext();
       headers["Content-Type"] = "application/json";
     }
 
-console.log('dataToSend',dataToSend);
     try {
-      const res = await axiosInstance.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/services/${activeService}`,
+      const res = await axiosInstance.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/services/${activeService}`,
         dataToSend,
-        { headers,withCredentials: true }
+        { headers, withCredentials: true }
       );
-
-
-
+console.log('res',res)
       if (res.data.success) {
+        toast.success(res.data.message || "Submitted successfully");
 
+        // ✅ Set QR URL in global context
+        setQrCodeUrl(res.data.qrUrl);
 
-  toast.success(res.data.message || "Submitted successfully");
+        const dispatchFn = reduxDispatchMappers[activeService];
+        if (typeof dispatchFn === "function") {
+          dispatch(dispatchFn(res?.data?.data));
+        }
 
-  // ✅ Set QR URL in global context
-  setQrCodeUrl(res.data.qrUrl);
+        if (typeof setFormDataState === "function") {
+          setFormDataState(getInitialFormData(activeService));
+        }
+        if (typeof setBgDesign === "function") {
+          setBgDesign(null);
+        }
 
-  const dispatchFn = reduxDispatchMappers[activeService];
-  if (typeof dispatchFn === "function") {
-    dispatch(dispatchFn(res?.data?.data));
-  }
-
-  if (typeof setFormDataState === "function") {
-    setFormDataState(getInitialFormData(activeService));
-  }
-  if (typeof setBgDesign === "function") {
-    setBgDesign(null);
-  }
-
-  return res.data.qrUrl; // ✅ Return the qrUrl instead of true
-}
- else {
-
-
+        return res.data.qrUrl; // ✅ Return the qrUrl instead of true
+      } else {
         toast.error("Something went wrong");
         return false;
       }

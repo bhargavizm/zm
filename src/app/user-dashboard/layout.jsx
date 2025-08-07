@@ -10,7 +10,7 @@ export default function DashboardLayout({ children }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen ">
       {/* Sidebar */}
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
@@ -42,7 +42,7 @@ export default function DashboardLayout({ children }) {
         </nav>
 
         {/* Main content area */}
-        <main className="flex-1 px-4 md:px-12 bg-white mt-[6vh]">
+        <main className="flex-1 px-4 md:px-12 bg-white mt-9">
           {children}
         </main>
       </div>
