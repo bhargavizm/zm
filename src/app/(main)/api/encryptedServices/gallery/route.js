@@ -1,6 +1,6 @@
 
 import { GalleryServiceModel } from "@/models/services/encryptedServicesSchema";
-import { HandleEncryptedServices } from "../../common/encryptedServicesRoute";
+import { HandleEncryptedServices } from "../../common/encryptedServices/encryptedServicesRoute";
 
  const imageMimeTypes = [
   "image/jpeg",

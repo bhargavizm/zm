@@ -226,7 +226,6 @@ const BusinessShopContent = () => {
   const handleModalOk = async () => {
     // Here you would typically send the businessShopFormData to your backend
     // For now, we'll just close the modal and navigate
-    console.log("Submitting form data:", businessShopFormData);
 
     setIsModalOpen(false);
     setActiveTab(slug, "Backdrop Designs"); // Assuming this is the desired next step
@@ -530,7 +529,7 @@ const BusinessShopContent = () => {
                           : URL.createObjectURL(file)
                       }
                       alt={`Gallery ${index}`}
-                      className="h-20 w-20 object-cover rounded-lg"
+                      className="h-20 w-20 object-center rounded-lg"
                     />
                     <button
                       onClick={() => removeImage("shopImages", index)}

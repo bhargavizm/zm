@@ -162,7 +162,6 @@ export const formDataMappers = {
 "business-shops": {
   type: "formData",
   map: (formData, state = {}, bgDesign) => {
-    console.log('formData',formData);
     const contact = state.contact || {};
     // General Info
     formData.append("businessName", state.businessName || "");
@@ -195,8 +194,6 @@ export const formDataMappers = {
     });
 
     // Optional Background Design
-   
-console.log('formData',formData);
     return formData;
   },
 },

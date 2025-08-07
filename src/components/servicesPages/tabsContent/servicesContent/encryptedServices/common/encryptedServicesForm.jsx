@@ -366,7 +366,9 @@ const EncryptedServicesForm = ({
       {/* Confirm Modal */}
       {showConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-xl overflow-y-auto scrollbar-hide p-6 border border-teal-200 mx-auto">
+
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-xl max-h-[90vh]  overflow-y-auto scrollbar-hide p-6 border border-teal-200 mx-auto">
+
             {/* <div className="flex justify-between items-center pb-4"> */}
             <div className="text-right pb-2">
               <button
