@@ -46,6 +46,7 @@ export async function CardsServicesRoute({
     const plainPassword = formData.get("password");
     const selectedTemplate = formData.get("selectedTemplate");
     const bgDesign = formData.get("bgDesign");
+    const qrCodeImage = formData.get("qrCodeImage");
 
     const hashedPassword = plainPassword
       ? await bcrypt.hash(plainPassword, 10)
@@ -97,7 +98,7 @@ export async function CardsServicesRoute({
       bgDesign,
       profileImageUrl,
        qrCodeDetails: {
-    qrCodeImage: "", // (Optional) set QR image later if needed
+    qrCodeImage, // (Optional) set QR image later if needed
     scanCount: 0,
     location: {
       latitude: null,

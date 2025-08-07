@@ -1,6 +1,7 @@
 // 🔸 models/qrServices.js
 import mongoose from "mongoose";
 import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
+import { encryptedServicesPricingDetailsSchema } from "./common/encryptedServicesPricingDetailsSchema";
 
 
 export const commonFieldsSchema = {
@@ -12,7 +13,8 @@ export const commonFieldsSchema = {
   description: String,
   password: String,
   bgDesign: String,
-   qrCodeDetails: qrCodeServicesSchema
+   qrCodeDetails: qrCodeServicesSchema,
+   priceDetails:encryptedServicesPricingDetailsSchema
 };
 
 

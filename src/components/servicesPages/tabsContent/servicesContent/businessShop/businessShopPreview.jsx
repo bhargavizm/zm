@@ -86,7 +86,7 @@ const BusinessShopPreview = () => {
         )}
 
         {/* Content */}
-        <div className="relative z-10 p-4 overflow-y-auto h-full">
+        <div className="relative z-10 p-4 overflow-y-auto scrollbar-hide h-full">
           {/* Logo & Name */}
           <div className="flex flex-col items-center justify-center mb-6">
             {businessShopFormData.shopLogo && (
@@ -169,7 +169,7 @@ const BusinessShopPreview = () => {
       <img
         src={getMediaSrc(img)}
         alt="Gallery"
-        className="w-full h-full object-cover"
+        className="w-full h-full object-center"
       />
     </div>
   );

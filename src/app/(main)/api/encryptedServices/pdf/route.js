@@ -1,6 +1,6 @@
 
 import { PDFServiceModel } from "@/models/services/encryptedServicesSchema";
-import { HandleEncryptedServices } from "../../common/encryptedServicesRoute";
+import { HandleEncryptedServices } from "../../common/encryptedServices/encryptedServicesRoute";
 
 
 export async function POST(request) {
