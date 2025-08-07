@@ -123,7 +123,7 @@ const GalleryPreview = () => {
                     key={idx}
                     src={img.url}
                     alt={img.name}
-                    className="rounded-lg object-cover aspect-square w-full h-auto"
+                    className="rounded-lg object-center aspect-square w-full h-auto"
                   />
                 ))}
               </div>

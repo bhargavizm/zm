@@ -12,7 +12,7 @@ import DiscountCouponContent from './../../servicesPages/tabsContent/servicesCon
 const encryptedServices = ["pdf", "audios", "videos", "gallery"];
 
 export const useServicesFormData = () => {
-  const { bgDesign, setBgDesign } = useDesignContext();
+  const { bgDesign, setBgDesign,selectedQRCodeImage, setSelectedQRCodeImage } = useDesignContext();
   const {
     activeService,
     menuBookFormData,
@@ -49,9 +49,6 @@ export const useServicesFormData = () => {
     setWifiFormData,businessShopFormData, setBusinessShopFormData
   } = useServicesContext();
 
-
-
-
   const discountCouponFormData = dynamicForms?.discountCoupon
   const setDiscountCouponFormData = setDynamicForms?.discountCoupon
   const vehicleData = dynamicForms?.vehicle; // ✅ Correct
@@ -60,8 +57,6 @@ export const useServicesFormData = () => {
   const setMultiUrlFormData = setDynamicForms?.multiUrl
    const medicalAlertFormData = dynamicForms?.medicalAlert
   const setMedicalAlertFormData = setDynamicForms?.medicalAlert
-
-
   const kidSafetyFormData = dynamicForms?.kidsSafety
   const setKidSafetyFormData = setDynamicForms?.kidsSafety
 
@@ -136,7 +131,7 @@ export const useServicesFormData = () => {
     formDataState,
     bgDesign,
     setFormDataState,
-    setBgDesign
+    setBgDesign,selectedQRCodeImage, setSelectedQRCodeImage
   );
 
   const encryptSubmitForm = useEncryptedSubmitForm(
@@ -144,7 +139,7 @@ export const useServicesFormData = () => {
     formDataState,
     bgDesign,
     setFormDataState,
-    setBgDesign
+    setBgDesign,selectedQRCodeImage, setSelectedQRCodeImage
   );
 
   // urlBasedServices.forEach((service) => {

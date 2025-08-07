@@ -23,7 +23,6 @@ const PetIdPreview = ({ data }) => {
 
   const selectedTemplateFile = data?.selectedTemplate;
   const selectedTemplate = templateMap[selectedTemplateFile] || defaultTemplate;
-console.log('selectedTemplate'  ,selectedTemplate);
   const defaultBg = null;
 
   useEffect(() => {
@@ -32,7 +31,6 @@ console.log('selectedTemplate'  ,selectedTemplate);
       setBgDesign(data.bgDesign);
     }
   }, [data]);
-console.log('data' ,data);
   const renderTemplate = () => {
     const props = {
       petIDFormData: data,

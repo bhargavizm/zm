@@ -24,7 +24,7 @@ const defaultBg = `/images/templates/businessShop${selectedTemplate.replace("tem
     typeof input === "string" ? input : URL.createObjectURL(input);
 
  return (
-  <div >
+  <div className="h-screen">
     {/* 1. Optional bgDesign (bottom layer) */}
      <BgDesignRenderer bgDesign={bgDesign} defaultBg={defaultBg} />
     {/* 2. Template Layer (middle layer, always shown) */}
@@ -98,7 +98,7 @@ const defaultBg = `/images/templates/businessShop${selectedTemplate.replace("tem
                   key={idx}
                   src={getSrc(img)}
                   alt={`Gallery ${idx + 1}`}
-                  className="rounded object-cover w-full h-24"
+                  className="rounded object-center w-full h-24"
                 />
               ))}
             </div>

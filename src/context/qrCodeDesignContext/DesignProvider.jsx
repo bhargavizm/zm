@@ -16,6 +16,7 @@ const DesignProvider = ({ children }) => {
   const [selectedEyeFrame, setSelectedEyeFrame] = useState("rounded");
   const [selectedEyeBall, setSelectedEyeBall] = useState("circle");
   const [selectedSticker, setSelectedSticker] = useState(DEFAULT_STICKER);
+   const [selectedQRCodeImage, setSelectedQRCodeImage] = useState('');
 
   const [backgroundImage, setBackgroundImage] = useState(null);
   const [imageScale, setImageScale] = useState(80);
@@ -104,6 +105,7 @@ const DesignProvider = ({ children }) => {
   return (
     <DesignContext.Provider
       value={{
+        selectedQRCodeImage, setSelectedQRCodeImage,
         text,
         setText,
         matrix,
