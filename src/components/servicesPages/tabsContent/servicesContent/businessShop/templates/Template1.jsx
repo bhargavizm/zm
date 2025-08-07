@@ -57,7 +57,6 @@ import React from 'react';
 
 const Template1 = ({ data }) => {
   if (!data) return null;
-console.log(data)
   return (
     <div
       className="relative w-full bg-cover bg-center rounded-xl overflow-y-auto scrollbar-hide shadow-lg p-6 flex flex-col items-center justify-center text-white text-center"

@@ -1,6 +1,7 @@
 
 import { AudioServiceModel } from "@/models/services/encryptedServicesSchema";
-import { HandleEncryptedServices } from "../../common/encryptedServicesRoute";
+import { HandleEncryptedServices } from "../../common/encryptedServices/encryptedServicesRoute";
+import { HandleEncryptedServicesUpdate } from "../../common/encryptedServices/encryptedServicesUpdateRoute";
 
 
 export const audioMimeTypes = [
@@ -28,6 +29,14 @@ export async function POST(request) {
     useCloudinary: false,
     mediaField: "files",
     allowedMimeTypes: audioMimeTypes, // allow all audio formats
+  });
+}
+
+export async function PATCH(request) {
+  return HandleEncryptedServicesUpdate({
+    request,
+    model: AudioServiceModel,
+    serviceName: "audios",
   });
 }
 

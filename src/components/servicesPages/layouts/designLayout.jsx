@@ -238,14 +238,14 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
                   <>
                     <div className="h-[40vh] overflow-y-auto scrollbar-hide ">
                       <PreviewPanel />
-                      <div className="flex justify-center items-center py-6">
+                      {/* <div className="flex justify-center items-center py-6">
                         <button
                           // onClick={handleClick}
                           className="  px-6 py-2 cursor-pointer text-xl text-white font-bold rounded-lg flex justify-center items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)]"
                         >
                           Download <FaLongArrowAltDown />
                         </button>
-                      </div>
+                      </div> */}
                     </div>
                   </>
                 )}
