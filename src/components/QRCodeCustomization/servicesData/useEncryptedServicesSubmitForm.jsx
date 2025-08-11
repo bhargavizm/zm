@@ -19,7 +19,7 @@ const useEncryptedSubmitForm = (
   setBgDesign
 ) => {
   const dispatch = useDispatch();
-  const { setQrCodeUrl,bgDesign } = useDesignContext();
+  const { setQrCodeUrl, bgDesign } = useDesignContext();
 
   const submit = async () => {
     const mapperObj = formDataMappers[activeService];
@@ -44,13 +44,18 @@ const useEncryptedSubmitForm = (
     }
 
     try {
-      const res = await axiosInstance.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/encryptedServices/${activeService}`, dataToSend, {
-        headers, withCredentials: true,
-      });
-
+      const res = await axiosInstance.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/encryptedServices/${activeService}`,
+        dataToSend,
+        {
+          headers,
+          withCredentials: true,
+        }
+      );
+      console.log("res", res);
       if (res.data.success) {
         toast.success(res.data.message || "✅ Encrypted service submitted");
-
+        console.log("res", res);
         // ✅ Set global QR URL
         setQrCodeUrl(res.data.qrUrl);
 
@@ -77,7 +82,13 @@ const useEncryptedSubmitForm = (
           setSizeWarning("");
         }
 
-        return res.data.qrUrl;
+        return {
+          qrUrl: res.data.qrUrl,
+          // serviceId: res.data.data?._id,
+          // serviceName: activeService,
+          // userId: res?.data?.data?.user.id,
+          // userName: res?.data?.data?.user.name,
+        };
       } else {
         toast.error(res.data.error || "Something went wrong");
         return false;

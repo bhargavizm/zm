@@ -164,7 +164,7 @@ export async function POST(request) {
     });
 
     await newSms.save();
-    // const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/sms/${newSms._id}` ; for shortLink
+
 
     const qrUrl = await getShortenedUrl(`/sms/${newSms._id}`);
 

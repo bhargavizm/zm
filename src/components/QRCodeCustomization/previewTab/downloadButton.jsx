@@ -50,6 +50,8 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
 
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("normal");
+  const [userMeta,setUserMeta] = useState({})
+
 
   const handleDownload = async () => {
     if (!previewRef?.current) {
@@ -65,25 +67,37 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
     try {
       setServicesDataLoading(true);
 
-      let generatedUrl = await submitFn();
+      const response = await submitFn();
+      const generatedUrl = response?.qrUrl;
+     const userMeta = {
+  userId: response?.userId,
+  userName: response?.userName,
+  serviceId: response?.serviceId,
+  serviceName: response?.serviceName,
+};
+
+
+      console.log("response", response);
+      console.log("serviceId", userMeta);
+
 
       if (!generatedUrl) {
         toast.error("QR Code generation failed. Please try again.");
         setServicesDataLoading(false);
         return;
       }
- setServicesDataLoading(false);
+      setServicesDataLoading(false);
       setModalType(isEncryptedService ? "encrypted" : "normal");
+      setUserMeta(userMeta);
       setShowModal(true);
-console.log('generatedUrl',generatedUrl)
+      console.log("generatedUrl", generatedUrl);
+
       await regenerateMatrixWithText(generatedUrl);
       await new Promise((res) => setTimeout(res, 150));
 
       // ✅ Generate image separately
       const dataUrl = await generateImageFromRef(previewRef);
 
-
-      //   Cloudinary upload  const cloudinaryImageUrl = await uploadImageToCloudinary(dataUrl);
 
       resetAllDynamicForms();
 
@@ -142,17 +156,21 @@ console.log('generatedUrl',generatedUrl)
       {modalType === "normal" && (
         <SecuredPricesModalPopUp
           open={showModal}
+
+ userMeta={userMeta}
           onClose={() => setShowModal(false)}
         />
       )}
-      {modalType === "encrypted" && (
+      {/* {modalType === "encrypted" && (
         <EncryptedPricesModalPopUp
           open={showModal}
+                    userMeta={userMeta}
           onClose={() => setShowModal(false)}
         />
-      )}
+      )} */}
     </>
   );
 };
 
-export default DownloadButton;       
+export default DownloadButton;
+

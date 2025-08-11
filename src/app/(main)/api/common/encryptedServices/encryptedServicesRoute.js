@@ -13,7 +13,7 @@ export const config = {
   },
 };
 
-// ✅ Plan Limits (1GB to 5GB)
+
 const planLimits = {
   Basic: 1 * 1024 * 1024 * 1024, // 1 GB
   Starter: 2 * 1024 * 1024 * 1024, // 2 GB
@@ -66,6 +66,12 @@ export async function HandleEncryptedServices({
     const address = formData.get("address");
     const renewalDate = formData.get("renewalDate");
     const status = formData.get("status");
+    const plan = formData.get("plan");
+    const price = formData.get("price");
+    const storage = formData.get("storage");
+    const validityDays = formData.get("validityDays");
+    const startDate = formData.get("startDate");
+    const endDate = formData.get("endDate");
     let password = formData.get("password") || "";
 
     if (password) {
@@ -158,6 +164,14 @@ export async function HandleEncryptedServices({
       }
     }
 
+
+    const startDateValue = startDate ? new Date(startDate) : new Date();
+    const validityDaysValue = validityDays ? Number(validityDays) : 30;
+
+    const renewalDateValue = new Date(
+      startDateValue.getTime() + validityDaysValue * 24 * 60 * 60 * 1000
+    );
+
     const qrCodeDetails = {
       qrCodeImage,
       scanCount: scanCount ? Number(scanCount) : undefined,
@@ -166,8 +180,17 @@ export async function HandleEncryptedServices({
         longitude: longitude ? Number(longitude) : undefined,
         address: address || "",
       },
-      renewalDate: renewalDate ? new Date(renewalDate) : null,
-      status: status || "active",
+    };
+    const priceDetails = {
+      plan,
+      price,
+      storage,
+      validityDays: validityDays ? Number(validityDays) : undefined,
+      startDate: startDate ? new Date(startDate) : undefined,
+      endDate: endDate ? new Date(endDate) : undefined,
+      renewalDate: renewalDateValue,
+      status: status || "pending",
+
     };
 
     // 📝 Step 4: Save to database
@@ -179,6 +202,8 @@ export async function HandleEncryptedServices({
       password,
       files,
       qrCodeDetails,
+      priceDetails,
+
     });
     const qrUrl = await getShortenedUrl(`/${serviceName}/${newDoc._id}`);
     // ✅ Return success
@@ -193,7 +218,8 @@ export async function HandleEncryptedServices({
       { status: 201 }
     );
   } catch (error) {
-  console.error("Upload Error:", error);
+    console.error("Upload Error:", error);
+
 
     return Response.json(
       {
@@ -203,6 +229,6 @@ export async function HandleEncryptedServices({
       },
       { status: 500 }
     );
-}
+  }
 
 }
