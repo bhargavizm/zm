@@ -1,71 +1,92 @@
 import { connectDB } from "@/lib/mongoDB";
-import { authUser } from "@/middlewares/authMiddleware";
 
 export async function HandleEncryptedServicesUpdate({
   request,
   model,
   serviceName,
+  params,
 }) {
   try {
-    const auth = await authUser(request);
-    if (auth.status !== 200) {
-      return new Response(JSON.stringify(auth.json), {
-        status: auth.status,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
+    console.log("Received params:", params);
 
-    const user = auth.user;
-    await connectDB();
+    const { userId, serviceId } = params;
 
-    const formData = await request.formData();
-    const id = formData.get("id");
-
-    if (!id) {
+    if (!userId || !serviceId) {
       return Response.json(
-        { success: false, message: "Missing ID for update" },
+        {
+          success: false,
+          message: "Invalid request. User ID or Service ID is missing in the URL.",
+        },
         { status: 400 }
       );
     }
 
-    const doc = await model.findById(id);
+    await connectDB();
+
+    let doc;
+
+    try {
+      doc = await model.findById(serviceId);
+    } catch (err) {
+      return Response.json(
+        {
+          success: false,
+          message: "Invalid Service ID. Please check the URL and try again.",
+        },
+        { status: 400 }
+      );
+    }
+
     if (!doc) {
       return Response.json(
-        { success: false, message: "Document not found" },
+        {
+          success: false,
+          message: "No service found for the given Service ID.",
+        },
         { status: 404 }
       );
     }
 
-    if (doc.user.id.toString() !== user._id.toString()) {
+    if (doc.user.id.toString() !== userId.toString()) {
       return Response.json(
-        { success: false, message: "Unauthorized" },
+        {
+          success: false,
+          message: "The provided User ID does not match the user of this service.",
+        },
         { status: 403 }
       );
     }
 
-    // 🔁 Only update priceDetails
-    doc.priceDetails.plan = formData.get("plan") || doc.priceDetails.plan;
-    doc.priceDetails.price = Number(formData.get("price")) || doc.priceDetails.price;
-    doc.priceDetails.storage = Number(formData.get("storage")) || doc.priceDetails.storage;
-    doc.priceDetails.validityDays = Number(formData.get("validityDays")) || doc.priceDetails.validityDays;
-    doc.priceDetails.startDate = formData.get("startDate")
-      ? new Date(formData.get("startDate"))
-      : doc.priceDetails.startDate;
+   const formData = await request.formData();
 
-    // Let pre-save hook set `endDate`
-    await doc.save();
+// ✅ Ensure priceDetails exists
+if (!doc.priceDetails) {
+  doc.priceDetails = {};
+}
 
-    return Response.json({
-      success: true,
-      message: `${serviceName} price details updated successfully`,
-      data: doc,
-    });
+// ✅ Safely update priceDetails
+doc.priceDetails.plan = formData.get("plan") || doc.priceDetails.plan || "Free";
+doc.priceDetails.price = Number(formData.get("price")) || doc.priceDetails.price || 0;
+doc.priceDetails.storage = Number(formData.get("storage")) || doc.priceDetails.storage || 1000;
+doc.priceDetails.validityDays = Number(formData.get("validityDays")) || doc.priceDetails.validityDays || 30;
+doc.priceDetails.startDate = formData.get("startDate")
+  ? new Date(formData.get("startDate"))
+  : doc.priceDetails.startDate || new Date();
+
+await doc.save();
+
+return Response.json({
+  success: true,
+  message: `${serviceName} price details updated successfully.`,
+  data: doc,
+});
+
   } catch (error) {
-    console.error("Price Update Error:", error);
+    console.error("Update error:", error);
     return Response.json(
       {
         success: false,
-        message: "Failed to update price details",
+        message: "Something went wrong while updating. Please try again later.",
         error: error.message,
       },
       { status: 500 }

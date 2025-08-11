@@ -63,9 +63,15 @@ console.log('res',res)
         }
         if (typeof setBgDesign === "function") {
           setBgDesign(null);
-        }
+        } 
 
-        return res.data.qrUrl; // ✅ Return the qrUrl instead of true
+          return {
+  qrUrl: res.data.qrUrl,
+  serviceId: res.data.data?._id,
+  serviceName:activeService,
+    userId:res?.data?.data?.user.id,
+  userName:res?.data?.data?.user.name
+}; // ✅ Return the qrUrl instead of true
       } else {
         toast.error("Something went wrong");
         return false;

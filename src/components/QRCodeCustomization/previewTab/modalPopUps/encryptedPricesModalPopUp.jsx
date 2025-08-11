@@ -1,26 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 const plans = [
-  { title: 'Free', price: '₹0 (First 3 Months)', storage: '' },
-  { title: 'Basic', price: '₹999', storage: 'Upto 1GB' },
-  { title: 'Starter', price: '₹1799', storage: 'Upto 2GB' },
-  { title: 'Pro', price: '₹2499', storage: 'Upto 3GB' },
-  { title: 'Advanced', price: '₹2999', storage: 'Upto 4GB' },
-  { title: 'Ultima', price: '₹3299', storage: 'Upto 5GB' },
+  { title: "Free", price: "₹0 (First 3 Months)", storage: "" },
+  { title: "Basic", price: "₹999", storage: "Upto 1GB" },
+  { title: "Starter", price: "₹1799", storage: "Upto 2GB" },
+  { title: "Pro", price: "₹2499", storage: "Upto 3GB" },
+  { title: "Advanced", price: "₹2999", storage: "Upto 4GB" },
+  { title: "Ultima", price: "₹3299", storage: "Upto 5GB" },
 ];
 
-const EncryptedPricesModalPopUp = ({ open, onClose }) => {
+const EncryptedPricesModalPopUp = ({ open, onClose, userMeta = {} }) => {
   const [selectedIndex, setSelectedIndex] = useState(null);
 
   if (!open) return null;
 
   const handleCheckboxChange = (index) => {
-    setSelectedIndex(prev => (prev === index ? null : index)); // Toggle if same, switch if different
+    setSelectedIndex((prev) => (prev === index ? null : index)); // Toggle if same, switch if different
   };
 
-  const handleBuy = (plan) => {
-    alert(`Buying: ${plan.title} at ${plan.price}`);
-    // Replace with your actual purchase logic
+  const handleBuy = async (plan) => {
+    if (!userMeta?.userId || !userMeta?.serviceId) {
+      alert("User ID or Service ID missing.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("plan", plan.title);
+    formData.append("price", plan.price.replace(/[^\d]/g, "")); // Remove ₹ or text
+    formData.append("storage", plan.storage.replace(/[^\d]/g, "")); // extract numeric MB
+    formData.append("validityDays", "30"); // Default or calculate
+    formData.append("startDate", new Date().toISOString());
+
+    try {
+      const response = await fetch(
+        `/api/encryptedServices/${userMeta.serviceName}/${userMeta.userId}/${userMeta.serviceId}`,
+        {
+          method: "PATCH",
+          body: formData,
+        }
+      );
+
+      const result = await response.json();
+      console.log(result);
+      if (response.ok) {
+        toast.success(` ${result.message}`);
+         onClose();
+      } else {
+        toast.error(` Failed: ${result.message}`);
+      }
+    } catch (err) {
+      console.error("Error updating plan:", err);
+      toast.error(err?.response?.data?.error || "Something went wrong!");
+    }
   };
 
   return (
@@ -40,7 +72,8 @@ const EncryptedPricesModalPopUp = ({ open, onClose }) => {
               Encrypted Services Prices
             </h1>
             <p className="text-gray-700 text-center mb-6">
-              Choose a plan that suits your encrypted storage needs. All plans are secure, private, and designed to protect your sensitive data.
+              Choose a plan that suits your encrypted storage needs. All plans
+              are secure, private, and designed to protect your sensitive data.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
@@ -59,8 +92,12 @@ const EncryptedPricesModalPopUp = ({ open, onClose }) => {
                     />
                   </label>
 
-                  <h2 className="text-lg font-semibold text-gray-800 mt-6 mb-1">{plan.title}</h2>
-                  <p className="text-lg font-bold text-teal-600 mb-1">{plan.price}</p>
+                  <h2 className="text-lg font-semibold text-gray-800 mt-6 mb-1">
+                    {plan.title}
+                  </h2>
+                  <p className="text-lg font-bold text-teal-600 mb-1">
+                    {plan.price}
+                  </p>
                   <p className="text-gray-600 mb-2">{plan.storage}</p>
 
                   <button
@@ -68,8 +105,8 @@ const EncryptedPricesModalPopUp = ({ open, onClose }) => {
                     onClick={() => handleBuy(plan)}
                     className={`px-4 py-2 rounded-md font-semibold w-full text-white transition duration-200 ${
                       selectedIndex === idx
-                        ? 'bg-mainGreen hover:bg-teal-700 cursor-pointer font-bold'
-                        : 'bg-gray-400 cursor-not-allowed'
+                        ? "bg-mainGreen hover:bg-teal-700 cursor-pointer font-bold"
+                        : "bg-gray-400 cursor-not-allowed"
                     }`}
                   >
                     Buy Now

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const shortLinkSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  // userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   code: { type: String, required: true, unique: true },
   fullUrl: { type: String, required: true },
   scanCount: { type: Number, default: 0 },

@@ -7,11 +7,11 @@ const encryptedServicesPricingDetailsSchema = new mongoose.Schema(
       default: "Free",
     },
     price: {
-      type: Number,
+      type: String,
       default: 0,
     },
     storage: {
-      type: Number, // in MB
+      type: String, // in MB
       default: 1000, // 1 GB = 1000 MB (can be adjusted)
     },
     validityDays: {
@@ -25,10 +25,14 @@ const encryptedServicesPricingDetailsSchema = new mongoose.Schema(
     endDate: {
       type: Date,
     },
+    renewalDate: {
+      type: Date,
+      default: null,
+    },
     status: {
       type: String,
       enum: ["active", "inactive", "pending"],
-      default: "inactive",
+      default: "pending",
     },
   },
   {
@@ -39,14 +43,15 @@ const encryptedServicesPricingDetailsSchema = new mongoose.Schema(
 // 🔁 Auto-calculate endDate before save
 // This part calculates endDate = startDate + 30 days
 encryptedServicesPricingDetailsSchema.pre("save", function (next) {
-  if (!this.endDate) {
-    const start = this.startDate || new Date();
+  // Only calculate endDate if startDate and validityDays exist
+  if (!this.endDate && this.startDate && this.validityDays) {
     this.endDate = new Date(
-      start.getTime() + this.validityDays * 24 * 60 * 60 * 1000
+      this.startDate.getTime() + this.validityDays * 24 * 60 * 60 * 1000
     );
   }
   next();
 });
+
 
 
 export { encryptedServicesPricingDetailsSchema };

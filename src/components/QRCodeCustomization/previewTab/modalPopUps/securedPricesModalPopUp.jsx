@@ -1,31 +1,79 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 const securedPlans = [
-  { title: 'Free', price: '₹0', duration: '90 Days Free Trial' },
-  { title: 'Silver', price: '₹99', duration: '30 Days' },
-  { title: 'Gold', price: '₹499', duration: '180 Days' },
-  { title: 'Diamond', price: '₹899', duration: '365 Days' },
-  { title: 'Platinum', price: '₹1599', duration: '730 Days' },
+  { title: "Free", price: "₹0", duration: "90 Days Free Trial" },
+  { title: "Silver", price: "₹99", duration: "30 Days" },
+  { title: "Gold", price: "₹499", duration: "180 Days" },
+  { title: "Diamond", price: "₹899", duration: "365 Days" },
+  { title: "Platinum", price: "₹1599", duration: "730 Days" },
 ];
 
-
-const SecuredPricesModalPopUp = ({ open, onClose }) => {
+const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {} }) => {
   const [selectedIndex, setSelectedIndex] = useState(null);
-
+  if (!open) return null;
   const handleCheckboxChange = (index) => {
     setSelectedIndex(index === selectedIndex ? null : index);
   };
 
-  const handleBuy = (plan) => {
-    alert(`Buying: ${plan.title} at ${plan.price}`);
-  };
+  const servicesRequiringFormData = ["business-cards", "v-cards", "menu-cards"]; // extend list
 
-  if (!open) return null;
+  const handleBuy = async (plan) => {
+    if (!userMeta?.userId || !userMeta?.serviceId || !userMeta?.serviceName) {
+      alert("User ID, Service ID, or Service Name missing.");
+      return;
+    }
+
+    const needsFormData = servicesRequiringFormData.includes(
+      userMeta.serviceName?.toLowerCase()
+    );
+
+    const payload = {
+      plan: plan.title,
+      price: plan.price.replace(/[^\d]/g, ""), // numeric only
+      validityDays: plan.duration.match(/\d+/)?.[0] || "30", // extract days
+      startDate: new Date().toISOString(),
+    };
+    console.log(payload);
+    let body, headers;
+    if (needsFormData) {
+      body = new FormData();
+      Object.entries(payload).forEach(([k, v]) => body.append(k, v));
+      headers = undefined; // browser will set automatically
+    } else {
+      headers = { "Content-Type": "application/json" };
+      body = JSON.stringify(payload);
+    }
+
+    try {
+      const res = await fetch(
+        `/api/services/${userMeta.serviceName}/${userMeta.userId}/${userMeta.serviceId}`,
+        { method: "PATCH", headers, body }
+      );
+
+      const result = await res.json();
+      console.log(result);
+      if (!result.success) {
+        toast.error(result.message || "Failed to update plan.");
+      } 
+      // else {
+      //   toast.success(`${plan.title} plan updated successfully!`);
+      // }
+    } catch (err) {
+      console.error("❌ API call failed:", err);
+        toast.error(err?.response?.data?.error);
+    }
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
       <div className="bg-white rounded-xl shadow-xl p-6 max-w-5xl w-full h-[90vh] overflow-y-auto scrollbar-hide relative">
-        <button onClick={onClose} className="absolute top-4 right-4 text-2xl cursor-pointer">❌</button>
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-2xl cursor-pointer"
+        >
+          ❌
+        </button>
         <div className="p-6">
           <h1 className="text-2xl font-bold text-center text-mainGreen mb-4">
             Secured Services Prices
@@ -53,13 +101,13 @@ const SecuredPricesModalPopUp = ({ open, onClose }) => {
                 <button
                   disabled={selectedIndex !== idx}
                   onClick={() => handleBuy(plan)}
-                  className={`px-4 py-2 rounded-md w-full text-white transition duration-200 ${
+                  className={`px-4 py-2 rounded-md font-semibold w-full text-white transition duration-200 ${
                     selectedIndex === idx
-                      ? 'bg-mainGreen hover:bg-teal-700 cursor-pointer font-bold'
-                      : 'bg-gray-400 cursor-not-allowed'
+                      ? "bg-mainGreen hover:bg-teal-700 cursor-pointer font-bold"
+                      : "bg-gray-400 cursor-not-allowed"
                   }`}
                 >
-                  {plan.title === 'Free' ? 'Start Trial' : 'Buy Now'}
+                  Buy Now
                 </button>
               </div>
             ))}
@@ -71,4 +119,3 @@ const SecuredPricesModalPopUp = ({ open, onClose }) => {
 };
 
 export default SecuredPricesModalPopUp;
-

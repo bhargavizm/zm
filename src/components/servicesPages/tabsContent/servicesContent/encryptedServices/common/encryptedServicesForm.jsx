@@ -162,8 +162,46 @@ const EncryptedServicesForm = ({
     return index > 0 ? plans[index - 1][1] : 0;
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const hasFiles = formData[fileKey]?.length > 0;
+    if (!hasFiles) {
+      toast.error("❌ Please upload at least one file.");
+      return;
+    }
+
+    setShowConfirm(true);
+    console.log("formData", formData);
+  };
+
+  const bytesToGB = (bytes) => {
+    return `${Math.ceil(bytes / 1024 ** 3)} GB`;
+  };
+
   const confirmUpload = async () => {
-    setActiveTab(slug, "Backdrop Designs");
+    const requiredPlan = getRequiredPlan(totalSize);
+    console.log("requiredPlan", requiredPlan);
+    // ✅ Update nested priceDetails inside formData
+    const updatedFormData = {
+      ...formData,
+      priceDetails: {
+        ...formData.priceDetails,
+        plan: requiredPlan,
+        price: planPrices[requiredPlan],
+        storage: bytesToGB(totalSize),
+        validityDays: 30,
+        startDate: new Date().toISOString(),
+      },
+    };
+
+    console.log("✅ updatedFormData", updatedFormData);
+
+    // Optional: still update state if needed later
+    setFormData(updatedFormData);
+
+     setActiveTab(slug, "Backdrop Designs");
+
     // const fd = new FormData();
     // // ✅ Always upload files under key "files"
     // if (Array.isArray(formData[fileKey])) {
@@ -206,23 +244,6 @@ const EncryptedServicesForm = ({
     // } finally {
     //   setServicesDataLoading(false); // ✅ End loader
     // }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const hasFiles = formData[fileKey]?.length > 0;
-    if (!hasFiles) {
-      toast.error("❌ Please upload at least one file.");
-      return;
-    }
-
-    // if (sizeWarning) {
-    //   setShowUpgradeModal(true);
-    //   return;
-    // }
-
-    setShowConfirm(true);
   };
 
   return (
@@ -366,9 +387,7 @@ const EncryptedServicesForm = ({
       {/* Confirm Modal */}
       {showConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
-
           <div className="bg-white rounded-xl shadow-xl w-full max-w-xl max-h-[90vh]  overflow-y-auto scrollbar-hide p-6 border border-teal-200 mx-auto">
-
             {/* <div className="flex justify-between items-center pb-4"> */}
             <div className="text-right pb-2">
               <button
@@ -472,8 +491,15 @@ const EncryptedServicesForm = ({
       {showUpgradeModal && upgradeInfo && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
           <div className="bg-white relative rounded-xl p-6 w-full max-w-md shadow-xl border border-teal-200 animate-fade-in">
-            <h2 className="text-xl font-bold text-center text-red-600">
-              🚫 Upload Limit Exceeded
+            <h2
+              className={`text-xl font-bold text-center flex items-center justify-center gap-2 ${
+                upgradeInfo.fileSize > 5 * 1024 ** 3
+                  ? "text-red-600"
+                  : "text-mainGreen"
+              }`}
+            >
+              {upgradeInfo.fileSize > 5 * 1024 ** 3 && "🚫"} Upload Limit
+              Exceeded
             </h2>
 
             <div className="my-4 space-y-4 text-gray-800 text-lg leading-relaxed">

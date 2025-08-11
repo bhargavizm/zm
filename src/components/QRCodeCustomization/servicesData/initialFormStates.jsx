@@ -289,6 +289,16 @@ const initialEncryptedForm = {
   password: "",
   file: [],
   bgDesign: "",
+   priceDetails : {
+  plan :"",
+  price : "",
+  storage : "",
+  validityDays: "",
+  startDate: "",
+  endDate:"",
+  renewalDate: "",
+  status:"",
+},
 };
 
 urlBasedServices.forEach((service) => {

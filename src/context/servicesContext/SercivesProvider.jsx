@@ -93,6 +93,16 @@ const ServicesProvider = ({ children }) => {
     file: [],
     password: "",
     bgDesign: "",
+      priceDetails : {
+  plan :"",
+  price : "",
+  storage : "",
+  validityDays: "",
+  startDate: "",
+  endDate:"",
+  renewalDate: "",
+  status:"",
+},
     qrCodeDetails: {
       qrCodeImage: "",
 
@@ -114,6 +124,16 @@ const ServicesProvider = ({ children }) => {
     file: [],
     password: "",
     bgDesign: "",
+      priceDetails : {
+  plan :"",
+  price : "",
+  storage : "",
+  validityDays: "",
+  startDate: "",
+  endDate:"",
+  renewalDate: "",
+  status:"",
+},
     qrCodeDetails: {
       qrCodeImage: "",
 
@@ -135,6 +155,16 @@ const ServicesProvider = ({ children }) => {
     file: [],
     password: "",
     bgDesign: "",
+      priceDetails : {
+  plan :"",
+  price : "",
+  storage : "",
+  validityDays: "",
+  startDate: "",
+  endDate:"",
+  renewalDate: "",
+  status:"",
+},
     qrCodeDetails: {
       qrCodeImage: "",
 
@@ -156,6 +186,16 @@ const ServicesProvider = ({ children }) => {
     file: [],
     password: "",
     bgDesign: "",
+      priceDetails : {
+  plan :"",
+  price : "",
+  storage : "",
+  validityDays: "",
+  startDate: "",
+  endDate:"",
+  renewalDate: "",
+  status:"",
+},
     qrCodeDetails: {
       qrCodeImage: "",
 
