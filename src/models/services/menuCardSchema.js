@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
 import { securedServicesPricingDetailsSchema } from "./common/securedServicespricingDetails";
 
+
 const menuCardsSchema = new mongoose.Schema(
   {
         user: {

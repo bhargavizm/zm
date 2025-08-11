@@ -103,6 +103,7 @@ const ServicesProvider = ({ children }) => {
   renewalDate: "",
   status:"",
 },
+
     qrCodeDetails: {
       qrCodeImage: "",
 
@@ -165,6 +166,7 @@ const ServicesProvider = ({ children }) => {
   renewalDate: "",
   status:"",
 },
+
     qrCodeDetails: {
       qrCodeImage: "",
 

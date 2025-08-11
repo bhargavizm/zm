@@ -63,6 +63,7 @@ console.log('res',res)
         }
         if (typeof setBgDesign === "function") {
           setBgDesign(null);
+
         } 
 
           return {
@@ -72,6 +73,7 @@ console.log('res',res)
     userId:res?.data?.data?.user.id,
   userName:res?.data?.data?.user.name
 }; // ✅ Return the qrUrl instead of true
+
       } else {
         toast.error("Something went wrong");
         return false;

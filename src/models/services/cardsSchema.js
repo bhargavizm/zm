@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
 import { securedServicesPricingDetailsSchema } from "./common/securedServicespricingDetails";
 
+
 const cardsSchema = new mongoose.Schema(
   {
     user: {
@@ -27,6 +28,7 @@ const cardsSchema = new mongoose.Schema(
     },
     qrCodeDetails: qrCodeServicesSchema,
     priceDetails: securedServicesPricingDetailsSchema
+
   },
   { timestamps: true }
 );

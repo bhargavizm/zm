@@ -13,7 +13,7 @@ export const config = {
   },
 };
 
-//  Plan Limits (1GB to 5GB)
+
 const planLimits = {
   Basic: 1 * 1024 * 1024 * 1024, // 1 GB
   Starter: 2 * 1024 * 1024 * 1024, // 2 GB
@@ -164,6 +164,7 @@ export async function HandleEncryptedServices({
       }
     }
 
+
     const startDateValue = startDate ? new Date(startDate) : new Date();
     const validityDaysValue = validityDays ? Number(validityDays) : 30;
 
@@ -189,6 +190,7 @@ export async function HandleEncryptedServices({
       endDate: endDate ? new Date(endDate) : undefined,
       renewalDate: renewalDateValue,
       status: status || "pending",
+
     };
 
     // 📝 Step 4: Save to database
@@ -201,6 +203,7 @@ export async function HandleEncryptedServices({
       files,
       qrCodeDetails,
       priceDetails,
+
     });
     const qrUrl = await getShortenedUrl(`/${serviceName}/${newDoc._id}`);
     // ✅ Return success
@@ -217,6 +220,7 @@ export async function HandleEncryptedServices({
   } catch (error) {
     console.error("Upload Error:", error);
 
+
     return Response.json(
       {
         success: false,
@@ -226,4 +230,5 @@ export async function HandleEncryptedServices({
       { status: 500 }
     );
   }
+
 }

@@ -52,6 +52,7 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
   const [modalType, setModalType] = useState("normal");
   const [userMeta,setUserMeta] = useState({})
 
+
   const handleDownload = async () => {
     if (!previewRef?.current) {
       toast.error("Preview not available");
@@ -79,6 +80,7 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
       console.log("response", response);
       console.log("serviceId", userMeta);
 
+
       if (!generatedUrl) {
         toast.error("QR Code generation failed. Please try again.");
         setServicesDataLoading(false);
@@ -89,14 +91,13 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
       setUserMeta(userMeta);
       setShowModal(true);
       console.log("generatedUrl", generatedUrl);
+
       await regenerateMatrixWithText(generatedUrl);
       await new Promise((res) => setTimeout(res, 150));
 
       // ✅ Generate image separately
       const dataUrl = await generateImageFromRef(previewRef);
 
-      //  // ✅ Frontend-only Cloudinary upload
-      //     const cloudinaryImageUrl = await uploadImageToCloudinary(dataUrl);
 
       resetAllDynamicForms();
 
@@ -155,6 +156,7 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
       {modalType === "normal" && (
         <SecuredPricesModalPopUp
           open={showModal}
+
  userMeta={userMeta}
           onClose={() => setShowModal(false)}
         />
@@ -171,3 +173,4 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
 };
 
 export default DownloadButton;
+

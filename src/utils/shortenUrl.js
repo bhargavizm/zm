@@ -17,7 +17,7 @@ export const getShortenedUrl = async (path) => {
     const { shortUrl } = await res.json();
       console.log('shortUrl',shortUrl)
     return shortUrl;
-  
+ 
   } catch (error) {
     console.error("Error while shortening URL:", error);
     return `${process.env.NEXT_PUBLIC_BASE_URL}${path}`; // fallback
