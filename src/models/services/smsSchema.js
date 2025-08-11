@@ -28,7 +28,6 @@
 
 import mongoose from "mongoose";
 import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
-
 const smsMessageSchema = new mongoose.Schema(
   {
     user: {

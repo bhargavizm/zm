@@ -82,8 +82,8 @@ console.log('generatedUrl',generatedUrl)
       // ✅ Generate image separately
       const dataUrl = await generateImageFromRef(previewRef);
 
-      //  // ✅ Frontend-only Cloudinary upload
-      //     const cloudinaryImageUrl = await uploadImageToCloudinary(dataUrl);
+
+      //   Cloudinary upload  const cloudinaryImageUrl = await uploadImageToCloudinary(dataUrl);
 
       resetAllDynamicForms();
 
@@ -155,4 +155,4 @@ console.log('generatedUrl',generatedUrl)
   );
 };
 
-export default DownloadButton;
+export default DownloadButton;       
