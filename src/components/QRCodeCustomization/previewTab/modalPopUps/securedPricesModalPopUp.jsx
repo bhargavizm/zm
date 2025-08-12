@@ -10,17 +10,18 @@ const securedPlans = [
 ];
 
 const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {} }) => {
+
   const [selectedIndex, setSelectedIndex] = useState(null);
   if (!open) return null;
   const handleCheckboxChange = (index) => {
     setSelectedIndex(index === selectedIndex ? null : index);
   };
 
-  const servicesRequiringFormData = ["business-cards", "v-cards", "menu-cards"]; // extend list
+  const servicesRequiringFormData = ["business-cards", "v-cards", "menu-cards","vehicles","business-shops"]; // extend list
 
   const handleBuy = async (plan) => {
     if (!userMeta?.userId || !userMeta?.serviceId || !userMeta?.serviceName) {
-      alert("User ID, Service ID, or Service Name missing.");
+      toast.error("User ID, Service ID, or Service Name missing.");
       return;
     }
 
@@ -34,7 +35,6 @@ const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {} }) => {
       validityDays: plan.duration.match(/\d+/)?.[0] || "30", // extract days
       startDate: new Date().toISOString(),
     };
-    console.log(payload);
     let body, headers;
     if (needsFormData) {
       body = new FormData();
@@ -52,12 +52,12 @@ const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {} }) => {
       );
 
       const result = await res.json();
-      console.log(result);
-      if (!result.success) {
-        toast.error(result.message || "Failed to update plan.");
+
+      if (result.success) {
+        toast.success(result.message);
       } 
       // else {
-      //   toast.success(`${plan.title} plan updated successfully!`);
+      //   toast.success(result.message);
       // }
     } catch (err) {
       console.error("❌ API call failed:", err);

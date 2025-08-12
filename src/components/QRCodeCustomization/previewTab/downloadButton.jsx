@@ -50,8 +50,7 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
 
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("normal");
-  const [userMeta,setUserMeta] = useState({})
-
+  const [userMeta, setUserMeta] = useState({});
 
   const handleDownload = async () => {
     if (!previewRef?.current) {
@@ -69,17 +68,12 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
 
       const response = await submitFn();
       const generatedUrl = response?.qrUrl;
-     const userMeta = {
-  userId: response?.userId,
-  userName: response?.userName,
-  serviceId: response?.serviceId,
-  serviceName: response?.serviceName,
-};
-
-
-      console.log("response", response);
-      console.log("serviceId", userMeta);
-
+      const userMeta = {
+        userId: response?.userId,
+        userName: response?.userName,
+        serviceId: response?.serviceId,
+        serviceName: response?.serviceName,
+      };
 
       if (!generatedUrl) {
         toast.error("QR Code generation failed. Please try again.");
@@ -90,14 +84,12 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
       setModalType(isEncryptedService ? "encrypted" : "normal");
       setUserMeta(userMeta);
       setShowModal(true);
-      console.log("generatedUrl", generatedUrl);
 
       await regenerateMatrixWithText(generatedUrl);
       await new Promise((res) => setTimeout(res, 150));
 
       // ✅ Generate image separately
       const dataUrl = await generateImageFromRef(previewRef);
-
 
       resetAllDynamicForms();
 
@@ -156,8 +148,7 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
       {modalType === "normal" && (
         <SecuredPricesModalPopUp
           open={showModal}
-
- userMeta={userMeta}
+          userMeta={userMeta}
           onClose={() => setShowModal(false)}
         />
       )}
@@ -173,4 +164,3 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
 };
 
 export default DownloadButton;
-

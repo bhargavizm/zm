@@ -37,7 +37,6 @@ const WifiContent = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-
     setSubmissionStep("confirm");
     setModalVisible(true);
   };
@@ -55,12 +54,12 @@ const WifiContent = () => {
       {servicesDataLoading && <LoadingSpinner />}
 
       <div className="flex items-center justify-center py-8 relative">
-        <div className="bg-white rounded-2xl shadow-xl p-8 space-y-6 w-full max-w-md">
+        <div className="bg-white rounded-2xl shadow-md p-8 space-y-6 w-full mx-6">
           <form className="space-y-5" onSubmit={handleSubmit}>
             {/* SSID */}
             <div>
               <label className="text-sm font-medium text-gray-600 mb-1 block">
-                WiFi SSID *
+                WiFi SSID *<span className="text-gray-400 text-xs">(Max 15 characters)</span>
               </label>
               <div className="relative">
                 <input
@@ -99,14 +98,14 @@ const WifiContent = () => {
             {wifiFormData.security !== "NoPassword" && (
               <div>
                 <label className="text-sm font-medium text-gray-600 mb-1 block">
-                  Password *
+                  Wifi Password * <span className="text-gray-400 text-xs">(Max 15 characters)</span>
                 </label>
                 <div className="relative">
                   <input
                     type={showPassword ? "text" : "password"}
                     value={wifiFormData.password || ""}
                     onChange={(e) => handleChange("password", e.target.value)}
-                    placeholder="Enter password (min 4 characters)"
+                    placeholder="Enter password "
                     className="w-full pl-10 pr-10 py-2 border rounded-lg text-sm border-gray-300 focus:ring-2 focus:ring-teal-500 focus:outline-none"
                     minLength={4}
                     required
@@ -117,14 +116,18 @@ const WifiContent = () => {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-2.5 text-gray-500 hover:text-gray-700"
                   >
-                    {showPassword ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
+                    {showPassword ? (
+                      <Eye className="w-5 h-5" />
+                    ) : (
+                      <EyeOff className="w-5 h-5" />
+                    )}
                   </button>
                 </div>
               </div>
             )}
 
             {/* QR Password */}
-            <div>
+            {/* <div>
               <label className="text-sm font-medium text-gray-600 mb-1 block">
                 QR Password
               </label>
@@ -142,19 +145,24 @@ const WifiContent = () => {
                   onClick={() => setShowQRPassword(!showQRPassword)}
                   className="absolute right-3 top-2.5 text-gray-500 hover:text-gray-700"
                 >
-                  {showQRPassword ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
+                  {showQRPassword ? (
+                    <Eye className="w-5 h-5" />
+                  ) : (
+                    <EyeOff className="w-5 h-5" />
+                  )}
                 </button>
               </div>
-            </div>
+            </div> */}
 
-            <NFCModal />
 
+<div className="flex justify-center items-center pt-6">
             <button
               type="submit"
-              className="w-full cursor-pointer bg-teal-600 hover:bg-teal-700 text-white py-2 rounded-lg font-semibold text-sm transition"
+               className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg"
             >
-              Submit
+               Next →
             </button>
+            </div>
           </form>
         </div>
 
@@ -169,14 +177,17 @@ const WifiContent = () => {
                   </h2>
                   <div className="space-y-3 mb-4 text-left">
                     <p>
-                      <strong>SSID:</strong> {wifiFormData.ssid || "Not provided"}
+                      <strong>SSID:</strong>{" "}
+                      {wifiFormData.ssid || "Not provided"}
                     </p>
                     <p>
-                      <strong>Security:</strong> {wifiFormData.security || "WPA"}
+                      <strong>Security:</strong>{" "}
+                      {wifiFormData.security || "WPA"}
                     </p>
                     {wifiFormData.security !== "NoPassword" && (
                       <p>
-                        <strong>Password:</strong> {wifiFormData.password || "Not provided"}
+                        <strong>Password:</strong>{" "}
+                        {wifiFormData.password || "Not provided"}
                       </p>
                     )}
                     {wifiFormData.qrPassword && (
@@ -190,13 +201,13 @@ const WifiContent = () => {
                       onClick={handleEdit}
                       className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 transition"
                     >
-                      Edit
+                      Back
                     </button>
                     <button
                       onClick={handleConfirm}
                       className="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 transition"
                     >
-                      Confirm & Submit
+                      Continue
                     </button>
                   </div>
                 </>

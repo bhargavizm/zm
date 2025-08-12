@@ -7,15 +7,14 @@ export async function HandleEncryptedServicesUpdate({
   params,
 }) {
   try {
-    console.log("Received params:", params);
-
     const { userId, serviceId } = params;
 
     if (!userId || !serviceId) {
       return Response.json(
         {
           success: false,
-          message: "Invalid request. User ID or Service ID is missing in the URL.",
+          message:
+            "Invalid request. User ID or Service ID is missing in the URL.",
         },
         { status: 400 }
       );
@@ -51,36 +50,42 @@ export async function HandleEncryptedServicesUpdate({
       return Response.json(
         {
           success: false,
-          message: "The provided User ID does not match the user of this service.",
+          message:
+            "The provided User ID does not match the user of this service.",
         },
         { status: 403 }
       );
     }
 
-   const formData = await request.formData();
+    const formData = await request.formData();
 
-// ✅ Ensure priceDetails exists
-if (!doc.priceDetails) {
-  doc.priceDetails = {};
-}
+    // ✅ Ensure priceDetails exists
+    if (!doc.priceDetails) {
+      doc.priceDetails = {};
+    }
 
-// ✅ Safely update priceDetails
-doc.priceDetails.plan = formData.get("plan") || doc.priceDetails.plan || "Free";
-doc.priceDetails.price = Number(formData.get("price")) || doc.priceDetails.price || 0;
-doc.priceDetails.storage = Number(formData.get("storage")) || doc.priceDetails.storage || 1000;
-doc.priceDetails.validityDays = Number(formData.get("validityDays")) || doc.priceDetails.validityDays || 30;
-doc.priceDetails.startDate = formData.get("startDate")
-  ? new Date(formData.get("startDate"))
-  : doc.priceDetails.startDate || new Date();
+    // ✅ Safely update priceDetails
+    doc.priceDetails.plan =
+      formData.get("plan") || doc.priceDetails.plan || "Free";
+    doc.priceDetails.price =
+      Number(formData.get("price")) || doc.priceDetails.price || 0;
+    doc.priceDetails.storage =
+      Number(formData.get("storage")) || doc.priceDetails.storage || 1000;
+    doc.priceDetails.validityDays =
+      Number(formData.get("validityDays")) ||
+      doc.priceDetails.validityDays ||
+      30;
+    doc.priceDetails.startDate = formData.get("startDate")
+      ? new Date(formData.get("startDate"))
+      : doc.priceDetails.startDate || new Date();
 
-await doc.save();
+    await doc.save();
 
-return Response.json({
-  success: true,
-  message: `${serviceName} price details updated successfully.`,
-  data: doc,
-});
-
+    return Response.json({
+      success: true,
+      message: `${serviceName} price details updated successfully.`,
+      data: doc,
+    });
   } catch (error) {
     console.error("Update error:", error);
     return Response.json(

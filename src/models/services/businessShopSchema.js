@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
+import { securedServicesPricingDetailsSchema } from "./common/securedServicespricingDetails";
 
 const businessShopSchema = new mongoose.Schema(
   {
@@ -26,6 +27,7 @@ const businessShopSchema = new mongoose.Schema(
     },
 
     qrCodeDetails: qrCodeServicesSchema,
+    priceDetails: securedServicesPricingDetailsSchema
   },
   {
     timestamps: true,

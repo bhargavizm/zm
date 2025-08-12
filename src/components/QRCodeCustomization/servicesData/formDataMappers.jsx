@@ -32,7 +32,6 @@ export const urlBasedServices = [
 const sharedFileUploadMapper = {
   type: "formData",
   map: (formData, state, bgDesign) => {
-    console.log("state", state, formData);
     formData.append("title", state.title || "");
     formData.append("description", state.description || "");
     formData.append("password", state.password || "");

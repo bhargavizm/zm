@@ -10,7 +10,7 @@ export default function DashboardLayout({ children }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="flex h-screen ">
+    <div className="flex  ">
       {/* Sidebar */}
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 

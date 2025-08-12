@@ -96,7 +96,7 @@ export async function POST(request) {
     const qrUrl = await getShortenedUrl(`/events/${newEvent._id}`);
 
     return new Response(
-      JSON.stringify({ success: true, fileData: newEvent,qrUrl }),
+      JSON.stringify({ success: true, message: "Events Data submitted successfully.", data: newEvent,qrUrl }),
       {
         status: 201,
         headers: { "Content-Type": "application/json" },
