@@ -46,7 +46,7 @@ const useSubmitForm = (
         dataToSend,
         { headers, withCredentials: true }
       );
-console.log('res',res)
+    
       if (res.data.success) {
         toast.success(res.data.message || "Submitted successfully");
 

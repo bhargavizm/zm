@@ -68,6 +68,7 @@
 
 import mongoose from "mongoose";
 import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
+import { securedServicesPricingDetailsSchema } from "./common/securedServicespricingDetails";
 
 
 const wifiSchema = new mongoose.Schema(
@@ -100,7 +101,8 @@ const wifiSchema = new mongoose.Schema(
       type:String,
     },
 
-   qrCodeDetails: qrCodeServicesSchema
+   qrCodeDetails: qrCodeServicesSchema,
+   priceDetails: securedServicesPricingDetailsSchema
   },
   {
     timestamps: true,

@@ -1,7 +1,7 @@
-// /api/services/business-cards/[userId]/[serviceId]/priceDetails.js
+
 import handleSecuredServicesPriceDetails from "@/app/(main)/api/common/handleSecuredServicesPriceDetails";
 import { connectDB } from "@/lib/mongoDB";
-import { BusinessCardsModel } from "@/models/services/cardsSchema";
+import VehicleModel from "@/models/services/vehicleSchema";
 import path from "path";
 import url from "url";
 
@@ -11,11 +11,10 @@ export async function PATCH(req, context) {
     const params = await context.params;
     const { serviceId, userId } = params;
 
-    // 2️⃣ Auto detect service name from folder path
-    const __filename = url.fileURLToPath(import.meta.url);
-    const __dirname = path.dirname(__filename);
-   const serviceName = path.basename(path.dirname(path.dirname(__dirname))); // parent folder name
-
+      // 2️⃣ Auto detect service name from folder path
+      const __filename = url.fileURLToPath(import.meta.url);
+      const __dirname = path.dirname(__filename);
+    const serviceName = path.basename(path.dirname(path.dirname(__dirname))); // parent folder name
 
     // 3️⃣ Validate required params
     if (!userId || !serviceId) {
@@ -32,7 +31,7 @@ export async function PATCH(req, context) {
     await connectDB();
 
     // 5️⃣ Find service
-    const doc = await BusinessCardsModel.findById(serviceId);
+    const doc = await VehicleModel.findById(serviceId);
     if (!doc) {
       return Response.json(
         {

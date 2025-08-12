@@ -57,7 +57,6 @@ export async function POST(req, context) {
     });
 
     const qrUrl = await getShortenedUrl(`/${slug}/${result._id}`);
-  console.log('qrUrl',qrUrl)
     return Response.json(
       {
         success: true,

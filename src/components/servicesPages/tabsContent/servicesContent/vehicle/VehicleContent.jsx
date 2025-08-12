@@ -388,16 +388,14 @@ const VehicleContent = () => {
               onClick={() => setShowConfirmation(false)}
               className="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition-colors duration-200 flex items-center"
             >
-              <X className="mr-2 w-4 h-4" />
-              Cancel
+              Back
             </button>
             <button
               type="button"
               onClick={confirmSubmission}
               className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors duration-200 flex items-center"
             >
-              <Check className="mr-2 w-4 h-4" />
-              Confirm & Submit
+              Continue
             </button>
           </div>
         </div>
@@ -410,9 +408,9 @@ const VehicleContent = () => {
       {servicesDataLoading && <LoadingSpinner />}
 
       <form onSubmit={handleSubmit}>
-        <div className="space-y-8 p-4 md:p-8 lg:p-12 bg-gray-50 rounded-xl shadow-lg overflow-auto hide-scrollbar h-150">
+        <div className="space-y-8 p-4 md:p-8 lg:p-12 bg-gray-50 rounded-xl  overflow-auto hide-scrollbar ">
           {/* Vehicle Profile Template Section */}
-          <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
+          <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-md">
             <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 border-b pb-2 sm:pb-3 border-gray-200">
               Vehicle Profile Template
             </h3>
@@ -442,7 +440,7 @@ const VehicleContent = () => {
           </div>
 
           {/* General Vehicle Information */}
-          <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
+          <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-md">
             <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 border-b pb-2 sm:pb-3 border-gray-200">
               General Vehicle Information
             </h3>
@@ -498,7 +496,7 @@ const VehicleContent = () => {
           </div>
 
           {/* Registration Details */}
-          <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
+          <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-md">
             <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 border-b pb-2 sm:pb-3 border-gray-200">
               Registration Details
             </h3>
@@ -574,7 +572,7 @@ const VehicleContent = () => {
           </div>
 
           {/* Location Information */}
-          <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
+          <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-md">
             <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 border-b pb-2 sm:pb-3 border-gray-200">
               Location Information
             </h3>
@@ -591,7 +589,7 @@ const VehicleContent = () => {
               <button
                 type="button"
                 onClick={fetchCurrentLocation}
-                className="flex items-center justify-center w-full py-2 px-3 bg-gray-100 hover:bg-gray-300 text-gray-700 text-sm rounded-lg transition-colors duration-200 cursor-pointer"
+                className="flex items-center justify-center w-full py-2 px-3 bg-mainGreen text-white text-sm rounded-lg transition-colors duration-200 cursor-pointer"
               >
                 <MapPin className="mr-2 w-4 h-4" />
                 Use Current Location
@@ -600,7 +598,7 @@ const VehicleContent = () => {
           </div>
 
           {/* Media Section */}
-          <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
+          <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-md">
             <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 border-b pb-2 sm:pb-3 border-gray-200">
               Media
             </h3>
@@ -693,7 +691,7 @@ const VehicleContent = () => {
               </div> */}
 
               {/* Media Section */}
-              <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
+              <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-md">
                 <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200">
                   Media
                 </h3>
@@ -802,7 +800,7 @@ const VehicleContent = () => {
               </div>
 
               {/* Media Section */}
-              <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
+              <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-md">
                 <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200">
                   Media
                 </h3>
@@ -913,7 +911,7 @@ const VehicleContent = () => {
           </div>
 
           {/* Security Section */}
-          <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
+          <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-md">
             <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 border-b pb-2 sm:pb-3 border-gray-200">
               Security
             </h3>
@@ -942,20 +940,19 @@ const VehicleContent = () => {
             )}
           </div>
 
-          {/* NFC Section */}
-          <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg">
-            <NFCModal />
-          </div>
-        </div>
-
+<div className="flex justify-center items-center">
         <button
           type="submit"
-          disabled={isSubmitting}
-          className={`w-full py-3 cursor-pointer bg-[#008080] text-white font-semibold rounded-lg hover:bg-[#006666] transition-all duration-200 mt-6 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
-            }`}
+            className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg"
+
         >
-          {isSubmitting ? 'Submitting...' : 'Submit Vehicle Details'}
+           Next →
         </button>
+        </div>
+        
+        </div>
+
+
       </form>
 
       <ConfirmationModal />
