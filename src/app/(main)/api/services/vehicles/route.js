@@ -177,9 +177,9 @@ function validateVehicleData(data) {
     errors.rcNumber = 'RC number is required';
   }
 
-  if (!data.vehicleImage) {
-    errors.vehicleImage = 'Vehicle image is required';
-  }
+  // if (!data.vehicleImage) {
+  //   errors.vehicleImage = 'Vehicle image is required';
+  // }
 
   if (data.contact && !/^\d{10,15}$/.test(data.contact)) {
     errors.contact = 'Invalid contact number format';

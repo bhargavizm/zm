@@ -2,6 +2,7 @@
 
 import mongoose from "mongoose";
 import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
+import { securedServicesPricingDetailsSchema } from "./common/securedServicespricingDetails";
 
 const eventSchema = new mongoose.Schema({
   user: {
@@ -20,7 +21,8 @@ const eventSchema = new mongoose.Schema({
   contactPhone: { type: String },
   password:{type:String},
   bgDesign: { type: String },
-  qrCodeDetails: qrCodeServicesSchema
+  qrCodeDetails: qrCodeServicesSchema,
+  priceDetails:securedServicesPricingDetailsSchema
 }, {
   timestamps: true, // optional: adds createdAt and updatedAt fields
 });

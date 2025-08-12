@@ -163,7 +163,7 @@ export async function POST(req) {
       {
         success: true,
         message: "WiFi saved successfully!",
-        wifi,
+        data:wifi,
         qrUrl,
       },
       { status: 201 }
@@ -171,7 +171,7 @@ export async function POST(req) {
   } catch (error) {
     console.error("❌ Error in POST /api/services/wifi:", error);
     return NextResponse.json(
-      { error: "Failed to save WiFi." },
+      { error: error.message || "Failed to save WiFi." },
       { status: 500 }
     );
   }

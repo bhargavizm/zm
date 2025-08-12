@@ -1,38 +1,36 @@
-// /api/services/business-cards/[userId]/[serviceId]/priceDetails.js
+
 import handleSecuredServicesPriceDetails from "@/app/(main)/api/common/handleSecuredServicesPriceDetails";
 import { connectDB } from "@/lib/mongoDB";
-import { BusinessCardsModel } from "@/models/services/cardsSchema";
+import EventModel from "@/models/services/eventSchema";
 import path from "path";
 import url from "url";
 
 export async function PATCH(req, context) {
   try {
-    // 1️⃣ Get params (must await in Next.js 15)
-    const params = await context.params;
-    const { serviceId, userId } = params;
+    const { serviceId, userId } = await context.params;
 
-    // 2️⃣ Auto detect service name from folder path
-    const __filename = url.fileURLToPath(import.meta.url);
-    const __dirname = path.dirname(__filename);
-   const serviceName = path.basename(path.dirname(path.dirname(__dirname))); // parent folder name
+        // 2️⃣ Auto detect service name from folder path
+        const __filename = url.fileURLToPath(import.meta.url);
+        const __dirname = path.dirname(__filename);
+       const serviceName = path.basename(path.dirname(path.dirname(__dirname))); // parent folder name
+    
 
-
-    // 3️⃣ Validate required params
+    // 1️⃣ Validate required params
     if (!userId || !serviceId) {
       return Response.json(
         {
           success: false,
-          message: "Missing required URL parameters: userId or serviceId.",
+          message: "Missing required URL parameters: userId, serviceId.",
         },
         { status: 400 }
       );
     }
 
-    // 4️⃣ Connect DB
+    // 2️⃣ Connect DB
     await connectDB();
 
-    // 5️⃣ Find service
-    const doc = await BusinessCardsModel.findById(serviceId);
+    // 3️⃣ Find service
+    const doc = await EventModel.findById(serviceId);
     if (!doc) {
       return Response.json(
         {
@@ -43,18 +41,18 @@ export async function PATCH(req, context) {
       );
     }
 
-    // 6️⃣ Service name check
-    // if (doc.serviceName.toLowerCase() !== serviceName.toLowerCase()) {
+    // 4️⃣ Service name check
+    // if (doc.serviceName.toLowerCase() !== slug.toLowerCase()) {
     //   return Response.json(
     //     {
     //       success: false,
-    //       message: `Service name is not correct.`,
+    //       message: `Service Name is not correct `,
     //     },
     //     { status: 400 }
     //   );
     // }
 
-    // 7️⃣ Ownership check
+    // 5️⃣ Ownership check
     if (doc.user.id.toString() !== userId.toString()) {
       return Response.json(
         {
@@ -65,18 +63,10 @@ export async function PATCH(req, context) {
       );
     }
 
-    // 8️⃣ Parse request body as FormData
-    const formData = await req.formData();
-    const body = {
-      plan: formData.get("plan"),
-      price: formData.get("price"),
-      validityDays: formData.get("validityDays"),
-      startDate: formData.get("startDate"),
-      status: formData.get("status"),
-      renewalDate: formData.get("renewalDate"),
-    };
+    // 6️⃣ Parse request body
+    const body = await req.json();
 
-    // 9️⃣ Update price details
+    // 7️⃣ Update price details
     await handleSecuredServicesPriceDetails(doc, body);
 
     return Response.json(

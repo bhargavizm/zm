@@ -5,7 +5,12 @@ import MenuCardsServiceModel from "@/models/services/menuCardSchema";
 import { BusinessCardsModel, VCardsModel } from "@/models/services/cardsSchema";
 import ProductsModel from "@/models/services/productSchema";
 import User from "@/models/auth/userSchema";
-import { AudioServiceModel, GalleryServiceModel, PDFServiceModel, VideoServiceModel } from "@/models/services/encryptedServicesSchema";
+import {
+  AudioServiceModel,
+  GalleryServiceModel,
+  PDFServiceModel,
+  VideoServiceModel,
+} from "@/models/services/encryptedServicesSchema";
 import URLServiceModel from "@/models/services/urlServicesSchema";
 import PetTagModal from "@/models/services/petIdSchema";
 import MultiUrlModal from "@/models/services/multiUrlSchema";
@@ -33,28 +38,28 @@ export async function GET(request) {
 
     // Define services to query
     const serviceMap = {
-            pdf: PDFServiceModel,
-      audio: AudioServiceModel,
-      video: VideoServiceModel,
-      gallery: GalleryServiceModel,
+      "pdf": PDFServiceModel,
+      "audios": AudioServiceModel,
+      "videos": VideoServiceModel,
+      "gallery": GalleryServiceModel,
       urlServices: URLServiceModel,
-      menuCard: MenuCardsServiceModel,
-      businessCards: BusinessCardsModel,
-      vCards: VCardsModel,
-      businessShop:BusinessShopModal,
-      product: ProductsModel,
-      petIdTags:PetTagModal,
-      multiUrl:MultiUrlModal,
-      resume:ResumeModel,
-      medicalAlert:MedicalAlertModel,
-      textMessages:TextMessageModal,
-      discount:DiscountModal,
-      events:EventModel,
-      kidsSafetyModel:KidsSafetyModal,
-      vehicle:VehicleModel,
-      property:propertySchema,
-      wifi:WifiModel,
-      sms:SmsModal
+      "menu-cards": MenuCardsServiceModel,
+      "business-cards": BusinessCardsModel,
+      "v-cards": VCardsModel,
+      "business-shops": BusinessShopModal,
+      "product-cards": ProductsModel,
+      "Pet-ID-tags": PetTagModal,
+      "multi-urls": MultiUrlModal,
+      "resumes": ResumeModel,
+      "medical-alerts": MedicalAlertModel,
+      "text-messages": TextMessageModal,
+      "discounts": DiscountModal,
+      "events": EventModel,
+      "kids-safety-qr-tags": KidsSafetyModal,
+      "vehicles": VehicleModel,
+      "property-qr": propertySchema,
+      "wifi": WifiModel,
+      "sms": SmsModal,
     };
 
     const servicesData = {};
@@ -69,25 +74,23 @@ export async function GET(request) {
         data,
       };
     }
-    
-const servicesArray = Object.entries(servicesData).map(
-  ([serviceName, { count, data }]) => ({
-    serviceName,
-    count,
-    data,
-  })
-);
 
+    const servicesArray = Object.entries(servicesData).map(
+      ([serviceName, { count, data }]) => ({
+        serviceName,
+        count,
+        data,
+      })
+    );
 
     return new Response(
       JSON.stringify({
         success: true,
         message: "All User details fetched successfully.",
-        userFullDetails:{
-        userDetails: userProfile,
-        services: servicesArray,
-        }
-
+        userFullDetails: {
+          userDetails: userProfile,
+          services: servicesArray,
+        },
       }),
       { status: 200, headers: { "Content-Type": "application/json" } }
     );

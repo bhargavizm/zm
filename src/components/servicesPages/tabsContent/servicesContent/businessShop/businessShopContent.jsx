@@ -43,22 +43,34 @@ const BusinessShopContent = () => {
     return "";
   };
 
-  const handleChange = (section, field, value) => {
-    if (section === "contact") {
-      setBusinessShopFormData((prev) => ({
-        ...prev,
-        contact: {
-          ...prev.contact,
-          [field]: value,
-        },
-      }));
-    } else {
-      setBusinessShopFormData((prev) => ({
-        ...prev,
+ const handleChange = (section, field, value) => {
+  if (section === "contact") {
+    setBusinessShopFormData((prev) => ({
+      ...prev,
+      contact: {
+        ...prev.contact,
         [field]: value,
-      }));
+      },
+    }));
+
+    // ✅ Live validation
+    if (field === "phone") {
+      setErrors((prev) => ({ ...prev, phone: validatePhone(value) }));
     }
-  };
+    if (field === "altPhone") {
+      setErrors((prev) => ({ ...prev, altPhone: validatePhone(value) }));
+    }
+    if (field === "email") {
+      setErrors((prev) => ({ ...prev, email: validateEmail(value) }));
+    }
+  } else {
+    setBusinessShopFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  }
+};
+
 
   const handleFileChange = (field, files) => {
     const newFiles = Array.from(files);

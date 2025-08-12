@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { securedServicesPricingDetailsSchema } from './common/securedServicespricingDetails';
 
 
 const vehicleSchema = new mongoose.Schema({
@@ -32,7 +33,7 @@ const vehicleSchema = new mongoose.Schema({
   },
 
   media: {
-    vehicleImage: { type: String, required: true },
+    vehicleImage: { type: String },
     licenseFront: String,
     licenseBack: String,
     rcFront: String,
@@ -61,7 +62,8 @@ const vehicleSchema = new mongoose.Schema({
   lastUpdated: {
     type: Date,
     default: Date.now
-  }
+  },
+  priceDetails:securedServicesPricingDetailsSchema
 }, {
   timestamps: true // Adds createdAt and updatedAt automatically
 });
