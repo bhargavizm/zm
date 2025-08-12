@@ -16,7 +16,7 @@ const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {} }) => {
     setSelectedIndex(index === selectedIndex ? null : index);
   };
 
-  const servicesRequiringFormData = ["business-cards", "v-cards", "menu-cards"]; // extend list
+  const servicesRequiringFormData = ["business-cards", "v-cards", "menu-cards","product-cards","property-qr","resumes","Pet-ID-tags"]; // extend list
 
   const handleBuy = async (plan) => {
     if (!userMeta?.userId || !userMeta?.serviceId || !userMeta?.serviceName) {

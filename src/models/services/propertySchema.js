@@ -42,6 +42,7 @@
 import mongoose from "mongoose";
 import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
 import { QRCodeCanvas } from "qrcode.react";
+import { securedServicesPricingDetailsSchema } from "./common/securedServicespricingDetails";
 
 const propertySchema = new mongoose.Schema(
   {
@@ -71,7 +72,8 @@ const propertySchema = new mongoose.Schema(
       galleryImages: [String], // Main image removed
     },
     bgDesign: String,
-    qrCodeDetails:qrCodeServicesSchema
+    qrCodeDetails:qrCodeServicesSchema,
+     priceDetails:securedServicesPricingDetailsSchema
   },
   { timestamps: true }
 );

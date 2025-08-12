@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
+import { securedServicesPricingDetailsSchema } from "./common/securedServicespricingDetails";
 
 const socialLinksSchema = new mongoose.Schema({
   youtube: { type: String },
@@ -25,7 +26,8 @@ const multiUrlSchema = new mongoose.Schema({
   customLinks: [customLinkSchema],
   password: { type: String },
   bgDesign:{type:String},
-  qrCodeDetails:qrCodeServicesSchema
+  qrCodeDetails:qrCodeServicesSchema,
+    priceDetails:securedServicesPricingDetailsSchema
 }, { timestamps: true });
 
 const MultiUrlModal = mongoose.models.MultiUrl || mongoose.model("MultiUrl", multiUrlSchema)
