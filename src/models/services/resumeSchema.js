@@ -2,6 +2,7 @@
 
 import mongoose from "mongoose"; // ✅ REQUIRED
 import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
+import { securedServicesPricingDetailsSchema } from "./common/securedServicespricingDetails";
 
 
 const resumeSchema = new mongoose.Schema(
@@ -28,7 +29,8 @@ const resumeSchema = new mongoose.Schema(
       type: String,
     },
     bgDesign: String,
-    qrCodeDetails:qrCodeServicesSchema
+    qrCodeDetails:qrCodeServicesSchema,
+       priceDetails:securedServicesPricingDetailsSchema
   },
   {
     timestamps: true,
