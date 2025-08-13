@@ -6,6 +6,7 @@ import bcrypt from "bcryptjs";
 import fs from "fs";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
+import checkFreePlanEligibility from "../checkFreePlanEligibility";
 
 export const config = {
   api: {
@@ -13,8 +14,8 @@ export const config = {
   },
 };
 
-
 const planLimits = {
+  Free: 5 * 1024 * 1024 * 1024, // 5 GB
   Basic: 1 * 1024 * 1024 * 1024, // 1 GB
   Starter: 2 * 1024 * 1024 * 1024, // 2 GB
   Pro: 3 * 1024 * 1024 * 1024, // 3 GB
@@ -42,6 +43,7 @@ export async function HandleEncryptedServices({
   useCloudinary = false,
 }) {
   try {
+    await connectDB();
     // 🔐 Step 1: Authenticate User
     const auth = await authUser(request);
     if (auth.status !== 200) {
@@ -52,7 +54,6 @@ export async function HandleEncryptedServices({
     }
 
     const user = auth.user;
-    await connectDB();
 
     // 🧾 Step 2: Parse form data
     const formData = await request.formData();
@@ -66,7 +67,6 @@ export async function HandleEncryptedServices({
     const address = formData.get("address");
     const renewalDate = formData.get("renewalDate");
     const status = formData.get("status");
-    const plan = formData.get("plan");
     const price = formData.get("price");
     const storage = formData.get("storage");
     const validityDays = formData.get("validityDays");
@@ -164,6 +164,29 @@ export async function HandleEncryptedServices({
       }
     }
 
+    const plan = formData.get("plan");
+    if (plan === "Free") {
+      if (!user.firstLoginDate) {
+        return new Response(
+          JSON.stringify({
+            success: false,
+            error: "First login date not found for user.",
+          }),
+          { status: 400, headers: { "Content-Type": "application/json" } }
+        );
+      }
+
+      const freePlanCheck = await checkFreePlanEligibility(
+        user._id,
+        user.firstLoginDate
+      );
+      if (!freePlanCheck.eligible) {
+        return new Response(
+          JSON.stringify({ success: false, error: freePlanCheck.message }),
+          { status: 400, headers: { "Content-Type": "application/json" } }
+        );
+      }
+    }
 
     const startDateValue = startDate ? new Date(startDate) : new Date();
     const validityDaysValue = validityDays ? Number(validityDays) : 30;
@@ -190,7 +213,6 @@ export async function HandleEncryptedServices({
       endDate: endDate ? new Date(endDate) : undefined,
       renewalDate: renewalDateValue,
       status: status || "pending",
-
     };
 
     // 📝 Step 4: Save to database
@@ -203,7 +225,6 @@ export async function HandleEncryptedServices({
       files,
       qrCodeDetails,
       priceDetails,
-
     });
     const qrUrl = await getShortenedUrl(`/${serviceName}/${newDoc._id}`);
     // ✅ Return success
@@ -220,7 +241,6 @@ export async function HandleEncryptedServices({
   } catch (error) {
     console.error("Upload Error:", error);
 
-
     return Response.json(
       {
         success: false,
@@ -230,5 +250,4 @@ export async function HandleEncryptedServices({
       { status: 500 }
     );
   }
-
 }
