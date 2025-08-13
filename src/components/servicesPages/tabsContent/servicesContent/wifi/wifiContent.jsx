@@ -28,6 +28,11 @@ const WifiContent = () => {
   const dispatch = useDispatch();
 
   const handleChange = (field, value) => {
+    if (value.length > 15) {
+      toast.error("Please make your name and password within 15 characters");
+      return; // ignore input beyond 15 chars
+    }
+
     setWifiFormData((prev) => ({
       ...prev,
       [field]: value,
@@ -54,7 +59,12 @@ const WifiContent = () => {
       {servicesDataLoading && <LoadingSpinner />}
 
       <div className="flex items-center justify-center py-8 relative">
-        <div className="bg-white rounded-2xl shadow-md p-8 space-y-6 w-full mx-6">
+        <div className="bg-white rounded-2xl shadow-xl p-8 space-y-6 w-full max-w-md">
+          {/* Add the message here */}
+          <div className="bg-blue-50 p-3 rounded-lg text-sm text-blue-800">
+            <p>Please keep your WiFi name and password within 15 characters for optimal compatibility.</p>
+          </div>
+          
           <form className="space-y-5" onSubmit={handleSubmit}>
             {/* SSID */}
             <div>
@@ -67,6 +77,7 @@ const WifiContent = () => {
                   value={wifiFormData.ssid || ""}
                   onChange={(e) => handleChange("ssid", e.target.value)}
                   placeholder="Enter WiFi name"
+                  maxLength={15}
                   className="w-full pl-10 pr-4 py-2 border rounded-lg text-sm border-gray-300 focus:ring-2 focus:ring-teal-500 focus:outline-none"
                   required
                 />
@@ -88,7 +99,6 @@ const WifiContent = () => {
                 >
                   <option value="WPA">WPA/WPA2</option>
                   <option value="WEP">WEP</option>
-                  {/* <option value="NoPassword">No Password</option> */}
                 </select>
                 <Shield className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
               </div>
@@ -108,6 +118,7 @@ const WifiContent = () => {
                     placeholder="Enter password "
                     className="w-full pl-10 pr-10 py-2 border rounded-lg text-sm border-gray-300 focus:ring-2 focus:ring-teal-500 focus:outline-none"
                     minLength={4}
+                    maxLength={15}
                     required
                   />
                   <Lock className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
@@ -137,6 +148,7 @@ const WifiContent = () => {
                   value={wifiFormData.qrPassword || ""}
                   onChange={(e) => handleChange("qrPassword", e.target.value)}
                   placeholder="Enter QR Password"
+                  maxLength={15}
                   className="w-full pl-10 pr-10 py-2 border rounded-lg text-sm border-gray-300 focus:ring-2 focus:ring-teal-500 focus:outline-none"
                 />
                 <Lock className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
