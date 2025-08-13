@@ -42,10 +42,10 @@ const EncryptedPricesModalPopUp = ({ open, onClose, userMeta = {} }) => {
       );
 
       const result = await response.json();
-      console.log(result);
+
       if (response.ok) {
         toast.success(` ${result.message}`);
-         onClose();
+        onClose();
       } else {
         toast.error(` Failed: ${result.message}`);
       }

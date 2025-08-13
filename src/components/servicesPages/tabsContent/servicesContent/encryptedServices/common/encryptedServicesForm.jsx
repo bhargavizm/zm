@@ -172,7 +172,6 @@ const EncryptedServicesForm = ({
     }
 
     setShowConfirm(true);
-    console.log("formData", formData);
   };
 
   const bytesToGB = (bytes) => {
@@ -181,7 +180,7 @@ const EncryptedServicesForm = ({
 
   const confirmUpload = async () => {
     const requiredPlan = getRequiredPlan(totalSize);
-    console.log("requiredPlan", requiredPlan);
+
     // ✅ Update nested priceDetails inside formData
     const updatedFormData = {
       ...formData,
@@ -194,8 +193,6 @@ const EncryptedServicesForm = ({
         startDate: new Date().toISOString(),
       },
     };
-
-    console.log("✅ updatedFormData", updatedFormData);
 
     // Optional: still update state if needed later
     setFormData(updatedFormData);

@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUserFullDetails } from "./fetchUserDetails";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import LoadingSpinner from "@/components/common/spinner";
+import axios from "axios";
+import ResetPasswordModal from "@/components/common/resetPasswordModal";
+
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -20,14 +23,19 @@ const formatDate = (dateString) => {
 const ITEMS_OPTIONS = [5, 10, 20, 30, 40, 50];
 
 const QRCodesList = () => {
-  const dispatch = useDispatch();
+
+
   const { servicesDataLoading, setServicesDataLoading } = useServicesContext();
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState(null);
+
   const userFullData = useSelector(
     (state) => state?.authentication?.fullUserDetails
   );
-  const [itemsPerPage, setItemsPerPage] = useState(5);
-  const [currentPage, setCurrentPage] = useState(1);
 
+  const dispatch = useDispatch();
   const allEntries = [];
 
   // Flatten and collect all service entries
@@ -52,7 +60,27 @@ const QRCodesList = () => {
     dispatch(getUserFullDetails(setServicesDataLoading));
   }, [dispatch, setServicesDataLoading]);
 
+
+
+
+  const openResetModal = (data) => {
+     const userIdData = {
+    userId: data?.user?.id || "",
+    userName: data?.user?.name || "",
+    serviceName: data?.serviceName || "",
+    serviceId: data?._id || "",
+  };
+    setSelectedService(userIdData); // store clicked row data
+    setIsModalOpen(true);
+  };
+
+  const closeResetModal = () => {
+    setIsModalOpen(false);
+    setSelectedService(null);
+  };
+
   return (
+    <>
     <div className="p-4">
       {servicesDataLoading ? (
         <LoadingSpinner />
@@ -103,38 +131,78 @@ const QRCodesList = () => {
                   <th className="px-4 py-3 text-left">Actions</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-100">
-                {paginatedEntries.map((entry, idx) => (
-                  <tr key={idx} className="hover:bg-gray-50 transition">
-                    <td className="px-4 py-3 text-sm text-gray-600">
-                      {formatDate(entry.createdAt || new Date())}
-                    </td>
-                    <td className="px-4 py-3 capitalize text-mainGreen font-medium">
-                      {entry.serviceName}
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                                        <td className="px-4 py-3 text-center">
-                      {entry.qrCodeDetails?.qrCodeImage ? (
-                        <img
-                          src={entry.qrCodeDetails.qrCodeImage}
-                          alt="QR Code"
-                          className="w-20 h-20 object-center  rounded"
-                        />
-                      ) : (
-                        <span className="text-gray-400 italic">No Image</span>
-                      )}
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    {/* <td className="px-4 py-3 text-gray-800">
-                      {entry.name || entry.title || entry.url || "-"}
-                    </td> */}
-                  </tr>
-                ))}
-              </tbody>
+             <tbody className="bg-white divide-y divide-gray-100">
+  {paginatedEntries.map((entry, idx) => {
+    const priceDetails = entry.priceDetails || {};
+    return (
+      <tr key={idx} className="hover:bg-gray-50 transition">
+        {/* Date */}
+        <td className="px-4 py-3 text-sm text-gray-600">
+          {formatDate(entry.createdAt || new Date())}
+        </td>
+
+        {/* Service */}
+        <td className="px-4 py-3 capitalize text-mainGreen font-medium">
+          {entry.serviceName}
+        </td>
+
+        {/* Subscription (Plan + Price) */}
+        <td className="px-4 py-3 text-sm text-gray-800">
+          {priceDetails.plan
+            ? `${priceDetails.plan} (₹ ${priceDetails.price})`
+            : "-"}
+        </td>
+
+        {/* Validity Status */}
+        <td className="px-4 py-3 text-sm font-medium">
+          {priceDetails.status || "-"}
+        </td>
+
+        {/* Renewal Date */}
+        <td className="px-4 py-3 text-sm text-gray-600">
+          {priceDetails.renewalDate
+            ? formatDate(priceDetails.renewalDate)
+            : "-"}
+        </td>
+
+        {/* QR Code */}
+        <td className="px-4 py-3 text-center">
+          {entry.qrCodeDetails?.qrCodeImage ? (
+            <img
+              src={entry.qrCodeDetails.qrCodeImage}
+              alt="QR Code"
+              className="w-20 h-20 object-center rounded"
+            />
+          ) : (
+            <span className="text-gray-400 italic">No Image</span>
+          )}
+        </td>
+
+        {/* Total Scans */}
+        <td className="px-4 py-3 text-center text-sm">
+          {/* {entry.qrCodeDetails?.scanCount ?? 0} */}
+        </td>
+
+        {/* Location */}
+        <td className="px-4 py-3 text-sm">
+          {/* {entry.qrCodeDetails?.location?.address || "-"} */}
+        </td>
+
+        {/* Actions */}
+       <td className="px-4 py-3 text-sm">
+  <button
+              onClick={() => openResetModal(entry)}
+              className="px-3 py-1 text-mainGreen rounded hover:font-bold"
+            >
+              Reset Password
+            </button>
+</td>
+
+      </tr>
+    );
+  })}
+</tbody>
+
             </table>
           </div>
 
@@ -178,6 +246,15 @@ const QRCodesList = () => {
         </>
       )}
     </div>
+
+     {isModalOpen && (
+        <ResetPasswordModal
+          onClose={closeResetModal}
+          serviceData={selectedService}
+        />
+      )}
+
+    </>
   );
 };
 

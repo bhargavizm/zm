@@ -53,6 +53,7 @@
 
 import mongoose from "mongoose";
 import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
+import { securedServicesPricingDetailsSchema } from "./common/securedServicespricingDetails";
 
 // Sub-schema for Owner Info
 const ownerInfoSchema = new mongoose.Schema({
@@ -81,7 +82,8 @@ const petTagSchema = new mongoose.Schema({
   pet: petSchema,
   password: String,
   bgDesign: String,
-  qrCodeDetails: qrCodeServicesSchema
+  qrCodeDetails: qrCodeServicesSchema,
+     priceDetails:securedServicesPricingDetailsSchema
 }, { timestamps: true });
 
 const PetTagModal = mongoose.models.PetTag || mongoose.model("PetTag", petTagSchema);

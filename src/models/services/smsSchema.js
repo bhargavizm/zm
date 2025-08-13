@@ -28,6 +28,7 @@
 
 import mongoose from "mongoose";
 import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
+import { securedServicesPricingDetailsSchema } from "./common/securedServicespricingDetails";
 
 const smsMessageSchema = new mongoose.Schema(
   {
@@ -54,7 +55,8 @@ const smsMessageSchema = new mongoose.Schema(
       type:String,
     },
 
-    qrCodeDetails:qrCodeServicesSchema
+    qrCodeDetails:qrCodeServicesSchema,
+    priceDetails:securedServicesPricingDetailsSchema
   },
   { timestamps: true }
 );

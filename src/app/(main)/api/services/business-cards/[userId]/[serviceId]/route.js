@@ -16,7 +16,6 @@ export async function PATCH(req, context) {
     const __dirname = path.dirname(__filename);
    const serviceName = path.basename(path.dirname(path.dirname(__dirname))); // parent folder name
 
-    console.log("Detected service:", serviceName);
 
     // 3️⃣ Validate required params
     if (!userId || !serviceId) {
@@ -79,7 +78,7 @@ export async function PATCH(req, context) {
 
     // 9️⃣ Update price details
     await handleSecuredServicesPriceDetails(doc, body);
-console.log(doc);
+
     return Response.json(
       {
         success: true,

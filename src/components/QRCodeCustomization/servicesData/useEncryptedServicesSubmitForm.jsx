@@ -52,10 +52,9 @@ const useEncryptedSubmitForm = (
           withCredentials: true,
         }
       );
-      console.log("res", res);
+
       if (res.data.success) {
         toast.success(res.data.message || "✅ Encrypted service submitted");
-        console.log("res", res);
         // ✅ Set global QR URL
         setQrCodeUrl(res.data.qrUrl);
 
