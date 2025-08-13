@@ -2,21 +2,21 @@
 import { VideoServiceModel } from "@/models/services/encryptedServicesSchema";
 import { HandleEncryptedServices } from "../../common/encryptedServices/encryptedServicesRoute";
 
- const videoMimeTypes = [
+const videoMimeTypes = [
   "video/mp4",
   "video/webm",
   "video/ogg",
-  "video/x-matroska",
+  "video/x-matroska",  // MKV official
+  "video/mkv",         // non-standard
+  "application/octet-stream", // fallback for unknown videos
   "video/quicktime",
   "video/x-msvideo",
   "video/x-ms-wmv",
-  "video/x-matroska",
-  "video/webm",
   "video/x-flv",
   "video/mpeg",
-  "video/MP2T",
-  "video/MP2T"
+  "video/mp2t"
 ];
+
 
 export async function POST(request) {
   return HandleEncryptedServices({
