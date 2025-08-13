@@ -20,7 +20,8 @@ export default async function checkFreePlanEligibility(userId, userFirstLoginDat
     const count = await model.countDocuments({
       "user.id": userId,
       "priceDetails.plan": "Free",
-    }); 
+    });
+
     totalFreePlansCount += count;
   }
 

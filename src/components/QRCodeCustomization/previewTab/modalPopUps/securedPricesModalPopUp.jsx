@@ -30,13 +30,19 @@ const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {} }) => {
   };
 
   const servicesRequiringFormData = [
-    "business-cards",
+
     "v-cards",
     "menu-cards",
     "medical-alerts",
     "kids-safety-qr-tags",
     "discounts",
-    "Pet-ID-tags",
+    "product-cards",
+    "resumes",
+    "vehicles",
+    "v-cards",
+    "business-cards",
+    "business-shops",
+    "Pet-ID-tags"
     "property-qr"
   ];
 
@@ -51,6 +57,7 @@ const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {} }) => {
       toast.error("You have already used your 5 Free plan limit.");
       return;
     }
+
 
   const needsFormData = servicesRequiringFormData.some(
   s => s.toLowerCase() === userMeta.serviceName?.toLowerCase()
@@ -209,7 +216,7 @@ export default SecuredPricesModalPopUp;
 
 //     try {
 //       const res = await fetch(
-//         `/api/services/${userMeta.serviceName}/${userMeta.userId}/${userMeta.serviceId}`,
+//         /api/services/${userMeta.serviceName}/${userMeta.userId}/${userMeta.serviceId},
 //         { method: "PATCH", headers, body }
 //       );
 
@@ -280,4 +287,4 @@ export default SecuredPricesModalPopUp;
 //   );
 // };
 
-// export default SecuredPricesModalPopUp; 
+// export default SecuredPricesModalPopUp;
