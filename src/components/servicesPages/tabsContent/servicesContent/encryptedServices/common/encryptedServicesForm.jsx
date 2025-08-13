@@ -12,6 +12,7 @@ import useServicesContext from "@/components/hooks/useServiceContext";
 import LoadingSpinner from "@/components/common/spinner";
 
 const planPrices = {
+    Free: "₹0",
   Basic: "₹999",
   Starter: "₹1799",
   Pro: "₹2499",
@@ -20,6 +21,7 @@ const planPrices = {
 };
 
 const planLimits = {
+    Free: 5 * 1024 * 1024 * 1024, // 5 GB
   Basic: 1 * 1024 * 1024 * 1024, // 1 GB
   Starter: 2 * 1024 * 1024 * 1024, // 2 GB
   Pro: 3 * 1024 * 1024 * 1024, // 3 GB
@@ -127,35 +129,6 @@ const EncryptedServicesForm = ({
     }
   };
 
-  // const handleChange = (e) => {
-  //   const { name, value, files } = e.target;
-
-  //   if (name === "files" && files.length) {
-  //     const newFiles = Array.from(files);
-  //     const invalidFile = newFiles.find(
-  //       (file) => accept && !file.type.match(accept)
-  //     );
-  //     if (invalidFile) {
-  //       toast.error(`Unsupported file type: ${invalidFile.name}`);
-  //       return;
-  //     }
-
-  //     const updatedFiles = [...(formData[fileKey] || []), ...newFiles];
-  //     const updatedSize = updatedFiles.reduce((acc, f) => acc + f.size, 0);
-  //     setTotalSize(updatedSize);
-  //     const warning = getPlanErrorMessage(updatedSize);
-  //     setSizeWarning(warning);
-  //     setFormData((prev) => ({ ...prev, [fileKey]: updatedFiles }));
-
-  //     if (warning) {
-  //       setShowUpgradeModal(true); // show modal on exceeding plan
-  //     }
-  //   } else {
-  //     // ✅ Add this block for other fields
-  //     setFormData((prev) => ({ ...prev, [name]: value }));
-  //   }
-  // };
-
   const getLowerLimit = (planName) => {
     const plans = Object.entries(planLimits);
     const index = plans.findIndex(([name]) => name === planName);
@@ -196,7 +169,7 @@ const EncryptedServicesForm = ({
 
     // Optional: still update state if needed later
     setFormData(updatedFormData);
-
+console.log('updatedFormData',updatedFormData)
      setActiveTab(slug, "Backdrop Designs");
 
     // const fd = new FormData();

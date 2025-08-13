@@ -1,86 +1,87 @@
-
-
 import handleSecuredServicesPriceDetails from "@/app/(main)/api/common/handleSecuredServicesPriceDetails";
+import checkFreePlanEligibility from "@/app/(main)/api/common/checkFreePlanEligibility";
 import { connectDB } from "@/lib/mongoDB";
 import MedicalAlertModel from "@/models/services/medicalAlertSchema";
+import User from "@/models/auth/userSchema";
 import path from "path";
 import url from "url";
 
 export async function PATCH(req, context) {
   try {
-    // 1️⃣ Get params (must await in Next.js 15)
+    // 1️⃣ Get params
     const params = await context.params;
     const { serviceId, userId } = params;
 
-    // 2️⃣ Auto detect service name from folder path
+    // 2️⃣ Detect service name
     const __filename = url.fileURLToPath(import.meta.url);
     const __dirname = path.dirname(__filename);
-   const serviceName = path.basename(path.dirname(path.dirname(__dirname))); // parent folder name
+    const serviceName = path.basename(path.dirname(path.dirname(__dirname)));
 
-    console.log("Detected service:", serviceName);
-
-    // 3️⃣ Validate required params
     if (!userId || !serviceId) {
       return Response.json(
-        {
-          success: false,
-          message: "Missing required URL parameters: userId or serviceId.",
-        },
+        { success: false, message: "Missing required URL parameters: userId or serviceId." },
         { status: 400 }
       );
     }
 
-    // 4️⃣ Connect DB
+    // 3️⃣ Connect DB
     await connectDB();
 
-    // 5️⃣ Find service
+    // 4️⃣ Find service document
     const doc = await MedicalAlertModel.findById(serviceId);
     if (!doc) {
       return Response.json(
-        {
-          success: false,
-          message: `No data found for this service belonging to the user.`,
-        },
+        { success: false, message: "No data found for this service." },
         { status: 404 }
       );
     }
 
-    // 6️⃣ Service name check
-    // if (doc.serviceName.toLowerCase() !== serviceName.toLowerCase()) {
-    //   return Response.json(
-    //     {
-    //       success: false,
-    //       message: `Service name is not correct.`,
-    //     },
-    //     { status: 400 }
-    //   );
-    // }
-
-    // 7️⃣ Ownership check
+    // 5️⃣ Ownership check
     if (doc.user.id.toString() !== userId.toString()) {
       return Response.json(
-        {
-          success: false,
-          message: "Unauthorized: This service does not belong to the given user.",
-        },
+        { success: false, message: "Unauthorized: This service does not belong to the given user." },
         { status: 403 }
       );
     }
 
-    // 8️⃣ Parse request body as FormData
+    // 6️⃣ Fetch user for free plan logic
+    const user = await User.findById(userId);
+    if (!user || !user.firstLoginDate) {
+      return Response.json(
+        { success: false, message: "First login date not found for user." },
+        { status: 400 }
+      );
+    }
+
+    // 7️⃣ Parse request body as FormData
     const formData = await req.formData();
+    const plan = formData.get("plan");
+
+    // 8️⃣ Free plan eligibility check
+    if (plan === "Free") {
+      const freePlanCheck = await checkFreePlanEligibility(userId, user.firstLoginDate);
+      if (!freePlanCheck.eligible) {
+        return Response.json(
+          { success: false, message: freePlanCheck.message },
+          { status: 400 }
+        );
+      }
+    }
+
+    // 9️⃣ Prepare body for update
     const body = {
-      plan: formData.get("plan"),
+      plan,
       price: formData.get("price"),
-      validityDays: formData.get("validityDays"),
+      validityDays: plan === "Free" ? 90 : formData.get("validityDays"),
       startDate: formData.get("startDate"),
       status: formData.get("status"),
       renewalDate: formData.get("renewalDate"),
     };
 
-    // 9️⃣ Update price details
+    // 🔟 Update service price details
     await handleSecuredServicesPriceDetails(doc, body);
-console.log(doc);
+    await doc.save();
+
     return Response.json(
       {
         success: true,
@@ -101,49 +102,3 @@ console.log(doc);
     );
   }
 }
-
-
-
-// import MenuCardsServiceModel from "@/models/services/menuCardSchema";
-// import { connectDB } from "@/lib/mongoDB";
-
-// export async function GET(request, { params }) {
-//   try {
-//     await connectDB();
-
-//     const { id } = params;
-
-//     const message = await MenuCardsServiceModel.findById(id);
-
-//     if (!message) {
-//       return new Response(
-//         JSON.stringify({
-//           success: false,
-//           message: "Menu Card data not found.",
-//         }),
-//         { status: 404, headers: { "Content-Type": "application/json" } }
-//       );
-//     }
-
-//     return new Response(
-//       JSON.stringify({
-//         success: true,
-//         message: "Menu Card data fetched successfully.",
-//         data: message,
-//       }),
-//       { status: 200, headers: { "Content-Type": "application/json" } }
-//     );
-//   } catch (error) {
-//     console.error("GET /menu-cards/:id error:", error);
-//     return new Response(
-//       JSON.stringify({
-//         success: false,
-//         message: "Internal Server Error",
-//         error: error.message,
-//       }),
-//       { status: 500, headers: { "Content-Type": "application/json" } }
-//     );
-//   }
-
-// }
-

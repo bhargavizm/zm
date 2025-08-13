@@ -1,11 +1,6 @@
 import serviceModelMap from "./allServiceModels";
 
-/**
- * Checks if the user is eligible for a free plan.
- * @param {string} userId - The user ID.
- * @param {Date|string} userFirstLoginDate - The first login date of the user.
- * @returns {Promise<{eligible: boolean, message?: string}>}
- */
+
 export default async function checkFreePlanEligibility(userId, userFirstLoginDate) {
   const daysSinceFirstLogin = Math.floor(
     (new Date() - new Date(userFirstLoginDate)) / (1000 * 60 * 60 * 24)
@@ -26,6 +21,7 @@ export default async function checkFreePlanEligibility(userId, userFirstLoginDat
       "user.id": userId,
       "priceDetails.plan": "Free",
     });
+
     totalFreePlansCount += count;
   }
 

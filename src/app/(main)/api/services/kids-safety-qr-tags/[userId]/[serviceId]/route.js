@@ -11,11 +11,11 @@ export async function PATCH(req, context) {
     const params = context.params;
     const { serviceId, userId } = params;
 
-    // 2️⃣ Auto detect service name from folder path
-        const __filename = url.fileURLToPath(import.meta.url);
-        const __dirname = path.dirname(__filename);
-       const serviceName = path.basename(path.dirname(path.dirname(__dirname))); // parent folder name
-    
+
+    const __filename = url.fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+    const serviceName = path.basename(path.dirname(path.dirname(__dirname)));
+
 
     if (!userId || !serviceId) {
       return new Response(

@@ -16,7 +16,7 @@ const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {} }) => {
   // Load user's current count from backend (optional)
   // useEffect(() => {
   //   if (userMeta?.userId) {
-  //     fetch(/api/welcome-offer/${userMeta.userId})
+  //     fetch(`/api/welcome-offer/${userMeta.userId}`)
   //       .then((res) => res.json())
   //       .then((data) => setFreePlanCount(data.count || 0))
   //       .catch((err) => console.error("Failed to fetch count", err));
@@ -30,11 +30,12 @@ const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {} }) => {
   };
 
   const servicesRequiringFormData = [
+
+    "v-cards",
     "menu-cards",
     "medical-alerts",
     "kids-safety-qr-tags",
     "discounts",
-    "property-qr",
     "product-cards",
     "resumes",
     "vehicles",
@@ -42,6 +43,7 @@ const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {} }) => {
     "business-cards",
     "business-shops",
     "Pet-ID-tags"
+    "property-qr"
   ];
 
   const handleBuy = async (plan) => {
@@ -56,9 +58,11 @@ const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {} }) => {
       return;
     }
 
-    const needsFormData = servicesRequiringFormData.includes(
-      userMeta.serviceName?.toLowerCase()
-    );
+
+  const needsFormData = servicesRequiringFormData.some(
+  s => s.toLowerCase() === userMeta.serviceName?.toLowerCase()
+);
+
 
     const payload = {
       plan: plan.title,
@@ -222,7 +226,7 @@ export default SecuredPricesModalPopUp;
 //         toast.error(result.message || "Failed to update plan.");
 //       } 
 //       // else {
-//       //   toast.success(${plan.title} plan updated successfully!);
+//       //   toast.success(`${plan.title} plan updated successfully!`);
 //       // }
 //     } catch (err) {
 //       console.error("❌ API call failed:", err);

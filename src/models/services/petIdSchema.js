@@ -83,7 +83,7 @@ const petTagSchema = new mongoose.Schema({
   password: String,
   bgDesign: String,
   qrCodeDetails: qrCodeServicesSchema,
-     priceDetails:securedServicesPricingDetailsSchema
+  priceDetails:securedServicesPricingDetailsSchema
 }, { timestamps: true });
 
 const PetTagModal = mongoose.models.PetTag || mongoose.model("PetTag", petTagSchema);
