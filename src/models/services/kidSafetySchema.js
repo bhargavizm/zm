@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
+import { securedServicesPricingDetailsSchema } from "./common/securedServicespricingDetails";
 
 const phoneRegex = /^\+?[0-9]{10,15}$/; // Supports 10–15 digits, optional +country code
 
@@ -64,7 +65,7 @@ const kidsSafetySchema = new mongoose.Schema({
 
   password: { type: String },
   bgDesign:{type:String},
-
+  
   kidsImage: [
     {
       url: String,
@@ -73,6 +74,7 @@ const kidsSafetySchema = new mongoose.Schema({
     
   ],
   qrCodeDetails: qrCodeServicesSchema,
+  priceDetails:securedServicesPricingDetailsSchema
 }, { timestamps: true });
 
 const KidsSafetyModal =

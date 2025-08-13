@@ -163,6 +163,7 @@
 
 import mongoose from "mongoose";
 import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
+import { securedServicesPricingDetailsSchema } from "./common/securedServicespricingDetails";
 
 const MedicalAlertSchema = new mongoose.Schema(
   {
@@ -214,7 +215,8 @@ const MedicalAlertSchema = new mongoose.Schema(
     ],
     bgDesign: String,
     password: { type: String },
-    qrCodeDetails: qrCodeServicesSchema
+    qrCodeDetails: qrCodeServicesSchema,
+    priceDetails:securedServicesPricingDetailsSchema
   },
   {
     timestamps: true,

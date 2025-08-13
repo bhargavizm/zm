@@ -2,6 +2,7 @@
 
 import mongoose from "mongoose";
 import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
+import { securedServicesPricingDetailsSchema } from "./common/securedServicespricingDetails";
 
 const discountCouponSchema = new mongoose.Schema(
   {
@@ -31,7 +32,8 @@ const discountCouponSchema = new mongoose.Schema(
     password: {
       type: String,
     },
-    qrCodeDetails: qrCodeServicesSchema
+    qrCodeDetails: qrCodeServicesSchema,
+    priceDetails:securedServicesPricingDetailsSchema
   },
   {
     timestamps: true, // adds createdAt and updatedAt

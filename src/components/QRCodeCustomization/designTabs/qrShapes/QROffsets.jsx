@@ -1,6 +1,6 @@
 export const qrOffsets = {
  circle: { x: 0, y: 0, scale:0.7},
-  square: { x: 0, y: 0, scale:0.9 },
+  square: { x: 0, y: 0, scale:0.8 },
  shoppingbag: {x:0, y: 40, scale: 0.9 },
   mirror:{x:0,y:-14,scale:0.8},
 
