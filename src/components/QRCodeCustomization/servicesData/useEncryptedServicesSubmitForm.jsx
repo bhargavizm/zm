@@ -94,7 +94,12 @@ const useEncryptedSubmitForm = (
       }
     } catch (err) {
       console.error("Error submitting encrypted form:", err.message);
-      toast.error(err?.response?.data?.error || "Something went wrong!");
+     toast.error(
+  err?.response?.data?.error ||
+  err?.response?.data?.message ||
+  "Something went wrong!"
+);
+
       return false;
     }
   };
