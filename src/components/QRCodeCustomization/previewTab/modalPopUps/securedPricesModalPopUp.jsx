@@ -1,3 +1,4 @@
+import useDesignContext from "@/components/hooks/useDesignContext";
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
@@ -11,17 +12,22 @@ const securedPlans = [
 
 const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {} }) => {
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const [freePlanCount, setFreePlanCount] = useState(0);
 
-  // Load user's current count from backend (optional)
-  // useEffect(() => {
-  //   if (userMeta?.userId) {
-  //     fetch(`/api/welcome-offer/${userMeta.userId}`)
-  //       .then((res) => res.json())
-  //       .then((data) => setFreePlanCount(data.count || 0))
-  //       .catch((err) => console.error("Failed to fetch count", err));
-  //   }
-  // }, [userMeta?.userId]);
+  const {freePlanCount,setFreePlanCount}=useDesignContext()
+
+  useEffect(() => {
+  if (userMeta?.userId && userMeta?.firstLoginDate) {
+    fetch(`/api/freePlanCount/${userMeta.userId}/${userMeta.firstLoginDate}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (typeof data.totalFreePlansCount === "number") {
+          setFreePlanCount(data.totalFreePlansCount);
+        }
+      })
+      .catch(console.error);
+  }
+}, [userMeta?.userId, userMeta?.firstLoginDate]);
+
 
   if (!open) return null;
 
@@ -42,7 +48,7 @@ const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {} }) => {
     "v-cards",
     "business-cards",
     "business-shops",
-    "Pet-ID-tags"
+    "Pet-ID-tags",
     "property-qr"
   ];
 
@@ -69,7 +75,6 @@ const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {} }) => {
       price: plan.price.replace(/[^\d]/g, ""),
       validityDays: plan.duration.match(/\d+/)?.[0] || "30",
       startDate: new Date().toISOString(),
-      freePlanCount: plan.title === "Free" ? freePlanCount + 1 : freePlanCount,
     };
 
     let body, headers;
@@ -93,9 +98,6 @@ const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {} }) => {
         toast.error(result.message || "Failed to update plan.");
       } else {
         toast.success(`${plan.title} plan updated successfully!`);
-        if (plan.title === "Free") {
-          setFreePlanCount((prev) => prev + 1); // Update local state
-        }
       }
     } catch (err) {
       console.error("❌ API call failed:", err);
