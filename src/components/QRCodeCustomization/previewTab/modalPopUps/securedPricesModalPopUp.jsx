@@ -42,7 +42,7 @@ const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {} }) => {
     "v-cards",
     "business-cards",
     "business-shops",
-    "Pet-ID-tags"
+    "Pet-ID-tags",
     "property-qr"
   ];
 
