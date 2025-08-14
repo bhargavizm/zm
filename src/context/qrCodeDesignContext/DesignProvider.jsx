@@ -32,6 +32,7 @@ const DesignProvider = ({ children }) => {
   const [companyLogoSize, setCompanyLogoSize] = useState(105); // for outer company logo
   const [customLogo, setCustomLogo] = useState(null);
 
+  const [freePlanCount,setFreePlanCount]=useState(0)
 
 
   const [isLoading, setIsLoading] = useState(false);
@@ -198,6 +199,8 @@ const DesignProvider = ({ children }) => {
         setBorderGradientEnd,
         qrCodeUrl,
         setQrCodeUrl,
+        freePlanCount,
+        setFreePlanCount,
         // isBorderEnabled,
         // setIsBorderEnabled,
       }}

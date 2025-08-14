@@ -1,4 +1,6 @@
+import useDesignContext from "@/components/hooks/useDesignContext";
 import React, { useState, useEffect } from "react";
+import useServicesContext from "@/components/hooks/useServiceContext";
 import toast from "react-hot-toast";
 
 const securedPlans = [
@@ -9,28 +11,35 @@ const securedPlans = [
   { title: "Platinum", price: "₹1599", duration: "730 Days" },
 ];
 
-const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {} }) => {
+const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {}, onConfirm }) => {
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const [freePlanCount, setFreePlanCount] = useState(0);
 
-  // Load user's current count from backend (optional)
-  // useEffect(() => {
-  //   if (userMeta?.userId) {
-  //     fetch(`/api/welcome-offer/${userMeta.userId}`)
-  //       .then((res) => res.json())
-  //       .then((data) => setFreePlanCount(data.count || 0))
-  //       .catch((err) => console.error("Failed to fetch count", err));
-  //   }
-  // }, [userMeta?.userId]);
+  const {freePlanCount,setFreePlanCount}=useDesignContext()
+
+  useEffect(() => {
+  if (userMeta?.userId && userMeta?.firstLoginDate) {
+    fetch(`/api/freePlanCount/${userMeta.userId}/${userMeta.firstLoginDate}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (typeof data.totalFreePlansCount === "number") {
+          setFreePlanCount(data.totalFreePlansCount);
+        }
+      })
+      .catch(console.error);
+  }
+}, [userMeta?.userId, userMeta?.firstLoginDate]);
+
+
+  const { servicesDataLoading, setServicesDataLoading } = useServicesContext();
 
   if (!open) return null;
 
   const handleCheckboxChange = (index) => {
+    if (servicesDataLoading) return; // prevent change during loading
     setSelectedIndex(index === selectedIndex ? null : index);
   };
 
   const servicesRequiringFormData = [
-
     "v-cards",
     "menu-cards",
     "medical-alerts",
@@ -43,33 +52,29 @@ const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {} }) => {
     "business-cards",
     "business-shops",
     "Pet-ID-tags",
-    "property-qr",
+    "property-qr"
   ];
 
   const handleBuy = async (plan) => {
     if (!userMeta?.userId || !userMeta?.serviceId || !userMeta?.serviceName) {
-      alert("User ID, Service ID, or Service Name missing.");
+      toast.error("User ID, Service ID, or Service Name missing.");
       return;
     }
 
-    // Restrict Free plan usage
     if (plan.title === "Free" && freePlanCount >= 5) {
       toast.error("You have already used your 5 Free plan limit.");
       return;
     }
 
-
-  const needsFormData = servicesRequiringFormData.some(
-  s => s.toLowerCase() === userMeta.serviceName?.toLowerCase()
-);
-
+    const needsFormData = servicesRequiringFormData.some(
+      (s) => s.toLowerCase() === userMeta.serviceName?.toLowerCase()
+    );
 
     const payload = {
       plan: plan.title,
       price: plan.price.replace(/[^\d]/g, ""),
       validityDays: plan.duration.match(/\d+/)?.[0] || "30",
       startDate: new Date().toISOString(),
-      freePlanCount: plan.title === "Free" ? freePlanCount + 1 : freePlanCount,
     };
 
     let body, headers;
@@ -83,6 +88,8 @@ const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {} }) => {
     }
 
     try {
+      setServicesDataLoading(true);
+
       const res = await fetch(
         `/api/services/${userMeta.serviceName}/${userMeta.userId}/${userMeta.serviceId}`,
         { method: "PATCH", headers, body }
@@ -93,13 +100,15 @@ const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {} }) => {
         toast.error(result.message || "Failed to update plan.");
       } else {
         toast.success(`${plan.title} plan updated successfully!`);
-        if (plan.title === "Free") {
-          setFreePlanCount((prev) => prev + 1); // Update local state
-        }
+
+        // ✅ Trigger final download logic from DownloadButton
+        if (onConfirm) onConfirm();
       }
     } catch (err) {
       console.error("❌ API call failed:", err);
-      toast.error(err?.response?.data?.error);
+      toast.error(err?.response?.data?.error || "Plan update failed");
+    } finally {
+      setServicesDataLoading(false);
     }
   };
 
@@ -108,6 +117,7 @@ const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {} }) => {
       <div className="bg-white rounded-xl shadow-xl p-6 max-w-5xl w-full h-[90vh] overflow-y-auto scrollbar-hide relative">
         <button
           onClick={onClose}
+          disabled={servicesDataLoading}
           className="absolute top-4 right-4 text-2xl cursor-pointer"
         >
           ❌
@@ -116,6 +126,31 @@ const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {} }) => {
           <h1 className="text-2xl font-bold text-center text-mainGreen mb-4">
             Secured Services Prices
           </h1>
+
+          {servicesDataLoading && (
+            <div className="flex justify-center mb-4">
+              <svg
+                className="animate-spin h-8 w-8 text-mainGreen"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                />
+              </svg>
+            </div>
+          )}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {securedPlans.map((plan, idx) => {
@@ -132,27 +167,33 @@ const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {} }) => {
                       type="checkbox"
                       checked={selectedIndex === idx}
                       onChange={() => handleCheckboxChange(idx)}
-                      disabled={isFreePlanDisabled}
+                      disabled={isFreePlanDisabled || servicesDataLoading}
                       className="accent-teal-600 w-5 h-5"
                     />
                   </label>
 
                   <h2 className="text-xl font-semibold mt-4">{plan.title}</h2>
-                  <p className="text-lg font-bold text-teal-600">
-                    {plan.price}
-                  </p>
+                  <p className="text-lg font-bold text-teal-600">{plan.price}</p>
                   <p className="text-gray-600 mb-4">{plan.duration}</p>
 
                   <button
-                    disabled={selectedIndex !== idx || isFreePlanDisabled}
+                    disabled={
+                      selectedIndex !== idx ||
+                      isFreePlanDisabled ||
+                      servicesDataLoading
+                    }
                     onClick={() => handleBuy(plan)}
                     className={`px-4 py-2 rounded-md font-semibold w-full text-white transition duration-200 ${
-                      selectedIndex === idx && !isFreePlanDisabled
+                      selectedIndex === idx && !isFreePlanDisabled && !servicesDataLoading
                         ? "bg-mainGreen hover:bg-teal-700 cursor-pointer font-bold"
                         : "bg-gray-400 cursor-not-allowed"
                     }`}
                   >
-                    {isFreePlanDisabled ? "Limit Reached" : "Buy Now"}
+                    {isFreePlanDisabled
+                      ? "Limit Reached"
+                      : servicesDataLoading
+                      ? "Processing..."
+                      : "Buy Now"}
                   </button>
                 </div>
               );
@@ -165,6 +206,7 @@ const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {} }) => {
 };
 
 export default SecuredPricesModalPopUp;
+
 
 
 // import React, { useState } from "react";

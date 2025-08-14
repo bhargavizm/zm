@@ -7,7 +7,7 @@ import handleSecuredServicesPriceDetails from "@/app/(main)/api/common/handleSec
 
 export async function PATCH(req, context) {
   try {
-    const { slug, serviceId, userId } = context.params;
+    const { slug, serviceId, userId } = await context.params;
 
     // 1️⃣ Validate required params
     if (!userId || !serviceId || !slug) {
