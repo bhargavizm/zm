@@ -42,8 +42,8 @@ const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {} }) => {
     "v-cards",
     "business-cards",
     "business-shops",
-    "Pet-ID-tags"
-    "property-qr"
+    "Pet-ID-tags",
+    "property-qr",
   ];
 
   const handleBuy = async (plan) => {
