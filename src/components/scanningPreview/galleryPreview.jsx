@@ -3,6 +3,9 @@
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import BgDesignRenderer from "./bgDesignRender";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 
 const GalleryPreview = ({ data = {} }) => {
   const { title = "", description = "", files = [], bgDesign } = data;
@@ -84,7 +87,7 @@ const GalleryPreview = ({ data = {} }) => {
                       <img
                         src={img.url}
                         alt={img.name}
-                        className="rounded-lg object-cover w-full h-64 mx-auto"
+                        className="rounded-lg object-center w-full h-64 mx-auto"
                       />
                     </div>
                   ))}
