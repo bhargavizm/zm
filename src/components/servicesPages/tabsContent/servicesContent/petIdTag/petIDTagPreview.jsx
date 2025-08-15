@@ -4,11 +4,12 @@ import React, { useEffect } from "react";
 import Image from "next/image";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import useDesignContext from "@/components/hooks/useDesignContext";
-
 import PetIdTemplateOne from "./templates/PetIdTemplateOne";
 import PetIdTemplateTwo from "./templates/PetIdTemplateTwo";
 import PetIdTemplateThree from "./templates/PetIdTemplateThree";
 import PetIdTemplateFour from "./templates/PetIdTemplateFour";
+
+
 
 const templateMap = {
   "pet1.webp": PetIdTemplateOne,
@@ -85,7 +86,7 @@ const PetTagPreview = () => {
           }}
         >
           {SelectedTemplate ? (
-            <div className="w-full h-full flex items-center justify-center">
+            <div className="w-full h-full flex items-center justify-center ">
               <SelectedTemplate
                 petIDFormData={petIDFormData}
                 isAnimating={isAnimating}

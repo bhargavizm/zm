@@ -352,14 +352,14 @@ const VehicleContent = () => {
                 <img
                   src={URL.createObjectURL(file)}
                   alt="Preview"
-                  className="w-50 h-32 object-cover rounded-lg border border-gray-300 shadow-sm"
+                  className="w-50 h-32 object-center rounded-lg border border-gray-300 shadow-sm"
                 />
               )}
               {file.type.startsWith("video/") && (
                 <video
                   src={URL.createObjectURL(file)}
                   controls
-                  className="w-full max-h-48 object-cover rounded-lg border border-gray-300 shadow-sm"
+                  className="w-full max-h-48 object-center rounded-lg border border-gray-300 shadow-sm"
                 />
               )}
             </div>
@@ -374,8 +374,8 @@ const VehicleContent = () => {
     if (!showConfirmation) return null;
 
     return (
-      <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50 p-4 bg-black/10 backdrop-blur-sm">
-        <div className="bg-white rounded-xl shadow-xl p-6 max-w-md w-full">
+              <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
+          <div className="bg-white relative rounded-xl shadow-xl p-6 w-full max-w-xl max-h-[90vh] border border-teal-200 mx-4 sm:mx-auto">
           <h3 className="text-xl font-semibold text-gray-800 mb-4">
             Confirm Submission
           </h3>
@@ -431,7 +431,7 @@ const VehicleContent = () => {
                     <img
                       src={`/images/background/${template.replace('template', '').toLowerCase()}bg.webp`}
                       alt={`${template} Vehicle Card`}
-                      className="w-full h-auto object-cover"
+                      className="w-full h-auto object-center"
                     />
                   </div>
                 ))}
@@ -630,7 +630,7 @@ const VehicleContent = () => {
                         <img
                           src={URL.createObjectURL(file)}
                           alt={`Gallery Image ${index + 1}`}
-                          className="w-full h-20 sm:h-24 object-cover rounded-lg border border-gray-300 shadow-sm"
+                          className="w-full h-20 sm:h-24 object-center rounded-lg border border-gray-300 shadow-sm"
                         />
                         <button
                           type="button"
@@ -670,7 +670,7 @@ const VehicleContent = () => {
                         <img
                           src={URL.createObjectURL(file)}
                           alt={`Insurance Image ${index + 1}`}
-                          className="w-full h-20 sm:h-24 object-cover rounded-lg border border-gray-300 shadow-sm"
+                          className="w-full h-20 sm:h-24 object-center rounded-lg border border-gray-300 shadow-sm"
                         />
                         <button
                           type="button"
@@ -750,7 +750,7 @@ const VehicleContent = () => {
                                 typeof file === "string" ? file : URL.createObjectURL(file)
                               }
                               alt={`Gallery ${index}`}
-                              className="h-20 w-20 object-cover rounded-lg"
+                              className="h-20 w-20 object-center rounded-lg"
                             />
                             <button
                               onClick={() => handleRemoveGalleryImage("media", "galleryImages", index)}
@@ -782,7 +782,7 @@ const VehicleContent = () => {
                       <img
                         src={typeof image === 'string' ? image : URL.createObjectURL(image)}
                         alt={`Gallery ${index + 1}`}
-                        className="h-24 w-full object-cover rounded-lg"
+                        className="h-24 w-full object-center rounded-lg"
                       />
                       <button
                         onClick={() => removeImage("media", "galleryImages", index)}
@@ -859,7 +859,7 @@ const VehicleContent = () => {
                                 typeof file === "string" ? file : URL.createObjectURL(file)
                               }
                               alt={`Gallery ${index}`}
-                              className="h-20 w-20 object-cover rounded-lg"
+                              className="h-20 w-20 object-center rounded-lg"
                             />
                             <button
                               onClick={() => handleRemoveGalleryImage("media", "insurance", index)}
@@ -891,7 +891,7 @@ const VehicleContent = () => {
                       <img
                         src={typeof image === 'string' ? image : URL.createObjectURL(image)}
                         alt={`Gallery ${index + 1}`}
-                        className="h-24 w-full object-cover rounded-lg"
+                        className="h-24 w-full object-center rounded-lg"
                       />
                       <button
                         onClick={() => removeImage("media", "galleryImages", index)}

@@ -51,10 +51,10 @@ const BusinessPreview = ({ data }) => {
   };
 
   return (
-    <div className="px-4 h-screen">
+    <div className="px-4 ">
       <BgDesignRenderer bgDesign={bgDesign} defaultBg={defaultBg} />
       <div className="relative z-20 flex justify-center py-6">
-        <div className="w-full  rounded-xl shadow bg-white/80 p-4 backdrop-blur-sm">
+        <div className="w-full  rounded-xl shadow  p-4 backdrop-blur-sm">
           {data ? (
             renderTemplate()
           ) : (

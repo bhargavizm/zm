@@ -2,14 +2,17 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import BgDesignRenderer from './bgDesignRender';
+import useDesignContext from '../hooks/useDesignContext';
 
 export default function KidsSafetyPreview({ data }) {
-  const [isLoading, setIsLoading] = useState(true);
+ const { setBgDesign } = useDesignContext();
+
 
   if (!data) return <p>No data found.</p>;
-
+  const defaultBg = '/services-service/kid-safety.webp';
   const {
-    bgDesign = '/services-service/kid-safety.webp',
+    bgDesign ,
     childName,
     dob,
     schoolName,
@@ -28,51 +31,21 @@ export default function KidsSafetyPreview({ data }) {
   const isImage = bgDesign && !isVideo;
 
   useEffect(() => {
-    setIsLoading(true);
-  }, [bgDesign]);
+
+    if (data?.bgDesign) {
+      setBgDesign(data.bgDesign);
+    } else {
+      setBgDesign(defaultBg);
+    }
+  }, [data]);
 
   return (
-    <div className="flex justify-center">
-      <div className="relative w-[350px] h-[650px]  shadow-xl overflow-hidden">
-        {/* 🖼 Background */}
-        {isImage && (
-          <img
-            src={bgDesign}
-            alt="Background"
-            onLoad={() => setTimeout(() => setIsLoading(false), 300)}
-            className="absolute inset-0 w-full h-full object-cover z-0"
-          />
-        )}
-        {isVideo && (
-          <video
-            src={bgDesign}
-            autoPlay
-            loop
-            muted
-            playsInline
-            onLoadedData={() => setTimeout(() => setIsLoading(false), 300)}
-            className="absolute inset-0 w-full h-full object-cover z-0"
-          />
-        )}
-
-        {/* 🔄 Loader */}
-        {isLoading && (
-          <div className="absolute inset-0 bg-mainGreen/70 backdrop-blur-sm z-50 flex justify-center items-center">
-            <Image
-              src="/logos/ZM LOGO.webp"
-              alt="Loading"
-              width={80}
-              height={80}
-              className="animate-bounce"
-            />
-          </div>
-        )}
-
-        {/* 📱 Top notch */}
-        <div className="" />
+    <div >
+      <div >
+         <BgDesignRenderer bgDesign={bgDesign} defaultBg={defaultBg} />
 
         {/* 🔒 Safe content */}
-        <div className="relative z-10 flex-1 overflow-y-auto scrollbar-hide p-6 pt-12 m-4 rounded-xl bg-white/70 space-y-4 text-sm text-gray-800">
+        <div className="relative z-10 flex-1 overflow-y-auto scrollbar-hide p-6 pt-12 m-4 rounded-xl bg-white/60 space-y-4 text-md text-gray-800">
           <h2 className="text-lg font-bold text-center text-[#008080] mb-2">
             👶 Kid's Safety Info
           </h2>
@@ -82,7 +55,7 @@ export default function KidsSafetyPreview({ data }) {
               <img
                 src={kidsImage[0]?.url}
                 alt={kidsImage[0]?.name || 'Child'}
-                className="w-24 h-24 rounded-full object-cover border-2 border-[#008080] shadow"
+                className="w-24 h-24 rounded-xl object-center border-2 border-[#008080] shadow"
               />
             </div>
           )}
@@ -119,21 +92,6 @@ export default function KidsSafetyPreview({ data }) {
 
           {homeAddress && (
             <p><strong>Home Address:</strong> {homeAddress}</p>
-          )}
-
-          {(qrCodeDetails.status || qrCodeDetails.scanCount || qrCodeDetails.renewalDate) && (
-            <>
-              {qrCodeDetails.status && <p><strong>Status:</strong> {qrCodeDetails.status}</p>}
-              {typeof qrCodeDetails.scanCount === 'number' && (
-                <p><strong>Scan Count:</strong> {qrCodeDetails.scanCount}</p>
-              )}
-              {qrCodeDetails.renewalDate && (
-                <p>
-                  <strong>Renewal Date:</strong>{' '}
-                  {new Date(qrCodeDetails.renewalDate).toLocaleDateString()}
-                </p>
-              )}
-            </>
           )}
         </div>
       </div>

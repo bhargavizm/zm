@@ -1,112 +1,75 @@
 import React from "react";
 import Image from "next/image";
 
-const BusinessCardTemplateThree = ({ businessForm, profileImage, brandLogo }) => {
-    const {
-        name,
-        heading,
-        subheading,
-        mobile,
-        businessName,
-        designation,
-        email,
-        address,
-        mapLink,
-        socialLink,
-        socialLink2,
-    } = businessForm;
+const BusinessCardTemplateThree = ({ businessForm }) => {
+  const {
+    name,
+    subheading,
+    mobile,
+    designation,
+    email,
+    address,
+    mapLink,
+    socialLink,
+    socialLink2
+  } = businessForm;
 
-    return (
-        <div
-            className="w-full mx-auto rounded-xl bg-[#efeae6]/70 shadow-lg overflow-y-auto scrollbar-hide text-center relative"
-            style={{ fontFamily: 'Playfair Display, Arial, serif' }}
-        >
-            {/* Profile Picture */}
-            <div className="flex justify-center mt-18">
-                <div className="w-30 h-30 rounded-full border-2 overflow-hidden border-gray-200 bg-white">
-                    <Image
-                        src={businessForm.previewImageUrl || "/default-user.webp"}
-                        alt={ ""}
-                        width={80}
-                        height={80}
-                        className="object-cover w-full h-full"
-                    />
-                </div>
-            </div>
+  // Shared class for buttons
+  const buttonClass =
+    "w-full py-3 px-4 rounded border border-gray-400 text-gray-800 font-semibold bg-white hover:bg-gray-50 transition text-center break-words";
 
-            {/* Name, Heading, Subheading */}
-            <h2 className="text-2xl font-semibold mt-4 text-gray-800">{name || "JULIA SILVA"}</h2>
-            {/* <p className="text-lg text-gray-700">{heading || "Interior Designer"}</p> */}
-            {subheading && (
-                <p className="text-sm text-gray-500 mb-6">{subheading}</p>
-            )}
-
-            {/* Action Buttons */}
-            <div className="flex flex-col gap-3 px-8 mb-6">
-                {/* <a
-                    href={businessName || "#"}
-                    className="py-3 rounded border border-gray-400 text-gray-800 font-semibold bg-white hover:bg-gray-50 transition"
-                >
-                    {businessName || "BUSINESS NAME"}
-                </a> */}
-                <a
-                    href={designation || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="py-3 rounded border border-gray-400 text-gray-800 font-semibold bg-white hover:bg-gray-50 transition"
-                >
-                    {designation || "DESIGNATION"}
-                </a>
-                <a
-                    href={`tel:${mobile}` || "#"}
-                    className="py-3 rounded border border-gray-400 text-gray-800 font-semibold bg-white hover:bg-gray-50 transition"
-                >
-                    {mobile || "MOBILE"}
-                </a>
-                <a
-                    href={`mailto:${email}` || "#"}
-                    className="py-3 rounded border border-gray-400 text-gray-800 font-semibold bg-white hover:bg-gray-50 transition"
-                >
-                    {email || "EMAIL"}
-                </a>
-                <a
-                    href={mapLink || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="py-3 rounded border border-gray-400 text-gray-800 font-semibold bg-white hover:bg-gray-50 transition"
-                >
-                    {mapLink || "MAP LINK"}
-                </a>
-                <a
-                    href={socialLink || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="py-3 rounded border border-gray-400 text-gray-800 font-semibold bg-white hover:bg-gray-50 transition"
-                >
-                    {socialLink || "SOCIAL LINK"}
-                </a>
-                <a
-                    href={socialLink2 || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="py-3 rounded border border-gray-400 text-gray-800 font-semibold bg-white hover:bg-gray-50 transition"
-                >
-                    {socialLink2 || "SOCIAL LINK2"}
-                </a>
-                <a
-                    href={address || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full py-2 rounded font-semibold bg-white text-gray-800 shadow hover:bg-gray-50 transition text-center"
-                >
-                    {address || "Address"}
-                </a>
-            </div>
-
-            {/* Footer Website Placeholder */}
-            
+  return (
+    <div
+      className="w-full mx-auto rounded-xl bg-[#efeae6]/70 shadow-lg overflow-y-auto scrollbar-hide text-center relative"
+      style={{ fontFamily: "Playfair Display, Arial, serif" }}
+    >
+      {/* Profile Picture */}
+      <div className="flex justify-center mt-18">
+        <div className="w-[120px] h-[120px] rounded-xl border-2 overflow-hidden border-gray-200 bg-white">
+          <Image
+            src={businessForm.previewImageUrl || "/default-user.webp"}
+            alt=""
+            width={120}
+            height={120}
+            className="object-center w-full h-full"
+          />
         </div>
-    );
+      </div>
+
+      {/* Name, Subheading */}
+      <h2 className="text-2xl font-semibold mt-4 text-gray-800">
+        {name || "JULIA SILVA"}
+      </h2>
+      {subheading && (
+        <p className="text-sm text-gray-500 mb-6">{subheading}</p>
+      )}
+
+      {/* Action Buttons */}
+      <div className="flex flex-col gap-3 px-8 mb-6">
+        <a href={designation || "#"} target="_blank" rel="noopener noreferrer" className={buttonClass}>
+          {designation || "DESIGNATION"}
+        </a>
+        <a href={`tel:${mobile}` || "#"} className={buttonClass}>
+          {mobile || "MOBILE"}
+        </a>
+        <a href={`mailto:${email}` || "#"} className={buttonClass}>
+          {email || "EMAIL"}
+        </a>
+        <a href={mapLink || "#"} target="_blank" rel="noopener noreferrer" className={`${buttonClass} break-all`}>
+          {mapLink || "MAP LINK"}
+        </a>
+        <a href={socialLink || "#"} target="_blank" rel="noopener noreferrer" className={`${buttonClass} break-all`}>
+          {socialLink || "SOCIAL LINK"}
+        </a>
+        <a href={socialLink2 || "#"} target="_blank" rel="noopener noreferrer" className={`${buttonClass} break-all`}>
+          {socialLink2 || "SOCIAL LINK2"}
+        </a>
+        <a href={address || "#"} target="_blank" rel="noopener noreferrer" className={buttonClass}>
+          {address || "Address"}
+        </a>
+      </div>
+    </div>
+  );
 };
 
 export default BusinessCardTemplateThree;

@@ -124,7 +124,7 @@ const PropertyPreview = ({ data }) => {
                           alt={`property-image-${idx}`}
                           width={300}
                           height={200}
-                          className="w-full h-auto object-cover rounded shadow"
+                          className="w-full h-auto object-center rounded shadow"
                         />
                       </div>
                     ))}

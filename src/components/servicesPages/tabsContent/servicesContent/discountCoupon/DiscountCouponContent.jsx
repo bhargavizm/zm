@@ -254,8 +254,8 @@ const DiscountCouponContent = () => {
 
         {/* Preview Modal */}
         {showPreview && (
-          <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex justify-center items-center z-50 overflow-y-auto px-4">
-            <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg space-y-4">
+               <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
+          <div className="bg-white relative rounded-xl shadow-xl p-6 w-full max-w-xl max-h-[90vh] border border-teal-200 mx-4 sm:mx-auto">
               <h2 className="text-xl font-semibold text-gray-800">Preview Coupon</h2>
               <div className="space-y-2 text-sm text-gray-700">
                 {discountCoupon.nameOfBusiness && (
@@ -285,7 +285,7 @@ const DiscountCouponContent = () => {
                   className="px-4 py-2 border border-gray-300 rounded-md text-gray-600 hover:bg-gray-100"
                   onClick={() => setShowPreview(false)}
                 >
-                  Edit
+                  Back
                 </button>
                 <button
                   className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700"

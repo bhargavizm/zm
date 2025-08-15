@@ -25,36 +25,37 @@ export async function POST(req, context) {
     const body = await req.json();
     const {
       url,
-      password,
-      qrPassword = "",
-      location = {},
-      renewalDate = null,
-      status = "active",
+      password,qrCodeImage 
     } = body;
 
     const hashedPassword = password ? await bcrypt.hash(password, 10) : null;
 
-    const result = await URLServiceModel.create({
-      user: {
-        id: user._id,
-        name: user.name,
-      },
-      url,
-      password: hashedPassword,
-      serviceName: slug,
-      qrCodeDetails: {
-        qrCodeImage: body.qrCodeImage ?? "",
-        location: {
-          latitude: location.latitude ?? null,
-          longitude: location.longitude ?? null,
-          address: location.address ?? "",
-        },
-        renewalDate,
-        status,
-        resetPasswordToken: null,
-        resetPasswordExpires: null,
-      },
-    });
+   const result = await URLServiceModel.create({
+  user: {
+    id: user._id,
+    name: user.name,
+  },
+  url,
+  password: hashedPassword,
+  serviceName: slug,
+  qrCodeDetails: {
+    qrCodeImage,
+    scanCount: 0,
+    lastScanAt: null,
+    scanHistory: [
+      
+    ],
+    lastScanLocation: {
+      city: "",
+      region: "",
+      country: "",
+      lat: null,
+      lon: null,
+    },
+    qrCodeStatus: "inactive",
+  },
+});
+
 
     const qrUrl = await getShortenedUrl(`/${slug}/${result._id}`);
     return Response.json(
