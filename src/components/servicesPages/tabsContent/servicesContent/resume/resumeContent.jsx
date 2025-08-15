@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import axios from "axios";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { IoEyeOutline, IoEyeOffOutline, IoClose } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
@@ -19,83 +18,104 @@ const MAX_TOTAL_SIZE_MB = 30;
 const ResumeContent = () => {
   const { slug } = useParams();
   const dispatch = useDispatch();
-  const router = useRouter();
   const fileInputRef = useRef();
 
-  const { setActiveTab,setText } = useDesignContext();
-  const {
-    resumeFormData,
-    setResumeFormData,
-    servicesDataLoading,
-    setServicesDataLoading,
-  } = useServicesContext();
+  const { setActiveTab } = useDesignContext();
+  const { resumeFormData, setResumeFormData, servicesDataLoading } =
+    useServicesContext();
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [errors, setErrors] = useState({ resumeUrl: "" });
 
-  const handleChange = (e) => {
-    const { files } = e.target;
-
-    if (files) {
-      const newFiles = Array.from(files);
-      const existingFiles = resumeFormData.resumeFiles || [];
-
-      for (let file of newFiles) {
-        if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
-          toast.error(`${file.name} exceeds ${MAX_FILE_SIZE_MB}MB limit.`);
-          return;
-        }
-      }
-
-      const uniqueFiles = newFiles.filter(
-        (file) =>
-          !existingFiles.some(
-            (f) => f.name === file.name && f.size === file.size
-          )
-      );
-
-      const totalSize = [...existingFiles, ...uniqueFiles].reduce(
-        (acc, file) => acc + file.size,
-        0
-      );
-      if (totalSize > MAX_TOTAL_SIZE_MB * 1024 * 1024) {
-        toast.error("Total size exceeds 30MB limit.");
-        return;
-      }
-
-      setResumeFormData((prev) => ({
-        ...prev,
-        resumeFiles: [...existingFiles, ...uniqueFiles],
-      }));
-
-      if (fileInputRef.current) fileInputRef.current.value = "";
+  // URL validation
+  const isValidUrl = (url) => {
+    if (!url) return true;
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
     }
   };
 
+  // Handle file selection
+  const handleChange = (e) => {
+    const { files } = e.target;
+    if (!files) return;
+
+    const newFiles = Array.from(files);
+    const existingFiles = resumeFormData.resumeFiles || [];
+
+    for (let file of newFiles) {
+      if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+        toast.error(`${file.name} exceeds ${MAX_FILE_SIZE_MB}MB limit.`);
+        return;
+      }
+    }
+
+    const uniqueFiles = newFiles.filter(
+      (file) =>
+        !existingFiles.some(
+          (f) => f.name === file.name && f.size === file.size
+        )
+    );
+
+    const totalSize = [...existingFiles, ...uniqueFiles].reduce(
+      (acc, file) => acc + file.size,
+      0
+    );
+
+    if (totalSize > MAX_TOTAL_SIZE_MB * 1024 * 1024) {
+      toast.error(`Total size exceeds ${MAX_TOTAL_SIZE_MB}MB limit.`);
+      return;
+    }
+
+    setResumeFormData((prev) => ({
+      ...prev,
+      resumeFiles: [...existingFiles, ...uniqueFiles],
+    }));
+
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  // Remove a file
   const handleFileRemove = (index) => {
     setResumeFormData((prev) => {
       const updated = [...(prev.resumeFiles || [])];
       updated.splice(index, 1);
-      if (fileInputRef.current) fileInputRef.current.value = "";
       return { ...prev, resumeFiles: updated };
     });
   };
 
+  // Handle input changes (URL/Password)
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setResumeFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setResumeFormData((prev) => ({ ...prev, [name]: value }));
+
+    // URL validation
+    if (name === "resumeUrl") {
+      if (value && !isValidUrl(value.trim())) {
+        setErrors((prev) => ({ ...prev, resumeUrl: "Invalid URL" }));
+      } else {
+        setErrors((prev) => ({ ...prev, resumeUrl: "" }));
+      }
+    }
   };
 
+  // Handle form submission
   const handleSubmit = (e) => {
-    
     e.preventDefault();
 
     const hasFiles = resumeFormData.resumeFiles?.length > 0;
     const hasUrl = resumeFormData.resumeUrl?.trim();
     const hasPassword = resumeFormData.password?.trim();
+
+    if (hasUrl && !isValidUrl(resumeFormData.resumeUrl.trim())) {
+      setErrors((prev) => ({ ...prev, resumeUrl: "Invalid URL" }));
+      toast.error("Please enter a valid URL.");
+      return;
+    }
 
     if (!hasFiles && !hasUrl && !hasPassword) {
       toast.error("Please fill at least one field before submitting.");
@@ -105,66 +125,26 @@ const ResumeContent = () => {
     setShowConfirmModal(true);
   };
 
-  const submitToServer = async () => {
+  // Confirm submission (placeholder for server call)
+  const submitToServer = () => {
     setActiveTab(slug, "Backdrop Designs");
-    // const formData = new FormData();
-
-    // (resumeFormData.resumeFiles || []).forEach((file) => {
-    //   formData.append("resumeFiles", file);
-    // });
-
-    // formData.append("resumeUrl", resumeFormData.resumeUrl || "");
-    // formData.append("password", resumeFormData.password || "");
-
-    // setServicesDataLoading(true);
-    // try {
-    //   const res = await axios.post(
-    //     "http://localhost:3000/api/services/resumes",
-    //     formData,
-    //     {
-    //       headers: { "Content-Type": "multipart/form-data" },
-    //       withCredentials: true,
-    //     }
-    //   );
-
-    //   if (res.data.success) {
-    //     dispatch(setResumeServices(res.data));
-
-        
-
-    //     setActiveTab(slug, "QR Code");
-
-    //     setResumeFormData({ resumeFiles: [], resumeUrl: "", password: "" });
-    //     if (fileInputRef.current) fileInputRef.current.value = "";
-    //     setShowConfirmModal(false);
-    //     toast.success("Uploaded successfully!");
-    //   }
-    // } catch (err) {
-    //   console.error("Upload failed:", err);
-    //   toast.error(err?.response?.data?.error || "Something went wrong!");
-    //   if (error.response?.status === 401) {
-    //     window.location.href = "/login"; // ✅ Auto logout on expiry
-    //     return;
-    //   }
-    // } finally {
-    //   setServicesDataLoading(false); // ✅ End loader
-    // }
+    toast.success("Submission confirmed!");
+    setShowConfirmModal(false);
   };
 
   return (
     <>
       {servicesDataLoading && <LoadingSpinner />}
 
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center p-4">
         <div className="flex w-full max-w-5xl gap-6">
           <div className="flex-1 bg-white shadow-xl rounded-2xl p-6 space-y-5 max-h-[600px] overflow-auto">
             <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Resume File Upload */}
+              {/* File Upload */}
               <div>
                 <label className="block text-xs font-medium text-gray-700 mb-1">
                   Upload Resumes (PDF/Doc) - Multiple files allowed
                 </label>
-
                 <div className="flex items-center gap-4">
                   <button
                     type="button"
@@ -173,18 +153,15 @@ const ResumeContent = () => {
                   >
                     Choose Files
                   </button>
-
                   <span className="text-sm text-gray-600">
                     {resumeFormData.resumeFiles?.length || 0} file
                     {resumeFormData.resumeFiles?.length === 1 ? "" : "s"}{" "}
                     selected
                   </span>
                 </div>
-
                 <input
                   ref={fileInputRef}
                   type="file"
-                  name="resumeFiles"
                   multiple
                   accept=".pdf,.doc,.docx"
                   className="hidden"
@@ -205,7 +182,7 @@ const ResumeContent = () => {
                         <button
                           type="button"
                           onClick={() => handleFileRemove(index)}
-                          className="text-red-600 cursor-pointer ml-2"
+                          className="text-red-600 ml-2"
                         >
                           <IoClose size={16} />
                         </button>
@@ -226,8 +203,15 @@ const ResumeContent = () => {
                   value={resumeFormData.resumeUrl || ""}
                   onChange={handleInputChange}
                   placeholder="https://example.com/your-resume.pdf"
-                  className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
+                  className={`w-full px-3 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 ${
+                    errors.resumeUrl ? "border-red-500" : "border-gray-300"
+                  }`}
                 />
+                {errors.resumeUrl && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.resumeUrl}
+                  </p>
+                )}
               </div>
 
               {/* Password Field */}
@@ -242,7 +226,7 @@ const ResumeContent = () => {
                     value={resumeFormData.password || ""}
                     onChange={handleInputChange}
                     placeholder="Set password for resume"
-                    className="w-full px-3 py-2 pr-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
+                    className="w-full px-3 py-2 pr-10 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
                   />
                   <span
                     onClick={() => setShowPassword(!showPassword)}
@@ -258,14 +242,15 @@ const ResumeContent = () => {
               </div>
 
               <NFCModal />
-              <div className="flex justify-center items-center">
-              <button
-                type="submit" onClick={handleSubmit}
-                className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg"
-              >
-                Next → 
-              </button>
-             </div>
+
+              <div className="flex justify-center">
+                <button
+                  type="submit"
+                  className="font-bold px-4 py-2 bg-[#008080] text-white rounded text-lg"
+                >
+                  Next →
+                </button>
+              </div>
             </form>
           </div>
         </div>
@@ -284,25 +269,8 @@ const ResumeContent = () => {
                     <ul className="list-disc pl-5 mt-1">
                       {resumeFormData.resumeFiles.map((file, index) => (
                         <li key={index} className="truncate">
-                          <a
-                            href={file.url || URL.createObjectURL(file)} // assuming you have a URL or createObjectURL
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-blue-600 hover:underline cursor-pointer"
-                            onClick={(e) => {
-                              // If using a File object and want to revoke URL after open:
-                              if (!file.url) {
-                                const fileURL = URL.createObjectURL(file);
-                                e.currentTarget.href = fileURL;
-                                setTimeout(
-                                  () => URL.revokeObjectURL(fileURL),
-                                  1000
-                                );
-                              }
-                            }}
-                          >
-                            {file.name}
-                          </a>
+                          {file.name} -{" "}
+                          {(file.size / 1024 / 1024).toFixed(2)} MB
                         </li>
                       ))}
                     </ul>
@@ -310,15 +278,7 @@ const ResumeContent = () => {
                 )}
                 {resumeFormData.resumeUrl && (
                   <p>
-                    <strong>URL:</strong>{" "}
-                    <a
-                      href={resumeFormData.resumeUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline cursor-pointer"
-                    >
-                      {resumeFormData.resumeUrl}
-                    </a>
+                    <strong>URL:</strong> {resumeFormData.resumeUrl}
                   </p>
                 )}
                 {resumeFormData.password && (
@@ -331,18 +291,16 @@ const ResumeContent = () => {
               <div className="flex justify-end gap-3 pt-4">
                 <button
                   onClick={() => setShowConfirmModal(false)}
-                  className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 cursor-pointer"
+                  className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400"
                 >
                   Edit
                 </button>
-
-               <div className="flex justify-center items-center">
                 <button
                   onClick={submitToServer}
-                  className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg" >
-                 Continue
+                  className="px-4 py-2 bg-[#008080] text-white rounded font-bold"
+                >
+                  Continue
                 </button>
-                </div>
               </div>
             </div>
           </div>
@@ -353,6 +311,7 @@ const ResumeContent = () => {
 };
 
 export default ResumeContent;
+
 
 
 

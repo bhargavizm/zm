@@ -13,16 +13,12 @@ import {
   FaLink,
 } from "react-icons/fa";
 import NFCModal from "@/components/modalPopUps/nfcModal";
-import CryptoJS from "crypto-js";
 import { useDispatch } from "react-redux";
 import { setMultiUrlServices } from "@/redux/slices/servicesSlice";
 import toast from "react-hot-toast";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import { useParams } from "next/navigation";
 import LoadingSpinner from "@/components/common/spinner";
-
-
-
 
 const platformIcons = {
   youtube: <FaYoutube className="text-red-600" />,
@@ -33,207 +29,154 @@ const platformIcons = {
   custom: <FaLink className="text-blue-600" />,
 };
 
-const MultiUrlContent = () => {
-  const {
-    dynamicForms,
-    updateDynamicForm,
-    addTemplateField,
-    removeTemplateField,servicesDataLoading, setServicesDataLoading
-  } = useServicesContext();
+export default function MultiUrlContent() {
+  const { dynamicForms, updateDynamicForm, servicesDataLoading } = useServicesContext();
+  const { setActiveTab } = useDesignContext();
+  const { slug } = useParams();
+  const dispatch = useDispatch();
+
+  const socialLinks = dynamicForms?.multiUrl?.socialLinks || {};
+  const customLinks = Array.isArray(dynamicForms?.multiUrl?.customLinks)
+    ? dynamicForms.multiUrl.customLinks
+    : [];
 
   const [customLabel, setCustomLabel] = useState("");
   const [customUrl, setCustomUrl] = useState("");
-  const { setActiveTab } = useDesignContext();
-  const { slug } = useParams();
-
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
-  const dispatch = useDispatch();
-
   const [showPreviewModal, setShowPreviewModal] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
-  const socialLinks = dynamicForms?.multiUrl?.socialLinks || {};
+  const [errors, setErrors] = useState({
+    socialLinks: {},
+    customLinks: [],
+    addCustomLink: "",
+  });
 
-  const rawCustomLinks = dynamicForms?.multiUrl?.customLinks;
-  const customLinks = Array.isArray(rawCustomLinks) ? rawCustomLinks : [];
+  /** Validate if the given string is a proper URL */
+  const validateUrl = (url) => {
+    if (!url.trim()) return false;
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  };
 
+  /** Live validation for social links */
+  const handleSocialLinkChange = (platform, value) => {
+    updateDynamicForm("multiUrl", "socialLinks", platform, value);
+    setErrors((prev) => ({
+      ...prev,
+      socialLinks: {
+        ...prev.socialLinks,
+        [platform]: value.trim() && !validateUrl(value),
+      },
+    }));
+  };
+
+  /** Live validation for custom links */
   const handleCustomLinkChange = (index, key, value) => {
     const updatedLinks = [...customLinks];
     updatedLinks[index][key] = value;
     updateDynamicForm("multiUrl", null, "customLinks", updatedLinks);
+
+    const newErrors = [...errors.customLinks];
+    if (!updatedLinks[index].label.trim() || !updatedLinks[index].url.trim()) {
+      newErrors[index] = "Both label and URL are required";
+    } else if (!validateUrl(updatedLinks[index].url)) {
+      newErrors[index] = "Invalid URL";
+    } else {
+      newErrors[index] = "";
+    }
+    setErrors((prev) => ({ ...prev, customLinks: newErrors }));
   };
 
+  /** Add a new custom link */
   const handleAddCustomLink = () => {
-    if (!customLabel || !customUrl) return;
+    if (!customLabel.trim() || !customUrl.trim()) {
+      setErrors((prev) => ({
+        ...prev,
+        addCustomLink: "Both Label and URL are required.",
+      }));
+      return;
+    }
+    if (!validateUrl(customUrl)) {
+      setErrors((prev) => ({
+        ...prev,
+        addCustomLink: "Please enter a valid URL.",
+      }));
+      return;
+    }
 
-    const newLink = { label: customLabel, url: customUrl };
-    const updatedLinks = [...customLinks, newLink];
+    const updatedLinks = [
+      ...customLinks,
+      { label: customLabel.trim(), url: customUrl.trim() },
+    ];
     updateDynamicForm("multiUrl", null, "customLinks", updatedLinks);
 
     setCustomLabel("");
     setCustomUrl("");
+    setErrors((prev) => ({
+      ...prev,
+      addCustomLink: "",
+      customLinks: [...prev.customLinks, ""],
+    }));
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-// const handleSubmit = () => {
-  
-//   const hasSocialLinks = Object.values(socialLinks || {}).some(
-//     (url) => typeof url === "string" && url.trim().length > 0
-//   );
-
-//   const hasCustomLinks = Array.isArray(customLinks) && customLinks
-//     .filter(link => link && (link.label || link.url))
-//     .some(
-//       (link) =>
-//         (typeof link.label === "string" && link.label.trim().length > 0) ||
-//         (typeof link.url === "string" && link.url.trim().length > 0)
-//     );
-
-//   const hasPassword = typeof password === "string" && password.trim().length > 0;
-
-//   if (!hasSocialLinks && !hasCustomLinks && !hasPassword) {
-//     toast.error("Please fill at least one field before submitting.");
-//     return;
-//   }
-
-//   setShowPreviewModal(true);
-// };
-
-const isValidUrl = (url) => {
-  try {
-    new URL(url);
-    return true;
-  } catch {
-    return false;
-  }
-};
-
-const handleSubmit = () => {
-  const socialPlatforms = ["youtube", "instagram", "twitter", "linkedin", "facebook", "custom"];
-
-  // ✅ Check empty form
-  const hasSocialLinks = Object.values(socialLinks || {}).some(
-    (url) => typeof url === "string" && url.trim().length > 0
-  );
-
-  const hasCustomLinks = Array.isArray(customLinks) && customLinks
-    .filter(link => link && (link.label || link.url))
-    .some(
-      (link) =>
-        (typeof link.label === "string" && link.label.trim().length > 0) ||
-        (typeof link.url === "string" && link.url.trim().length > 0)
+  /** Handle submission */
+  const handleSubmit = () => {
+    const hasSocialLinks = Object.values(socialLinks).some((url) => url?.trim());
+    const hasCustomLinks = customLinks.some(
+      (link) => link.label?.trim() || link.url?.trim()
     );
+    const hasPassword = password.trim().length > 0;
 
-  const hasPassword = typeof password === "string" && password.trim().length > 0;
+    const socialErrors = Object.values(errors.socialLinks).some(Boolean);
+    const customErrors = errors.customLinks.some(Boolean);
 
-  if (!hasSocialLinks && !hasCustomLinks && !hasPassword) {
-    toast.error("Please fill at least one field before submitting.");
-    return;
-  }
-
-  // ✅ Social link URL validation
-  for (const platform of socialPlatforms) {
-    const url = socialLinks[platform];
-    if (url && !isValidUrl(url)) {
-      toast.error(`Invalid URL for ${platform}`);
+    if (!hasSocialLinks && !hasCustomLinks && !hasPassword) {
+      toast.error("Please fill at least one field before submitting.");
       return;
     }
-  }
-
-  // ✅ Custom links validation
-  for (const link of customLinks) {
-    if (!link.label || !link.url) {
-      toast.error("Each custom link must have both a label and URL");
+    if (socialErrors || customErrors) {
+      toast.error("Please fix errors before submitting.");
       return;
     }
-    if (!isValidUrl(link.url)) {
-      toast.error(`Invalid URL for custom link "${link.label}"`);
-      return;
-    }
-  }
 
-  // ✅ All good — open preview modal
-  setShowPreviewModal(true);
-};
-
-  const confirmSubmit = async () => {
-    setActiveTab(slug, "Backdrop Designs");
-    updateDynamicForm("multiUrl", null,  "password", password.trim()); // ✅ Save into context
-    //   setServicesDataLoading(true);
-    // try {
-    //   const encryptedPassword = password
-    //     ? CryptoJS.AES.encrypt(password, "secret-key").toString()
-    //     : "";
-
-    //   const payload = {
-    //     socialLinks,
-    //     customLinks,
-    //     password: encryptedPassword,
-    //   };
-
-    //   const response = await fetch("/api/services/multiurl", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(payload),
-    //   });
-
-    //   const result = await response.json();
-
-    //   if (!response.ok) {
-    //     alert(`Error: ${result.message || result.error}`);
-    //     return;
-    //   }
-
-    //   // ✅ success actions
-    //   toast.success("Multi URL data successfully submitted");
-    //   setActiveTab(slug, "QR Code")
-    //   dispatch(setMultiUrlServices(result.multiUrldata));
-    //   setShowPreviewModal(false);
-    //   setShowSuccessModal(true);
-
-    //   // ✅ reset form data
-    //   updateDynamicForm("multiUrl", null, null, {});
-    //   setCustomLabel("");
-    //   setCustomUrl("");
-    //   setPassword("");
-    // } catch (error) {
-    //   console.error("Submission failed", error);
-    //  toast.error(error?.response?.data?.error || "Something went wrong!");
-    //  if (error.response?.status === 401) {
-    //     window.location.href = "/login"; // ✅ Auto logout on expiry
-    //     return;
-    //   }
-    // } finally {
-    //   setServicesDataLoading(false); // ✅ End loader
-    // }
+    setShowPreviewModal(true);
   };
 
+  const confirmSubmit = () => {
+    setActiveTab(slug, "Backdrop Designs");
+    updateDynamicForm("multiUrl", null, "password", password.trim());
+  };
 
   return (
     <>
-     {servicesDataLoading && <LoadingSpinner />}
+      {servicesDataLoading && <LoadingSpinner />}
 
       <div className="space-y-6">
-        {/* Social Media Links */}
+        {/* Social Links */}
         <div className="p-4 border rounded-lg">
           <h2 className="text-lg font-semibold mb-4">Social Media Links</h2>
-          {["youtube", "instagram", "twitter", "linkedin", "facebook", "custom"].map((platform) => (
-            <div className="flex items-center space-x-2 mb-3" key={platform}>
-              <span>{platformIcons[platform]}</span>
-              <input
-                type="text"
-                className="w-full p-2 border rounded"
-                placeholder={`Enter ${platform.charAt(0).toUpperCase() + platform.slice(1)} URL`}
-                value={socialLinks[platform] || ""}
-                onChange={(e) =>
-                  updateDynamicForm("multiUrl", "socialLinks", platform, e.target.value)
-                }
-              />
+          {Object.keys(platformIcons).map((platform) => (
+            <div className="mb-3" key={platform}>
+              <div className="flex items-center space-x-2">
+                <span>{platformIcons[platform]}</span>
+                <input
+                  type="text"
+                  className={`w-full p-2 border rounded ${
+                    errors.socialLinks[platform] ? "border-red-500" : ""
+                  }`}
+                  placeholder={`Enter ${platform} URL`}
+                  value={socialLinks[platform] || ""}
+                  onChange={(e) => handleSocialLinkChange(platform, e.target.value)}
+                />
+              </div>
+              {errors.socialLinks[platform] && (
+                <p className="text-red-500 text-sm mt-1">Invalid URL</p>
+              )}
             </div>
           ))}
         </div>
@@ -253,13 +196,19 @@ const handleSubmit = () => {
               <input
                 type="text"
                 placeholder="URL"
-                className="w-2/3 p-2 border rounded"
+                className={`w-2/3 p-2 border rounded ${
+                  errors.customLinks[index] ? "border-red-500" : ""
+                }`}
                 value={link.url}
                 onChange={(e) => handleCustomLinkChange(index, "url", e.target.value)}
               />
+              {errors.customLinks[index] && (
+                <p className="text-red-500 text-sm mt-1">{errors.customLinks[index]}</p>
+              )}
             </div>
           ))}
 
+          {/* Add Custom Link */}
           <div className="flex gap-2 mt-2">
             <input
               type="text"
@@ -271,7 +220,9 @@ const handleSubmit = () => {
             <input
               type="text"
               placeholder="URL"
-              className="w-2/3 p-2 border rounded"
+              className={`w-2/3 p-2 border rounded ${
+                errors.addCustomLink ? "border-red-500" : ""
+              }`}
               value={customUrl}
               onChange={(e) => setCustomUrl(e.target.value)}
             />
@@ -283,9 +234,12 @@ const handleSubmit = () => {
               Add
             </button>
           </div>
+          {errors.addCustomLink && (
+            <p className="text-red-500 text-sm mt-1">{errors.addCustomLink}</p>
+          )}
         </div>
 
-        {/* Password Section */}
+        {/* Password Protection */}
         <div className="p-4 border rounded-lg">
           <h2 className="text-lg font-semibold mb-4">Password Protection</h2>
           <div className="relative">
@@ -299,7 +253,7 @@ const handleSubmit = () => {
             <button
               type="button"
               className="absolute right-3 top-3 text-gray-500"
-              onClick={togglePasswordVisibility}
+              onClick={() => setShowPassword((prev) => !prev)}
             >
               {showPassword ? <FaEye /> : <FaEyeSlash />}
             </button>
@@ -308,89 +262,110 @@ const handleSubmit = () => {
 
         <NFCModal />
 
-        {/* Submit Button */}
-        <div className="text-center mt-4 w-full">
+        {/* Submit */}
+        <div className="text-center mt-4">
           <button
             type="button"
-            className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg"
+            className="font-bold px-4 py-2 bg-[#008080] text-white rounded text-lg"
             onClick={handleSubmit}
           >
-            Next → 
+            Next →
           </button>
         </div>
       </div>
 
-      {/* Preview Modal */}
       {showPreviewModal && (
-        <div
-          className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center"
-          onClick={() => setShowPreviewModal(false)}
-        >
-          <div
-            className="bg-white p-6 rounded-lg shadow-xl max-w-xl w-full overflow-y-auto max-h-[80vh]"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h2 className="text-xl font-bold mb-4 text-[#008080]">Preview Your Submission</h2>
+  <div
+    className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center"
+    onClick={() => setShowPreviewModal(false)}
+  >
+    <div
+      className="bg-white p-6 rounded-lg shadow-xl max-w-xl w-full overflow-y-auto max-h-[80vh]"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <h2 className="text-xl font-bold mb-4 text-[#008080]">Preview Your Submission</h2>
 
-            {Object.values(socialLinks).some(url => url) && (
-              <div className="mb-4">
-                <h3 className="font-semibold mb-2">Social Links:</h3>
-                <ul className="text-sm space-y-1">
-                  {Object.entries(socialLinks).map(([platform, url]) =>
-                    url ? (
-                      <li key={platform}>
-                        <strong>{platform}:</strong> {url}
-                      </li>
-                    ) : null
-                  )}
-                </ul>
-              </div>
+      {/* Social Links */}
+      {Object.values(socialLinks).some((url) => url) && (
+        <div className="mb-4">
+          <h3 className="font-semibold mb-2">Social Links:</h3>
+          <ul className="text-sm space-y-1">
+            {Object.entries(socialLinks).map(
+              ([platform, url]) =>
+                url && (
+                  <li key={platform}>
+                    <strong>{platform}:</strong>{" "}
+                    <a
+                      href={url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:underline"
+                    >
+                      {url}
+                    </a>
+                  </li>
+                )
             )}
-
-
-            {customLinks.length > 0 && (
-              <div className="mb-4">
-                <h3 className="font-semibold mb-2">Custom Links:</h3>
-                <ul className="text-sm space-y-1">
-                  {customLinks.map((link, index) => (
-                    <li key={index}>
-                      <strong>{link.label || "No Label"}:</strong> {link.url || "No URL"}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {password && (
-              <div className="mb-4">
-                <h3 className="font-semibold mb-1">Password:</h3>
-                <p className="text-sm">🔒 {password}</p>
-              </div>
-            )}
-
-            <div className="flex justify-end gap-3">
-              <button
-                className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 text-gray-800"
-                onClick={() => setShowPreviewModal(false)}
-              >
-                Back
-              </button>
-              <button
-                className="px-4 py-2 rounded bg-[#008080] hover:bg-[#006666] text-white"
-                onClick={() => {
-                  setShowPreviewModal(false),
-                    confirmSubmit()
-                }}
-              >
-                Continue
-              </button>
-            </div>
-          </div>
+          </ul>
         </div>
       )}
 
+      {/* Custom Links */}
+      {customLinks.length > 0 && (
+        <div className="mb-4">
+          <h3 className="font-semibold mb-2">Custom Links:</h3>
+          <ul className="text-sm space-y-1">
+            {customLinks.map((link, index) => (
+              <li key={index}>
+                <strong>{link.label || "No Label"}:</strong>{" "}
+                {link.url ? (
+                  <a
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:underline"
+                  >
+                    {link.url}
+                  </a>
+                ) : (
+                  "No URL"
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Password */}
+      {password && (
+        <div className="mb-4">
+          <h3 className="font-semibold mb-1">Password:</h3>
+          <p className="text-sm">🔒 {password}</p>
+        </div>
+      )}
+
+      {/* Actions */}
+      <div className="flex justify-end gap-3">
+        <button
+          className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 text-gray-800"
+          onClick={() => setShowPreviewModal(false)}
+        >
+          Edit
+        </button>
+        <button
+          className="px-4 py-2 rounded bg-[#008080] hover:bg-[#006666] text-white"
+          onClick={() => {
+            setShowPreviewModal(false);
+            confirmSubmit();
+          }}
+        >
+          Continue
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
     </>
   );
-};
-
-export default MultiUrlContent;
+}

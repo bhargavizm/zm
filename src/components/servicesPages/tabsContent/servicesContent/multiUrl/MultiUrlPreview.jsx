@@ -111,25 +111,27 @@ const MultiUrlPreview = () => {
                 ) : null
               )}
 
-              {/* Custom Links */}
-              {customLinks
-                .filter((link) => link?.label && link?.url)
-                .map((link, index) => (
-                  <div
-                    key={`custom-${index}`}
-                    className="flex items-center gap-2 bg-gray-100 px-3 py-2 rounded w-full max-w-[300px] justify-center"
-                  >
-                    {platformIcons.custom}
-                    <a
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 underline break-all text-sm"
-                    >
-                      {link.label}: {link.url}
-                    </a>
-                  </div>
-                ))}
+             {/* Custom Links */}
+{customLinks
+  .filter((link) => link?.label && link?.url)
+  .map((link, index) => (
+    <div
+      key={`custom-${index}`}
+      className="flex flex-col items-center gap-1 bg-gray-100 px-3 py-2 rounded w-full max-w-[300px]"
+    >
+      {platformIcons.custom}
+      <span className="font-semibold text-gray-800 text-sm">{link.label}</span>
+      <a
+        href={link.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-600 underline break-all text-sm"
+      >
+        {link.url}
+      </a>
+    </div>
+  ))}
+
             </>
           ) : (
             <div className="text-gray-400 mt-8">
