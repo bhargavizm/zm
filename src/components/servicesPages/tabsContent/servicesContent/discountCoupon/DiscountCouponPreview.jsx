@@ -151,9 +151,9 @@ const DiscountCouponPreview = () => {
                     Use Code:
                   </p>
                   <h3 className="text-4xl font-extrabold mb-3 bg-white text-teal-700 py-2 px-4 rounded-lg inline-block shadow-inner tracking-wider">
-                    {discountCoupon.code || "COUPON 2025"}
+                    {discountCoupon.code || "COUPON CODE"}
                   </h3>
-
+{/* 
                   <p className="text-3xl font-bold mt-4 mb-2">
                     {formattedDiscountValue}
                   </p>
@@ -161,8 +161,8 @@ const DiscountCouponPreview = () => {
                   <p className="text-sm italic mb-4 opacity-90">
                     {discountCoupon.description ||
                       "Apply this coupon to get an exclusive discount on your next purchase!"}
-                  </p>
-
+                  </p> */}
+{/* 
                   <div className="flex justify-between items-center bg-teal-700 px-4 py-2 rounded-lg text-xs font-semibold">
                     <p>
                       Min. Purchase:{" "}
@@ -182,7 +182,7 @@ const DiscountCouponPreview = () => {
                       }`}
                   >
                     {discountCoupon.isActive ? "ACTIVE" : "INACTIVE"}
-                  </p>
+                  </p> */}
                 </div>
               </div>
             </div>

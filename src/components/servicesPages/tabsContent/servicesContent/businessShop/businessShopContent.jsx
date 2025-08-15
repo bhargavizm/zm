@@ -299,7 +299,15 @@ const BusinessShopContent = () => {
           General Information
         </h3>
         <div className="space-y-2">
-          <label className="block text-base font-medium text-gray-700">
+         
+          <input
+            type="file"
+            accept="image/*"
+            ref={logoInputRef}
+            className="w-full  text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
+            onChange={(e) => handleFileChange("shopLogo", e.target.files)}
+          />
+           <label className="block text-base font-medium text-gray-700">
             Business Logo{" "}
             <span className="text-gray-500 text-sm">(Max 2MB)</span>
           </label>
@@ -325,13 +333,6 @@ const BusinessShopContent = () => {
               </div>
             </div>
           )}
-          <input
-            type="file"
-            accept="image/*"
-            ref={logoInputRef}
-            className="w-full  text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
-            onChange={(e) => handleFileChange("shopLogo", e.target.files)}
-          />
         </div>
 
         <div className="space-y-5 mt-10">
@@ -513,7 +514,7 @@ const BusinessShopContent = () => {
             </div>
 
             <div className="flex items-center justify-start gap-9">
-              <label className="bg-teal-700  text-white px-4 py-2 rounded cursor-pointer">
+                <label className="bg-teal-700 text-white px-3 py-2 rounded cursor-pointer text-center w-40 sm:w-48 md:w-36">
                 Choose Files
                 <input
                   type="file"

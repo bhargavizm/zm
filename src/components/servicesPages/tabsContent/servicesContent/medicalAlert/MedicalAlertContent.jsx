@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from "react";
@@ -39,7 +38,7 @@ const MultipleFileUploadField = ({ label, section, keyName, filesData, onFileCha
                 <img
                   src={typeof file === "string" ? file : URL.createObjectURL(file)}
                   alt={`File ${index}`}
-                  className="h-20 w-20 object-cover rounded-lg"
+                  className="h-20 w-20 object-center rounded-lg"
                 />
               ) : (
                 <div className="h-20 w-20 flex items-center justify-center text-xs text-center bg-gray-100 rounded-lg px-1">
@@ -94,8 +93,8 @@ const MedicalAlertContent = () => {
   const {
     dynamicForms,
     updateDynamicForm,
-    addTemplateField,
-    removeTemplateField,servicesDataLoading, setServicesDataLoading
+    servicesDataLoading,
+    setServicesDataLoading
   } = useServicesContext();
   const { slug } = useParams();
   const { setActiveTab } = useDesignContext();
@@ -114,32 +113,44 @@ const MedicalAlertContent = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [validationErrors, setValidationErrors] = useState({
-    patientName: false,
-    age: false,
-    emergencyContact: false,
-    contactPhone: false,
-  });
 
+  // Live validation state
+  const [validationErrors, setValidationErrors] = useState({});
+
+  const fieldLabel = (key) =>
+    key.replace(/([A-Z])/g, " $1").replace(/^./, str => str.toUpperCase());
+
+  // -----------------------------
+  // Live validation on change
+  // -----------------------------
   const handleChange = (section, key, value) => {
     updateDynamicForm("medicalAlert", section, key, value);
-    if (value.trim()) {
-      setValidationErrors(prev => ({ ...prev, [key]: false }));
-    }
+
+    // Live validation
+    setValidationErrors(prev => {
+      let error = false;
+      if (key === "patientName" || key === "emergencyContact") error = !value.trim();
+      else if (key === "age") error = !value || parseInt(value) <= 0;
+      else if (key === "contactPhone" || key === "familyDoctorPhone") error = !/^\d{10,15}$/.test(value);
+
+      return { ...prev, [key]: error };
+    });
   };
 
   const handleFileChange = (section, key, files) => {
     const newFilesArray = Array.from(files);
     const existingFiles = medicalAlert[section]?.[key]?.files || [];
     const mergedFiles = [...existingFiles];
-    newFilesArray.forEach((file) => {
+
+    newFilesArray.forEach(file => {
       const isDuplicate = existingFiles.some(
-        (f) => f.name === file.name && f.size === file.size && f.type === file.type
+        f => f.name === file.name && f.size === file.size && f.type === file.type
       );
       if (!isDuplicate) mergedFiles.push(file);
     });
+
     updateDynamicForm("medicalAlert", section, key, {
-      displayValue: mergedFiles.map((f) => f.name).join(", "),
+      displayValue: mergedFiles.map(f => f.name).join(", "),
       files: mergedFiles,
     });
   };
@@ -153,101 +164,60 @@ const MedicalAlertContent = () => {
     });
   };
 
-  const fieldLabel = (key) =>
-    key.replace(/([A-Z])/g, " $1").replace(/^./, str => str.toUpperCase());
-
   const validateForm = () => {
-    const errors = {
-      patientName: !medicalAlert.patientInfo?.patientName?.trim(),
-      age: !medicalAlert.patientInfo?.age || parseInt(medicalAlert.patientInfo?.age) <= 0,
-      emergencyContact: !medicalAlert.emergencyContact?.emergencyContact?.trim(),
-      contactPhone: !/^\d{10,15}$/.test(medicalAlert.emergencyContact?.contactPhone || ""),
-      familyDoctorPhone: !/^\d{10,15}$/.test(medicalAlert.additional?.familyDoctorPhone || "")
-    };
+    const errors = {};
+
+    // Required text fields
+    ["patientName", "emergencyContact"].forEach(key => {
+      const value =
+        key === "patientName"
+          ? medicalAlert.patientInfo?.patientName
+          : medicalAlert.emergencyContact?.emergencyContact;
+      errors[key] = !value?.trim();
+    });
+
+    // Age
+    errors.age = !medicalAlert.patientInfo?.age || parseInt(medicalAlert.patientInfo.age) <= 0;
+
+    // Phone numbers
+    errors.contactPhone = !/^\d{10,15}$/.test(medicalAlert.emergencyContact?.contactPhone || "");
+    //errors.familyDoctorPhone = !/^\d{10,15}$/.test(medicalAlert.additional?.familyDoctorPhone || "");
 
     setValidationErrors(errors);
+
     return !Object.values(errors).some(Boolean);
   };
 
   const resetForm = () => {
     Object.entries(sections).forEach(([section, keys]) => {
-      keys.forEach((key) => {
-        updateDynamicForm("medicalAlert", section, key, key === "age" ? 0 : "");
-      });
+      keys.forEach(key => updateDynamicForm("medicalAlert", section, key, key === "age" ? 0 : ""));
     });
     setPassword("");
     setValidationErrors({});
   };
 
   const handleFinalSubmit = async () => {
-   
-    updateDynamicForm("medicalAlert", null,  "password", password.trim()); // ✅ Save into context
-     setActiveTab(slug, "Backdrop Designs");
-    // setIsSubmitting(true);
-    // setError(null);
-    // setServicesDataLoading(true);
-    // try {
-    //   const formData = new FormData();
-    //   Object.entries(medicalAlert).forEach(([section, fields]) => {
-    //     Object.entries(fields).forEach(([key, value]) => {
-    //       if (["medicalReports", "prescription", "insuranceImage"].includes(key)) {
-    //         if (value?.files) {
-    //           value.files.forEach((file) => formData.append(key, file));
-    //         }
-    //       } else {
-    //         formData.append(key, value);
-    //       }
-    //     });
-    //   });
-    //   if (password.trim() !== "") {
-    //     formData.append("password", password.trim());
-    //   }
-    //   const response = await fetch("/api/services/medicalAlert", {
-    //     method: "POST",
-    //     body: formData,
-    //   });
-    //   const data = await response.json();
-    //   if (!response.ok) {
-    //     throw new Error(data.error || "Submission failed");
-    //   }
-    //   toast.success("Medical alert submitted successfully!");
-    //   resetForm();
-    //   setActiveTab(slug, "QR Code");
-    //   setShowConfirmModal(false);
-    // } catch (err) {
-    //    toast.error(err?.response?.data?.error || "Something went wrong!");
-    //   setError(err.message);
-
-    //   if (error.response?.status === 401) {
-    //     window.location.href = "/login"; // ✅ Auto logout on expiry
-    //     return;
-    //   }
-    // } finally {
-    //    setIsSubmitting(false);
-    //   setServicesDataLoading(false); // ✅ End loader
-    // }
-
+    updateDynamicForm("medicalAlert", null, "password", password.trim());
+    setActiveTab(slug, "Backdrop Designs");
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) setShowConfirmModal(true);
-    else toast.error("Please fill the necessary fields.");
+    else toast.error("Please fill the necessary fields correctly.");
   };
 
   const fetchCurrentLocation = async () => {
     if (navigator.geolocation) {
       try {
         const pos = await new Promise((resolve, reject) =>
-          navigator.geolocation.getCurrentPosition(resolve, reject, {
-            enableHighAccuracy: true, timeout: 10000, maximumAge: 0
-          })
+          navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true, timeout: 10000 })
         );
         const { latitude, longitude } = pos.coords;
         const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
         const data = await res.json();
         handleChange("emergencyContact", "location", data.display_name || "Address not found");
-      } catch (err) {
+      } catch {
         toast.error("Failed to get location.");
       }
     } else {
@@ -259,91 +229,97 @@ const MedicalAlertContent = () => {
     <>
       {servicesDataLoading && <LoadingSpinner />}
 
-          <form onSubmit={handleSubmit}>
-      <h1 className="text-3xl font-bold pb-6 text-[#008080]">Medical Alert QR Code</h1>
-      {error && <div className="text-red-600 bg-red-100 p-3 rounded">{error}</div>}
+      <form onSubmit={handleSubmit}>
+        <h1 className="text-3xl font-bold pb-6 text-[#008080]">Medical Alert QR Code</h1>
+        {error && <div className="text-red-600 bg-red-100 p-3 rounded">{error}</div>}
 
-      {Object.entries(sections).map(([section, keys]) => (
-        <div key={section} className="border p-4 rounded shadow-sm mb-6">
-          <h2 className="text-xl font-semibold mb-4 text-[#008080]">{section.replace(/([A-Z])/g, " $1")}</h2>
-          {keys.filter((k) => medicalAlert[section]?.[k] !== undefined).map((key) => (
-            <div key={key} className="mb-4">
-              {["medicalReports", "prescription", "insuranceImage"].includes(key) ? (
-                <MultipleFileUploadField
-                  label={fieldLabel(key)}
-                  section={section}
-                  keyName={key}
-                  filesData={medicalAlert[section]?.[key]}
-                  onFileChange={handleFileChange}
-                  onRemoveFile={handleRemoveFile}
-                />
-              ) : (
-                <div className="relative">
-                  <input
-                    type={key === "age" ? "number" : "text"}
-                    placeholder={fieldLabel(key)}
-                    value={medicalAlert[section]?.[key] || ""}
-                    onChange={(e) => handleChange(section, key, e.target.value)}
-                    className={`w-full border p-2 rounded ${validationErrors[key] ? "border-red-500" : ""}`}
+        {Object.entries(sections).map(([section, keys]) => (
+          <div key={section} className="border p-4 rounded shadow-sm mb-6">
+            <h2 className="text-xl font-semibold mb-4 text-[#008080]">
+              {section.replace(/([A-Z])/g, " $1")}
+            </h2>
+
+            {keys.filter(k => medicalAlert[section]?.[k] !== undefined).map(key => (
+              <div key={key} className="mb-4">
+                {["medicalReports", "prescription", "insuranceImage"].includes(key) ? (
+                  <MultipleFileUploadField
+                    label={fieldLabel(key)}
+                    section={section}
+                    keyName={key}
+                    filesData={medicalAlert[section]?.[key]}
+                    onFileChange={handleFileChange}
+                    onRemoveFile={handleRemoveFile}
                   />
-                  {key === "location" && (
-                    <button
-                      type="button"
-                      onClick={fetchCurrentLocation}
-                      className="absolute right-2 top-2 text-gray-500 hover:text-[#008080]"
-                      title="Get current location"
-                    >
-                      <FiMapPin size={18} />
-                    </button>
-                  )}
-                  {validationErrors[key] && (
-                    <p className="text-red-500 text-sm mt-1">{fieldLabel(key)} is required</p>
-                  )}
-                </div>
-              )}
-            </div>
-          ))}
+                ) : (
+                  <div className="relative">
+                    <input
+                      type={key === "age" ? "number" : "text"}
+                      placeholder={fieldLabel(key)}
+                      value={medicalAlert[section]?.[key] || ""}
+                      onChange={(e) => handleChange(section, key, e.target.value)}
+                      className={`w-full border p-2 rounded ${validationErrors[key] ? "border-red-500" : ""}`}
+                    />
+                    {key === "location" && (
+                      <button
+                        type="button"
+                        onClick={fetchCurrentLocation}
+                        className="absolute right-2 top-2 text-gray-500 hover:text-[#008080]"
+                        title="Get current location"
+                      >
+                        <FiMapPin size={18} />
+                      </button>
+                    )}
+                    {validationErrors[key] && (
+                      <p className="text-red-500 text-sm mt-1">{fieldLabel(key)} is required or invalid</p>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        ))}
+
+        <div className="relative mb-4">
+          <label className="block mb-1 text-sm font-medium text-gray-700">Password</label>
+          <input
+            type={showPassword ? "text" : "password"}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full border p-2 pr-10 rounded"
+          />
+          <span
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-9 transform -translate-y-1/2 cursor-pointer text-gray-500 hover:text-[#008080]"
+          >
+            {showPassword ? <IoEyeOutline size={20} /> : <IoEyeOffOutline size={20} />}
+          </span>
         </div>
-      ))}
 
-      <div className="relative mb-4">
-        <label className="block mb-1 text-sm font-medium text-gray-700">Password (Optional)</label>
-        <input
-          type={showPassword ? "text" : "password"}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full border p-2 pr-10 rounded"
-        />
-        <span
-          onClick={() => setShowPassword(!showPassword)}
-          className="absolute right-3 top-9 transform -translate-y-1/2 cursor-pointer text-gray-500 hover:text-[#008080]"
-        >
-          {showPassword ? <IoEyeOutline size={20} /> : <IoEyeOffOutline size={20} />}
-        </span>
-      </div>
+        <NFCModal />
 
-      <NFCModal />
-      <div className="flex justify-center items-center">
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg">
-         Next → 
-      </button>
-      </div>
-      {showConfirmModal && (
-        <ConfirmModal
-          onCancel={() => setShowConfirmModal(false)}
-          onConfirm={handleFinalSubmit}
-        />
-      )}
-    </form>
+        <div className="flex justify-center items-center">
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg"
+          >
+            Next →
+          </button>
+        </div>
+
+        {showConfirmModal && (
+          <ConfirmModal
+            onCancel={() => setShowConfirmModal(false)}
+            onConfirm={handleFinalSubmit}
+          />
+        )}
+      </form>
     </>
-
   );
 };
 
 export default MedicalAlertContent;
+
 
 
 // "use client";

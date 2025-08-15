@@ -28,7 +28,7 @@ export async function POST(req) {
 
     const brandLogoFile = formData.get('brandLogo');
     const couponImageFile = formData.get('couponImage');
-
+    const bgDesign = formData.get("bgDesign");
     // Optional fields
     const items = JSON.parse(formData.get('items') || '[]');
     const location = JSON.parse(formData.get('location') || '{}');
@@ -87,6 +87,7 @@ export async function POST(req) {
       brandLogo: brandLogoUrl,
       couponImage: couponImageUrl,
       password: hashedPassword,
+      bgDesign,
       qrCodeDetails: {
         qrCodeImage,
         location: {
