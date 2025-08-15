@@ -8,14 +8,14 @@ const PetIdCardLayout = ({ backgroundImage, petIDFormData }) => {
 
   return (
     <div
-      className="w-full h-full flex items-center justify-center p-6 rounded-2xl "
+      className="w-full h-full p-6 rounded-2xl "
       style={{
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      <div className="flex justify-center items-center flex-col bg-white/70 p-6">
+      <div className="flex justify-center items-center flex-col bg-white/60 p-6">
         {/* Pet Image */}
         <div className="mb-4">
           {petIDFormData.mainImage ? (
@@ -24,7 +24,7 @@ const PetIdCardLayout = ({ backgroundImage, petIDFormData }) => {
               alt="Pet"
               width={120}
               height={120}
-              className="rounded-full object-center"
+              className="rounded-2xl object-center"
             />
           ) : (
             <img

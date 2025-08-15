@@ -25,6 +25,7 @@ const PetTagContent = () => {
   const [phoneError, setPhoneError] = useState("");
   const dispatch = useDispatch();
   const templateImages = ["pet1.webp", "pet2.webp", "pet3.webp", "pet4.webp"];
+const [emailError, setEmailError] = useState("");
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -34,9 +35,10 @@ const PetTagContent = () => {
     }));
   };
 
-   const handleOwnerChange = (e) => {
+const handleOwnerChange = (e) => {
   const { id, value } = e.target;
 
+  // Phone validation
   if (id === "phone") {
     const phoneRegex = /^[0-9]{10,15}$/;
     if (value && !phoneRegex.test(value)) {
@@ -46,14 +48,24 @@ const PetTagContent = () => {
     }
   }
 
-  // If the field is 'password', update it directly at root level
+  // Email validation
+  if (id === "email") {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (value && !emailRegex.test(value)) {
+      setEmailError("Please enter a valid email address");
+    } else {
+      setEmailError("");
+    }
+  }
+
+  // Password updates root level
   if (id === "password") {
     setPetIDFormData((prev) => ({
       ...prev,
       password: value,
     }));
   } else {
-    // Otherwise treat it as part of ownerInfo
+    // Everything else updates ownerInfo
     setPetIDFormData((prev) => ({
       ...prev,
       ownerInfo: {
@@ -63,6 +75,7 @@ const PetTagContent = () => {
     }));
   }
 };
+
 
   const handlePetChange = (e) => {
     const { id, value } = e.target;
@@ -205,7 +218,7 @@ const PetTagContent = () => {
 
       <form onSubmit={handlePreviewSubmit}>
         <div className="grid grid-cols-1 gap-10">
-          <div className="bg-white shadow-xl rounded-xl p-6 space-y-6">
+          <div className="bg-white shadow-md rounded-xl p-6 space-y-6">
             {/* Templates */}
             <div>
               <h2 className="text-xl font-semibold mb-4">
@@ -226,7 +239,7 @@ const PetTagContent = () => {
                       alt={`Template ${idx + 1}`}
                       width={300}
                       height={180}
-                      className="object-cover rounded w-full h-auto"
+                      className="object-center rounded w-full h-auto"
                     />
                   </div>
                 ))}
@@ -250,14 +263,14 @@ const PetTagContent = () => {
                     alt="Pet"
                     width={100}
                     height={100}
-                    className="rounded"
+                    className="rounded-xl w-24 h-24"
                   />
                   <button
                     onClick={clearImage}
                     type="button"
-                    className="absolute top-[-8px] right-[-8px] bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center hover:bg-red-600"
+                    className="absolute top-[-8px] right-[-8px] bg-white rounded-full w-5 h-5 text-xs flex items-center justify-center hover:bg-red-600"
                   >
-                    ✕
+                    ❌
                   </button>
                 </div>
               )}
@@ -287,14 +300,22 @@ const PetTagContent = () => {
                   <p className="mt-1 text-sm text-red-600">{phoneError}</p>
                 )}
               </div>
-              <input
-                type="email"
-                id="email"
-                value={petIDFormData.ownerInfo.email}
-                onChange={handleOwnerChange}
-                placeholder="Email Address"
-                className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
-              />
+             <div>
+  <input
+    type="email"
+    id="email"
+    value={petIDFormData.ownerInfo.email}
+    onChange={handleOwnerChange}
+    placeholder="Email Address"
+    className={`border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 ${
+      emailError ? "focus:ring-red-500 border-red-500" : "focus:ring-[#008080]"
+    }`}
+  />
+  {emailError && (
+    <p className="mt-1 text-sm text-red-600">{emailError}</p>
+  )}
+</div>
+
 
               <div className="space-y-2 col-span-1 md:col-span-2">
                 <textarea
@@ -376,25 +397,25 @@ const PetTagContent = () => {
 
       {/* Preview/Confirm Modal */}
       {showPreviewModal && (
-        <div className="fixed inset-0 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
+          <div className="bg-white relative rounded-xl shadow-xl p-6 w-full max-w-xl max-h-[90vh] border border-teal-200 mx-4 sm:mx-auto">
             <div className="p-6">
               <div className="mb-6 px-4 py-3 flex justify-between items-start gap-4">
                 {/* Heading and Subtext */}
                 <div className="flex flex-col">
                   <h2 className="text-2xl font-bold text-gray-800">Confirm Submission</h2>
                   <p className="text-sm text-gray-600 mt-1 max-w-md">
-                    Are you sure you want to submit this property listing? Please review all details before confirming.
+                    Are you sure you want to submit this Pet Id listing? Please review all details before confirming.
                   </p>
                 </div>
 
                 {/* Close Button */}
                 <button
                   onClick={() => setShowPreviewModal(false)}
-                  className="text-gray-500 hover:text-gray-700 transition-colors"
+                  className="text-gray-500 hover:text-gray-700 transition-colors cursor-pointer"
                   aria-label="Close modal"
                 >
-                  <X size={24} />
+                  ❌
                 </button>
               </div>
 
@@ -403,7 +424,7 @@ const PetTagContent = () => {
                 <button
                   type="button"
                   onClick={() => setShowPreviewModal(false)}
-                  className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition"
+                  className="px-6 py-2 border cursor-pointer border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition"
                 >
                   Back
                 </button>
@@ -411,7 +432,7 @@ const PetTagContent = () => {
                   type="button"
                   onClick={handleFinalSubmit}
                   disabled={submitting}
-                  className="px-6 py-2 bg-[#008080] text-white rounded-lg hover:bg-[#006666] disabled:opacity-70 disabled:cursor-not-allowed transition flex items-center justify-center"
+                  className="px-6 py-2 cursor-pointer bg-[#008080] text-white rounded-lg hover:bg-[#006666] disabled:opacity-70 disabled:cursor-not-allowed transition flex items-center justify-center"
                 >
                   {submitting ? (
                     <>
@@ -436,7 +457,7 @@ const PetTagContent = () => {
       {/* Success Modal */}
       {showSuccessModal && (
         <div className="fixed inset-0 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl shadow-2xl w-full max-w-md">
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-md">
             <div className="p-6 text-center">
               <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
                 <Check className="h-6 w-6 text-mainGreen" />

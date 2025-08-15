@@ -231,7 +231,10 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
         /** 🔹 Encrypted Flow - Everything here */
         const response = await encryptSubmitForm();
         const url = response?.qrUrl;
-        if (!url) throw new Error("QR Code generation failed");
+        if (!url) {
+        toast.error("QR Code generation failed");
+        return; // Stop execution here
+      }
 
         setUserMeta({
           userId: response?.userId,
@@ -257,6 +260,11 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
       } else {
         /** 🔹 Secured Flow - Only show modal first */
         const response = await submitForm(); // Minimal API call to get meta
+         const url = response?.qrUrl;
+        if (!url) {
+        toast.error("QR Code generation failed");
+        return; // Stop execution here
+      }
         setUserMeta({
           userId: response?.userId,
           userName: response?.userName,

@@ -89,7 +89,7 @@ const VehiclePreview = ({ data }) => {
             muted
             playsInline
             onLoadedData={() => setTimeout(() => setIsLoading(false), 300)}
-            className="absolute inset-0 w-full h-full object-cover z-0"
+            className="absolute inset-0 w-full h-full object-center z-0"
           />
         )}
         {isImage && (
@@ -97,7 +97,7 @@ const VehiclePreview = ({ data }) => {
             src={bgDesign}
             alt="Background Design"
             onLoad={() => setTimeout(() => setIsLoading(false), 300)}
-            className="absolute inset-0 w-full h-full object-cover z-0"
+            className="absolute inset-0 w-full h-full object-center z-0"
           />
         )}
         {useTemplateBg && (
@@ -142,7 +142,7 @@ const VehiclePreview = ({ data }) => {
                     <img
                       src={resolveImageUrl(media.vehicleImage)}
                       alt="Main Vehicle"
-                      className="w-full h-full object-cover rounded-full"
+                      className="w-full h-full object-center rounded-full"
                     />
                   </div>
                 </div>
@@ -243,31 +243,31 @@ const VehiclePreview = ({ data }) => {
                   {resolveImageUrl(media.licenseFront) && (
                     <div>
                       <p className="font-medium text-xs mb-1">License Front:</p>
-                      <img src={resolveImageUrl(media.licenseFront)} alt="License Front" className="w-full object-cover rounded border" />
+                      <img src={resolveImageUrl(media.licenseFront)} alt="License Front" className="w-full object-center rounded border" />
                     </div>
                   )}
                   {resolveImageUrl(media.licenseBack) && (
                     <div>
                       <p className="font-medium text-xs mb-1">License Back:</p>
-                      <img src={resolveImageUrl(media.licenseBack)} alt="License Back" className="w-full object-cover rounded border" />
+                      <img src={resolveImageUrl(media.licenseBack)} alt="License Back" className="w-full object-center rounded border" />
                     </div>
                   )}
                   {resolveImageUrl(media.rcFront) && (
                     <div>
                       <p className="font-medium text-xs mb-1">RC Front:</p>
-                      <img src={resolveImageUrl(media.rcFront)} alt="RC Front" className="w-full object-cover rounded border" />
+                      <img src={resolveImageUrl(media.rcFront)} alt="RC Front" className="w-full object-center rounded border" />
                     </div>
                   )}
                   {resolveImageUrl(media.rcBack) && (
                     <div>
                       <p className="font-medium text-xs mb-1">RC Back:</p>
-                      <img src={resolveImageUrl(media.rcBack)} alt="RC Back" className="w-full object-cover rounded border" />
+                      <img src={resolveImageUrl(media.rcBack)} alt="RC Back" className="w-full object-center rounded border" />
                     </div>
                   )}
                   {resolveImageUrl(media.pollution) && (
                     <div>
                       <p className="font-medium text-xs mb-1">Pollution:</p>
-                      <img src={resolveImageUrl(media.pollution)} alt="Pollution" className="w-full object-cover rounded border" />
+                      <img src={resolveImageUrl(media.pollution)} alt="Pollution" className="w-full object-center rounded border" />
                     </div>
                   )}
                   {media.galleryImages?.map((img, idx) => {
@@ -275,7 +275,7 @@ const VehiclePreview = ({ data }) => {
                     return src ? (
                       <div key={idx}>
                         <p className="font-medium text-xs mb-1">Gallery {idx + 1}:</p>
-                        <img src={src} alt={`Gallery ${idx + 1}`} className="w-full object-cover rounded border" />
+                        <img src={src} alt={`Gallery ${idx + 1}`} className="w-full object-center rounded border" />
                       </div>
                     ) : null;
                   })}
@@ -284,7 +284,7 @@ const VehiclePreview = ({ data }) => {
                     return src ? (
                       <div key={idx}>
                         <p className="font-medium text-xs mb-1">Insurance {idx + 1}:</p>
-                        <img src={src} alt={`Insurance ${idx + 1}`} className="w-full object-cover rounded border" />
+                        <img src={src} alt={`Insurance ${idx + 1}`} className="w-full object-center rounded border" />
                       </div>
                     ) : null;
                   })}

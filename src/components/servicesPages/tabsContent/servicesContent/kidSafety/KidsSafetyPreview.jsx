@@ -141,7 +141,7 @@ const KidsSafetyPreview = () => {
                     <img
                       src={URL.createObjectURL(kidsImage)}
                       alt="Child"
-                      className="w-28 h-28 object-cover rounded-full shadow-md border-2 border-[#008080]"
+                      className="w-28 h-28 object-center rounded-xl shadow-md border-2 border-[#008080]"
                     />
                   </div>
                 )}

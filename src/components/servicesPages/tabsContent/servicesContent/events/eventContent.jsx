@@ -382,8 +382,8 @@ const EventContent = () => {
         </div>
 
         {showConfirmModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
-            <div className="bg-white rounded-xl shadow-xl p-6 max-w-sm w-full border border-teal-200 relative">
+                  <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
+          <div className="bg-white relative rounded-xl shadow-xl p-6 w-full max-w-xl max-h-[90vh] border border-teal-200 mx-4 sm:mx-auto">
               <h2 className="text-lg font-semibold text-gray-800">Confirm Submission</h2>
               <div className="text-sm text-gray-700 space-y-2">
                 {eventsFormData.organizer && (

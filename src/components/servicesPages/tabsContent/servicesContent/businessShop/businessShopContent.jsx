@@ -590,8 +590,8 @@ const BusinessShopContent = () => {
 
       {/* Custom Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-white-70 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+               <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
+          <div className="bg-white relative rounded-xl shadow-xl p-6 w-full max-w-xl max-h-[90vh] border border-teal-200 mx-4 sm:mx-auto">
             <h3 className="text-xl font-semibold text-gray-800 mb-4">
               Confirm Submission
             </h3>

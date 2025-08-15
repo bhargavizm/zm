@@ -161,7 +161,7 @@ const ProductPreview = ({ data }) => {
       {/* Background Video or Image */}
       {isVideo(bgDesign) ? (
         <video
-          className="absolute inset-0 w-full h-full object-cover z-0"
+          className="absolute inset-0 w-full h-full object-center z-0"
           src={bgDesign}
           autoPlay
           loop

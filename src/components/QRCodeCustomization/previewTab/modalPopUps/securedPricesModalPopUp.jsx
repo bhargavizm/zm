@@ -100,7 +100,7 @@ const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {}, onConfirm }) =>
         toast.error(result.message || "Failed to update plan.");
       } else {
         toast.success(`${plan.title} plan updated successfully!`);
-
+          onClose();
         // ✅ Trigger final download logic from DownloadButton
         if (onConfirm) onConfirm();
       }

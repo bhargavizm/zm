@@ -81,7 +81,7 @@ const URLServices = ({ setIsModalOpen }) => {
             <span className="font-bold text-white text-base sm:text-lg">
               Enter an URL
             </span>
-            <svg
+            {/* <svg
               className={`w-5 h-5 text-white transform transition-transform duration-300 ${
                 basicInfoOpen ? "rotate-180" : ""
               }`}
@@ -95,7 +95,7 @@ const URLServices = ({ setIsModalOpen }) => {
                 strokeWidth={2}
                 d="M19 9l-7 7-7-7"
               />
-            </svg>
+            </svg> */}
           </button>
 
           {basicInfoOpen && (
@@ -120,55 +120,31 @@ const URLServices = ({ setIsModalOpen }) => {
         </div>
 
         {/* Password Accordion */}
-        <div className="max-w-full sm:max-w-xl mx-auto my-9">
-          <button
-            type="button"
-            onClick={() => setPasswordOpen(!passwordOpen)}
-            className="w-full px-4 py-3 text-left bg-[#35aeae] flex justify-between items-center cursor-pointer rounded-md"
-          >
-            <span className="font-bold text-white text-base sm:text-lg">
-              Password
-            </span>
-            <svg
-              className={`w-5 h-5 text-white transform transition-transform duration-300 ${
-                passwordOpen ? "rotate-180" : ""
-              }`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          </button>
+      {/* Password Section - Always Open */}
+<div className="max-w-full sm:max-w-xl mx-auto my-9">
+  <div className="w-full px-4 py-3 text-left bg-[#35aeae] flex justify-between items-center rounded-md">
+    <span className="font-bold text-white text-base sm:text-lg">
+      Password
+    </span>
+  </div>
 
-          {passwordOpen && (
-            <div className="px-4 py-4 bg-white text-gray-700 border border-gray-200 rounded-b-md relative">
-              <input
-                name="password"
-                type={showPassword ? "text" : "password"}
-                className="w-full border border-gray-300 rounded-md px-4 py-2 pr-10"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
-              />
-              <div
-                className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-500 cursor-pointer px-6"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? (
-                  <AiFillEye size={20} />
-                ) : (
-                  <AiFillEyeInvisible size={20} />
-                )}
-              </div>
-            </div>
-          )}
-        </div>
+  <div className="px-4 py-4 bg-white text-gray-700 border border-gray-200 rounded-b-md relative">
+    <input
+      name="password"
+      type={showPassword ? "text" : "password"}
+      className="w-full border border-gray-300 rounded-md px-4 py-2 pr-10"
+      placeholder="Password"
+      value={formData.password}
+      onChange={handleChange}
+    />
+    <div
+      className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-500 cursor-pointer px-6"
+      onClick={() => setShowPassword(!showPassword)}
+    >
+      {showPassword ? <AiFillEye size={20} /> : <AiFillEyeInvisible size={20} />}
+    </div>
+  </div>
+</div>
 
         {/* <NFCModal /> */}
 

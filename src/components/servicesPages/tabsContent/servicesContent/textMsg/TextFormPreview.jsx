@@ -22,7 +22,7 @@
 //         <img
 //           src={bgDesign}
 //           alt="Background"
-//           className="absolute top-0 left-0 w-full h-full object-cover z-0"
+//           className="absolute top-0 left-0 w-full h-full object-center z-0"
 //         />
 //       ) : isVideo ? (
 //         <video
@@ -31,13 +31,13 @@
 //           loop
 //           muted
 //           playsInline
-//           className="absolute top-0 left-0 w-full h-full object-cover z-0"
+//           className="absolute top-0 left-0 w-full h-full object-center z-0"
 //         />
 //       ) : (
 //         <img
 //           src='/services-service/text-message.jpg'
 //           alt="Background"
-//           className="absolute top-0 left-0 w-full h-full object-cover z-0"
+//           className="absolute top-0 left-0 w-full h-full object-center z-0"
 //         />
 //       )}
 
@@ -119,7 +119,7 @@ const TextMessagePreview = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="relative w-[350px] h-[650px] border-[14px] border-gray-800 rounded-[40px] shadow-xl overflow-hidden flex flex-col">
+      <div className="relative w-[350px] h-[650px] border-[14px] border-gray-800 rounded-[40px] shadow-xl  flex flex-col">
         {/* 🔳 Background Layer */}
         {isImage ? (
           <img
@@ -164,7 +164,7 @@ const TextMessagePreview = () => {
         <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-6 bg-gray-800 rounded-b-xl z-20" />
 
         {/* 🧾 Main Content Area */}
-        <div className="relative flex-1 bg-white/70 m-2 rounded-xl overflow-y-auto pt-6 pb-3 px-3 z-20 max-h-full">
+        <div className="relative flex-1 bg-white/70 m-2 rounded-xl overflow-y-auto scrollbar-hide pt-6 pb-3 px-3 z-20 ">
           {hasData ? (
             <div className="space-y-4">
               <h2 className="text-xl font-bold text-center text-[#008080]">
@@ -204,11 +204,6 @@ const TextMessagePreview = () => {
           )}
         </div>
 
-        {/* 📎 Footer */}
-        <div className="relative z-20 border-t border-gray-200 text-center text-xs text-gray-500 py-2 bg-white/80 backdrop-blur">
-          <p>Scan to read message</p>
-          <p className="mt-1">v1.0.0</p>
-        </div>
       </div>
     </div>
   );

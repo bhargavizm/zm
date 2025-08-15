@@ -39,7 +39,7 @@ const MultipleFileUploadField = ({ label, section, keyName, filesData, onFileCha
                 <img
                   src={typeof file === "string" ? file : URL.createObjectURL(file)}
                   alt={`File ${index}`}
-                  className="h-20 w-20 object-cover rounded-lg"
+                  className="h-20 w-20 object-center rounded-lg"
                 />
               ) : (
                 <div className="h-20 w-20 flex items-center justify-center text-xs text-center bg-gray-100 rounded-lg px-1">
@@ -63,8 +63,8 @@ const MultipleFileUploadField = ({ label, section, keyName, filesData, onFileCha
 
 // Confirm Modal
 const ConfirmModal = ({ onCancel, onConfirm }) => (
-  <div className="fixed inset-0 flex items-center justify-center bg-black/10 backdrop-blur-sm z-50">
-    <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
+          <div className="bg-white relative rounded-xl shadow-xl p-6 w-full max-w-xl max-h-[90vh] border border-teal-200 mx-4 sm:mx-auto">
       <h2 className="text-lg font-semibold mb-4 text-center text-gray-800">
         Confirm Submission
       </h2>

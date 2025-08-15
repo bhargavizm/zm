@@ -1,126 +1,82 @@
 import React from "react";
 import Image from "next/image";
 
-const BusinessCardTemplateFour = ({ businessForm, profileImage, brandLogo }) => {
-    const {
-        name,
-        heading,
-        subheading,
-        mobile,
-        businessName,
-        designation,
-        email,
-        address,
-        mapLink,
-        socialLink,
-        socialLink2,
-    } = businessForm;
+const BusinessCardTemplateFour = ({ businessForm }) => {
+  const {
+    name,
+    subheading,
+    mobile,
+    designation,
+    email,
+    address,
+    mapLink,
+    socialLink,
+    socialLink2,
+  } = businessForm;
 
-    return (
-        <div
-            className="w-full mx-auto rounded-xl bg-[#f9f7f3]/70 shadow-lg overflow-y-auto scrollbar-hide text-center relative"
-            style={{
-                fontFamily: "Dancing Script, cursive, Arial, sans-serif",
-            }}
-        >
-            {/* Profile Image */}
-            <div className="flex justify-center mt-18">
-                <div className="w-30 h-30 rounded-full overflow-hidden border-4 border-white shadow">
-                    <Image
-                        src={businessForm.previewImageUrl || "/default-user.webp"}
-                        alt={""}
-                        width={80}
-                        height={80}
-                        className="object-cover w-full h-full"
-                    />
-                </div>
-               
+  const buttonClass =
+    "py-3 px-4 rounded border border-gray-400 text-gray-900 font-semibold bg-white hover:bg-gray-100 transition break-words text-center";
 
-            </div>
-
-            {/* Name and Titles */}
-            <h2 className="text-2xl italic font-bold mt-3 text-gray-800">
-                {name || "Margaret Lopes"}
-            </h2>
-            {/* <p
-                className="text-md uppercase tracking-wider text-gray-500"
-                style={{ fontFamily: "Montserrat, Arial, sans-serif" }}
-            >
-                {heading || "Content Marketer"}
-            </p> */}
-            {subheading && (
-                <p className="text-sm text-gray-400 mb-6" style={{ fontFamily: "Montserrat, sans-serif" }}>
-                    {subheading}
-                </p>
-            )}
-
-            {/* Action Buttons */}
-            <div className="flex flex-col gap-3 px-8 pb-2">
-                {/* <a
-                    href={businessName || "#"}
-                    className="py-3 rounded border border-gray-400 text-gray-900 font-semibold bg-white hover:bg-gray-100 transition"
-                >
-                    {businessName || "BUSINESS NAME"}
-                </a> */}
-                <a
-                    href={designation || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="py-3 rounded border border-gray-400 text-gray-900 font-semibold bg-white hover:bg-gray-100 transition"
-                >
-                    {designation || "DESIGNATION"}
-                </a>
-                <a
-                    href={`tel:${mobile}` || "#"}
-                    className="py-3 rounded border border-gray-400 text-gray-900 font-semibold bg-white hover:bg-gray-100 transition"
-                >
-                    {mobile || "MOBILE"}
-                </a>
-                <a
-                    href={`mailto:${email}` || "#"}
-                    className="py-3 rounded border border-gray-400 text-gray-900 font-semibold bg-white hover:bg-gray-100 transition"
-                >
-                    {email || "EMAIL"}
-                </a>
-                <a
-                    href={mapLink || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="py-3 rounded border border-gray-400 text-gray-900 font-semibold bg-white hover:bg-gray-100 transition"
-                >
-                    {mapLink || "MAP LINK"}
-                </a>
-                <a
-                    href={socialLink || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="py-3 rounded border border-gray-400 text-gray-900 font-semibold bg-white hover:bg-gray-100 transition"
-                >
-                    {socialLink || "SOCIAL LINK"}
-                </a>
-                <a
-                    href={socialLink2 || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="py-3 rounded border border-gray-400 text-gray-900 font-semibold bg-white hover:bg-gray-100 transition"
-                >
-                    {socialLink2 || "SOCIAL LINK2"}
-                 </a>
-                <a
-                    href={address || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full py-2 rounded font-semibold bg-white text-black text-center shadow hover:bg-gray-100 transition"
-                >
-                    {address || "Address"}
-                </a>
-            </div>
-
-            {/* Footer Email */}
-        
+  return (
+    <div
+      className="w-full mx-auto rounded-xl bg-[#f9f7f3]/70 shadow-lg overflow-y-auto scrollbar-hide text-center relative"
+      style={{
+        fontFamily: "Dancing Script, cursive, Arial, sans-serif",
+      }}
+    >
+      {/* Profile Image */}
+      <div className="flex justify-center mt-18">
+        <div className="w-[120px] h-[120px] rounded-xl overflow-hidden border-4 border-white shadow">
+          <Image
+            src={businessForm.previewImageUrl || "/default-user.webp"}
+            alt=""
+            width={120}
+            height={120}
+            className="object-center w-full h-full"
+          />
         </div>
-    );
+      </div>
+
+      {/* Name */}
+      <h2 className="text-2xl italic font-bold mt-3 px-6 text-gray-800">
+        {name || "Margaret Lopes"}
+      </h2>
+
+      {subheading && (
+        <p
+          className="text-sm text-gray-400 mb-6"
+          style={{ fontFamily: "Montserrat, sans-serif" }}
+        >
+          {subheading}
+        </p>
+      )}
+
+      {/* Action Buttons */}
+      <div className="flex flex-col gap-3 px-6 pb-2">
+        <a href={designation || "#"} target="_blank" rel="noopener noreferrer" className={buttonClass}>
+          {designation || "DESIGNATION"}
+        </a>
+        <a href={`tel:${mobile}` || "#"} className={buttonClass}>
+          {mobile || "MOBILE"}
+        </a>
+        <a href={`mailto:${email}` || "#"} className={buttonClass}>
+          {email || "EMAIL"}
+        </a>
+        <a href={mapLink || "#"} target="_blank" rel="noopener noreferrer" className={buttonClass}>
+          {mapLink || "MAP LINK"}
+        </a>
+        <a href={socialLink || "#"} target="_blank" rel="noopener noreferrer" className={buttonClass}>
+          {socialLink || "SOCIAL LINK"}
+        </a>
+        <a href={socialLink2 || "#"} target="_blank" rel="noopener noreferrer" className={buttonClass}>
+          {socialLink2 || "SOCIAL LINK2"}
+        </a>
+        <a href={address || "#"} target="_blank" rel="noopener noreferrer" className={buttonClass}>
+          {address || "ADDRESS"}
+        </a>
+      </div>
+    </div>
+  );
 };
 
 export default BusinessCardTemplateFour;
-
