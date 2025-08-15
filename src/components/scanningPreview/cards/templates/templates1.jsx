@@ -6,7 +6,7 @@ const TemplateOne = ({ businessForm }) => (
   <CardsTemplate
     businessForm={businessForm}
     styles={{
-      containerBg: "bg-black/70 text-white",
+      containerBg: "bg-black/50 text-white",
       fontFamily: "Montserrat, sans-serif",
       nameColor: "text-yellow-500",
       subheadingColor: "text-gray-400",

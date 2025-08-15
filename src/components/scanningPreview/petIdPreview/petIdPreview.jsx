@@ -54,7 +54,7 @@ const PetIdPreview = ({ data }) => {
     <div className="px-4 h-screen">
       <BgDesignRenderer bgDesign={bgDesign} defaultBg={defaultBg} />
       <div className="relative z-20 flex justify-center py-6">
-        <div className="w-full  rounded-xl">
+        <div className="w-full  rounded-xl opacity-80">
           {data ? (
             renderTemplate()
           ) : (

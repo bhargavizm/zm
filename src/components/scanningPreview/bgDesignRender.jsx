@@ -5,12 +5,13 @@ const BgDesignRenderer = ({ bgDesign, defaultBg }) => {
   const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
   const isImage = bgDesign && !isVideo;
 
-  const commonProps = {
-    className: "absolute top-0 left-0 w-full h-full object-cover z-0",
-  };
+ const commonProps = {
+  className: "fixed top-0 left-0 w-full h-full object-cover z-0", // fixed instead of absolute
+};
+
 
   if (isImage) {
-    return <img src={bgDesign} alt="Background" {...commonProps} />;
+    return <img src={bgDesign} alt="Background"  {...commonProps} />;
   }
 
   if (isVideo) {

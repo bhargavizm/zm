@@ -25,6 +25,7 @@ import propertySchema from "@/models/services/propertySchema";
 import WifiModel from "@/models/services/wifiSchema";
 import SmsModal from "@/models/services/smsSchema";
 import BusinessShopModal from "@/models/services/businessShopSchema";
+import serviceModelMap, { urlBasedServices } from "../common/allServiceModels";
 
 export async function GET(request) {
   try {
@@ -36,44 +37,29 @@ export async function GET(request) {
     // Fetch user profile (omit sensitive fields like password)
     const userProfile = await User.findById(user._id).select("-password -__v");
 
-    // Define services to query
-    const serviceMap = {
-      "pdf": PDFServiceModel,
-      "audios": AudioServiceModel,
-      "videos": VideoServiceModel,
-      "gallery": GalleryServiceModel,
-      urlServices: URLServiceModel,
-      "menu-cards": MenuCardsServiceModel,
-      "business-cards": BusinessCardsModel,
-      "v-cards": VCardsModel,
-      "business-shops": BusinessShopModal,
-      "product-cards": ProductsModel,
-      "Pet-ID-tags": PetTagModal,
-      "multi-urls": MultiUrlModal,
-      "resumes": ResumeModel,
-      "medical-alerts": MedicalAlertModel,
-      "text-messages": TextMessageModal,
-      "discounts": DiscountModal,
-      "events": EventModel,
-      "kids-safety-qr-tags": KidsSafetyModal,
-      "vehicles": VehicleModel,
-      "property-qr": propertySchema,
-      "wifi": WifiModel,
-      "sms": SmsModal,
-    };
+
 
     const servicesData = {};
 
     // Fetch data and counts for each service
-    for (const [key, model] of Object.entries(serviceMap)) {
-      const data = await model
-        .find({ "user.id": user._id })
-        .sort({ createdAt: -1 });
-      servicesData[key] = {
-        count: data.length,
-        data,
-      };
-    }
+for (const [key, model] of Object.entries(serviceModelMap)) {
+  let filter = { "user.id": user._id };
+
+  // Special filter for URL-based services
+  if (urlBasedServices.includes(key)) {
+    filter = {
+      ...filter,
+      serviceName: key, // make sure your schema actually has serviceName
+    };
+  }
+
+  const data = await model.find(filter).sort({ createdAt: -1 });
+  servicesData[key] = {
+    count: data.length,
+    data,
+  };
+}
+
 
     const servicesArray = Object.entries(servicesData).map(
       ([serviceName, { count, data }]) => ({

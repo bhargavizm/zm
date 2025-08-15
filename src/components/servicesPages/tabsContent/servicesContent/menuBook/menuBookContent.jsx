@@ -76,49 +76,92 @@ const MenuBookContent = () => {
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
-  const handleInitialSubmit = (e) => {
-    e.preventDefault();
+  const handlePhoneChange = (e) => {
+  const value = e.target.value;
+  setMenuBookFormData((prev) => ({ ...prev, phone: value }));
 
-    const { phone, email, link } = menuBookFormData;
+  if (value && !validatePhone(value)) {
+    setValidationErrors((prev) => ({
+      ...prev,
+      phone: "Phone must be 10 to 15 digits",
+    }));
+  } else {
+    setValidationErrors((prev) => ({ ...prev, phone: "" }));
+  }
+};
 
-    const newErrors = {
-      phone:
-        phone && !validatePhone(phone) ? "Phone must be 10 to 15 digits" : "",
-      email: email && !validateEmail(email) ? "Invalid email format" : "",
-      link: "", // handled via native validation
-    };
+const handleEmailChange = (e) => {
+  const value = e.target.value;
+  setMenuBookFormData((prev) => ({ ...prev, email: value }));
 
-    setValidationErrors(newErrors);
-    const hasErrors = Object.values(newErrors).some((err) => err !== "");
+  if (value && !validateEmail(value)) {
+    setValidationErrors((prev) => ({
+      ...prev,
+      email: "Invalid email format",
+    }));
+  } else {
+    setValidationErrors((prev) => ({ ...prev, email: "" }));
+  }
+};
 
-    const allEmpty =
-      !menuBookFormData.restaurantName &&
-      !phone &&
-      !email &&
-      !link &&
-      !menuBookFormData.password &&
-      (!menuBookFormData.menuItems || menuBookFormData.menuItems.length === 0);
+const handleLinkChange = (e) => {
+  const value = e.target.value;
+  setMenuBookFormData((prev) => ({ ...prev, link: value }));
 
-    if (allEmpty) {
-      toast.error("Please fill in at least one field before submitting.");
-      return;
-    }
+  if (
+    value &&
+    linkInputRef.current &&
+    !linkInputRef.current.checkValidity()
+  ) {
+    setValidationErrors((prev) => ({
+      ...prev,
+      link: "Invalid URL format",
+    }));
+  } else {
+    setValidationErrors((prev) => ({ ...prev, link: "" }));
+  }
+};
 
-    if (hasErrors) {
-      Object.entries(newErrors).forEach(([key, error]) => {
-        if (error) toast.error(error);
-      });
-      return;
-    }
 
-    // ✅ Native browser validation for URL field
-    if (link && linkInputRef.current && !linkInputRef.current.checkValidity()) {
-      linkInputRef.current.reportValidity();
-      return;
-    }
+const handleInitialSubmit = (e) => {
+  e.preventDefault();
 
-    setShowConfirmModal(true);
-  };
+  const { phone, email, link } = menuBookFormData;
+
+  // 🔹 Check if there are any errors already present
+  const hasLiveErrors = Object.values(validationErrors).some(
+    (error) => error && error.trim() !== ""
+  );
+
+  if (hasLiveErrors) {
+    toast.error("Please fix the highlighted errors before continuing.");
+    return; // ❌ Stop, don't open modal
+  }
+
+  // 🔹 Check if form is completely empty
+  const allEmpty =
+    !menuBookFormData.restaurantName &&
+    !phone &&
+    !email &&
+    !link &&
+    !menuBookFormData.password &&
+    (!menuBookFormData.menuItems || menuBookFormData.menuItems.length === 0);
+
+  if (allEmpty) {
+    toast.error("Please fill in at least one field before submitting.");
+    return;
+  }
+
+  // 🔹 Native browser validation for URL
+  if (link && linkInputRef.current && !linkInputRef.current.checkValidity()) {
+    linkInputRef.current.reportValidity();
+    return;
+  }
+
+  // ✅ No errors → Open confirmation modal
+  setShowConfirmModal(true);
+};
+
 
   //  useSubmitForm(activeService, menuBookFormData, bgDesign);
 
@@ -190,52 +233,42 @@ const MenuBookContent = () => {
 
           <label className="font-medium">Phone Number:</label>
           <input
-            type="tel"
-            placeholder="Phone"
-            value={menuBookFormData.phone}
-            onChange={(e) => {
-              setMenuBookFormData({
-                ...menuBookFormData,
-                phone: e.target.value,
-              });
-              setValidationErrors((prev) => ({ ...prev, phone: "" }));
-            }}
-            className="w-full border px-4 py-2 rounded"
-          />
+  type="tel"
+  placeholder="Phone"
+  value={menuBookFormData.phone}
+  onChange={handlePhoneChange}
+  className="w-full border px-4 py-2 rounded"
+/>
+{validationErrors.phone && (
+  <p className="text-red-500 text-sm">{validationErrors.phone}</p>
+)}
 
           <label className="font-medium">Email:</label>
           <input
-            type="email"
-            placeholder="Email"
-            value={menuBookFormData.email}
-            onChange={(e) => {
-              setMenuBookFormData({
-                ...menuBookFormData,
-                email: e.target.value,
-              });
-              setValidationErrors((prev) => ({ ...prev, email: "" }));
-            }}
-            className="w-full border px-4 py-2 rounded"
-          />
+  type="email"
+  placeholder="Email"
+  value={menuBookFormData.email}
+  onChange={handleEmailChange}
+  className="w-full border px-4 py-2 rounded"
+/>
+{validationErrors.email && (
+  <p className="text-red-500 text-sm">{validationErrors.email}</p>
+)}
 
           {/* ✅ Updated Link field with ref and required */}
           <label className="font-medium">URL:</label>
-          <input
-            type="url"
-            name="link"
-            ref={linkInputRef}
-            placeholder="Link (https://...)"
-            required={!!menuBookFormData.link}
-            value={menuBookFormData.link}
-            onChange={(e) => {
-              setMenuBookFormData({
-                ...menuBookFormData,
-                link: e.target.value,
-              });
-              setValidationErrors((prev) => ({ ...prev, link: "" }));
-            }}
-            className="w-full border px-4 py-2 rounded"
-          />
+         <input
+  type="url"
+  name="link"
+  ref={linkInputRef}
+  placeholder="Link (https://...)"
+  value={menuBookFormData.link}
+  onChange={handleLinkChange}
+  className="w-full border px-4 py-2 rounded"
+/>
+{validationErrors.link && (
+  <p className="text-red-500 text-sm">{validationErrors.link}</p>
+)}
 
           {/* Upload input and previews... (no change) */}
           <label className="font-medium">Upload Menu Images:</label>

@@ -96,18 +96,21 @@ export async function POST(req) {
         address,
       },
       qrCodeDetails: {
-        qrCodeImage,
-        scanCount: 0,
-        location: {
-          latitude: null,
-          longitude: null,
-          address: "",
-        },
-        renewalDate: null,
-        status: "active",
-        resetPasswordToken: null,
-        resetPasswordExpires: null,
-      },  
+    qrCodeImage,
+    scanCount: 0,
+    lastScanAt: null,
+    scanHistory: [
+      
+    ],
+    lastScanLocation: {
+      city: "",
+      region: "",
+      country: "",
+      lat: null,
+      lon: null,
+    },
+    qrCodeStatus: "inactive",
+  },
     });
 
      const qrUrl = await getShortenedUrl(`/business-shops/${newShop._id}`);

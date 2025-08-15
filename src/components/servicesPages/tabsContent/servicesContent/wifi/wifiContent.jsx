@@ -180,8 +180,8 @@ const WifiContent = () => {
 
         {/* Modal */}
         {modalVisible && (
-          <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm bg-white/10">
-            <div className="bg-white p-6 rounded-xl shadow-2xl max-w-sm w-full text-center">
+                  <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
+          <div className="bg-white relative rounded-xl shadow-xl p-6 w-full max-w-xl max-h-[90vh] border border-teal-200 mx-4 sm:mx-auto">
               {submissionStep === "confirm" ? (
                 <>
                   <h2 className="text-xl font-semibold mb-4 text-gray-800">

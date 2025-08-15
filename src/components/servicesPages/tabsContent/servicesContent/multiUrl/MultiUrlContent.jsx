@@ -373,7 +373,7 @@ const handleSubmit = () => {
                 className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 text-gray-800"
                 onClick={() => setShowPreviewModal(false)}
               >
-                Edit
+                Back
               </button>
               <button
                 className="px-4 py-2 rounded bg-[#008080] hover:bg-[#006666] text-white"

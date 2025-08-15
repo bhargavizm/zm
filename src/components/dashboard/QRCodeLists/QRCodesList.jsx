@@ -122,7 +122,7 @@ const QRCodesList = () => {
                     <th className="px-4 py-3 text-left">Renewal Date</th>
                     <th className="px-4 py-3 text-left">QR Code</th>
                     <th className="px-4 py-3 text-left">Total Scans</th>
-                    <th className="px-4 py-3 text-left">Location</th>
+                    {/* <th className="px-4 py-3 text-left">Location</th> */}
                     <th className="px-4 py-3 text-left">Actions</th>
                   </tr>
                 </thead>
@@ -177,13 +177,21 @@ const QRCodesList = () => {
 
                         {/* Total Scans */}
                         <td className="px-4 py-3 text-center text-sm">
-                          {/* {entry.qrCodeDetails?.scanCount ?? 0} */}
+                           {entry.scanCount ?? 0}
                         </td>
 
                         {/* Location */}
-                        <td className="px-4 py-3 text-sm">
-                          {/* {entry.qrCodeDetails?.location?.address || "-"} */}
-                        </td>
+                        {/* <td className="px-4 py-3 text-sm">
+                          {entry.qrCodeDetails?.lastScanLocation
+                            ? [
+                                entry.qrCodeDetails.lastScanLocation.city,
+                                entry.qrCodeDetails.lastScanLocation.region,
+                                entry.qrCodeDetails.lastScanLocation.country,
+                              ]
+                                .filter(Boolean) // remove empty values
+                                .join(", ") || "-"
+                            : "-"}
+                        </td> */}
 
                         {/* Actions */}
                         <td className="px-4 py-3 text-sm">

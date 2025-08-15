@@ -410,7 +410,7 @@ console.log('updatedFormData',updatedFormData)
                             <img
                               src={previewUrl}
                               alt={f.name}
-                              className="h-full w-full object-cover"
+                              className="h-full w-full object-center"
                             />
                           ) : (
                             <video
@@ -459,8 +459,8 @@ console.log('updatedFormData',updatedFormData)
 
       {/* Upgrade Modal */}
       {showUpgradeModal && upgradeInfo && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-          <div className="bg-white relative rounded-xl p-6 w-full max-w-md shadow-xl border border-teal-200 animate-fade-in">
+                 <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
+          <div className="bg-white relative rounded-xl shadow-xl p-6 w-full max-w-xl max-h-[90vh] border border-teal-200 mx-4 sm:mx-auto">
             <h2
               className={`text-xl font-bold text-center flex items-center justify-center gap-2 ${
                 upgradeInfo.fileSize > 5 * 1024 ** 3

@@ -189,7 +189,7 @@ const MedicalAlertPreview = ({ data }) => {
   return (
     <div className="w-full px-6">
       <BgDesignRenderer bgDesign={bgDesign} defaultBg={defaultBg} />
-      <div className="relative flex-1 w-full bg-white/70 m-2 rounded-xl p-6 overflow-y-auto max-h-[600px]">
+      <div className="relative flex-1 w-full bg-white/70 m-2 rounded-xl p-6">
         <h2 className="text-xl font-bold text-center text-[#004d4d] mb-6">
           Medical Alert Preview
         </h2>
