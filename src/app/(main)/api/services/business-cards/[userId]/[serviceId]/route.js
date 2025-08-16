@@ -9,7 +9,7 @@ import { BusinessCardsModel } from "@/models/services/cardsSchema";
 
 export async function PATCH(req, context) {
   try {
-    const params = context.params;
+    const params = await context.params;
     const { serviceId, userId } = params;
 
 

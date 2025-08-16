@@ -44,12 +44,14 @@ const MenuBookPreview = ({ data = {} }) => {
   }, [data]);
 
   const sliderSettings = {
-    dots: true,
+    dots: false,
     infinite: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: true,
+    autoplay: true,
+    autoplaySpeed: 3000,
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
   };
@@ -70,14 +72,14 @@ const MenuBookPreview = ({ data = {} }) => {
           )}
 
           {isMounted && images.length > 0 && (
-            <div className="relative min-h-[220px]">
+            <div className="relative ">
               <Slider {...sliderSettings}>
                 {images.map((img, idx) => (
                   <div key={idx} className="px-4">
                     <img
                       src={img.url}
                       alt={img.name || `Image ${idx + 1}`}
-                      className="w-full h-52 object-center rounded-md border border-gray-300 shadow"
+                      className="rounded-lg object-center w-full h-[300px] mx-auto"
                     />
                   </div>
                 ))}

@@ -104,7 +104,7 @@ useEffect(() => {
             alt="Background"
             onLoad={() => setTimeout(() => setIsLoading(false), 300)}
             onError={() => setIsLoading(false)}
-            className="absolute top-0 left-0 w-full h-full object-cover z-0"
+            className="absolute top-0 left-0 w-full h-full object-center z-0"
           />
         )}
         {isVideo && (
@@ -116,7 +116,7 @@ useEffect(() => {
             playsInline
             onLoadedData={() => setTimeout(() => setIsLoading(false), 300)}
             onError={() => setIsLoading(false)}
-            className="absolute top-0 left-0 w-full h-full object-cover z-0"
+            className="absolute top-0 left-0 w-full h-full object-center z-0"
           />
         )}
 
@@ -171,7 +171,7 @@ useEffect(() => {
                           <img
                             src={f.url}
                             alt={f.name}
-                            className="h-full w-full object-cover"
+                            className="h-full w-full object-center"
                           />
                         ) : (
                           <video src={f.url} className="h-full" controls />

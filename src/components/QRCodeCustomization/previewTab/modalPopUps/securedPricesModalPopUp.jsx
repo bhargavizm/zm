@@ -17,17 +17,26 @@ const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {}, onConfirm }) =>
   const {freePlanCount,setFreePlanCount}=useDesignContext()
 
   useEffect(() => {
+  console.log("useEffect fired:", userMeta.userId, userMeta?.firstLoginDate);
+
   if (userMeta?.userId && userMeta?.firstLoginDate) {
     fetch(`/api/freePlanCount/${userMeta.userId}/${userMeta.firstLoginDate}`)
-      .then((res) => res.json())
+      .then((res) => {
+        console.log("Fetch status:", res.status, res.url);
+        return res.json();
+      })
       .then((data) => {
+        console.log("API response:", data);
         if (typeof data.totalFreePlansCount === "number") {
           setFreePlanCount(data.totalFreePlansCount);
+          console.log("✅ Free Plan Count:", data.totalFreePlansCount);
         }
       })
-      .catch(console.error);
+      .catch((err) => console.error("❌ Fetch error:", err));
   }
 }, [userMeta?.userId, userMeta?.firstLoginDate]);
+
+
 
 
   const { servicesDataLoading, setServicesDataLoading } = useServicesContext();
@@ -100,7 +109,7 @@ const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {}, onConfirm }) =>
         toast.error(result.message || "Failed to update plan.");
       } else {
         toast.success(`${plan.title} plan updated successfully!`);
-
+          onClose();
         // ✅ Trigger final download logic from DownloadButton
         if (onConfirm) onConfirm();
       }

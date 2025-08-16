@@ -24,14 +24,14 @@ const CardsTemplate = ({ businessForm, styles = {} }) => {
       {/* Profile Image */}
       <div className="flex justify-center mt-6">
         <div
-          className={`w-28 h-28 rounded-full overflow-hidden border-4 shadow ${styles.profileBorder}`}
+          className={`w-28 h-28 rounded-xl overflow-hidden border-4 shadow ${styles.profileBorder}`}
         >
           <Image
             src={profileImageUrl || "/default-user.webp"}
             alt=""
             width={112}
             height={112}
-            className="object-cover w-full h-full"
+            className="object-center w-full h-full"
           />
         </div>
       </div>
@@ -83,7 +83,7 @@ const CardsTemplate = ({ businessForm, styles = {} }) => {
             rel="noopener noreferrer"
             className={`py-2 rounded font-semibold text-center transition ${styles.button}`}
           >
-            View Location
+           {mapLink}
           </a>
         )}
 
@@ -98,7 +98,7 @@ const CardsTemplate = ({ businessForm, styles = {} }) => {
                 rel="noopener noreferrer"
                 className={`py-2 rounded font-semibold text-center transition ${styles.button}`}
               >
-                Social Link {index + 1}
+                {link}
               </a>
             )
         )}

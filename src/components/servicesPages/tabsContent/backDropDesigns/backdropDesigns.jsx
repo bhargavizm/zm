@@ -33,7 +33,7 @@ const bgImages = [
 const bgVideos = [
   "/bg-images/c.webm",
   "/bg-images/d.webm",
-  "/bg-images/e.webm",
+  // "/bg-images/e.webm",
   "/bg-images/g.webm",
   "/bg-images/h.webm",
   "/bg-images/i.webm",

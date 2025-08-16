@@ -30,7 +30,7 @@ const defaultBg = `/images/templates/businessShop${selectedTemplate.replace("tem
     {/* 2. Template Layer (middle layer, always shown) */}
     <img
       src={defaultBg}
-      className="absolute inset-0 w-full h-full opacity-70 object-cover z-[-2]"
+      className="absolute inset-0 w-full h-full opacity-70 object-center z-[-2]"
       alt="Template"
     />
 

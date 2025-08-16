@@ -246,9 +246,9 @@ const ProductContent = () => {
 
   // Show file size error modal
   const showFileSizeError = () => {
-    setValidationError("Image size exceeds 2MB limit");
-    setShowValidationModal(true);
-    setTimeout(() => setShowValidationModal(false), 500);
+    toast.error("Image size exceeds 2MB limit");
+    // setShowValidationModal(true);
+    // setTimeout(() => setShowValidationModal(false), 500);
   };
 
   // Remove product logo
@@ -479,7 +479,7 @@ const ProductContent = () => {
                       alt={`Template ${idx + 1}`}
                       width={300}
                       height={180}
-                      className="object-cover rounded w-full h-auto"
+                      className="object-center rounded w-full h-auto"
                     />
                   </div>
                 ))}
@@ -578,7 +578,7 @@ const ProductContent = () => {
                         <img
                           src={item.productImage?.preview}
                           alt={`Uploaded ${index}`}
-                          className="mt-4 rounded object-cover w-24 h-24 border border-gray-300 shadow-sm"
+                          className="mt-4 rounded object-center w-24 h-24 border border-gray-300 shadow-sm"
                         />
                         <button
                           onClick={() => handleRemoveItemImage(index)}

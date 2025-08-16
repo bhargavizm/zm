@@ -128,7 +128,7 @@ const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
           <img
             src={templateBackground}
             alt="Template Background"
-            className="absolute inset-0 w-full h-full opacity-70 object-contain z-10 p-2 pointer-events-none"
+            className="absolute inset-0 w-full h-full opacity-70 object-cover z-10 p-2 pointer-events-none"
           />
         )}
 
@@ -164,11 +164,11 @@ const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
               {/* Main Vehicle Image at the top */}
               {resolveImageUrl(media.vehicleImage) && (
                 <div className="flex justify-center mb-4 px-4">
-                  <div className="bg-white/80 backdrop-blur-md rounded-full shadow-md p-2 w-40 h-40 flex items-center justify-center overflow-hidden">
+                  <div className="bg-white/80 backdrop-blur-md rounded-xl shadow-md p-2 w-40 h-40 flex items-center justify-center overflow-hidden">
                     <img
                       src={resolveImageUrl(media.vehicleImage)}
                       alt="Main Vehicle"
-                      className="w-full h-full object-cover rounded-full"
+                      className="w-full h-full object-center"
                     />
                   </div>
                 </div>
@@ -376,11 +376,6 @@ const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
           )}
         </div>
 
-        {/* Footer */}
-        <div className="relative z-10 border-t border-gray-200 text-center text-xs text-gray-500 py-2 bg-white/70">
-          <p>Scan for Vehicle Info</p>
-          <p className="mt-1">v1.0.0</p>
-        </div>
       </div>
     </div>
   );

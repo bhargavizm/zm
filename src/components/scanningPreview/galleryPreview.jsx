@@ -80,14 +80,14 @@ const GalleryPreview = ({ data = {} }) => {
             </p>
 
             {imagePreviews.length > 0 ? (
-              <div className="mt-4 w-full max-w-md mx-auto">
+              <div className="mt-4 w-full  mx-auto">
                 <Slider {...sliderSettings}>
                   {imagePreviews.map((img, idx) => (
                     <div key={idx} className="px-2">
                       <img
                         src={img.url}
                         alt={img.name}
-                        className="rounded-lg object-center w-full h-64 mx-auto"
+                        className="rounded-lg object-center w-full h-[250px] mx-auto"
                       />
                     </div>
                   ))}

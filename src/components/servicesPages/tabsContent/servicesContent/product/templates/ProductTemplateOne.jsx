@@ -106,17 +106,7 @@ import { MdEmail } from "react-icons/md";
 import { FaPhoneVolume, FaAddressCard } from "react-icons/fa6";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md"; // Import arrow icons
 
-/**
- * ProductTemplateOne component displays product information using a specific layout.
- * This version features a carousel navigable by click buttons only.
- *
- * @param {object} props - Component props.
- * @param {Array<object>} props.items - An array of product objects, each containing image, heading, description, etc.
- * @param {object} props.productData - Object containing common product data like email, phone, etc.
- * @param {string} [props.productLogo] - Optional brand logo URL for this product template.
- * @param {string} [props.productImage] - Optional main product image URL (though individual item images are preferred).
- * @param {string} [props.bgDesign] - Optional background design URL (image or video).
- */
+
 const ProductTemplateOne = ({ items, productData, productLogo, productImage, bgDesign }) => {
   const {
     brandName = "Your Brand Name",

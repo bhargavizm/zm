@@ -41,7 +41,7 @@ const ProductTemplateTwo = ({
           <img
             src={productLogo?.preview || productLogo}
             alt="Product Logo"
-            className="mx-auto h-20 w-20 object-cover rounded-full border shadow mb-2"
+            className="mx-auto h-20 w-20 object-center rounded-full border shadow mb-2"
           />
         )}
         <h1 className="text-2xl font-bold">{brandName}</h1>

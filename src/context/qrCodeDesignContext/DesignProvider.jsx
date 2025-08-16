@@ -22,7 +22,7 @@ const DesignProvider = ({ children }) => {
   const [imageScale, setImageScale] = useState(80);
 
   const [matrix, setMatrix] = useState([]);
-  const [text, setText] = useState("https://www.zmqrcode.in/");
+  const [text, setText] = useState("https://www.zmqrcode.com/");
   const [qrCodeUrl, setQrCodeUrl] = useState('');
   const [noiseDensity, setNoiseDensity] = useState(0.2);
   const [strokeWidth, setStrokeWidth] = useState(8);
@@ -54,8 +54,7 @@ const DesignProvider = ({ children }) => {
 
   const [foregroundColorMode, setForegroundColorMode] = useState("single"); // or "gradient"
   const [foregroundColor, setForegroundColor] = useState("#000000");
-  const [foregroundGradientStart, setForegroundGradientStart] =
-    useState("#000000");
+  const [foregroundGradientStart, setForegroundGradientStart] = useState("#000000");
   const [foregroundGradientEnd, setForegroundGradientEnd] = useState("#ffffff");
 
   const [eyeFrameColorMode, setEyeFrameColorMode] = useState("single");

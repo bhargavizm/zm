@@ -1,4 +1,5 @@
-import checkFreePlanEligibility from "@/app/(main)/api/common/checkFreePlanEligibility";
+import checkFreePlanEligibility from "../../../common/checkFreePlanEligibility";
+
 
 export async function GET(req, { params }) {
   const { userId, userFirstLoginDate } = params;

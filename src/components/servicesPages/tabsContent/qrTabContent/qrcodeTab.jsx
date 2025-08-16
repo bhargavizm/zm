@@ -64,7 +64,7 @@ const QRCodeTab = () => {
                 alt={item.title}
                 width={80}
                 height={60}
-                className="mb-2 object-cover"
+                className="mb-2 object-center"
               />
             )}
 

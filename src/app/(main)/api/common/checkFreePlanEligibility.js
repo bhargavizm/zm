@@ -56,14 +56,31 @@ export default async function checkFreePlanEligibility(userId, userFirstLoginDat
     };
   }
 
+  // let totalFreePlansCount = 0;
+  // for (const model of Object.values(serviceModelMap)) {
+  //   const count = await model.countDocuments({
+  //     "user.id": userId,
+  //     "priceDetails.plan": "Free",
+  //   });
+  //   totalFreePlansCount += count;
+  // }
+
   let totalFreePlansCount = 0;
-  for (const model of Object.values(serviceModelMap)) {
-    const count = await model.countDocuments({
-      "user.id": userId,
-      "priceDetails.plan": "Free",
-    });
-    totalFreePlansCount += count;
-  }
+const seenIds = new Set();
+
+for (const model of Object.values(serviceModelMap)) {
+  const docs = await model.find({
+    "user.id": userId,
+    "priceDetails.plan": "Free",
+  }).select("_id");
+
+  docs.forEach(doc => seenIds.add(doc._id.toString()));
+}
+
+totalFreePlansCount = seenIds.size;
+
+
+  console.log("freePlanCount:",totalFreePlansCount)
 
   if (totalFreePlansCount >= 5) {
     return {

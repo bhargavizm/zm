@@ -23,12 +23,14 @@ export default function RootLayout({ children }) {
           position="top-center"
           reverseOrder={false}
           toastOptions={{
-            duration: 8000,
-            style: {
-              fontSize: "25px",
-              padding: "12px 16px",
-              width: "100%",
-            },
+            duration: 5000,
+             style: {
+      fontSize: "18px", // smaller font to fit better
+      padding: "12px 16px",
+      maxWidth: "500px", // limit box size
+      wordBreak: "break-word", // wrap long words/URLs
+      whiteSpace: "pre-wrap", // preserve line breaks but wrap text
+    },
           }}
         />
         <ReduxProvider>

@@ -11,7 +11,7 @@ const BgDesignRenderer = ({ bgDesign, defaultBg }) => {
 
 
   if (isImage) {
-    return <img src={bgDesign} alt="Background" {...commonProps} />;
+    return <img src={bgDesign} alt="Background"  {...commonProps} />;
   }
 
   if (isVideo) {
