@@ -21,6 +21,12 @@ const eventSchema = new mongoose.Schema({
   contactPhone: { type: String },
   password:{type:String},
   bgDesign: { type: String },
+   files: [
+      {
+        url: String,
+        name: String,
+      },
+    ],
   qrCodeDetails: qrCodeServicesSchema,
   priceDetails:securedServicesPricingDetailsSchema
 }, {

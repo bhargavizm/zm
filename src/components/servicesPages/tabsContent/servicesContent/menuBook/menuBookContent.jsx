@@ -77,91 +77,89 @@ const MenuBookContent = () => {
   };
 
   const handlePhoneChange = (e) => {
-  const value = e.target.value;
-  setMenuBookFormData((prev) => ({ ...prev, phone: value }));
+    const value = e.target.value;
+    setMenuBookFormData((prev) => ({ ...prev, phone: value }));
 
-  if (value && !validatePhone(value)) {
-    setValidationErrors((prev) => ({
-      ...prev,
-      phone: "Phone must be 10 to 15 digits",
-    }));
-  } else {
-    setValidationErrors((prev) => ({ ...prev, phone: "" }));
-  }
-};
+    if (value && !validatePhone(value)) {
+      setValidationErrors((prev) => ({
+        ...prev,
+        phone: "Phone must be 10 to 15 digits",
+      }));
+    } else {
+      setValidationErrors((prev) => ({ ...prev, phone: "" }));
+    }
+  };
 
-const handleEmailChange = (e) => {
-  const value = e.target.value;
-  setMenuBookFormData((prev) => ({ ...prev, email: value }));
+  const handleEmailChange = (e) => {
+    const value = e.target.value;
+    setMenuBookFormData((prev) => ({ ...prev, email: value }));
 
-  if (value && !validateEmail(value)) {
-    setValidationErrors((prev) => ({
-      ...prev,
-      email: "Invalid email format",
-    }));
-  } else {
-    setValidationErrors((prev) => ({ ...prev, email: "" }));
-  }
-};
+    if (value && !validateEmail(value)) {
+      setValidationErrors((prev) => ({
+        ...prev,
+        email: "Invalid email format",
+      }));
+    } else {
+      setValidationErrors((prev) => ({ ...prev, email: "" }));
+    }
+  };
 
-const handleLinkChange = (e) => {
-  const value = e.target.value;
-  setMenuBookFormData((prev) => ({ ...prev, link: value }));
+  const handleLinkChange = (e) => {
+    const value = e.target.value;
+    setMenuBookFormData((prev) => ({ ...prev, link: value }));
 
-  if (
-    value &&
-    linkInputRef.current &&
-    !linkInputRef.current.checkValidity()
-  ) {
-    setValidationErrors((prev) => ({
-      ...prev,
-      link: "Invalid URL format",
-    }));
-  } else {
-    setValidationErrors((prev) => ({ ...prev, link: "" }));
-  }
-};
+    if (
+      value &&
+      linkInputRef.current &&
+      !linkInputRef.current.checkValidity()
+    ) {
+      setValidationErrors((prev) => ({
+        ...prev,
+        link: "Invalid URL format",
+      }));
+    } else {
+      setValidationErrors((prev) => ({ ...prev, link: "" }));
+    }
+  };
 
+  const handleInitialSubmit = (e) => {
+    e.preventDefault();
 
-const handleInitialSubmit = (e) => {
-  e.preventDefault();
+    const { phone, email, link } = menuBookFormData;
 
-  const { phone, email, link } = menuBookFormData;
+    // 🔹 Check if there are any errors already present
+    const hasLiveErrors = Object.values(validationErrors).some(
+      (error) => error && error.trim() !== ""
+    );
 
-  // 🔹 Check if there are any errors already present
-  const hasLiveErrors = Object.values(validationErrors).some(
-    (error) => error && error.trim() !== ""
-  );
+    if (hasLiveErrors) {
+      toast.error("Please fix the highlighted errors before continuing.");
+      return; // ❌ Stop, don't open modal
+    }
 
-  if (hasLiveErrors) {
-    toast.error("Please fix the highlighted errors before continuing.");
-    return; // ❌ Stop, don't open modal
-  }
+    // 🔹 Check if form is completely empty
+    const allEmpty =
+      !menuBookFormData.restaurantName &&
+      !phone &&
+      !email &&
+      !link &&
+      !menuBookFormData.password &&
+      (!menuBookFormData.menuItems || menuBookFormData.menuItems.length === 0);
 
-  // 🔹 Check if form is completely empty
-  const allEmpty =
-    !menuBookFormData.restaurantName &&
-    !phone &&
-    !email &&
-    !link &&
-    !menuBookFormData.password &&
-    (!menuBookFormData.menuItems || menuBookFormData.menuItems.length === 0);
+    if (allEmpty) {
+      toast.error("Please fill in at least one field before submitting.");
+      return;
+    }
 
-  if (allEmpty) {
-    toast.error("Please fill in at least one field before submitting.");
-    return;
-  }
+    // 🔹 Native browser validation for URL
+    if (link && linkInputRef.current && !linkInputRef.current.checkValidity()) {
+      linkInputRef.current.reportValidity();
+      return;
+    }
 
-  // 🔹 Native browser validation for URL
-  if (link && linkInputRef.current && !linkInputRef.current.checkValidity()) {
-    linkInputRef.current.reportValidity();
-    return;
-  }
-
-  // ✅ No errors → Open confirmation modal
-  setShowConfirmModal(true);
-};
-
+    // ✅ No errors → Open confirmation modal
+    setShowConfirmModal(true);
+  };
 
   //  useSubmitForm(activeService, menuBookFormData, bgDesign);
 
@@ -233,42 +231,42 @@ const handleInitialSubmit = (e) => {
 
           <label className="font-medium">Phone Number:</label>
           <input
-  type="tel"
-  placeholder="Phone"
-  value={menuBookFormData.phone}
-  onChange={handlePhoneChange}
-  className="w-full border px-4 py-2 rounded"
-/>
-{validationErrors.phone && (
-  <p className="text-red-500 text-sm">{validationErrors.phone}</p>
-)}
+            type="tel"
+            placeholder="Phone"
+            value={menuBookFormData.phone}
+            onChange={handlePhoneChange}
+            className="w-full border px-4 py-2 rounded"
+          />
+          {validationErrors.phone && (
+            <p className="text-red-500 text-sm">{validationErrors.phone}</p>
+          )}
 
           <label className="font-medium">Email:</label>
           <input
-  type="email"
-  placeholder="Email"
-  value={menuBookFormData.email}
-  onChange={handleEmailChange}
-  className="w-full border px-4 py-2 rounded"
-/>
-{validationErrors.email && (
-  <p className="text-red-500 text-sm">{validationErrors.email}</p>
-)}
+            type="email"
+            placeholder="Email"
+            value={menuBookFormData.email}
+            onChange={handleEmailChange}
+            className="w-full border px-4 py-2 rounded"
+          />
+          {validationErrors.email && (
+            <p className="text-red-500 text-sm">{validationErrors.email}</p>
+          )}
 
           {/* ✅ Updated Link field with ref and required */}
           <label className="font-medium">URL:</label>
-         <input
-  type="url"
-  name="link"
-  ref={linkInputRef}
-  placeholder="Link (https://...)"
-  value={menuBookFormData.link}
-  onChange={handleLinkChange}
-  className="w-full border px-4 py-2 rounded"
-/>
-{validationErrors.link && (
-  <p className="text-red-500 text-sm">{validationErrors.link}</p>
-)}
+          <input
+            type="url"
+            name="link"
+            ref={linkInputRef}
+            placeholder="Link (https://...)"
+            value={menuBookFormData.link}
+            onChange={handleLinkChange}
+            className="w-full border px-4 py-2 rounded"
+          />
+          {validationErrors.link && (
+            <p className="text-red-500 text-sm">{validationErrors.link}</p>
+          )}
 
           {/* Upload input and previews... (no change) */}
           <label className="font-medium">Upload Menu Images:</label>
@@ -342,7 +340,7 @@ const handleInitialSubmit = (e) => {
             </button>
           </div>
 
-          <NFCModal />
+          {/* <NFCModal /> */}
 
           <div className="flex justify-center items-center">
             <button

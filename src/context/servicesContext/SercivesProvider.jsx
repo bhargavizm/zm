@@ -235,6 +235,7 @@ const initialWifiFormData = { ssid: "", password: "", security: "WPA",bgDesign:"
     contactName: "",
     contactEmail: "",
     contactPhone: "",
+    files:[],
     bgDesign: "",
     password: "",
     // webLabel: "My Website",

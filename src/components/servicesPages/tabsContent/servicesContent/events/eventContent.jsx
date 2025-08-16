@@ -25,7 +25,12 @@ import { useDispatch } from "react-redux";
 const EventContent = () => {
   const { setActiveTab } = useDesignContext();
   const { slug } = useParams();
-  const { eventsFormData, setEventsFormData, servicesDataLoading, setServicesDataLoading } = useServicesContext();
+  const {
+    eventsFormData,
+    setEventsFormData,
+    servicesDataLoading,
+    setServicesDataLoading,
+  } = useServicesContext();
   const [showPassword, setShowPassword] = useState(false);
   const [showLocationOptions, setShowLocationOptions] = useState(false);
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
@@ -84,7 +89,6 @@ const EventContent = () => {
     setShowConfirmModal(true);
   };
 
-
   const fetchCurrentLocation = async () => {
     setIsLoadingLocation(true);
     try {
@@ -116,7 +120,7 @@ const EventContent = () => {
   };
 
   const handleConfirmedSubmit = async () => {
-     setActiveTab(slug, "Backdrop Designs");
+    setActiveTab(slug, "Backdrop Designs");
     // setServicesDataLoading
     // const payload = {
     //   organizer: eventsFormData.organizer,
@@ -283,7 +287,9 @@ const EventContent = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Address
+                  </label>
                   <textarea
                     name="address"
                     rows={3}
@@ -298,7 +304,9 @@ const EventContent = () => {
                     disabled={isLoadingLocation}
                     className="mt-2 w-full flex items-center justify-center px-4 py-2 bg-[#0e7b7b] text-white rounded-lg hover:bg-[#066666] transition-colors"
                   >
-                    {isLoadingLocation ? "Fetching location..." : "Use Current Location"}
+                    {isLoadingLocation
+                      ? "Fetching location..."
+                      : "Use Current Location"}
                   </button>
                 </div>
               </div>
@@ -324,7 +332,9 @@ const EventContent = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Email
+                  </label>
                   <input
                     type="email"
                     name="contactEmail"
@@ -335,7 +345,9 @@ const EventContent = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Phone
+                  </label>
                   <input
                     type="tel"
                     name="contactPhone"
@@ -350,7 +362,9 @@ const EventContent = () => {
 
             {/* Password */}
             <div className="relative">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Password
+              </label>
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
@@ -370,54 +384,80 @@ const EventContent = () => {
 
             <NFCModal />
             <div className="flex justify-center items-center">
-            <button
-              type="button"
-              onClick={handleInitialSubmit}
-               className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg"
-            >
-               Next → 
-            </button>
-          </div>
+              <button
+                type="button"
+                onClick={handleInitialSubmit}
+                className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg"
+              >
+                Next →
+              </button>
+            </div>
           </form>
         </div>
 
         {showConfirmModal && (
-                  <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
-          <div className="bg-white relative rounded-xl shadow-xl p-6 w-full max-w-xl max-h-[90vh] border border-teal-200 mx-4 sm:mx-auto">
-              <h2 className="text-lg font-semibold text-gray-800">Confirm Submission</h2>
+          <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
+            <div className="bg-white relative rounded-xl shadow-xl p-6 w-full max-w-xl max-h-[90vh] border border-teal-200 mx-4 sm:mx-auto">
+              <h2 className="text-lg font-semibold text-gray-800">
+                Confirm Submission
+              </h2>
               <div className="text-sm text-gray-700 space-y-2">
                 {eventsFormData.organizer && (
-                  <p><strong>Organizer Name:</strong> {eventsFormData.organizer}</p>
+                  <p>
+                    <strong>Organizer Name:</strong> {eventsFormData.organizer}
+                  </p>
                 )}
                 {eventsFormData.title && (
-                  <p><strong>Event Name:</strong> {eventsFormData.title}</p>
+                  <p>
+                    <strong>Event Name:</strong> {eventsFormData.title}
+                  </p>
                 )}
                 {eventsFormData.summary && (
-                  <p><strong>Event Summary:</strong> {eventsFormData.summary}</p>
+                  <p>
+                    <strong>Event Summary:</strong> {eventsFormData.summary}
+                  </p>
                 )}
                 {eventsFormData.fromDate && (
-                  <p><strong>Start Date & Time:</strong> {eventsFormData.fromDate}</p>
+                  <p>
+                    <strong>Start Date & Time:</strong>{" "}
+                    {eventsFormData.fromDate}
+                  </p>
                 )}
                 {eventsFormData.toDate && (
-                  <p><strong>End Date & Time:</strong> {eventsFormData.toDate}</p>
+                  <p>
+                    <strong>End Date & Time:</strong> {eventsFormData.toDate}
+                  </p>
                 )}
                 {eventsFormData.venue && (
-                  <p><strong>Venue Name:</strong> {eventsFormData.venue}</p>
+                  <p>
+                    <strong>Venue Name:</strong> {eventsFormData.venue}
+                  </p>
                 )}
                 {eventsFormData.address && (
-                  <p><strong>Address:</strong> {eventsFormData.address}</p>
+                  <p>
+                    <strong>Address:</strong> {eventsFormData.address}
+                  </p>
                 )}
                 {eventsFormData.contactName && (
-                  <p><strong>Contact Person:</strong> {eventsFormData.contactName}</p>
+                  <p>
+                    <strong>Contact Person:</strong>{" "}
+                    {eventsFormData.contactName}
+                  </p>
                 )}
                 {eventsFormData.contactEmail && (
-                  <p><strong>Email:</strong> {eventsFormData.contactEmail}</p>
+                  <p>
+                    <strong>Email:</strong> {eventsFormData.contactEmail}
+                  </p>
                 )}
                 {eventsFormData.contactPhone && (
-                  <p><strong>Phone:</strong> {eventsFormData.contactPhone}</p>
+                  <p>
+                    <strong>Phone:</strong> {eventsFormData.contactPhone}
+                  </p>
                 )}
                 {eventsFormData.password && (
-                  <p><strong>Password:</strong> {eventsFormData.password}</p>
+                  <p>
+                    <strong>Password:</strong> {eventsFormData.password}
+                  </p>
                 )}
               </div>
 
