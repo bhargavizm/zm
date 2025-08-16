@@ -1,9 +1,8 @@
-// // /api/services/[slug]/[serviceId]/priceDetails.js
-
 import { connectDB } from "@/lib/mongoDB";
 import URLServiceModel from "@/models/services/urlServicesSchema";
 import handleSecuredServicesPriceDetails from "@/app/(main)/api/common/handleSecuredServicesPriceDetails";
-
+import checkFreePlanEligibility from "@/app/(main)/api/common/checkFreePlanEligibility";
+import User from "@/models/auth/userSchema";
 
 export async function PATCH(req, context) {
   try {
@@ -40,7 +39,7 @@ export async function PATCH(req, context) {
       return Response.json(
         {
           success: false,
-          message: `Service Name is not correct `,
+          message: `Service Name is not correct.`,
         },
         { status: 400 }
       );
@@ -57,11 +56,38 @@ export async function PATCH(req, context) {
       );
     }
 
-    // 6️⃣ Parse request body
-    const body = await req.json();
+    // 6️⃣ Get user & validate first login date (needed for Free plan)
+    const user = await User.findById(userId);
+    if (!user || !user.firstLoginDate) {
+      return Response.json(
+        {
+          success: false,
+          message: "First login date not found for user.",
+        },
+        { status: 400 }
+      );
+    }
 
-    // 7️⃣ Update price details
-    await handleSecuredServicesPriceDetails(doc, body);
+    // 7️⃣ Parse body
+    const body = await req.json();
+    const { plan } = body;
+
+    // 8️⃣ Free plan eligibility check
+    if (plan === "Free") {
+      const freePlanCheck = await checkFreePlanEligibility(userId, user.firstLoginDate);
+      if (!freePlanCheck.eligible) {
+        return Response.json(
+          { success: false, message: freePlanCheck.message },
+          { status: 400 }
+        );
+      }
+    }
+
+    // 9️⃣ Update price details
+    await handleSecuredServicesPriceDetails(doc, {
+      ...body,
+      validityDays: plan === "Free" ? 90 : body.validityDays,
+    });
 
     return Response.json(
       {
@@ -83,7 +109,6 @@ export async function PATCH(req, context) {
     );
   }
 }
-
 
 
 
