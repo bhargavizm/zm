@@ -497,10 +497,8 @@ export const formDataMappers = {
         formData.append("couponImage", couponImage); // File
       }
 
-      // Background Design (optional)
-      if (bgDesign) {
-        formData.append("bgDesign", bgDesign); // Optional background
-      }
+       // Background Design
+      formData.append("bgDesign", bgDesign || "");
 
       return formData;
     },

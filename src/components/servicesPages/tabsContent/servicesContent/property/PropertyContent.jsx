@@ -1,11 +1,9 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { FiTrash2 } from "react-icons/fi";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { MapPin } from "lucide-react";
 import toast from "react-hot-toast";
-import NFCModal from "@/components/modalPopUps/nfcModal";
 import { useParams, useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { setPropertyServices } from "@/redux/slices/servicesSlice";
@@ -14,22 +12,63 @@ import useDesignContext from "@/components/hooks/useDesignContext";
 import LoadingSpinner from "@/components/common/spinner";
 
 const PropertyContent = () => {
-
-  const {propertyDetails, setPropertyDetails,servicesDataLoading, setServicesDataLoading} = useServicesContext()
+  const {
+    propertyDetails,
+    setPropertyDetails,
+    servicesDataLoading,
+    setServicesDataLoading,
+  } = useServicesContext();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [galleryPreview, setGalleryPreview] = useState([]);
+  const [errors, setErrors] = useState({});
   const galleryInputRef = useRef(null);
   const { slug } = useParams();
   const { setActiveTab } = useDesignContext();
   const router = useRouter();
   const dispatch = useDispatch();
 
+  const phoneRegex = /^[0-9]{10,15}$/;
+
   const sections = {
-    basicInfo: ["propertyName", "propertyType", "ownerName", "contactNumber", "alternateNumber", "propertyDescription"],
+    basicInfo: [
+      "propertyName",
+      "propertyType",
+      "ownerName",
+      "contactNumber",
+      "alternateNumber",
+      "propertyDescription",
+    ],
     addressInfo: ["address", "mapLink"],
     pricingInfo: ["price", "area", "amenities"],
     images: ["galleryImages"],
+  };
+
+  // ✅ validation rules
+  const validateField = (section, key, value) => {
+    let error = "";
+    if (
+      ["propertyName", "propertyType", "ownerName"].includes(key) &&
+      !value.trim()
+    ) {
+      error = `${key.replace(/([A-Z])/g, " $1")} is required.`;
+    }
+    if (key === "contactNumber" && value && !phoneRegex.test(value)) {
+      error = "Invalid contact number.";
+    }
+    if (key === "alternateNumber" && value && !phoneRegex.test(value)) {
+      error = "Invalid alternate number.";
+    }
+    if (key === "price" && value && isNaN(value)) {
+      error = "Price must be numeric.";
+    }
+    if (key === "area" && value && isNaN(value)) {
+      error = "Area must be numeric.";
+    }
+    setErrors((prev) => ({
+      ...prev,
+      [`${section}.${key}`]: error,
+    }));
   };
 
   const handleChange = (section, key, value) => {
@@ -40,6 +79,7 @@ const PropertyContent = () => {
         [key]: value,
       },
     }));
+    validateField(section, key, value);
   };
 
   const handleImageChange = (section, key, files) => {
@@ -57,7 +97,10 @@ const PropertyContent = () => {
       }
     }
 
-    const existingSize = galleryPreview.reduce((acc, item) => acc + item.file.size, 0);
+    const existingSize = galleryPreview.reduce(
+      (acc, item) => acc + item.file.size,
+      0
+    );
     const totalSize = existingSize + newSize;
 
     if (totalSize > 30 * 1024 * 1024) {
@@ -74,7 +117,11 @@ const PropertyContent = () => {
     const newPreview = [...galleryPreview];
     newPreview.splice(index, 1);
     setGalleryPreview(newPreview);
-    handleChange("images", "galleryImages", newPreview.map((item) => item.file));
+    handleChange(
+      "images",
+      "galleryImages",
+      newPreview.map((item) => item.file)
+    );
     if (galleryInputRef.current) galleryInputRef.current.value = "";
   };
 
@@ -99,44 +146,36 @@ const PropertyContent = () => {
 
         handleChange("addressInfo", "address", fullAddress);
       } catch (err) {
-        alert("Failed to fetch location. Please check permissions.");
+        toast.error("Failed to fetch location. Please check permissions.");
         console.error("Location error:", err);
       }
     } else {
-      alert("Geolocation not supported in your browser.");
+      toast.error("Geolocation not supported in your browser.");
     }
-  };
-
-  const validateForm = () => {
-    const phoneRegex = /^[0-9]{10,15}$/;
-    const contactNumber = propertyDetails.basicInfo.contactNumber || "";
-    const alternateNumber = propertyDetails.basicInfo.alternateNumber || "";
-
-    if (alternateNumber && !contactNumber) {
-      toast.error("Contact number is required if alternate number is provided.");
-      return false;
-    }
-    if (contactNumber && !phoneRegex.test(contactNumber)) {
-      toast.error("Please enter a valid contact number.");
-      return false;
-    }
-    if (alternateNumber && !phoneRegex.test(alternateNumber)) {
-      toast.error("Please enter a valid alternate number.");
-      return false;
-    }
-    return true;
   };
 
   const handleInitialSubmit = (e) => {
     e.preventDefault();
-    const allValues = Object.values(propertyDetails).flatMap(section =>
-      typeof section === 'object' && !Array.isArray(section)
+
+    // check if any errors
+    const hasErrors = Object.values(errors).some((err) => err);
+    if (hasErrors) {
+      toast.error("Please fix errors before submitting.");
+      return;
+    }
+
+    const allValues = Object.values(propertyDetails).flatMap((section) =>
+      typeof section === "object" && !Array.isArray(section)
         ? Object.values(section || {})
         : [section]
     );
 
-    const hasNonEmptyValue = allValues.some(value =>
-      Array.isArray(value) ? value.length > 0 : typeof value === "string" ? value.trim() !== "" : !!value
+    const hasNonEmptyValue = allValues.some((value) =>
+      Array.isArray(value)
+        ? value.length > 0
+        : typeof value === "string"
+        ? value.trim() !== ""
+        : !!value
     );
 
     if (!hasNonEmptyValue) {
@@ -144,220 +183,208 @@ const PropertyContent = () => {
       return;
     }
 
-    if (!validateForm()) return;
     setShowConfirmModal(true);
   };
 
   const handleConfirmedSubmit = async () => {
-    
-     setActiveTab(slug, "Backdrop Designs");
-    // setShowConfirmModal(false);
-    // const formData = new FormData();
-
-    // Object.entries(propertyDetails).forEach(([sectionKey, sectionFields]) => {
-    //   if (typeof sectionFields === "object" && !Array.isArray(sectionFields)) {
-    //     Object.entries(sectionFields).forEach(([fieldKey, value]) => {
-    //       if (Array.isArray(value)) {
-    //         value.forEach((v) => formData.append(fieldKey, v));
-    //       } else {
-    //         formData.append(fieldKey, value);
-    //       }
-    //     });
-    //   } else {
-    //     formData.append(sectionKey, sectionFields);
-    //   }
-    // });
-
-    //  setServicesDataLoading(true);
-    // try {
-    //   const res = await fetch("/api/services/property-qr", {
-    //     method: "POST",
-    //     body: formData,
-    //   });
-    //   const result = await res.json();
-
-    //   if (result.success) {
-    //     toast.success("Property submitted!");
-    //     setActiveTab(slug, "QR Code");
-    //     dispatch(setPropertyServices(result.data));
-    //     setPropertyDetails({
-    //       basicInfo: { propertyName: "", propertyType: "", ownerName: "", contactNumber: "", alternateNumber: "", propertyDescription: "" },
-    //       addressInfo: { address: "", mapLink: "" },
-    //       pricingInfo: { price: "", area: "", amenities: "" },
-    //       images: { galleryImages: [] },
-    //       password: "",
-    //     });
-    //     setGalleryPreview([]);
-    //     if (galleryInputRef.current) galleryInputRef.current.value = "";
-    //   } else {
-    //     toast.error(result.error || "Submission failed");
-    //   }
-    // } catch (err) {
-    //  toast.error(err?.response?.data?.error || "Something went wrong!");
-    // if (error.response?.status === 401) {
-    //     window.location.href = "/login"; // ✅ Auto logout on expiry
-    //     return;
-    //   }
-    // } finally {
-    //   setServicesDataLoading(false); // ✅ End loader
-    // }
+    setActiveTab(slug, "Backdrop Designs");
   };
 
   return (
     <>
       {servicesDataLoading && <LoadingSpinner />}
 
-          <div className="space-y-6">
-      <h1 className="text-3xl font-bold pb-6 text-[#008080]">Property QR Code</h1>
+      <div className="space-y-6">
+        <h1 className="text-3xl font-bold pb-6 text-[#008080]">
+          Property QR Code
+        </h1>
 
-      {Object.entries(sections).map(([section, fields]) => (
-        <div key={section} className="border rounded p-4 shadow-sm space-y-4">
-          <h3 className="text-xl font-semibold capitalize text-[#008080]">
-            {section.replace(/([A-Z])/g, " $1")}
-          </h3>
+        {Object.entries(sections).map(([section, fields]) => (
+          <div
+            key={section}
+            className="border rounded p-4 shadow-sm space-y-4"
+          >
+            <h3 className="text-xl font-semibold capitalize text-[#008080]">
+              {section.replace(/([A-Z])/g, " $1")}
+            </h3>
 
-          {fields.map((key) => (
-            <div key={key} className="flex flex-col space-y-2">
-              {key === "galleryImages" ? (
-                <>
-                  <div className="flex items-center gap-4">
-                    <label className="relative cursor-pointer bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-200">
-                      Choose Files
-                      <input
-                        type="file"
-                        accept="image/*"
-                        multiple
-                        ref={galleryInputRef}
-                        onChange={(e) =>
-                          handleImageChange(section, key, Array.from(e.target.files))
-                        }
-                        className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
-                      />
-                    </label>
-                    <span className="text-sm text-gray-700">
-                      {galleryPreview.length > 0
-                        ? `${galleryPreview.length} file${galleryPreview.length > 1 ? "s" : ""} selected`
-                        : "No files selected"}
-                    </span>
-                  </div>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    {galleryPreview.map((item, idx) => (
-                      <div key={idx} className="relative w-24 h-24 rounded border overflow-hidden shadow-sm">
-                        <img
-                          src={item.url}
-                          alt={`Preview ${idx + 1}`}
-                          className="object-cover w-full h-full"
+            {fields.map((key) => (
+              <div key={key} className="flex flex-col space-y-2">
+                {key === "galleryImages" ? (
+                  <>
+                    <div className="flex items-center gap-4">
+                      <label className="relative cursor-pointer bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-200">
+                        Choose Files
+                        <input
+                          type="file"
+                          accept="image/*"
+                          multiple
+                          ref={galleryInputRef}
+                          onChange={(e) =>
+                            handleImageChange(
+                              section,
+                              key,
+                              Array.from(e.target.files)
+                            )
+                          }
+                          className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
                         />
-                        <button
-                          onClick={() => handleDeleteImage(idx)}
-                          className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center hover:bg-red-600"
-                          title="Remove"
+                      </label>
+                      <span className="text-sm text-gray-700">
+                        {galleryPreview.length > 0
+                          ? `${galleryPreview.length} file${
+                              galleryPreview.length > 1 ? "s" : ""
+                            } selected`
+                          : "No files selected"}
+                      </span>
+                    </div>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {galleryPreview.map((item, idx) => (
+                        <div
+                          key={idx}
+                          className="relative w-24 h-24 rounded border overflow-hidden shadow-sm"
                         >
-                          &times;
-                        </button>
-                      </div>
-                    ))}
+                          <img
+                            src={item.url}
+                            alt={`Preview ${idx + 1}`}
+                            className="object-center w-full h-full"
+                          />
+                          <button
+                            onClick={() => handleDeleteImage(idx)}
+                            className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center hover:bg-red-600"
+                            title="Remove"
+                          >
+                            &times;
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                ) : key === "address" ? (
+                  <div className="space-y-2">
+                    <textarea
+                      rows={3}
+                      name={key}
+                      placeholder="Address"
+                      value={propertyDetails[section][key] || ""}
+                      onChange={(e) =>
+                        handleChange(section, key, e.target.value)
+                      }
+                      className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080] resize-none"
+                    />
+                    {errors[`${section}.${key}`] && (
+                      <p className="text-red-500 text-sm">
+                        {errors[`${section}.${key}`]}
+                      </p>
+                    )}
+                    <button
+                      type="button"
+                      onClick={fetchCurrentLocation}
+                      className="flex items-center justify-center w-full py-2 px-3 bg-[#008080] hover:bg-[#006666] text-white text-sm rounded-lg transition-colors duration-200 cursor-pointer"
+                    >
+                      <MapPin size={16} className="mr-2" />
+                      Use Current Location
+                    </button>
                   </div>
-                </>
-              ) : key === "address" ? (
-                <div className="space-y-2">
-                  <textarea
-                    rows={3}
-                    name={key}
-                    placeholder="Address"
-                    value={propertyDetails[section][key] || ""}
-                    onChange={(e) => handleChange(section, key, e.target.value)}
-                    className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080] resize-none"
-                  />
-                  <button
-                    type="button"
-                    onClick={fetchCurrentLocation}
-                    className="flex items-center justify-center w-full py-2 px-3 bg-[#008080] hover:bg-[#006666] text-white text-sm rounded-lg transition-colors duration-200 cursor-pointer"
-                  >
-                    <MapPin size={16} className="mr-2" />
-                    Use Current Location
-                  </button>
-                </div>
-              ) : (
-                <input
-                  type="text"
-                  name={key}
-                  placeholder={key.replace(/([A-Z])/g, " $1")}
-                  value={propertyDetails[section][key] || ""}
-                  onChange={(e) => handleChange(section, key, e.target.value)}
-                  className="border p-2 rounded"
-                />
-              )}
-            </div>
-          ))}
+                ) : (
+                  <>
+                    <input
+                      type="text"
+                      name={key}
+                      placeholder={key.replace(/([A-Z])/g, " $1")}
+                      value={propertyDetails[section][key] || ""}
+                      onChange={(e) =>
+                        handleChange(section, key, e.target.value)
+                      }
+                      className={`border p-2 rounded ${
+                        errors[`${section}.${key}`]
+                          ? "border-red-500"
+                          : "border-gray-300"
+                      }`}
+                    />
+                    {errors[`${section}.${key}`] && (
+                      <p className="text-red-500 text-sm">
+                        {errors[`${section}.${key}`]}
+                      </p>
+                    )}
+                  </>
+                )}
+              </div>
+            ))}
+          </div>
+        ))}
+
+        <div className="relative w-full">
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            value={propertyDetails.password || ""}
+            onChange={(e) =>
+              setPropertyDetails((prev) => ({
+                ...prev,
+                password: e.target.value,
+              }))
+            }
+            className="border p-2 pr-10 rounded w-full"
+          />
+          <span
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500 hover:text-[#008080]"
+          >
+            {showPassword ? (
+              <IoEyeOutline size={20} />
+            ) : (
+              <IoEyeOffOutline size={20} />
+            )}
+          </span>
         </div>
-      ))}
 
-      <div className="relative w-full">
-        <input
-          type={showPassword ? "text" : "password"}
-          placeholder="Password"
-          value={propertyDetails.password || ""}
-onChange={(e) =>
-  setPropertyDetails((prev) => ({
-    ...prev,
-    password: e.target.value,
-  }))
-}
-          className="border p-2 pr-10 rounded w-full"
-        />
-        <span
-          onClick={() => setShowPassword(!showPassword)}
-          className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500 hover:text-[#008080]"
-        >
-          {showPassword ? <IoEyeOutline size={20} /> : <IoEyeOffOutline size={20} />}
-        </span>
-      </div>
+        <div className="flex justify-center items-center pt-6">
+          <button
+            type="submit"
+            onClick={handleInitialSubmit}
+            className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg"
+          >
+            Next →
+          </button>
+        </div>
 
-      {/* <NFCModal /> */}
-
-
-      <div className="flex justify-center items-center pt-6">
-      <button
-        type="submit"
-        onClick={handleInitialSubmit}
-        className="font-bold px-4 cursor-pointer bg-[#008080] text-white py-2 rounded transition-effects text-lg">
-      Next →
-      </button>
-    </div>
-
-
-      {showConfirmModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
-          <div className="bg-white rounded-xl shadow-xl p-6 max-w-sm w-full border border-teal-200 relative">
-            <h2 className="text-lg font-semibold text-gray-800">Confirm Submission</h2>
-            <p className="text-gray-600 text-sm mt-2">
-              Are you sure you want to submit this property listing? Please review details before confirming.
-            </p>
-            <div className="flex justify-end gap-4 pt-4">
-              <button
-                onClick={() => setShowConfirmModal(false)}
-                className="px-4 py-2 rounded-lg text-gray-600 border border-gray-300 hover:bg-gray-100"
-              >
-                Edit
-              </button>
-              <button
-                onClick={handleConfirmedSubmit}
-                className="px-4 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700"
-              >
-                Continue
-              </button>
+        {showConfirmModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
+            <div className="bg-white rounded-xl shadow-xl p-6 max-w-sm w-full border border-teal-200 relative">
+              <h2 className="text-lg font-semibold text-gray-800">
+                Confirm Submission
+              </h2>
+              <p className="text-gray-600 text-sm mt-2">
+                Are you sure you want to submit this property listing? Please
+                review details before confirming.
+              </p>
+              <div className="flex justify-end gap-4 pt-4">
+                <button
+                  onClick={() => setShowConfirmModal(false)}
+                  className="px-4 py-2 rounded-lg text-gray-600 border border-gray-300 hover:bg-gray-100"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={handleConfirmedSubmit}
+                  className="px-4 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700"
+                >
+                  Continue
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
     </>
-
   );
 };
 
 export default PropertyContent;
+
+
+
 // "use client";
 
 // import React, { useState } from "react";
@@ -625,13 +652,3 @@ export default PropertyContent;
 // import { useDispatch } from "react-redux";
 // import useDesignContext from "@/components/hooks/useDesignContext";
 // // PropertyContent.jsx
-
-
-
-
-
-
-
-
-
-
