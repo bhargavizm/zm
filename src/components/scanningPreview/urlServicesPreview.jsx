@@ -15,8 +15,6 @@
 
 // export default UrlServicePreview;
 
-
-
 "use client";
 import Image from "next/image";
 import Link from "next/link";
@@ -25,36 +23,31 @@ import { HiArrowRight } from "react-icons/hi";
 
 const UrlServicePreview = ({ data }) => {
   return (
-    <>
-        <nav className="bg-mainGreen h-[10vh] py-2 text-white fixed top-0 left-0 right-0 w-full z-50">
-        {/* Logo */}
-        <Link href="#" className="flex items-center gap-3">
-          <div className="w-full h-auto">
-            <Image
-              src="/logos/zm-full.webp"
-              alt="logo"
-              width={170}
-              height={50}
-              priority
-            />
-          </div>
-        </Link>
-    
-        </nav>
-    <div className="flex justify-center items-center h-screen bg-mainGreen p-4">
+    <div className="h-screen bg-mainGreen flex flex-col justify-center items-center gap-10 p-4">
+      {/* Logo */}
+      <Link href="#" className="flex items-center gap-3">
+        <div className="w-full h-auto">
+          <Image
+            src="/logos/zm-full.webp"
+            alt="logo"
+            width={170}
+            height={50}
+            priority
+          />
+        </div>
+      </Link>
+
+      {/* Go to Link */}
       <a
         href={data?.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center gap-2  border-white border-4 border-double  p-4 text-white font-bold underline text-xl hover:text-blue-500 transition-all duration-200 rounded-2xl shadow-xl"
+        className="flex items-center gap-2 border-white border-4 border-double p-4 text-white font-bold underline text-xl hover:text-blue-500 transition-all duration-200 rounded-2xl shadow-xl"
       >
         Go to Link <HiArrowRight size={22} />
       </a>
     </div>
-    </>
   );
 };
 
 export default UrlServicePreview;
-
-

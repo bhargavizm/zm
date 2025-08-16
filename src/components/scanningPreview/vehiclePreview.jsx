@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import Image from 'next/image';
 import { FiUser, FiPhone, FiTruck } from 'react-icons/fi';
 import useDesignContext from '../hooks/useDesignContext';
+import BgDesignRenderer from './bgDesignRender';
 
 const resolveImageUrl = (image) => {
   if (image instanceof File) return URL.createObjectURL(image);
@@ -77,11 +78,11 @@ const VehiclePreview = ({ data }) => {
     password;
 
   return (
-    <div className="flex justify-center">
-      <div className="relative w-[350px] h-[600px] rounded-[40px] border-[14px] border-gray-800 shadow-xl overflow-hidden flex flex-col text-gray-800 bg-white">
+    <div >
+      <div >
 
         {/* Background Layer */}
-        {isVideo && (
+        {/* {isVideo && (
           <video
             src={bgDesign}
             autoPlay
@@ -99,33 +100,19 @@ const VehiclePreview = ({ data }) => {
             onLoad={() => setTimeout(() => setIsLoading(false), 300)}
             className="absolute inset-0 w-full h-full object-center z-0"
           />
-        )}
+        )} */}
+        <BgDesignRenderer bgDesign={bgDesign} />
         {useTemplateBg && (
           <img
             src={templateBackground}
             alt="Template Background"
-            className="absolute inset-0 w-full h-full opacity-70 object-contain z-10 p-2 pointer-events-none"
+            className="absolute inset-0 w-full h-full opacity-70 object-cover z-10 p-2 pointer-events-none"
           />
         )}
         {!isVideo && !isImage && !useTemplateBg && (
           <div className="absolute inset-0 bg-gradient-to-b from-[#d1f0f0] to-white z-0" />
         )}
 
-        {/* Loader */}
-        {isLoading && (
-          <div className="absolute inset-0 z-50 bg-mainGreen backdrop-blur-sm flex justify-center items-center">
-            <Image
-              src="/logos/ZM LOGO.webp"
-              alt="Loading Logo"
-              width={300}
-              height={150}
-              className="w-20 h-20 animate-bounce"
-            />
-          </div>
-        )}
-
-        {/* Notch */}
-        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-6 bg-gray-800 rounded-b-xl z-10" />
 
         {/* Content */}
         <div className="relative z-10 flex-1 overflow-y-auto scrollbar-hide pt-8 pb-4">
@@ -138,11 +125,11 @@ const VehiclePreview = ({ data }) => {
               {/* Vehicle Image */}
               {resolveImageUrl(media.vehicleImage) && (
                 <div className="flex justify-center mb-4 px-4">
-                  <div className="bg-white/80 backdrop-blur-md rounded-full shadow-md p-2 w-40 h-40 flex items-center justify-center overflow-hidden">
+                  <div className="bg-white/70 backdrop-blur-md rounded-xl shadow-md p-2 w-40 h-40 flex items-center justify-center overflow-hidden">
                     <img
                       src={resolveImageUrl(media.vehicleImage)}
                       alt="Main Vehicle"
-                      className="w-full h-full object-center rounded-full"
+                      className="w-full h-full object-center "
                     />
                   </div>
                 </div>
@@ -239,43 +226,43 @@ const VehiclePreview = ({ data }) => {
                   media.insurance?.length > 0
                 }
               >
-                <div className="grid grid-cols-1 gap-2">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                   {resolveImageUrl(media.licenseFront) && (
                     <div>
-                      <p className="font-medium text-xs mb-1">License Front:</p>
-                      <img src={resolveImageUrl(media.licenseFront)} alt="License Front" className="w-full object-center rounded border" />
+                      <p className="font-medium text-lg mb-3">License Front:</p>
+                      <img src={resolveImageUrl(media.licenseFront)} alt="License Front" className="w-50 h-50 object-center" />
                     </div>
                   )}
                   {resolveImageUrl(media.licenseBack) && (
                     <div>
-                      <p className="font-medium text-xs mb-1">License Back:</p>
-                      <img src={resolveImageUrl(media.licenseBack)} alt="License Back" className="w-full object-center rounded border" />
+                      <p className="font-medium text-lg mb-3">License Back:</p>
+                      <img src={resolveImageUrl(media.licenseBack)} alt="License Back" className="w-50 h-50 object-center" />
                     </div>
                   )}
                   {resolveImageUrl(media.rcFront) && (
                     <div>
-                      <p className="font-medium text-xs mb-1">RC Front:</p>
-                      <img src={resolveImageUrl(media.rcFront)} alt="RC Front" className="w-full object-center rounded border" />
+                      <p className="font-medium text-lg mb-3">RC Front:</p>
+                      <img src={resolveImageUrl(media.rcFront)} alt="RC Front" className="w-50 h-50 object-center" />
                     </div>
                   )}
                   {resolveImageUrl(media.rcBack) && (
                     <div>
-                      <p className="font-medium text-xs mb-1">RC Back:</p>
-                      <img src={resolveImageUrl(media.rcBack)} alt="RC Back" className="w-full object-center rounded border" />
+                      <p className="font-medium text-lg mb-3">RC Back:</p>
+                      <img src={resolveImageUrl(media.rcBack)} alt="RC Back" className="w-50 h-50 object-center" />
                     </div>
                   )}
                   {resolveImageUrl(media.pollution) && (
                     <div>
-                      <p className="font-medium text-xs mb-1">Pollution:</p>
-                      <img src={resolveImageUrl(media.pollution)} alt="Pollution" className="w-full object-center rounded border" />
+                      <p className="font-medium text-lg mb-3">Pollution:</p>
+                      <img src={resolveImageUrl(media.pollution)} alt="Pollution" className="w-50 h-50 object-center" />
                     </div>
                   )}
                   {media.galleryImages?.map((img, idx) => {
                     const src = resolveImageUrl(img);
                     return src ? (
                       <div key={idx}>
-                        <p className="font-medium text-xs mb-1">Gallery {idx + 1}:</p>
-                        <img src={src} alt={`Gallery ${idx + 1}`} className="w-full object-center rounded border" />
+                        <p className="font-medium text-lg mb-3">Gallery {idx + 1}:</p>
+                        <img src={src} alt={`Gallery ${idx + 1}`} className="w-50 h-50 object-center" />
                       </div>
                     ) : null;
                   })}
@@ -283,8 +270,8 @@ const VehiclePreview = ({ data }) => {
                     const src = resolveImageUrl(img);
                     return src ? (
                       <div key={idx}>
-                        <p className="font-medium text-xs mb-1">Insurance {idx + 1}:</p>
-                        <img src={src} alt={`Insurance ${idx + 1}`} className="w-full object-center rounded border" />
+                        <p className="font-medium text-lg mb-3">Insurance {idx + 1}:</p>
+                        <img src={src} alt={`Insurance ${idx + 1}`} className="w-50 h-50 object-center" />
                       </div>
                     ) : null;
                   })}
@@ -294,11 +281,6 @@ const VehiclePreview = ({ data }) => {
           )}
         </div>
 
-        {/* Footer */}
-        <div className="relative z-10 border-t border-gray-200 text-center text-xs text-gray-500 py-2 bg-white/70">
-          <p>Scan for Vehicle Info</p>
-          <p className="mt-1">v1.0.0</p>
-        </div>
       </div>
     </div>
   );

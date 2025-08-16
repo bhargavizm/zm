@@ -54,12 +54,12 @@ const VehicleContent = () => {
       newErrors.rcNumber = 'RC number is required';
     }
 
-    if (vehicleInfo.contact.contact?.trim() && !/^\d{10,15}$/.test(vehicleInfo.contact.contact)) {
-      newErrors.contact = 'Invalid contact number';
-    }
-    if (vehicleInfo.contact.altContact?.trim() && !/^\d{10,15}$/.test(vehicleInfo.contact.altContact)) {
-      newErrors.altContact = 'Invalid alternate contact number';
-    }
+    // if (vehicleInfo.contact.contact?.trim() && !/^\d{10,15}$/.test(vehicleInfo.contact.contact)) {
+    //   newErrors.contact = 'Invalid contact number';
+    // }
+    // if (vehicleInfo.contact.altContact?.trim() && !/^\d{10,15}$/.test(vehicleInfo.contact.altContact)) {
+    //   newErrors.altContact = 'Invalid alternate contact number';
+    // }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -80,7 +80,8 @@ const VehicleContent = () => {
 
     if (!validateForm()) {
       toast.error("Please enter the necessary form details.");
-      return;
+        setShowConfirmation(false); // make sure modal stays hidden
+    return;
     }
 
     setShowConfirmation(true);
@@ -89,145 +90,33 @@ const VehicleContent = () => {
   // Confirm submission
   const confirmSubmission = async () => {
     setActiveTab(slug, "Backdrop Designs");
-    // setShowConfirmation(false);
-    // setIsSubmitting(true);
-    //   setServicesDataLoading(true);
-    // try {
-    //   const formData = new FormData();
-
-    //   // Add all text fields
-    //   formData.append('selectedTemplate', vehicleTemplate.selectedTemplate || '');
-    //   formData.append('vehicleModel', vehicleInfo.general.vehicleModel || '');
-    //   formData.append('vehicleNumber', vehicleInfo.general.vehicleNumber || '');
-    //   formData.append('vehicleType', vehicleInfo.general.vehicleType || '');
-    //   formData.append('description', vehicleInfo.general.description || '');
-    //   formData.append('rcNumber', vehicleInfo.registration.rcNumber || '');
-    //   formData.append('driverName', vehicleInfo.registration.driverName || '');
-    //   formData.append('contact', vehicleInfo.contact.contact || '');
-    //   formData.append('ownerName', vehicleInfo.registration.ownerName || '');
-    //   formData.append('altContact', vehicleInfo.contact.altContact || '');
-    //   formData.append('address', vehicleInfo.contact.address || '');
-    //   formData.append('password', vehicleInfo.security.password || '');
-
-    //   // Add single files
-    //   if (vehicleInfo.media.vehicleImage) {
-    //     formData.append('vehicleImage', vehicleInfo.media.vehicleImage);
-    //   }
-    //   if (vehicleInfo.media.licenseFront) {
-    //     formData.append('licenseFront', vehicleInfo.media.licenseFront);
-    //   }
-    //   if (vehicleInfo.media.licenseBack) {
-    //     formData.append('licenseBack', vehicleInfo.media.licenseBack);
-    //   }
-    //   if (vehicleInfo.media.rcFront) {
-    //     formData.append('rcFront', vehicleInfo.media.rcFront);
-    //   }
-    //   if (vehicleInfo.media.rcBack) {
-    //     formData.append('rcBack', vehicleInfo.media.rcBack);
-    //   }
-    //   if (vehicleInfo.media.pollution) {
-    //     formData.append('pollution', vehicleInfo.media.pollution);
-    //   }
-
-    //   // Add gallery images
-    //   if (vehicleInfo.media.galleryImages?.length > 0) {
-    //     vehicleInfo.media.galleryImages.forEach((file) => {
-    //       formData.append('galleryImages', file);
-    //     });
-    //   }
-
-    //   // Add insurance files
-    //   if (vehicleInfo.media.insurance?.length > 0) {
-    //     vehicleInfo.media.insurance.forEach((file) => {
-    //       formData.append('insurance', file);
-    //     });
-    //   }
-
-    //   // Submit to backend
-    //   const response = await axios.post('/api/services/vehicle', formData, {
-    //     headers: {
-    //       'Content-Type': 'multipart/form-data',
-    //     },
-    //   });
-
-    //   const { fileData, qrUrl } = response.data;
-
-    //   dispatch(setVehicleServices(fileData));
-    //   toast.success('Vehicle details saved successfully!');
-    //   setActiveTab(slug, "QR Code");
-
-    //   // Reset form after successful submission
-    //   resetForm();
-
-
-    // } catch (error) {
-    //   console.error('Error submitting vehicle:', error);
-    //   const errorMessage = error.response?.data?.error || 
-    //                      error.response?.data?.message || 
-    //                      'Failed to save vehicle details';
-    //   toast.error(errorMessage);
-
-    //     if (error.response?.status === 401) {
-    //     window.location.href = "/login"; // ✅ Auto logout on expiry
-    //     return;
-    //   }
-    // } finally {
-    //   setIsSubmitting(false);
-    //   setServicesDataLoading(false); // ✅ End loader
-    // }
-  };
-
-  // Reset all form fields
-  const resetForm = () => {
-    // Clear all file inputs
-    Object.keys(fileInputRefs.current).forEach(key => {
-      if (fileInputRefs.current[key]) {
-        fileInputRefs.current[key].value = "";
-      }
-    });
-
-    updateDynamicForm('vehicle', null, null, {
-      general: {
-        vehicleModel: '',
-        vehicleType: '',
-        vehicleNumber: '',
-        description: ''
-      },
-      registration: {
-        rcNumber: '',
-        driverName: '',
-        ownerName: ''
-      },
-      contact: {
-        contact: '',
-        altContact: '',
-        address: ''
-      },
-      media: {
-        vehicleImage: null,
-        licenseFront: null,
-        licenseBack: null,
-        rcFront: null,
-        rcBack: null,
-        pollution: null,
-        galleryImages: [],
-        insurance: []
-      },
-      password: '',
-      vehicleTemplate: ""
-
-    });
 
   };
+
+
 
   // Handle form field changes
+   // Handle form field changes
   const handleChange = (formKey, sectionKey, fieldKey, value) => {
     updateDynamicForm(formKey, sectionKey, fieldKey, value);
     // Clear error when field is edited
     if (errors[fieldKey]) {
       setErrors(prev => ({ ...prev, [fieldKey]: undefined }));
     }
+
+    // Live validation for phone numbers
+    if (fieldKey === "contact" || fieldKey === "altContact") {
+      if (value.trim() && !/^\d{10,15}$/.test(value)) {
+        setErrors(prev => ({ ...prev, [fieldKey]: "Phone number must 10 to 15 digits" }));
+      } else {
+        setErrors(prev => ({ ...prev, [fieldKey]: undefined }));
+      }
+    } else if (errors[fieldKey]) {
+      // Clear other field errors when user types
+      setErrors(prev => ({ ...prev, [fieldKey]: undefined }));
+    }
   };
+
 
   // Handle single file upload with size validation
   const handleFileChange = (section, field, files) => {
@@ -408,7 +297,7 @@ const VehicleContent = () => {
       {servicesDataLoading && <LoadingSpinner />}
 
       <form onSubmit={handleSubmit}>
-        <div className="space-y-8 p-4 md:p-8 lg:p-12 bg-gray-50 rounded-xl  overflow-auto hide-scrollbar ">
+        <div className="space-y-8 p-4 bg-gray-50 rounded-xl  overflow-auto hide-scrollbar ">
           {/* Vehicle Profile Template Section */}
           <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-md">
             <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 border-b pb-2 sm:pb-3 border-gray-200">
@@ -448,6 +337,9 @@ const VehicleContent = () => {
               {renderFileInput("media", "vehicleImage", "Vehicle Image", "image/*", true)}
 
               <div>
+                <label className="block text-base font-medium text-gray-700 mb-1">
+        Vehicle Name <span className="text-red-500">*</span>
+      </label>
                 <input
                   type="text"
                   placeholder="Vehicle Name *"
@@ -463,6 +355,9 @@ const VehicleContent = () => {
                 )}
               </div>
 
+<label className="block text-base font-medium text-gray-700 mb-1">
+        Vehicle Type
+      </label>
               <input
                 type="text"
                 placeholder="Vehicle Type (e.g., Sedan, SUV, Motorcycle)"
@@ -473,6 +368,10 @@ const VehicleContent = () => {
                 }
               />
 
+ 
+      <label className="block text-base font-medium text-gray-700 mb-1">
+        Vehicle Number
+      </label>
               <input
                 type="text"
                 placeholder="Vehicle Number"
@@ -483,6 +382,10 @@ const VehicleContent = () => {
                 }
               />
 
+
+ <label className="block text-base font-medium text-gray-700 mb-1">
+        Vehicle Description
+      </label>
               <textarea
                 placeholder="Vehicle Description (e.g., color, features, condition)"
                 rows={4}
@@ -502,6 +405,9 @@ const VehicleContent = () => {
             </h3>
             <div className="space-y-4 sm:space-y-5">
               <div>
+                 <label className="block text-base font-medium text-gray-700 mb-1">
+        RC Number <span className="text-red-500">*</span>
+      </label>
                 <input
                   type="text"
                   placeholder="RC Number *"
@@ -517,6 +423,9 @@ const VehicleContent = () => {
                 )}
               </div>
 
+ <label className="block text-base font-medium text-gray-700 mb-1">
+        Driver Name
+      </label>
               <input
                 type="text"
                 placeholder="Driver Name"
@@ -528,6 +437,9 @@ const VehicleContent = () => {
               />
 
               <div>
+                 <label className="block text-base font-medium text-gray-700 mb-1">
+        Driver Contact Number 
+      </label>
                 <input
                   type="text"
                   placeholder="Driver Contact Number"
@@ -543,6 +455,9 @@ const VehicleContent = () => {
                 )}
               </div>
 
+              <label className="block text-base font-medium text-gray-700 mb-1">
+        Owner Name
+      </label>
               <input
                 type="text"
                 placeholder="Owner Name"
@@ -554,6 +469,9 @@ const VehicleContent = () => {
               />
 
               <div>
+                 <label className="block text-base font-medium text-gray-700 mb-1">
+        Owner Contact Number 
+      </label>
                 <input
                   type="text"
                   placeholder="Owner Contact Number"
@@ -609,87 +527,7 @@ const VehicleContent = () => {
               {renderFileInput("media", "rcBack", "RC Back Image", "image/*")}
               {renderFileInput("media", "pollution", "Pollution Image", "image/*")}
 
-              {/* <div className="space-y-2">
-                <label className="block text-base font-medium text-gray-700">
-                  Vehicle Gallery Images (Multiple)
-                </label>
-                <input
-                  type="file"
-                  ref={el => fileInputRefs.current.galleryImages = el}
-                  accept="image/*"
-                  multiple
-                  className="w-full text-gray-700 file:mr-4 file:py-2 sm:file:py-3 file:px-4 sm:file:px-6 file:rounded-full file:border-0 file:text-xs sm:file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
-                  onChange={(e) =>
-                    handleGalleryFileChange("media", "galleryImages", e.target.files)
-                  }
-                />
-                {(vehicleInfo.media.galleryImages || []).length > 0 && (
-                  <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
-                    {(vehicleInfo.media.galleryImages || []).map((file, index) => (
-                      <div key={index} className="relative group">
-                        <img
-                          src={URL.createObjectURL(file)}
-                          alt={`Gallery Image ${index + 1}`}
-                          className="w-full h-20 sm:h-24 object-center rounded-lg border border-gray-300 shadow-sm"
-                        />
-                        <button
-                          type="button"
-                          onClick={() =>
-                            handleRemoveGalleryImage("media", "galleryImages", index)
-                          }
-                          className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                          aria-label="Remove image"
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 sm:h-4 sm:w-4" viewBox="0 0 20 20" fill="currentColor">
-                            <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                          </svg>
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div> */}
-              {/* <div className="space-y-2">
-                <label className="block text-base font-medium text-gray-700">
-                  Insurance (Multiple)
-                </label>
-                <input
-                  type="file"
-                  ref={el => fileInputRefs.current.insurance = el}
-                  accept="image/*"
-                  multiple
-                  className="w-full text-gray-700 file:mr-4 file:py-2 sm:file:py-3 file:px-4 sm:file:px-6 file:rounded-full file:border-0 file:text-xs sm:file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
-                  onChange={(e) =>
-                    handleGalleryFileChange("media", "insurance", e.target.files)
-                  }
-                />
-                {(vehicleInfo.media.insurance || []).length > 0 && (
-                  <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
-                    {(vehicleInfo.media.insurance || []).map((file, index) => (
-                      <div key={index} className="relative group">
-                        <img
-                          src={URL.createObjectURL(file)}
-                          alt={`Insurance Image ${index + 1}`}
-                          className="w-full h-20 sm:h-24 object-center rounded-lg border border-gray-300 shadow-sm"
-                        />
-                        <button
-                          type="button"
-                          onClick={() =>
-                            handleRemoveGalleryImage("media", "insurance", index)
-                          }
-                          className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                          aria-label="Remove image"
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 sm:h-4 sm:w-4" viewBox="0 0 20 20" fill="currentColor">
-                            <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                          </svg>
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div> */}
-
+             
               {/* Media Section */}
               <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-md">
                 <h3 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3 border-gray-200">
@@ -704,15 +542,7 @@ const VehicleContent = () => {
                     <div className="flex items-center justify-start gap-6 pb-4">
                       <label className="block text-base  font-medium text-gray-700">
                         Gallery Images
-                        {/* <input
-                      type="file"
-                      accept="image/*"
-                      multiple
-                      // className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
-                      onChange={(e) =>
-                        handleFileChange("media", "galleryImages", e.target.files, true)
-                      }
-                    /> */}
+                       
                       </label>
 
                       {/* Upload Count Display */}
@@ -763,39 +593,7 @@ const VehicleContent = () => {
                     </div>
                   </div>
 
-                  {/* <div className="space-y-2">
-              <label className="block text-base font-medium text-gray-700">
-                Gallery Images
-              </label>  
-
-              <input
-                type="file"
-                accept="image/*"
-                multiple
-                className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
-                onChange={(e) => handleFileChange("media", "galleryImages", e.target.files, true)}
-              />
-                            {businessInfo.media.galleryImages?.length > 0 && (
-                <div className="grid grid-cols-3 gap-2 mb-4">
-                  {businessInfo.media.galleryImages.map((image, index) => (
-                    <div key={index} className="relative">
-                      <img
-                        src={typeof image === 'string' ? image : URL.createObjectURL(image)}
-                        alt={`Gallery ${index + 1}`}
-                        className="h-24 w-full object-center rounded-lg"
-                      />
-                      <button
-                        onClick={() => removeImage("media", "galleryImages", index)}
-                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
-                        aria-label={`Remove image ${index + 1}`}
-                      >
-                        <MdCancel />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div> */}
+                 
                 </div>
               </div>
 
@@ -813,15 +611,7 @@ const VehicleContent = () => {
                     <div className="flex items-center justify-start gap-6 pb-4">
                       <label className="block text-base  font-medium text-gray-700">
                         Insurance
-                        {/* <input
-    type="file"
-    accept="image/*"
-    multiple
-    // className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
-    onChange={(e) =>
-      handleFileChange("media", "galleryImages", e.target.files, true)
-    }
-  /> */}
+                        
                       </label>
 
                       {/* Upload Count Display */}
@@ -872,39 +662,7 @@ const VehicleContent = () => {
                     </div>
                   </div>
 
-                  {/* <div className="space-y-2">
-              <label className="block text-base font-medium text-gray-700">
-                Gallery Images
-              </label>  
-
-              <input
-                type="file"
-                accept="image/*"
-                multiple
-                className="w-full text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
-                onChange={(e) => handleFileChange("media", "galleryImages", e.target.files, true)}
-              />
-                            {businessInfo.media.galleryImages?.length > 0 && (
-                <div className="grid grid-cols-3 gap-2 mb-4">
-                  {businessInfo.media.galleryImages.map((image, index) => (
-                    <div key={index} className="relative">
-                      <img
-                        src={typeof image === 'string' ? image : URL.createObjectURL(image)}
-                        alt={`Gallery ${index + 1}`}
-                        className="h-24 w-full object-center rounded-lg"
-                      />
-                      <button
-                        onClick={() => removeImage("media", "galleryImages", index)}
-                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
-                        aria-label={`Remove image ${index + 1}`}
-                      >
-                        <MdCancel />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div> */}
+                 
                 </div>
               </div>
             </div>
