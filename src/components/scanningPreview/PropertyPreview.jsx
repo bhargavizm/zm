@@ -110,27 +110,30 @@ const PropertyPreview = ({ data }) => {
                 />
               )}
 
-              {galleryImages.length > 0 && (
-                <div className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20">
-                  <div className="flex items-center text-[#008080] mb-2">
-                    <FiImage className="mr-2" />
-                    <span className="font-medium">Gallery Images</span>
-                  </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                    {galleryImages.map((img, idx) => (
-                      <div key={idx} className="rounded overflow-hidden">
-                        <Image
-                          src={img}
-                          alt={`property-image-${idx}`}
-                          width={300}
-                          height={200}
-                          className="w-full h-auto object-center rounded shadow"
-                        />
-                      </div>
-                    ))}
-                  </div>
+             {galleryImages.length > 0 && (
+              <div className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20">
+                <div className="flex items-center text-[#008080] mb-2">
+                  <FiImage className="mr-2" />
+                  <span className="font-medium">Gallery Images</span>
                 </div>
-              )}
+                <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-3">
+                  {galleryImages.map((img, idx) => (
+                    <div
+                      key={idx}
+                      className="relative w-full aspect-square rounded overflow-hidden shadow"
+                    >
+                      <Image
+                        src={img}
+                        alt={`property-image-${idx}`}
+                        fill
+                        className="object-center"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             </div>
           ) : (
             <div className="h-full flex flex-col items-center justify-center text-center text-gray-400">
