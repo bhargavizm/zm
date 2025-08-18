@@ -364,7 +364,7 @@ const PropertyContent = () => {
                   onClick={() => setShowConfirmModal(false)}
                   className="px-4 py-2 rounded-lg text-gray-600 border border-gray-300 hover:bg-gray-100"
                 >
-                  Edit
+                  Back
                 </button>
                 <button
                   onClick={handleConfirmedSubmit}

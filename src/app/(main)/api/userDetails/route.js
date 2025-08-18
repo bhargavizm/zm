@@ -1,30 +1,7 @@
 // /app/api/user/services/route.js
 import { connectDB } from "@/lib/mongoDB";
 import { authentication } from "@/utils/authentication";
-import MenuCardsServiceModel from "@/models/services/menuCardSchema";
-import { BusinessCardsModel, VCardsModel } from "@/models/services/cardsSchema";
-import ProductsModel from "@/models/services/productSchema";
 import User from "@/models/auth/userSchema";
-import {
-  AudioServiceModel,
-  GalleryServiceModel,
-  PDFServiceModel,
-  VideoServiceModel,
-} from "@/models/services/encryptedServicesSchema";
-import URLServiceModel from "@/models/services/urlServicesSchema";
-import PetTagModal from "@/models/services/petIdSchema";
-import MultiUrlModal from "@/models/services/multiUrlSchema";
-import ResumeModel from "@/models/services/resumeSchema";
-import MedicalAlertModel from "@/models/services/medicalAlertSchema";
-import TextMessageModal from "@/models/services/textMessage";
-import DiscountModal from "@/models/services/discountSchema";
-import EventModel from "@/models/services/eventSchema";
-import KidsSafetyModal from "@/models/services/kidSafetySchema";
-import VehicleModel from "@/models/services/vehicleSchema";
-import propertySchema from "@/models/services/propertySchema";
-import WifiModel from "@/models/services/wifiSchema";
-import SmsModal from "@/models/services/smsSchema";
-import BusinessShopModal from "@/models/services/businessShopSchema";
 import serviceModelMap, { urlBasedServices } from "../common/allServiceModels";
 
 export async function GET(request) {

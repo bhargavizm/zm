@@ -2,11 +2,8 @@
 
 import React, { useEffect, useMemo } from "react";
 import Image from "next/image";
-import Slider from "react-slick";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import useDesignContext from "@/components/hooks/useDesignContext";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 
 const GalleryPreview = () => {
   const { imagesFormData } = useServicesContext();
@@ -24,7 +21,7 @@ const GalleryPreview = () => {
     setBgDesign(defaultBg);
   }, []);
 
-  // ✅ Memoize preview URLs to prevent re-creation on every render
+  // ✅ Memoize preview URLs
   const imagePreviews = useMemo(() => {
     if (!files || files.length === 0) return [];
     return files.map((file) => {
@@ -37,7 +34,7 @@ const GalleryPreview = () => {
     });
   }, [files]);
 
-  // ✅ Cleanup object URLs on unmount or when imagePreviews change
+  // ✅ Cleanup object URLs
   useEffect(() => {
     return () => {
       imagePreviews.forEach((img) => {
@@ -45,18 +42,6 @@ const GalleryPreview = () => {
       });
     };
   }, [imagePreviews]);
-
-  // ⚡ Slider settings
-  const sliderSettings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: true,
-    autoplay: true,
-    autoplaySpeed: 3000,
-  };
 
   return (
     <div className="flex justify-center items-start w-full">
@@ -104,48 +89,47 @@ const GalleryPreview = () => {
         )}
 
         {/* 🖼️ Foreground Content */}
-      <div className="relative z-10 w-full h-full p-4 flex flex-col justify-start text-white text-center bg-black/50 overflow-y-auto">
-  {/* Title */}
-  {title && (
-    <div className="flex flex-col items-start mb-4 px-4">
-      <p className="text-lg font-semibold">Title:</p>
-      <p className="text-xl font-bold break-words">{title}</p>
-    </div>
-  )}
-
-  {/* Description */}
-  {description && (
-    <div className="flex flex-col items-start mb-4 px-4">
-      <p className="text-lg font-semibold">Description:</p>
-      <p className="text-md font-medium whitespace-pre-wrap break-words">
-        {description}
-      </p>
-    </div>
-  )}
-
-  {/* Images Slider */}
-  <div className="flex flex-col items-center mb-4 w-full px-4">
-    <p className="text-md text-white font-medium mb-2">Images ({imagePreviews.length})</p>
-    {imagePreviews.length > 0 ? (
-      <div className="w-full">
-        <Slider {...sliderSettings}>
-          {imagePreviews.map((img, idx) => (
-            <div key={idx} className="px-2">
-              <img
-                src={img.url}
-                alt={img.name}
-                className="rounded-lg object-center w-full h-[200px] mx-auto"
-              />
+        <div className="relative z-10 w-full h-full p-4 flex flex-col justify-start text-white text-center bg-black/50 overflow-y-auto">
+          {/* Title */}
+          {title && (
+            <div className="flex flex-col items-start mb-4 px-4">
+              <p className="text-lg font-semibold">Title:</p>
+              <p className="text-xl font-bold break-words">{title}</p>
             </div>
-          ))}
-        </Slider>
-      </div>
-    ) : (
-      <p className="text-sm text-white/70">No images selected</p>
-    )}
-  </div>
-</div>
+          )}
 
+          {/* Description */}
+          {description && (
+            <div className="flex flex-col items-start mb-4 px-4">
+              <p className="text-lg font-semibold">Description:</p>
+              <p className="text-md font-medium whitespace-pre-wrap break-words">
+                {description}
+              </p>
+            </div>
+          )}
+
+          {/* Images Grid */}
+          <div className="flex flex-col items-center mb-4 w-full px-4">
+            <p className="text-md text-white font-medium mb-2">
+              Images ({imagePreviews.length})
+            </p>
+            {imagePreviews.length > 0 ? (
+              <div className="grid grid-cols-2 gap-3 w-full">
+                {imagePreviews.map((img, idx) => (
+                  <div key={idx} className="w-full">
+                    <img
+                      src={img.url}
+                      alt={img.name}
+                      className="rounded-lg object-center w-full h-[150px]"
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-white/70">No images selected</p>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
