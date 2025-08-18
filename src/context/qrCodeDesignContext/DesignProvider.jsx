@@ -89,13 +89,22 @@ const DesignProvider = ({ children }) => {
   };
 
   // Reset function to clear everything and set default preview
-  const resetPreview = () => {
-    setBgDesign(null);
-    setSelectedQRShape(null);
-    setSelectedLogo(null);
-    setSelectedSticker(null);
-    setFinalImages(DEFAULT_PREVIEW_IMAGE);
-  };
+// Reset function to clear everything and set default preview
+const resetPreview = () => {
+  setBgDesign(null);
+  setSelectedQRShape("square");   // 👈 fallback shape
+  setSelectedBodyFrame("heart");  // 👈 fallback body frame
+  setSelectedEyeFrame("rounded"); // 👈 fallback eye frame
+  setSelectedEyeBall("circle");   // 👈 fallback eyeball
+
+  setSelectedLogo(DEFAULT_LOGO);       // 👈 fallback logo
+  setSelectedSticker(DEFAULT_STICKER); // 👈 fallback sticker
+  setBackgroundImage(null);
+
+  setFinalImages(DEFAULT_PREVIEW_IMAGE); // 👈 show default preview image
+  localStorage.setItem("finalImages", JSON.stringify(DEFAULT_PREVIEW_IMAGE));
+};
+
 
  // Load persisted values on mount
   useEffect(() => {

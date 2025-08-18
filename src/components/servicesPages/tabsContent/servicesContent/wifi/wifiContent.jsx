@@ -28,11 +28,11 @@ const WifiContent = () => {
   const dispatch = useDispatch();
 
 
-  const handleChange = (field, value) => {
-    if (value.length > 7) {
-      toast.error("Please make your name and password within 7 characters");
-      return; // ignore input beyond 7 chars
-
+  // const handleChange = (field, value) => {
+  //   if (value.length > 7) {
+  //     toast.error("Please make your name and password within 7 characters");
+  //     return; // ignore input beyond 7 chars
+  //   }
   const validateField = (field, value) => {
     let error = "";
     if (!value.trim() && (field === "ssid" || field === "password")) {
@@ -60,27 +60,45 @@ const WifiContent = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+const handleSubmit = (e) => {
+  e.preventDefault();
 
-    // check if any field has errors
-    const newErrors = {};
-    if (!wifiFormData.ssid) {
-      newErrors.ssid = "SSID is required.";
-    }
-    if (wifiFormData.security !== "NoPassword" && !wifiFormData.password) {
+  const newErrors = {};
+
+  // SSID check
+  if (!wifiFormData.ssid || !wifiFormData.ssid.trim()) {
+    newErrors.ssid = "SSID is required.";
+  }
+
+  // Security dropdown check
+  if (
+    !wifiFormData.security ||
+    wifiFormData.security === "select"
+  ) {
+    newErrors.security = "Please select a Security type.";
+  }
+
+  // Password check (only if security is not "NoPassword")
+  if (wifiFormData.security !== "NoPassword") {
+    if (!wifiFormData.password) {
       newErrors.password = "Password is required.";
+    } else if (wifiFormData.password.length < 4) {
+      newErrors.password = "Password must be at least 4 characters.";
     }
+  }
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      toast.error("Please fix the errors before continuing.");
-      return;
-    }
+  // If errors exist, block next step
+  if (Object.keys(newErrors).length > 0) {
+    setErrors(newErrors);
+    toast.error("Please fix the errors before continuing.");
+    return;
+  }
 
-    setSubmissionStep("confirm");
-    setModalVisible(true);
-  };
+  // ✅ All good → show confirm modal
+  setSubmissionStep("confirm");
+  setModalVisible(true);
+};
+
 
   const handleEdit = () => {
     setModalVisible(false);
@@ -128,24 +146,30 @@ const WifiContent = () => {
             </div>
 
             {/* Security Type */}
-            <div>
-              <label className="text-sm font-medium text-gray-600 mb-1 block">
-                Security Type *
-              </label>
-              <div className="relative">
-                <select
-                  value={wifiFormData.security || "WPA"}
-                  onChange={(e) => handleChange("security", e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border rounded-lg text-sm border-gray-300 bg-white focus:ring-2 focus:ring-teal-500 focus:outline-none"
-                  required
-                >
-                  <option value="WPA">WPA/WPA2</option>
-                  <option value="WEP">WEP</option>
-                  <option value="NoPassword">No Password</option>
-                </select>
-                <Shield className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
-              </div>
-            </div>
+         <div>
+  <label className="text-sm font-medium text-gray-600 mb-1 block">
+    Security Type *
+  </label>
+  <div className="relative">
+    <select
+      value={wifiFormData.security}
+      onChange={(e) => handleChange("security", e.target.value)}
+      className={`w-full pl-10 pr-4 py-2 border rounded-lg text-sm bg-white focus:ring-2 focus:ring-teal-500 focus:outline-none ${
+        errors.security ? "border-red-500" : "border-gray-300"
+      }`}
+      required
+    >
+      <option value="select">Select an Option</option>
+      <option value="WPA">WPA/WPA2</option>
+      <option value="WEP">WEP</option>
+      <option value="NoPassword">No Password</option>
+    </select>
+    <Shield className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
+  </div>
+  {errors.security && (
+    <p className="text-xs text-red-500 mt-1">{errors.security}</p>
+  )}
+</div>
 
             {/* Password */}
             {wifiFormData.security !== "NoPassword" && (

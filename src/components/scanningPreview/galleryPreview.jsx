@@ -1,11 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Slider from "react-slick";
 import BgDesignRenderer from "./bgDesignRender";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-
 
 const GalleryPreview = ({ data = {} }) => {
   const { title = "", description = "", files = [], bgDesign } = data;
@@ -37,18 +33,6 @@ const GalleryPreview = ({ data = {} }) => {
     };
   }, [files]);
 
-  const sliderSettings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-     arrows: true,         // Manual click arrows
-  autoplay: true,       // Automatic slide
-  autoplaySpeed: 3000,  // Time between slides (in ms)
-  pauseOnHover: true, 
-  };
-
   return (
     <div>
       <div>
@@ -58,43 +42,41 @@ const GalleryPreview = ({ data = {} }) => {
         </div>
 
         {/* Foreground Content */}
-        <div className="relative z-10 p-9 m-2 flex flex-col  space-y-4 text-black text-center bg-white/50 ">
+        <div className="relative z-10 p-9 m-2 flex flex-col space-y-4 text-black text-center bg-white/50">
           {title && (
             <div className="flex gap-2">
               <p className="text-xl font-semibold">Title:</p>
-              <p className="text-xl font-bold">{title}</p>
+              <p className="text-xl font-bold break-words">{title}</p>
             </div>
           )}
+
           {description && (
             <div className="flex gap-2">
               <p className="text-xl font-semibold">Description:</p>
-              <p className="text-xl font-medium whitespace-pre-wrap">
+              <p className="text-xl font-medium whitespace-pre-wrap break-words">
                 {description}
               </p>
             </div>
           )}
 
+          {/* Images Grid */}
           <div className="mb-2 text-center w-full">
-            <p className="text-md font-medium">
-              Images 
-            </p>
+            <p className="text-md font-medium">Images</p>
 
             {imagePreviews.length > 0 ? (
-              <div className="mt-4 w-full  mx-auto">
-                <Slider {...sliderSettings}>
-                  {imagePreviews.map((img, idx) => (
-                    <div key={idx} className="px-2">
-                      <img
-                        src={img.url}
-                        alt={img.name}
-                        className="rounded-lg object-center w-full h-[250px] mx-auto"
-                      />
-                    </div>
-                  ))}
-                </Slider>
+              <div className="mt-4 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                {imagePreviews.map((img, idx) => (
+                  <div key={idx} className="w-full">
+                    <img
+                      src={img.url}
+                      alt={img.name}
+                      className="rounded-lg object-center w-full h-[200px] mx-auto"
+                    />
+                  </div>
+                ))}
               </div>
             ) : (
-              <p className="text-sm text-white/70">No images selected</p>
+              <p className="text-sm text-black/70">No images selected</p>
             )}
           </div>
         </div>
