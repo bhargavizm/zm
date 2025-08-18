@@ -27,6 +27,12 @@ const WifiContent = () => {
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
 
+
+  const handleChange = (field, value) => {
+    if (value.length > 7) {
+      toast.error("Please make your name and password within 7 characters");
+      return; // ignore input beyond 7 chars
+
   const validateField = (field, value) => {
     let error = "";
     if (!value.trim() && (field === "ssid" || field === "password")) {
@@ -35,6 +41,7 @@ const WifiContent = () => {
       error = "Must be within 7 characters.";
     } else if (field === "password" && value.length < 4) {
       error = "Password must be at least 4 characters.";
+
     }
     return error;
   };
@@ -90,18 +97,15 @@ const WifiContent = () => {
       <div className="flex items-center justify-center py-8 relative">
         <div className="bg-white rounded-2xl shadow-xl p-8 space-y-6 w-full max-w-md">
           <div className="bg-blue-50 p-3 rounded-lg text-sm text-blue-800">
-            <p>
-              Please keep your WiFi name and password within 7 characters for
-              optimal compatibility.
-            </p>
+            <p>Please keep your WiFi name and password within 7 characters for optimal compatibility.</p>
           </div>
 
           <form className="space-y-5" onSubmit={handleSubmit}>
             {/* SSID */}
             <div>
               <label className="text-sm font-medium text-gray-600 mb-1 block">
-                WiFi SSID *
-                <span className="text-gray-400 text-xs">(Max 7 characters)</span>
+                WiFi SSID *<span className="text-gray-400 text-xs">(Max 7 characters)</span>
+
               </label>
               <div className="relative">
                 <input
@@ -110,6 +114,7 @@ const WifiContent = () => {
                   onChange={(e) => handleChange("ssid", e.target.value)}
                   placeholder="Enter WiFi name"
                   maxLength={7}
+
                   className={`w-full pl-10 pr-4 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none ${
                     errors.ssid ? "border-red-500" : "border-gray-300"
                   }`}
@@ -146,8 +151,9 @@ const WifiContent = () => {
             {wifiFormData.security !== "NoPassword" && (
               <div>
                 <label className="text-sm font-medium text-gray-600 mb-1 block">
-                  Wifi Password *{" "}
-                  <span className="text-gray-400 text-xs">(Max 7 characters)</span>
+
+                  Wifi Password * <span className="text-gray-400 text-xs">(Max 7 characters)</span>
+
                 </label>
                 <div className="relative">
                   <input

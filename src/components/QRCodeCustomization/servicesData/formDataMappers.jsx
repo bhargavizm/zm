@@ -362,35 +362,39 @@ export const formDataMappers = {
   },
 
   events: {
-    type: "json", // 🟢 JSON body
-    map: (body, state = {}, bgDesign) => {
-      return {
-        organizer: state.organizer || "",
-        title: state.title || "",
-        summary: state.summary || "",
-        fromDate: state.fromDate || "",
-        toDate: state.toDate || "",
-        venue: state.venue || "",
-        address: state.address || "",
+  type: "formData", // 🟢 Switch to FormData
+  map: (formData, state = {}, bgDesign) => {
+    // ✅ Append text fields
+    formData.append("organizer", state.organizer || "");
+    formData.append("title", state.title || "");
+    formData.append("summary", state.summary || "");
+    formData.append("fromDate", state.fromDate || "");
+    formData.append("toDate", state.toDate || "");
+    formData.append("venue", state.venue || "");
+    formData.append("address", state.address || "");
+    formData.append("contactName", state.contactName || "");
+    formData.append("contactEmail", state.contactEmail || "");
+    formData.append("contactPhone", state.contactPhone || "");
+    formData.append("password", state.password || "");
+    formData.append("bgDesign", bgDesign || "");
 
-        contactName: state.contactName || "",
-        contactEmail: state.contactEmail || "",
-        contactPhone: state.contactPhone || "",
+    // ✅ QR Code fields
 
-        qrCodeImage: state.qrCodeImage || null,
+    // ✅ Multiple file uploads
+    // inside events mapper
+if (state.files && Array.isArray(state.files)) {
+  state.files.forEach((item) => {
+    if (item.file) {
+      formData.append("files", item.file); // must be raw file object
+    }
+  });
+}
 
-        location: {
-          latitude: (state.location && state.location.latitude) || "",
-          longitude: (state.location && state.location.longitude) || "",
-          address: (state.location && state.location.address) || "",
-        },
 
-        password: state.password || "",
-
-        bgDesign: bgDesign || null,
-      };
-    },
+    return formData;
   },
+},
+
 
   "medical-alerts": {
     type: "formData",

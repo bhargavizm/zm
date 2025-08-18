@@ -176,6 +176,7 @@ import toast from "react-hot-toast";
 
 import EncryptedPricesModalPopUp from "./modalPopUps/encryptedPricesModalPopUp";
 import SecuredPricesModalPopUp from "./modalPopUps/securedPricesModalPopUp";
+import useDesignContext from "@/components/hooks/useDesignContext";
 
 export const uploadImageToCloudinary = async (dataUrl) => {
   const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
@@ -210,6 +211,8 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
     servicesDataLoading,
     setServicesDataLoading,
   } = useServicesContext();
+
+    const { setFinalImages } = useDesignContext();
 
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("");
@@ -298,6 +301,13 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
 
       downloadImage(dataUrl);
       toast.success("QR Code downloaded successfully!");
+
+//      setFinalImages((prev) => {
+//   const defaultImg = "/investor.webp";
+//   const updated =  defaultImg;
+//   localStorage.setItem("finalImages", JSON.stringify(updated));
+//   return updated;
+// });
     } catch (error) {
       toast.error("Download failed. Try again.");
     } finally {

@@ -146,9 +146,8 @@ export async function PATCH(req, context) {
       );
     }
 
-    // 8️⃣ Parse JSON body
-    const body = await req.json();
-    const { plan } = body;
+    const formData = await req.formData();
+    const plan = formData.get("plan");
 
     // 9️⃣ Free plan eligibility
     if (plan === "Free") {
@@ -160,6 +159,15 @@ export async function PATCH(req, context) {
         );
       }
     }
+
+     const body = {
+      plan,
+      price: formData.get("price"),
+      validityDays: plan === "Free" ? 90 : formData.get("validityDays"),
+      startDate: formData.get("startDate"),
+      status: formData.get("status"),
+      renewalDate: formData.get("renewalDate"),
+    };
 
     // 🔟 Update price details
     await handleSecuredServicesPriceDetails(doc, body);

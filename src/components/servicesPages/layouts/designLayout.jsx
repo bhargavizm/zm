@@ -97,11 +97,11 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
 
               {/* Tab Content */}
               <div className="px-4 pb-6 h-[110vh] overflow-y-auto scrollbar-hide ">
-                {activeTab === "Content" && 
-                <div className="">
-<ContentTabComponent />
-                </div>
-                }
+                {activeTab === "Content" && (
+                  <div className="">
+                    <ContentTabComponent />
+                  </div>
+                )}
 
                 {activeTab === "Backdrop Designs" && (
                   <div className="flex flex-col h-full">
@@ -148,7 +148,10 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
             <div className="col-span-5 bg-white rounded-3xl shadow-lg py-8  lg:mt-0">
               <div className="flex justify-center gap-4 px-4 mb-4 bg-[#58b8b8] shadow-lg py-2 mt-7 ">
                 <div
-                  onClick={() => setActivePreview("scan")}
+                  onClick={() => {
+                    setActivePreview("scan");
+                    setActiveTab(slug, "QR Code"); // 🔽 force tab switch
+                  }}
                   className={`p-3 rounded-full cursor-pointer ${
                     activePreview === "scan"
                       ? "bg-white text-green-600 shadow-md"
@@ -158,7 +161,10 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
                   <MdQrCodeScanner size={24} />
                 </div>
                 <div
-                  onClick={() => setActivePreview("eye")}
+                  onClick={() => {
+                    setActivePreview("eye");
+                    setActiveTab(slug, "Content"); // 🔽 force tab switch
+                  }}
                   className={`p-3 rounded-full cursor-pointer ${
                     activePreview === "eye"
                       ? "bg-white text-mainGreen shadow-md"
@@ -212,7 +218,10 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
             <div className="col-span-6 lg:col-span-5 bg-white rounded-3xl shadow-lg lg:mt-0">
               <div className="flex justify-center gap-4  mb-4 bg-[#58b8b8] shadow-lg py-2 mt-4 ">
                 <div
-                  onClick={() => setActivePreview("scan")}
+                  onClick={() => {
+                    setActivePreview("scan");
+                    setActiveTab(slug, "QR Code"); // 🔽 force tab switch
+                  }}
                   className={`p-3 rounded-full cursor-pointer ${
                     activePreview === "scan"
                       ? "bg-white text-green-600 shadow-md"
@@ -222,7 +231,10 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
                   <MdQrCodeScanner size={24} />
                 </div>
                 <div
-                  onClick={() => setActivePreview("eye")}
+                  onClick={() => {
+                    setActivePreview("eye");
+                    setActiveTab(slug, "Content"); // 🔽 force tab switch
+                  }}
                   className={`p-3 rounded-full cursor-pointer ${
                     activePreview === "eye"
                       ? "bg-white text-mainGreen shadow-md"
@@ -267,8 +279,6 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
 
             {/* right Panel */}
             <div className="col-span-6 lg:col-span-7 bg-white rounded-3xl shadow-lg">
-              {/* ...rest of your layout */}
-
               {/* Tabs */}
 
               <div className="grid grid-cols-3 md:px-6 bg-[#58b8b8]  shadow-lg py-2 mb-4">

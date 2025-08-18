@@ -18,7 +18,7 @@ const useSubmitForm = (
 ) => {
   const dispatch = useDispatch();
   const { setQrCodeUrl } = useDesignContext();
-
+console.log("active", activeService);
   const submit = async () => {
     const mapperObj = formDataMappers[activeService];
 
@@ -27,17 +27,20 @@ const useSubmitForm = (
       return;
     }
     const { type, map } = mapperObj;
-
+    console.log("mapperObj", mapperObj);
     let dataToSend;
     let headers = {};
-
+    console.log("formDataState", formDataState);
+     console.log("dataToSend", dataToSend);
     if (type === "formData") {
+       console.log("dataToSend", dataToSend);
       dataToSend = new FormData();
       map(dataToSend, formDataState, bgDesign);
-      headers["Content-Type"] = "multipart/form-data";
+      // headers["Content-Type"] = "multipart/form-data";
     } else if (type === "json") {
+       console.log("dataToSend", dataToSend);
       dataToSend = map({}, formDataState, bgDesign); // Returns JSON object
-      headers["Content-Type"] = "application/json";
+      // headers["Content-Type"] = "application/json";
     }
 
     try {
@@ -46,7 +49,7 @@ const useSubmitForm = (
         dataToSend,
         { headers, withCredentials: true }
       );
-    
+
       if (res.data.success) {
         toast.success(res.data.message || "Submitted successfully");
 
@@ -63,17 +66,15 @@ const useSubmitForm = (
         }
         if (typeof setBgDesign === "function") {
           setBgDesign(null);
+        }
 
-        } 
-
-          return {
-  qrUrl: res.data.qrUrl,
-  serviceId: res.data.data?._id,
-  serviceName:activeService,
-    userId:res?.data?.data?.user.id,
-  userName:res?.data?.data?.user.name
-}; // ✅ Return the qrUrl instead of true
-
+        return {
+          qrUrl: res.data.qrUrl,
+          serviceId: res.data.data?._id,
+          serviceName: activeService,
+          userId: res?.data?.data?.user.id,
+          userName: res?.data?.data?.user.name,
+        }; // ✅ Return the qrUrl instead of true
       } else {
         toast.error("Something went wrong");
         return false;
