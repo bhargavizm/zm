@@ -7,6 +7,8 @@ import { DesignContext } from "../qrCodeDesignContext/DesignContext";
 
 const DEFAULT_LOGO = "/images/logos/insta.webp";
 const DEFAULT_STICKER = "/images/stickers/book1.webp";
+const DEFAULT_PREVIEW_IMAGE = "/invester.webp"; // 👈 default fallback image
+
 
 const DesignProvider = ({ children }) => {
   const [bgDesign, setBgDesign] = useState(null);
@@ -32,6 +34,7 @@ const DesignProvider = ({ children }) => {
   const [companyLogoSize, setCompanyLogoSize] = useState(105); // for outer company logo
   const [customLogo, setCustomLogo] = useState(null);
 
+  const [finalImages, setFinalImages] = useState([]);
   const [freePlanCount,setFreePlanCount]=useState(0)
 
 
@@ -85,6 +88,15 @@ const DesignProvider = ({ children }) => {
     return activeTabs[slug] || "Content";
   };
 
+  // Reset function to clear everything and set default preview
+  const resetPreview = () => {
+    setBgDesign(null);
+    setSelectedQRShape(null);
+    setSelectedLogo(null);
+    setSelectedSticker(null);
+    setFinalImages(DEFAULT_PREVIEW_IMAGE);
+  };
+
  // Load persisted values on mount
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -102,10 +114,16 @@ const DesignProvider = ({ children }) => {
     // if (savedScale) setScale(parseInt(savedScale));
   }, []);
 
+  useEffect(() => {
+  const saved = localStorage.getItem("finalImages");
+  if (saved) setFinalImages(JSON.parse(saved));
+}, []);
+
   return (
     <DesignContext.Provider
       value={{
-        selectedQRCodeImage, setSelectedQRCodeImage,
+        selectedQRCodeImage, setSelectedQRCodeImage, finalImages,
+    setFinalImages,resetPreview,
         text,
         setText,
         matrix,

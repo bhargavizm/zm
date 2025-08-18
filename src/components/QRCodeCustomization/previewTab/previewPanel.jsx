@@ -15,6 +15,9 @@ import DownloadButton from "./downloadButton";
 import toast from "react-hot-toast";
 
 
+const DEFAULT_STICKER = "/default-shape.png";
+
+
 const convertToBase64 = async (url) => {
   const response = await fetch(url, { mode: "cors" });
   const blob = await response.blob();
@@ -30,6 +33,7 @@ const PreviewPanel = () => {
   const previewRef = useRef(null);
 
   const {
+    finalImages,
     foregroundColorMode,
     foregroundColor,
     foregroundGradientStart,
@@ -64,7 +68,7 @@ const PreviewPanel = () => {
     moduleShapes,
     colorMode,
     qrColor: fgColor,
-    selectedSticker,
+    selectedSticker,setSelectedSticker,
     bgColor,
     gradientStart,
     gradientEnd,
@@ -79,6 +83,14 @@ const PreviewPanel = () => {
   const [base64Logo, setBase64Logo] = useState(null);
   const [base64Background, setBase64Background] = useState(null);
   const [qrRenderTrigger, setQrRenderTrigger] = useState(0);
+console.log("selectedSticker", finalImages);
+    // 👇 If no sticker is chosen, ensure default is applied
+//  useEffect(() => {
+//   if (finalImages) {
+//     setSelectedSticker(finalImages);
+//   }
+// }, [finalImages, setSelectedSticker]);
+
 
   const effectiveForegroundColor = backgroundImage
     ? "#000000"
