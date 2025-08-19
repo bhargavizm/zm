@@ -1,7 +1,7 @@
 // models/eventSchema.js
 
 import mongoose from "mongoose";
-import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
+import { qrCodeServicesSchema } from "./common/qrCodeServicesSchema";
 import { securedServicesPricingDetailsSchema } from "./common/securedServicespricingDetails";
 
 const eventSchema = new mongoose.Schema({

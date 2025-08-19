@@ -1,7 +1,7 @@
 // models/services/resumeSchema.js
 
 import mongoose from "mongoose"; // ✅ REQUIRED
-import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
+import { qrCodeServicesSchema } from "./common/qrCodeServicesSchema";
 import { securedServicesPricingDetailsSchema } from "./common/securedServicespricingDetails";
 
 

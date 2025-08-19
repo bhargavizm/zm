@@ -31,10 +31,8 @@ export async function POST(req) {
   try {
     const body = await req.json();
 
-    const { socialLinks = {}, customLinks = [], password = "" , bgDesign = "", qrPassword = "", 
-      location = {},
-      renewalDate = null,
-      status = "active",} = body;
+    const { socialLinks = {}, customLinks = [], password = "" , bgDesign = "", qrCodeImage = "", 
+    } = body;
 
     // Validate social links
     // const socialPlatforms = ["youtube", "instagram", "twitter", "linkedin", "facebook", "custom"];
@@ -80,17 +78,20 @@ export async function POST(req) {
       password : hashedPassword,
       bgDesign,
       qrCodeDetails: {
-    qrCodeImage: body.qrCodeImage ?? "",
-
-    location: {
-      latitude: location.latitude ?? null,
-      longitude: location.longitude ?? null,
-      address: location.address ?? "",
+    qrCodeImage,
+    scanCount: 0,
+    lastScanAt: null,
+    scanHistory: [
+      
+    ],
+    lastScanLocation: {
+      city: "",
+      region: "",
+      country: "",
+      lat: null,
+      lon: null,
     },
-    renewalDate,
-    status,
-    resetPasswordToken: null,
-    resetPasswordExpires: null,
+    qrCodeStatus: "inactive",
   },
     });
 

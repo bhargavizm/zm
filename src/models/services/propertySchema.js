@@ -40,7 +40,7 @@
 // models/services/propertySchema.js
 
 import mongoose from "mongoose";
-import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
+import { qrCodeServicesSchema } from "./common/qrCodeServicesSchema";
 import { QRCodeCanvas } from "qrcode.react";
 import { securedServicesPricingDetailsSchema } from "./common/securedServicespricingDetails";
 

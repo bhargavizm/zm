@@ -1,6 +1,6 @@
 // 🔸 models/qrServices.js
 import mongoose from "mongoose";
-import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
+import { qrCodeServicesSchema } from "./common/qrCodeServicesSchema";
 import { encryptedServicesPricingDetailsSchema } from "./common/encryptedServicesPricingDetailsSchema";
 
 

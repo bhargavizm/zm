@@ -97,18 +97,21 @@ export async function CardsServicesRoute({
       selectedTemplate,
       bgDesign,
       profileImageUrl,
-       qrCodeDetails: {
-    qrCodeImage, // (Optional) set QR image later if needed
+ qrCodeDetails: {
+    qrCodeImage,
     scanCount: 0,
-    location: {
-      latitude: null,
-      longitude: null,
-      address: "",
+    lastScanAt: null,
+    scanHistory: [
+      
+    ],
+    lastScanLocation: {
+      city: "",
+      region: "",
+      country: "",
+      lat: null,
+      lon: null,
     },
-    renewalDate: null,
-    status: "active",
-    resetPasswordToken: null,
-    resetPasswordExpires: null,
+    qrCodeStatus: "inactive",
   },
     });
 

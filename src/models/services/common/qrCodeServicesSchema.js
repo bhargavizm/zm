@@ -7,9 +7,14 @@ const qrCodeServicesSchema = new mongoose.Schema(
     lastScanAt: { type: Date },
     scanHistory: [
       {
-        location: String,
-        scannedAt: Date,
-      },
+      city: { type: String, default: "" },
+      region: { type: String, default: "" },
+      country: { type: String, default: "" },
+      lat: { type: Number, default: null },
+      lon: { type: Number, default: null },
+      ip: { type: String },
+      scannedAt: { type: Date, default: Date.now },
+    },
     ],
     lastScanLocation: {
       city: { type: String, default: "" },

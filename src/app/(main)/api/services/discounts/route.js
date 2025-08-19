@@ -89,17 +89,21 @@ export async function POST(req) {
       password: hashedPassword,
       bgDesign,
       qrCodeDetails: {
-        qrCodeImage,
-        location: {
-          latitude: location.latitude ?? null,
-          longitude: location.longitude ?? null,
-          address: location.address ?? '',
-        },
-        renewalDate,
-        status,
-        resetPasswordToken: null,
-        resetPasswordExpires: null,
-      },
+    qrCodeImage,
+    scanCount: 0,
+    lastScanAt: null,
+    scanHistory: [
+      
+    ],
+    lastScanLocation: {
+      city: "",
+      region: "",
+      country: "",
+      lat: null,
+      lon: null,
+    },
+    qrCodeStatus: "inactive",
+  },
     });
 
     await newCoupon.save();

@@ -40,7 +40,7 @@ export default function DashboardLayout({ children }) {
         </nav>
 
         {/* Scrollable content */}
-        <main className="flex-1 px-4 md:px-12 bg-white overflow-y-auto mt-9">
+        <main className="flex-1 px-4 md:px-4 bg-white overflow-y-auto mt-9">
           {children}
         </main>
       </div>

@@ -169,25 +169,25 @@ async function handleFileUploads(fields) {
 function validateVehicleData(data) {
   const errors = {};
 
-  if (!data.vehicleModel?.trim()) {
-    errors.vehicleModel = 'Vehicle model is required';
-  }
+  // if (!data.vehicleModel?.trim()) {
+  //   errors.vehicleModel = 'Vehicle model is required';
+  // }
 
   if (!data.rcNumber?.trim()) {
     errors.rcNumber = 'RC number is required';
   }
 
-  // if (!data.vehicleImage) {
-  //   errors.vehicleImage = 'Vehicle image is required';
+  if (!data.vehicleImage) {
+    errors.vehicleImage = 'Vehicle image is required';
+  }
+
+  // if (data.contact && !/^\d{10,15}$/.test(data.contact)) {
+  //   errors.contact = 'Invalid contact number format';
   // }
 
-  if (data.contact && !/^\d{10,15}$/.test(data.contact)) {
-    errors.contact = 'Invalid contact number format';
-  }
-
-  if (data.altContact && !/^\d{10,15}$/.test(data.altContact)) {
-    errors.altContact = 'Invalid alternate contact number format';
-  }
+  // if (data.altContact && !/^\d{10,15}$/.test(data.altContact)) {
+  //   errors.altContact = 'Invalid alternate contact number format';
+  // }
 
   return {
     isValid: Object.keys(errors).length === 0,
@@ -207,14 +207,14 @@ export async function POST(request) {
 
     // Parse and validate form data
     const formFields = await parseFormData(request);
-    const { isValid, errors } = validateVehicleData(formFields);
+    // const { isValid, errors } = validateVehicleData(formFields);
     
-    if (!isValid) {
-      return Response.json(
-        { error: 'Validation failed', errors },
-        { status: 400 }
-      );
-    }
+    // if (!isValid) {
+    //   return Response.json(
+    //     { error: 'Validation failed', errors },
+    //     { status: 400 }
+    //   );
+    // }
 
     // Handle file uploads
     const mediaUrls = await handleFileUploads(formFields);
@@ -256,13 +256,20 @@ export async function POST(request) {
       bgDesign: formFields.bgDesign,
       qrCodeDetails: {
         qrCodeImage: formFields.qrCodeImage || '',
-        location: {
-          latitude: formFields.latitude,
-          longitude: formFields.longitude,
-          address: formFields.qrAddress || '',
-        },
-        renewalDate: formFields.renewalDate ? new Date(formFields.renewalDate) : null,
-        status: formFields.status || 'active',
+       scanCount: 0,
+    lastScanAt: null,
+    scanHistory: [
+      
+    ],
+    lastScanLocation: {
+      city: "",
+      region: "",
+      country: "",
+      lat: null,
+      lon: null,
+    },
+    qrCodeStatus: "inactive",
+
       }
     };
 

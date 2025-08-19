@@ -6,8 +6,25 @@ const shortLinkSchema = new mongoose.Schema({
   code: { type: String, required: true, unique: true },
   fullUrl: { type: String, required: true },
   scanCount: { type: Number, default: 0 },
-  lastScanLocation: { type: String },
-  lastScannedAt: { type: Date }, // ✅ Make sure this field name is correct
+  lastScanLocation: {
+      city: { type: String, default: "" },
+      region: { type: String, default: "" },
+      country: { type: String, default: "" },
+      lat: { type: Number, default: null },
+      lon: { type: Number, default: null },
+    },
+  lastScannedAt: { type: Date }, 
+  scanHistory: [
+    {
+      city: { type: String, default: "" },
+      region: { type: String, default: "" },
+      country: { type: String, default: "" },
+      lat: { type: Number, default: null },
+      lon: { type: Number, default: null },
+      ip: { type: String },
+      scannedAt: { type: Date, default: Date.now },
+    },
+  ],
 });
 
 export default mongoose.models.ShortLink || mongoose.model("ShortLink", shortLinkSchema);
