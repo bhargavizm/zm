@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { securedServicesPricingDetailsSchema } from './common/securedServicespricingDetails';
+import { qrCodeServicesSchema } from './common/qrCodeServicesSchema';
 
 
 const vehicleSchema = new mongoose.Schema({
@@ -13,7 +14,7 @@ const vehicleSchema = new mongoose.Schema({
   },
 
   general: {
-    vehicleModel: { type: String, required: true },
+    vehicleModel: { type: String },
     vehicleType: { type: String },
     vehicleNumber: { type: String },
     description: { type: String }
@@ -63,6 +64,7 @@ const vehicleSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
+      qrCodeDetails:qrCodeServicesSchema,
   priceDetails:securedServicesPricingDetailsSchema
 }, {
   timestamps: true // Adds createdAt and updatedAt automatically

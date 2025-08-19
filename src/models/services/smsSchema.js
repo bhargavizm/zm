@@ -27,7 +27,7 @@
 // export default SmsModal
 
 import mongoose from "mongoose";
-import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
+import { qrCodeServicesSchema } from "./common/qrCodeServicesSchema";
 import { securedServicesPricingDetailsSchema } from "./common/securedServicespricingDetails";
 
 const smsMessageSchema = new mongoose.Schema(

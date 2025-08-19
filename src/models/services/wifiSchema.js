@@ -67,7 +67,7 @@
 // export default WifiModel;
 
 import mongoose from "mongoose";
-import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
+import { qrCodeServicesSchema } from "./common/qrCodeServicesSchema";
 import { securedServicesPricingDetailsSchema } from "./common/securedServicespricingDetails";
 
 

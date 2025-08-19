@@ -19,27 +19,29 @@ const useEncryptedSubmitForm = (
   setBgDesign
 ) => {
   const dispatch = useDispatch();
-  const { setQrCodeUrl, bgDesign } = useDesignContext();
-
-  const submit = async () => {
+  const { setQrCodeUrl, bgDesign, selectedQRCodeImage, } = useDesignContext();
+  const submit = async (qrCodeImage = "") => {
     const mapperObj = formDataMappers[activeService];
 
     if (!mapperObj || typeof mapperObj.map !== "function") {
       toast.error(`❌ No mapper found for "${activeService}"`);
       return;
     }
-
     const { type, map } = mapperObj;
+
+    // const qrCodeImage = selectedQRCodeImage || "";
+    //     console.log(selectedQRCodeImage);
+    // console.log('qrCodeImage', qrCodeImage);
 
     let dataToSend;
     let headers = {};
 
     if (type === "formData") {
       dataToSend = new FormData();
-      map(dataToSend, formDataState, bgDesign || "");
+      map(dataToSend, formDataState, bgDesign,qrCodeImage || "");
       headers["Content-Type"] = "multipart/form-data";
     } else if (type === "json") {
-      dataToSend = map({}, formDataState, bgDesign || "");
+      dataToSend = map({}, formDataState, bgDesign,qrCodeImage || "");
       headers["Content-Type"] = "application/json";
     }
 

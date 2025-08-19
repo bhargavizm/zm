@@ -90,7 +90,7 @@ const BusinessShopPreview = () => {
           {/* Logo & Name */}
           <div className="flex flex-col items-center justify-center mb-6">
             {businessShopFormData.shopLogo && (
-              <div className="relative w-28 h-28 rounded-full overflow-hidden border-2 border-white bg-white/90 backdrop-blur-sm shadow">
+              <div className="relative w-28 h-28 rounded-xl overflow-hidden border-2 border-white bg-white/90 backdrop-blur-sm shadow">
                 <img
                   src={getMediaSrc(businessShopFormData.shopLogo)}
                   alt="Business Logo"

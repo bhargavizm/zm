@@ -2,6 +2,7 @@ import useDesignContext from "@/components/hooks/useDesignContext";
 import React, { useState, useEffect } from "react";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import toast from "react-hot-toast";
+import LoadingSpinner from "@/components/common/spinner";
 
 const securedPlans = [
   { title: "Free", price: "₹0", duration: "90 Days Free Trial" },
@@ -137,30 +138,11 @@ const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {}, onConfirm }) =>
             Secured Services Prices
           </h1>
 
-          {servicesDataLoading && (
-            <div className="flex justify-center mb-4">
-              <svg
-                className="animate-spin h-8 w-8 text-mainGreen"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                />
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                />
-              </svg>
-            </div>
-          )}
+             {servicesDataLoading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
+          <LoadingSpinner />
+        </div>
+      )}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {securedPlans.map((plan, idx) => {

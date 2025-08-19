@@ -23,7 +23,6 @@ export const urlBasedServices = [
   "google-meets",
   "zoom-meets",
   "microsoft-teams",
-  "form-qr",
   "forms",
   "student-forms",
   "personal-notes",

@@ -1,9 +1,10 @@
 const sharedUrlJsonMapper = {
   type: "json",
-  map: (body, state, bgDesign) => ({
+  map: (body, state, bgDesign,qrCodeImage) => ({
     url: state.url,
     password: state.password,
     bgDesign,
+    qrCodeImage: qrCodeImage
   }),
 };
 
@@ -31,11 +32,14 @@ export const urlBasedServices = [
 
 const sharedFileUploadMapper = {
   type: "formData",
-  map: (formData, state, bgDesign) => {
+  map: (formData, state, bgDesign,qrCodeImage) => {
+    console.log('full data', formData, state, bgDesign,qrCodeImage);
     formData.append("title", state.title || "");
     formData.append("description", state.description || "");
     formData.append("password", state.password || "");
     formData.append("bgDesign", bgDesign || "");
+   formData.append("qrCodeImage", qrCodeImage || "");
+
 
     // ✅ Append priceDetails if available
     if (state.priceDetails) {
@@ -58,13 +62,14 @@ const sharedFileUploadMapper = {
 export const formDataMappers = {
   "menu-cards": {
     type: "formData",
-    map: (formData, state, bgDesign) => {
+    map: (formData, state, bgDesign,qrCodeImage) => {
       formData.append("restaurantName", state.restaurantName || "");
       formData.append("phone", state.phone || "");
       formData.append("email", state.email || "");
       formData.append("link", state.link || "");
       formData.append("password", state.password || "");
       formData.append("bgDesign", bgDesign || "");
+         formData.append("qrCodeImage", qrCodeImage || "");
 
       state.menuItems?.forEach((item) => {
         if (item.file) {
@@ -76,7 +81,7 @@ export const formDataMappers = {
 
   "business-cards": {
     type: "formData",
-    map: (formData, state, bgDesign) => {
+    map: (formData, state, bgDesign, qrCodeImage) => {
       formData.append("name", state.name || "");
       formData.append("subheading", state.subheading || "");
       formData.append("designation", state.designation || "");
@@ -89,6 +94,7 @@ export const formDataMappers = {
       formData.append("password", state.password || "");
       formData.append("selectedTemplate", state.selectedTemplate || "");
       formData.append("bgDesign", bgDesign || "");
+      formData.append("qrCodeImage", qrCodeImage || "");
 
       // Assuming you're passing the image file in state.logo manually (not in the original component though)
       if (state.profileImageUrl) {
@@ -99,7 +105,7 @@ export const formDataMappers = {
 
   vehicles: {
     type: "formData",
-    map: (formData, state, bgDesign) => {
+    map: (formData, state, bgDesign, qrCodeImage) => {
       // Template
       formData.append("vehicleTemplate", state?.vehicleTemplate || "");
 
@@ -147,12 +153,13 @@ export const formDataMappers = {
 
       // Optional Design
       formData.append("bgDesign", bgDesign || "");
+      formData.append("qrCodeImage", qrCodeImage || "");
     },
   },
   // In formDataMappers.js
   "business-shops": {
     type: "formData",
-    map: (formData, state = {}, bgDesign) => {
+    map: (formData, state = {}, bgDesign, qrCodeImage) => {
       const contact = state.contact || {};
       // General Info
       formData.append("businessName", state.businessName || "");
@@ -173,6 +180,7 @@ export const formDataMappers = {
       formData.append("altPhone", contact.altPhone || "");
       formData.append("email", contact.email || "");
       formData.append("address", contact.address || "");
+      formData.append("qrCodeImage", qrCodeImage || "");
 
       // Media
       if (state.shopLogo) {
@@ -190,7 +198,7 @@ export const formDataMappers = {
 
   "kids-safety-qr-tags": {
     type: "formData",
-    map: (formData, state = {}, bgDesign) => {
+    map: (formData, state = {}, bgDesign, qrCodeImage) => {
       // Child Information
       formData.append("childName", state.childName || "");
       formData.append("dob", state.dob || "");
@@ -219,6 +227,9 @@ export const formDataMappers = {
       // Security
       formData.append("password", state.password || "");
 
+      // QR Code Image
+      formData.append("qrCodeImage", qrCodeImage || "");
+
       // Image handling
       if (state.kidsImage instanceof File || state.kidsImage instanceof Blob) {
         formData.append("kidsImage", state.kidsImage);
@@ -235,30 +246,32 @@ export const formDataMappers = {
   },
   sms: {
     type: "json", // 🟢 JSON body
-    map: (body, state, bgDesign) => {
+    map: (body, state, bgDesign, qrCodeImage) => {
       return {
         genderName: state.genderName,
         messageType: state.messageType,
         textMessage: state.textMessage,
         password: state.password,
         bgDesign: bgDesign || null,
+        qrCodeImage: qrCodeImage
       };
     },
   },
 
   "text-messages": {
     type: "json",
-    map: (body, state, bgDesign) => ({
+    map: (body, state, bgDesign, qrCodeImage) => ({
       sender: state.sender,
       message: state.message,
       password: state.password,
       bgDesign: bgDesign || null,
+      qrCodeImage: qrCodeImage
     }),
   },
 
   wifi: {
     type: "json",
-    map: (body, state, bgDesign) => ({
+    map: (body, state, bgDesign, qrCodeImage) => ({
       ssid: state?.ssid || "",
       security: state?.security || "",
       password: state?.password || "",
@@ -267,13 +280,13 @@ export const formDataMappers = {
       location: state?.location || {},
       renewalDate: state?.renewalDate || null,
       status: state?.status || "active",
-      qrCodeImage: state?.qrCodeImage || "",
+      qrCodeImage: qrCodeImage
     }),
   },
 
   resumes: {
     type: "formData",
-    map: (formData, state, bgDesign) => {
+    map: (formData, state, bgDesign, qrCodeImage) => {
       // Append resume files
       (state.resumeFiles || []).forEach((file) => {
         formData.append("resumeFiles", file);
@@ -287,12 +300,15 @@ export const formDataMappers = {
 
       // Optionally append background design
       formData.append("bgDesign", bgDesign || "");
+
+      // Optionally append QR code image
+      formData.append("qrCodeImage", qrCodeImage || "");
     },
   },
 
   "property-qr": {
     type: "formData",
-    map: (formData, state = {}, bgDesign) => {
+    map: (formData, state = {}, bgDesign, qrCodeImage) => {
       const basicInfo = state.basicInfo || {};
       const addressInfo = state.addressInfo || {};
       const pricingInfo = state.pricingInfo || {};
@@ -316,6 +332,8 @@ export const formDataMappers = {
       // Pricing Info
       formData.append("price", pricingInfo.price || "");
       formData.append("area", pricingInfo.area || "");
+
+      formData.append("qrCodeImage", qrCodeImage || "");
 
       const amenities = pricingInfo.amenities;
       if (Array.isArray(amenities)) {
@@ -344,7 +362,7 @@ export const formDataMappers = {
   },
   resumes: {
     type: "formData",
-    map: (formData, state, bgDesign) => {
+    map: (formData, state, bgDesign, qrCodeImage) => {
       // Append resume files
       (state.resumeFiles || []).forEach((file) => {
         formData.append("resumeFiles", file);
@@ -358,12 +376,15 @@ export const formDataMappers = {
 
       // Optionally append background design
       formData.append("bgDesign", bgDesign || "");
+
+      // Optionally append QR code image
+      formData.append("qrCodeImage", qrCodeImage || "");
     },
   },
 
   events: {
   type: "formData", // 🟢 Switch to FormData
-  map: (formData, state = {}, bgDesign) => {
+  map: (formData, state = {}, bgDesign, qrCodeImage) => {
     // ✅ Append text fields
     formData.append("organizer", state.organizer || "");
     formData.append("title", state.title || "");
@@ -377,6 +398,7 @@ export const formDataMappers = {
     formData.append("contactPhone", state.contactPhone || "");
     formData.append("password", state.password || "");
     formData.append("bgDesign", bgDesign || "");
+    formData.append("qrCodeImage", qrCodeImage || "");
 
     // ✅ QR Code fields
 
@@ -398,7 +420,7 @@ if (state.files && Array.isArray(state.files)) {
 
   "medical-alerts": {
     type: "formData",
-    map: (formData, state = {}, bgDesign) => {
+    map: (formData, state = {}, bgDesign, qrCodeImage) => {
       const patientInfo = state.patientInfo || {};
       const medicalHistory = state.medicalHistory || {};
       const emergencyContact = state.emergencyContact || {};
@@ -447,6 +469,9 @@ if (state.files && Array.isArray(state.files)) {
       // ✅ Design
       formData.append("bgDesign", bgDesign || "");
 
+      // ✅ QR Code
+      formData.append("qrCodeImage", qrCodeImage || "");
+
       // Multi-file fields
       const multiFileFields = [
         "medicalReports",
@@ -466,14 +491,13 @@ if (state.files && Array.isArray(state.files)) {
 
   discounts: {
     type: "formData",
-    map: (formData, state = {}, bgDesign) => {
+    map: (formData, state = {}, bgDesign, qrCodeImage) => {
       const {
         nameOfBusiness = "",
         code = "",
         password = "",
         brandLogo = null,
         couponImage = null,
-        qrCodeImage = "", // ✅ FIX: add this line to avoid ReferenceError
         location = {},
         renewalDate = "",
         status = "active",
@@ -483,10 +507,10 @@ if (state.files && Array.isArray(state.files)) {
       formData.append("nameOfBusiness", nameOfBusiness);
       formData.append("code", code);
       formData.append("password", password);
-      formData.append("qrCodeImage", qrCodeImage);
       formData.append("status", status);
       formData.append("renewalDate", renewalDate);
 
+      formData.append("qrCodeImage", qrCodeImage || "");
       // Location
       formData.append("location.latitude", location.latitude || "");
       formData.append("location.longitude", location.longitude || "");
@@ -510,14 +534,15 @@ if (state.files && Array.isArray(state.files)) {
 
   "Pet-ID-tags": {
     type: "formData",
-    map: (formData, state = {}, bgDesign) => {
+    map: (formData, state = {}, bgDesign, qrCodeImage) => {
       // Owner Info
+      console.log(qrCodeImage)
       formData.append("ownerInfo.name", state.ownerInfo?.name || "");
       formData.append("ownerInfo.phone", state.ownerInfo?.phone || "");
       formData.append("ownerInfo.email", state.ownerInfo?.email || "");
       formData.append("ownerInfo.address", state.ownerInfo?.address || "");
       formData.append("password", state?.password || "");
-
+formData.append("qrCodeImage", qrCodeImage || "");
       // Pet Info
       formData.append("pet.name", state.pet?.name || "");
       formData.append("pet.breed", state.pet?.breed || "");
@@ -540,17 +565,18 @@ if (state.files && Array.isArray(state.files)) {
 
   "multi-urls": {
     type: "json",
-    map: (body, state, bgDesign) => ({
+    map: (body, state, bgDesign, qrCodeImage) => ({
       socialLinks: state.socialLinks || {}, // ✅ direct access, not state.multiUrl.socialLinks
       customLinks: Array.isArray(state.customLinks) ? state.customLinks : [],
       password: state.password || "",
       bgDesign: bgDesign || null,
+      qrCodeImage: qrCodeImage
     }),
   },
 
   "product-cards": {
     type: "formData",
-    map: (formData, state, bgDesign) => {
+    map: (formData, state, bgDesign, qrCodeImage) => {
       // General info
       formData.append("brandName", state.brandName || "");
       formData.append("email", state.email || "");
@@ -559,6 +585,7 @@ if (state.files && Array.isArray(state.files)) {
       formData.append("password", state.password || "");
       formData.append("selectedTemplate", state.selectedTemplate || "");
       formData.append("bgDesign", bgDesign || "");
+      formData.append("qrCodeImage", qrCodeImage || "");
 
       // Product Logo
       if (state.productLogo?.file) {

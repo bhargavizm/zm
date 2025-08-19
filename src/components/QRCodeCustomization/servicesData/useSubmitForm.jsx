@@ -18,8 +18,8 @@ const useSubmitForm = (
 ) => {
   const dispatch = useDispatch();
   const { setQrCodeUrl } = useDesignContext();
-console.log("active", activeService);
-  const submit = async () => {
+
+  const submit = async (qrCodeImage = "") => {
     const mapperObj = formDataMappers[activeService];
 
     if (!mapperObj || typeof mapperObj.map !== "function") {
@@ -27,7 +27,7 @@ console.log("active", activeService);
       return;
     }
     const { type, map } = mapperObj;
-    console.log("mapperObj", mapperObj);
+    console.log("mapperObj", activeService,qrCodeImage);
     let dataToSend;
     let headers = {};
     console.log("formDataState", formDataState);
@@ -35,11 +35,11 @@ console.log("active", activeService);
     if (type === "formData") {
        console.log("dataToSend", dataToSend);
       dataToSend = new FormData();
-      map(dataToSend, formDataState, bgDesign);
+      map(dataToSend, formDataState, bgDesign,qrCodeImage);
       // headers["Content-Type"] = "multipart/form-data";
     } else if (type === "json") {
        console.log("dataToSend", dataToSend);
-      dataToSend = map({}, formDataState, bgDesign); // Returns JSON object
+      dataToSend = map({}, formDataState, bgDesign,qrCodeImage); // Returns JSON object
       // headers["Content-Type"] = "application/json";
     }
 

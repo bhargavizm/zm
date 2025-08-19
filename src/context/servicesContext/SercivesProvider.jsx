@@ -27,6 +27,20 @@ const ServicesProvider = ({ children }) => {
   const [formData, setFormData] = useState({
     url: "",
     password: "",
+    qrCodeDetails: {
+      qrCodeImage: "",
+      scanCount: 0,
+      lastScanAt: null,
+      scanHistory: [],
+      lastScanLocation: {
+        city: "",
+        region: "",
+        country: "",
+        lat: null,
+        lon: null,
+      },
+      qrCodeStatus: "",
+    },
   });
 
   //business cards
@@ -45,6 +59,20 @@ const ServicesProvider = ({ children }) => {
     url1: "",
     password: "",
     bgDesign: "",
+    qrCodeDetails: {
+      qrCodeImage: "",
+      scanCount: 0,
+      lastScanAt: null,
+      scanHistory: [],
+      lastScanLocation: {
+        city: "",
+        region: "",
+        country: "",
+        lat: null,
+        lon: null,
+      },
+      qrCodeStatus: "",
+    },
   };
 
   //businessshops
@@ -65,6 +93,20 @@ const ServicesProvider = ({ children }) => {
     shopImages: [],
     password: "",
     bgDesign: "",
+    qrCodeDetails: {
+      qrCodeImage: "",
+      scanCount: 0,
+      lastScanAt: null,
+      scanHistory: [],
+      lastScanLocation: {
+        city: "",
+        region: "",
+        country: "",
+        lat: null,
+        lon: null,
+      },
+      qrCodeStatus: "",
+    },
   });
 
   const initialProductData = {
@@ -85,6 +127,20 @@ const ServicesProvider = ({ children }) => {
     password: "",
     selectedTemplate: null,
     bgDesign: "",
+    qrCodeDetails: {
+      qrCodeImage: "",
+      scanCount: 0,
+      lastScanAt: null,
+      scanHistory: [],
+      lastScanLocation: {
+        city: "",
+        region: "",
+        country: "",
+        lat: null,
+        lon: null,
+      },
+      qrCodeStatus: "",
+    },
   };
 
   const initialAudioFormData = {
@@ -93,29 +149,30 @@ const ServicesProvider = ({ children }) => {
     file: [],
     password: "",
     bgDesign: "",
-      priceDetails : {
-  plan :"",
-  price : "",
-  storage : "",
-  validityDays: "",
-  startDate: "",
-  endDate:"",
-  renewalDate: "",
-  status:"",
-},
+    priceDetails: {
+      plan: "",
+      price: "",
+      storage: "",
+      validityDays: "",
+      startDate: "",
+      endDate: "",
+      renewalDate: "",
+      status: "",
+    },
 
     qrCodeDetails: {
       qrCodeImage: "",
-
-      location: {
-        latitude: "",
-        longitude: "",
-        address: "",
+      scanCount: 0,
+      lastScanAt: null,
+      scanHistory: [],
+      lastScanLocation: {
+        city: "",
+        region: "",
+        country: "",
+        lat: null,
+        lon: null,
       },
-      renewalDate: "",
-      status: "",
-      resetPasswordToken: "",
-      resetPasswordExpires: "",
+      qrCodeStatus: "",
     },
   };
 
@@ -125,28 +182,29 @@ const ServicesProvider = ({ children }) => {
     file: [],
     password: "",
     bgDesign: "",
-      priceDetails : {
-  plan :"",
-  price : "",
-  storage : "",
-  validityDays: "",
-  startDate: "",
-  endDate:"",
-  renewalDate: "",
-  status:"",
-},
-    qrCodeDetails: {
-      qrCodeImage: "",
-
-      location: {
-        latitude: "",
-        longitude: "",
-        address: "",
-      },
+    priceDetails: {
+      plan: "",
+      price: "",
+      storage: "",
+      validityDays: "",
+      startDate: "",
+      endDate: "",
       renewalDate: "",
       status: "",
-      resetPasswordToken: "",
-      resetPasswordExpires: "",
+    },
+    qrCodeDetails: {
+      qrCodeImage: "",
+      scanCount: 0,
+      lastScanAt: null,
+      scanHistory: [],
+      lastScanLocation: {
+        city: "",
+        region: "",
+        country: "",
+        lat: null,
+        lon: null,
+      },
+      qrCodeStatus: "",
     },
   };
 
@@ -156,29 +214,30 @@ const ServicesProvider = ({ children }) => {
     file: [],
     password: "",
     bgDesign: "",
-      priceDetails : {
-  plan :"",
-  price : "",
-  storage : "",
-  validityDays: "",
-  startDate: "",
-  endDate:"",
-  renewalDate: "",
-  status:"",
-},
+    priceDetails: {
+      plan: "",
+      price: "",
+      storage: "",
+      validityDays: "",
+      startDate: "",
+      endDate: "",
+      renewalDate: "",
+      status: "",
+    },
 
     qrCodeDetails: {
       qrCodeImage: "",
-
-      location: {
-        latitude: "",
-        longitude: "",
-        address: "",
+      scanCount: 0,
+      lastScanAt: null,
+      scanHistory: [],
+      lastScanLocation: {
+        city: "",
+        region: "",
+        country: "",
+        lat: null,
+        lon: null,
       },
-      renewalDate: "",
-      status: "",
-      resetPasswordToken: "",
-      resetPasswordExpires: "",
+      qrCodeStatus: "",
     },
   };
 
@@ -188,28 +247,29 @@ const ServicesProvider = ({ children }) => {
     file: [],
     password: "",
     bgDesign: "",
-      priceDetails : {
-  plan :"",
-  price : "",
-  storage : "",
-  validityDays: "",
-  startDate: "",
-  endDate:"",
-  renewalDate: "",
-  status:"",
-},
-    qrCodeDetails: {
-      qrCodeImage: "",
-
-      location: {
-        latitude: "",
-        longitude: "",
-        address: "",
-      },
+    priceDetails: {
+      plan: "",
+      price: "",
+      storage: "",
+      validityDays: "",
+      startDate: "",
+      endDate: "",
       renewalDate: "",
       status: "",
-      resetPasswordToken: "",
-      resetPasswordExpires: "",
+    },
+    qrCodeDetails: {
+      qrCodeImage: "",
+      scanCount: 0,
+      lastScanAt: null,
+      scanHistory: [],
+      lastScanLocation: {
+        city: "",
+        region: "",
+        country: "",
+        lat: null,
+        lon: null,
+      },
+      qrCodeStatus: "",
     },
   };
 
@@ -218,8 +278,41 @@ const ServicesProvider = ({ children }) => {
     resumeUrl: "",
     password: "",
     bgDesign: "",
+    qrCodeDetails: {
+      qrCodeImage: "",
+      scanCount: 0,
+      lastScanAt: null,
+      scanHistory: [],
+      lastScanLocation: {
+        city: "",
+        region: "",
+        country: "",
+        lat: null,
+        lon: null,
+      },
+      qrCodeStatus: "",
+    },
   };
-const initialWifiFormData = { ssid: "", password: "", security: "WPA",bgDesign:"" };
+  const initialWifiFormData = {
+    ssid: "",
+    password: "",
+    security: "WPA",
+    bgDesign: "",
+    qrCodeDetails: {
+      qrCodeImage: "",
+      scanCount: 0,
+      lastScanAt: null,
+      scanHistory: [],
+      lastScanLocation: {
+        city: "",
+        region: "",
+        country: "",
+        lat: null,
+        lon: null,
+      },
+      qrCodeStatus: "",
+    },
+  };
 
   const initialEventsFormData = {
     organizer: "",
@@ -235,11 +328,23 @@ const initialWifiFormData = { ssid: "", password: "", security: "WPA",bgDesign:"
     contactName: "",
     contactEmail: "",
     contactPhone: "",
-    files:[],
+    files: [],
     bgDesign: "",
     password: "",
-    // webLabel: "My Website",
-    // webUrl: "www.yourweburl.com",
+    qrCodeDetails: {
+      qrCodeImage: "",
+      scanCount: 0,
+      lastScanAt: null,
+      scanHistory: [],
+      lastScanLocation: {
+        city: "",
+        region: "",
+        country: "",
+        lat: null,
+        lon: null,
+      },
+      qrCodeStatus: "",
+    },
   };
 
   const initialSmsFormData = {
@@ -249,6 +354,20 @@ const initialWifiFormData = { ssid: "", password: "", security: "WPA",bgDesign:"
     bgDesign: "",
     password: "",
     bgDesign: "",
+    qrCodeDetails: {
+      qrCodeImage: "",
+      scanCount: 0,
+      lastScanAt: null,
+      scanHistory: [],
+      lastScanLocation: {
+        city: "",
+        region: "",
+        country: "",
+        lat: null,
+        lon: null,
+      },
+      qrCodeStatus: "",
+    },
   };
 
   const initialTextMessageForm = {
@@ -256,6 +375,20 @@ const initialWifiFormData = { ssid: "", password: "", security: "WPA",bgDesign:"
     message: "",
     password: "",
     bgDesign: "",
+    qrCodeDetails: {
+      qrCodeImage: "",
+      scanCount: 0,
+      lastScanAt: null,
+      scanHistory: [],
+      lastScanLocation: {
+        city: "",
+        region: "",
+        country: "",
+        lat: null,
+        lon: null,
+      },
+      qrCodeStatus: "",
+    },
   };
 
   // Menu Book (Original structure)
@@ -268,6 +401,20 @@ const initialWifiFormData = { ssid: "", password: "", security: "WPA",bgDesign:"
     link: "",
     password: "",
     bgDesign: "",
+    qrCodeDetails: {
+      qrCodeImage: "",
+      scanCount: 0,
+      lastScanAt: null,
+      scanHistory: [],
+      lastScanLocation: {
+        city: "",
+        region: "",
+        country: "",
+        lat: null,
+        lon: null,
+      },
+      qrCodeStatus: "",
+    },
   });
 
   const [propertyDetails, setPropertyDetails] = useState({
@@ -293,6 +440,20 @@ const initialWifiFormData = { ssid: "", password: "", security: "WPA",bgDesign:"
     },
     password: "",
     bgDesign: "",
+    qrCodeDetails: {
+      qrCodeImage: "",
+      scanCount: 0,
+      lastScanAt: null,
+      scanHistory: [],
+      lastScanLocation: {
+        city: "",
+        region: "",
+        country: "",
+        lat: null,
+        lon: null,
+      },
+      qrCodeStatus: "",
+    },
   });
 
   const initialPetIDFormData = {
@@ -313,6 +474,20 @@ const initialWifiFormData = { ssid: "", password: "", security: "WPA",bgDesign:"
     },
     password: "",
     bgDesign: "",
+    qrCodeDetails: {
+      qrCodeImage: "",
+      scanCount: 0,
+      lastScanAt: null,
+      scanHistory: [],
+      lastScanLocation: {
+        city: "",
+        region: "",
+        country: "",
+        lat: null,
+        lon: null,
+      },
+      qrCodeStatus: "",
+    },
   };
 
   const initialDynamicForms = {
@@ -353,16 +528,17 @@ const initialWifiFormData = { ssid: "", password: "", security: "WPA",bgDesign:"
       bgDesign: "",
       qrCodeDetails: {
         qrCodeImage: "",
-
-        location: {
-          latitude: "",
-          longitude: "",
-          address: "",
+        scanCount: 0,
+        lastScanAt: null,
+        scanHistory: [],
+        lastScanLocation: {
+          city: "",
+          region: "",
+          country: "",
+          lat: null,
+          lon: null,
         },
-        renewalDate: "",
-        status: "",
-        resetPasswordToken: "",
-        resetPasswordExpires: "",
+        qrCodeStatus: "",
       },
     },
 
@@ -375,6 +551,20 @@ const initialWifiFormData = { ssid: "", password: "", security: "WPA",bgDesign:"
       },
       customLinks: [],
       password: "",
+      qrCodeDetails: {
+        qrCodeImage: "",
+        scanCount: 0,
+        lastScanAt: null,
+        scanHistory: [],
+        lastScanLocation: {
+          city: "",
+          region: "",
+          country: "",
+          lat: null,
+          lon: null,
+        },
+        qrCodeStatus: "",
+      },
     },
 
     shopTimingsTemplate: {
@@ -393,6 +583,20 @@ const initialWifiFormData = { ssid: "", password: "", security: "WPA",bgDesign:"
       isActive: true,
       couponImage: null,
       password: "",
+      qrCodeDetails: {
+        qrCodeImage: "",
+        scanCount: 0,
+        lastScanAt: null,
+        scanHistory: [],
+        lastScanLocation: {
+          city: "",
+          region: "",
+          country: "",
+          lat: null,
+          lon: null,
+        },
+        qrCodeStatus: "",
+      },
     },
     kidsSafety: {
       childName: "",
@@ -411,6 +615,20 @@ const initialWifiFormData = { ssid: "", password: "", security: "WPA",bgDesign:"
       bgDesign: "",
       selectedTemplate: "",
       kidsImage: null,
+      qrCodeDetails: {
+        qrCodeImage: "",
+        scanCount: 0,
+        lastScanAt: null,
+        scanHistory: [],
+        lastScanLocation: {
+          city: "",
+          region: "",
+          country: "",
+          lat: null,
+          lon: null,
+        },
+        qrCodeStatus: "",
+      },
     },
     vehicle: {
       general: {
@@ -441,8 +659,22 @@ const initialWifiFormData = { ssid: "", password: "", security: "WPA",bgDesign:"
         insurance: [],
       },
       password: "",
-      bgDesign:"",
+      bgDesign: "",
       vehicleTemplate: "none",
+      qrCodeDetails: {
+        qrCodeImage: "",
+        scanCount: 0,
+        lastScanAt: null,
+        scanHistory: [],
+        lastScanLocation: {
+          city: "",
+          region: "",
+          country: "",
+          lat: null,
+          lon: null,
+        },
+        qrCodeStatus: "",
+      },
     },
   };
 

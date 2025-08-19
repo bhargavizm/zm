@@ -10,9 +10,9 @@ import {
 } from "../utils/generateMergedImage";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import EncryptedPricesModalPopUp from "./modalPopUps/encryptedPricesModalPopUp";
 import SecuredPricesModalPopUp from "./modalPopUps/securedPricesModalPopUp";
 import useDesignContext from "@/components/hooks/useDesignContext";
+import { useRouter } from "next/navigation";
 
 export const uploadImageToCloudinary = async (dataUrl) => {
   const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
@@ -48,12 +48,13 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
     setServicesDataLoading,
   } = useServicesContext();
 
-  const { setFinalImages, resetPreview } = useDesignContext();
+  const { resetPreview, setSelectedQRCodeImage } = useDesignContext();
 
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("");
   const [userMeta, setUserMeta] = useState({});
   const [generatedUrl, setGeneratedUrl] = useState("");
+  const router = useRouter();
 
   const handleDownload = async () => {
     if (!previewRef?.current) {
@@ -61,20 +62,28 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
       return;
     }
 
-    const isEncryptedService = ["pdf", "audios", "videos", "gallery"].includes(
-      activeService
-    );
-
     try {
       setServicesDataLoading(true);
 
+      // Step 1: Generate + upload preview to Cloudinary
+      const dataUrl = await generateImageFromRef(previewRef);
+      const imageurl = await uploadImageToCloudinary(dataUrl);
+      setSelectedQRCodeImage(imageurl);
+
+      const isEncryptedService = [
+        "pdf",
+        "audios",
+        "videos",
+        "gallery",
+      ].includes(activeService);
+
       if (isEncryptedService) {
-        /** 🔹 Encrypted Flow - Everything here */
-        const response = await encryptSubmitForm();
+        /** 🔹 Encrypted Flow */
+        const response = await encryptSubmitForm(imageurl);
         const url = response?.qrUrl;
         if (!url) {
           toast.error("QR Code generation failed");
-          return; // Stop execution here
+          return;
         }
 
         setUserMeta({
@@ -84,28 +93,28 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
           serviceName: response?.serviceName,
         });
 
-        // regenerate & wait
+        // regenerate QR with short link
         await regenerateMatrixWithText(url);
-        await new Promise((res) => setTimeout(res, 150));
+        await new Promise((res) => setTimeout(res, 200));
 
-        const dataUrl = await generateImageFromRef(previewRef);
+        const finalDataUrl = await generateImageFromRef(previewRef);
         resetAllDynamicForms();
-        const imageurl = await uploadImageToCloudinary(dataUrl);
-        console.log("imageurl", imageurl);
-        downloadImage(dataUrl);
+        downloadImage(finalDataUrl);
+
         toast.success("QR Code downloaded successfully!");
+
+        // ✅ redirect to dashboard after success
+        // router.push("/user-dashboard/qrCodesLists/");
         resetPreview();
-        // // After download, open modal
-        // setModalType("encrypted");
-        // setShowModal(true);
       } else {
-        /** 🔹 Secured Flow - Only show modal first */
-        const response = await submitForm(); // Minimal API call to get meta
+        /** 🔹 Secured Flow */
+        const response = await submitForm(imageurl);
         const url = response?.qrUrl;
         if (!url) {
           toast.error("QR Code generation failed");
-          return; // Stop execution here
+          return;
         }
+
         setUserMeta({
           userId: response?.userId,
           userName: response?.userName,
@@ -125,7 +134,7 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
     }
   };
 
-  /** 🔹 Function passed to Secured modal to trigger final download after confirmation */
+  /** 🔹 Triggered from Secured modal after confirmation */
   const handleSecuredDownload = async () => {
     try {
       setServicesDataLoading(true);
@@ -134,16 +143,11 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
       await new Promise((res) => setTimeout(res, 150));
 
       const dataUrl = await generateImageFromRef(previewRef);
-
       downloadImage(dataUrl);
+ resetPreview();
       toast.success("QR Code downloaded successfully!");
-      resetPreview();
-      //      setFinalImages((prev) => {
-      //   const defaultImg = "/investor.webp";
-      //   const updated =  defaultImg;
-      //   localStorage.setItem("finalImages", JSON.stringify(updated));
-      //   return updated;
-      // });
+// router.push("/user-dashboard/qrCodesLists/");
+     
     } catch (error) {
       toast.error("Download failed. Try again.");
     } finally {
@@ -153,37 +157,21 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
 
   return (
     <>
+      {/* Fullscreen overlay spinner */}
+      {servicesDataLoading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
+          <LoadingSpinner />
+        </div>
+      )}
+
       <div className="pt-4 pb-2 flex flex-col items-center justify-center">
-        {servicesDataLoading && <LoadingSpinner />}
         <button
           onClick={handleDownload}
           className="mt-2 px-6 py-2 text-xl text-white cursor-pointer font-bold rounded-lg flex items-center gap-2 bg-[linear-gradient(to_right,#008080,#001a1a)] disabled:opacity-50"
           disabled={servicesDataLoading}
         >
           {servicesDataLoading ? (
-            <>
-              Processing...
-              <svg
-                className="animate-spin h-5 w-5 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                />
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                />
-              </svg>
-            </>
+            "Processing..."
           ) : (
             <>
               Submit To Download <FaLongArrowAltDown />
@@ -192,19 +180,11 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
         </button>
       </div>
 
-      {/* {modalType === "encrypted" && (
-        <EncryptedPricesModalPopUp
-          open={showModal}
-          userMeta={userMeta}
-          onClose={() => setShowModal(false)}
-        />
-      )} */}
-
       {modalType === "secured" && (
         <SecuredPricesModalPopUp
           open={showModal}
           userMeta={userMeta}
-          onConfirm={handleSecuredDownload} // Confirm button in modal triggers download
+          onConfirm={handleSecuredDownload}
           onClose={() => setShowModal(false)}
         />
       )}

@@ -45,8 +45,7 @@ export async function POST(req) {
 
     // ✅ Parse items[] and qrCodeDetails
     const itemsRaw = JSON.parse(formData.get("items") || "[]");
-    const qrCodeDetails = JSON.parse(formData.get("qrCodeDetails") || "{}");
-
+     const qrCodeImage = formData.get("qrCodeImage") ?? "";
     // ✅ Upload productLogo to Cloudinary
     let productLogoUrl = "";
     const productLogoFile = formData.get("productLogo");
@@ -103,7 +102,22 @@ export async function POST(req) {
       selectedTemplate,
       bgDesign,
       password: hashedPassword,
-      qrCodeDetails,
+      qrCodeDetails: {
+    qrCodeImage,
+    scanCount: 0,
+    lastScanAt: null,
+    scanHistory: [
+      
+    ],
+    lastScanLocation: {
+      city: "",
+      region: "",
+      country: "",
+      lat: null,
+      lon: null,
+    },
+    qrCodeStatus: "inactive",
+  },
       items: uploadedItems,
     });
     const qrUrl = await getShortenedUrl(`/product-cards/${newProduct._id}`);

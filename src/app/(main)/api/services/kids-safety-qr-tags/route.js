@@ -73,20 +73,21 @@ export async function POST(req) {
 
     // ✅ Explicitly build qrCodeDetails object
     data.qrCodeDetails = {
-      qrCodeImage: formData.get("qrCodeDetails.qrCodeImage")?.toString() || "",
-      scanCount: 0,
-      location: {
-        latitude: parseFloat(formData.get("qrCodeDetails.location.latitude") || "0"),
-        longitude: parseFloat(formData.get("qrCodeDetails.location.longitude") || "0"),
-        address: formData.get("qrCodeDetails.location.address") || "",
-      },
-      renewalDate: formData.get("qrCodeDetails.renewalDate")
-        ? new Date(formData.get("qrCodeDetails.renewalDate"))
-        : null,
-      status: formData.get("qrCodeDetails.status") || "active",
-      resetPasswordToken: null,
-      resetPasswordExpires: null,
-      password: formData.get("qrCodeDetails.password") || null,
+      qrCodeImage: formData.get("qrCodeImage")?.toString() || "",
+       scanCount: 0,
+    lastScanAt: null,
+    scanHistory: [
+      
+    ],
+    lastScanLocation: {
+      city: "",
+      region: "",
+      country: "",
+      lat: null,
+      lon: null,
+    },
+    qrCodeStatus: "inactive",
+
     };
 
     // ✅ Parse dob

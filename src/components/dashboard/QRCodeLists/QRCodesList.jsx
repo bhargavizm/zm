@@ -10,14 +10,17 @@ import ResetPasswordModal from "@/components/common/resetPasswordModal";
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
-  return date.toLocaleString("en-US", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
+
+  const day = date.toLocaleString("en-US", { day: "2-digit" });
+  const month = date.toLocaleString("en-US", { month: "long" });
+  const year = date.toLocaleString("en-US", { year: "numeric" });
+  const time = date.toLocaleString("en-US", {
     hour: "2-digit",
     minute: "2-digit",
-    hour12: true, // ✅ AM/PM format
+    hour12: true,
   });
+
+  return `${day} ${month} ${year}, ${time}`;
 };
 
 const ITEMS_OPTIONS = [5, 10, 20, 30, 40, 50];
@@ -32,7 +35,7 @@ const QRCodesList = () => {
   const userFullData = useSelector(
     (state) => state?.authentication?.fullUserDetails
   );
-
+  console.log("userFullData", userFullData);
   const dispatch = useDispatch();
   const allEntries = [];
 
@@ -72,6 +75,17 @@ const QRCodesList = () => {
   const closeResetModal = () => {
     setIsModalOpen(false);
     setSelectedService(null);
+  };
+
+  const getLocationCounts = (scanHistory = []) => {
+    const counts = {};
+
+    scanHistory.forEach((scan) => {
+      const key = `${scan.city}, ${scan.country}`; // ✅ only city + country
+      counts[key] = (counts[key] || 0) + 1;
+    });
+
+    return counts;
   };
 
   return (
@@ -122,7 +136,9 @@ const QRCodesList = () => {
                     <th className="px-4 py-3 text-left">Renewal Date</th>
                     <th className="px-4 py-3 text-left">QR Code</th>
                     <th className="px-4 py-3 text-left">Total Scans</th>
-                    {/* <th className="px-4 py-3 text-left">Location</th> */}
+                    <th className="px-4 py-3 text-left">Location</th>
+                    {/* <th className="px-4 py-3 text-left">Scan Summary</th> */}
+
                     <th className="px-4 py-3 text-left">Actions</th>
                   </tr>
                 </thead>
@@ -166,7 +182,7 @@ const QRCodesList = () => {
                             <img
                               src={entry.qrCodeDetails.qrCodeImage}
                               alt="QR Code"
-                              className="w-20 h-20 object-center rounded"
+                              className="w-30 h-20 object-center rounded"
                             />
                           ) : (
                             <span className="text-gray-400 italic">
@@ -176,21 +192,54 @@ const QRCodesList = () => {
                         </td>
 
                         {/* Total Scans */}
-                        <td className="px-4 py-3 text-center text-sm">
-                           {entry.scanCount ?? 0}
+                        <td className="px-4 py-3 text-center text-lg">
+                          {entry.qrCodeDetails?.scanCount ? entry.qrCodeDetails?.scanCount : "-"}
                         </td>
 
                         {/* Location */}
+                       <td className="px-4 py-3 w-[160px]">
+                          {entry.qrCodeDetails?.scanHistory?.length > 0 ? (
+                            <ul className="space-y-1">
+                              {entry.qrCodeDetails.scanHistory
+                                .slice(-5)
+                                .reverse()
+                                .map((scan, i) => (
+                                  <li
+                                    key={scan._id || i}
+                                    className="bg-gray-100 px-2 py-1 rounded-md text-gray-700"
+                                  >
+                                    {scan.city}, {scan.region}, {scan.country}
+                                  </li>
+                                ))}
+                            </ul>
+                          ) : (
+                            <span className="text-gray-400 italic">
+                              No scans yet
+                            </span>
+                          )}
+                        </td>
+
                         {/* <td className="px-4 py-3 text-sm">
-                          {entry.qrCodeDetails?.lastScanLocation
-                            ? [
-                                entry.qrCodeDetails.lastScanLocation.city,
-                                entry.qrCodeDetails.lastScanLocation.region,
-                                entry.qrCodeDetails.lastScanLocation.country,
-                              ]
-                                .filter(Boolean) // remove empty values
-                                .join(", ") || "-"
-                            : "-"}
+                          {entry.qrCodeDetails?.scanHistory?.length > 0 ? (
+                            <ul className="space-y-1">
+                              {Object.entries(
+                                getLocationCounts(
+                                  entry.qrCodeDetails.scanHistory
+                                )
+                              ).map(([location, count], i) => (
+                                <li
+                                  key={i}
+                                  className="bg-blue-50 px-2 py-1 rounded-md text-blue-700 font-medium"
+                                >
+                                  {location} → {count} scans
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <span className="text-gray-400 italic">
+                              No scans yet
+                            </span>
+                          )}
                         </td> */}
 
                         {/* Actions */}

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { qrCodeServicesSchema } from "./qrCodeServicesSchema";
+import { qrCodeServicesSchema } from "./common/qrCodeServicesSchema";
 import { securedServicesPricingDetailsSchema } from "./common/securedServicespricingDetails";
 
 const phoneRegex = /^\+?[0-9]{10,15}$/; // Supports 10–15 digits, optional +country code

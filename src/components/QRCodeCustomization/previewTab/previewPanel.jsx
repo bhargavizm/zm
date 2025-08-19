@@ -83,7 +83,7 @@ const PreviewPanel = () => {
   const [base64Logo, setBase64Logo] = useState(null);
   const [base64Background, setBase64Background] = useState(null);
   const [qrRenderTrigger, setQrRenderTrigger] = useState(0);
-console.log("selectedSticker", finalImages);
+
     // 👇 If no sticker is chosen, ensure default is applied
 //  useEffect(() => {
 //   if (finalImages) {
