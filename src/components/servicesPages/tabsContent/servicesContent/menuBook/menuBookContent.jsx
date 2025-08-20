@@ -357,7 +357,7 @@ const MenuBookContent = () => {
       {/* ✅ Confirm Modal — no change needed */}
       {showConfirmModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
-          <div className="bg-white relative rounded-xl shadow-xl p-6 w-full max-w-xl border border-teal-200 mx-4 sm:mx-auto">
+          <div className="bg-white relative rounded-xl shadow-xl p-6 w-full max-w-4xl max-h-[90vh] border border-teal-200 mx-4 sm:mx-auto">
             <button
               onClick={() => setShowConfirmModal(false)}
               className="text-xl absolute right-4 pb-9 text-gray-600 hover:text-red-600"

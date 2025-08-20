@@ -236,14 +236,25 @@ const ProductTemplateOne = ({ items, productData, productLogo, productImage, bgD
             </p>
           </div>
         )}
-        {address && (
-          <div>
-            <h1 className="font-medium">Address</h1>
-            <p className="text-gray-700 text-sm flex items-center">
-              <span className="mr-2"><FaAddressCard /></span> {address}
-            </p>
-          </div>
-        )}
+      {address && (
+  <div>
+    <h1 className="font-medium">Address</h1>
+    <p className="text-gray-700 text-sm flex items-center">
+      <span className="mr-2">
+        <FaAddressCard />
+      </span>
+      <a
+        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-600 underline"
+      >
+        {address}
+      </a>
+    </p>
+  </div>
+)}
+
         {productData.pageUrl && (
           <a
             href={productData.pageUrl}

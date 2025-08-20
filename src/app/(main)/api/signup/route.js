@@ -7,7 +7,6 @@ import bcrypt from 'bcryptjs';
 import generateToken from '@/utils/token';
 import { SignUpValidationSchema } from '@/utils/signUpValidation';
 
-
 export async function POST(req) {
     try {
         await connectDB();
@@ -21,19 +20,27 @@ export async function POST(req) {
             return NextResponse.json({ error: errorMessages.join(', ') }, { status: 400 });
         }
 
-        const { email, phone, password, confirmPassword } = parsed.data;
-        const { name } = body; // ← extract name manually
+        const { email, phone, password } = parsed.data;
+        const { name } = body; // extract name manually
 
-        const existingUser = await User.findOne({ email: email });
-        if (existingUser) {
-            return NextResponse.json({ error: 'User already exists' }, { status: 409 });
+        // ✅ Check email separately
+        const existingEmail = await User.findOne({ email });
+        if (existingEmail) {
+            return NextResponse.json({ error: 'Email already registered' }, { status: 409 });
         }
 
+        // ✅ Check phone separately
+        const existingPhone = await User.findOne({ phone });
+        if (existingPhone) {
+            return NextResponse.json({ error: 'Mobile number already registered' }, { status: 409 });
+        }
+
+        // ✅ Hash password
         const hashedPassword = await bcrypt.hash(password, 12);
 
         const newUser = await User.create({
             name,
-            email: email,
+            email,
             phone,
             password: hashedPassword,
         });
@@ -53,6 +60,6 @@ export async function POST(req) {
 
     } catch (error) {
         console.error('[Signup Error]', error.message);
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+        return NextResponse.json({ error: error.message }, { status: 500 });
     }
 }

@@ -26,13 +26,26 @@ const PetIdTemplateOne = ({ petIDFormData }) => {
       backgroundImage = "/pet-id/pet1.webp";
   }
 
- const DetailRow = ({ label, value }) =>
+const DetailRow = ({ label, value, isAddress }) =>
   value ? (
     <>
       <div className="font-medium text-[#8B4513]">{label}</div>
       <div className="text-[#8B4513]">:</div>
       <div className="text-gray-800 break-words whitespace-normal overflow-hidden">
-        {value}
+        {isAddress ? (
+          <a
+            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+              value
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline"
+          >
+            {value}
+          </a>
+        ) : (
+          value
+        )}
       </div>
     </>
   ) : null;
@@ -83,7 +96,7 @@ const PetIdTemplateOne = ({ petIDFormData }) => {
             <DetailRow label="Owner Name" value={petIDFormData.ownerInfo.name} />
             <DetailRow label="Contact Number" value={petIDFormData.ownerInfo.phone} />
             <DetailRow label="Email" value={petIDFormData.ownerInfo.email} />
-            <DetailRow label="Address" value={petIDFormData.ownerInfo.address} />
+           <DetailRow label="Address" value={petIDFormData.ownerInfo.address} isAddress />
             <DetailRow label="Breed" value={petIDFormData.pet.breed} />
             <DetailRow label="Gender" value={petIDFormData.pet.gender} />
             <DetailRow label="Color" value={petIDFormData.pet.color} />

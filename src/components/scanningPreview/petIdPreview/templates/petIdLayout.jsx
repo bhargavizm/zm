@@ -61,12 +61,25 @@ const PetIdCardLayout = ({ backgroundImage, petIDFormData }) => {
                 <p>: {petIDFormData.ownerInfo.email}</p>
               </>
             )}
-            {petIDFormData.ownerInfo.address && (
-              <>
-                <p className="font-medium text-[#8B4513]">Address</p>
-                <p>: {petIDFormData.ownerInfo.address}</p>
-              </>
-            )}
+           {petIDFormData.ownerInfo.address && (
+  <>
+    <p className="font-medium text-[#8B4513]">Address</p>
+    <p>
+      :{" "}
+      <a
+        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+          petIDFormData.ownerInfo.address
+        )}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-600 hover:underline"
+      >
+        {petIDFormData.ownerInfo.address}
+      </a>
+    </p>
+  </>
+)}
+
             {petIDFormData.pet.breed && (
               <>
                 <p className="font-medium text-[#8B4513]">Breed</p>

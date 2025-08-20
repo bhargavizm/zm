@@ -71,9 +71,19 @@ const BusinessCardTemplateFour = ({ businessForm }) => {
         <a href={socialLink2 || "#"} target="_blank" rel="noopener noreferrer" className={buttonClass}>
           {socialLink2 || "SOCIAL LINK2"}
         </a>
-        <a href={address || "#"} target="_blank" rel="noopener noreferrer" className={buttonClass}>
-          {address || "ADDRESS"}
-        </a>
+       <a
+  href={
+    address
+      ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`
+      : "#"
+  }
+  target="_blank"
+  rel="noopener noreferrer"
+  className={buttonClass}
+>
+  {address || "ADDRESS"}
+</a>
+
       </div>
     </div>
   );

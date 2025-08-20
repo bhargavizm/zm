@@ -7,6 +7,7 @@ import useServicesContext from "@/components/hooks/useServiceContext";
 import LoadingSpinner from "@/components/common/spinner";
 import axios from "axios";
 import ResetPasswordModal from "@/components/common/resetPasswordModal";
+import DeleteServiceModal from "@/components/common/deleteModal";
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -31,6 +32,7 @@ const QRCodesList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
+const [modalType, setModalType] = useState(null); // "reset" | "delete"
 
   const userFullData = useSelector(
     (state) => state?.authentication?.fullUserDetails
@@ -62,15 +64,27 @@ const QRCodesList = () => {
   }, [dispatch, setServicesDataLoading]);
 
   const openResetModal = (data) => {
-    const userIdData = {
-      userId: data?.user?.id || "",
-      userName: data?.user?.name || "",
-      serviceName: data?.serviceName || "",
-      serviceId: data?._id || "",
-    };
-    setSelectedService(userIdData); // store clicked row data
-    setIsModalOpen(true);
-  };
+  setSelectedService({
+    userId: data?.user?.id || "",
+    userName: data?.user?.name || "",
+    serviceName: data?.serviceName || "",
+    serviceId: data?._id || "",
+  });
+  setModalType("reset");
+  setIsModalOpen(true);
+};
+
+const openDeleteModal = (data) => {
+  setSelectedService({
+    userId: data?.user?.id || "",
+    userName: data?.user?.name || "",
+    serviceName: data?.serviceName || "",
+    serviceId: data?._id || "",
+  });
+  setModalType("delete");
+  setIsModalOpen(true);
+};
+
 
   const closeResetModal = () => {
     setIsModalOpen(false);
@@ -243,14 +257,23 @@ const QRCodesList = () => {
                         </td> */}
 
                         {/* Actions */}
-                        <td className="px-4 py-3 text-sm">
-                          <button
-                            onClick={() => openResetModal(entry)}
-                            className="px-3 py-1 text-mainGreen rounded hover:font-bold"
-                          >
-                            Reset Password
-                          </button>
-                        </td>
+                       <td className="px-4 py-3 text-sm">
+  <button
+    onClick={() => openResetModal(entry)}
+    className="px-3 py-1 text-mainGreen rounded hover:font-bold"
+  >
+    Reset Password
+  </button>
+
+  <button
+    onClick={() => openDeleteModal(entry)}
+    className="px-3 py-1 text-red-600 rounded hover:font-bold"
+  >
+    Delete
+  </button>
+</td>
+
+                        
                       </tr>
                     );
                   })}
@@ -299,12 +322,28 @@ const QRCodesList = () => {
         )}
       </div>
 
-      {isModalOpen && (
-        <ResetPasswordModal
-          onClose={closeResetModal}
-          serviceData={selectedService}
-        />
-      )}
+     {isModalOpen && modalType === "reset" && (
+  <ResetPasswordModal
+    onClose={() => setIsModalOpen(false)}
+    serviceData={selectedService}
+    servicesDataLoading={servicesDataLoading}
+    setServicesDataLoading={setServicesDataLoading}
+  />
+)}
+
+{isModalOpen && modalType === "delete" && (
+  <DeleteServiceModal
+    onClose={() => setIsModalOpen(false)}
+    serviceData={selectedService}
+    onDeleted={(deletedId) => {
+      // optional: remove from UI immediately
+    }}
+    servicesDataLoading={servicesDataLoading}
+    setServicesDataLoading={setServicesDataLoading}
+  />
+)}
+
+
     </>
   );
 };

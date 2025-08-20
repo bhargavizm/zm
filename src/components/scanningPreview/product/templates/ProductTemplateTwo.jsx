@@ -109,12 +109,20 @@ const ProductTemplateTwo = ({
             <span>{phone}</span>
           </div>
         )}
-        {address && (
-          <div className="flex items-center gap-2 text-sm">
-            <FaAddressCard className="text-blue-600" />
-            <span>{address}</span>
-          </div>
-        )}
+       {address && (
+  <div className="flex items-center gap-2 text-sm">
+    <FaAddressCard className="text-blue-600" />
+    <a
+      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="underline text-[#008080] hover:text-[#005f5f]"
+    >
+      {address}
+    </a>
+  </div>
+)}
+
         {pageUrl && (
           <a
             href={pageUrl}

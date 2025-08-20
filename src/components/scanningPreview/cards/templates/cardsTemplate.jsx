@@ -104,13 +104,17 @@ const CardsTemplate = ({ businessForm, styles = {} }) => {
         )}
 
         {/* Address (just text) */}
-        {address && (
-          <div
-            className={`py-2 rounded font-semibold text-center ${styles.button}`}
-          >
-            {address}
-          </div>
-        )}
+       {address && (
+  <a
+    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    className={`py-2 rounded font-semibold text-center block ${styles.button}`}
+  >
+    {address}
+  </a>
+)}
+
       </div>
     </div>
   );

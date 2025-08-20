@@ -89,9 +89,23 @@ const PropertyPreview = ({ data }) => {
                 <PreviewCard icon={<FiPhone />} label="Alternate Number" value={alternateNumber} />
               )}
 
-              {address && (
-                <PreviewCard icon={<FiMapPin />} label="Address" value={address} />
-              )}
+            {address && (
+  <PreviewCard
+    icon={<FiMapPin />}
+    label="Address"
+    value={
+      <a
+        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="underline text-blue-600 hover:text-blue-800"
+      >
+        {address}
+      </a>
+    }
+  />
+)}
+
 
               {mapLink && (
                 <PreviewCard

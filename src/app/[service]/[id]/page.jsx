@@ -169,7 +169,7 @@ urlServices.forEach((serviceName) => {
 
 // Metadata
 export async function generateMetadata({ params }) {
-  const { service } = params;
+  const { service } = await params;
   return {
     title: ` ${service.charAt(0).toUpperCase() + service.slice(1)} - Details`,
   };

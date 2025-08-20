@@ -16,7 +16,7 @@ export default function DashboardLayout({ children }) {
       {/* Main area with padding to avoid overlap */}
       <div className="flex-1 flex flex-col md:ml-60 h-screen overflow-hidden">
         {/* Navbar */}
-        <nav className="md:bg-gray-100 bg-mainGreen h-[10vh] text-white flex justify-between items-center px-4 md:px-10">
+        <nav className=" bg-mainGreen h-[10vh] text-white flex justify-between items-center px-4 md:px-10">
           {/* Hamburger on mobile */}
           <div className="flex justify-between items-center">
             <button

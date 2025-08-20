@@ -72,19 +72,20 @@ const MenuBookPreview = ({ data = {} }) => {
           )}
 
           {isMounted && images.length > 0 && (
-            <div className="relative ">
-              <Slider {...sliderSettings}>
-                {images.map((img, idx) => (
-                  <div key={idx} className="px-4">
-                    <img
-                      src={img.url}
-                      alt={img.name || `Image ${idx + 1}`}
-                      className="rounded-lg object-center w-full h-[300px] mx-auto"
-                    />
-                  </div>
-                ))}
-              </Slider>
-            </div>
+           <div className="relative mx-auto w-full max-w-[500px]">
+  <Slider {...sliderSettings}>
+    {images.map((img, idx) => (
+      <div key={idx} className="px-4">
+        <img
+          src={img.url}
+          alt={img.name || `Image ${idx + 1}`}
+          className="rounded-lg object-center w-full h-[250px] mx-auto"
+        />
+      </div>
+    ))}
+  </Slider>
+</div>
+
           )}
 
           <div className="text-lg space-y-1 mt-3">

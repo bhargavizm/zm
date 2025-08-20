@@ -177,11 +177,24 @@ const KidsSafetyPreview = () => {
                     <strong>School:</strong> {schoolName}
                   </p>
                 )}
-                {schoolAddress && (
-                  <p>
-                    <strong>Address:</strong> {schoolAddress}
-                  </p>
-                )}
+               {schoolAddress ? (
+  <p>
+    <strong>Address:</strong>{" "}
+    <a
+      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(schoolAddress)}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-600 hover:underline"
+    >
+      {schoolAddress}
+    </a>
+  </p>
+) : (
+  <p>
+    <strong>Address:</strong> Not Provided
+  </p>
+)}
+
                 {schoolContact && (
                   <p>
                     <strong>Contact:</strong> {schoolContact}
@@ -223,11 +236,24 @@ const KidsSafetyPreview = () => {
                 title="Home Location"
                 condition={homeAddress || mapLink}
               >
-                {homeAddress && (
-                  <p>
-                    <strong>Address:</strong> {homeAddress}
-                  </p>
-                )}
+               {homeAddress ? (
+  <p>
+    <strong>Address:</strong>{" "}
+    <a
+      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(homeAddress)}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-600 hover:underline"
+    >
+      {homeAddress}
+    </a>
+  </p>
+) : (
+  <p>
+    <strong>Address:</strong> Not Provided
+  </p>
+)}
+
                 {mapLink && (
                   <p>
                     <strong>Map:</strong>{" "}

@@ -496,6 +496,7 @@ if (state.files && Array.isArray(state.files)) {
         nameOfBusiness = "",
         code = "",
         password = "",
+        discountPercent = "",
         brandLogo = null,
         couponImage = null,
         location = {},
@@ -508,6 +509,7 @@ if (state.files && Array.isArray(state.files)) {
       formData.append("code", code);
       formData.append("password", password);
       formData.append("status", status);
+      formData.append("discountPercent", discountPercent);
       formData.append("renewalDate", renewalDate);
 
       formData.append("qrCodeImage", qrCodeImage || "");

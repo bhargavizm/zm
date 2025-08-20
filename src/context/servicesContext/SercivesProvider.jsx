@@ -575,6 +575,7 @@ const ServicesProvider = ({ children }) => {
       brandLogo: null,
       nameOfBusiness: "",
       code: "",
+      discountPercent:"",
       type: "percentage",
       value: "",
       minPurchase: "",
