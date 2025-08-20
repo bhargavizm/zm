@@ -67,7 +67,8 @@ const DiscountCouponContent = () => {
       !!discountCoupon.code?.trim() ||
       !!discountCoupon.password?.trim() ||
       !!discountCoupon.brandLogo ||
-      !!discountCoupon.couponImage;
+      !!discountCoupon.couponImage ||
+       !!discountCoupon.discountPercent;
 
     if (!hasAnyInput) {
       toast.error('Please fill at least one field before submitting.');
@@ -215,6 +216,17 @@ const DiscountCouponContent = () => {
                 </div>
               )}
             </div>
+
+            <input
+  type="number"
+  placeholder="Discount Percent (%)"
+  className="w-full px-5 py-3 border border-gray-300 rounded-lg"
+  value={discountCoupon.discountPercent || ''}
+  onChange={(e) => handleChange('discountPercent', e.target.value)}
+  min="1"
+  max="100"
+/>
+
           </div>
         </div>
 

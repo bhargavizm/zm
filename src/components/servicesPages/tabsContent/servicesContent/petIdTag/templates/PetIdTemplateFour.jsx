@@ -25,16 +25,29 @@ const PetIdTemplateFour = ({ petIDFormData }) => {
             backgroundImage = "/pet-id/pet1.webp";
     }
 
-    const DetailRow = (label, value) =>
-        value ? (
-            <>
-                <p className="font-medium text-[#8B4513]">{label}</p>
-                <p className="text-[#8B4513]">:</p>
-                <p className="text-gray-800 break-words whitespace-normal overflow-hidden">
-                    {value}
-                </p>
-            </>
-        ) : null;
+   const DetailRow = (label, value, isAddress = false) =>
+    value ? (
+        <>
+            <p className="font-medium text-[#8B4513]">{label}</p>
+            <p className="text-[#8B4513]">:</p>
+            <p className="text-gray-800 break-words whitespace-normal overflow-hidden">
+                {isAddress ? (
+                    <a
+                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                            value
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 underline"
+                    >
+                        {value}
+                    </a>
+                ) : (
+                    value
+                )}
+            </p>
+        </>
+    ) : null;
 
     return (
         <div
@@ -80,7 +93,7 @@ const PetIdTemplateFour = ({ petIDFormData }) => {
                         {DetailRow("Owner Name", petIDFormData.ownerInfo.name)}
                         {DetailRow("Contact Number", petIDFormData.ownerInfo.phone)}
                         {DetailRow("Email", petIDFormData.ownerInfo.email)}
-                        {DetailRow("Address", petIDFormData.ownerInfo.address)}
+                        {DetailRow("Address", petIDFormData.ownerInfo.address,true)}
                         {DetailRow("Breed", petIDFormData.pet.breed)}
                         {DetailRow("Gender", petIDFormData.pet.gender)}
                         {DetailRow("Color", petIDFormData.pet.color)}

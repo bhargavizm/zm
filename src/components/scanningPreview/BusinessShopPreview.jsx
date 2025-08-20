@@ -81,7 +81,21 @@ const defaultBg = `/images/templates/businessShop${selectedTemplate.replace("tem
             {data.contact.phone && <p>Phone: {data.contact.phone}</p>}
             {data.contact.altPhone && <p>Alt Phone: {data.contact.altPhone}</p>}
             {data.contact.email && <p>Email: {data.contact.email}</p>}
-            {data.contact.address && <p>Address: {data.contact.address}</p>}
+           {data.contact.address && (
+  <p>
+    Address:{" "}
+    <a
+      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(data.contact.address)}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="underline text-blue-600 hover:text-blue-800"
+    >
+      {data.contact.address}
+    </a>
+  </p>
+)}
+
+            
           </div>
         )}
 

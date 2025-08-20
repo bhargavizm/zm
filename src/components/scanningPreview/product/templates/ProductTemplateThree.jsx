@@ -120,14 +120,20 @@ const ProductTemplateThree = ({ items, productData, productLogo, productImage, b
             </p>
           </div>
         )}
-        {address && (
-          <div>
-            <h4 className="font-medium">Address</h4>
-            <p className="text-sm flex items-center gap-2">
-              <FaAddressCard /> {address}
-            </p>
-          </div>
-        )}
+       {address && (
+  <div className="flex items-center gap-2 text-sm">
+    <FaAddressCard className="text-blue-600" />
+    <a
+      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="underline text-[#008080] hover:text-[#005f5f]"
+    >
+      {address}
+    </a>
+  </div>
+)}
+
         {productData.pageUrl && (
           <a
             href={productData.pageUrl}

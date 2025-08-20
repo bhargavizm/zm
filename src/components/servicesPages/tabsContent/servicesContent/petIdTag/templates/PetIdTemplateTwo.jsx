@@ -25,16 +25,29 @@ const PetIdTemplateTwo = ({ petIDFormData }) => {
             backgroundImage = "/pet-id/pet1.webp";
     }
 
-    const DetailRow = (label, value) =>
-        value ? (
-            <>
-                <p className="font-medium text-[#8B4513]">{label}</p>
-                <p className="text-[#8B4513]">:</p>
-                <p className="text-gray-800 break-words whitespace-normal overflow-hidden">
-                    {value}
-                </p>
-            </>
-        ) : null;
+ const DetailRow = (label, value) =>
+    value ? (
+        <>
+            <p className="font-medium text-[#8B4513]">{label}</p>
+            <p className="text-[#8B4513]">:</p>
+            <p className="text-gray-800 break-words whitespace-normal overflow-hidden">
+                {label === "Address" ? (
+                    <a
+                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                            value
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 underline hover:text-blue-800"
+                    >
+                        {value}
+                    </a>
+                ) : (
+                    value
+                )}
+            </p>
+        </>
+    ) : null;
 
     return (
         <div

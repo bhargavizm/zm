@@ -176,7 +176,7 @@ const ProductPreview = ({ data }) => {
       )}
 
       {/* Content Overlay */}
-      <div className="relative z-10 max-w-[95%] mx-auto bg-white/90 rounded-2xl p-3 shadow-lg mt-6 mb-6">
+      <div className="relative z-10 max-w-[95%] mx-auto opacity-85 rounded-2xl p-3 shadow-lg mt-6 mb-6">
         {renderTemplate()}
       </div>
     </div>

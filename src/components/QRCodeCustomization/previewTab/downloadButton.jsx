@@ -104,7 +104,7 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
         toast.success("QR Code downloaded successfully!");
 
         // ✅ redirect to dashboard after success
-        // router.push("/user-dashboard/qrCodesLists/");
+         router.push("/user-dashboard/qrCodesLists/");
         resetPreview();
       } else {
         /** 🔹 Secured Flow */
@@ -146,7 +146,7 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
       downloadImage(dataUrl);
  resetPreview();
       toast.success("QR Code downloaded successfully!");
-// router.push("/user-dashboard/qrCodesLists/");
+ router.push("/user-dashboard/qrCodesLists/");
      
     } catch (error) {
       toast.error("Download failed. Try again.");

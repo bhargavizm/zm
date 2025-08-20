@@ -29,6 +29,11 @@ const discountCouponSchema = new mongoose.Schema(
       type: String, // store Cloudinary URL 
     
     },
+    discountPercent:{
+      type: Number,
+      min: 0,
+      max: 100
+    },
     bgDesign: { type: String },
     password: {
       type: String,

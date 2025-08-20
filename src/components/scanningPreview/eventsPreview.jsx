@@ -121,15 +121,23 @@ const formattedTo = formatDateTime(toDate);
                 </div>
               )}
 
-              {address && (
-                <div className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20 text-black">
-                  <div className="flex items-center mb-1">
-                    <FaMapMarkerAlt className="mr-2" />
-                    <span className="font-medium">Address</span>
-                  </div>
-                  <p>{address}</p>
-                </div>
-              )}
+             {address && (
+  <div className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20 text-black">
+    <div className="flex items-center mb-1">
+      <FaMapMarkerAlt className="mr-2" />
+      <span className="font-medium">Address</span>
+    </div>
+    <a
+      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="underline text-[#008080] hover:text-[#005f5f]"
+    >
+      {address}
+    </a>
+  </div>
+)}
+
 
               {(contactName || contactPhone || contactEmail) && (
                 <div className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20 text-black">

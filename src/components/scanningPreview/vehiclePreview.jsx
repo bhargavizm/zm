@@ -196,9 +196,20 @@ const VehiclePreview = ({ data }) => {
                 {contact.altContact && (
                   <p><strong>Alt. Contact:</strong> {contact.altContact}</p>
                 )}
-                {contact.address && (
-                  <p><strong>Address:</strong> {contact.address}</p>
-                )}
+               {contact.address && (
+  <p>
+    <strong>Address:</strong>{" "}
+    <a
+      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contact.address)}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="underline text-blue-600 hover:text-blue-800"
+    >
+      {contact.address}
+    </a>
+  </p>
+)}
+
                 {contact.mapLink && (
                   <p>
                     <strong>Map Link:</strong>{" "}

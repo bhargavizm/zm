@@ -26,16 +26,71 @@ const PetIdTemplateThree = ({ petIDFormData }) => {
             backgroundImage = "/pet-id/pet1.webp";
     }
 
-    const DetailRow = (label, value) =>
-        value ? (
+ const DetailRow = (label, value) => {
+    if (!value) return null;
+
+    // Address → Google Maps link
+    if (label === "Address") {
+        return (
             <>
                 <p className="font-medium text-[#8B4513]">{label}</p>
                 <p className="text-[#8B4513]">:</p>
-                <p className="text-gray-800 break-words whitespace-normal overflow-hidden">
+                <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(value)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 underline break-words whitespace-normal overflow-hidden"
+                >
                     {value}
-                </p>
+                </a>
             </>
-        ) : null;
+        );
+    }
+
+    // Phone → tel: link
+    if (label === "Contact Number") {
+        return (
+            <>
+                <p className="font-medium text-[#8B4513]">{label}</p>
+                <p className="text-[#8B4513]">:</p>
+                <a
+                    href={`tel:${value}`}
+                    className="text-blue-600 underline break-words whitespace-normal overflow-hidden"
+                >
+                    {value}
+                </a>
+            </>
+        );
+    }
+
+    // Email → mailto: link
+    if (label === "Email") {
+        return (
+            <>
+                <p className="font-medium text-[#8B4513]">{label}</p>
+                <p className="text-[#8B4513]">:</p>
+                <a
+                    href={`mailto:${value}`}
+                    className="text-blue-600 underline break-words whitespace-normal overflow-hidden"
+                >
+                    {value}
+                </a>
+            </>
+        );
+    }
+
+    // Default (non-interactive fields)
+    return (
+        <>
+            <p className="font-medium text-[#8B4513]">{label}</p>
+            <p className="text-[#8B4513]">:</p>
+            <p className="text-gray-800 break-words whitespace-normal overflow-hidden">
+                {value}
+            </p>
+        </>
+    );
+};
+
 
     return (
         <div

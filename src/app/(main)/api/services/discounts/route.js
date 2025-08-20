@@ -25,7 +25,7 @@ export async function POST(req) {
     const nameOfBusiness = formData.get('nameOfBusiness')?.toString() || '';
     const code = formData.get('code')?.toString() || '';
     const password = formData.get('password')?.toString() || '';
-
+    const discountPercent = formData.get('discountPercent')?.toString() || '';
     const brandLogoFile = formData.get('brandLogo');
     const couponImageFile = formData.get('couponImage');
     const bgDesign = formData.get("bgDesign");
@@ -84,6 +84,7 @@ export async function POST(req) {
       },
       nameOfBusiness,
       code,
+      discountPercent,
       brandLogo: brandLogoUrl,
       couponImage: couponImageUrl,
       password: hashedPassword,

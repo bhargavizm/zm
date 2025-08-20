@@ -66,7 +66,20 @@ export default function KidsSafetyPreview({ data }) {
           {(schoolName || schoolAddress || schoolContact) && (
             <>
               {schoolName && <p><strong>School:</strong> {schoolName}</p>}
-              {schoolAddress && <p><strong>Address:</strong> {schoolAddress}</p>}
+              {schoolAddress && (
+  <p>
+    <strong>Address:</strong>{" "}
+    <a
+      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(schoolAddress)}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="underline text-blue-600 hover:text-blue-800"
+    >
+      {schoolAddress}
+    </a>
+  </p>
+)}
+
               {schoolContact && <p><strong>Contact:</strong> {schoolContact}</p>}
             </>
           )}
@@ -90,9 +103,20 @@ export default function KidsSafetyPreview({ data }) {
             </div>
           )}
 
-          {homeAddress && (
-            <p><strong>Home Address:</strong> {homeAddress}</p>
-          )}
+         {homeAddress && (
+  <p>
+    <strong>Home Address:</strong>{" "}
+    <a
+      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(homeAddress)}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="underline text-blue-600 hover:text-blue-800"
+    >
+      {homeAddress}
+    </a>
+  </p>
+)}
+
         </div>
       </div>
     </div>

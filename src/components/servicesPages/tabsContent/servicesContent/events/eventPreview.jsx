@@ -158,9 +158,19 @@ const EventPreview = () => {
                   {eventsFormData.venue && (
                     <p className="font-medium">{eventsFormData.venue}</p>
                   )}
-                  {eventsFormData.address && (
-                    <p className="text-gray-600">{eventsFormData.address}</p>
-                  )}
+ {eventsFormData.address ? (
+  <a
+    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(eventsFormData.address)}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-gray-600 hover:underline"
+  >
+    {eventsFormData.address}
+  </a>
+) : (
+  <p className="text-gray-600">Address not provided</p>
+)}
+
                 </div>
               )}
 

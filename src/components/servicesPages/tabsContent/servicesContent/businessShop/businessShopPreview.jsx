@@ -154,8 +154,21 @@ const BusinessShopPreview = () => {
               <p><strong>Email:</strong> {businessShopFormData.contact.email}</p>
             )}
             {businessShopFormData.contact?.address && (
-              <p><strong>Address:</strong> {businessShopFormData.contact.address}</p>
-            )}
+  <p>
+    <strong>Address:</strong>{" "}
+    <a
+      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+        businessShopFormData.contact.address
+      )}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-600 underline"
+    >
+      {businessShopFormData.contact.address}
+    </a>
+  </p>
+)}
+
           </Section>
 
           {/* Media Gallery */}

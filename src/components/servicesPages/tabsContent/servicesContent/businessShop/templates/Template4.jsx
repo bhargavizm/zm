@@ -44,8 +44,23 @@ const Template4 = ({ data }) => {
 
           <div className="border-t border-b border-gray-200 py-4 mb-4 space-y-1 bg-white bg-opacity-70 rounded-lg">
             <p className="w-6 h-6 mx-auto mb-2">🏠</p>
-            <p className="text-sm text-gray-700">{data.addressLine1 || "123 Anywhere St., Any City, ST 12345"}</p>
-            <p className="text-sm text-gray-700">{data.addressLine2 || "123 Anywhere St., Any City"}</p>
+{data.addressLine1 ? (
+  <a
+    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+      data.addressLine1
+    )}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="relative z-10 text-md font-semibold text-[#fffaf0] tracking-widest mt-10 mb-4 hover:underline"
+  >
+    {data.addressLine1}
+  </a>
+) : (
+  <p className="relative z-10 text-md font-semibold text-[#fffaf0] tracking-widest mt-10 mb-4">
+    123 Anywhere St., Any City, ST 12345
+  </p>
+)}
+
           </div>
 
           <div className="flex items-center justify-center text-sm text-blue-600 hover:underline">

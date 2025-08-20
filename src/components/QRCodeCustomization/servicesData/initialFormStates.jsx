@@ -179,6 +179,7 @@ const initialFormStates = {
   discounts: {
     nameOfBusiness: "",
       code: "",
+      discountPercent: "",
       brandLogo: "",
       couponImage: "",
       password: "",

@@ -149,9 +149,23 @@ const Template3 = ({ data }) => {
       <div className="relative z-10 w-full mt-4 text-[#ffefdb] bg-[#3b2316]/80 py-3 rounded-lg font-semibold tracking-wide">
         {data.footerText || 'OPEN ALL WEEK | TRADITION MEETS ELEGANCE'}
       </div>
-      <p className="relative z-10 text-md font-semibold text-[#fffaf0] tracking-widest mt-10 mb-4">
-        {data.addressLine1 || '123 Anywhere St., Any City, ST 12345'}
-      </p>
+{data.addressLine1 ? (
+  <a
+    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+      data.addressLine1
+    )}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="relative z-10 text-md font-semibold text-[#fffaf0] tracking-widest mt-10 mb-4 hover:underline"
+  >
+    {data.addressLine1}
+  </a>
+) : (
+  <p className="relative z-10 text-md font-semibold text-[#fffaf0] tracking-widest mt-10 mb-4">
+    123 Anywhere St., Any City, ST 12345
+  </p>
+)}
+
       
     </div>
   );
