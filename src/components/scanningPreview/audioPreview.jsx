@@ -17,7 +17,7 @@ const AudioPreview = ({ data = {} }) => {
   useEffect(() => {
     setBgDesign(data?.bgDesign || defaultBg);
   }, [data?.bgDesign]);
-
+console.log(data)
   return (
     <>
       {/* 🌄 Background */}
@@ -61,7 +61,7 @@ const AudioPreview = ({ data = {} }) => {
                   const audioUrl = localPath.startsWith("/")
                     ? `${BASE_URL}${localPath}`
                     : localPath;
-
+console.log(audioUrl, localPath)
                   return (
                     <div key={idx}>
                       <p className="text-teal-800 text-sm font-medium">🎵 {fileName}</p>

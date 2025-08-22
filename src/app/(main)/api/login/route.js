@@ -17,12 +17,20 @@ export async function POST(req) {
 
     const user = await User.findOne({ email });
     if (!user) {
-      return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
+      return NextResponse.json({ error: 'Invalid email' }, { status: 401 });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
+      return NextResponse.json({ error: 'Invalid password' }, { status: 401 });
+    }
+
+    // 🚨 Check if user is verified
+    if (!user.isUserVerified) {
+      return NextResponse.json(
+        { error: 'Account not verified. Please complete OTP verification.' },
+        { status: 403 }
+      );
     }
 
     // ✅ Backfill welcome-offer fields if missing

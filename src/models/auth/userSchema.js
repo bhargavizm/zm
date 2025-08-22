@@ -11,7 +11,8 @@ const userSchema = new mongoose.Schema({
   },
   phone: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-
+    verifyOtp: { type: String },
+    isUserVerified: { type: Boolean, default: false },
   // Welcome Offer Fields
   firstLoginDate: { type: Date, default: null },
   welcomeOfferUsed: { type: Boolean, default: false },
