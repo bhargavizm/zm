@@ -41,59 +41,54 @@
 
   };
 
+export const auth = async (req) => {
+  const authHeader = req.headers.get("authorization");
 
-// import jwt from "jsonwebtoken";
-// import { connectDB } from "@/lib/mongoDB";
-// import User from "@/models/auth/userSchema";
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return {
+      status: 401,
+      json: { error: "Session expired. Please log in again." },
+    };
+  }
 
-// export const authUser = async (req) => {
-//   const authHeader = req.headers.get("authorization");
+  const token = authHeader.split(" ")[1];
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_TOKEN);
 
-//   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-//     return {
-//       status: 401,
-//       json: { error: "Authorization token missing or malformed" },
-//     };
-//   }
+    if (!decoded?._id || !decoded?.email) {
+      return {
+        status: 401,
+        json: { error: "Invalid login details. Please log in again." },
+      };
+    }
 
-//   const token = authHeader.split(" ")[1];
-// console.log('token',authHeader,'fdfs', token)
-//   try {
-//     const decoded = jwt.verify(token, process.env.JWT_TOKEN);
-// console.log('decoded', decoded)
-//     if (!decoded?._id || !decoded?.email) {
-//       return {
-//         status: 401,
-//         json: { error: "Invalid token payload" },
-//       };
-//     }
+    await connectDB();
+    const user = await User.findById(decoded._id);
 
-//     await connectDB();
-//     const user = await User.findById(decoded._id);
-//     console.log("User found:", user);
+    if (!user) {
+      return {
+        status: 401,
+        json: { error: "Your account could not be found. Please sign up again." },
+      };
+    }
 
-//     if (!user) {
-//       return {
-//         status: 401,
-
-//         json: { error: `User not found` },
-
-//         json: { error: User not found },
-
-//       };
-//     }
-
-//     return {
-//       status: 200,
-//       user, // contains _id, name, email, etc.
-//     };
-//   } catch (err) {
-//     return {
-//       status: 401,
-//       json: { error: "Token expired or invalid" },
-//     };
-//   }
-// };
-// src/middleware/authUser.js
-
- 
+    return { status: 200, user };
+  } catch (err) {
+    if (err.name === "TokenExpiredError") {
+      return {
+        status: 401,
+        json: { error: "Your session has expired. Please log in again." },
+      };
+    }
+    if (err.name === "JsonWebTokenError") {
+      return {
+        status: 401,
+        json: { error: "Invalid session. Please log in again." },
+      };
+    }
+    return {
+      status: 401,
+      json: { error: "Session expired. Please log in again." },
+    };
+  }
+};
