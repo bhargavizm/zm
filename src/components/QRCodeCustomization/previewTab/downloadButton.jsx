@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import SecuredPricesModalPopUp from "./modalPopUps/securedPricesModalPopUp";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import { useRouter } from "next/navigation";
+import EncryptedPricesModalPopUp from "./modalPopUps/encryptedPricesModalPopUp";
 
 export const uploadImageToCloudinary = async (dataUrl) => {
   const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
@@ -54,6 +55,7 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
   const [modalType, setModalType] = useState("");
   const [userMeta, setUserMeta] = useState({});
   const [generatedUrl, setGeneratedUrl] = useState("");
+
   const router = useRouter();
 
   const handleDownload = async () => {
@@ -82,30 +84,35 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
         const response = await encryptSubmitForm(imageurl);
         const url = response?.qrUrl;
         if (!url) {
-          toast.error("QR Code generation failed");
+          toast.error("short link generation failed");
           return;
         }
+
 
         setUserMeta({
           userId: response?.userId,
           userName: response?.userName,
           serviceId: response?.serviceId,
           serviceName: response?.serviceName,
+          priceDetails : response?.priceDetails
         });
+        setGeneratedUrl(response?.qrUrl || "");
+                setModalType("encrypted");
+        setShowModal(true);
 
         // regenerate QR with short link
-        await regenerateMatrixWithText(url);
-        await new Promise((res) => setTimeout(res, 200));
+        // await regenerateMatrixWithText(url);
+        // await new Promise((res) => setTimeout(res, 200));
 
-        const finalDataUrl = await generateImageFromRef(previewRef);
-        resetAllDynamicForms();
-        downloadImage(finalDataUrl);
+        // const finalDataUrl = await generateImageFromRef(previewRef);
+        // resetAllDynamicForms();
+        // downloadImage(finalDataUrl);
 
-        toast.success("QR Code downloaded successfully!");
+        // toast.success("QR Code downloaded successfully!");
 
         // ✅ redirect to dashboard after success
-         router.push("/user-dashboard/qrCodesLists/");
-        resetPreview();
+        // router.push("/user-dashboard/qrCodesLists/");
+        // resetPreview();
       } else {
         /** 🔹 Secured Flow */
         const response = await submitForm(imageurl);
@@ -135,25 +142,32 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
   };
 
   /** 🔹 Triggered from Secured modal after confirmation */
-  const handleSecuredDownload = async () => {
-    try {
-      setServicesDataLoading(true);
+  /** 🔹 Triggered from Secured modal after confirmation */
+const handleSecuredDownload = async () => {
+  try {
+    setServicesDataLoading(true);
 
-      await regenerateMatrixWithText(generatedUrl);
-      await new Promise((res) => setTimeout(res, 150));
+    // regenerate QR with final secured link
+    await regenerateMatrixWithText(generatedUrl);
+    await new Promise((res) => setTimeout(res, 150));
 
-      const dataUrl = await generateImageFromRef(previewRef);
-      downloadImage(dataUrl);
- resetPreview();
-      toast.success("QR Code downloaded successfully!");
- router.push("/user-dashboard/qrCodesLists/");
-     
-    } catch (error) {
-      toast.error("Download failed. Try again.");
-    } finally {
-      setServicesDataLoading(false);
-    }
-  };
+        // ✅ redirect to dashboard after download
+    // router.push("/user-dashboard/qrCodesLists/");
+    // capture QR code and download
+    const dataUrl = await generateImageFromRef(previewRef);
+    downloadImage(dataUrl);
+
+    toast.success("QR Code downloaded successfully!");
+
+
+    resetPreview();
+  } catch (error) {
+    toast.error("Download failed. Try again.");
+  } finally {
+    setServicesDataLoading(false);
+  }
+};
+
 
   return (
     <>
@@ -185,6 +199,15 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
           open={showModal}
           userMeta={userMeta}
           onConfirm={handleSecuredDownload}
+          onClose={() => setShowModal(false)}
+        />
+      )}
+
+      {modalType === "encrypted" && (
+        <EncryptedPricesModalPopUp
+          open={showModal}
+          userMeta={userMeta}
+           onConfirm={handleSecuredDownload}
           onClose={() => setShowModal(false)}
         />
       )}

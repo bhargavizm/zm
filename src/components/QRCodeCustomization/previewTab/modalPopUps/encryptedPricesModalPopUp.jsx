@@ -1,119 +1,130 @@
-import React, { useState } from "react";
+"use client";
+
+import React from "react";
 import toast from "react-hot-toast";
+import useRazorpayPayment from "../../servicesData/rozorpayPayments";
+import LoadingSpinner from "@/components/common/spinner";
+import useServicesContext from "@/components/hooks/useServiceContext";
+import { useRouter } from "next/navigation";
 
-const plans = [
-  { title: "Free", price: "₹0 (First 3 Months)", storage: "" },
-  { title: "Basic", price: "₹999", storage: "Upto 1GB" },
-  { title: "Starter", price: "₹1799", storage: "Upto 2GB" },
-  { title: "Pro", price: "₹2499", storage: "Upto 3GB" },
-  { title: "Advanced", price: "₹2999", storage: "Upto 4GB" },
-  { title: "Ultima", price: "₹3299", storage: "Upto 5GB" },
-];
-
-const EncryptedPricesModalPopUp = ({ open, onClose, userMeta = {} }) => {
-  const [selectedIndex, setSelectedIndex] = useState(null);
-
+const EncryptedPricesModalPopUp = ({ open, onClose, userMeta = {}, onConfirm }) => {
   if (!open) return null;
 
-  const handleCheckboxChange = (index) => {
-    setSelectedIndex((prev) => (prev === index ? null : index)); // Toggle if same, switch if different
-  };
+  const { priceDetails, serviceName, serviceId, userId } = userMeta;
+  if (!priceDetails) return null;
 
-  const handleBuy = async (plan) => {
-    if (!userMeta?.userId || !userMeta?.serviceId) {
-      alert("User ID or Service ID missing.");
+  const { servicesDataLoading, setServicesDataLoading } = useServicesContext();
+  const { startPayment } = useRazorpayPayment();
+  const router = useRouter();
+
+  const handleBuy = async () => {
+    if (!userId || !serviceId || !serviceName) {
+      toast.error("User ID, Service ID, or Service Name missing.");
       return;
     }
 
-    const formData = new FormData();
-    formData.append("plan", plan.title);
-    formData.append("price", plan.price.replace(/[^\d]/g, "")); // Remove ₹ or text
-    formData.append("storage", plan.storage.replace(/[^\d]/g, "")); // extract numeric MB
-    formData.append("validityDays", "30"); // Default or calculate
-    formData.append("startDate", new Date().toISOString());
+    setServicesDataLoading(true);
 
     try {
-      const response = await fetch(
-        `/api/encryptedServices/${userMeta.serviceName}/${userMeta.userId}/${userMeta.serviceId}`,
-        {
-          method: "PATCH",
-          body: formData,
+      // Free plan → direct verification
+      if (priceDetails.plan === "Free") {
+        const res = await fetch(
+          `/api/verify-payments/${userId}/${serviceName}/${serviceId}`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              plan: priceDetails.plan,
+              price: 0,
+              validityDays: Number(priceDetails.validityDays || 30),
+            }),
+          }
+        );
+
+        const data = await res.json();
+        if (data.success) {
+          toast.success(data.message || "Free plan activated!");
+          onClose();
+          if (onConfirm) onConfirm();
+          router.push("/user-dashboard/qrCodesLists/");
+        } else {
+          toast.error(data.message || "Failed to activate free plan");
         }
-      );
 
-      const result = await response.json();
+        return;
+      }
 
-      if (response.ok) {
-        toast.success(` ${result.message}`);
+      // Paid plan → Razorpay
+      const planForRazorpay = {
+        title: priceDetails.plan,
+        price: priceDetails.price,
+        duration: `${priceDetails.validityDays} Days`,
+        validityDays: priceDetails.validityDays,
+      };
+
         onClose();
-      } else {
-        toast.error(` Failed: ${result.message}`);
+
+      const success = await startPayment({
+        userId,
+        serviceName,
+        serviceId,
+        plan: planForRazorpay,
+      });
+
+      if (success) {
+        onClose();
+        if (onConfirm) onConfirm();
+          router.push("/user-dashboard/qrCodesLists/");
       }
     } catch (err) {
-      console.error("Error updating plan:", err);
-      toast.error(err?.response?.data?.error || "Something went wrong!");
+      toast.error(err?.message || "Something went wrong during payment");
+    } finally {
+      setServicesDataLoading(false);
     }
   };
 
   return (
     <section>
-      <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
-        <div className="bg-white rounded-xl shadow-xl p-6 max-w-5xl w-full h-[90vh] overflow-y-auto scrollbar-hide relative">
+      <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md">
+        <div className="bg-white rounded-xl shadow-xl p-9 max-w-lg w-full max-h-[60vh] overflow-y-auto scrollbar-hide flex flex-col justify-between relative">
           {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 text-2xl text-gray-600 cursor-pointer"
+            disabled={servicesDataLoading}
+            className="absolute top-4 right-4 text-md text-gray-600 cursor-pointer"
           >
             ❌
           </button>
 
-          <div className="p-6">
-            <h1 className="text-center text-2xl font-bold text-mainGreen mb-2">
-              Encrypted Services Prices
-            </h1>
-            <p className="text-gray-700 text-center mb-6">
-              Choose a plan that suits your encrypted storage needs. All plans
-              are secure, private, and designed to protect your sensitive data.
-            </p>
+          <h2 className="text-2xl font-bold text-center text-mainGreen mb-6">
+            Selected Plan
+          </h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              {plans.map((plan, idx) => (
-                <div
-                  key={idx}
-                  className="border border-teal-300 rounded-lg p-6 flex flex-col items-center justify-between bg-white hover:shadow-md transition duration-300 relative"
-                >
-                  {/* Single Checkbox */}
-                  <label className="absolute top-4 left-4">
-                    <input
-                      type="checkbox"
-                      checked={selectedIndex === idx}
-                      onChange={() => handleCheckboxChange(idx)}
-                      className="accent-teal-600 w-5 h-5"
-                    />
-                  </label>
-
-                  <h2 className="text-lg font-semibold text-gray-800 mt-6 mb-1">
-                    {plan.title}
-                  </h2>
-                  <p className="text-lg font-bold text-teal-600 mb-1">
-                    {plan.price}
-                  </p>
-                  <p className="text-gray-600 mb-2">{plan.storage}</p>
-
-                  <button
-                    disabled={selectedIndex !== idx}
-                    onClick={() => handleBuy(plan)}
-                    className={`px-4 py-2 rounded-md font-semibold w-full text-white transition duration-200 ${
-                      selectedIndex === idx
-                        ? "bg-mainGreen hover:bg-teal-700 cursor-pointer font-bold"
-                        : "bg-gray-400 cursor-not-allowed"
-                    }`}
-                  >
-                    Buy Now
-                  </button>
-                </div>
-              ))}
+          {servicesDataLoading && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
+              <LoadingSpinner />
             </div>
+          )}
+
+          <div className="border rounded-xl text-lg p-4 flex flex-col items-center justify-center gap-2">
+            <h3 className=" font-semibold">{priceDetails.plan}</h3>
+            <p>{priceDetails.price}</p>
+            {priceDetails.storage && (
+              <p>Storage:Upto {Math.round(priceDetails.storage / (1024 ** 3))} GB</p>
+            )}
+            {/* <p>Validity: {priceDetails.validityDays} Days</p> */}
+
+            <button
+              onClick={handleBuy}
+              disabled={servicesDataLoading}
+              className={`mt-4 px-6 py-2 rounded-lg cursor-pointer font-semibold text-white transition duration-200 ${
+                servicesDataLoading
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-teal-600 hover:bg-teal-700"
+              }`}
+            >
+              {servicesDataLoading ? "Processing..." : "Buy Now"}
+            </button>
           </div>
         </div>
       </div>

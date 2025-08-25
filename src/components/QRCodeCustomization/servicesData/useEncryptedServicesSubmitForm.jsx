@@ -85,10 +85,11 @@ const useEncryptedSubmitForm = (
 
         return {
           qrUrl: res.data.qrUrl,
-          // serviceId: res.data.data?._id,
-          // serviceName: activeService,
-          // userId: res?.data?.data?.user.id,
-          // userName: res?.data?.data?.user.name,
+          priceDetails: res.data.data.priceDetails,
+          serviceId: res.data.data?._id,
+          serviceName: activeService,
+          userId: res?.data?.data?.user.id,
+          userName: res?.data?.data?.user.name,
         };
       } else {
         toast.error(res.data.error || "Something went wrong");

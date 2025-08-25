@@ -29,10 +29,31 @@ const encryptedServicesPricingDetailsSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
-    status: {
+     // 🆕 Payment details (for Razorpay tracking)
+    razorpayOrderId: {
       type: String,
-      enum: ["active", "inactive", "pending"],
+     
+    },
+    razorpayPaymentId: {
+      type: String,
+     
+    },
+    razorpaySignature: {
+      type: String,
+     
+    },
+    paymentStatus: {
+      type: String,
+      enum: ["success", "failed", "pending"],
       default: "pending",
+    },
+    paymentDate: {
+      type: Date,
+     
+    },
+    currency: {
+      type: String,
+      default: "INR",
     },
   },
   {
