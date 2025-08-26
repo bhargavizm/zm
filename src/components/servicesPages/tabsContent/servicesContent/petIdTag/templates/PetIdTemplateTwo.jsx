@@ -31,7 +31,7 @@ const PetIdTemplateTwo = ({ petIDFormData }) => {
             <p className="font-medium text-[#8B4513]">{label}</p>
             <p className="text-[#8B4513]">:</p>
             <p className="text-gray-800 break-words whitespace-normal overflow-hidden">
-                {label === "Address" ? (
+                {(label === "Address" || label === "MapLink") ? (
                     <a
                         href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
                             value
@@ -94,6 +94,7 @@ const PetIdTemplateTwo = ({ petIDFormData }) => {
                         {DetailRow("Contact Number", petIDFormData.ownerInfo.phone)}
                         {DetailRow("Email", petIDFormData.ownerInfo.email)}
                         {DetailRow("Address", petIDFormData.ownerInfo.address)}
+                          {DetailRow("MapLink", petIDFormData.ownerInfo.mapLink)}
                         {DetailRow("Breed", petIDFormData.pet.breed)}
                         {DetailRow("Gender", petIDFormData.pet.gender)}
                         {DetailRow("Color", petIDFormData.pet.color)}

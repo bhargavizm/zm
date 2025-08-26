@@ -94,6 +94,7 @@ const PetIdTemplateFour = ({ petIDFormData }) => {
                         {DetailRow("Contact Number", petIDFormData.ownerInfo.phone)}
                         {DetailRow("Email", petIDFormData.ownerInfo.email)}
                         {DetailRow("Address", petIDFormData.ownerInfo.address,true)}
+                          {DetailRow("MapLink", petIDFormData.ownerInfo.mapLink,true)}
                         {DetailRow("Breed", petIDFormData.pet.breed)}
                         {DetailRow("Gender", petIDFormData.pet.gender)}
                         {DetailRow("Color", petIDFormData.pet.color)}

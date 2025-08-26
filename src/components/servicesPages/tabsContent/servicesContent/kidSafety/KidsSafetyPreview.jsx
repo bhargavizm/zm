@@ -5,6 +5,7 @@ import useServicesContext from "@/components/hooks/useServiceContext";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import Image from "next/image";
 
+
 const PreviewSection = ({ title, children, condition }) => {
   if (!condition) return null;
 
@@ -232,42 +233,36 @@ const KidsSafetyPreview = () => {
                 )}
               </PreviewSection>
 
-              <PreviewSection
-                title="Home Location"
-                condition={homeAddress || mapLink}
-              >
-               {homeAddress ? (
-  <p>
-    <strong>Address:</strong>{" "}
-    <a
-      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(homeAddress)}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-blue-600 hover:underline"
-    >
-      {homeAddress}
-    </a>
-  </p>
-) : (
-  <p>
-    <strong>Address:</strong> Not Provided
-  </p>
-)}
+   <PreviewSection title="Home Location" condition={homeAddress || mapLink}>
+  {homeAddress && (
+    <p>
+      <strong>Address:</strong>{" "}
+      <a
+        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(homeAddress)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-600 text-md underline"
+      >
+        {homeAddress}
+      </a>
+    </p>
+  ) }
 
-                {mapLink && (
-                  <p>
-                    <strong>Map:</strong>{" "}
-                    <a
-                      href={mapLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 underline"
-                    >
-                      View
-                    </a>
-                  </p>
-                )}
-              </PreviewSection>
+  {mapLink && (
+    <p>
+      <strong>Map Link:</strong>{" "}
+      <a
+        href={mapLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-600 text-md underline"
+      >
+        View Location
+      </a>
+    </p>
+  ) }
+</PreviewSection>
+
             </div>
           ) : (
             <div className="h-full flex flex-col items-center justify-center text-center text-gray-400">

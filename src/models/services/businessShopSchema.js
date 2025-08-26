@@ -11,7 +11,8 @@ const businessShopSchema = new mongoose.Schema(
     businessName: { type: String },
     businessType: String,
     description: String,
-    shopTimings: String,
+    openingTime: String,
+     closingTime: String,
     shopLogo: String,
     shopImages: [String],
     discount: String,
@@ -24,6 +25,7 @@ const businessShopSchema = new mongoose.Schema(
       altPhone: String,
       email: String,
       address: String,
+      mapLink: String,
     },
 
     qrCodeDetails: qrCodeServicesSchema,

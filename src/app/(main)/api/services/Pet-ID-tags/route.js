@@ -82,6 +82,7 @@ export async function POST(req) {
       phone: formData.get("ownerInfo.phone") || "",
       email: formData.get("ownerInfo.email") || "",
       address: formData.get("ownerInfo.address") || "",
+       mapLink: formData.get("ownerInfo.mapLink") || "",
     };
 
     const pet = {

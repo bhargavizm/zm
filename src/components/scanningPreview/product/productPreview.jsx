@@ -161,7 +161,7 @@ const ProductPreview = ({ data }) => {
       {/* Background Video or Image */}
       {isVideo(bgDesign) ? (
         <video
-          className="absolute inset-0 w-full h-full object-center z-0"
+          className="absolute inset-0 w-full h-full object-cover z-0"
           src={bgDesign}
           autoPlay
           loop
@@ -176,7 +176,7 @@ const ProductPreview = ({ data }) => {
       )}
 
       {/* Content Overlay */}
-      <div className="relative z-10 max-w-[95%] mx-auto opacity-85 rounded-2xl p-3 shadow-lg mt-6 mb-6">
+      <div className="relative z-10 max-w-[95%] mx-auto opacity-80 rounded-2xl p-3 shadow-lg mt-6 mb-6">
         {renderTemplate()}
       </div>
     </div>

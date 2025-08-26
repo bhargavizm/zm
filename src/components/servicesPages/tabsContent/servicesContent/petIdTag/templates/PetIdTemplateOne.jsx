@@ -97,6 +97,7 @@ const DetailRow = ({ label, value, isAddress }) =>
             <DetailRow label="Contact Number" value={petIDFormData.ownerInfo.phone} />
             <DetailRow label="Email" value={petIDFormData.ownerInfo.email} />
            <DetailRow label="Address" value={petIDFormData.ownerInfo.address} isAddress />
+             <DetailRow label="MapLink" value={petIDFormData.ownerInfo.mapLink} isAddress />
             <DetailRow label="Breed" value={petIDFormData.pet.breed} />
             <DetailRow label="Gender" value={petIDFormData.pet.gender} />
             <DetailRow label="Color" value={petIDFormData.pet.color} />

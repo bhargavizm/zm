@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import BgDesignRenderer from './bgDesignRender';
 import useDesignContext from '../hooks/useDesignContext';
+import Link from "next/link";
+import { HiOutlineLocationMarker } from "react-icons/hi";
 
 export default function KidsSafetyPreview({ data }) {
  const { setBgDesign } = useDesignContext();
@@ -24,7 +26,7 @@ export default function KidsSafetyPreview({ data }) {
     altContact = [],
     homeAddress,
     kidsImage = [],
-    qrCodeDetails = {},
+    mapLink,
   } = data;
 
   const isVideo = bgDesign?.endsWith('.mp4') || bgDesign?.endsWith('.webm');
@@ -115,6 +117,20 @@ export default function KidsSafetyPreview({ data }) {
       {homeAddress}
     </a>
   </p>
+)}
+
+{mapLink && (
+  <div className="mt-2 flex items-center gap-1 flex-wrap">
+    <HiOutlineLocationMarker className="w-5 h-5" />
+    <span>Map Link:</span>
+    <Link
+      href={mapLink}
+      target="_blank"
+      className="text-blue-600 underline break-all"
+    >
+       View location
+    </Link>
+  </div>
 )}
 
         </div>

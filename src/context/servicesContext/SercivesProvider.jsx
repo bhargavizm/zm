@@ -80,7 +80,8 @@ const ServicesProvider = ({ children }) => {
     businessName: "",
     businessType: "",
     description: "",
-    shopTimings: "",
+    openingTime: "",
+    closingTime: "",
     discount: "",
     contact: {
       owner: "",
@@ -88,6 +89,7 @@ const ServicesProvider = ({ children }) => {
       altPhone: "",
       email: "",
       address: "",
+      mapLink: "",
     },
     shopLogo: "",
     shopImages: [],
@@ -463,6 +465,7 @@ const ServicesProvider = ({ children }) => {
       phone: "",
       email: "",
       address: "",
+      mapLink: "",
       visible: true,
     },
     pet: {

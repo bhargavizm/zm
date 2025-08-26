@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { FiUser, FiPhone, FiImage } from "react-icons/fi";
 import BgDesignRenderer from "./bgDesignRender";
+import Link from "next/link";
+import { HiOutlineLocationMarker } from "react-icons/hi";
 
 const BusinessShopPreview = ({ data }) => {
  const selectedTemplate = data?.selectedTemplate || "template1";
@@ -23,6 +25,13 @@ const defaultBg = `/images/templates/businessShop${selectedTemplate.replace("tem
   const getSrc = (input) =>
     typeof input === "string" ? input : URL.createObjectURL(input);
 
+    const formatTimeToAMPM = (time) => {
+  if (!time) return "";
+  const [hour, minute] = time.split(":").map(Number);
+  const ampm = hour >= 12 ? "PM" : "AM";
+  const hour12 = hour % 12 || 12; // convert 0 → 12
+  return `${hour12}:${minute.toString().padStart(2, "0")} ${ampm}`;
+};
  return (
   <div className="h-screen">
     {/* 1. Optional bgDesign (bottom layer) */}
@@ -55,7 +64,7 @@ const defaultBg = `/images/templates/businessShop${selectedTemplate.replace("tem
         )}
 
         {/* Business Info */}
-        {(data.businessType || data.description || data.shopTimings || data.discount) && (
+        {(data.businessType || data.description || data.openingTime || data.closingTime || data.discount) && (
           <div className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20 ">
             <div className="flex items-center text-[#008080] mb-1">
               <FiUser className="mr-2" />
@@ -63,7 +72,16 @@ const defaultBg = `/images/templates/businessShop${selectedTemplate.replace("tem
             </div>
             {data.businessType && <p>Type: {data.businessType}</p>}
             {data.description && <p>{data.description}</p>}
-            {data.shopTimings && <p>Timings: {data.shopTimings}</p>}
+           {data.openingTime && (
+  <p>
+    <strong>Opening Timings:</strong> {formatTimeToAMPM(data.openingTime)}
+  </p>
+)}
+{data.closingTime && (
+  <p>
+    <strong>Closing Timings:</strong> {formatTimeToAMPM(data.closingTime)}
+  </p>
+)}
             {data.discount && (
               <p className="text-red-600 font-medium">Offer: {data.discount}</p>
             )}
@@ -71,7 +89,7 @@ const defaultBg = `/images/templates/businessShop${selectedTemplate.replace("tem
         )}
 
         {/* Contact Info */}
-        {(data.contact?.ownerName || data.contact?.phone || data.contact?.altPhone || data.contact?.email || data.contact?.address) && (
+        {(data.contact?.ownerName || data.contact?.phone || data.contact?.altPhone || data.contact?.mapLink || data.contact?.email || data.contact?.address) && (
           <div className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20">
             <div className="flex items-center text-[#008080] mb-1">
               <FiPhone className="mr-2" />
@@ -93,6 +111,19 @@ const defaultBg = `/images/templates/businessShop${selectedTemplate.replace("tem
       {data.contact.address}
     </a>
   </p>
+)}
+{data.contact?.mapLink && (
+  <div className="mt-2 flex items-center gap-1 flex-wrap">
+    <HiOutlineLocationMarker className="w-5 h-5" />
+    <span>Map Link:</span>
+    <Link
+      href={data.contact.mapLink}
+      target="_blank"
+      className="text-blue-600 underline break-all"
+    >
+       View location
+    </Link>
+  </div>
 )}
 
             

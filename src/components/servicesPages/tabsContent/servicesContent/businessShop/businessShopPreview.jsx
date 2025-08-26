@@ -4,6 +4,8 @@ import React, { useEffect } from "react";
 import Image from "next/image";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import useDesignContext from "@/components/hooks/useDesignContext";
+import { HiOutlineLocationMarker } from "react-icons/hi";
+import Link from "next/link"
 
 const Section = ({ title, children, condition }) => {
   if (!condition) return null;
@@ -20,13 +22,22 @@ const Section = ({ title, children, condition }) => {
 const BusinessShopPreview = () => {
   const { businessShopFormData } = useServicesContext();
   const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
-
+console.log("Business Shop Form Data:", businessShopFormData);
   const templateNum = businessShopFormData.selectedTemplate?.replace("template", "") || "1";
   const backgroundImageUrl = `/images/templates/businessShop${templateNum}.webp`;
 
   const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
   const isImage = bgDesign && !isVideo;
   const gallery = Array.isArray(businessShopFormData.shopImages) ? businessShopFormData.shopImages : [];
+
+  const formatTimeToAMPM = (time) => {
+  if (!time) return "";
+  const [hour, minute] = time.split(":").map(Number);
+  const ampm = hour >= 12 ? "PM" : "AM";
+  const hour12 = hour % 12 || 12; // convert 0 → 12
+  return `${hour12}:${minute.toString().padStart(2, "0")} ${ampm}`;
+};
+
 
   const getMediaSrc = (fileOrUrl) => {
     if (!fileOrUrl) return "";
@@ -113,7 +124,8 @@ const BusinessShopPreview = () => {
             condition={
               businessShopFormData.businessType ||
               businessShopFormData.description ||
-              businessShopFormData.shopTimings
+              businessShopFormData.openingTime ||
+              businessShopFormData.closingTime 
             }
           >
             {businessShopFormData.businessType && (
@@ -122,9 +134,18 @@ const BusinessShopPreview = () => {
             {businessShopFormData.description && (
               <p><strong>Description:</strong> {businessShopFormData.description}</p>
             )}
-            {businessShopFormData.shopTimings && (
-              <p><strong>Timings:</strong> {businessShopFormData.shopTimings}</p>
-            )}
+{businessShopFormData.openingTime && (
+  <p>
+    <strong>Opening Timings:</strong> {formatTimeToAMPM(businessShopFormData.openingTime)}
+  </p>
+)}
+{businessShopFormData.closingTime && (
+  <p>
+    <strong>Closing Timings:</strong> {formatTimeToAMPM(businessShopFormData.closingTime)}
+  </p>
+)}
+
+
             {businessShopFormData.discount && (
               <p className="text-red-600 font-medium"><strong>Offer:</strong> {businessShopFormData.discount}</p>
             )}
@@ -138,7 +159,8 @@ const BusinessShopPreview = () => {
               businessShopFormData.contact?.phone ||
               businessShopFormData.contact?.altPhone ||
               businessShopFormData.contact?.email ||
-              businessShopFormData.contact?.address
+              businessShopFormData.contact?.address ||
+              businessShopFormData.contact?.mapLink
             }
           >
             {businessShopFormData.contact?.ownerName && (
@@ -167,6 +189,16 @@ const BusinessShopPreview = () => {
       {businessShopFormData.contact.address}
     </a>
   </p>
+)}
+{businessShopFormData.contact?.mapLink && (
+  <Link
+    href={businessShopFormData.contact.mapLink}
+    target="_blank"
+    className="flex items-center gap-2 text-md text-blue-600 underline mt-2 break-all"
+  >
+    <HiOutlineLocationMarker className="w-5 h-5" />
+    <span>View Location</span>
+  </Link>
 )}
 
           </Section>

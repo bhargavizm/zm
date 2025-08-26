@@ -74,6 +74,7 @@ const initialFormStates = {
       phone: "",
       email: "",
       address: "",
+      mapLink: "",
       visible: true,
     },
     pet: {
@@ -91,7 +92,8 @@ const initialFormStates = {
     businessName: "",
     businessType: "",
     description: "",
-    shopTimings: "",
+    openingTime: "",
+    closingTime: "",
     discount: "",
     contact: {
       owner: "",
@@ -99,6 +101,7 @@ const initialFormStates = {
       altPhone: "",
       email: "",
       address: "",
+      mapLink: "",
     },
     shopLogo: "",
     shopImages: [],
