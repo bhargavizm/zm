@@ -24,6 +24,37 @@ const formatDate = (dateString) => {
   return `${day} ${month} ${year}, ${time}`;
 };
 
+// Improved function to download QR code image
+const downloadQRCode = async (imageUrl, serviceName) => {
+  try {
+    // Fetch the image as a blob
+    const response = await fetch(imageUrl);
+    const blob = await response.blob();
+    
+    // Create a URL for the blob
+    const blobUrl = URL.createObjectURL(blob);
+    
+    // Create an anchor element
+    const link = document.createElement("a");
+    link.href = blobUrl;
+    
+    // Create a filename using service name and current date
+    const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+    link.download = `${serviceName.replace(/\s+/g, '_')}_QR_${date}.png`;
+    
+    // Append to body, click, and remove
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // Clean up the blob URL
+    setTimeout(() => URL.revokeObjectURL(blobUrl), 100);
+  } catch (error) {
+    console.error("Error downloading QR code:", error);
+    alert("Failed to download QR code. Please try again.");
+  }
+};
+
 const ITEMS_OPTIONS = [5, 10, 20, 30, 40, 50];
 
 const QRCodesList = () => {
@@ -32,7 +63,8 @@ const QRCodesList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
-const [modalType, setModalType] = useState(null); // "reset" | "delete"
+  const [modalType, setModalType] = useState(null); // "reset" | "delete"
+  const [downloadingId, setDownloadingId] = useState(null); // Track downloading state
 
   const userFullData = useSelector(
     (state) => state?.authentication?.fullUserDetails
@@ -64,27 +96,26 @@ const [modalType, setModalType] = useState(null); // "reset" | "delete"
   }, [dispatch, setServicesDataLoading]);
 
   const openResetModal = (data) => {
-  setSelectedService({
-    userId: data?.user?.id || "",
-    userName: data?.user?.name || "",
-    serviceName: data?.serviceName || "",
-    serviceId: data?._id || "",
-  });
-  setModalType("reset");
-  setIsModalOpen(true);
-};
+    setSelectedService({
+      userId: data?.user?.id || "",
+      userName: data?.user?.name || "",
+      serviceName: data?.serviceName || "",
+      serviceId: data?._id || "",
+    });
+    setModalType("reset");
+    setIsModalOpen(true);
+  };
 
-const openDeleteModal = (data) => {
-  setSelectedService({
-    userId: data?.user?.id || "",
-    userName: data?.user?.name || "",
-    serviceName: data?.serviceName || "",
-    serviceId: data?._id || "",
-  });
-  setModalType("delete");
-  setIsModalOpen(true);
-};
-
+  const openDeleteModal = (data) => {
+    setSelectedService({
+      userId: data?.user?.id || "",
+      userName: data?.user?.name || "",
+      serviceName: data?.serviceName || "",
+      serviceId: data?._id || "",
+    });
+    setModalType("delete");
+    setIsModalOpen(true);
+  };
 
   const closeResetModal = () => {
     setIsModalOpen(false);
@@ -100,6 +131,17 @@ const openDeleteModal = (data) => {
     });
 
     return counts;
+  };
+
+  const handleDownload = async (entry) => {
+    setDownloadingId(entry._id);
+    try {
+      await downloadQRCode(entry.qrCodeDetails.qrCodeImage, entry.serviceName);
+    } catch (error) {
+      console.error("Download failed:", error);
+    } finally {
+      setDownloadingId(null);
+    }
   };
 
   return (
@@ -151,8 +193,6 @@ const openDeleteModal = (data) => {
                     <th className="px-4 py-3 text-left">QR Code</th>
                     <th className="px-4 py-3 text-left">Total Scans</th>
                     <th className="px-4 py-3 text-left">Location</th>
-                    {/* <th className="px-4 py-3 text-left">Scan Summary</th> */}
-
                     <th className="px-4 py-3 text-left">Actions</th>
                   </tr>
                 </thead>
@@ -190,14 +230,27 @@ const openDeleteModal = (data) => {
                             : "-"}
                         </td>
 
-                        {/* QR Code */}
-                        <td className="px-4 py-3 text-center">
+                        {/* QR Code with Download Button */}
+                        <td className="px-4 py-3">
                           {entry.qrCodeDetails?.qrCodeImage ? (
-                            <img
-                              src={entry.qrCodeDetails.qrCodeImage}
-                              alt="QR Code"
-                              className="w-30 h-20 object-center rounded"
-                            />
+                            <div className="flex flex-col items-center">
+                              <img
+                                src={entry.qrCodeDetails.qrCodeImage}
+                                alt="QR Code"
+                                className="w-30 h-20 object-center rounded mb-2"
+                              />
+                              <button
+                                onClick={() => handleDownload(entry)}
+                                disabled={downloadingId === entry._id}
+                                className="px-2 py-1 bg-mainGreen text-white rounded text-xs hover:bg-teal-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                              >
+                                {downloadingId === entry._id ? (
+                                  <span>Downloading...</span>
+                                ) : (
+                                  <span>Download</span>
+                                )}
+                              </button>
+                            </div>
                           ) : (
                             <span className="text-gray-400 italic">
                               No Image
@@ -211,7 +264,7 @@ const openDeleteModal = (data) => {
                         </td>
 
                         {/* Location */}
-                       <td className="px-4 py-3 w-[160px]">
+                        <td className="px-4 py-3 w-[160px]">
                           {entry.qrCodeDetails?.scanHistory?.length > 0 ? (
                             <ul className="space-y-1">
                               {entry.qrCodeDetails.scanHistory
@@ -233,47 +286,22 @@ const openDeleteModal = (data) => {
                           )}
                         </td>
 
-                        {/* <td className="px-4 py-3 text-sm">
-                          {entry.qrCodeDetails?.scanHistory?.length > 0 ? (
-                            <ul className="space-y-1">
-                              {Object.entries(
-                                getLocationCounts(
-                                  entry.qrCodeDetails.scanHistory
-                                )
-                              ).map(([location, count], i) => (
-                                <li
-                                  key={i}
-                                  className="bg-blue-50 px-2 py-1 rounded-md text-blue-700 font-medium"
-                                >
-                                  {location} → {count} scans
-                                </li>
-                              ))}
-                            </ul>
-                          ) : (
-                            <span className="text-gray-400 italic">
-                              No scans yet
-                            </span>
-                          )}
-                        </td> */}
-
                         {/* Actions */}
-                       <td className="px-4 py-3 text-sm">
-  <button
-    onClick={() => openResetModal(entry)}
-    className="px-3 py-1 text-mainGreen rounded hover:font-bold"
-  >
-    Reset Password
-  </button>
+                        <td className="px-4 py-3 text-sm">
+                          <button
+                            onClick={() => openResetModal(entry)}
+                            className="px-3 py-1 text-mainGreen rounded hover:font-bold"
+                          >
+                            Reset Password
+                          </button>
 
-  <button
-    onClick={() => openDeleteModal(entry)}
-    className="px-3 py-1 text-red-600 rounded hover:font-bold"
-  >
-    Delete
-  </button>
-</td>
-
-                        
+                          <button
+                            onClick={() => openDeleteModal(entry)}
+                            className="px-3 py-1 text-red-600 rounded hover:font-bold"
+                          >
+                            Delete
+                          </button>
+                        </td>
                       </tr>
                     );
                   })}
@@ -322,28 +350,26 @@ const openDeleteModal = (data) => {
         )}
       </div>
 
-     {isModalOpen && modalType === "reset" && (
-  <ResetPasswordModal
-    onClose={() => setIsModalOpen(false)}
-    serviceData={selectedService}
-    servicesDataLoading={servicesDataLoading}
-    setServicesDataLoading={setServicesDataLoading}
-  />
-)}
+      {isModalOpen && modalType === "reset" && (
+        <ResetPasswordModal
+          onClose={() => setIsModalOpen(false)}
+          serviceData={selectedService}
+          servicesDataLoading={servicesDataLoading}
+          setServicesDataLoading={setServicesDataLoading}
+        />
+      )}
 
-{isModalOpen && modalType === "delete" && (
-  <DeleteServiceModal
-    onClose={() => setIsModalOpen(false)}
-    serviceData={selectedService}
-    onDeleted={(deletedId) => {
-      // optional: remove from UI immediately
-    }}
-    servicesDataLoading={servicesDataLoading}
-    setServicesDataLoading={setServicesDataLoading}
-  />
-)}
-
-
+      {isModalOpen && modalType === "delete" && (
+        <DeleteServiceModal
+          onClose={() => setIsModalOpen(false)}
+          serviceData={selectedService}
+          onDeleted={(deletedId) => {
+            // optional: remove from UI immediately
+          }}
+          servicesDataLoading={servicesDataLoading}
+          setServicesDataLoading={setServicesDataLoading}
+        />
+      )}
     </>
   );
 };

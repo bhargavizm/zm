@@ -301,7 +301,7 @@ const VehicleContent = () => {
           {/* Vehicle Profile Template Section */}
           <div className="p-4 sm:p-6 bg-white rounded-xl shadow-md border border-gray-100 transition-all duration-300 hover:shadow-md">
             <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 border-b pb-2 sm:pb-3 border-gray-200">
-              Vehicle Profile Template
+              Choose a Template (click to select)
             </h3>
             <div className="space-y-5">
               <label className="block text-base font-medium text-gray-700 mb-2">

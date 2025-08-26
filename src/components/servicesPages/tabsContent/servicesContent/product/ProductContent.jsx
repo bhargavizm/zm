@@ -461,7 +461,8 @@ const ProductContent = () => {
             {/* Template Selection */}
             <div>
               <h2 className="text-xl font-semibold mb-4">
-                Select a Template (click to choose)
+                Choose a Template (click to select)
+                
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {templateImages.map((filename, idx) => (

@@ -222,7 +222,7 @@ const handleOwnerChange = (e) => {
             {/* Templates */}
             <div>
               <h2 className="text-xl font-semibold mb-4">
-                Pet Tag Templates (click to select)
+                Choose a Template (click to select)
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {templateImages.map((filename, idx) => (

@@ -249,11 +249,11 @@ const BusinessShopContent = () => {
         {/* Template Selection Section */}
         <div className="p-4 bg-white rounded-xl shadow border border-gray-100 transition-all duration-300 hover:shadow-lg">
           <h3 className="text-xl font-semibold text-gray-800 mb-4 border-b pb-2 border-gray-200">
-            Shop Timings Template
+             Choose a Template  (click to select)
           </h3>
           <div className="space-y-4">
             <label className="block text-base font-medium text-gray-700 mb-2">
-              Choose a Template:
+             
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
               {[1, 2, 3, 4].map((templateNum) => {
