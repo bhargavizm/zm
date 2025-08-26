@@ -220,7 +220,7 @@ const QRCodesList = () => {
 
                         {/* Validity Status */}
                         <td className="px-4 py-3 text-sm font-medium">
-                          {priceDetails.status || "-"}
+                          {entry.qrCodeDetails.qrCodeStatus || "-"}
                         </td>
 
                         {/* Renewal Date */}

@@ -35,7 +35,7 @@
     } catch (err) {
       return {
         status: 401,
-        json: { error: "Your session has expired or is invalid. Please log in again." },
+        json: { error: err.message || "Session expired. Please log in again." },
       };
     }
 
@@ -88,7 +88,7 @@ export const auth = async (req) => {
     }
     return {
       status: 401,
-      json: { error: "Session expired. Please log in again." },
+      json: { error: err.message || "Session expired. Please log in again."},
     };
   }
 };
