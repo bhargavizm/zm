@@ -2,16 +2,13 @@
 import React, { useState, useRef } from "react";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import { Eye, EyeOff } from "lucide-react";
-import { IoLocation } from "react-icons/io5";
 import { MdCancel } from "react-icons/md";
-import NFCModal from "@/components/modalPopUps/nfcModal";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import toast from "react-hot-toast";
 import { useParams } from "next/navigation";
-import LoadingSpinner from "@/components/common/spinner";
-import axios from "axios";
+import { fetchCurrentLocation } from "@/components/common/fetchCurrentLocation";
 
-const MAX_FILE_SIZE_MB = 2; // Per file
+
 const MAX_TOTAL_SIZE_MB = 30;
 
 const BusinessShopContent = () => {
@@ -20,6 +17,8 @@ const BusinessShopContent = () => {
   const { setBgDesign } = useDesignContext();
   const { setActiveTab } = useDesignContext();
   const { slug } = useParams();
+   const [isFetchingLocation, setIsFetchingLocation] = useState(false);
+
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({
     phone: "",
@@ -43,48 +42,38 @@ const BusinessShopContent = () => {
     return "";
   };
 
- const handleChange = (section, field, value) => {
-  if (section === "contact") {
-    setBusinessShopFormData((prev) => ({
-      ...prev,
-      contact: {
-        ...prev.contact,
+  const handleChange = (section, field, value) => {
+    if (section === "contact") {
+      setBusinessShopFormData((prev) => ({
+        ...prev,
+        contact: {
+          ...prev.contact,
+          [field]: value,
+        },
+      }));
+
+      // ✅ Live validation
+      if (field === "phone") {
+        setErrors((prev) => ({ ...prev, phone: validatePhone(value) }));
+      }
+      if (field === "altPhone") {
+        setErrors((prev) => ({ ...prev, altPhone: validatePhone(value) }));
+      }
+      if (field === "email") {
+        setErrors((prev) => ({ ...prev, email: validateEmail(value) }));
+      }
+    } else {
+      setBusinessShopFormData((prev) => ({
+        ...prev,
         [field]: value,
-      },
-    }));
-
-    // ✅ Live validation
-    if (field === "phone") {
-      setErrors((prev) => ({ ...prev, phone: validatePhone(value) }));
+      }));
     }
-    if (field === "altPhone") {
-      setErrors((prev) => ({ ...prev, altPhone: validatePhone(value) }));
-    }
-    if (field === "email") {
-      setErrors((prev) => ({ ...prev, email: validateEmail(value) }));
-    }
-  } else {
-    setBusinessShopFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  }
-};
-
+  };
 
   const handleFileChange = (field, files) => {
     const newFiles = Array.from(files);
 
-    // Validate per-file size
-    for (const file of newFiles) {
-      const sizeInMB = file.size / (1024 * 1024);
-      if (sizeInMB > MAX_FILE_SIZE_MB) {
-        toast.error(`${file.name} exceeds 2MB limit`);
-        return;
-      }
-    }
-
-    // Calculate total size with existing files
+    // Calculate total size including existing files
     let totalSize = 0;
 
     if (field === "shopImages") {
@@ -97,7 +86,7 @@ const BusinessShopContent = () => {
       }, 0);
 
       if (totalSize > MAX_TOTAL_SIZE_MB * 1024 * 1024) {
-        toast.error("Total gallery size must not exceed 30MB");
+        toast.error("Total files size must not exceed 30MB");
         return;
       }
 
@@ -108,15 +97,24 @@ const BusinessShopContent = () => {
     }
 
     if (field === "shopLogo") {
-      const sizeInMB = newFiles[0]?.size / (1024 * 1024);
-      if (sizeInMB > MAX_FILE_SIZE_MB) {
-        toast.error(`${newFiles[0].name} exceeds 2MB limit`);
+      const existingFiles = businessShopFormData.shopLogo
+        ? [businessShopFormData.shopLogo]
+        : [];
+      const allFiles = [...existingFiles, ...newFiles];
+
+      totalSize = allFiles.reduce((acc, file) => {
+        const size = typeof file === "string" ? 0 : file.size;
+        return acc + size;
+      }, 0);
+
+      if (totalSize > MAX_TOTAL_SIZE_MB * 1024 * 1024) {
+        toast.error("Total files size must not exceed 30MB");
         return;
       }
 
       setBusinessShopFormData((prev) => ({
         ...prev,
-        shopLogo: newFiles[0],
+        shopLogo: newFiles[0], // only one logo
       }));
     }
   };
@@ -150,36 +148,28 @@ const BusinessShopContent = () => {
     setShowPassword(!showPassword);
   };
 
-  const fetchCurrentLocation = async () => {
-    if (navigator.geolocation) {
-      try {
-        const pos = await new Promise((resolve, reject) => {
-          navigator.geolocation.getCurrentPosition(resolve, reject);
-        });
-        const { latitude, longitude } = pos.coords;
 
-        const response = await fetch(
-          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`
-        );
-        const data = await response.json();
-        const fullAddress = data.display_name || "Address not found";
-
-        handleChange("contact", "address", fullAddress);
-      } catch (err) {
-        console.error("Error fetching current location:", err.message);
-        toast.error("Could not fetch current location. Please enter manually.");
-      }
-    } else {
-      toast.warn("Geolocation is not supported by this browser.");
+const handleUseCurrentLocation = async () => {
+  try {
+    setIsFetchingLocation(true);
+    const { mapLink } = await fetchCurrentLocation();
+    if (mapLink) {
+      handleChange("contact", "mapLink", mapLink);
     }
-  };
+  } catch (err) {
+    console.error(err.message);
+  } finally {
+    setIsFetchingLocation(false);
+  }
+};
 
   const isFormEmpty = () => {
     const {
       businessName,
       businessType,
       description,
-      shopTimings,
+      openingTime,
+      closingTime,
       discount,
       contact,
       shopLogo,
@@ -191,13 +181,15 @@ const BusinessShopContent = () => {
       businessName ||
       businessType ||
       description ||
-      shopTimings ||
+      openingTime ||
+      closingTime ||
       discount ||
       contact.ownerName ||
       contact.phone ||
       contact.altPhone ||
       contact.email ||
       contact.address ||
+      contact.mapLink ||
       shopLogo ||
       shopImages.length > 0 ||
       password
@@ -238,7 +230,7 @@ const BusinessShopContent = () => {
   const handleModalOk = async () => {
     // Here you would typically send the businessShopFormData to your backend
     // For now, we'll just close the modal and navigate
-
+    console.log("Submitting Business Shop Data:", businessShopFormData);
     setIsModalOpen(false);
     setActiveTab(slug, "Backdrop Designs"); // Assuming this is the desired next step
   };
@@ -249,12 +241,10 @@ const BusinessShopContent = () => {
         {/* Template Selection Section */}
         <div className="p-4 bg-white rounded-xl shadow border border-gray-100 transition-all duration-300 hover:shadow-lg">
           <h3 className="text-xl font-semibold text-gray-800 mb-4 border-b pb-2 border-gray-200">
-             Choose a Template  (click to select)
+            Choose a Template (click to select)
           </h3>
           <div className="space-y-4">
-            <label className="block text-base font-medium text-gray-700 mb-2">
-             
-            </label>
+            <label className="block text-base font-medium text-gray-700 mb-2"></label>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
               {[1, 2, 3, 4].map((templateNum) => {
                 const isSelected =
@@ -299,7 +289,6 @@ const BusinessShopContent = () => {
           General Information
         </h3>
         <div className="space-y-2">
-         
           <input
             type="file"
             accept="image/*"
@@ -307,9 +296,8 @@ const BusinessShopContent = () => {
             className="w-full  text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-700 file:transition-colors file:duration-200 cursor-pointer border border-gray-300 rounded-lg py-2"
             onChange={(e) => handleFileChange("shopLogo", e.target.files)}
           />
-           <label className="block text-base font-medium text-gray-700">
+          <label className="block text-base font-medium text-gray-700">
             Business Logo{" "}
-            <span className="text-gray-500 text-sm">(Max 2MB)</span>
           </label>
           {businessShopFormData.shopLogo && (
             <div className="flex items-center gap-4">
@@ -340,7 +328,8 @@ const BusinessShopContent = () => {
             "businessName",
             "businessType",
             "description",
-            "shopTimings",
+            "openingTime",
+            "closingTime",
             "discount",
           ].map((field) =>
             field === "description" ? (
@@ -354,13 +343,24 @@ const BusinessShopContent = () => {
                     .replace(/^./, (str) => str.toUpperCase())}
                 </label>
                 <textarea
-                  key={field}
                   placeholder={field
                     .replace(/([A-Z])/g, " $1")
                     .replace(/^./, (str) => str.toUpperCase())}
                   rows={4}
                   className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none transition-all duration-200 resize-y"
                   value={businessShopFormData[field]}
+                  onChange={(e) => handleChange("", field, e.target.value)}
+                />
+              </div>
+            ) : field === "openingTime" || field === "closingTime" ? (
+              <div key={field} className="space-y-1">
+                <label className="block text-base font-medium text-gray-700">
+                  {field === "openingTime" ? "Opening Time" : "Closing Time"}
+                </label>
+                <input
+                  type="time"
+                  className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
+                  value={businessShopFormData[field] || ""}
                   onChange={(e) => handleChange("", field, e.target.value)}
                 />
               </div>
@@ -492,14 +492,39 @@ const BusinessShopContent = () => {
                 handleChange("contact", "address", e.target.value)
               }
             />
-            <button
-              type="button"
-              onClick={fetchCurrentLocation}
-              className="mt-2 w-full flex items-center justify-center cursor-pointer px-4 py-2 bg-[#0e7b7b] text-white rounded-lg hover:bg-[#066666] transition-colors"
-            >
-              Use Current Location
-            </button>
           </div>
+        </div>
+        <div className="space-y-2">
+          {/* Address Input */}
+          <div className="space-y-1">
+            <label className="block text-base font-medium text-gray-700">
+              Map Link
+            </label>
+            <textarea
+              type="text"
+              id="mapLink"
+              placeholder="Click 'Use Current Location' or enter map link"
+              className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-teal-200 focus:border-teal-500 transition-all duration-200"
+              value={businessShopFormData.contact.mapLink || ""}
+              onChange={(e) =>
+                handleChange("contact", "mapLink", e.target.value)
+              }
+            />
+          </div>
+        <button
+  type="button"
+  onClick={handleUseCurrentLocation}
+  disabled={isFetchingLocation}
+  className={`w-full flex items-center justify-center cursor-pointer px-4 py-2 rounded-lg transition-colors ${
+    isFetchingLocation
+      ? "bg-gray-400 text-gray-200 cursor-not-allowed"
+      : "bg-[#0e7b7b] text-white hover:bg-[#066666]"
+  }`}
+>
+  {isFetchingLocation ? "Fetching Location..." : "Use Current Location"}
+</button>
+
+
         </div>
 
         <div className="space-y-6">
@@ -507,14 +532,11 @@ const BusinessShopContent = () => {
             <div className="flex items-center justify-start gap-6 pb-4">
               <label className="block text-base font-medium text-gray-700">
                 Shop Images{" "}
-                <span className="text-gray-500 text-sm">
-                  (Max Single File Size: 2 MB )
-                </span>
               </label>
             </div>
 
             <div className="flex items-center justify-start gap-9">
-                <label className="bg-teal-700 text-white px-3 py-2 rounded cursor-pointer text-center w-40 sm:w-48 md:w-36">
+              <label className="bg-teal-700 text-white px-3 py-2 rounded cursor-pointer text-center w-40 sm:w-48 md:w-36">
                 Choose Files
                 <input
                   type="file"
@@ -591,7 +613,7 @@ const BusinessShopContent = () => {
 
       {/* Custom Modal */}
       {isModalOpen && (
-               <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
+        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
           <div className="bg-white relative rounded-xl shadow-xl p-6 w-full max-w-xl max-h-[90vh] border border-teal-200 mx-4 sm:mx-auto">
             <h3 className="text-xl font-semibold text-gray-800 mb-4">
               Confirm Submission

@@ -1,167 +1,104 @@
-import { NextResponse } from 'next/server';
-import { v2 as cloudinary } from 'cloudinary';
-import { connectDB } from '@/lib/mongoDB';
-import KidsSafetyModal from '@/models/services/kidSafetySchema';
-import { authUser } from '@/middlewares/authMiddleware';
-import streamifier from 'streamifier';
-import { getShortenedUrl } from '@/utils/shortenUrl';
-import bcrypt from 'bcryptjs';
+import { NextResponse } from "next/server";
+import { connectDB } from "@/lib/mongoDB";
+import { authUser } from "@/middlewares/authMiddleware";
+import { cloudinary } from "@/utils/cloudinary";
+import { getShortenedUrl } from "@/utils/shortenUrl";
+import bcrypt from "bcrypt";
+import KidsSafetyModal from "@/models/services/kidSafetySchema";
 
-// Cloudinary Config
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-  secure: true,
-});
-
-// Upload Helper
-const uploadImageToCloudinary = (file) => {
-  return new Promise(async (resolve, reject) => {
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const stream = cloudinary.uploader.upload_stream(
-      {
-        folder: 'kids-safety',
-        resource_type: 'image',
-      },
-      (error, result) => {
-        if (error) reject(error);
-        else resolve({ url: result.secure_url, name: file.name });
-      }
-    );
-    streamifier.createReadStream(buffer).pipe(stream);
-  });
-};
-
-// Dot notation object builder
-function setNestedValue(obj, path, value) {
-  const keys = path.split('.');
-  let current = obj;
-  keys.forEach((key, index) => {
-    if (index === keys.length - 1) {
-      current[key] = value;
-    } else {
-      if (!current[key]) current[key] = {};
-      current = current[key];
-    }
-  });
-}
-
-export async function POST(req) {
+export async function POST(request) { 
   try {
-    const auth = await authUser(req);
+    // ✅ Authenticate user
+    const auth = await authUser(request);
     if (auth.status !== 200) {
       return NextResponse.json(auth.json, { status: auth.status });
     }
-
-    await connectDB();
     const user = auth.user;
-    const formData = await req.formData();
-    const files = formData.getAll('kidsImage');
 
-    const data = {};
+    // ✅ Connect to DB
+    await connectDB();
 
-    // Convert form fields to nested structure
-    for (const [key, value] of formData.entries()) {
-      if (key !== 'kidsImage' && !key.startsWith('qrCodeDetails.')) {
-        setNestedValue(data, key, value);
-      }
-    }
-
-    // ✅ Add bgDesign to root level
-    data.bgDesign = formData.get("bgDesign");
-
-    // ✅ Explicitly build qrCodeDetails object
-    data.qrCodeDetails = {
-      qrCodeImage: formData.get("qrCodeImage")?.toString() || "",
-       scanCount: 0,
-    lastScanAt: null,
-    scanHistory: [
-      
-    ],
-    lastScanLocation: {
-      city: "",
-      region: "",
-      country: "",
-      lat: null,
-      lon: null,
-    },
-    qrCodeStatus: "inactive",
-
-    };
-
-    // ✅ Parse dob
-    if (data.dob) data.dob = new Date(data.dob);
-
-    // ✅ Parse altContact
-    if (data.altContact) {
-      try {
-        const parsed = JSON.parse(data.altContact);
-        data.altContact = Array.isArray(parsed) ? parsed : [parsed];
-      } catch {
-        data.altContact = [data.altContact];
-      }
-    }
-
-    // ✅ Upload image(s)
-    const uploadedImages = [];
-    let totalSize = 0;
-    for (const file of files) {
-      if (!file.type.startsWith('image/')) continue;
-      totalSize += file.size;
-      if (totalSize > 30 * 1024 * 1024) {
-        return NextResponse.json({ message: `Upload size exceeds 30MB limit.` }, { status: 400 });
-      }
-      const uploaded = await uploadImageToCloudinary(file);
-      uploadedImages.push(uploaded);
-    }
-
-    data.kidsImage = uploadedImages;
-
-    // ✅ Add user info
-    data.user = {
-      id: user._id,
-      name: user.name || user.email,
-    };
+    // ✅ Parse form data
+    const formData = await request.formData();
+    const childName = formData.get("childName");
+    const dob = formData.get("dob");
+    const classGrade = formData.get("classGrade");
+    const schoolName = formData.get("schoolName");
+    const schoolAddress = formData.get("schoolAddress");
+    const schoolContact = formData.get("schoolContact");
+    const parentName = formData.get("parentName");
+    const contact = formData.get("contact");
+    const contact2 = formData.get("contact2");
+    const altContact = formData.get("altContact") || "[]";
+    const homeAddress = formData.get("homeAddress");
+    const mapLink = formData.get("mapLink");
+    const bgDesign = formData.get("bgDesign");
+    const plainPassword = formData.get("password");
+    const files = formData.getAll("kidsImage");
 
     // ✅ Hash password if provided
-    if (data?.password) {
-      const salt = await bcrypt.genSalt(10);
-      data.password = await bcrypt.hash(data.password, salt);
-    } else {
-      delete data.password;
+    const hashedPassword = plainPassword
+      ? await bcrypt.hash(plainPassword, 10)
+      : null;
+
+    // ✅ Upload images to Cloudinary
+    const uploadedImages = [];
+    for (const file of files) {
+      if (!file || !file.arrayBuffer) continue;
+      const buffer = Buffer.from(await file.arrayBuffer());
+      const base64 = buffer.toString("base64");
+      const dataUri = `data:${file.type};base64,${base64}`;
+      const uploaded = await cloudinary.uploader.upload(dataUri, {
+        folder: "kids-safety",
+        public_id: file.name.split(".")[0],
+      });
+      uploadedImages.push({ url: uploaded.secure_url, name: file.name });
     }
 
-    // ✅ Remove empty/undefined/null fields
-    for (const key in data) {
-      if (
-        data[key] === undefined ||
-        data[key] === null ||
-        data[key] === '' ||
-        data[key] === 'undefined'
-      ) {
-        delete data[key];
-      }
-    }
+    // ✅ Create DB entry
+    const newEntry = new KidsSafetyModal({
+      user: { id: user._id, name: user.name || user.email },
+      childName,
+      dob,
+      classGrade,
+      schoolName,
+      schoolAddress,
+      schoolContact,
+      parentName,
+      contact,
+      contact2,
+      altContact: JSON.parse(altContact),
+      homeAddress,
+      mapLink,
+      bgDesign,
+      password: hashedPassword,
+      kidsImage: uploadedImages,
+      qrCodeDetails: {
+        qrCodeImage: formData.get("qrCodeImage") || "",
+        scanCount: 0,
+        lastScanAt: null,
+        scanHistory: [],
+        lastScanLocation: { city: "", region: "", country: "", lat: null, lon: null },
+        qrCodeStatus: "inactive",
+      },
+    });
 
-    // ✅ Save to DB
-    const saved = await KidsSafetyModal.create(data);
+    await newEntry.save();
 
     // ✅ Generate short QR URL
-    const qrUrl = await getShortenedUrl(`/kids-safety-qr-tags/${saved._id}`);
+    const qrUrl = await getShortenedUrl(`/kids-safety-qr-tags/${newEntry._id}`);
 
     return NextResponse.json(
       {
         success: true,
-        message: 'Data saved successfully',
-        data: saved,
+        message: "Kids Safety data submitted successfully",
+        data: newEntry,
         qrUrl,
       },
-      { status: 200 }
+      { status: 201 }
     );
-
-  } catch (err) {
-    console.error('POST Error:', err);
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+  } catch (error) {
+    console.error("Kids Safety Upload Error:", error);
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }

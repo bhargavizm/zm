@@ -93,13 +93,13 @@ const handleInputChange = (idOrEvent, value = null) => {
     }
   }
 
-  if (field === "mapLink" && fieldValue.trim()) {
-    try {
-      new URL(fieldValue);
-    } catch {
-      errorMessage = "Please enter a valid URL";
-    }
-  }
+  // if (field === "mapLink" && fieldValue.trim()) {
+  //   try {
+  //     new URL(fieldValue);
+  //   } catch {
+  //     errorMessage = "Please enter a valid URL";
+  //   }
+  // }
 
   // ✅ New: Validate social media links 1–12
   if (
@@ -118,34 +118,48 @@ const handleInputChange = (idOrEvent, value = null) => {
 
 
 
-  const fetchCurrentLocation = async () => {
-    if (navigator.geolocation) {
-      try {
-        const pos = await new Promise((resolve, reject) => {
-          navigator.geolocation.getCurrentPosition(resolve, reject, {
-            enableHighAccuracy: true,
-            timeout: 10000,
-            maximumAge: 0,
-          });
-        });
+ const fetchCurrentLocation = async () => {
+  if (!navigator.geolocation) {
+    toast.error("Geolocation not supported in your browser.");
+    return;
+  }
 
-        const { latitude, longitude } = pos.coords;
+  try {
+    const pos = await new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject, {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0,
+      });
+    });
 
-        const response = await fetch(
-          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`
-        );
-        const data = await response.json();
-        const fullAddress = data.display_name || "Address not found";
+    const { latitude, longitude } = pos.coords;
 
-        handleInputChange("address", fullAddress);
-      } catch (err) {
-        console.error("Error fetching current location:", err.message);
-        toast.error("Failed to fetch location. Please check permissions.");
-      }
-    } else {
-      alert("Geolocation not supported in your browser.");
+    // Direct Google Maps link
+    const googleMapLink = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
+
+    // Update the mapLink input
+    handleInputChange("mapLink", googleMapLink);
+  } catch (err) {
+    console.error("Error fetching current location:", err.code, err.message);
+
+    // Show user-friendly error messages
+    switch (err.code) {
+      case 1:
+        toast.error("Permission denied. Please allow location access.");
+        break;
+      case 2:
+        toast.error("Position unavailable. Try again later.");
+        break;
+      case 3:
+        toast.error("Location request timed out.");
+        break;
+      default:
+        toast.error("Failed to fetch location.");
     }
-  };
+  }
+};
+
 
   //  const handleImageUpload = (e) => {
   //   const file = e.target.files[0];
@@ -156,14 +170,14 @@ const handleInputChange = (idOrEvent, value = null) => {
   //   }
 
   // };
- const handleImageUpload = (e) => {
+const handleImageUpload = (e) => {
   const file = e.target.files[0];
 
   if (file) {
-    const maxSizeInBytes = 2 * 1024 * 1024; // 2MB
+    const maxSizeInBytes = 30 * 1024 * 1024; // 30MB
 
     if (file.size > maxSizeInBytes) {
-      toast.error("File size exceeds 2MB Limit.");
+      toast.error("File size exceeds 30MB limit.");
       if (fileInputRef.current) {
         fileInputRef.current.value = ""; // Clear file input
       }
@@ -174,11 +188,12 @@ const handleInputChange = (idOrEvent, value = null) => {
 
     setBusinessForm((prev) => ({
       ...prev,
-      profileImageUrl: file, // Store file
+      profileImageUrl: file,      // Store actual file
       previewImageUrl: previewUrl, // Store preview URL
     }));
   }
 };
+
 
 
   const handleImageRemove = () => {
@@ -375,11 +390,12 @@ const handleInputChange = (idOrEvent, value = null) => {
                 { id: "mobile", placeholder: "Mobile Number", type: "tel" },
                 { id: "designation", placeholder: "Designation" },
 
-                { id: "mapLink", placeholder: "Map Link", type: "url" },
+                
                 { id: "email", placeholder: "Email", type: "email" },
                 { id: "socialLink", placeholder: "Social Media Link" },
                 { id: "socialLink2", placeholder: "Social Media Link2" },
                 { id: "address", placeholder: "Address" },
+                { id: "mapLink", placeholder: "Map Link", type: "url" },
                 {
                   id: "password",
                   placeholder: "Password",
@@ -437,6 +453,30 @@ const handleInputChange = (idOrEvent, value = null) => {
                         value={businessForm.address || ""}
                         onChange={handleInputChange}
                         placeholder="Address"
+                        rows={3}
+                        className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080] resize-none"
+                      />
+                    </div>
+                  );
+                }
+
+                if (id === "mapLink") {
+                  return (
+                    <div
+                      key="mapLink"
+                      className="space-y-2 col-span-1 md:col-span-2"
+                    >
+                      <label
+                        htmlFor={id}
+                        className="text-sm font-medium text-gray-700"
+                      >
+                        {placeholder}:
+                      </label>
+                      <textarea
+                        id="mapLink"
+                        value={businessForm.mapLink || ""}
+                        onChange={handleInputChange}
+                        placeholder="Map Link"
                         rows={3}
                         className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080] resize-none"
                       />

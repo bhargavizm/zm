@@ -51,16 +51,7 @@ const kidsSafetySchema = new mongoose.Schema({
   homeAddress: { type: String },
 
   mapLink: {
-    type: String,
-    validate: {
-      validator: function (v) {
-        return (
-          !v || /^https:\/\/(www\.)?(google\.[a-z.]+\/maps|maps\.google\.[a-z.]+)\//.test(v)
-        );
-      },
-      message: (props) =>
-        `${props.value} is not a valid Google Maps link`,
-    },
+    type: String
   },
 
   password: { type: String },

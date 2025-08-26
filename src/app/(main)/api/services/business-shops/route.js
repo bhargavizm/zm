@@ -25,7 +25,8 @@ export async function POST(req) {
     const businessName = formData.get("businessName");
     const businessType = formData.get("businessType");
     const description = formData.get("description");
-    const shopTimings = formData.get("shopTimings");
+    const openingTime = formData.get("openingTime") 
+    const closingTime = formData.get("closingTime");
     const discount = formData.get("discount");
     const plainPassword = formData.get("password");
     const selectedTemplate = formData.get("selectedTemplate");
@@ -37,6 +38,7 @@ export async function POST(req) {
     const altPhone = formData.get("altPhone");
     const email = formData.get("email");
     const address = formData.get("address");
+       const mapLink = formData.get("mapLink");
     const qrCodeImage = formData.get("qrCodeImage");
 
     // Upload shop logo
@@ -81,7 +83,7 @@ export async function POST(req) {
       businessName,
       businessType,
       description,
-      shopTimings,
+      openingTime,closingTime,
       discount,
       password: hashedPassword,
       selectedTemplate,
@@ -94,6 +96,7 @@ export async function POST(req) {
         altPhone,
         email,
         address,
+        mapLink,
       },
       qrCodeDetails: {
     qrCodeImage,

@@ -20,6 +20,8 @@ const PetTagContent = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [file, setFile] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [isFetchingLocation, setIsFetchingLocation] = useState(false);
+
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [phoneError, setPhoneError] = useState("");
@@ -88,18 +90,27 @@ const handleOwnerChange = (e) => {
     }));
   };
 
-  const handleImageUpload = (e) => {
-    const uploadedFile = e.target.files[0];
-    if (uploadedFile) {
-      const previewUrl = URL.createObjectURL(uploadedFile);
-      setFile(uploadedFile);
-      setPetIDFormData((prev) => ({
-        ...prev,
-        mainImage: uploadedFile,
-        previewUrl,
-      }));
+ const handleImageUpload = (e) => {
+  const uploadedFile = e.target.files[0];
+  const maxSize = 30 * 1024 * 1024; // 30MB
+
+  if (uploadedFile) {
+    if (uploadedFile.size > maxSize) {
+      alert("File size must not exceed 30MB");
+      e.target.value = ""; // Reset input
+      return;
     }
-  };
+
+    const previewUrl = URL.createObjectURL(uploadedFile);
+    setFile(uploadedFile);
+    setPetIDFormData((prev) => ({
+      ...prev,
+      mainImage: uploadedFile,
+      previewUrl,
+    }));
+  }
+};
+
 
   const clearImage = () => {
   setFile(null);
@@ -125,39 +136,43 @@ const handleOwnerChange = (e) => {
     }
   };
 
-  const fetchCurrentLocation = async () => {
-    if (navigator.geolocation) {
-      try {
-        const pos = await new Promise((resolve, reject) => {
-          navigator.geolocation.getCurrentPosition(resolve, reject, {
-            enableHighAccuracy: true,
-            timeout: 10000,
-            maximumAge: 0,
-          });
-        });
+ const fetchCurrentLocation = async () => {
+  if (!navigator.geolocation) {
+    alert("Geolocation not supported in your browser.");
+    return;
+  }
 
-        const { latitude, longitude } = pos.coords;
-        const response = await fetch(
-          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`
-        );
-        const data = await response.json();
-        const fullAddress = data.display_name || "Address not found";
+  setIsFetchingLocation(true);
 
-        setPetIDFormData((prev) => ({
-          ...prev,
-          ownerInfo: {
-            ...prev.ownerInfo,
-            address: fullAddress,
-          },
-        }));
-      } catch (err) {
-        console.error("Error fetching current location:", err.message);
-        alert("Failed to fetch location. Please check permissions.");
-      }
-    } else {
-      alert("Geolocation not supported in your browser.");
-    }
-  };
+  try {
+    const pos = await new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject, {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0,
+      });
+    });
+
+    const { latitude, longitude } = pos.coords;
+
+    // Direct Google Maps link
+    const googleMapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
+
+    setPetIDFormData((prev) => ({
+      ...prev,
+      ownerInfo: {
+        ...prev.ownerInfo,
+        mapLink: googleMapsLink,
+      },
+    }));
+  } catch (err) {
+    console.error("Error fetching current location:", err.message);
+    alert("Failed to fetch location. Please check permissions.");
+  } finally {
+    setIsFetchingLocation(false);
+  }
+};
+
 
   const toBase64 = (file) =>
     new Promise((resolve, reject) => {
@@ -196,6 +211,7 @@ const handleOwnerChange = (e) => {
   };
 
   const handleFinalSubmit = async () => {
+    console.log()
     setActiveTab(slug, "Backdrop Designs");
    
     
@@ -326,14 +342,37 @@ const handleOwnerChange = (e) => {
                   rows={3}
                   className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080] resize-none"
                 />
-                <button
+                {/* <button
                   type="button"
                   onClick={fetchCurrentLocation}
                   className="flex items-center justify-center w-full py-2 px-3 bg-mainGreen text-white text-sm rounded-lg transition-colors duration-200 cursor-pointer"
                 >
                   <MapPin size={16} className="mr-2" />
                   Use Current Location
-                </button>
+                </button> */}
+              </div>
+
+              <div className="space-y-2 col-span-1 md:col-span-2">
+                <textarea
+                  id="mapLink"
+                  value={petIDFormData.ownerInfo.mapLink}
+                  onChange={handleOwnerChange}
+                  placeholder="Map Link"
+                  rows={3}
+                  className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080] resize-none"
+                />
+               <button
+  type="button"
+  onClick={fetchCurrentLocation}
+  disabled={isFetchingLocation}
+  className={`flex items-center justify-center w-full py-2 cursor-pointer px-3 rounded-lg text-white text-sm transition-colors duration-200 ${
+    isFetchingLocation ? "bg-gray-400 cursor-not-allowed" : "bg-mainGreen"
+  }`}
+>
+  <MapPin size={16} className="mr-2" />
+  {isFetchingLocation ? "Fetching Location..." : "Use Current Location"}
+</button>
+
               </div>
             </div>
 
@@ -378,8 +417,7 @@ const handleOwnerChange = (e) => {
                 )}
               </button>
             </div>
-{/* 
-            <NFCModal /> */}
+
             <div className="flex justify-center items-center">
             <button
               type="submit"

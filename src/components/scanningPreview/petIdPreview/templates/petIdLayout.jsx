@@ -1,5 +1,7 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { HiOutlineLocationMarker } from "react-icons/hi";
 
 const PetIdCardLayout = ({ backgroundImage, petIDFormData }) => {
   if (!petIDFormData) {
@@ -72,7 +74,7 @@ const PetIdCardLayout = ({ backgroundImage, petIDFormData }) => {
         )}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-blue-600 hover:underline"
+        className="text-blue-600 underline"
       >
         {petIDFormData.ownerInfo.address}
       </a>
@@ -80,6 +82,20 @@ const PetIdCardLayout = ({ backgroundImage, petIDFormData }) => {
   </>
 )}
 
+ {petIDFormData.ownerInfo.mapLink && (
+  <>
+    <p className="font-medium text-[#8B4513]">Map Link     :{" "} </p>
+    <p>
+        <Link
+      href={petIDFormData.ownerInfo.mapLink}
+      target="_blank"
+      className="text-blue-600 underline break-all"
+    >
+       View location
+    </Link>
+    </p>
+  </>
+)}
             {petIDFormData.pet.breed && (
               <>
                 <p className="font-medium text-[#8B4513]">Breed</p>

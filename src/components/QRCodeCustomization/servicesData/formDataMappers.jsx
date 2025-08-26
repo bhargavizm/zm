@@ -165,7 +165,8 @@ export const formDataMappers = {
       formData.append("businessName", state.businessName || "");
       formData.append("businessType", state.businessType || "");
       formData.append("description", state.description || "");
-      formData.append("shopTimings", state.shopTimings || "");
+      formData.append("openingTime", state.openingTime || "");
+       formData.append("closingTime", state.closingTime || "");
       formData.append("discount", state.discount || "");
       // Password
       formData.append("password", state.password || "");
@@ -180,6 +181,7 @@ export const formDataMappers = {
       formData.append("altPhone", contact.altPhone || "");
       formData.append("email", contact.email || "");
       formData.append("address", contact.address || "");
+      formData.append("mapLink", contact.mapLink || "");
       formData.append("qrCodeImage", qrCodeImage || "");
 
       // Media
@@ -543,6 +545,7 @@ if (state.files && Array.isArray(state.files)) {
       formData.append("ownerInfo.phone", state.ownerInfo?.phone || "");
       formData.append("ownerInfo.email", state.ownerInfo?.email || "");
       formData.append("ownerInfo.address", state.ownerInfo?.address || "");
+      formData.append("ownerInfo.mapLink", state.ownerInfo?.mapLink || "");
       formData.append("password", state?.password || "");
 formData.append("qrCodeImage", qrCodeImage || "");
       // Pet Info

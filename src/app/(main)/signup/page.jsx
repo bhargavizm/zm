@@ -8,6 +8,8 @@ import { FaFacebook } from "react-icons/fa";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { signIn } from "next-auth/react";
 import toast, { Toaster } from "react-hot-toast";
+import { PhoneInput } from "react-international-phone";
+import "react-international-phone/style.css";
 
 export default function SignupPage() {
   const [formData, setFormData] = useState({
@@ -17,6 +19,8 @@ export default function SignupPage() {
     password: "",
     confirmPassword: "",
   });
+  const [touched, setTouched] = useState({ phone: false });
+
 
   const [visiblePasswords, setVisiblePasswords] = useState({
     password: false,
@@ -67,12 +71,12 @@ export default function SignupPage() {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       newErrors.email = emailRegex.test(value) ? "" : "Invalid email address";
     }
-    if (name === "phone") {
-      const phoneRegex = /^\d{10,15}$/;
-      newErrors.phone = phoneRegex.test(value)
-        ? ""
-        : "Phone must be 10 to 15 digits";
-    }
+    // if (name === "phone") {
+    //   const phoneRegex = /^\+?\d{10,15}$/;
+    //   newErrors.phone = phoneRegex.test(value)
+    //     ? ""
+    //     : "Phone must be 10 to 15 digits (with optional +)";
+    // }
 
     if (name === "password" || name === "confirmPassword") {
       if (name === "password" && value.length < 6) {
@@ -105,7 +109,6 @@ export default function SignupPage() {
     }
     if (
       errors.email ||
-      errors.phone ||
       errors.password ||
       errors.confirmPassword
     ) {
@@ -194,62 +197,142 @@ export default function SignupPage() {
               </button>
             </div>
 
-            {/* Input Fields */}
-            {[
-              { id: "name", label: "Name*", type: "text" },
-              { id: "email", label: "Email*", type: "text" },
-              { id: "phone", label: "Phone*", type: "text" },
-              { id: "password", label: "Password*", type: "password" },
-              {
-                id: "confirmPassword",
-                label: "Confirm Password*",
-                type: "password",
-              },
-            ].map((input) => (
-              <div className="relative w-full mt-3" key={input.id}>
+            {/* Name */}
+            <div className="relative w-full mt-3">
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder=" "
+                className={`peer w-full border-2 rounded-sm px-2 pt-4 pb-2 focus:outline-none ${
+                  errors.name
+                    ? "border-red-500"
+                    : "border-gray-300 focus:border-[#008080]"
+                }`}
+              />
+              <label
+                htmlFor="name"
+                className="absolute left-3 -top-2 bg-white px-1 text-sm text-gray-500 transition-all
+                  peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
+                  peer-focus:-top-2 peer-focus:text-sm peer-focus:text-[#001a1a]"
+              >
+                Name*
+              </label>
+              {errors.name && (
+                <p className="text-xs text-red-500 mt-1">{errors.name}</p>
+              )}
+            </div>
+
+            {/* Email */}
+            <div className="relative w-full mt-3">
+              <input
+                type="text"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder=" "
+                className={`peer w-full border-2 rounded-sm px-2 pt-4 pb-2 focus:outline-none ${
+                  errors.email
+                    ? "border-red-500"
+                    : "border-gray-300 focus:border-[#008080]"
+                }`}
+              />
+              <label
+                htmlFor="email"
+                className="absolute left-3 -top-2 bg-white px-1 text-sm text-gray-500 transition-all
+                  peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
+                  peer-focus:-top-2 peer-focus:text-sm peer-focus:text-[#001a1a]"
+              >
+                Email*
+              </label>
+              {errors.email && (
+                <p className="text-xs text-red-500 mt-1">{errors.email}</p>
+              )}
+            </div>
+
+            {/* 👉 Phone */}
+            <div className="relative w-full mt-3">
+<PhoneInput
+  defaultCountry="in"
+  value={formData.phone}
+  onChange={(phone) => {
+    setFormData((prev) => ({ ...prev, phone }));
+
+    // Mark field as touched on first input
+    // if (!touched.phone) setTouched({ phone: true });
+
+    // // Validate only if field has value
+    // const phoneRegex = /^\+[1-9]\d{6,14}$/;
+    // let newErrors = { ...errors };
+    // if (phone && !phoneRegex.test(phone)) {
+    //   newErrors.phone = "Phone must include country code (+) and be 7–15 digits";
+    // } else {
+    //   newErrors.phone = "";
+    // }
+    // setErrors(newErrors);
+  }}
+  placeholder="Enter phone number"
+  inputClassName={`peer w-full border-2 rounded-sm px-2 pt-4 pb-2 focus:outline-none ${
+    errors.phone && touched.phone
+      ? "border-red-500"
+      : "border-gray-300 focus:border-[#008080]"
+  }`}
+/>
+
+
+              <label
+                className="absolute left-3 -top-2 bg-white px-1 text-sm text-gray-500 transition-all
+                  peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
+                  peer-focus:-top-2 peer-focus:text-sm peer-focus:text-[#001a1a]"
+              >
+                Phone*
+              </label>
+           {touched.phone && errors.phone && (
+  <p className="text-xs text-red-500 mt-1">{errors.phone}</p>
+)}
+
+            </div>
+
+            {/* Password + Confirm Password */}
+            {["password", "confirmPassword"].map((id) => (
+              <div className="relative w-full mt-3" key={id}>
                 <input
-                  type={
-                    input.type === "password" && visiblePasswords[input.id]
-                      ? "text"
-                      : input.type
-                  }
-                  id={input.id}
-                  name={input.id}
-                  value={formData[input.id]}
+                  type={visiblePasswords[id] ? "text" : "password"}
+                  id={id}
+                  name={id}
+                  value={formData[id]}
                   onChange={handleChange}
                   placeholder=" "
-                  className={`peer w-full border-2 rounded-sm px-2 pt-4 pb-2 focus:outline-none 
-                                        ${
-                                          errors[input.id]
-                                            ? "border-red-500"
-                                            : "border-gray-300 focus:border-[#008080]"
-                                        }`}
+                  className={`peer w-full border-2 rounded-sm px-2 pt-4 pb-2 focus:outline-none ${
+                    errors[id]
+                      ? "border-red-500"
+                      : "border-gray-300 focus:border-[#008080]"
+                  }`}
                 />
                 <label
-                  htmlFor={input.id}
+                  htmlFor={id}
                   className="absolute left-3 -top-2 bg-white px-1 text-sm text-gray-500 transition-all
-                                    peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
-                                    peer-focus:-top-2 peer-focus:text-sm peer-focus:text-[#001a1a]"
+                    peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
+                    peer-focus:-top-2 peer-focus:text-sm peer-focus:text-[#001a1a]"
                 >
-                  {input.label}
+                  {id === "password" ? "Password*" : "Confirm Password*"}
                 </label>
-                {input.type === "password" && (
-                  <button
-                    type="button"
-                    onClick={() => toggleVisibility(input.id)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-                  >
-                    {visiblePasswords[input.id] ? (
-                      <FiEye size={18} />
-                    ) : (
-                      <FiEyeOff size={18} />
-                    )}
-                  </button>
-                )}
-                {errors[input.id] && (
-                  <p className="text-xs text-red-500 mt-1">
-                    {errors[input.id]}
-                  </p>
+                <button
+                  type="button"
+                  onClick={() => toggleVisibility(id)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                >
+                  {visiblePasswords[id] ? (
+                    <FiEye size={18} />
+                  ) : (
+                    <FiEyeOff size={18} />
+                  )}
+                </button>
+                {errors[id] && (
+                  <p className="text-xs text-red-500 mt-1">{errors[id]}</p>
                 )}
               </div>
             ))}

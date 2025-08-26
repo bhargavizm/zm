@@ -57,10 +57,10 @@ const ProductTemplateFour = ({ items, productData, productLogo, productImage, bg
             )}
 
             {currentItem.heading && (
-              <h2 className="text-lg font-semibold text-gray-800">{currentItem.heading}</h2>
+              <h2 className="text-lg font-semibold">{currentItem.heading}</h2>
             )}
             {currentItem.description && (
-              <p className="text-gray-600 text-sm">{currentItem.description}</p>
+              <p className="mt-2 text-sm">{currentItem.description}</p>
             )}
             {currentItem.pageUrl && (
               <a
@@ -112,11 +112,11 @@ const ProductTemplateFour = ({ items, productData, productLogo, productImage, bg
 
       {/* Contact */}
       <div className="bg-white rounded-xl shadow-md p-4 space-y-2 border border-gray-200">
-        <h3 className="text-lg font-semibold text-gray-800">Contact Us</h3>
+        <h3 className="text-lg font-semibold ">Contact Us</h3>
         {email && (
           <div>
             <h1 className="font-medium">Email</h1>
-            <p className="text-gray-700 text-sm flex items-center">
+            <p className=" text-sm flex items-center">
               <span className="mr-2"><MdEmail /></span> {email}
             </p>
           </div>
@@ -124,7 +124,7 @@ const ProductTemplateFour = ({ items, productData, productLogo, productImage, bg
         {phone && (
           <div>
             <h1 className="font-medium">Phone No.</h1>
-            <p className="text-gray-700 text-sm flex items-center">
+            <p className=" text-sm flex items-center">
               <span className="mr-2"><FaPhoneVolume /></span> {phone}
             </p>
           </div>
