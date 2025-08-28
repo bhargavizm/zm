@@ -18,9 +18,10 @@ export default function LoginPage() {
   const [active, setActive] = useState('existing');
   const modalRef = useRef(null);
   const [showPassword, setShowPassword] = useState(false);
- const [showForgotModal, setShowForgotModal] = useState(false)
+  const [showForgotModal, setShowForgotModal] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -44,8 +45,33 @@ export default function LoginPage() {
     };
   }, [router]);
 
+  // Email validation function
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleEmailChange = (e) => {
+    const value = e.target.value;
+    setEmail(value);
+    
+    // Clear error when user starts typing
+    if (emailError && value) {
+      setEmailError('');
+    }
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
+    
+    // Validate email before submitting
+    if (!validateEmail(email)) {
+      setEmailError('Please enter a valid email address');
+      return;
+    }
+    
+    // Clear any previous errors
+    setEmailError('');
 
     try {
       const res = await fetch('/api/login', {
@@ -60,15 +86,14 @@ export default function LoginPage() {
       if (res.ok) {
         dispatch(setUserData(data.user));
         toast.success(data.message);
-       // 👇 Redirect to saved path if available
-      const redirectPath = sessionStorage.getItem("redirectAfterLogin");
-      if (redirectPath) {
-        sessionStorage.removeItem("redirectAfterLogin");
-        router.push(redirectPath);
-      } else {
-        router.push('/'); // ✅ default fallback
-      }
-
+        // 👇 Redirect to saved path if available
+        const redirectPath = sessionStorage.getItem("redirectAfterLogin");
+        if (redirectPath) {
+          sessionStorage.removeItem("redirectAfterLogin");
+          router.push(redirectPath);
+        } else {
+          router.push('/'); // ✅ default fallback
+        }
       } else {
         toast.error(data.error);
       }
@@ -163,10 +188,17 @@ export default function LoginPage() {
                 type="text"
                 id="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleEmailChange}
+                onBlur={() => {
+                  if (email && !validateEmail(email)) {
+                    setEmailError('Please enter a valid email address');
+                  }
+                }}
                 placeholder=" "
                 required
-                className="peer w-full border-2 border-gray-300 rounded-sm px-2 pt-4 pb-2 text-gray-800 focus:outline-none focus:border-[#008080]"
+                className={`peer w-full border-2 rounded-sm px-2 pt-4 pb-2 text-gray-800 focus:outline-none ${
+                  emailError ? 'border-red-500' : 'border-gray-300 focus:border-[#008080]'
+                }`}
               />
               <label
                 htmlFor="email"
@@ -174,6 +206,11 @@ export default function LoginPage() {
               >
                 Registered Email ID*
               </label>
+              
+              {/* Email Error Message */}
+              {emailError && (
+                <p className="text-red-500 text-xs mt-1">{emailError}</p>
+              )}
             </div>
 
             {/* Password Input */}
@@ -201,6 +238,7 @@ export default function LoginPage() {
                 {showPassword ? <FiEye size={18} /> : <FiEyeOff size={18} />}
               </button>
             </div>
+            
             <div className="w-full flex justify-end mt-4">
               <Link
                 href="/forgot-password"
@@ -209,7 +247,6 @@ export default function LoginPage() {
                 Forgot Password ?
               </Link>
             </div>
-
 
             {/* Terms Checkbox */}
             <div className="flex items-start mt-3 w-full gap-2 text-sm">
@@ -268,4 +305,3 @@ export default function LoginPage() {
     </div>
   );
 }
-
