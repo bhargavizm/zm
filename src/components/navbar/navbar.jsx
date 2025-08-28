@@ -24,6 +24,7 @@ const Navbar = () => {
 
   const { dictionary } = useLanguage();
   const pathname = usePathname();
+
   const isActive = (route) => {
     if (route === "/") return pathname === "/";
     return pathname.startsWith(route);
@@ -40,13 +41,14 @@ const Navbar = () => {
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleLogout = async () => {
-    await logout(); // ✅ Logout logic from your hook
-    setOpenDropdown(null); // ✅ Close dropdown (if applicable)
-    router.push("/"); // ✅ Navigate to homepage or login
+    await logout();
+    setOpenDropdown(null);
+    router.push("/");
   };
 
   return (
@@ -122,13 +124,6 @@ const Navbar = () => {
 
           <LanguageSelector />
 
-           {/* <Link
-                      href="/user-dashboard"
-                      className="border border-white px-5 py-2 rounded-lg transition bg-[linear-gradient(to_right,#008080,#001a1a)]"
-                    >
-                      Dashboard
-                    </Link> */}
-
           {/* User Dropdown */}
           <NavbarAvatar
             setOpenDropdown={setOpenDropdown}
@@ -137,16 +132,30 @@ const Navbar = () => {
           />
         </div>
 
-        {/* Hamburger for Mobile */}
-        <button
-          className="xl:hidden flex flex-col gap-[3px]"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle mobile menu"
-        >
-          <div className="w-6 h-1 bg-white"></div>
-          <div className="w-6 h-1 bg-white"></div>
-          <div className="w-6 h-1 bg-white"></div>
-        </button>
+        {/* Right side (Mobile: User/Login + Hamburger) */}
+        <div className="xl:hidden flex items-center gap-4">
+          {userData ? (
+            <span className="font-semibold text-white">{userData.name}</span>
+          ) : (
+            <Link
+              href="/login"
+              className="border border-white px-3 py-1 rounded-lg bg-[linear-gradient(to_right,#008080,#001a1a)] text-white text-sm"
+            >
+              {dictionary.login}
+            </Link>
+          )}
+
+          {/* Hamburger Menu */}
+          <button
+            className="flex flex-col gap-[3px]"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle mobile menu"
+          >
+            <div className="w-6 h-1 bg-white"></div>
+            <div className="w-6 h-1 bg-white"></div>
+            <div className="w-6 h-1 bg-white"></div>
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
