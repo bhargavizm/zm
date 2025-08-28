@@ -12,11 +12,14 @@ import useLogout from "../hooks/useLogout";
 import NavbarAvatar from "./navbarAvatar";
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false); // for mobile menu
-  const [openDropdown, setOpenDropdown] = useState(null); // 'support' | 'user' | null
+  const [isOpen, setIsOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(null);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const [navigationError, setNavigationError] = useState(null);
 
   const supportRef = useRef(null);
   const userDropdownRef = useRef(null);
+  const userMenuRef = useRef(null);
 
   const logout = useLogout();
   const userData = useSelector((state) => state?.authentication?.userData);
@@ -35,9 +38,11 @@ const Navbar = () => {
     const handleClickOutside = (event) => {
       if (
         !supportRef.current?.contains(event.target) &&
-        !userDropdownRef.current?.contains(event.target)
+        !userDropdownRef.current?.contains(event.target) &&
+        !userMenuRef.current?.contains(event.target)
       ) {
         setOpenDropdown(null);
+        setShowUserMenu(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -48,11 +53,56 @@ const Navbar = () => {
   const handleLogout = async () => {
     await logout();
     setOpenDropdown(null);
+    setShowUserMenu(false);
     router.push("/");
+  };
+
+  // Simple dashboard navigation with error handling
+  const navigateToDashboard = async () => {
+    setShowUserMenu(false);
+    setNavigationError(null);
+    
+    try {
+      // First try the normal navigation
+      router.push("/user-dashboard");
+      
+      // Set a timeout to check if navigation worked
+      setTimeout(() => {
+        // If we're still on the same page after 2 seconds, try fallback
+        if (window.location.pathname !== "/user-dashboard") {
+          console.warn("Router navigation failed, using fallback");
+          window.location.href = "/user-dashboard";
+        }
+      }, 2000);
+    } catch (error) {
+      console.error("Navigation error:", error);
+      setNavigationError("Failed to navigate to dashboard");
+      
+      // Fallback: use window.location
+      setTimeout(() => {
+        window.location.href = "/user-dashboard";
+      }, 1000);
+    }
+  };
+
+  // Alternative navigation method that avoids potential API calls
+  const navigateToDashboardSimple = () => {
+    setShowUserMenu(false);
+    
+    // Use a direct approach that doesn't rely on the router
+    // This will cause a full page refresh but should work
+    window.location.href = "/user-dashboard";
   };
 
   return (
     <nav className="bg-mainGreen h-[10vh] py-2 text-white fixed top-0 left-0 right-0 w-full z-50">
+      {/* Error message (hidden by default, shown only if there's an error) */}
+      {navigationError && (
+        <div className="bg-red-500 text-white text-center py-1 text-sm">
+          {navigationError}
+        </div>
+      )}
+      
       <div className="flex justify-between items-center mx-auto md:px-10 px-6">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
@@ -135,7 +185,37 @@ const Navbar = () => {
         {/* Right side (Mobile: User/Login + Hamburger) */}
         <div className="xl:hidden flex items-center gap-4">
           {userData ? (
-            <span className="font-semibold text-white">{userData.name}</span>
+            <div className="relative" ref={userMenuRef}>
+              <button
+                onClick={() => setShowUserMenu(!showUserMenu)}
+                className="flex items-center gap-1 font-semibold text-white"
+              >
+                {userData.name}
+                <MdKeyboardArrowDown
+                  className={`transition-transform ${
+                    showUserMenu ? "rotate-180" : "rotate-0"
+                  }`}
+                />
+              </button>
+              
+              {/* User Dropdown Menu for Mobile */}
+              {showUserMenu && (
+                <div className="absolute top-full right-0 mt-2 bg-white text-mainGreen rounded-md shadow-md w-48 z-50 py-2">
+                  <button
+                    onClick={navigateToDashboardSimple}
+                    className="block w-full text-left px-4 py-2 hover:bg-mainGreen hover:text-white transition text-sm"
+                  >
+                    Dashboard
+                  </button>
+                  <button
+                    onClick={handleLogout}
+                    className="block w-full text-left px-4 py-2 hover:bg-mainGreen hover:text-white transition text-sm"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
           ) : (
             <Link
               href="/login"
@@ -163,7 +243,7 @@ const Navbar = () => {
         <>
           <div
             onClick={() => setIsOpen(false)}
-            className="fixed inset-0 bg-opacity-40 z-40"
+            className="fixed inset-0 bg-black bg-opacity-40 z-40"
           />
 
           <div className="xl:hidden fixed top-[60px] py-4 right-0 w-60 bg-white text-xl font-semibold text-mainGreen z-50 shadow-lg transition-all duration-300">
@@ -189,27 +269,30 @@ const Navbar = () => {
                 <>
                   <Link
                     href="/user-dashboard"
-                    className="border border-white px-5 py-2 rounded-lg transition bg-[linear-gradient(to_right,#008080,#001a1a)] text-white"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setIsOpen(false);
+                      navigateToDashboardSimple();
+                    }}
+                    className="border border-mainGreen px-5 py-2 rounded-lg transition text-mainGreen text-center mt-4"
                   >
                     {dictionary.dashboard || "Dashboard"}
                   </Link>
-                  <div className="flex flex-col items-start gap-2">
-                    <span className="text-mainGreen font-semibold px-2">
-                      Hello, {userData.name}
-                    </span>
-                    <button
-                      onClick={handleLogout}
-                      className="border border-white px-5 py-2 rounded-lg w-full transition-effects bg-[linear-gradient(to_right,#008080,#001a1a)] text-white"
-                    >
-                      Logout
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setIsOpen(false);
+                    }}
+                    className="border border-mainGreen px-5 py-2 rounded-lg w-full transition-effects text-mainGreen mt-2"
+                  >
+                    Logout
+                  </button>
                 </>
               ) : (
                 <Link
                   href="/login"
                   onClick={() => setIsOpen(false)}
-                  className="border border-white px-5 py-2 rounded-lg transition bg-[linear-gradient(to_right,#008080,#001a1a)] text-white"
+                  className="border border-mainGreen px-5 py-2 rounded-lg transition bg-[linear-gradient(to_right,#008080,#001a1a)] text-white"
                 >
                   {dictionary.login}
                 </Link>
