@@ -309,12 +309,12 @@ export async function POST(request) {
       const fileSizeMB = file.size / (1024 * 1024);
       totalSize += file.size;
 
-      if (fileSizeMB > 2) {
-        return new Response(JSON.stringify({ error: `File "${file.name}" exceeds 2MB.` }), {
-          status: 400,
-          headers: { "Content-Type": "application/json" },
-        });
-      }
+      // if (fileSizeMB > 2) {
+      //   return new Response(JSON.stringify({ error: `File "${file.name}" exceeds 2MB.` }), {
+      //     status: 400,
+      //     headers: { "Content-Type": "application/json" },
+      //   });
+      // }
 
       const fileName = `${Date.now()}-${file.name.replace(/\s+/g, "_")}`;
       const filePath = path.join(uploadDir, fileName);

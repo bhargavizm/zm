@@ -6,11 +6,9 @@ import React, { useState, useCallback } from "react";
 import { MdEmail } from "react-icons/md";
 import { FaPhoneVolume, FaAddressCard } from "react-icons/fa6";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import Link from "next/link";
+import { HiOutlineLocationMarker } from "react-icons/hi";
 
-/**
- * ProductTemplateOne component displays brand, items, and contact info.
- * Images are loaded from URLs in the productData object (including logo and item images).
- */
 const ProductTemplateOne = ({ items, productData }) => {
   const {
     brandName = "Your Brand Name",
@@ -18,6 +16,7 @@ const ProductTemplateOne = ({ items, productData }) => {
     phone = "+91 00000 00000",
     address = "India",
     productLogo,
+    mapLink,
     bgDesign,
   } = productData || {};
 
@@ -132,6 +131,7 @@ const ProductTemplateOne = ({ items, productData }) => {
       {address && (
   <div className="flex items-center gap-2 text-sm">
     <FaAddressCard  />
+     <span>Address:</span>
     <a
       href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`}
       target="_blank"
@@ -142,6 +142,20 @@ const ProductTemplateOne = ({ items, productData }) => {
     </a>
   </div>
 )}
+
+ {mapLink && (
+   <div className="mt-2 flex items-center gap-1 flex-wrap">
+     <HiOutlineLocationMarker className="w-5 h-5" />
+     <span>Map Link:</span>
+     <Link
+       href={mapLink}
+       target="_blank"
+       className="text-blue-600 underline break-all"
+     >
+        View location
+     </Link>
+   </div>
+ )}
 
       </div>
     </div>

@@ -17,6 +17,7 @@ const securedPlans = [
 ];
 
 const SecuredPricesModalPopUp = ({ open, onClose, userMeta = {}, onConfirm }) => {
+  console.log("secured modal userMeta", userMeta.qrImageUrl);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const { freePlanCount, setFreePlanCount } = useDesignContext();
   const { servicesDataLoading, setServicesDataLoading } = useServicesContext();
@@ -68,6 +69,7 @@ const router = useRouter();
               plan: plan.title,
               price: 0,
               validityDays: Number(plan.duration.match(/\d+/)?.[0] || 90),
+                qrImageUrl: userMeta.qrImageUrl || "",
             }),
           }
         );
@@ -77,7 +79,7 @@ const router = useRouter();
           toast.success(data.message || "Free plan activated!");
           onClose();
           if (onConfirm) onConfirm();
-            router.push("/user-dashboard/qrCodesLists/");
+            // router.push("/user-dashboard/qrCodesLists/");
         } else {
           toast.error(data.message || "Failed to activate free plan");
         }
@@ -94,13 +96,14 @@ const router = useRouter();
         userId: userMeta.userId,
         serviceName: userMeta.serviceName,
         serviceId: userMeta.serviceId,
+        qrImageUrl: userMeta.qrImageUrl || "",
         plan,
       });
 
       if (success) {
         onClose();
         if (onConfirm) onConfirm();
-          router.push("/user-dashboard/qrCodesLists/");
+          // router.push("/user-dashboard/qrCodesLists/");
       }
     } catch (err) {
       toast.error(err?.message || "Something went wrong during payment");

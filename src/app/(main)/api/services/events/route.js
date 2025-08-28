@@ -28,6 +28,7 @@ export async function POST(request) {
     const toDate = formData.get("toDate") || null;
     const venue = formData.get("venue") || "";
     const address = formData.get("address") || "";
+    const mapLink = formData.get("mapLink") || "";
     const contactName = formData.get("contactName") || "";
     const contactEmail = formData.get("contactEmail") || "";
     const contactPhone = formData.get("contactPhone") || "";
@@ -53,15 +54,15 @@ export async function POST(request) {
       const sizeInMB = (sizeInBytes / (1024 * 1024)).toFixed(2);
 
       // Single file limit 2MB
-      if (sizeInBytes > 2 * 1024 * 1024) {
-        return new Response(
-          JSON.stringify({
-            success: false,
-            error: `❌ ${file.name} is ${sizeInMB}MB and exceeds 2MB limit.`,
-          }),
-          { status: 400, headers: { "Content-Type": "application/json" } }
-        );
-      }
+      // if (sizeInBytes > 2 * 1024 * 1024) {
+      //   return new Response(
+      //     JSON.stringify({
+      //       success: false,
+      //       error: `❌ ${file.name} is ${sizeInMB}MB and exceeds 2MB limit.`,
+      //     }),
+      //     { status: 400, headers: { "Content-Type": "application/json" } }
+      //   );
+      // }
 
       // Total upload size limit 30MB
       totalSize += sizeInBytes;
@@ -105,6 +106,7 @@ export async function POST(request) {
       toDate,
       venue,
       address,
+      mapLink,
       contactName,
       contactEmail,
       contactPhone,

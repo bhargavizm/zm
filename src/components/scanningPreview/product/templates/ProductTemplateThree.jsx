@@ -2,13 +2,16 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { MdEmail } from "react-icons/md";
 import { FaPhoneVolume, FaAddressCard } from "react-icons/fa6";
+import Link from "next/link";
+import { HiOutlineLocationMarker } from "react-icons/hi";
 
 const ProductTemplateThree = ({ items, productData, productLogo, productImage, bgDesign }) => {
   const {
     brandName = "Your Brand Name",
     email = "contact@example.com",
     phone = "+91 00000 00000",
-    address = "India"
+    address = "India",
+    mapLink = "",
   } = productData || {};
 
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -123,6 +126,7 @@ const ProductTemplateThree = ({ items, productData, productLogo, productImage, b
        {address && (
   <div className="flex items-center gap-2 text-sm">
     <FaAddressCard className="text-blue-600" />
+    <span>Address:</span>
     <a
       href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`}
       target="_blank"
@@ -133,6 +137,20 @@ const ProductTemplateThree = ({ items, productData, productLogo, productImage, b
     </a>
   </div>
 )}
+
+ {mapLink && (
+   <div className="mt-2 flex items-center gap-1 flex-wrap">
+     <HiOutlineLocationMarker className="w-5 h-5" />
+     <span>Map Link:</span>
+     <Link
+       href={mapLink}
+       target="_blank"
+       className="text-blue-600 underline break-all"
+     >
+        View location
+     </Link>
+   </div>
+ )}
 
         {productData.pageUrl && (
           <a

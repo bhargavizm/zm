@@ -39,6 +39,7 @@ export async function POST(req, { params }) {
       plan,
       validityDays,
       price,
+      qrImageUrl,
     } = body;
 
     // 🔒 Verify signature (skip for Free plan)
@@ -110,6 +111,7 @@ export async function POST(req, { params }) {
     doc.priceDetails.paymentDate = new Date();
     doc.priceDetails.currency = "INR";
     doc.qrCodeDetails.qrCodeStatus = "active";
+    doc.qrCodeDetails.qrCodeImage = qrImageUrl || ""; 
 
     await doc.save(); // ✅ will trigger pre("save") => auto sets endDate & renewalDate
 

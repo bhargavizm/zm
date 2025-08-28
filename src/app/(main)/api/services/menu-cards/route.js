@@ -47,15 +47,15 @@ export async function POST(request) {
       const sizeInBytes = arrayBuffer.byteLength;
       const sizeInMB = (sizeInBytes / (1024 * 1024)).toFixed(2);
 
-      if (sizeInBytes > 2 * 1024 * 1024) {
-        return new Response(
-          JSON.stringify({
-            success: false,
-            error: `❌ ${file.name} is ${sizeInMB}MB and exceeds 2MB limit.`,
-          }),
-          { status: 400, headers: { "Content-Type": "application/json" } }
-        );
-      }
+      // if (sizeInBytes > 2 * 1024 * 1024) {
+      //   return new Response(
+      //     JSON.stringify({
+      //       success: false,
+      //       error: `❌ ${file.name} is ${sizeInMB}MB and exceeds 2MB limit.`,
+      //     }),
+      //     { status: 400, headers: { "Content-Type": "application/json" } }
+      //   );
+      // }
 
       totalSize += sizeInBytes;
       const totalSizeInMB = (totalSize / (1024 * 1024)).toFixed(2);

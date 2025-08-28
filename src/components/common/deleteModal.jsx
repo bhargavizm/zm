@@ -38,16 +38,16 @@ const DeleteServiceModal = ({ onClose, serviceData, onDeleted, servicesDataLoadi
       <div className="bg-white rounded-xl shadow-xl p-6 max-w-md w-full relative">
         <button onClick={onClose} className="absolute top-3 right-3 text-gray-500 hover:text-red-500">❌</button>
 
-        <h2 className="text-2xl font-bold text-center text-red-600 my-4">⚠️ Delete Service</h2>
+        <h2 className="text-2xl font-bold text-center text-red-600 my-4"> Delete Service</h2>
 
         <p className="text-center text-lg my-4">
-          Are you sure you want to delete <strong>{serviceData.serviceName}</strong>? This action cannot be undone.
+          Are you sure you want to delete <strong>{serviceData.serviceName}</strong>?
         </p>
 
         <div className="flex justify-center gap-4 mt-6">
           <button
             onClick={onClose}
-            className="bg-gray-300 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-400 transition"
+            className="bg-gray-300 text-gray-700 cursor-pointer font-semibold py-2 px-6 rounded-lg hover:bg-gray-400 transition"
             disabled={servicesDataLoading}
           >
             Cancel
@@ -55,7 +55,7 @@ const DeleteServiceModal = ({ onClose, serviceData, onDeleted, servicesDataLoadi
 
           <button
             onClick={handleDelete}
-            className="bg-red-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-red-700 transition"
+            className="bg-red-600 text-white font-bold cursor-pointer py-2 px-6 rounded-lg hover:bg-red-700 transition"
             disabled={servicesDataLoading}
           >
             {servicesDataLoading ? "Deleting..." : "OK"}

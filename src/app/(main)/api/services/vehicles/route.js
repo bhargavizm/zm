@@ -5,6 +5,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import { Readable } from 'stream';
 import bcrypt from "bcryptjs";
 import { getShortenedUrl } from "@/utils/shortenUrl";
+import { map } from "zod";
 
 // Configure Cloudinary
 cloudinary.config({
@@ -67,6 +68,7 @@ async function parseFormData(request) {
       contact: formData.get('contact'),
       altContact: formData.get('altContact'),
       address: formData.get('address'),
+      mapLink: formData.get('mapLink'),
       
       // Security
       password: formData.get('password'),
@@ -249,6 +251,7 @@ export async function POST(request) {
         contact: formFields.contact,
         altContact: formFields.altContact,
         address: formFields.address,
+        mapLink: formFields.mapLink,
       },
       media: mediaUrls,
       password: hashedPassword,

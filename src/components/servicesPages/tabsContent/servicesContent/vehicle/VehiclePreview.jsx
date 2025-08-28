@@ -262,7 +262,7 @@ const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
       )}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-blue-600 underline"
+      className="text-blue-600 underline break-words"
     >
       {contact.address}
     </a>
@@ -276,7 +276,7 @@ const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
                       href={contact.mapLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline"
+                      className="text-blue-600 break-words underline"
                     >
                       {contact.mapLink}
                     </a>

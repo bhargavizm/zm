@@ -1,13 +1,13 @@
-'use client';
-import React, { useEffect } from 'react';
-import Image from 'next/image';
-import { FiUser, FiPhone, FiTruck } from 'react-icons/fi';
-import useDesignContext from '../hooks/useDesignContext';
-import BgDesignRenderer from './bgDesignRender';
+"use client";
+import React, { useEffect } from "react";
+import Image from "next/image";
+import { FiUser, FiPhone, FiTruck } from "react-icons/fi";
+import useDesignContext from "../hooks/useDesignContext";
+import BgDesignRenderer from "./bgDesignRender";
 
 const resolveImageUrl = (image) => {
   if (image instanceof File) return URL.createObjectURL(image);
-  if (typeof image === 'string') return image;
+  if (typeof image === "string") return image;
   return null;
 };
 
@@ -30,8 +30,8 @@ const VehiclePreview = ({ data }) => {
     contact = {},
     media = {},
     createdAt,
-    password = '',
-    vehicleTemplate = 'none',
+    password = "",
+    vehicleTemplate = "none",
     bgDesign: incomingBgDesign,
   } = data || {};
 
@@ -45,9 +45,9 @@ const VehiclePreview = ({ data }) => {
   };
 
   const templateBackground = templateBgMap[vehicleTemplate] || null;
-  const useTemplateBg = vehicleTemplate !== 'none' && templateBackground;
+  const useTemplateBg = vehicleTemplate !== "none" && templateBackground;
 
-  const isVideo = bgDesign?.endsWith('.mp4') || bgDesign?.endsWith('.webm');
+  const isVideo = bgDesign?.endsWith(".mp4") || bgDesign?.endsWith(".webm");
   const isImage = bgDesign && !isVideo;
 
   useEffect(() => {
@@ -73,14 +73,13 @@ const VehiclePreview = ({ data }) => {
     media.rcFront ||
     media.rcBack ||
     media.pollution ||
-    (media.galleryImages?.length > 0) ||
-    (media.insurance?.length > 0) ||
+    media.galleryImages?.length > 0 ||
+    media.insurance?.length > 0 ||
     password;
 
   return (
-    <div >
-      <div >
-
+    <div>
+      <div>
         {/* Background Layer */}
         {/* {isVideo && (
           <video
@@ -112,7 +111,6 @@ const VehiclePreview = ({ data }) => {
         {!isVideo && !isImage && !useTemplateBg && (
           <div className="absolute inset-0 bg-gradient-to-b from-[#d1f0f0] to-white z-0" />
         )}
-
 
         {/* Content */}
         <div className="relative z-10 flex-1 overflow-y-auto scrollbar-hide pt-8 pb-4">
@@ -149,16 +147,24 @@ const VehiclePreview = ({ data }) => {
                 }
               >
                 {general.vehicleModel && (
-                  <p><strong>Name:</strong> {general.vehicleModel}</p>
+                  <p>
+                    <strong>Name:</strong> {general.vehicleModel}
+                  </p>
                 )}
                 {general.vehicleType && (
-                  <p><strong>Type:</strong> {general.vehicleType}</p>
+                  <p>
+                    <strong>Type:</strong> {general.vehicleType}
+                  </p>
                 )}
                 {general.vehicleNumber && (
-                  <p><strong>Vehicle Number:</strong> {general.vehicleNumber}</p>
+                  <p>
+                    <strong>Vehicle Number:</strong> {general.vehicleNumber}
+                  </p>
                 )}
                 {general.description && (
-                  <p><strong>Description:</strong> {general.description}</p>
+                  <p>
+                    <strong>Description:</strong> {general.description}
+                  </p>
                 )}
               </Section>
 
@@ -171,13 +177,19 @@ const VehiclePreview = ({ data }) => {
                 }
               >
                 {registration.rcNumber && (
-                  <p><strong>RC Number:</strong> {registration.rcNumber}</p>
+                  <p>
+                    <strong>RC Number:</strong> {registration.rcNumber}
+                  </p>
                 )}
                 {registration.driverName && (
-                  <p><strong>Driver Name:</strong> {registration.driverName}</p>
+                  <p>
+                    <strong>Driver Name:</strong> {registration.driverName}
+                  </p>
                 )}
                 {registration.ownerName && (
-                  <p><strong>Owner Name:</strong> {registration.ownerName}</p>
+                  <p>
+                    <strong>Owner Name:</strong> {registration.ownerName}
+                  </p>
                 )}
               </Section>
 
@@ -191,24 +203,30 @@ const VehiclePreview = ({ data }) => {
                 }
               >
                 {contact.contact && (
-                  <p><strong>Contact:</strong> {contact.contact}</p>
+                  <p>
+                    <strong>Contact:</strong> {contact.contact}
+                  </p>
                 )}
                 {contact.altContact && (
-                  <p><strong>Alt. Contact:</strong> {contact.altContact}</p>
+                  <p>
+                    <strong>Alt. Contact:</strong> {contact.altContact}
+                  </p>
                 )}
-               {contact.address && (
-  <p>
-    <strong>Address:</strong>{" "}
-    <a
-      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contact.address)}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="underline text-blue-600 hover:text-blue-800"
-    >
-      {contact.address}
-    </a>
-  </p>
-)}
+                {contact.address && (
+                  <p>
+                    <strong>Address:</strong>{" "}
+                    <a
+                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                        contact.address
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline text-blue-600 hover:text-blue-800"
+                    >
+                      {contact.address}
+                    </a>
+                  </p>
+                )}
 
                 {contact.mapLink && (
                   <p>
@@ -217,7 +235,7 @@ const VehiclePreview = ({ data }) => {
                       href={contact.mapLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline"
+                      className="text-blue-600 underline"
                     >
                       {contact.mapLink}
                     </a>
@@ -241,39 +259,65 @@ const VehiclePreview = ({ data }) => {
                   {resolveImageUrl(media.licenseFront) && (
                     <div>
                       <p className="font-medium text-lg mb-3">License Front:</p>
-                      <img src={resolveImageUrl(media.licenseFront)} alt="License Front" className="w-50 h-50 object-center" />
+                      <img
+                        src={resolveImageUrl(media.licenseFront)}
+                        alt="License Front"
+                        className="w-50 h-50 object-center"
+                      />
                     </div>
                   )}
                   {resolveImageUrl(media.licenseBack) && (
                     <div>
                       <p className="font-medium text-lg mb-3">License Back:</p>
-                      <img src={resolveImageUrl(media.licenseBack)} alt="License Back" className="w-50 h-50 object-center" />
+                      <img
+                        src={resolveImageUrl(media.licenseBack)}
+                        alt="License Back"
+                        className="w-50 h-50 object-center"
+                      />
                     </div>
                   )}
                   {resolveImageUrl(media.rcFront) && (
                     <div>
                       <p className="font-medium text-lg mb-3">RC Front:</p>
-                      <img src={resolveImageUrl(media.rcFront)} alt="RC Front" className="w-50 h-50 object-center" />
+                      <img
+                        src={resolveImageUrl(media.rcFront)}
+                        alt="RC Front"
+                        className="w-50 h-50 object-center"
+                      />
                     </div>
                   )}
                   {resolveImageUrl(media.rcBack) && (
                     <div>
                       <p className="font-medium text-lg mb-3">RC Back:</p>
-                      <img src={resolveImageUrl(media.rcBack)} alt="RC Back" className="w-50 h-50 object-center" />
+                      <img
+                        src={resolveImageUrl(media.rcBack)}
+                        alt="RC Back"
+                        className="w-50 h-50 object-center"
+                      />
                     </div>
                   )}
                   {resolveImageUrl(media.pollution) && (
                     <div>
                       <p className="font-medium text-lg mb-3">Pollution:</p>
-                      <img src={resolveImageUrl(media.pollution)} alt="Pollution" className="w-50 h-50 object-center" />
+                      <img
+                        src={resolveImageUrl(media.pollution)}
+                        alt="Pollution"
+                        className="w-50 h-50 object-center"
+                      />
                     </div>
                   )}
                   {media.galleryImages?.map((img, idx) => {
                     const src = resolveImageUrl(img);
                     return src ? (
                       <div key={idx}>
-                        <p className="font-medium text-lg mb-3">Gallery {idx + 1}:</p>
-                        <img src={src} alt={`Gallery ${idx + 1}`} className="w-50 h-50 object-center" />
+                        <p className="font-medium text-lg mb-3">
+                          Gallery {idx + 1}:
+                        </p>
+                        <img
+                          src={src}
+                          alt={`Gallery ${idx + 1}`}
+                          className="w-50 h-50 object-center"
+                        />
                       </div>
                     ) : null;
                   })}
@@ -281,8 +325,14 @@ const VehiclePreview = ({ data }) => {
                     const src = resolveImageUrl(img);
                     return src ? (
                       <div key={idx}>
-                        <p className="font-medium text-lg mb-3">Insurance {idx + 1}:</p>
-                        <img src={src} alt={`Insurance ${idx + 1}`} className="w-50 h-50 object-center" />
+                        <p className="font-medium text-lg mb-3">
+                          Insurance {idx + 1}:
+                        </p>
+                        <img
+                          src={src}
+                          alt={`Insurance ${idx + 1}`}
+                          className="w-50 h-50 object-center"
+                        />
                       </div>
                     ) : null;
                   })}
@@ -291,7 +341,6 @@ const VehiclePreview = ({ data }) => {
             </div>
           )}
         </div>
-
       </div>
     </div>
   );

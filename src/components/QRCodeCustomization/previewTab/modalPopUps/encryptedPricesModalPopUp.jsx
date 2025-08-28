@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 const EncryptedPricesModalPopUp = ({ open, onClose, userMeta = {}, onConfirm }) => {
   if (!open) return null;
 
-  const { priceDetails, serviceName, serviceId, userId } = userMeta;
+  const { priceDetails, serviceName, serviceId, userId, qrImageUrl } = userMeta;
   if (!priceDetails) return null;
 
   const { servicesDataLoading, setServicesDataLoading } = useServicesContext();
@@ -37,6 +37,7 @@ const EncryptedPricesModalPopUp = ({ open, onClose, userMeta = {}, onConfirm }) 
               plan: priceDetails.plan,
               price: 0,
               validityDays: Number(priceDetails.validityDays || 30),
+                qrImageUrl: qrImageUrl || "",
             }),
           }
         );
@@ -68,6 +69,7 @@ const EncryptedPricesModalPopUp = ({ open, onClose, userMeta = {}, onConfirm }) 
         userId,
         serviceName,
         serviceId,
+        qrImageUrl: qrImageUrl || "",
         plan: planForRazorpay,
       });
 

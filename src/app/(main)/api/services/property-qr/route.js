@@ -87,12 +87,12 @@ export async function POST(request) {
 
     for (const file of galleryImages) {
       totalSize += file.size;
-      if (file.size > 2 * 1024 * 1024) {
-        return new Response(
-          JSON.stringify({ success: false, error: `Each file must be ≤ 2MB. File ${file.name} is too large.` }),
-          { status: 400, headers: { "Content-Type": "application/json" } }
-        );
-      }
+      // if (file.size > 2 * 1024 * 1024) {
+      //   return new Response(
+      //     JSON.stringify({ success: false, error: `Each file must be ≤ 2MB. File ${file.name} is too large.` }),
+      //     { status: 400, headers: { "Content-Type": "application/json" } }
+      //   );
+      // }
     }
     if (totalSize > 30 * 1024 * 1024) {
       return new Response(

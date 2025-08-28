@@ -38,7 +38,7 @@ import { FaHeartCircleExclamation } from "react-icons/fa6";
 const services = [
     {
         "icon": <TiBusinessCard className="text-[#001a1a]" />,
-        "serviceName": "Business Card",
+        "serviceName": "Business Cards",
         slug: "business-cards",
         "description": "Craft standout digital business cards in a snap with sleek templates, effortlessly sparking connections that resonate.",
         "image": "/services/business-card.webp",
@@ -59,7 +59,7 @@ const services = [
     // },
     {
         "icon": <BsPersonVcard className="text-[#001a1a]" />,
-        "serviceName": "vCard Plus",
+        "serviceName": "V Card Plus",
         slug: "v-cards",
         "description": "Effortlessly create vCard Plus QR Codes to share your contact information and boost networking opportunities instantly!",
         "image": "/services/vCard.webp",
@@ -80,7 +80,7 @@ const services = [
     },
     {
         "icon": <IoIosLink className="text-[#001a1a]" />,
-        "serviceName": "Business Shop",
+        "serviceName": "Business Shops",
         slug: "business-shops",
         "description": "Effortlessly transform images into QR codes, connecting visuals to digital content in an instant.",
         "image": "/services/bussiness-shop-qr.webp",
@@ -101,28 +101,28 @@ const services = [
     },
         {
         "icon": <MdMenuBook className="text-[#001a1a]" />,
-        "serviceName": "MenuCard",
+        "serviceName": "Menu Cards",
         slug: "menu-cards",
         "description": "Discover recipes and personalized menus with Menu Book—your digital dining companion, powered by QR Code.",
         "image": "/services/menu-book-qr.webp",
     },
     {
         "icon": <MdMessage className="text-[#001a1a]" />,
-        "serviceName": "Text Message",
+        "serviceName": "Text Messages",
         slug: "text-messages",
         "description": "Instantly send messages through QR Codes, communicate and connect people  with just a scan.",
         "image": "/services/text-msg-qr.webp",
     },
     {
         "icon": <RiDiscountPercentFill className="text-[#001a1a]" />,
-        "serviceName": "Discount",
+        "serviceName": "Discounts",
         slug: "discounts",
         "description": "Unlock exclusive discounts with our QR Code generator—share savings and elevate your customer engagement effortlessly!",
         "image": "/services/discount-qr.webp",
     },
     {
         "icon": <MdEventNote className="text-[#001a1a]" />,
-        "serviceName": "Event",
+        "serviceName": "Events",
         slug: "events",
         "description": "Generate event QR Codes to effortlessly share details, enhance attendance, and engage participants with instant access.",
         "image": "/services/event-qr.webp",

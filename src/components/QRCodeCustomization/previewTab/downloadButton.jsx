@@ -68,9 +68,9 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
       setServicesDataLoading(true);
 
       // Step 1: Generate + upload preview to Cloudinary
-      const dataUrl = await generateImageFromRef(previewRef);
-      const imageurl = await uploadImageToCloudinary(dataUrl);
-      setSelectedQRCodeImage(imageurl);
+      // const dataUrl = await generateImageFromRef(previewRef);
+      // const imageurl = await uploadImageToCloudinary(dataUrl);
+      // setSelectedQRCodeImage(imageurl);
 
       const isEncryptedService = [
         "pdf",
@@ -81,55 +81,57 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
 
       if (isEncryptedService) {
         /** 🔹 Encrypted Flow */
-        const response = await encryptSubmitForm(imageurl);
+        const response = await encryptSubmitForm();
         const url = response?.qrUrl;
         if (!url) {
           toast.error("short link generation failed");
           return;
         }
 
+        await regenerateMatrixWithText(url);
+        await new Promise((res) => setTimeout(res, 200));
+
+        const finalDataUrl = await generateImageFromRef(previewRef);
+        const finalImageUrl = await uploadImageToCloudinary(finalDataUrl);
+        setSelectedQRCodeImage(finalImageUrl);
 
         setUserMeta({
           userId: response?.userId,
           userName: response?.userName,
           serviceId: response?.serviceId,
           serviceName: response?.serviceName,
-          priceDetails : response?.priceDetails
+          priceDetails: response?.priceDetails,
+          qrImageUrl: finalImageUrl,
         });
         setGeneratedUrl(response?.qrUrl || "");
-                setModalType("encrypted");
+        setModalType("encrypted");
         setShowModal(true);
-
-        // regenerate QR with short link
-        // await regenerateMatrixWithText(url);
-        // await new Promise((res) => setTimeout(res, 200));
-
-        // const finalDataUrl = await generateImageFromRef(previewRef);
-        // resetAllDynamicForms();
-        // downloadImage(finalDataUrl);
-
-        // toast.success("QR Code downloaded successfully!");
-
-        // ✅ redirect to dashboard after success
-        // router.push("/user-dashboard/qrCodesLists/");
-        // resetPreview();
       } else {
         /** 🔹 Secured Flow */
-        const response = await submitForm(imageurl);
+        const response = await submitForm();
         const url = response?.qrUrl;
         if (!url) {
           toast.error("QR Code generation failed");
           return;
         }
 
+        await regenerateMatrixWithText(url);
+        await new Promise((res) => setTimeout(res, 200));
+
+        const finalDataUrl = await generateImageFromRef(previewRef);
+        const finalImageUrl = await uploadImageToCloudinary(finalDataUrl);
+        setSelectedQRCodeImage(finalImageUrl);
+
         setUserMeta({
           userId: response?.userId,
           userName: response?.userName,
           serviceId: response?.serviceId,
           serviceName: response?.serviceName,
+          qrImageUrl: finalImageUrl,
         });
         setGeneratedUrl(response?.qrUrl || "");
         resetAllDynamicForms();
+
         setModalType("secured");
         setShowModal(true);
       }
@@ -142,32 +144,24 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
   };
 
   /** 🔹 Triggered from Secured modal after confirmation */
-  /** 🔹 Triggered from Secured modal after confirmation */
-const handleSecuredDownload = async () => {
-  try {
-    setServicesDataLoading(true);
 
-    // regenerate QR with final secured link
-    await regenerateMatrixWithText(generatedUrl);
-    await new Promise((res) => setTimeout(res, 150));
+  const handleSecuredDownload = async () => {
+    try {
+      setServicesDataLoading(true);
 
-        // ✅ redirect to dashboard after download
-    // router.push("/user-dashboard/qrCodesLists/");
-    // capture QR code and download
-    const dataUrl = await generateImageFromRef(previewRef);
-    downloadImage(dataUrl);
+      router.push("/user-dashboard/qrCodesLists/");
+      const dataUrl = await generateImageFromRef(previewRef);
+      downloadImage(dataUrl);
 
-    toast.success("QR Code downloaded successfully!");
+      toast.success("QR Code downloaded successfully!");
 
-
-    resetPreview();
-  } catch (error) {
-    toast.error("Download failed. Try again.");
-  } finally {
-    setServicesDataLoading(false);
-  }
-};
-
+      resetPreview();
+    } catch (error) {
+      toast.error("Download failed. Try again.");
+    } finally {
+      setServicesDataLoading(false);
+    }
+  };
 
   return (
     <>
@@ -207,7 +201,7 @@ const handleSecuredDownload = async () => {
         <EncryptedPricesModalPopUp
           open={showModal}
           userMeta={userMeta}
-           onConfirm={handleSecuredDownload}
+          onConfirm={handleSecuredDownload}
           onClose={() => setShowModal(false)}
         />
       )}

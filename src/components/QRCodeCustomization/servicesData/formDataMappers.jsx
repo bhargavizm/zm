@@ -124,6 +124,7 @@ export const formDataMappers = {
       formData.append("contact", state?.contact?.contact || "");
       formData.append("altContact", state?.contact?.altContact || "");
       formData.append("address", state?.contact?.address || "");
+      formData.append("mapLink", state?.contact?.mapLink || "");
 
       // Security
       formData.append("password", state?.password || "");
@@ -395,6 +396,7 @@ export const formDataMappers = {
     formData.append("toDate", state.toDate || "");
     formData.append("venue", state.venue || "");
     formData.append("address", state.address || "");
+    formData.append("mapLink", state.mapLink || "");
     formData.append("contactName", state.contactName || "");
     formData.append("contactEmail", state.contactEmail || "");
     formData.append("contactPhone", state.contactPhone || "");
@@ -587,6 +589,7 @@ formData.append("qrCodeImage", qrCodeImage || "");
       formData.append("email", state.email || "");
       formData.append("phone", state.phone || "");
       formData.append("address", state.address || "");
+      formData.append("mapLink", state.mapLink || "");
       formData.append("password", state.password || "");
       formData.append("selectedTemplate", state.selectedTemplate || "");
       formData.append("bgDesign", bgDesign || "");

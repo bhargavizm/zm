@@ -1,17 +1,13 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import axios from "axios";
 import { toast } from "react-hot-toast";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import useServicesContext from "@/components/hooks/useServiceContext";
-import NFCModal from "@/components/modalPopUps/nfcModal";
-import { setMenuCardServices } from "@/redux/slices/servicesSlice";
 import { useDispatch } from "react-redux";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import { useParams } from "next/navigation";
 import LoadingSpinner from "@/components/common/spinner";
-//import useSubmitForm from "@/components/QRCodeCustomization/servicesData/useSubmitForm";
 
 const MenuBookContent = () => {
   const { setActiveTab, bgDesign } = useDesignContext();
@@ -46,18 +42,12 @@ const MenuBookContent = () => {
       sizeMB: file.size / (1024 * 1024),
     }));
     const updatedImages = [...menuBookFormData.menuItems, ...newImages];
+
     const total = updatedImages.reduce((acc, item) => acc + item.sizeMB, 0);
 
+    // ✅ Only check total 30MB
     if (total > 30) {
-      toast.error(`Total upload size exceeds 30MB (${total.toFixed(2)} MB)`);
-      return;
-    }
-
-    const oversize = newImages.find((img) => img.sizeMB > 2);
-    if (oversize) {
-      toast.error(
-        `${oversize.file.name} exceeds 2MB (${oversize.sizeMB.toFixed(2)} MB)`
-      );
+      toast.error(`Total upload size exceeds 30MB`);
       return;
     }
 
@@ -165,46 +155,6 @@ const MenuBookContent = () => {
 
   const handleSubmit = async () => {
     setActiveTab(slug, "Backdrop Designs");
-    // setServicesDataLoading(true);
-    // try {
-    //   const formData = new FormData();
-    //   formData.append("restaurantName", menuBookFormData.restaurantName);
-    //   formData.append("phone", menuBookFormData.phone);
-    //   formData.append("email", menuBookFormData.email);
-    //   formData.append("link", menuBookFormData.link);
-    //   formData.append("password", menuBookFormData.password || "");
-    //    formData.append("bgDesign", bgDesign || "");
-
-    //   menuBookFormData.menuItems.forEach((item) => {
-    //     formData.append("images", item.file);
-    //   });
-
-    //   const res = await axios.post("/api/services/menuCards", formData);
-
-    //   if (res.data.success) {
-    //     dispatch(setMenuCardServices(res.data.menuCardData));
-    //     toast.success(res.data.message);
-    //     setActiveTab(slug, "QR Code");
-
-    //     setMenuBookFormData({
-    //       restaurantName: "",
-    //       menuItems: [],
-    //       phone: "",
-    //       email: "",
-    //       link: "",
-    //       password: "",
-    //     });
-    //     setTotalSizeMB(0);
-    //     if (fileInputRef.current) fileInputRef.current.value = "";
-    //   } else {
-    //     toast.error(res.data.message || "Submission failed");
-    //   }
-    // } catch (err) {
-    //   console.error(err);
-    //   toast.error(err?.response?.data?.error || "Something went wrong!");
-    // } finally {
-    //   setServicesDataLoading(false);
-    // }
   };
 
   return (
@@ -213,8 +163,6 @@ const MenuBookContent = () => {
 
       <form>
         <div className="max-w-xl mx-auto p-6 space-y-6 bg-white rounded">
-          {/* <h2 className="text-2xl font-bold text-[#008080]">Create QR Menu</h2> */}
-
           <label className="font-medium">Restaurant Name:</label>
           <input
             type="text"
@@ -270,7 +218,6 @@ const MenuBookContent = () => {
 
           {/* Upload input and previews... (no change) */}
           <label className="font-medium">Upload Menu Images:</label>
-          <p className="text-sm text-gray-500">Max Single File Size: 2 MB</p>
 
           <div className="relative mt-1 w-full py-2 px-4 border rounded-md">
             <input
