@@ -35,6 +35,7 @@ export async function POST(req) {
     const email = formData.get("email");
     const phone = formData.get("phone");
     const address = formData.get("address");
+    const mapLink = formData.get("mapLink");
     const bgDesign = formData.get("bgDesign");
     const selectedTemplate = Number(formData.get("selectedTemplate") || 0);
 
@@ -98,6 +99,7 @@ export async function POST(req) {
       email,
       phone,
       address,
+      mapLink,
       productLogo: productLogoUrl,
       selectedTemplate,
       bgDesign,

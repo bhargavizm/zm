@@ -16,6 +16,7 @@ const eventSchema = new mongoose.Schema({
   toDate: { type: Date, },
   venue: { type: String },
   address: { type: String },
+  mapLink: { type: String },
   contactName: { type: String },
   contactEmail: { type: String },
   contactPhone: { type: String },

@@ -266,7 +266,7 @@ export default function MultiUrlContent() {
         <div className="text-center mt-4">
           <button
             type="button"
-            className="font-bold px-4 py-2 bg-[#008080] text-white rounded text-lg"
+            className="font-bold px-4  cursor-pointer py-2 bg-[#008080] text-white rounded text-lg"
             onClick={handleSubmit}
           >
             Next →
@@ -347,13 +347,13 @@ export default function MultiUrlContent() {
       {/* Actions */}
       <div className="flex justify-end gap-3">
         <button
-          className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 text-gray-800"
+          className="px-4 py-2 rounded bg-gray-300 cursor-pointer hover:bg-gray-400 text-gray-800"
           onClick={() => setShowPreviewModal(false)}
         >
           Edit
         </button>
         <button
-          className="px-4 py-2 rounded bg-[#008080] hover:bg-[#006666] text-white"
+          className="px-4 py-2 rounded bg-[#008080] cursor-pointer hover:bg-[#006666] text-white"
           onClick={() => {
             setShowPreviewModal(false);
             confirmSubmit();

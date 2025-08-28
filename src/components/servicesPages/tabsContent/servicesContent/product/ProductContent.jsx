@@ -39,7 +39,6 @@ const ProductContent = () => {
   const logoInputRef = useRef(null);
 
   // Constants
-  const MAX_SINGLE_FILE_SIZE = 2 * 1024 * 1024; // 2MB
   const MAX_TOTAL_SIZE = 30 * 1024 * 1024; // 30MB
   const templateImages = [
     "temp1.webp",
@@ -109,6 +108,7 @@ const ProductContent = () => {
       productData.email ||
       productData.phone ||
       productData.address ||
+       productData.mapLink ||
       productData.password
     ) {
       return true;
@@ -167,66 +167,54 @@ const ProductContent = () => {
   };
 
   // Handle product logo upload with validation
-  const handleProductLogoUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+ const handleProductLogoUpload = async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
 
-    if (file.size > MAX_SINGLE_FILE_SIZE) {
-      showFileSizeError();
-      e.target.value = "";
-      return;
-    }
+  const totalSize = calculateTotalImageSize(file);
+  if (totalSize > MAX_TOTAL_SIZE) {
+    toast.error("Total image size exceeds 30MB limit");
+    // setShowValidationModal(true);
+    e.target.value = "";
+    return;
+  }
 
-    const totalSize = calculateTotalImageSize(file);
-    if (totalSize > MAX_TOTAL_SIZE) {
-      setValidationError("Total image size exceeds 30MB limit");
-      setShowValidationModal(true);
-      e.target.value = "";
-      return;
-    }
-
-    const previewUrl = URL.createObjectURL(file);
-    setProductData((prev) => ({
-      ...prev,
-      productLogo: {
-        preview: previewUrl,
-        file: file, // store actual File
-      },
-    }));
-  };
-
-  // Handle item image upload with validation
-  const handleItemImageUpload = async (index, e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    if (file.size > MAX_SINGLE_FILE_SIZE) {
-      showFileSizeError();
-      e.target.value = "";
-      return;
-    }
-
-    const totalSize = calculateTotalImageSize(file);
-    if (totalSize > MAX_TOTAL_SIZE) {
-      setValidationError("Total image size exceeds 30MB limit");
-      setShowValidationModal(true);
-      e.target.value = "";
-      return;
-    }
-
-    const previewUrl = URL.createObjectURL(file);
-
-    const updatedItems = [...productData.items];
-    updatedItems[index].productImage = {
+  const previewUrl = URL.createObjectURL(file);
+  setProductData((prev) => ({
+    ...prev,
+    productLogo: {
       preview: previewUrl,
       file: file, // store actual File
-    };
+    },
+  }));
+};
 
-    setProductData((prev) => ({
-      ...prev,
-      items: updatedItems,
-    }));
+  // Handle item image upload with validation
+const handleItemImageUpload = async (index, e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const totalSize = calculateTotalImageSize(file);
+  if (totalSize > MAX_TOTAL_SIZE) {
+    toast.error("Total image size exceeds 30MB limit");
+   // setShowValidationModal(true);
+    e.target.value = "";
+    return;
+  }
+
+  const previewUrl = URL.createObjectURL(file);
+
+  const updatedItems = [...productData.items];
+  updatedItems[index].productImage = {
+    preview: previewUrl,
+    file: file, // store actual File
   };
+
+  setProductData((prev) => ({
+    ...prev,
+    items: updatedItems,
+  }));
+};
 
   // Calculate total size of all uploaded images
   const calculateTotalImageSize = (newFile) => {
@@ -246,7 +234,7 @@ const ProductContent = () => {
 
   // Show file size error modal
   const showFileSizeError = () => {
-    toast.error("Image size exceeds 2MB limit");
+    // toast.error("Image size exceeds 2MB limit");
     // setShowValidationModal(true);
     // setTimeout(() => setShowValidationModal(false), 500);
   };
@@ -344,35 +332,34 @@ const ProductContent = () => {
   };
 
   // Fetch current location
-  const fetchCurrentLocation = async () => {
-    setIsLoadingLocation(true);
-    try {
-      const position = await new Promise((resolve, reject) =>
-        navigator.geolocation.getCurrentPosition(resolve, reject, {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 0,
-        })
-      );
+const fetchCurrentLocation = async () => {
+  setIsLoadingLocation(true);
+  try {
+    const position = await new Promise((resolve, reject) =>
+      navigator.geolocation.getCurrentPosition(resolve, reject, {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0,
+      })
+    );
 
-      const { latitude, longitude } = position.coords;
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`
-      );
-      const data = await response.json();
-      const fullAddress = data.display_name || "Address not found";
+    const { latitude, longitude } = position.coords;
 
-      setProductData((prev) => ({
-        ...prev,
-        address: fullAddress,
-      }));
-    } catch (error) {
-      console.error("Location fetch failed:", error);
-      alert("Failed to fetch address. Please check location permissions.");
-    } finally {
-      setIsLoadingLocation(false);
-    }
-  };
+    // Direct Google Maps link
+    const mapUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+
+    setProductData((prev) => ({
+      ...prev,
+      mapLink: mapUrl,
+    }));
+  } catch (error) {
+    console.error("Location fetch failed:", error);
+    alert("Failed to fetch location. Please check location permissions.");
+  } finally {
+    setIsLoadingLocation(false);
+  }
+};
+
 
   // Validate form before submission
   const validateForm = () => {
@@ -432,6 +419,7 @@ const ProductContent = () => {
 
   // Confirm submission
   const confirmSubmit = async () => {
+    console.log("Submitting data:", productData);
     setActiveTab(slug, "Backdrop Designs");
     setShowSubmitModal(false);
 
@@ -733,11 +721,24 @@ const ProductContent = () => {
                 placeholder="Enter full address"
                 className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
               />
+            </div>
+            <div>
+              <label className="block font-medium text-gray-700 mb-2">
+                Map Link
+              </label>
+              <textarea
+                id="mapLink"
+                rows={3}
+                value={productData.mapLink || ""}
+                onChange={handleCommonChange}
+                placeholder="Enter map link"
+                className="border p-2 rounded w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#008080]"
+              />
               <button
                 type="button"
                 onClick={fetchCurrentLocation}
                 disabled={isLoadingLocation}
-                className="mt-2 w-full flex items-center justify-center px-4 py-2 bg-[#008080] text-white rounded-lg hover:bg-[#006666] transition-colors"
+                className="mt-2 w-full flex cursor-pointer items-center justify-center px-4 py-2 bg-[#008080] text-white rounded-lg hover:bg-[#006666] transition-colors"
               >
                 {isLoadingLocation
                   ? "Detecting Location..."

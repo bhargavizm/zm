@@ -61,15 +61,7 @@ export async function CardsServicesRoute({
       const sizeInBytes = arrayBuffer.byteLength;
       const sizeInMB = (sizeInBytes / (1024 * 1024)).toFixed(2);
 
-      // if (sizeInBytes > 2 * 1024 * 1024) {
-      //   return NextResponse.json(
-      //     {
-      //       success: false,
-      //       error: `❌ ${file.name} is ${sizeInMB}MB and exceeds 2MB limit.`,
-      //     },
-      //     { status: 400 }
-      //   );
-      // }
+
 
       const base64 = Buffer.from(arrayBuffer).toString("base64");
       const dataUri = `data:${file.type};base64,${base64}`;

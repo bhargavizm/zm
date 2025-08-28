@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUserFullDetails } from "./fetchUserDetails";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import LoadingSpinner from "@/components/common/spinner";
-import axios from "axios";
+import { FiSearch } from "react-icons/fi";
 import ResetPasswordModal from "@/components/common/resetPasswordModal";
 import DeleteServiceModal from "@/components/common/deleteModal";
 
@@ -30,23 +30,23 @@ const downloadQRCode = async (imageUrl, serviceName) => {
     // Fetch the image as a blob
     const response = await fetch(imageUrl);
     const blob = await response.blob();
-    
+
     // Create a URL for the blob
     const blobUrl = URL.createObjectURL(blob);
-    
+
     // Create an anchor element
     const link = document.createElement("a");
     link.href = blobUrl;
-    
+
     // Create a filename using service name and current date
-    const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-    link.download = `${serviceName.replace(/\s+/g, '_')}_QR_${date}.png`;
-    
+    const date = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+    link.download = `${serviceName.replace(/\s+/g, "_")}_QR_${date}.png`;
+
     // Append to body, click, and remove
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    
+
     // Clean up the blob URL
     setTimeout(() => URL.revokeObjectURL(blobUrl), 100);
   } catch (error) {
@@ -65,6 +65,8 @@ const QRCodesList = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [modalType, setModalType] = useState(null); // "reset" | "delete"
   const [downloadingId, setDownloadingId] = useState(null); // Track downloading state
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
 
   const userFullData = useSelector(
     (state) => state?.authentication?.fullUserDetails
@@ -85,11 +87,24 @@ const QRCodesList = () => {
     }
   });
 
-  const totalEntries = allEntries.length;
+  const filteredEntries = allEntries.filter((entry) => {
+    const matchesSearch = entry.serviceName
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+
+    const matchesStatus = statusFilter
+      ? (entry.qrCodeDetails?.qrCodeStatus || "").toLowerCase() ===
+        statusFilter.toLowerCase()
+      : true;
+
+    return matchesSearch && matchesStatus;
+  });
+
+  const totalEntries = filteredEntries.length;
   const totalPages = Math.ceil(totalEntries / itemsPerPage);
   const startIdx = (currentPage - 1) * itemsPerPage;
   const endIdx = Math.min(startIdx + itemsPerPage, totalEntries);
-  const paginatedEntries = allEntries.slice(startIdx, endIdx);
+  const paginatedEntries = filteredEntries.slice(startIdx, endIdx);
 
   useEffect(() => {
     dispatch(getUserFullDetails(setServicesDataLoading));
@@ -150,33 +165,72 @@ const QRCodesList = () => {
         {servicesDataLoading ? (
           <LoadingSpinner />
         ) : totalEntries === 0 ? (
-          <p className="text-gray-500">No QR entries found.</p>
+          <p className="text-black text-2xl text-center">
+            No QR entries found.
+          </p>
         ) : (
           <>
+            <h1 className="text-2xl  font-bold text-mainGreen mb-2">
+              Your QR Code Lists
+            </h1>
             {/* Header + Rows Selector */}
-            <div className="flex justify-between items-center mb-4">
-              <h1 className="text-2xl font-bold text-gray-800">
-                {" "}
-                Your QR Code Lists
-              </h1>
-              <div className="flex items-center gap-2">
-                <label className="text-sm font-medium text-gray-700">
-                  Rows per page:
-                </label>
+            <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-3">
+              {/* Pagination Info */}
+              <div className="mt-4 text-sm text-gray-600">
+                Showing {startIdx + 1} to {endIdx} of {totalEntries} entries
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 items-center">
+                {/* 🔍 Search Bar */}
+                <div className="relative w-64">
+                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                    <FiSearch className="w-4 h-4" />
+                  </span>
+                  <input
+                    type="text"
+                    placeholder="Search by service name..."
+                    value={searchQuery}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value);
+                      setCurrentPage(1);
+                    }}
+                    className="border-mainGreen border-2 rounded px-3 py-2 text-sm w-full pl-9 focus:outline-none focus:ring-2 focus:ring-mainGreen"
+                  />
+                </div>
+
                 <select
-                  className="border rounded px-2 py-1 text-sm"
-                  value={itemsPerPage}
+                  className="border-mainGreen border-2 rounded px-2 py-2 text-sm cursor-pointer"
+                  value={statusFilter}
                   onChange={(e) => {
-                    setItemsPerPage(Number(e.target.value));
+                    setStatusFilter(e.target.value);
                     setCurrentPage(1);
                   }}
                 >
-                  {ITEMS_OPTIONS.map((num) => (
-                    <option key={num} value={num}>
-                      {num}
-                    </option>
-                  ))}
+                  <option value=""> Status</option>
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
                 </select>
+
+                {/* Rows per page */}
+                <div className="flex items-center gap-2">
+                  <label className="text-sm font-medium text-gray-700">
+                    Rows per page:
+                  </label>
+                  <select
+                    className="border rounded px-2 py-1 text-sm"
+                    value={itemsPerPage}
+                    onChange={(e) => {
+                      setItemsPerPage(Number(e.target.value));
+                      setCurrentPage(1);
+                    }}
+                  >
+                    {ITEMS_OPTIONS.map((num) => (
+                      <option key={num} value={num}>
+                        {num}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
             </div>
 
@@ -186,7 +240,7 @@ const QRCodesList = () => {
                 <thead className="bg-mainGreen text-white">
                   <tr>
                     <th className="px-4 py-3 text-left">Date</th>
-                    <th className="px-4 py-3 text-left">Service</th>
+                    <th className="px-4 py-3 text-left">Services</th>
                     <th className="px-4 py-3 text-left">Subscription</th>
                     <th className="px-4 py-3 text-left">Validity Status</th>
                     <th className="px-4 py-3 text-left">Renewal Date</th>
@@ -237,19 +291,19 @@ const QRCodesList = () => {
                               <img
                                 src={entry.qrCodeDetails.qrCodeImage}
                                 alt="QR Code"
-                                className="w-30 h-20 object-center rounded mb-2"
+                                className="w-30 h-20 object-center rounded mb-2 cursor-pointer hover:opacity-80"
+                                onClick={() => {
+                                  const newWindow = window.open("", "_blank");
+                                  newWindow.document.write(`
+            <html>
+              <head><title>QR Code</title></head>
+              <body style="margin:0;display:flex;align-items:center;justify-content:center;background:#000;">
+                <img src="${entry.qrCodeDetails.qrCodeImage}" style="max-width:100%;max-height:100vh;"/>
+              </body>
+            </html>
+          `);
+                                }}
                               />
-                              <button
-                                onClick={() => handleDownload(entry)}
-                                disabled={downloadingId === entry._id}
-                                className="px-2 py-1 bg-mainGreen text-white rounded text-xs hover:bg-teal-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
-                              >
-                                {downloadingId === entry._id ? (
-                                  <span>Downloading...</span>
-                                ) : (
-                                  <span>Download</span>
-                                )}
-                              </button>
                             </div>
                           ) : (
                             <span className="text-gray-400 italic">
@@ -260,27 +314,31 @@ const QRCodesList = () => {
 
                         {/* Total Scans */}
                         <td className="px-4 py-3 text-center text-lg">
-                          {entry.qrCodeDetails?.scanCount ? entry.qrCodeDetails?.scanCount : "-"}
+                          {entry.qrCodeDetails?.scanCount
+                            ? entry.qrCodeDetails?.scanCount
+                            : "-"}
                         </td>
 
                         {/* Location */}
-                        <td className="px-4 py-3 w-[160px]">
+                        <td className="px-4 py-3 w-[200px]">
                           {entry.qrCodeDetails?.scanHistory?.length > 0 ? (
-                            <ul className="space-y-1">
+                            <div className="flex flex-col gap-1">
                               {entry.qrCodeDetails.scanHistory
                                 .slice(-5)
                                 .reverse()
                                 .map((scan, i) => (
-                                  <li
+                                  <div
                                     key={scan._id || i}
-                                    className="bg-gray-100 px-2 py-1 rounded-md text-gray-700"
+                                    className="bg-gray-100 px-2 py-1 rounded-md text-gray-700 text-sm break-words"
                                   >
-                                    {scan.city}, {scan.region}, {scan.country}
-                                  </li>
+                                    {scan.city
+                                      ? `${scan.city}, ${scan.region}, ${scan.country}`
+                                      : scan.country}
+                                  </div>
                                 ))}
-                            </ul>
+                            </div>
                           ) : (
-                            <span className="text-gray-400 italic">
+                            <span className="text-gray-400 italic text-sm">
                               No scans yet
                             </span>
                           )}
@@ -288,30 +346,36 @@ const QRCodesList = () => {
 
                         {/* Actions */}
                         <td className="px-4 py-3 text-sm">
-                          <button
-                            onClick={() => openResetModal(entry)}
-                            className="px-3 py-1 text-mainGreen rounded hover:font-bold"
-                          >
-                            Reset Password
-                          </button>
+                          <div>
+                            <button
+                              onClick={() => handleDownload(entry)}
+                              disabled={downloadingId === entry._id}
+                              className="px-2 py-1  text-mainGreen rounded text-md hover:underline hover:font-bold cursor-pointer  transition disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                              {downloadingId === entry._id
+                                ? "Downloading..."
+                                : "Download QR Code"}
+                            </button>
+                            <button
+                              onClick={() => openResetModal(entry)}
+                              className="px-3 py-1 text-mainGreen cursor-pointer rounded hover:font-bold hover:underline"
+                            >
+                              Reset Password
+                            </button>
 
-                          <button
-                            onClick={() => openDeleteModal(entry)}
-                            className="px-3 py-1 text-red-600 rounded hover:font-bold"
-                          >
-                            Delete
-                          </button>
+                            <button
+                              onClick={() => openDeleteModal(entry)}
+                              className="px-3 py-1 text-red-600 cursor-pointer rounded hover:font-bold hover:underline "
+                            >
+                              Delete
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     );
                   })}
                 </tbody>
               </table>
-            </div>
-
-            {/* Pagination Info */}
-            <div className="mt-4 text-sm text-gray-600">
-              Showing {startIdx + 1} to {endIdx} of {totalEntries} entries
             </div>
 
             {/* Pagination Controls */}

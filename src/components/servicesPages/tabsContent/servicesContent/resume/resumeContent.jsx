@@ -5,14 +5,11 @@ import { useParams } from "next/navigation";
 import { IoEyeOutline, IoEyeOffOutline, IoClose } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
-
 import useServicesContext from "@/components/hooks/useServiceContext";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import NFCModal from "@/components/modalPopUps/nfcModal";
-import { setResumeServices } from "@/redux/slices/servicesSlice";
 import LoadingSpinner from "@/components/common/spinner";
 
-const MAX_FILE_SIZE_MB = 2;
 const MAX_TOTAL_SIZE_MB = 30;
 
 const ResumeContent = () => {
@@ -40,44 +37,43 @@ const ResumeContent = () => {
   };
 
   // Handle file selection
-  const handleChange = (e) => {
-    const { files } = e.target;
-    if (!files) return;
 
-    const newFiles = Array.from(files);
-    const existingFiles = resumeFormData.resumeFiles || [];
+const handleChange = (e) => {
+  const { files } = e.target;
+  if (!files) return;
 
-    for (let file of newFiles) {
-      if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
-        toast.error(`${file.name} exceeds ${MAX_FILE_SIZE_MB}MB limit.`);
-        return;
-      }
-    }
+  const newFiles = Array.from(files);
+  const existingFiles = resumeFormData.resumeFiles || [];
 
-    const uniqueFiles = newFiles.filter(
-      (file) =>
-        !existingFiles.some(
-          (f) => f.name === file.name && f.size === file.size
-        )
-    );
+  // ✅ Remove per-file size check
 
-    const totalSize = [...existingFiles, ...uniqueFiles].reduce(
-      (acc, file) => acc + file.size,
-      0
-    );
+  // Avoid duplicate files
+  const uniqueFiles = newFiles.filter(
+    (file) =>
+      !existingFiles.some(
+        (f) => f.name === file.name && f.size === file.size
+      )
+  );
 
-    if (totalSize > MAX_TOTAL_SIZE_MB * 1024 * 1024) {
-      toast.error(`Total size exceeds ${MAX_TOTAL_SIZE_MB}MB limit.`);
-      return;
-    }
+  // ✅ Only total size check
+  const totalSize = [...existingFiles, ...uniqueFiles].reduce(
+    (acc, file) => acc + file.size,
+    0
+  );
 
-    setResumeFormData((prev) => ({
-      ...prev,
-      resumeFiles: [...existingFiles, ...uniqueFiles],
-    }));
+  if (totalSize > MAX_TOTAL_SIZE_MB * 1024 * 1024) {
+    toast.error(`Total size exceeds ${MAX_TOTAL_SIZE_MB}MB limit.`);
+    return;
+  }
 
-    if (fileInputRef.current) fileInputRef.current.value = "";
-  };
+  setResumeFormData((prev) => ({
+    ...prev,
+    resumeFiles: [...existingFiles, ...uniqueFiles],
+  }));
+
+  if (fileInputRef.current) fileInputRef.current.value = "";
+};
+
 
   // Remove a file
   const handleFileRemove = (index) => {

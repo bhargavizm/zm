@@ -20,7 +20,7 @@ const useRazorpayPayment = () => {
     });
   };
 
-  const startPayment = async ({ userId, serviceName, serviceId, plan }) => {
+  const startPayment = async ({ userId, serviceName, serviceId,qrImageUrl, plan }) => {
     try {
       setServicesDataLoading(true); // ✅ Use shared loading state
 
@@ -73,6 +73,7 @@ const useRazorpayPayment = () => {
                   plan: plan.title,
                   price: plan.price.replace("₹", ""),
                   validityDays: Number(plan.duration.match(/\d+/)?.[0] || 30),
+                     qrImageUrl: qrImageUrl || "",
                 }),
               }
             );

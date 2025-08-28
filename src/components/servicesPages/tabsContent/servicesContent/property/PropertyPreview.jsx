@@ -4,6 +4,9 @@ import React, { useEffect } from "react";
 import Image from "next/image";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import useDesignContext from "@/components/hooks/useDesignContext";
+import { FaMapMarkerAlt } from "react-icons/fa";
+
+
 
 const PropertyPreview = () => {
   const { propertyDetails } = useServicesContext();
@@ -89,11 +92,28 @@ const PropertyPreview = () => {
               {property.basicInfo.propertyDescription && <p><strong>Description:</strong> {property.basicInfo.propertyDescription}</p>}
             </div>
           )}
+{/* Address */}
+{property.addressInfo.address && (
+  <p className="text-gray-700 text-sm">
+    <span className="font-medium">Address: </span>
+    <a
+      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+        property.addressInfo.address
+      )}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-600 underline break-words"
+    >
+      {property.addressInfo.address}
+    </a>
+  </p>
+)}
 
-          {/* Address Info */}
-        {property.addressInfo.mapLink && (
-  <p className="text-gray-700 text-sm flex items-center">
-    <span className="mr-2"><FaMapMarkerAlt /></span>
+{/* Address Map Link */}
+{property.addressInfo.mapLink && (
+  <p className="text-gray-700 text-sm flex items-center mt-1">
+    <span className="font-medium mr-2">Map Link:</span>
+    <span className="mr-1"><FaMapMarkerAlt /></span>
     <a
       href={property.addressInfo.mapLink}
       target="_blank"

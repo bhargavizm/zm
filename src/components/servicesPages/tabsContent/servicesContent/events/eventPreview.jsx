@@ -149,30 +149,49 @@ const EventPreview = () => {
                 </div>
               )}
 
-              {(eventsFormData.venue || eventsFormData.address) && (
-                <div className="bg-gray-50 p-3 rounded-lg">
-                  <div className="flex items-center text-gray-700 mb-1">
-                    <FiMapPin className="mr-2" />
-                    <span className="font-medium">Where</span>
-                  </div>
-                  {eventsFormData.venue && (
-                    <p className="font-medium">{eventsFormData.venue}</p>
-                  )}
- {eventsFormData.address ? (
-  <a
-    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(eventsFormData.address)}`}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="text-gray-600 hover:underline"
-  >
-    {eventsFormData.address}
-  </a>
-) : (
-  <p className="text-gray-600">Address not provided</p>
+            {(eventsFormData.venue || eventsFormData.address || eventsFormData.mapLink) && (
+  <div className="bg-gray-50 p-3 rounded-lg">
+    <div className="flex items-center text-gray-700 mb-1">
+      <FiMapPin className="mr-2" />
+      <span className="font-medium">Where</span>
+    </div>
+
+    {/* Venue */}
+    {eventsFormData.venue && (
+      <p className="font-medium">{eventsFormData.venue}</p>
+    )}
+
+    {/* Address */}
+    {eventsFormData.address && (
+      
+      <a
+        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+          eventsFormData.address
+        )}`}
+        target="_blank"
+        rel="noopener noreferrer"
+         className="text-blue-600 underline break-words"
+      >
+        {eventsFormData.address}
+      </a>
+    ) }
+
+    {/* ✅ Direct Map Link */}
+    {eventsFormData.mapLink && (
+      <div className="mt-2">
+        <a
+          href={eventsFormData.mapLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 underline break-words"
+        >
+          View Location
+        </a>
+      </div>
+    )}
+  </div>
 )}
 
-                </div>
-              )}
 
               {eventsFormData.about && (
                 <div>

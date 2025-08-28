@@ -129,6 +129,7 @@ const initialFormStates = {
       contact: "",
       altContact: "",
       address: "",
+      mapLink: "",
     },
 
     security: {
@@ -233,6 +234,7 @@ const initialFormStates = {
     email: "",
     phone: "",
     address: "",
+    mapLink: "",
     password: "",
     selectedTemplate: null,
     bgDesign: "", // if you're using design selection for product cards too
@@ -278,6 +280,7 @@ const initialFormStates = {
     toDate: "",
     venue: "",
     address: "",
+    mapLink: "",
     about: "",
     contactName: "",
     contactEmail: "",

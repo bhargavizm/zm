@@ -122,7 +122,8 @@ const ProductTemplateFour = ({ items, productData, productLogo, productImage, bg
     brandName = "Your Brand Name",
     email = "contact@example.com",
     phone = "+91 00000 00000",
-    address = "India"
+    address = "India",
+    mapLink = "",
   } = productData || {};
 
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -257,9 +258,28 @@ const ProductTemplateFour = ({ items, productData, productLogo, productImage, bg
         href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-blue-600 underline"
+         className="text-blue-600 underline break-words max-w-[180px] inline-block"
       >
         {address}
+      </a>
+    </p>
+  </div>
+)}
+
+    {mapLink && (
+  <div>
+    <h1 className="font-medium">Map Link</h1>
+    <p className="text-gray-700 text-sm flex items-center">
+      <span className="mr-2">
+        <FaAddressCard />
+      </span>
+      <a
+        href={mapLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-600 underline break-words max-w-[180px] inline-block"
+      >
+        {mapLink}
       </a>
     </p>
   </div>

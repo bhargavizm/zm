@@ -6,6 +6,8 @@ import { FiUser, FiCalendar } from "react-icons/fi";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import BgDesignRenderer from "../scanningPreview/bgDesignRender";
+import Link from "next/link";
+import { HiOutlineLocationMarker } from "react-icons/hi";
 
 // --- Plain JS date + time formatter ---
 const formatDateTime = (input) => {
@@ -43,6 +45,7 @@ const EventsPreview = ({ data }) => {
     toDate,
     venue,
     address,
+    mapLink,
     contactName,
     contactEmail,
     contactPhone,
@@ -137,6 +140,24 @@ const formattedTo = formatDateTime(toDate);
     </a>
   </div>
 )}
+
+{mapLink && (
+  <div className="bg-[#008080]/10 p-3 rounded border border-[#008080]/20 text-black">
+    <div className="flex items-center mb-1">
+      <HiOutlineLocationMarker className="mr-2 w-5 h-5 text-[#008080]" />
+      <span className="font-medium">Map Link</span>
+    </div>
+    <a
+      href={mapLink}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="underline text-[#008080] hover:text-[#005f5f] break-all"
+    >
+      View Location
+    </a>
+  </div>
+)}
+
 
 
               {(contactName || contactPhone || contactEmail) && (

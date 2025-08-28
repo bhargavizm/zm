@@ -26,17 +26,36 @@ const DiscountCouponContent = () => {
   const brandLogoInputRef = useRef(null);
   const couponImageInputRef = useRef(null);
 
-  const handleChange = (fieldKey, value) => {
-    updateDynamicForm('discountCoupon', null, fieldKey, value);
+    // ✅ Calculate total uploaded size
+  const getTotalSizeMB = () => {
+    let total = 0;
+    if (discountCoupon.brandLogo instanceof File) {
+      total += discountCoupon.brandLogo.size / (1024 * 1024);
+    }
+    if (discountCoupon.couponImage instanceof File) {
+      total += discountCoupon.couponImage.size / (1024 * 1024);
+    }
+    return total;
+  };
+
+ const handleChange = (fieldKey, value) => {
+    updateDynamicForm("discountCoupon", null, fieldKey, value);
   };
 
   const handleFileChange = (fieldKey, files) => {
     if (files && files[0]) {
-      if (files[0].size > 2 * 1024 * 1024) {
-        toast.error('File size should not exceed 2MB');
+      const file = files[0];
+
+      // ✅ Check total size after adding new file
+      let totalSize = getTotalSizeMB();
+      totalSize += file.size / (1024 * 1024);
+
+      if (totalSize > 30) {
+        toast.error(`Total upload size exceeds 30MB`);
         return;
       }
-      handleChange(fieldKey, files[0]);
+
+      handleChange(fieldKey, file);
     }
   };
 
@@ -80,63 +99,7 @@ const DiscountCouponContent = () => {
 
   const handleConfirm = async () => {
     setActiveTab(slug, "Backdrop Designs");
-    // setServicesDataLoading(true);
-    // try {
-    //   const encryptedPassword = discountCoupon.password
-    //     ? CryptoJS.AES.encrypt(discountCoupon.password, 'secret-key').toString()
-    //     : '';
-
-    //   const formData = new FormData();
-    //   formData.append('nameOfBusiness', discountCoupon.nameOfBusiness || '');
-    //   formData.append('code', discountCoupon.code || '');
-    //   formData.append('password', encryptedPassword);
-
-    //   if (discountCoupon.brandLogo instanceof File) {
-    //     formData.append('brandLogo', discountCoupon.brandLogo);
-    //   }
-    //   if (discountCoupon.couponImage instanceof File) {
-    //     formData.append('couponImage', discountCoupon.couponImage);
-    //   }
-
-    //   const response = await axios.post('/api/services/discounts', formData, {
-    //     headers: {
-    //       // Let Axios set the content-type boundary
-    //     },
-    //   });
-
-    //   if (response && response.data && response.data.success) {
-    //     toast.success("Discount coupon saved successfully.");
-    //     setActiveTab(slug, "QR Code");
-    //     dispatch(setDiscountServices(response.data.data));
-    //     setShowPreview(false);
-    //     setShowSuccessPopup(true);
-
-    //     // Reset form
-    //     updateDynamicForm('discountCoupon', null, 'nameOfBusiness', '');
-    //     updateDynamicForm('discountCoupon', null, 'code', '');
-    //     updateDynamicForm('discountCoupon', null, 'password', '');
-    //     updateDynamicForm('discountCoupon', null, 'brandLogo', null);
-    //     updateDynamicForm('discountCoupon', null, 'couponImage', null);
-
-    //     if (brandLogoInputRef.current) brandLogoInputRef.current.value = '';
-    //     if (couponImageInputRef.current) couponImageInputRef.current.value = '';
-
-    //     setTimeout(() => setShowSuccessPopup(false), 1000);
-    //   } else {
-    //     console.warn('Unexpected response:', response);
-    //     toast.error(response?.data?.message || 'Failed to save coupon.');
-    //   }
-    // } catch (error) {
-    //   console.error('Error submitting coupon:', error);
-    //   toast.error(error?.response?.data?.error || "Something went wrong!");
-
-    //   if (error.response?.status === 401) {
-    //     window.location.href = "/login";
-    //     return;
-    //   }
-    // } finally {
-    //   setServicesDataLoading(false);
-    // }
+   
   };
 
   return (
