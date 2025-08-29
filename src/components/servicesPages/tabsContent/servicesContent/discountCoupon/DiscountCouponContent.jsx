@@ -276,7 +276,7 @@ const DiscountCouponContent = () => {
         {showSuccessPopup && (
           <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex justify-center items-center z-50">
             <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm text-center space-y-4">
-              <h2 className="text-xl font-semibold text-green-600">Success!</h2>
+              <h2 className="text-xl font-semibold text-mainGreen">Success!</h2>
               <p className="text-gray-700">Coupon saved successfully.</p>
               <button onClick={() => setShowSuccessPopup(false)} className="mt-4 px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700">
                 Close

@@ -154,8 +154,8 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
                   }}
                   className={`p-3 rounded-full cursor-pointer ${
                     activePreview === "scan"
-                      ? "bg-white text-green-600 shadow-md"
-                      : "text-gray-600 hover:bg-white hover:text-green-600"
+                      ? "bg-white text-mainGreen shadow-md"
+                      : "text-gray-600 hover:bg-white "
                   }`}
                 >
                   <MdQrCodeScanner size={24} />
@@ -168,7 +168,7 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
                   className={`p-3 rounded-full cursor-pointer ${
                     activePreview === "eye"
                       ? "bg-white text-mainGreen shadow-md"
-                      : "text-gray-600 hover:bg-white hover:text-green-600"
+                      : "text-gray-600 hover:bg-white "
                   }`}
                 >
                   <IoEyeOutline size={24} />
@@ -224,8 +224,8 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
                   }}
                   className={`p-3 rounded-full cursor-pointer ${
                     activePreview === "scan"
-                      ? "bg-white text-green-600 shadow-md"
-                      : "text-gray-600 hover:bg-white hover:text-green-600"
+                      ? "bg-white text-mainGreen shadow-md"
+                      : "text-gray-600 hover:bg-white "
                   }`}
                 >
                   <MdQrCodeScanner size={24} />
@@ -238,7 +238,7 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
                   className={`p-3 rounded-full cursor-pointer ${
                     activePreview === "eye"
                       ? "bg-white text-mainGreen shadow-md"
-                      : "text-gray-600 hover:bg-white hover:text-green-600"
+                      : "text-gray-600 hover:bg-white "
                   }`}
                 >
                   <IoEyeOutline size={24} />
@@ -328,7 +328,7 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
                       </button>
                       <button
                         onClick={() => handleTabNavigation("next")}
-                        className="px-4 py-2 bg-mainGreen text-white font-semibold rounded-lg hover:bg-green-700 transition"
+                        className="px-4 py-2 bg-mainGreen text-white font-semibold rounded-lg  transition"
                       >
                         Next →
                       </button>

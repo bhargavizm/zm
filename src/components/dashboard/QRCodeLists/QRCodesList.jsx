@@ -8,6 +8,7 @@ import LoadingSpinner from "@/components/common/spinner";
 import { FiSearch } from "react-icons/fi";
 import ResetPasswordModal from "@/components/common/resetPasswordModal";
 import DeleteServiceModal from "@/components/common/deleteModal";
+import SecuredPricesModalPopUp from "@/components/QRCodeCustomization/previewTab/modalPopUps/securedPricesModalPopUp";
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -67,6 +68,8 @@ const QRCodesList = () => {
   const [downloadingId, setDownloadingId] = useState(null); // Track downloading state
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
+  const [isRenewalModalOpen, setIsRenewalModalOpen] = useState(false);
+  const [selectedRenewalService, setSelectedRenewalService] = useState(null);
 
   const userFullData = useSelector(
     (state) => state?.authentication?.fullUserDetails
@@ -132,7 +135,17 @@ const QRCodesList = () => {
     setIsModalOpen(true);
   };
 
-  const closeResetModal = () => {
+  const openRenewalModal = (service) => {
+    setSelectedRenewalService({
+      userId: service.user?.id || "",
+      serviceId: service._id || "",
+      serviceName: service.serviceName || "",
+      qrImageUrl: service.qrCodeDetails?.qrCodeImage || "",
+    });
+    setIsRenewalModalOpen(true);
+  };
+
+ const closeResetModal = () => {
     setIsModalOpen(false);
     setSelectedService(null);
   };
@@ -158,6 +171,15 @@ const QRCodesList = () => {
       setDownloadingId(null);
     }
   };
+
+const isExpired = (renewalDate) => {
+  if (!renewalDate) return true; // treat missing date as expired
+  const now = new Date();
+  const renewal = new Date(renewalDate);
+  return now > renewal;
+};
+
+
 
   return (
     <>
@@ -338,39 +360,33 @@ const QRCodesList = () => {
                                 ))}
                             </div>
                           ) : (
-                            <span className="text-gray-400 italic text-sm">
-                              No scans yet
-                            </span>
+                              "-"
+                           
                           )}
                         </td>
 
                         {/* Actions */}
-                        <td className="px-4 py-3 text-sm">
-                          <div>
-                            <button
-                              onClick={() => handleDownload(entry)}
-                              disabled={downloadingId === entry._id}
-                              className="px-2 py-1  text-mainGreen rounded text-md hover:underline hover:font-bold cursor-pointer  transition disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                              {downloadingId === entry._id
-                                ? "Downloading..."
-                                : "Download QR Code"}
-                            </button>
-                            <button
-                              onClick={() => openResetModal(entry)}
-                              className="px-3 py-1 text-mainGreen cursor-pointer rounded hover:font-bold hover:underline"
-                            >
-                              Reset Password
-                            </button>
+                       <td className=" py-3 grid grid-cols-2 gap-2 text-md">
+                        <button onClick={() => handleDownload(entry)} disabled={downloadingId === entry._id} className="px-2 py-1 text-mainGreen rounded text-md hover:underline hover:font-bold cursor-pointer transition disabled:opacity-50 disabled:cursor-not-allowed">
+                          {downloadingId === entry._id ? "Downloading..." : "Download QR Code"}
+                        </button>
 
-                            <button
-                              onClick={() => openDeleteModal(entry)}
-                              className="px-3 py-1 text-red-600 cursor-pointer rounded hover:font-bold hover:underline "
-                            >
-                              Delete
-                            </button>
-                          </div>
-                        </td>
+                        <button onClick={() => openResetModal(entry)} className="px-3 py-1 text-mainGreen cursor-pointer rounded hover:font-bold hover:underline">Reset Password</button>
+
+                        <button onClick={() => openDeleteModal(entry)} className="px-3 py-1 text-red-600 cursor-pointer rounded hover:font-bold hover:underline">Delete</button>
+
+                        <button
+    onClick={() => openRenewalModal(entry)}
+    disabled={!isExpired(priceDetails.renewalDate)}
+    className={`px-3 py-1 rounded text-mainGreen font-medium transition ${
+      isExpired(priceDetails.renewalDate)
+        ? "bg-mainGreen hover:bg-teal-700 cursor-pointer"
+        : " cursor-not-allowed"
+    }`}
+  >
+    Renew
+  </button>
+                      </td>
                       </tr>
                     );
                   })}
@@ -432,6 +448,20 @@ const QRCodesList = () => {
           }}
           servicesDataLoading={servicesDataLoading}
           setServicesDataLoading={setServicesDataLoading}
+        />
+      )}
+
+       {/* 🔹 Renewal Modal */}
+      {isRenewalModalOpen && selectedRenewalService && (
+        <SecuredPricesModalPopUp
+          open={isRenewalModalOpen}
+          onClose={() => setIsRenewalModalOpen(false)}
+          userMeta={selectedRenewalService}
+          onConfirm={() => {
+            setIsRenewalModalOpen(false);
+            setSelectedRenewalService(null);
+            dispatch(getUserFullDetails(setServicesDataLoading)); // Refresh list after renewal
+          }}
         />
       )}
     </>

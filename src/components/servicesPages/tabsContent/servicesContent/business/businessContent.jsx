@@ -240,48 +240,7 @@ const handleImageUpload = (e) => {
   // This function is called when the user confirms in the modal
   const handleConfirmSubmit = async () => {
     setActiveTab(slug, "Backdrop Designs");
-    // setShowConfirmModal(false); // Close modal
-    //     setServicesDataLoading(true);
-
-    // const formData = new FormData();
-
-    // for (const key in businessForm) {
-    //   formData.append(key, businessForm[key]);
-    // }
-
-    // if (fileInputRef.current?.files[0]) {
-    //   formData.append("file", fileInputRef.current.files[0]);
-    // }
-
-    // try {
-    //   const res = await fetch(`/api/services/${slug}`, {
-    //     method: "POST",
-    //     body: formData,
-    //   });
-
-    //   const data = await res.json();
-    //   console.log(data);
-    //   if (res.ok) {
-    //     toast.success(data.message);
-    //     setBusinessForm({});
-    //     setProfileImage(null);
-    //     dispatch(setCardServices(data.data));
-    //     setActiveTab(slug, "QR Code");
-
-    //     if (fileInputRef.current) fileInputRef.current.value = "";
-    //   } else {
-    //     toast.error(data.message || "Something went wrong!");
-    //   }
-    // } catch (err) {
-    //   console.error("Submission error:", err);
-    //   toast.error(err?.response?.data?.error || "Something went wrong!");
-    //  if (error.response?.status === 401) {
-    //     window.location.href = "/login"; // ✅ Auto logout on expiry
-    //     return;
-    //   }
-    // } finally {
-    //   setServicesDataLoading(false); // ✅ End loader
-    // }
+   
   };
   return (
     <>

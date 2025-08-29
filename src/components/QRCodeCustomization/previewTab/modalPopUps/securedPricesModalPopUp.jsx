@@ -113,7 +113,7 @@ const router = useRouter();
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
+    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md ">
       <div className="bg-white rounded-xl shadow-xl p-6 max-w-5xl w-full h-[90vh] overflow-y-auto scrollbar-hide relative">
         <button
           onClick={onClose}

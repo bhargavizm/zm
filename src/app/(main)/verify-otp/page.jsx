@@ -154,7 +154,7 @@ export default function VerifyOtp() {
             <button
               type="submit"
               disabled={loading}
-              className="w-3/4 bg-mainGreen text-white rounded-lg px-4 py-2 font-semibold  transition disabled:opacity-50"
+              className="w-3/4 bg-mainGreen text-white cursor-pointer rounded-lg px-4 py-2 font-semibold  transition disabled:opacity-50"
             >
               {loading ? 'Verifying...' : 'Verify OTP'}
             </button>
@@ -166,7 +166,7 @@ export default function VerifyOtp() {
             ) : (
               <button
                 type="button"
-                className="text-mainGreen font-semibold hover:underline"
+                className="text-mainGreen font-semibold hover:underline cursor-pointer"
                 onClick={handleResendOtp}
                 disabled={resendLoading}
               >

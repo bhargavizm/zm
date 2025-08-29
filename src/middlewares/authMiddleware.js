@@ -77,13 +77,13 @@ export const auth = async (req) => {
     if (err.name === "TokenExpiredError") {
       return {
         status: 401,
-        json: { error: "Your session has expired. Please log in again." },
+        json: { error: err.message || "Session expired. Please log in again." },
       };
     }
     if (err.name === "JsonWebTokenError") {
       return {
         status: 401,
-        json: { error: "Invalid session. Please log in again." },
+        json: { error: err.message || "Session expired. Please log in again." },
       };
     }
     return {

@@ -38,7 +38,7 @@ export async function POST(req, { params }) {
       razorpay_signature,
       plan,
       validityDays,
-      price,
+      price, 
       qrImageUrl,
     } = body;
 
@@ -100,20 +100,38 @@ export async function POST(req, { params }) {
       doc.priceDetails = {}; // initialize subdocument
     }
 
-    doc.priceDetails.plan = plan;
+    const startDate = new Date();
+    const endDate = new Date(startDate.getTime() + validityDays * 24 * 60 * 60 * 1000);
+    const renewalDate = endDate;
+
+     doc.priceDetails.plan = plan;
     doc.priceDetails.price = price;
     doc.priceDetails.validityDays = validityDays;
-    doc.priceDetails.startDate = new Date();
+    doc.priceDetails.startDate = startDate;
+    doc.priceDetails.endDate = endDate;
+    doc.priceDetails.renewalDate = renewalDate;
     doc.priceDetails.razorpayOrderId = razorpay_order_id;
     doc.priceDetails.razorpayPaymentId = razorpay_payment_id;
     doc.priceDetails.razorpaySignature = razorpay_signature;
     doc.priceDetails.paymentStatus = "success";
     doc.priceDetails.paymentDate = new Date();
     doc.priceDetails.currency = "INR";
-    doc.qrCodeDetails.qrCodeStatus = "active";
-    doc.qrCodeDetails.qrCodeImage = qrImageUrl || ""; 
+     doc.qrCodeDetails.qrCodeImage = qrImageUrl || "";
+     
+      const now = new Date();
+    if (now >= startDate && now < endDate) {
+      doc.qrCodeDetails.qrCodeStatus = "active";
+    } else {
+      doc.qrCodeDetails.qrCodeStatus = "inactive";
+    }
 
     await doc.save(); // ✅ will trigger pre("save") => auto sets endDate & renewalDate
+
+    if (plan === "Free") {
+  await User.findByIdAndUpdate(userId, {
+    $inc: { freePlansUsed: 1 },
+  });
+}
 
     return NextResponse.json({
       success: true,

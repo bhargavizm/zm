@@ -124,7 +124,6 @@ const handleChange = (e) => {
   // Confirm submission (placeholder for server call)
   const submitToServer = () => {
     setActiveTab(slug, "Backdrop Designs");
-    toast.success("Submission confirmed!");
     setShowConfirmModal(false);
   };
 

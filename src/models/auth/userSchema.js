@@ -17,7 +17,8 @@ const userSchema = new mongoose.Schema({
   firstLoginDate: { type: Date, default: null },
   welcomeOfferUsed: { type: Boolean, default: false },
   qrCodesCreatedDuringOffer: { type: Number, default: 0 },
-  offerExpiryDate: { type: Date, default: null }
+  offerExpiryDate: { type: Date, default: null },
+   freePlansUsed: { type: Number, default: 0 },
 }, { timestamps: true });
 
 // Optional indexes for faster queries

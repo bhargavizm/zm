@@ -23,7 +23,7 @@ const BackgroundVideo = () => {
         <p className="text-white text-lg md:text-xl mt-4">
           Scan | Store | Connect | Grow
         </p>
-        <button className="mt-6 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full text-lg transition">
+        <button className="mt-6 bg-green-600  text-white px-6 py-3 rounded-full text-lg transition">
           Get Started
         </button>
       </div>
