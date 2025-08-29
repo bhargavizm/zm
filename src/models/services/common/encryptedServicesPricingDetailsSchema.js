@@ -64,14 +64,15 @@ const encryptedServicesPricingDetailsSchema = new mongoose.Schema(
 // 🔁 Auto-calculate endDate before save
 // This part calculates endDate = startDate + 30 days
 encryptedServicesPricingDetailsSchema.pre("save", function (next) {
-  // Only calculate endDate if startDate and validityDays exist
-  if (!this.endDate && this.startDate && this.validityDays) {
+  if (this.startDate && this.validityDays) {
     this.endDate = new Date(
       this.startDate.getTime() + this.validityDays * 24 * 60 * 60 * 1000
     );
+    this.renewalDate = this.endDate; // auto set renewalDate = expiry
   }
   next();
 });
+
 
 
 

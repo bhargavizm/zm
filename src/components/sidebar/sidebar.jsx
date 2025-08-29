@@ -16,7 +16,7 @@ export default function Sidebar({ isOpen, onClose }) {
     try {
       await logout(); // your logout logic
       onClose(); // close sidebar
-      router.push("/"); // redirect to home/login
+      router.push("/login"); // redirect to home/login
     } catch (error) {
       console.error("Logout failed:", error);
     }

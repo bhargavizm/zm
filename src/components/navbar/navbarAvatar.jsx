@@ -18,7 +18,7 @@ const NavbarAvatar = ({ setOpenDropdown, openDropdown, userDropdownRef }) => {
   const handleLogout = async () => {
     await logout(); // ✅ Logout logic from your hook
     setOpenDropdown(null); // ✅ Close dropdown (if applicable)
-    router.push("/"); // ✅ Navigate to homepage or login
+    router.push("/login"); // ✅ Navigate to homepage or login
   };
   return (
     <>
@@ -56,7 +56,7 @@ const NavbarAvatar = ({ setOpenDropdown, openDropdown, userDropdownRef }) => {
           </div>
 
           <Link
-            href="/user-dashboard"
+            href="/user-dashboard/qrCodesLists"
             className="border border-white px-5 py-2 rounded-lg transition bg-[linear-gradient(to_right,#008080,#001a1a)]"
           >
             Dashboard

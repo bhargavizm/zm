@@ -111,7 +111,7 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
         const response = await submitForm();
         const url = response?.qrUrl;
         if (!url) {
-          toast.error("QR Code generation failed");
+          toast.error("short link generation failed");
           return;
         }
 
@@ -167,7 +167,7 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
     <>
       {/* Fullscreen overlay spinner */}
       {servicesDataLoading && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
+        <div className="fixed inset-0 flex items-center justify-center  z-50">
           <LoadingSpinner />
         </div>
       )}

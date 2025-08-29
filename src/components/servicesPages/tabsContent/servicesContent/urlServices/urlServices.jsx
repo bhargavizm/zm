@@ -12,7 +12,7 @@ const URLServices = ({ setIsModalOpen }) => {
   const urlInputRef = useRef(null);
 
   const { formData, setFormData } = useServicesContext();
-
+  const [urlError, setUrlError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [basicInfoOpen, setBasicInfoOpen] = useState(true);
   const [passwordOpen, setPasswordOpen] = useState(false);
@@ -20,6 +20,21 @@ const URLServices = ({ setIsModalOpen }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === "url") {
+      if (!value) {
+        // empty → no error
+        setUrlError("");
+      } else {
+        try {
+          new URL(value); // throws if invalid
+          setUrlError(""); // valid URL
+        } catch {
+          setUrlError("Please enter a valid URL (e.g., https://example.com)");
+        }
+      }
+    }
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -32,31 +47,6 @@ const URLServices = ({ setIsModalOpen }) => {
       return;
     }
     setIsModalOpen(true);
-    // setServicesDataLoading(true);
-    // try {
-    //   const res = await axios.post(`/api/services/${slug}`, formData);
-
-    //   if (res.data.success) {
-    //     dispatch(setURLServices(res.data.URLServicesData));
-    //     toast.success(res.data.message || "Data submitted successfully");
-    //     setIsModalOpen(true);
-    //     setFormData({ url: "", password: "" });
-    //   } else {
-    //     toast.error(res.data.error || "Failed to submit data");
-    //   }
-    // } catch (error) {
-    //   const errorMessage =
-    //     error?.response?.data?.error || "Something went wrong";
-    //   toast.error(errorMessage);
-    //   console.error("❌ Submit error:", errorMessage);
-
-    //   if (error.response?.status === 401) {
-    //     window.location.href = "/login"; // ✅ Auto logout on expiry
-    //     return;
-    //   }
-    // } finally {
-    //   setServicesDataLoading(false); // ✅ End loader
-    // }
   };
   return (
     <>
@@ -111,40 +101,50 @@ const URLServices = ({ setIsModalOpen }) => {
                   ref={urlInputRef}
                   value={formData.url}
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2"
+                  className={`w-full border rounded-md px-3 py-2 ${
+                    urlError ? "border-red-500" : "border-gray-300"
+                  }`}
                   placeholder="https://yourSite.com"
                 />
+
+                {urlError && (
+                  <p className="text-red-600 text-sm mt-1">{urlError}</p>
+                )}
               </div>
             </>
           )}
         </div>
 
         {/* Password Accordion */}
-      {/* Password Section - Always Open */}
-<div className="max-w-full sm:max-w-xl mx-auto my-9">
-  <div className="w-full px-4 py-3 text-left bg-[#35aeae] flex justify-between items-center rounded-md">
-    <span className="font-bold text-white text-base sm:text-lg">
-      Password
-    </span>
-  </div>
+        {/* Password Section - Always Open */}
+        <div className="max-w-full sm:max-w-xl mx-auto my-9">
+          <div className="w-full px-4 py-3 text-left bg-[#35aeae] flex justify-between items-center rounded-md">
+            <span className="font-bold text-white text-base sm:text-lg">
+              Password
+            </span>
+          </div>
 
-  <div className="px-4 py-4 bg-white text-gray-700 border border-gray-200 rounded-b-md relative">
-    <input
-      name="password"
-      type={showPassword ? "text" : "password"}
-      className="w-full border border-gray-300 rounded-md px-4 py-2 pr-10"
-      placeholder="Password"
-      value={formData.password}
-      onChange={handleChange}
-    />
-    <div
-      className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-500 cursor-pointer px-6"
-      onClick={() => setShowPassword(!showPassword)}
-    >
-      {showPassword ? <AiFillEye size={20} /> : <AiFillEyeInvisible size={20} />}
-    </div>
-  </div>
-</div>
+          <div className="px-4 py-4 bg-white text-gray-700 border border-gray-200 rounded-b-md relative">
+            <input
+              name="password"
+              type={showPassword ? "text" : "password"}
+              className="w-full border border-gray-300 rounded-md px-4 py-2 pr-10"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+            />
+            <div
+              className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-500 cursor-pointer px-6"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? (
+                <AiFillEye size={20} />
+              ) : (
+                <AiFillEyeInvisible size={20} />
+              )}
+            </div>
+          </div>
+        </div>
 
         {/* <NFCModal /> */}
 

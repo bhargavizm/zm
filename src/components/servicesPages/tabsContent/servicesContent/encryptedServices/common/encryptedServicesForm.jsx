@@ -169,51 +169,9 @@ const EncryptedServicesForm = ({
 
     // Optional: still update state if needed later
     setFormData(updatedFormData);
-console.log('updatedFormData',updatedFormData)
      setActiveTab(slug, "Backdrop Designs");
 
-    // const fd = new FormData();
-    // // ✅ Always upload files under key "files"
-    // if (Array.isArray(formData[fileKey])) {
-    //   formData[fileKey].forEach((f) => fd.append("files", f));
-    // }
-    // ["title", "description", "password"].forEach((key) => {
-    //   if (formData[key]) fd.append(key, formData[key]);
-    // });
-
-    // setServicesDataLoading(true);
-
-    // try {
-    //   const res = await fetch(apiRoute, {
-    //     method: "POST",
-    //     body: fd,
-    //   });
-
-    //   const data = await res.json();
-    //   if (data.success) {
-    //     dispatch(reduxAction(data));
-    //     toast.success(successMessage);
-    //     setActiveTab(slug, "QR Code");
-    //     setFormData({ title: "", description: "", password: "", file: [] });
-    //     setTotalSize(0);
-    //     setSizeWarning("");
-    //     fileInputRef.current && (fileInputRef.current.value = "");
-    //     setShowConfirm(false);
-    //   } else if (data.type === "upgrade") {
-    //     toast((t) => <span>{data.error}</span>, { icon: "📈" });
-    //   } else {
-    //     toast.error(data.error || "Upload failed");
-    //   }
-    // } catch (error) {
-    //   toast.error(err?.response?.data?.error || "Something went wrong!");
-
-    //   if (error.response?.status === 401) {
-    //     window.location.href = "/login"; // ✅ Auto logout on expiry
-    //     return;
-    //   }
-    // } finally {
-    //   setServicesDataLoading(false); // ✅ End loader
-    // }
+   
   };
 
   return (
@@ -356,8 +314,8 @@ console.log('updatedFormData',updatedFormData)
 
       {/* Confirm Modal */}
       {showConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-xl max-h-[90vh]  overflow-y-auto scrollbar-hide p-6 border border-teal-200 mx-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md ">
+          <div className="bg-white rounded-xl shadow-xl w-full  max-w-xl max-h-[90vh]  overflow-y-auto scrollbar-hide p-6 border border-teal-200 mx-6 ">
             {/* <div className="flex justify-between items-center pb-4"> */}
             <div className="text-right pb-2">
               <button
@@ -404,13 +362,13 @@ console.log('updatedFormData',updatedFormData)
                           href={previewUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="block w-full h-24 border rounded-lg flex items-center justify-center bg-gray-100 overflow-hidden"
+                          className="block   rounded-lg  items-center justify-center bg-gray-100 overflow-hidden"
                         >
                           {isImage ? (
                             <img
                               src={previewUrl}
                               alt={f.name}
-                              className="h-full w-full object-center"
+                              className="h-45 w-full object-center"
                             />
                           ) : (
                             <video

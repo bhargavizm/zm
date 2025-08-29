@@ -54,7 +54,7 @@ const Navbar = () => {
     await logout();
     setOpenDropdown(null);
     setShowUserMenu(false);
-    router.push("/");
+    router.push("/login");
   };
 
   // Simple dashboard navigation with error handling
@@ -64,14 +64,14 @@ const Navbar = () => {
     
     try {
       // First try the normal navigation
-      router.push("/user-dashboard");
+      router.push("/user-dashboard/qrCodesLists/");
       
       // Set a timeout to check if navigation worked
       setTimeout(() => {
         // If we're still on the same page after 2 seconds, try fallback
-        if (window.location.pathname !== "/user-dashboard") {
+        if (window.location.pathname !== "/user-dashboard/qrCodesLists/") {
           console.warn("Router navigation failed, using fallback");
-          window.location.href = "/user-dashboard";
+          window.location.href = "/user-dashboard/qrCodesLists/";
         }
       }, 2000);
     } catch (error) {
@@ -80,7 +80,7 @@ const Navbar = () => {
       
       // Fallback: use window.location
       setTimeout(() => {
-        window.location.href = "/user-dashboard";
+        window.location.href = "/user-dashboard/qrCodesLists/";
       }, 1000);
     }
   };
@@ -91,7 +91,7 @@ const Navbar = () => {
     
     // Use a direct approach that doesn't rely on the router
     // This will cause a full page refresh but should work
-    window.location.href = "/user-dashboard";
+    window.location.href = "/user-dashboard/qrCodesLists/";
   };
 
   return (
@@ -268,7 +268,7 @@ const Navbar = () => {
               {userData ? (
                 <>
                   <Link
-                    href="/user-dashboard"
+                    href="/user-dashboard/qrCodesLists/"
                     onClick={(e) => {
                       e.preventDefault();
                       setIsOpen(false);

@@ -262,7 +262,7 @@ const handleSubmit = (e) => {
                 </>
               ) : (
                 <>
-                  <h2 className="text-xl font-semibold mb-4 text-green-700">
+                  <h2 className="text-xl font-semibold mb-4 text-mainGreen">
                     ✅ Submitted Successfully!
                   </h2>
                   <p className="text-gray-600 mb-4">
