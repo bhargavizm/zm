@@ -128,7 +128,7 @@ export const stickerConfig = {
   "/images/stickers/tea.webp": {},
   "/images/stickers/tom&jerry.webp": {},
   "/images/stickers/tyresquare1.webp": {},
-  "/images/stickers/auto.webp": {},
+  "/images/stickers/Auto.webp": {},
   "/images/stickers/automobilecircle2.webp": {},
   "/images/stickers/beauty parlour.webp": {},
   "/images/stickers/Bike .webp": {},
