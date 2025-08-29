@@ -243,7 +243,7 @@ const Navbar = () => {
         <>
           <div
             onClick={() => setIsOpen(false)}
-            className="fixed inset-0 bg-black bg-opacity-40 z-40"
+            // className="fixed inset-0 bg-black bg-opacity-40 z-40"
           />
 
           <div className="xl:hidden fixed top-[60px] py-4 right-0 w-60 bg-white text-xl font-semibold text-mainGreen z-50 shadow-lg transition-all duration-300">
