@@ -9,6 +9,7 @@ import { FiSearch } from "react-icons/fi";
 import ResetPasswordModal from "@/components/common/resetPasswordModal";
 import DeleteServiceModal from "@/components/common/deleteModal";
 import SecuredPricesModalPopUp from "@/components/QRCodeCustomization/previewTab/modalPopUps/securedPricesModalPopUp";
+import EncryptedPricesModalPopUp from "@/components/QRCodeCustomization/previewTab/modalPopUps/encryptedPricesModalPopUp";
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -135,17 +136,32 @@ const QRCodesList = () => {
     setIsModalOpen(true);
   };
 
+  // ⬇️ update this function
   const openRenewalModal = (service) => {
-    setSelectedRenewalService({
+    const modalData = {
       userId: service.user?.id || "",
       serviceId: service._id || "",
       serviceName: service.serviceName || "",
       qrImageUrl: service.qrCodeDetails?.qrCodeImage || "",
-    });
+      priceDetails: service.priceDetails || {},
+    };
+
+    // 🔹 Decide which modal type to show
+    if (
+      ["pdf", "audios", "videos", "gallery"].includes(
+        service.serviceName.toLowerCase()
+      )
+    ) {
+      setModalType("encrypted");
+    } else {
+      setModalType("secured");
+    }
+
+    setSelectedRenewalService(modalData);
     setIsRenewalModalOpen(true);
   };
 
- const closeResetModal = () => {
+  const closeResetModal = () => {
     setIsModalOpen(false);
     setSelectedService(null);
   };
@@ -172,29 +188,26 @@ const QRCodesList = () => {
     }
   };
 
-const isExpired = (renewalDate) => {
-  if (!renewalDate) return true; // treat missing date as expired
-  const now = new Date();
-  const renewal = new Date(renewalDate);
-  return now > renewal;
-};
-
-
+  const isExpired = (renewalDate) => {
+    if (!renewalDate) return true; // treat missing date as expired
+    const now = new Date();
+    const renewal = new Date(renewalDate);
+    return now > renewal;
+  };
 
   return (
     <>
       <div className="p-4">
         {servicesDataLoading ? (
           <LoadingSpinner />
-        ) : totalEntries === 0 ? (
-          <p className="text-black text-2xl text-center">
-            No QR entries found.
-          </p>
         ) : (
           <>
-            <h1 className="text-2xl  font-bold text-mainGreen mb-2">
+            <h1 className="text-2xl font-bold text-mainGreen mb-2">
               Your QR Code Lists
             </h1>
+
+            {/* Filters + Pagination info stay here */}
+
             {/* Header + Rows Selector */}
             <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-3">
               {/* Pagination Info */}
@@ -259,7 +272,7 @@ const isExpired = (renewalDate) => {
             {/* Data Table */}
             <div className="overflow-x-auto">
               <table className="w-full border border-gray-200 shadow-sm rounded-lg">
-                <thead className="bg-mainGreen text-white">
+                <thead className="bg-mainGreen text-white cursor-pointer">
                   <tr>
                     <th className="px-4 py-3 text-left">Date</th>
                     <th className="px-4 py-3 text-left">Services</th>
@@ -273,50 +286,53 @@ const isExpired = (renewalDate) => {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-100">
-                  {paginatedEntries.map((entry, idx) => {
-                    const priceDetails = entry.priceDetails || {};
-                    return (
-                      <tr key={idx} className="hover:bg-gray-50 transition">
-                        {/* Date */}
-                        <td className="px-4 py-3 text-sm text-gray-600">
-                          {formatDate(entry.createdAt || new Date())}
-                        </td>
+                  {paginatedEntries.length > 0 ? (
+                    paginatedEntries.map((entry, idx) => {
+                      const priceDetails = entry.priceDetails || {};
+                      return (
+                        <tr key={idx} className="hover:bg-gray-50 transition">
+                          {/* Date */}
+                          <td className="px-4 py-3 text-sm text-gray-600">
+                            {priceDetails?.startDate
+                              ? formatDate(priceDetails.startDate)
+                              : "-"}
+                          </td>
 
-                        {/* Service */}
-                        <td className="px-4 py-3 capitalize text-mainGreen font-medium">
-                          {entry.serviceName}
-                        </td>
+                          {/* Service */}
+                          <td className="px-4 py-3 capitalize text-mainGreen font-medium">
+                            {entry.serviceName}
+                          </td>
 
-                        {/* Subscription (Plan + Price) */}
-                        <td className="px-4 py-3 text-sm text-gray-800">
-                          {priceDetails.plan
-                            ? `${priceDetails.plan} (₹ ${priceDetails.price})`
-                            : "-"}
-                        </td>
+                          {/* Subscription (Plan + Price) */}
+                          <td className="px-4 py-3 text-sm text-gray-800">
+                            {priceDetails.plan
+                              ? `${priceDetails.plan} (₹ ${priceDetails.price})`
+                              : "-"}
+                          </td>
 
-                        {/* Validity Status */}
-                        <td className="px-4 py-3 text-sm font-medium">
-                          {entry.qrCodeDetails.qrCodeStatus || "-"}
-                        </td>
+                          {/* Validity Status */}
+                          <td className="px-4 py-3 text-sm font-medium">
+                            {entry.qrCodeDetails.qrCodeStatus || "-"}
+                          </td>
 
-                        {/* Renewal Date */}
-                        <td className="px-4 py-3 text-sm text-gray-600">
-                          {priceDetails.renewalDate
-                            ? formatDate(priceDetails.renewalDate)
-                            : "-"}
-                        </td>
+                          {/* Renewal Date */}
+                          <td className="px-4 py-3 text-sm text-gray-600">
+                            {priceDetails.renewalDate
+                              ? formatDate(priceDetails.renewalDate)
+                              : "-"}
+                          </td>
 
-                        {/* QR Code with Download Button */}
-                        <td className="px-4 py-3">
-                          {entry.qrCodeDetails?.qrCodeImage ? (
-                            <div className="flex flex-col items-center">
-                              <img
-                                src={entry.qrCodeDetails.qrCodeImage}
-                                alt="QR Code"
-                                className="w-30 h-20 object-center rounded mb-2 cursor-pointer hover:opacity-80"
-                                onClick={() => {
-                                  const newWindow = window.open("", "_blank");
-                                  newWindow.document.write(`
+                          {/* QR Code with Download Button */}
+                          <td className="px-4 py-3">
+                            {entry.qrCodeDetails?.qrCodeImage ? (
+                              <div className="flex flex-col items-center">
+                                <img
+                                  src={entry.qrCodeDetails.qrCodeImage}
+                                  alt="QR Code"
+                                  className="w-30 h-30 object-center rounded mb-2 cursor-pointer hover:opacity-80"
+                                  onClick={() => {
+                                    const newWindow = window.open("", "_blank");
+                                    newWindow.document.write(`
             <html>
               <head><title>QR Code</title></head>
               <body style="margin:0;display:flex;align-items:center;justify-content:center;background:#000;">
@@ -324,72 +340,97 @@ const isExpired = (renewalDate) => {
               </body>
             </html>
           `);
-                                }}
-                              />
-                            </div>
-                          ) : (
-                            <span className="text-gray-400 italic">
-                              No Image
-                            </span>
-                          )}
-                        </td>
+                                  }}
+                                />
+                              </div>
+                            ) : (
+                              <span className="text-gray-400 italic">
+                                No Image
+                              </span>
+                            )}
+                          </td>
 
-                        {/* Total Scans */}
-                        <td className="px-4 py-3 text-center text-lg">
-                          {entry.qrCodeDetails?.scanCount
-                            ? entry.qrCodeDetails?.scanCount
-                            : "-"}
-                        </td>
+                          {/* Total Scans */}
+                          <td className="px-4 py-3 text-center text-lg">
+                            {entry.qrCodeDetails?.scanCount
+                              ? entry.qrCodeDetails?.scanCount
+                              : "-"}
+                          </td>
 
-                        {/* Location */}
-                        <td className="px-4 py-3 w-[200px]">
-                          {entry.qrCodeDetails?.scanHistory?.length > 0 ? (
-                            <div className="flex flex-col gap-1">
-                              {entry.qrCodeDetails.scanHistory
-                                .slice(-5)
-                                .reverse()
-                                .map((scan, i) => (
-                                  <div
-                                    key={scan._id || i}
-                                    className="bg-gray-100 px-2 py-1 rounded-md text-gray-700 text-sm break-words"
-                                  >
-                                    {scan.city
-                                      ? `${scan.city}, ${scan.region}, ${scan.country}`
-                                      : scan.country}
-                                  </div>
-                                ))}
-                            </div>
-                          ) : (
+                          {/* Location */}
+                          <td className="px-4 py-3 w-[200px]">
+                            {entry.qrCodeDetails?.scanHistory?.length > 0 ? (
+                              <div className="flex flex-col gap-1">
+                                {entry.qrCodeDetails.scanHistory
+                                  .slice(-5)
+                                  .reverse()
+                                  .map((scan, i) => (
+                                    <div
+                                      key={scan._id || i}
+                                      className="bg-gray-100 px-2 py-1 rounded-md text-gray-700 text-sm break-words"
+                                    >
+                                      {scan.city
+                                        ? `${scan.city}, ${scan.region}, ${scan.country}`
+                                        : scan.country}
+                                    </div>
+                                  ))}
+                              </div>
+                            ) : (
                               "-"
-                           
-                          )}
-                        </td>
+                            )}
+                          </td>
 
-                        {/* Actions */}
-                       <td className=" py-3 grid grid-cols-2 gap-2 text-md">
-                        <button onClick={() => handleDownload(entry)} disabled={downloadingId === entry._id} className="px-2 py-1 text-mainGreen rounded text-md hover:underline hover:font-bold cursor-pointer transition disabled:opacity-50 disabled:cursor-not-allowed">
-                          {downloadingId === entry._id ? "Downloading..." : "Download QR Code"}
-                        </button>
+                          {/* Actions */}
+                          <td className=" py-3 grid grid-cols-2 gap-2 text-md">
+                            <button
+                              onClick={() => handleDownload(entry)}
+                              disabled={downloadingId === entry._id}
+                              className="px-2 py-1 text-mainGreen rounded text-md hover:underline hover:font-bold cursor-pointer transition disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                              {downloadingId === entry._id
+                                ? "Downloading..."
+                                : "Download QR Code"}
+                            </button>
 
-                        <button onClick={() => openResetModal(entry)} className="px-3 py-1 text-mainGreen cursor-pointer rounded hover:font-bold hover:underline">Reset Password</button>
+                            <button
+                              onClick={() => openResetModal(entry)}
+                              className="px-3 py-1 text-mainGreen cursor-pointer rounded hover:font-bold hover:underline"
+                            >
+                              Reset Password
+                            </button>
 
-                        <button onClick={() => openDeleteModal(entry)} className="px-3 py-1 text-red-600 cursor-pointer rounded hover:font-bold hover:underline">Delete</button>
+                            <button
+                              onClick={() => openDeleteModal(entry)}
+                              className="px-3 py-1 text-red-600 cursor-pointer rounded hover:font-bold hover:underline"
+                            >
+                              Delete
+                            </button>
 
-                        <button
-    onClick={() => openRenewalModal(entry)}
-    disabled={!isExpired(priceDetails.renewalDate)}
-    className={`px-3 py-1 rounded text-mainGreen font-medium transition ${
-      isExpired(priceDetails.renewalDate)
-        ? "bg-mainGreen hover:bg-teal-700 cursor-pointer"
-        : " cursor-not-allowed"
-    }`}
-  >
-    Renew
-  </button>
+                            <button
+                              onClick={() => openRenewalModal(entry)}
+                              disabled={!isExpired(priceDetails.renewalDate)}
+                              className={`px-3 py-1 rounded  font-medium transition ${
+                                isExpired(priceDetails.renewalDate)
+                                  ? "bg-mainGreen hover:bg-teal-700 cursor-pointer"
+                                  : " cursor-not-allowed text-gray-500"
+                              }`}
+                            >
+                              Renewal Payment
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr>
+                      <td
+                        colSpan={9}
+                        className="px-4 py-6 text-center text-gray-500"
+                      >
+                        No QR Codes Found
                       </td>
-                      </tr>
-                    );
-                  })}
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
@@ -451,19 +492,37 @@ const isExpired = (renewalDate) => {
         />
       )}
 
-       {/* 🔹 Renewal Modal */}
-      {isRenewalModalOpen && selectedRenewalService && (
-        <SecuredPricesModalPopUp
-          open={isRenewalModalOpen}
-          onClose={() => setIsRenewalModalOpen(false)}
-          userMeta={selectedRenewalService}
-          onConfirm={() => {
-            setIsRenewalModalOpen(false);
-            setSelectedRenewalService(null);
-            dispatch(getUserFullDetails(setServicesDataLoading)); // Refresh list after renewal
-          }}
-        />
-      )}
+      {/* 🔹 Renewal Modal */}
+      {/* 🔹 Renewal Modal */}
+      {isRenewalModalOpen &&
+        selectedRenewalService &&
+        modalType === "encrypted" && (
+          <EncryptedPricesModalPopUp
+            open={isRenewalModalOpen}
+            onClose={() => setIsRenewalModalOpen(false)}
+            userMeta={selectedRenewalService}
+            onConfirm={() => {
+              setIsRenewalModalOpen(false);
+              setSelectedRenewalService(null);
+              dispatch(getUserFullDetails(setServicesDataLoading)); // Refresh after renewal
+            }}
+          />
+        )}
+
+      {isRenewalModalOpen &&
+        selectedRenewalService &&
+        modalType === "secured" && (
+          <SecuredPricesModalPopUp
+            open={isRenewalModalOpen}
+            onClose={() => setIsRenewalModalOpen(false)}
+            userMeta={selectedRenewalService}
+            onConfirm={() => {
+              setIsRenewalModalOpen(false);
+              setSelectedRenewalService(null);
+              dispatch(getUserFullDetails(setServicesDataLoading)); // Refresh after renewal
+            }}
+          />
+        )}
     </>
   );
 };
