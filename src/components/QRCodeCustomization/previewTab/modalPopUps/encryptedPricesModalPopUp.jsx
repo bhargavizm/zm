@@ -6,16 +6,50 @@ import useRazorpayPayment from "../../servicesData/rozorpayPayments";
 import LoadingSpinner from "@/components/common/spinner";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import { useRouter } from "next/navigation";
+import usePremiumContext from "@/components/hooks/usePremiumContext";
+import useDesignContext from "@/components/hooks/useDesignContext";
 
-const EncryptedPricesModalPopUp = ({ open, onClose, userMeta = {}, onConfirm }) => {
+const formatDate = (dateStr) => {
+  if (!dateStr) return "-";
+  return new Date(dateStr).toLocaleDateString("en-IN", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+};
+
+const EncryptedPricesModalPopUp = ({
+  open,
+  onClose,
+  userMeta = {},
+  onConfirm,
+}) => {
   if (!open) return null;
 
   const { priceDetails, serviceName, serviceId, userId, qrImageUrl } = userMeta;
   if (!priceDetails) return null;
 
+  const { selectedPremiumItem } = useDesignContext();
   const { servicesDataLoading, setServicesDataLoading } = useServicesContext();
+  const { premiumEnabled } = usePremiumContext();
   const { startPayment } = useRazorpayPayment();
   const router = useRouter();
+
+  // ✅ Price handling
+  const basePrice =
+    priceDetails.plan === "Free"
+      ? 0
+      : Number((priceDetails.price || "0").toString().replace(/₹/g, ""));
+  // If free plan → premium addon is shown but cost = 0
+  const premiumAddon =
+    priceDetails.plan === "Free"
+      ? selectedPremiumItem
+        ? 0
+        : 0
+      : selectedPremiumItem
+      ? 99
+      : 0;
+  const finalPrice = basePrice + premiumAddon;
 
   const handleBuy = async () => {
     if (!userId || !serviceId || !serviceName) {
@@ -26,18 +60,33 @@ const EncryptedPricesModalPopUp = ({ open, onClose, userMeta = {}, onConfirm }) 
     setServicesDataLoading(true);
 
     try {
-      // Free plan → direct verification
-      if (priceDetails.plan === "Free") {
+      const planForRazorpay = {
+        title: priceDetails.plan,
+        price: basePrice.toString(),
+        duration:
+          priceDetails.plan === "Free"
+            ? "Lifetime"
+            : `${priceDetails.validityDays} Days`,
+        validityDays:
+          priceDetails.plan === "Free" ? 3650 : priceDetails.validityDays,
+        premiumStickerPlan: premiumAddon.toString(),
+        totalAmount: finalPrice.toString(),
+      };
+
+      // ✅ Free without premium → directly activate
+      if (finalPrice === 0) {
         const res = await fetch(
           `/api/verify-payments/${userId}/${serviceName}/${serviceId}`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              plan: priceDetails.plan,
-              price: 0,
-              validityDays: Number(priceDetails.validityDays || 30),
-                qrImageUrl: qrImageUrl || "",
+              plan: planForRazorpay.title,
+              price: basePrice, // ⬅️ base only
+              validityDays: planForRazorpay.validityDays,
+              qrImageUrl: qrImageUrl || "",
+              premiumStickerPlan: !!premiumAddon, // true/false
+              totalAmount: finalPrice,
             }),
           }
         );
@@ -51,20 +100,11 @@ const EncryptedPricesModalPopUp = ({ open, onClose, userMeta = {}, onConfirm }) 
         } else {
           toast.error(data.message || "Failed to activate free plan");
         }
-
         return;
       }
 
-      // Paid plan → Razorpay
-      const planForRazorpay = {
-        title: priceDetails.plan,
-        price: priceDetails.price,
-        duration: `${priceDetails.validityDays} Days`,
-        validityDays: priceDetails.validityDays,
-      };
-
-        onClose();
-
+      // ✅ Otherwise → Razorpay checkout
+      onClose();
       const success = await startPayment({
         userId,
         serviceName,
@@ -74,9 +114,8 @@ const EncryptedPricesModalPopUp = ({ open, onClose, userMeta = {}, onConfirm }) 
       });
 
       if (success) {
-        onClose();
         if (onConfirm) onConfirm();
-          router.push("/user-dashboard/qrCodesLists/");
+        router.push("/user-dashboard/qrCodesLists/");
       }
     } catch (err) {
       toast.error(err?.message || "Something went wrong during payment");
@@ -88,46 +127,90 @@ const EncryptedPricesModalPopUp = ({ open, onClose, userMeta = {}, onConfirm }) 
   return (
     <section>
       <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md">
-        <div className="bg-white rounded-xl shadow-xl p-9 max-w-lg w-full max-h-[60vh] overflow-y-auto scrollbar-hide flex flex-col justify-between relative">
+        <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-lg w-full relative">
           {/* Close Button */}
           <button
             onClick={onClose}
             disabled={servicesDataLoading}
-            className="absolute top-4 right-4 text-md text-gray-600 cursor-pointer"
+            className="absolute top-4 right-4 text-lg text-gray-600 hover:text-gray-800"
           >
             ❌
           </button>
 
           <h2 className="text-2xl font-bold text-center text-mainGreen mb-6">
-            Selected Plan
+            Checkout Summary
           </h2>
 
           {servicesDataLoading && (
-            <div className="fixed inset-0 flex items-center justify-center  z-50">
+            <div className="fixed inset-0 flex items-center justify-center z-50">
               <LoadingSpinner />
             </div>
           )}
 
-          <div className="border rounded-xl text-lg p-4 flex flex-col items-center justify-center gap-2">
-            <h3 className=" font-semibold">{priceDetails.plan}</h3>
-            <p>{priceDetails.price}</p>
-            {priceDetails.storage && (
-              <p>Storage:Upto {Math.round(priceDetails.storage / (1024 ** 3))} GB</p>
-            )}
-            {/* <p>Validity: {priceDetails.validityDays} Days</p> */}
+          {/* Itemized cart */}
+          <div className="border rounded-lg divide-y divide-gray-200">
+            {/* Base Plan */}
+            <div className="space-y-2 p-4">
+              {/* Plan */}
+              <div className="flex justify-between">
+                <span className="font-medium">Plan: {priceDetails.plan}</span>
+                <span>₹{basePrice}</span>
+              </div>
 
-            <button
-              onClick={handleBuy}
-              disabled={servicesDataLoading}
-              className={`mt-4 px-6 py-2 rounded-lg cursor-pointer font-semibold text-white transition duration-200 ${
-                servicesDataLoading
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-teal-600 hover:bg-teal-700"
-              }`}
-            >
-              {servicesDataLoading ? "Processing..." : "Buy Now"}
-            </button>
+              {/* Storage */}
+              {priceDetails.storage && (
+                <div className="flex justify-between">
+                  <span className="font-medium">Storage</span>
+                  <span>
+                    Upto {Math.round(priceDetails.storage / 1024 ** 3)} GB
+                  </span>
+                </div>
+              )}
+            </div>
+
+            {/* Premium Add-on */}
+            {/* {premiumAddon > 0 && (
+              <div className="flex justify-between mt-2 mx-4">
+                <span className="font-medium text-gray-600">
+                  Premium Add-on (Stickers & Shapes)
+                </span>
+                <span>₹{premiumAddon}</span>
+              </div>
+            )} */}
+
+            {/* Premium Add-on */}
+            {selectedPremiumItem && (
+              <div className="flex justify-between mt-2 mx-4">
+                <span className="font-medium text-gray-600">
+                  Premium Add-on (Stickers & Shapes)
+                </span>
+                <span>₹{premiumAddon}</span>
+              </div>
+            )}
+
+            {/* Total */}
+            <div className="flex justify-between p-4 font-bold text-lg">
+              <span>Total</span>
+              <span>₹{finalPrice}</span>
+            </div>
           </div>
+
+          {/* Checkout button */}
+          <button
+            onClick={handleBuy}
+            disabled={servicesDataLoading}
+            className={`w-full mt-6 px-6 py-3 rounded-lg font-semibold text-white transition duration-200 ${
+              servicesDataLoading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-teal-600 hover:bg-teal-700"
+            }`}
+          >
+            {servicesDataLoading
+              ? "Processing..."
+              : finalPrice === 0
+              ? "Activate Free Plan"
+              : "Proceed to Checkout"}
+          </button>
         </div>
       </div>
     </section>

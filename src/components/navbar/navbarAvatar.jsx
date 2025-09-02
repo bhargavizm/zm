@@ -1,6 +1,6 @@
 
 "use client";
-import React from "react";
+import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import useLogout from "../hooks/useLogout";
@@ -9,8 +9,10 @@ import { useLanguage } from "@/context/languageContext/LanguageContext";
 import {  useRouter } from "next/navigation";
 
 
-const NavbarAvatar = ({ setOpenDropdown, openDropdown, userDropdownRef }) => {
+const NavbarAvatar = () => {
+  const [openDropdown, setOpenDropdown] = useState(null);
   const logout = useLogout();
+    const userDropdownRef = useRef(null);
   const userData = useSelector((state) => state?.authentication?.userData);
 
   const router = useRouter();

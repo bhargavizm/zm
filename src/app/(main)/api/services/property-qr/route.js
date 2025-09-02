@@ -48,14 +48,12 @@ export async function POST(request) {
 
     // Extract password and log it
     const password = formData.get("password");
-    // console.log("Password extracted:", password);
 
     // Hash password if valid
     let hashedPassword = null;
     if (password && password.length >= 1) {
       const salt = await bcrypt.genSalt(10);
       hashedPassword = await bcrypt.hash(password, salt);
-      // console.log("Hashed password:", hashedPassword);
     }
 
     // Other form fields

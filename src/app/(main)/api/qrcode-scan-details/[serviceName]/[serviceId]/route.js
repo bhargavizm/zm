@@ -4,7 +4,7 @@ import { connectDB } from "@/lib/mongoDB";
 export async function GET(req, { params }) {
   try {
     const { serviceName, serviceId } = params;
-console.log(serviceName, serviceId,'dsdwdxqawd')
+
     if (!serviceName || !serviceId) {
       return Response.json(
         { success: false, message: "Missing required details." },

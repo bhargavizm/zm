@@ -123,7 +123,7 @@ export default function SignupPage() {
     setLoading(true);
     try {
       const res = await axios.post("/api/signup", formData);
-      console.log(res);
+
       // ✅ Save token to localStorage
       if (res.data?.token) {
         localStorage.setItem("signupToken", res.data.token);

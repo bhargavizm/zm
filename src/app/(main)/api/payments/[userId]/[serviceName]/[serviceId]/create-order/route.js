@@ -10,7 +10,10 @@ export async function POST(req, { params }) {
 
     if (!serviceName || !serviceId || !userId) {
       return NextResponse.json(
-        { success: false, message: "Missing serviceName, serviceId, or userId." },
+        {
+          success: false,
+          message: "Missing serviceName, serviceId, or userId.",
+        },
         { status: 400 }
       );
     }
@@ -26,7 +29,7 @@ export async function POST(req, { params }) {
     }
 
     const body = await req.json();
-    const { plan, price, validityDays } = body || {};
+    const { plan, price, validityDays, premiumStickerPlan } = body || {};
 
     if (!plan || !price || !validityDays) {
       return NextResponse.json(
@@ -34,25 +37,25 @@ export async function POST(req, { params }) {
         { status: 400 }
       );
     }
-console.log("plan, price, validityDays",plan, price, validityDays)
-   // ✅ Always extract only digits (handles ₹, INR, etc.)
-let cleanPrice = String(price).replace(/[^\d.]/g, ""); 
-let amountInPaise = Math.round(Number(cleanPrice) * 100);
 
-if (isNaN(amountInPaise) || amountInPaise <= 0) {
-  return NextResponse.json(
-    { success: false, message: `Invalid price format: ${price}` },
-    { status: 400 }
-  );
-}
+    let cleanPrice = Number(String(price).replace(/[^\d.]/g, "")); // plan price
+    let sticker = Number(premiumStickerPlan || 0); // force numeric
 
-console.log("amountInPaise",amountInPaise)
-// ✅ Ensure receipt <= 40 chars
-const shortService = serviceName.slice(0, 10);  // truncate long names
-const shortId = String(serviceId).slice(-6);    // last 6 chars
-const shortTime = Date.now().toString().slice(-6); // last 6 digits of timestamp
-const receipt = `rcpt_${shortService}_${shortId}_${shortTime}`;
+    let finalAmount = cleanPrice + sticker;
+    let amountInPaise = Math.round(finalAmount * 100);
 
+    if (isNaN(amountInPaise) || amountInPaise <= 0) {
+      return NextResponse.json(
+        { success: false, message: `Invalid price format: ${price}` },
+        { status: 400 }
+      );
+    }
+
+    // ✅ Ensure receipt <= 40 chars
+    const shortService = serviceName.slice(0, 10); // truncate long names
+    const shortId = String(serviceId).slice(-6); // last 6 chars
+    const shortTime = Date.now().toString().slice(-6); // last 6 digits of timestamp
+    const receipt = `rcpt_${shortService}_${shortId}_${shortTime}`;
 
     // ✅ Create Razorpay order
     const order = await razorpay.orders.create({
@@ -68,11 +71,15 @@ const receipt = `rcpt_${shortService}_${shortId}_${shortTime}`;
       },
     });
 
-    return NextResponse.json({ success: true, message: `${plan} Plan Order is created successfully for ${serviceName}`, order });
+    return NextResponse.json({
+      success: true,
+      message: `${plan} Plan Order is created successfully for ${serviceName}`,
+      order,
+    });
   } catch (err) {
     console.error("❌ Create order error:", err);
     return NextResponse.json(
-      { success: false, err: err.message  },
+      { success: false, err: err.message },
       { status: 500 }
     );
   }

@@ -10,6 +10,15 @@ const securedServicesPricingDetailsSchema = new mongoose.Schema(
       type: String,
       default: 0,
     },
+    
+    premiumStickerPlan: {
+      type: String,
+      default: 0, // always ₹99 if premium is selected
+    },
+    totalAmount: {
+      type: Number,
+      default: 0, // total amount including premium if any
+    },
     validityDays: {
       type: Number,
     },

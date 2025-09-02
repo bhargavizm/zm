@@ -1,4 +1,3 @@
-
 import { connectDB } from "@/lib/mongoDB";
 import { authUser } from "@/middlewares/authMiddleware";
 import TextMessageModal from "@/models/services/textMessage";
@@ -21,14 +20,7 @@ export async function POST(request) {
 
     // ✅ Step 2: Parse body
     const body = await request.json();
-    const {
-      sender,
-      message,
-      bgDesign,
-      password = "",
-      qrCodeImage = ""
-    } = body;
- 
+    const { sender, message, bgDesign, password = "", qrCodeImage = "" } = body;
 
     // ✅ Step 3: Hash password if present
     let hashedPassword = null;
@@ -47,32 +39,33 @@ export async function POST(request) {
       message,
       bgDesign,
       password: hashedPassword,
-     qrCodeDetails: {
-    qrCodeImage,
-    scanCount: 0,
-    lastScanAt: null,
-    scanHistory: [
-      
-    ],
-    lastScanLocation: {
-      city: "",
-      region: "",
-      country: "",
-      lat: null,
-      lon: null,
-    },
-    qrCodeStatus: "inactive",
-  },
+      qrCodeDetails: {
+        qrCodeImage,
+        scanCount: 0,
+        lastScanAt: null,
+        scanHistory: [],
+        lastScanLocation: {
+          city: "",
+          region: "",
+          country: "",
+          lat: null,
+          lon: null,
+        },
+        qrCodeStatus: "inactive",
+      },
     });
 
     await newMessage.save();
 
-
-    // const qrUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/textMessage/${newMessage._id}`;
     const qrUrl = await getShortenedUrl(`/textMessage/${newMessage._id}`);
 
     return new Response(
-      JSON.stringify({ success: true,  data: newMessage, qrUrl }),
+      JSON.stringify({
+        success: true,
+        message: "Text Messages Data created successfully",
+        data: newMessage,
+        qrUrl,
+      }),
       {
         status: 201,
         headers: { "Content-Type": "application/json" },

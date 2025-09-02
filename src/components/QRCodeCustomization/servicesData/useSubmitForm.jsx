@@ -27,18 +27,17 @@ const useSubmitForm = (
       return;
     }
     const { type, map } = mapperObj;
-    console.log("mapperObj", activeService,qrCodeImage);
+
     let dataToSend;
     let headers = {};
-    console.log("formDataState", formDataState);
-     console.log("dataToSend", dataToSend);
+
     if (type === "formData") {
-       console.log("dataToSend", dataToSend);
+
       dataToSend = new FormData();
       map(dataToSend, formDataState, bgDesign,qrCodeImage);
       // headers["Content-Type"] = "multipart/form-data";
     } else if (type === "json") {
-       console.log("dataToSend", dataToSend);
+
       dataToSend = map({}, formDataState, bgDesign,qrCodeImage); // Returns JSON object
       // headers["Content-Type"] = "application/json";
     }

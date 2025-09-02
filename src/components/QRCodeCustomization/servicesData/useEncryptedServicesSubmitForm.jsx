@@ -29,10 +29,6 @@ const useEncryptedSubmitForm = (
     }
     const { type, map } = mapperObj;
 
-    // const qrCodeImage = selectedQRCodeImage || "";
-    //     console.log(selectedQRCodeImage);
-    // console.log('qrCodeImage', qrCodeImage);
-
     let dataToSend;
     let headers = {};
 

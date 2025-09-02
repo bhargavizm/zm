@@ -419,7 +419,6 @@ const fetchCurrentLocation = async () => {
 
   // Confirm submission
   const confirmSubmit = async () => {
-    console.log("Submitting data:", productData);
     setActiveTab(slug, "Backdrop Designs");
     setShowSubmitModal(false);
 

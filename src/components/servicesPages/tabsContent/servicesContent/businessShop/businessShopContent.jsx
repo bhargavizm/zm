@@ -228,9 +228,7 @@ const handleUseCurrentLocation = async () => {
   };
 
   const handleModalOk = async () => {
-    // Here you would typically send the businessShopFormData to your backend
-    // For now, we'll just close the modal and navigate
-    console.log("Submitting Business Shop Data:", businessShopFormData);
+
     setIsModalOpen(false);
     setActiveTab(slug, "Backdrop Designs"); // Assuming this is the desired next step
   };

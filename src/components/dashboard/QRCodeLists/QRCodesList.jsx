@@ -13,7 +13,6 @@ import EncryptedPricesModalPopUp from "@/components/QRCodeCustomization/previewT
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
-
   const day = date.toLocaleString("en-US", { day: "2-digit" });
   const month = date.toLocaleString("en-US", { month: "long" });
   const year = date.toLocaleString("en-US", { year: "numeric" });
@@ -22,34 +21,21 @@ const formatDate = (dateString) => {
     minute: "2-digit",
     hour12: true,
   });
-
   return `${day} ${month} ${year}, ${time}`;
 };
 
-// Improved function to download QR code image
 const downloadQRCode = async (imageUrl, serviceName) => {
   try {
-    // Fetch the image as a blob
     const response = await fetch(imageUrl);
     const blob = await response.blob();
-
-    // Create a URL for the blob
     const blobUrl = URL.createObjectURL(blob);
-
-    // Create an anchor element
     const link = document.createElement("a");
     link.href = blobUrl;
-
-    // Create a filename using service name and current date
     const date = new Date().toISOString().slice(0, 10).replace(/-/g, "");
     link.download = `${serviceName.replace(/\s+/g, "_")}_QR_${date}.png`;
-
-    // Append to body, click, and remove
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-
-    // Clean up the blob URL
     setTimeout(() => URL.revokeObjectURL(blobUrl), 100);
   } catch (error) {
     console.error("Error downloading QR code:", error);
@@ -57,16 +43,16 @@ const downloadQRCode = async (imageUrl, serviceName) => {
   }
 };
 
-const ITEMS_OPTIONS = [5, 10, 20, 30, 40, 50];
+const ITEMS_OPTIONS = [6, 12, 18, 24, 30, 36, 42, 48, 54, 60];
 
 const QRCodesList = () => {
   const { servicesDataLoading, setServicesDataLoading } = useServicesContext();
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(6);
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
-  const [modalType, setModalType] = useState(null); // "reset" | "delete"
-  const [downloadingId, setDownloadingId] = useState(null); // Track downloading state
+  const [modalType, setModalType] = useState(null);
+  const [downloadingId, setDownloadingId] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [isRenewalModalOpen, setIsRenewalModalOpen] = useState(false);
@@ -75,11 +61,9 @@ const QRCodesList = () => {
   const userFullData = useSelector(
     (state) => state?.authentication?.fullUserDetails
   );
-  console.log("userFullData", userFullData);
   const dispatch = useDispatch();
   const allEntries = [];
 
-  // Flatten and collect all service entries
   (userFullData?.services || []).forEach((service) => {
     if (service?.count > 0) {
       service.data.forEach((item) => {
@@ -95,12 +79,10 @@ const QRCodesList = () => {
     const matchesSearch = entry.serviceName
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
-
     const matchesStatus = statusFilter
       ? (entry.qrCodeDetails?.qrCodeStatus || "").toLowerCase() ===
         statusFilter.toLowerCase()
       : true;
-
     return matchesSearch && matchesStatus;
   });
 
@@ -136,7 +118,6 @@ const QRCodesList = () => {
     setIsModalOpen(true);
   };
 
-  // ⬇️ update this function
   const openRenewalModal = (service) => {
     const modalData = {
       userId: service.user?.id || "",
@@ -145,8 +126,6 @@ const QRCodesList = () => {
       qrImageUrl: service.qrCodeDetails?.qrCodeImage || "",
       priceDetails: service.priceDetails || {},
     };
-
-    // 🔹 Decide which modal type to show
     if (
       ["pdf", "audios", "videos", "gallery"].includes(
         service.serviceName.toLowerCase()
@@ -156,25 +135,8 @@ const QRCodesList = () => {
     } else {
       setModalType("secured");
     }
-
     setSelectedRenewalService(modalData);
     setIsRenewalModalOpen(true);
-  };
-
-  const closeResetModal = () => {
-    setIsModalOpen(false);
-    setSelectedService(null);
-  };
-
-  const getLocationCounts = (scanHistory = []) => {
-    const counts = {};
-
-    scanHistory.forEach((scan) => {
-      const key = `${scan.city}, ${scan.country}`; // ✅ only city + country
-      counts[key] = (counts[key] || 0) + 1;
-    });
-
-    return counts;
   };
 
   const handleDownload = async (entry) => {
@@ -189,7 +151,7 @@ const QRCodesList = () => {
   };
 
   const isExpired = (renewalDate) => {
-    if (!renewalDate) return true; // treat missing date as expired
+    if (!renewalDate) return true;
     const now = new Date();
     const renewal = new Date(renewalDate);
     return now > renewal;
@@ -202,22 +164,22 @@ const QRCodesList = () => {
           <LoadingSpinner />
         ) : (
           <>
-            <h1 className="text-2xl font-bold text-mainGreen mb-2">
+            <h1 className="text-2xl font-bold text-mainGreen mb-4">
               Your QR Code Lists
             </h1>
 
-            {/* Filters + Pagination info stay here */}
+            {/* Filters */}
 
-            {/* Header + Rows Selector */}
-            <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-3">
-              {/* Pagination Info */}
-              <div className="mt-4 text-sm text-gray-600">
+            <div className="flex flex-col flex-wrap sm:flex-row justify-between items-center mb-6 gap-3">
+              {/* Left side text */}
+              <div className="text-sm text-gray-600 w-full sm:w-auto text-center sm:text-left">
                 Showing {startIdx + 1} to {endIdx} of {totalEntries} entries
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-3 items-center">
-                {/* 🔍 Search Bar */}
-                <div className="relative w-64">
+              {/* Right side filters */}
+              <div className="flex flex-col sm:flex-row gap-3 items-center sm:ml-auto w-full sm:w-auto justify-end">
+                {/* Search */}
+                <div className="relative w-full sm:w-64">
                   <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
                     <FiSearch className="w-4 h-4" />
                   </span>
@@ -233,26 +195,27 @@ const QRCodesList = () => {
                   />
                 </div>
 
+                {/* Status filter */}
                 <select
-                  className="border-mainGreen border-2 rounded px-2 py-2 text-sm cursor-pointer"
+                  className="border-mainGreen border-2 rounded px-2 py-2 text-sm cursor-pointer w-full sm:w-auto"
                   value={statusFilter}
                   onChange={(e) => {
                     setStatusFilter(e.target.value);
                     setCurrentPage(1);
                   }}
                 >
-                  <option value=""> Status</option>
+                  <option value="">Status</option>
                   <option value="active">Active</option>
                   <option value="inactive">Inactive</option>
                 </select>
 
                 {/* Rows per page */}
-                <div className="flex items-center gap-2">
-                  <label className="text-sm font-medium text-gray-700">
+                <div className="flex items-center gap-2 sm:w-auto w-full justify-end">
+                  <label className="text-sm font-medium text-gray-700 whitespace-nowrap">
                     Rows per page:
                   </label>
                   <select
-                    className="border rounded px-2 py-1 text-sm"
+                    className="border border-mainGreen rounded px-2 py-1 text-sm"
                     value={itemsPerPage}
                     onChange={(e) => {
                       setItemsPerPage(Number(e.target.value));
@@ -269,174 +232,179 @@ const QRCodesList = () => {
               </div>
             </div>
 
-            {/* Data Table */}
-            <div className="overflow-x-auto">
-              <table className="w-full border border-gray-200 shadow-sm rounded-lg">
-                <thead className="bg-mainGreen text-white cursor-pointer">
-                  <tr>
-                    <th className="px-4 py-3 text-left">Date</th>
-                    <th className="px-4 py-3 text-left">Services</th>
-                    <th className="px-4 py-3 text-left">Subscription</th>
-                    <th className="px-4 py-3 text-left">Validity Status</th>
-                    <th className="px-4 py-3 text-left">Renewal Date</th>
-                    <th className="px-4 py-3 text-left">QR Code</th>
-                    <th className="px-4 py-3 text-left">Total Scans</th>
-                    <th className="px-4 py-3 text-left">Location</th>
-                    <th className="px-4 py-3 text-left">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-100">
-                  {paginatedEntries.length > 0 ? (
-                    paginatedEntries.map((entry, idx) => {
-                      const priceDetails = entry.priceDetails || {};
-                      return (
-                        <tr key={idx} className="hover:bg-gray-50 transition">
-                          {/* Date */}
-                          <td className="px-4 py-3 text-sm text-gray-600">
-                            {priceDetails?.startDate
-                              ? formatDate(priceDetails.startDate)
-                              : "-"}
-                          </td>
+            {/* Cards */}
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {paginatedEntries.length > 0 ? (
+                paginatedEntries.map((entry, idx) => {
+                  const priceDetails = entry.priceDetails || {};
+                  return (
+                    <div
+                      key={idx}
+                      className="border border-mainGreen rounded-xl shadow-lg p-4 bg-white flex flex-col gap-3 hover:shadow-lg transition text-sm"
+                    >
+                      {/* Header */}
+                      <div className="flex justify-between items-center flex-wrap gap-2">
+                        <span className="text-mainGreen text-xl font-bold capitalize">
+                          {entry.serviceName}
+                        </span>
+                        <span className="text-sm text-gray-800">
+                          {priceDetails?.startDate
+                            ? formatDate(priceDetails.startDate)
+                            : "-"}
+                        </span>
+                      </div>
 
-                          {/* Service */}
-                          <td className="px-4 py-3 capitalize text-mainGreen font-medium">
-                            {entry.serviceName}
-                          </td>
-
-                          {/* Subscription (Plan + Price) */}
-                          <td className="px-4 py-3 text-sm text-gray-800">
-                            {priceDetails.plan
-                              ? `${priceDetails.plan} (₹ ${priceDetails.price})`
-                              : "-"}
-                          </td>
-
-                          {/* Validity Status */}
-                          <td className="px-4 py-3 text-sm font-medium">
-                            {entry.qrCodeDetails.qrCodeStatus || "-"}
-                          </td>
-
-                          {/* Renewal Date */}
-                          <td className="px-4 py-3 text-sm text-gray-600">
-                            {priceDetails.renewalDate
-                              ? formatDate(priceDetails.renewalDate)
-                              : "-"}
-                          </td>
-
-                          {/* QR Code with Download Button */}
-                          <td className="px-4 py-3">
-                            {entry.qrCodeDetails?.qrCodeImage ? (
-                              <div className="flex flex-col items-center">
-                                <img
-                                  src={entry.qrCodeDetails.qrCodeImage}
-                                  alt="QR Code"
-                                  className="w-30 h-30 object-center rounded mb-2 cursor-pointer hover:opacity-80"
-                                  onClick={() => {
-                                    const newWindow = window.open("", "_blank");
-                                    newWindow.document.write(`
-            <html>
-              <head><title>QR Code</title></head>
-              <body style="margin:0;display:flex;align-items:center;justify-content:center;background:#000;">
-                <img src="${entry.qrCodeDetails.qrCodeImage}" style="max-width:100%;max-height:100vh;"/>
-              </body>
-            </html>
+                      {/* QR */}
+                     <div className="flex flex-col items-center gap-3 w-full max-w-sm mx-auto p-4">
+  {entry.qrCodeDetails?.qrCodeImage ? (
+    <>
+      <img
+        src={entry.qrCodeDetails.qrCodeImage}
+        alt="QR Code"
+        className="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-60 lg:h-60 object-contain rounded-lg  cursor-pointer hover:opacity-90 transition"
+        onClick={() => {
+          const newWindow = window.open("", "_blank");
+          newWindow.document.write(`
+            <html><body style="margin:0;display:flex;align-items:center;justify-content:center;background:#000;">
+              <img src="${entry.qrCodeDetails.qrCodeImage}" style="max-width:100%;max-height:100vh;" />
+            </body></html>
           `);
-                                  }}
-                                />
-                              </div>
-                            ) : (
-                              <span className="text-gray-400 italic">
-                                No Image
-                              </span>
-                            )}
-                          </td>
+        }}
+      />
 
-                          {/* Total Scans */}
-                          <td className="px-4 py-3 text-center text-lg">
-                            {entry.qrCodeDetails?.scanCount
-                              ? entry.qrCodeDetails?.scanCount
-                              : "-"}
-                          </td>
+      <button
+        onClick={() => handleDownload(entry)}
+        disabled={downloadingId === entry._id}
+        className={`mt-3 px-5 py-2 rounded-lg text-sm font-semibold shadow-2xs transition-all
+          ${
+            downloadingId === entry._id
+              ? "bg-gray-400 text-gray-200 cursor-not-allowed"
+              : "bg-mainGreen text-white hover:bg-teal-700"
+          }`}
+      >
+        {downloadingId === entry._id ? "Downloading..." : "Download QR Code"}
+      </button>
+    </>
+  ) : (
+    <span className="text-gray-500 italic text-sm sm:text-base">
+      No Image
+    </span>
+  )}
+</div>
 
-                          {/* Location */}
-                          <td className="px-4 py-3 w-[200px]">
-                            {entry.qrCodeDetails?.scanHistory?.length > 0 ? (
-                              <div className="flex flex-col gap-1">
-                                {entry.qrCodeDetails.scanHistory
-                                  .slice(-5)
-                                  .reverse()
-                                  .map((scan, i) => (
-                                    <div
-                                      key={scan._id || i}
-                                      className="bg-gray-100 px-2 py-1 rounded-md text-gray-700 text-sm break-words"
-                                    >
-                                      {scan.city
-                                        ? `${scan.city}, ${scan.region}, ${scan.country}`
-                                        : scan.country}
-                                    </div>
-                                  ))}
-                              </div>
-                            ) : (
-                              "-"
-                            )}
-                          </td>
 
-                          {/* Actions */}
-                          <td className=" py-3 grid grid-cols-2 gap-2 text-md">
-                            <button
-                              onClick={() => handleDownload(entry)}
-                              disabled={downloadingId === entry._id}
-                              className="px-2 py-1 text-mainGreen rounded text-md hover:underline hover:font-bold cursor-pointer transition disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                              {downloadingId === entry._id
-                                ? "Downloading..."
-                                : "Download QR Code"}
-                            </button>
+                      {/* Subscription */}
+                      <div className="text-md text-gray-800">
+  <span className="font-semibold">Subscription Plan:</span>{" "}
+  {priceDetails.plan
+    ? `${priceDetails.plan} (₹${priceDetails.price})`
+    : "-"}
+</div>
 
-                            <button
-                              onClick={() => openResetModal(entry)}
-                              className="px-3 py-1 text-mainGreen cursor-pointer rounded hover:font-bold hover:underline"
-                            >
-                              Reset Password
-                            </button>
+{/* Premium Sticker */}
+{priceDetails.premiumStickerPlan && (
+  <div className="text-md text-gray-800">
+    <span className="font-semibold">Premium Sticker:</span>{" "}
+    ₹{priceDetails.premiumStickerPlan}
+  </div>
+)}
 
-                            <button
-                              onClick={() => openDeleteModal(entry)}
-                              className="px-3 py-1 text-red-600 cursor-pointer rounded hover:font-bold hover:underline"
-                            >
-                              Delete
-                            </button>
+{/* Total */}
+<div className="text-md text-gray-800">
+  <span className="font-semibold">Total Amount:</span>{" "}
+  ₹{priceDetails.totalAmount ?? 0}
+</div>
 
-                            <button
-                              onClick={() => openRenewalModal(entry)}
-                              disabled={!isExpired(priceDetails.renewalDate)}
-                              className={`px-3 py-1 rounded  font-medium transition ${
-                                isExpired(priceDetails.renewalDate)
-                                  ? "bg-mainGreen hover:bg-teal-700 cursor-pointer"
-                                  : " cursor-not-allowed text-gray-500"
-                              }`}
-                            >
-                              Renewal Payment
-                            </button>
-                          </td>
-                        </tr>
-                      );
-                    })
-                  ) : (
-                    <tr>
-                      <td
-                        colSpan={9}
-                        className="px-4 py-6 text-center text-gray-500"
-                      >
-                        No QR Codes Found
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+
+
+                      {/* Validity */}
+                      <div className="text-md">
+                        <span className="font-semibold">Status:</span>{" "}
+                        {entry.qrCodeDetails.qrCodeStatus || "-"}
+                      </div>
+
+                      {/* Scans */}
+                      {entry.qrCodeDetails?.scanCount > 0 && (
+                        <div className="text-md">
+                          <span className="font-semibold">Total Scans:</span>{" "}
+                          {entry.qrCodeDetails.scanCount}
+                        </div>
+                      )}
+
+                      {/* Locations */}
+                      {entry.qrCodeDetails?.scanHistory?.length > 0 && (
+                        <div>
+                          <span className="font-semibold text-md">
+                            Locations:
+                          </span>
+                          <div className="flex flex-col gap-1 mt-1">
+                            {entry.qrCodeDetails.scanHistory
+                              .slice(-5)
+                              .reverse()
+                              .map((scan, i) => (
+                                <div
+                                  key={scan._id || i}
+                                  className="bg-gray-100 px-2 py-1 rounded-md text-gray-700 text-sm"
+                                >
+                                  {scan.city
+                                    ? `${scan.city}, ${scan.region}, ${scan.country}`
+                                    : scan.country}
+                                </div>
+                              ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Actions */}
+                      <div className="flex justify-between flex-wrap gap-3 pt-2">
+                        <button
+                          onClick={() => openResetModal(entry)}
+                          className="bg-mainGreen  px-4 py-2 rounded-lg text-white text-md font-medium cursor-pointer "
+                        >
+                          Reset Password
+                        </button>
+                        <button
+                          onClick={() => openDeleteModal(entry)}
+                          className="text-white bg-red-400 px-4 py-2 rounded-lg text-md font-medium cursor-pointer"
+                        >
+                          Delete
+                        </button>
+                      </div>
+
+                      {/* Renewal */}
+                      <div className="flex flex-col gap-2">
+                        <span className="text-lg font-semibold">
+                          Renewal Date:
+                        </span>
+                        <span className="text-md text-gray-600">
+                          {priceDetails.renewalDate
+                            ? formatDate(priceDetails.renewalDate)
+                            : "-"}
+                        </span>
+                        <button
+                          onClick={() => openRenewalModal(entry)}
+                           disabled={!isExpired(priceDetails.renewalDate)}
+                          className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
+                            isExpired(priceDetails.renewalDate)
+                              ? "bg-mainGreen text-white hover:bg-teal-700 cursor-pointer"
+                              : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                          }`}
+                        >
+                          Renewal payment
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <div className="col-span-full text-center text-gray-500 py-10">
+                  No QR Codes Found
+                </div>
+              )}
             </div>
 
-            {/* Pagination Controls */}
-            <div className="flex justify-center mt-4 gap-4">
+            {/* Pagination */}
+            <div className="flex justify-center mt-6 gap-4">
               <button
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
@@ -448,11 +416,9 @@ const QRCodesList = () => {
               >
                 Prev
               </button>
-
               <span className="px-3 py-1 text-mainGreen font-semibold border border-mainGreen rounded">
                 {currentPage}
               </span>
-
               <button
                 onClick={() =>
                   setCurrentPage((prev) => Math.min(prev + 1, totalPages))
@@ -479,8 +445,7 @@ const QRCodesList = () => {
           setServicesDataLoading={setServicesDataLoading}
         />
       )}
-
-      {isModalOpen && modalType === "delete" && (
+     {isModalOpen && modalType === "delete" && (
         <DeleteServiceModal
           onClose={() => setIsModalOpen(false)}
           serviceData={selectedService}
@@ -491,9 +456,6 @@ const QRCodesList = () => {
           setServicesDataLoading={setServicesDataLoading}
         />
       )}
-
-      {/* 🔹 Renewal Modal */}
-      {/* 🔹 Renewal Modal */}
       {isRenewalModalOpen &&
         selectedRenewalService &&
         modalType === "encrypted" && (
@@ -504,11 +466,10 @@ const QRCodesList = () => {
             onConfirm={() => {
               setIsRenewalModalOpen(false);
               setSelectedRenewalService(null);
-              dispatch(getUserFullDetails(setServicesDataLoading)); // Refresh after renewal
+              dispatch(getUserFullDetails(setServicesDataLoading));
             }}
           />
         )}
-
       {isRenewalModalOpen &&
         selectedRenewalService &&
         modalType === "secured" && (
@@ -519,7 +480,7 @@ const QRCodesList = () => {
             onConfirm={() => {
               setIsRenewalModalOpen(false);
               setSelectedRenewalService(null);
-              dispatch(getUserFullDetails(setServicesDataLoading)); // Refresh after renewal
+              dispatch(getUserFullDetails(setServicesDataLoading));
             }}
           />
         )}

@@ -10,6 +10,16 @@ const encryptedServicesPricingDetailsSchema = new mongoose.Schema(
       type: String,
       default: 0,
     },
+
+    premiumStickerPlan: {
+      type: String,
+      default: 0, // always ₹99 if premium is selected
+    },
+    totalAmount: {
+      type: Number,
+      default: 0, // total amount including premium if any
+    },
+    // Example: "Basic", "Pro", "Enterprise"
     storage: {
       type: String, // in MB
       default: 1000, // 1 GB = 1000 MB (can be adjusted)
@@ -29,18 +39,15 @@ const encryptedServicesPricingDetailsSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
-     // 🆕 Payment details (for Razorpay tracking)
+    // 🆕 Payment details (for Razorpay tracking)
     razorpayOrderId: {
       type: String,
-     
     },
     razorpayPaymentId: {
       type: String,
-     
     },
     razorpaySignature: {
       type: String,
-     
     },
     paymentStatus: {
       type: String,
@@ -49,7 +56,6 @@ const encryptedServicesPricingDetailsSchema = new mongoose.Schema(
     },
     paymentDate: {
       type: Date,
-     
     },
     currency: {
       type: String,
@@ -72,8 +78,5 @@ encryptedServicesPricingDetailsSchema.pre("save", function (next) {
   }
   next();
 });
-
-
-
 
 export { encryptedServicesPricingDetailsSchema };

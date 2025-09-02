@@ -12,7 +12,7 @@ export async function POST(req) {
     if (authResult.status !== 200) {
       return NextResponse.json(authResult.json, { status: authResult.status });
     }
-console.log('user',authResult.user.email)
+
  const email = authResult?.user?.email;
    const userEmail = await User.findOne({ email });
     if (!userEmail) {

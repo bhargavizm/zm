@@ -1,8 +1,6 @@
-// components/modalPopUps/PremiumModal.jsx
 "use client";
 import React from "react";
 import usePremiumContext from "../hooks/usePremiumContext";
-
 
 const PremiumModal = () => {
   const {
@@ -15,11 +13,12 @@ const PremiumModal = () => {
   if (!showPremiumModal) return null;
 
   const confirmPremium = () => {
-    setPremiumEnabled(true);
+    setPremiumEnabled(true); // ✅ just mark intent
     setShowPremiumModal(false);
   };
 
   const cancelPremium = () => {
+    setPremiumEnabled(false); // ✅ ensure toggle is off
     setShowPremiumModal(false);
   };
 
@@ -39,7 +38,7 @@ const PremiumModal = () => {
         <p className="text-sm text-gray-700">
           You're trying to access <strong>premium content</strong>.<br />
           <span className="text-[#008080] font-semibold">
-            Cost: ₹99/year
+            Cost: ₹99 (added in checkout)
           </span>
         </p>
 
@@ -54,7 +53,7 @@ const PremiumModal = () => {
             onClick={confirmPremium}
             className="px-4 py-2 cursor-pointer bg-[#008080] text-white rounded hover:bg-[#006666] transition"
           >
-            Accept
+            Enable Premium
           </button>
         </div>
       </div>

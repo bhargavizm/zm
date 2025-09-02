@@ -175,11 +175,7 @@ const Navbar = () => {
           <LanguageSelector />
 
           {/* User Dropdown */}
-          <NavbarAvatar
-            setOpenDropdown={setOpenDropdown}
-            openDropdown={openDropdown}
-            userDropdownRef={userDropdownRef}
-          />
+          <NavbarAvatar/>
         </div>
 
         {/* Right side (Mobile: User/Login + Hamburger) */}
@@ -190,7 +186,8 @@ const Navbar = () => {
                 onClick={() => setShowUserMenu(!showUserMenu)}
                 className="flex items-center gap-1 font-semibold text-white"
               >
-                {userData.name}
+                {userData.name &&  userData?.name?.charAt(0)?.toUpperCase() +
+                  userData.name.slice(1)}
                 <MdKeyboardArrowDown
                   className={`transition-transform ${
                     showUserMenu ? "rotate-180" : "rotate-0"
@@ -203,13 +200,13 @@ const Navbar = () => {
                 <div className="absolute top-full right-0 mt-2 bg-white text-mainGreen rounded-md shadow-md w-48 z-50 py-2">
                   <button
                     onClick={navigateToDashboardSimple}
-                    className="block w-full text-left px-4 py-2 hover:bg-mainGreen hover:text-white transition text-sm"
+                    className="block w-full text-left px-4 py-2 hover:bg-mainGreen hover:text-white transition text-lg font-bold"
                   >
                     Dashboard
                   </button>
                   <button
                     onClick={handleLogout}
-                    className="block w-full text-left px-4 py-2 hover:bg-mainGreen hover:text-white transition text-sm"
+                    className="block w-full text-left px-4 py-2 hover:bg-mainGreen hover:text-white transition text-lg font-bold"
                   >
                     Logout
                   </button>
@@ -243,11 +240,11 @@ const Navbar = () => {
         <>
           <div
             onClick={() => setIsOpen(false)}
-            // className="fixed inset-0 bg-black bg-opacity-40 z-40"
+             className="fixed inset-0  bg-opacity-40 z-40"
           />
 
           <div className="xl:hidden fixed top-[60px] py-4 right-0 w-60 bg-white text-xl font-semibold text-mainGreen z-50 shadow-lg transition-all duration-300">
-            <div className="flex flex-col px-6 space-y-4 h-full justify-start">
+            <div className="flex flex-col px-4 space-y-2 h-full justify-start">
               {[
                 { href: "/", label: dictionary.home },
                 { href: "/services", label: dictionary.services },
@@ -258,45 +255,20 @@ const Navbar = () => {
                 { href: "/faq", label: "FAQ" },
                 { href: "/contactUs", label: "Contact Us" },
               ].map(({ href, label }) => (
-                <Link key={href} href={href} onClick={() => setIsOpen(false)}>
-                  {label}
-                </Link>
+              <Link
+  key={href}
+  href={href}
+  onClick={() => setIsOpen(false)}
+  className="block px-3 py-2 rounded-md transition-colors hover:bg-mainGreen hover:text-white"
+>
+  {label}
+</Link>
+
               ))}
 
               <LanguageSelector isOpen={isOpen} />
 
-              {userData ? (
-                <>
-                  <Link
-                    href="/user-dashboard/qrCodesLists/"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setIsOpen(false);
-                      navigateToDashboardSimple();
-                    }}
-                    className="border border-mainGreen px-5 py-2 rounded-lg transition text-mainGreen text-center mt-4"
-                  >
-                    {dictionary.dashboard || "Dashboard"}
-                  </Link>
-                  <button
-                    onClick={() => {
-                      handleLogout();
-                      setIsOpen(false);
-                    }}
-                    className="border border-mainGreen px-5 py-2 rounded-lg w-full transition-effects text-mainGreen mt-2"
-                  >
-                    Logout
-                  </button>
-                </>
-              ) : (
-                <Link
-                  href="/login"
-                  onClick={() => setIsOpen(false)}
-                  className="border border-mainGreen px-5 py-2 rounded-lg transition bg-[linear-gradient(to_right,#008080,#001a1a)] text-white"
-                >
-                  {dictionary.login}
-                </Link>
-              )}
+
             </div>
           </div>
         </>

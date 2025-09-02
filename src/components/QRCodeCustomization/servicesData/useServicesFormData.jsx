@@ -125,7 +125,7 @@ export const useServicesFormData = () => {
         "product-cards":setProductData,
         wifi:setWifiFormData
       }[activeService];
-// console.log('services formdata', selectedQRCodeImage);
+
   const submitForm = useSubmitForm(
     activeService,
     formDataState,
