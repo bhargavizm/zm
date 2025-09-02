@@ -15,9 +15,6 @@ import DownloadButton from "./downloadButton";
 import toast from "react-hot-toast";
 
 
-const DEFAULT_STICKER = "/default-shape.png";
-
-
 const convertToBase64 = async (url) => {
   const response = await fetch(url, { mode: "cors" });
   const blob = await response.blob();

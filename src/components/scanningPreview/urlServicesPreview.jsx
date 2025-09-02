@@ -1,19 +1,3 @@
-// "use client";
-// import { useEffect } from "react";
-
-// const UrlServicePreview = ({ data }) => {
-//   console.log(data);
-//   useEffect(() => {
-//     if (data?.url) {
-//       const newTab = window.open(data.url, "_blank", "noopener,noreferrer");
-//       if (newTab) newTab.opener = null; // extra safety
-//     }
-//   }, [data?.url]);
-
-//   return null;
-// };
-
-// export default UrlServicePreview;
 
 "use client";
 import Image from "next/image";

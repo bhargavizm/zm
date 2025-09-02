@@ -163,7 +163,6 @@ const handleImageUpload = (e) => {
   };
 
   const handleConfirmedSubmit = async () => {
-    console.log("formdata", eventsFormData);
     setActiveTab(slug, "Backdrop Designs");
   };
 

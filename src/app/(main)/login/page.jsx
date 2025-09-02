@@ -87,13 +87,17 @@ export default function LoginPage() {
         dispatch(setUserData(data.user));
         toast.success(data.message);
         // 👇 Redirect to saved path if available
+          const redirectFromServices = localStorage.getItem("redirectAfterLoginFromServices");
         const redirectPath = sessionStorage.getItem("redirectAfterLogin");
-        if (redirectPath) {
-          sessionStorage.removeItem("redirectAfterLogin");
-          router.push(redirectPath);
-        } else {
-          router.push('/'); // ✅ default fallback
-        }
+        if (redirectFromServices) {
+        localStorage.removeItem("redirectAfterLoginFromServices");
+        router.push(redirectFromServices);
+      } else if (redirectPath) {
+        sessionStorage.removeItem("redirectAfterLogin");
+        router.push(redirectPath);
+      } else {
+        router.push('/'); // ✅ default fallback
+      }
       } else {
         toast.error(data.error);
       }

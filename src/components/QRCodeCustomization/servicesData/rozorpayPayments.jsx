@@ -20,7 +20,13 @@ const useRazorpayPayment = () => {
     });
   };
 
-  const startPayment = async ({ userId, serviceName, serviceId,qrImageUrl, plan }) => {
+  const startPayment = async ({
+    userId,
+    serviceName,
+    serviceId,
+    qrImageUrl,
+    plan,
+  }) => {
     try {
       setServicesDataLoading(true); // ✅ Use shared loading state
 
@@ -34,10 +40,11 @@ const useRazorpayPayment = () => {
             plan: plan.title,
             price: plan.price.replace("₹", ""),
             validityDays: plan.duration.match(/\d+/)?.[0] || "30",
+            premiumStickerPlan: plan.premiumStickerPlan || "0", // ✅ send it
+            totalAmount: plan.totalAmount,
           }),
         }
       );
-
       const result = await res.json();
       if (!result.success) {
         toast.error(result.message || "Failed to create order.");
@@ -63,6 +70,7 @@ const useRazorpayPayment = () => {
           order_id: order.id,
           handler: async (response) => {
             // 4️⃣ Verify payment
+
             const verifyRes = await fetch(
               `/api/verify-payments/${userId}/${serviceName}/${serviceId}`,
               {
@@ -73,7 +81,9 @@ const useRazorpayPayment = () => {
                   plan: plan.title,
                   price: plan.price.replace("₹", ""),
                   validityDays: Number(plan.duration.match(/\d+/)?.[0] || 30),
-                     qrImageUrl: qrImageUrl || "",
+                  qrImageUrl: qrImageUrl || "",
+                  premiumStickerPlan: plan.premiumStickerPlan || "0", // ✅ send it
+                  totalAmount: plan.totalAmount,
                 }),
               }
             );
@@ -95,7 +105,7 @@ const useRazorpayPayment = () => {
       });
     } catch (err) {
       console.error("❌ Payment error:", err);
-      toast.error("Something went wrong.");
+      toast.error(err.message || "Payment failed");
       return false;
     } finally {
       setServicesDataLoading(false); // ✅ Reset loading

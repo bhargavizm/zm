@@ -37,8 +37,9 @@ export async function POST(req, { params }) {
       razorpay_payment_id,
       razorpay_signature,
       plan,
+      totalAmount,
       validityDays,
-      price, 
+      price, premiumStickerPlan,
       qrImageUrl,
     } = body;
 
@@ -106,6 +107,8 @@ export async function POST(req, { params }) {
 
      doc.priceDetails.plan = plan;
     doc.priceDetails.price = price;
+    doc.priceDetails.premiumStickerPlan = String(premiumStickerPlan || "0");
+    doc.priceDetails.totalAmount = totalAmount;
     doc.priceDetails.validityDays = validityDays;
     doc.priceDetails.startDate = startDate;
     doc.priceDetails.endDate = endDate;

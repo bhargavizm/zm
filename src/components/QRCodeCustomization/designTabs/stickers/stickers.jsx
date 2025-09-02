@@ -8,7 +8,7 @@ import React, { useRef, useEffect } from "react";
 import { stickerConfig } from "./stickerImages";
 
 const Stickers = () => {
-  const { selectedSticker, setSelectedSticker } = useDesignContext();
+  const { selectedSticker, setSelectedSticker,setSelectedPremiumItem } = useDesignContext();
   const {
     premiumEnabled,
     setPremiumEnabled,
@@ -33,14 +33,19 @@ const Stickers = () => {
   const freeStickers = stickerKeys.slice(0, 7);
   const premiumStickers = stickerKeys.slice(7);
 
-  const handleClick = (src, isPremium) => {
-    if (isPremium && !premiumEnabled) {
-      setShowPremiumModal(true);
-    } else {
-      setSelectedSticker(src);
-      localStorage.setItem("selectedSticker", src);
-    }
-  };
+const handleClick = (src, isPremium) => {
+  if (isPremium && !premiumEnabled) {
+    setShowPremiumModal(true);
+  } else {
+    setSelectedSticker(src);
+    localStorage.setItem("selectedSticker", src);
+
+    // ✅ If premium sticker, mark selectedPremiumItem true
+    if (isPremium) setSelectedPremiumItem(true);
+  }
+};
+
+
 
   const handleToggle = () => {
     if (!premiumEnabled) {

@@ -21,7 +21,7 @@ const planPrices = {
 };
 
 const planLimits = {
-    Free: 5 * 1024 * 1024 * 1024, // 5 GB
+   // Free: 5 * 1024 * 1024 * 1024, // 5 GB
   Basic: 1 * 1024 * 1024 * 1024, // 1 GB
   Starter: 2 * 1024 * 1024 * 1024, // 2 GB
   Pro: 3 * 1024 * 1024 * 1024, // 3 GB
@@ -29,12 +29,17 @@ const planLimits = {
   Ultima: 5 * 1024 * 1024 * 1024, // 5 GB
 };
 
-const getRequiredPlan = (size) => {
+const getRequiredPlan = (size, isFreeUser = false) => {
+  if (isFreeUser && size <= 5 * 1024 * 1024 * 1024) {
+    return "Free"; // special free quota
+  }
+
   const matchedPlan = Object.entries(planLimits).find(
     ([_, limit]) => size <= limit
   );
   return matchedPlan ? matchedPlan[0] : "Exceeds all plans";
 };
+
 
 const EncryptedServicesForm = ({
   formData,
@@ -406,7 +411,7 @@ const EncryptedServicesForm = ({
               </button>
               <button
                 onClick={confirmUpload}
-                className="px-4 py-1.5 bg-teal-600 text-white rounded-lg cursor-pointer"
+                className="px-4 py-1.5  bg-teal-600 text-white rounded-lg cursor-pointer"
               >
                 Continue
               </button>
@@ -473,7 +478,7 @@ const EncryptedServicesForm = ({
             <div className="mt-4 text-end">
               <button
                 onClick={() => setShowUpgradeModal(false)}
-                className="px-5 py-2 bg-teal-600 text-white text-md rounded-lg hover:bg-teal-700 transition"
+                className="px-5 py-2 bg-teal-600 text-white text-md rounded-lg hover:bg-teal-700 transition cursor-pointer"
               >
                 Continue
               </button>

@@ -211,7 +211,6 @@ const handleOwnerChange = (e) => {
   };
 
   const handleFinalSubmit = async () => {
-    console.log()
     setActiveTab(slug, "Backdrop Designs");
    
     

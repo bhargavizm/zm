@@ -66,5 +66,4 @@ export default async function checkValidityStatus() {
     );
   }
 
-  console.log("✅ QR statuses synced at", now.toISOString());
 }

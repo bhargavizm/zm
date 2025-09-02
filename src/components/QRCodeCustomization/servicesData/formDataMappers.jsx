@@ -33,7 +33,6 @@ export const urlBasedServices = [
 const sharedFileUploadMapper = {
   type: "formData",
   map: (formData, state, bgDesign,qrCodeImage) => {
-    console.log('full data', formData, state, bgDesign,qrCodeImage);
     formData.append("title", state.title || "");
     formData.append("description", state.description || "");
     formData.append("password", state.password || "");
@@ -541,8 +540,7 @@ if (state.files && Array.isArray(state.files)) {
   "Pet-ID-tags": {
     type: "formData",
     map: (formData, state = {}, bgDesign, qrCodeImage) => {
-      // Owner Info
-      console.log(qrCodeImage)
+
       formData.append("ownerInfo.name", state.ownerInfo?.name || "");
       formData.append("ownerInfo.phone", state.ownerInfo?.phone || "");
       formData.append("ownerInfo.email", state.ownerInfo?.email || "");

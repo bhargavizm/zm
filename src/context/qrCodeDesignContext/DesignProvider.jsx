@@ -3,12 +3,9 @@
 import React, { useEffect, useState } from "react";
 import { DesignContext } from "../qrCodeDesignContext/DesignContext";
 
-
-
 const DEFAULT_LOGO = "/images/logos/insta.webp";
-const DEFAULT_STICKER = "/images/stickers/book1.webp";
+const DEFAULT_STICKER = "/images/stickers/graduation.webp";
 const DEFAULT_PREVIEW_IMAGE = "/invester.webp"; // 👈 default fallback image
-
 
 const DesignProvider = ({ children }) => {
   const [bgDesign, setBgDesign] = useState(null);
@@ -18,25 +15,25 @@ const DesignProvider = ({ children }) => {
   const [selectedEyeFrame, setSelectedEyeFrame] = useState("rounded");
   const [selectedEyeBall, setSelectedEyeBall] = useState("circle");
   const [selectedSticker, setSelectedSticker] = useState(DEFAULT_STICKER);
-   const [selectedQRCodeImage, setSelectedQRCodeImage] = useState('');
+  const [selectedQRCodeImage, setSelectedQRCodeImage] = useState("");
+  const [selectedPremiumItem, setSelectedPremiumItem] = useState(false);
 
   const [backgroundImage, setBackgroundImage] = useState(null);
   const [imageScale, setImageScale] = useState(80);
 
   const [matrix, setMatrix] = useState([]);
   const [text, setText] = useState("https://www.zmqrcode.com/");
-  const [qrCodeUrl, setQrCodeUrl] = useState('');
+  const [qrCodeUrl, setQrCodeUrl] = useState("");
   const [noiseDensity, setNoiseDensity] = useState(0.2);
   const [strokeWidth, setStrokeWidth] = useState(8);
 
- const [selectedLogo, setSelectedLogo] = useState(DEFAULT_LOGO);
+  const [selectedLogo, setSelectedLogo] = useState(DEFAULT_LOGO);
   const [logoSize, setLogoSize] = useState(35); // for inner selected logo
   const [companyLogoSize, setCompanyLogoSize] = useState(105); // for outer company logo
   const [customLogo, setCustomLogo] = useState(null);
 
   const [finalImages, setFinalImages] = useState([]);
-  const [freePlanCount,setFreePlanCount]=useState(0)
-
+  const [freePlanCount, setFreePlanCount] = useState(0);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -44,7 +41,6 @@ const DesignProvider = ({ children }) => {
 
   const [activeTabs, setActiveTabs] = useState({}); // { slug: tab }
   // const [qrColor, setQrColor] = useState("#000000");
-
 
   const moduleSize = 8;
   const padding = 2;
@@ -57,7 +53,8 @@ const DesignProvider = ({ children }) => {
 
   const [foregroundColorMode, setForegroundColorMode] = useState("single"); // or "gradient"
   const [foregroundColor, setForegroundColor] = useState("#000000");
-  const [foregroundGradientStart, setForegroundGradientStart] = useState("#000000");
+  const [foregroundGradientStart, setForegroundGradientStart] =
+    useState("#000000");
   const [foregroundGradientEnd, setForegroundGradientEnd] = useState("#ffffff");
 
   const [eyeFrameColorMode, setEyeFrameColorMode] = useState("single");
@@ -89,24 +86,23 @@ const DesignProvider = ({ children }) => {
   };
 
   // Reset function to clear everything and set default preview
-// Reset function to clear everything and set default preview
-const resetPreview = () => {
-  setBgDesign(null);
-  setSelectedQRShape("square");   // 👈 fallback shape
-  setSelectedBodyFrame("heart");  // 👈 fallback body frame
-  setSelectedEyeFrame("rounded"); // 👈 fallback eye frame
-  setSelectedEyeBall("circle");   // 👈 fallback eyeball
+  // Reset function to clear everything and set default preview
+  const resetPreview = () => {
+    setBgDesign(null);
+    setSelectedQRShape("square"); // 👈 fallback shape
+    setSelectedBodyFrame("heart"); // 👈 fallback body frame
+    setSelectedEyeFrame("rounded"); // 👈 fallback eye frame
+    setSelectedEyeBall("circle"); // 👈 fallback eyeball
 
-  setSelectedLogo(DEFAULT_LOGO);       // 👈 fallback logo
-  setSelectedSticker(DEFAULT_STICKER); // 👈 fallback sticker
-  setBackgroundImage(null);
+    setSelectedLogo(DEFAULT_LOGO); // 👈 fallback logo
+    setSelectedSticker(DEFAULT_STICKER); // 👈 fallback sticker
+    setBackgroundImage(null);
 
-  setFinalImages(DEFAULT_PREVIEW_IMAGE); // 👈 show default preview image
-  localStorage.setItem("finalImages", JSON.stringify(DEFAULT_PREVIEW_IMAGE));
-};
+    setFinalImages(DEFAULT_PREVIEW_IMAGE); // 👈 show default preview image
+    localStorage.setItem("finalImages", JSON.stringify(DEFAULT_PREVIEW_IMAGE));
+  };
 
-
- // Load persisted values on mount
+  // Load persisted values on mount
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -124,15 +120,19 @@ const resetPreview = () => {
   }, []);
 
   useEffect(() => {
-  const saved = localStorage.getItem("finalImages");
-  if (saved) setFinalImages(JSON.parse(saved));
-}, []);
+    const saved = localStorage.getItem("finalImages");
+    if (saved) setFinalImages(JSON.parse(saved));
+  }, []);
 
   return (
     <DesignContext.Provider
       value={{
-        selectedQRCodeImage, setSelectedQRCodeImage, finalImages,
-    setFinalImages,resetPreview,
+        selectedPremiumItem, setSelectedPremiumItem,
+        selectedQRCodeImage,
+        setSelectedQRCodeImage,
+        finalImages,
+        setFinalImages,
+        resetPreview,
         text,
         setText,
         matrix,
@@ -158,7 +158,8 @@ const resetPreview = () => {
         setCompanyLogoSize,
         logoSize,
         setLogoSize,
-        imageScale, setImageScale,
+        imageScale,
+        setImageScale,
         isLoading,
         setIsLoading,
         bgDesign,
@@ -203,7 +204,8 @@ const resetPreview = () => {
         setEyeFrameGradientEnd,
         // isEyeFrameEnabled,
         // setIsEyeFrameEnabled,
-        customLogo, setCustomLogo,
+        customLogo,
+        setCustomLogo,
         eyeballColorMode,
         setEyeballColorMode,
         eyeballColor,

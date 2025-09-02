@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { FiSearch } from "react-icons/fi";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation.js";
 
 const ServicesPage = () => {
   const [mainServices, setMainServices] = useState([]);
@@ -11,7 +13,21 @@ const ServicesPage = () => {
   const [filteredMain, setFilteredMain] = useState([]);
   const [filteredSpecial, setFilteredSpecial] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  //const [expanded, setExpanded] = useState({});
+   const userData = useSelector((state) => state?.authentication?.userData);
+
+   const router = useRouter();
+
+   const handleServiceClick = (slug) => {
+    const serviceUrl = `/services/${slug}?from=${slug}`;
+
+    if (!userData) {
+      // Save intended path before login
+      localStorage.setItem("redirectAfterLoginFromServices", serviceUrl);
+      router.push("/login"); // go to login page
+    } else {
+      router.push(serviceUrl);
+    }
+  };
 
   useEffect(() => {
     import("../data/services.jsx")
@@ -73,7 +89,11 @@ useEffect(() => {
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
       {services.map((service, index) => (
         // <Link key={index} href={`/services/${service.slug}`}>
-        <Link key={index} href={`/services/${service.slug}?from=${service.slug}`}>
+        <div
+        key={index}
+        id={service.slug}
+        onClick={() => handleServiceClick(service.slug)}
+      >
 
           <div id={service.slug} className="bg-white rounded-xl shadow-lg transition duration-200 overflow-hidden p-6 hover:-translate-y-1 cursor-pointer h-85">
             <div className="flex items-start mb-3">
@@ -136,7 +156,7 @@ useEffect(() => {
 
             </div>
           </div>
-        </Link>
+        </div>
       ))}
     </div>
   );

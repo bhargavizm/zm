@@ -22,7 +22,6 @@ const Section = ({ title, children, condition }) => {
 const BusinessShopPreview = () => {
   const { businessShopFormData } = useServicesContext();
   const { bgDesign, setBgDesign, isLoading, setIsLoading } = useDesignContext();
-console.log("Business Shop Form Data:", businessShopFormData);
   const templateNum = businessShopFormData.selectedTemplate?.replace("template", "") || "1";
   const backgroundImageUrl = `/images/templates/businessShop${templateNum}.webp`;
 

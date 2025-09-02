@@ -160,16 +160,6 @@ const handleInputChange = (idOrEvent, value = null) => {
   }
 };
 
-
-  //  const handleImageUpload = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     const imageUrl = URL.createObjectURL(file);
-  //       console.log(imageUrl)
-  //     setBusinessForm({ ...businessForm, profileImageUrl: imageUrl });
-  //   }
-
-  // };
 const handleImageUpload = (e) => {
   const file = e.target.files[0];
 
