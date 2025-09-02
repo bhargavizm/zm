@@ -14,23 +14,45 @@ export default function Sidebar({ isOpen, onClose }) {
 
   const handleLogout = async () => {
     try {
-      await logout(); // your logout logic
-      onClose(); // close sidebar
-      router.push("/login"); // redirect to home/login
+      await logout();
+      onClose();
+      router.push("/login");
     } catch (error) {
       console.error("Logout failed:", error);
+    }
+  };
+
+  const handleInvite = async () => {
+    const email = prompt("Enter email address to invite:");
+    if (!email) return;
+
+    try {
+      const res = await fetch("/api/invite", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        alert("✅ Invite sent successfully!");
+      } else {
+        alert("❌ Failed to send invite: " + data.error);
+      }
+    } catch (error) {
+      console.error("Invite failed:", error);
+      alert("❌ Something went wrong while sending invite.");
     }
   };
 
   return (
     <>
       {/* Sidebar drawer */}
-    <aside
-  className={`fixed top-0 left-0 h-screen w-60 bg-mainGreen z-40 transform transition-transform duration-300 
-    ${isOpen ? "translate-x-0" : "-translate-x-full"} 
-    md:translate-x-0`}
->
-
+      <aside
+        className={`fixed top-0 left-0 h-screen w-60 bg-mainGreen z-40 transform transition-transform duration-300 
+        ${isOpen ? "translate-x-0" : "-translate-x-full"} 
+        md:translate-x-0`}
+      >
         {/* Logo + Close */}
         <div className="flex justify-between items-center h-16 border-gray-300 px-4">
           <Link href="/" className="w-full flex justify-center">
@@ -54,30 +76,48 @@ export default function Sidebar({ isOpen, onClose }) {
         {/* Menu items */}
         <nav className="mt-4 space-y-2">
           {menuItems &&
-            menuItems.map(({ name, href }) =>
-              name === "Logout" ? (
-                <button
-                  key={href} // ✅ Key added here
-                  onClick={handleLogout}
-                  className="block w-full cursor-pointer text-left px-9 py-2 mx-2 rounded transition-all text-xl text-white hover:bg-white hover:text-mainGreen"
-                >
-                  {name}
-                </button>
-              ) : name === "Create QR Codes" ? (
-                <Link key={href} href={`/${href}`} passHref>
-                  {" "}
-                  {/* ✅ Key added here */}
-                  <div
-                    onClick={onClose}
-                    className="flex items-center gap-2 bg-[#35aeae] text-white font-bold px-4 py-2 my-6 mx-2 rounded transition-all text-xl cursor-pointer shadow-md"
+            menuItems.map(({ name, href, type }) => {
+              if (name === "Logout") {
+                return (
+                  <button
+                    key={href}
+                    onClick={handleLogout}
+                    className="block w-full cursor-pointer text-left px-9 py-2 mx-2 rounded transition-all text-xl text-white hover:bg-white hover:text-mainGreen"
                   >
-                    <MdQrCodeScanner className="text-2xl" />
                     {name}
-                  </div>
-                </Link>
-              ) : (
+                  </button>
+                );
+              }
+
+              if (type === "invite") {
+                return (
+                  <button
+                    key={name}
+                    onClick={handleInvite}
+                    className="block w-full cursor-pointer text-left px-9 py-2 mx-2 rounded transition-all text-xl text-white hover:bg-white hover:text-mainGreen"
+                  >
+                    {name}
+                  </button>
+                );
+              }
+
+              if (name === "Create QR Codes") {
+                return (
+                  <Link key={href} href={`/${href}`} passHref>
+                    <div
+                      onClick={onClose}
+                      className="flex items-center gap-2 bg-[#35aeae] text-white font-bold px-4 py-2 my-6 mx-2 rounded transition-all text-xl cursor-pointer shadow-md"
+                    >
+                      <MdQrCodeScanner className="text-2xl" />
+                      {name}
+                    </div>
+                  </Link>
+                );
+              }
+
+              return (
                 <Link
-                  key={href} // ✅ Already correct
+                  key={href}
                   href={`/user-dashboard/${href}`}
                   className={`block px-9 py-2 mx-2 rounded transition-all text-xl ${
                     pathname.startsWith(`/user-dashboard/${href}`)
@@ -88,8 +128,8 @@ export default function Sidebar({ isOpen, onClose }) {
                 >
                   {name}
                 </Link>
-              )
-            )}
+              );
+            })}
         </nav>
       </aside>
 
