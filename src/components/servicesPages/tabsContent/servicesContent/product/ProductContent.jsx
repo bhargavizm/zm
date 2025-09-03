@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import NFCModal from "@/components/modalPopUps/nfcModal";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import { MdCancel, MdDeleteForever } from "react-icons/md";
 import { toast } from "react-hot-toast";

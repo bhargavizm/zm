@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { IoEyeOutline } from "react-icons/io5";
 import { MdQrCodeScanner } from "react-icons/md";
@@ -7,7 +7,6 @@ import { FaLongArrowAltDown } from "react-icons/fa";
 import { useParams } from "next/navigation";
 import QRCodeTab from "../tabsContent/qrTabContent/qrcodeTab";
 import BackdropDesigns from "../tabsContent/backDropDesigns/backdropDesigns";
-import ComingSoonModal from "@/components/modalPopUps/comingSoonModal";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import PreviewPanel from "@/components/QRCodeCustomization/previewTab/previewPanel";
 
@@ -22,13 +21,19 @@ const DesignLayout = ({ ContentTabComponent, PreviewTabComponent }) => {
 
   const [activePreview, setActivePreview] = useState("eye");
 
+   useEffect(() => {
+    // Whenever service slug changes → reset to Content tab + eye preview
+    setActiveTab(slug, "Content");
+    setActivePreview("eye");
+  }, [slug]);
+
   const formatServiceName = (slug) => {
     const name = slug
       .split("-")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ");
     return encryptedSlugs.includes(slug)
-      ? `${name} (Encrypted Service) `
+      ? `${name} (Encrypted Services) `
       : name;
   };
 

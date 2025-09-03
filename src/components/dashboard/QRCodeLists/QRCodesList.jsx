@@ -57,6 +57,7 @@ const QRCodesList = () => {
   const [statusFilter, setStatusFilter] = useState("");
   const [isRenewalModalOpen, setIsRenewalModalOpen] = useState(false);
   const [selectedRenewalService, setSelectedRenewalService] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
 
   const userFullData = useSelector(
     (state) => state?.authentication?.fullUserDetails
@@ -156,7 +157,7 @@ const QRCodesList = () => {
     const renewal = new Date(renewalDate);
     return now > renewal;
   };
-
+  console.log("Paginated Entries:", paginatedEntries);
   return (
     <>
       <div className="p-4">
@@ -247,6 +248,100 @@ const QRCodesList = () => {
                         <span className="text-mainGreen text-xl font-bold capitalize">
                           {entry.serviceName}
                         </span>
+
+                        {/* Validity status */}
+                        <div className="text-mainGreen text-lg font-bold capitalize">
+                          {/* <span className="font-semibold">Status:</span>{" "} */}
+                          {entry.qrCodeDetails.qrCodeStatus || "-"}
+                        </div>
+                      </div>
+
+                      {/* QR */}
+                      <div className="flex flex-col items-center gap-3 w-full max-w-sm mx-auto p-4">
+                        {entry.qrCodeDetails?.qrCodeImage ? (
+                          <>
+                            <img
+                              src={entry.qrCodeDetails.qrCodeImage}
+                              alt="QR Code"
+                              className="w-40 h-40 sm:w-48 sm:h-48 md:w-50 md:h-50 object-contain rounded-lg cursor-pointer hover:opacity-90 transition"
+                              onClick={() =>
+                                setPreviewImage(entry.qrCodeDetails.qrCodeImage)
+                              }
+                            />
+                            {previewImage && (
+                              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
+                                <button
+                                  onClick={() => setPreviewImage(null)}
+                                  className="absolute top-4 right-4 text-white text-3xl font-bold cursor-pointer"
+                                >
+                                  &times;
+                                </button>
+                                <img
+                                  src={previewImage}
+                                  alt="Preview"
+                                  className="max-w-full max-h-screen rounded-lg shadow-lg"
+                                />
+                              </div>
+                            )}
+
+                            <button
+                              onClick={() => handleDownload(entry)}
+                              disabled={downloadingId === entry._id}
+                              className={`mt-3 px-5 py-2 cursor-pointer rounded-lg text-sm font-semibold shadow-2xs transition-all
+          ${
+            downloadingId === entry._id
+              ? "bg-gray-400 text-gray-200 cursor-not-allowed"
+              : "bg-mainGreen text-white hover:bg-teal-700"
+          }`}
+                            >
+                              {downloadingId === entry._id
+                                ? "Downloading..."
+                                : "Download QR Code"}
+                            </button>
+                          </>
+                        ) : (
+                          <span className="text-gray-500 italic text-sm sm:text-base">
+                            No Image
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Subscription */}
+                      <div className="text-md text-gray-800">
+                        <span className="font-semibold">
+                          Subscription Plan:
+                        </span>{" "}
+                        {priceDetails.plan
+                          ? `${priceDetails.plan} (₹${priceDetails.price})`
+                          : "-"}
+                      </div>
+
+                      {/* ✅ Validity days + price */}
+                      <div className="text-md text-gray-800">
+                        <span className="font-semibold">Validity Days:</span>{" "}
+                        {priceDetails.validityDays
+                          ? `${priceDetails.validityDays} Days `
+                          : "-"}
+                      </div>
+
+                      {/* Premium Sticker */}
+                      {priceDetails.premiumStickerPlan && (
+                        <div className="text-md text-gray-800">
+                          <span className="font-semibold">
+                            Premium Sticker:
+                          </span>{" "}
+                          ₹{priceDetails.premiumStickerPlan}
+                        </div>
+                      )}
+
+                      {/* Total */}
+                      <div className="text-md text-gray-800">
+                        <span className="font-semibold">Total Amount:</span> ₹
+                        {priceDetails.totalAmount ?? 0}
+                      </div>
+
+                      <div className="text-md text-gray-800">
+                        <span className="font-semibold">Created On: </span>
                         <span className="text-sm text-gray-800">
                           {priceDetails?.startDate
                             ? formatDate(priceDetails.startDate)
@@ -254,92 +349,22 @@ const QRCodesList = () => {
                         </span>
                       </div>
 
-                      {/* QR */}
-                     <div className="flex flex-col items-center gap-3 w-full max-w-sm mx-auto p-4">
-  {entry.qrCodeDetails?.qrCodeImage ? (
-    <>
-      <img
-        src={entry.qrCodeDetails.qrCodeImage}
-        alt="QR Code"
-        className="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-60 lg:h-60 object-contain rounded-lg  cursor-pointer hover:opacity-90 transition"
-        onClick={() => {
-          const newWindow = window.open("", "_blank");
-          newWindow.document.write(`
-            <html><body style="margin:0;display:flex;align-items:center;justify-content:center;background:#000;">
-              <img src="${entry.qrCodeDetails.qrCodeImage}" style="max-width:100%;max-height:100vh;" />
-            </body></html>
-          `);
-        }}
-      />
-
-      <button
-        onClick={() => handleDownload(entry)}
-        disabled={downloadingId === entry._id}
-        className={`mt-3 px-5 py-2 rounded-lg text-sm font-semibold shadow-2xs transition-all
-          ${
-            downloadingId === entry._id
-              ? "bg-gray-400 text-gray-200 cursor-not-allowed"
-              : "bg-mainGreen text-white hover:bg-teal-700"
-          }`}
-      >
-        {downloadingId === entry._id ? "Downloading..." : "Download QR Code"}
-      </button>
-    </>
-  ) : (
-    <span className="text-gray-500 italic text-sm sm:text-base">
-      No Image
-    </span>
-  )}
-</div>
-
-
-                      {/* Subscription */}
-                      <div className="text-md text-gray-800">
-  <span className="font-semibold">Subscription Plan:</span>{" "}
-  {priceDetails.plan
-    ? `${priceDetails.plan} (₹${priceDetails.price})`
-    : "-"}
-</div>
-
-{/* Premium Sticker */}
-{priceDetails.premiumStickerPlan && (
-  <div className="text-md text-gray-800">
-    <span className="font-semibold">Premium Sticker:</span>{" "}
-    ₹{priceDetails.premiumStickerPlan}
-  </div>
-)}
-
-{/* Total */}
-<div className="text-md text-gray-800">
-  <span className="font-semibold">Total Amount:</span>{" "}
-  ₹{priceDetails.totalAmount ?? 0}
-</div>
-
-
-
-                      {/* Validity */}
+                      {/* ✅ Always show scan count, default 0 */}
                       <div className="text-md">
-                        <span className="font-semibold">Status:</span>{" "}
-                        {entry.qrCodeDetails.qrCodeStatus || "-"}
+                        <span className="font-semibold">Total Scans:</span>{" "}
+                        {entry.qrCodeDetails?.scanCount ?? 0}
                       </div>
 
-                      {/* Scans */}
-                      {entry.qrCodeDetails?.scanCount > 0 && (
-                        <div className="text-md">
-                          <span className="font-semibold">Total Scans:</span>{" "}
-                          {entry.qrCodeDetails.scanCount}
-                        </div>
-                      )}
-
-                      {/* Locations */}
-                      {entry.qrCodeDetails?.scanHistory?.length > 0 && (
-                        <div>
-                          <span className="font-semibold text-md">
-                            Locations:
-                          </span>
-                          <div className="flex flex-col gap-1 mt-1">
-                            {entry.qrCodeDetails.scanHistory
-                              .slice(-5)
+                      {/* ✅ Show only if scanHistory has data */}
+                      {/* {entry.qrCodeDetails?.scanHistory?.length > 0 && ( */}
+                      <div>
+                        <span className="font-semibold text-md">
+                          Locations:
+                        </span>
+                        <div className="flex flex-col gap-1 mt-1">
+                          {entry.qrCodeDetails?.scanHistory?.length > 0 ? (
+                            entry.qrCodeDetails.scanHistory
+                              .slice(-5) // last 5
                               .reverse()
                               .map((scan, i) => (
                                 <div
@@ -350,10 +375,15 @@ const QRCodesList = () => {
                                     ? `${scan.city}, ${scan.region}, ${scan.country}`
                                     : scan.country}
                                 </div>
-                              ))}
-                          </div>
+                              ))
+                          ) : (
+                            <div className=" px-2 py-1 rounded-md text-black">
+                              - - - - - -
+                            </div>
+                          )}
                         </div>
-                      )}
+                      </div>
+                      {/* )} */}
 
                       {/* Actions */}
                       <div className="flex justify-between flex-wrap gap-3 pt-2">
@@ -383,7 +413,7 @@ const QRCodesList = () => {
                         </span>
                         <button
                           onClick={() => openRenewalModal(entry)}
-                           disabled={!isExpired(priceDetails.renewalDate)}
+                          disabled={!isExpired(priceDetails.renewalDate)}
                           className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
                             isExpired(priceDetails.renewalDate)
                               ? "bg-mainGreen text-white hover:bg-teal-700 cursor-pointer"
@@ -445,7 +475,7 @@ const QRCodesList = () => {
           setServicesDataLoading={setServicesDataLoading}
         />
       )}
-     {isModalOpen && modalType === "delete" && (
+      {isModalOpen && modalType === "delete" && (
         <DeleteServiceModal
           onClose={() => setIsModalOpen(false)}
           serviceData={selectedService}

@@ -12,7 +12,6 @@ import {
   FaEyeSlash,
   FaLink,
 } from "react-icons/fa";
-import NFCModal from "@/components/modalPopUps/nfcModal";
 import { useDispatch } from "react-redux";
 import { setMultiUrlServices } from "@/redux/slices/servicesSlice";
 import toast from "react-hot-toast";
@@ -260,7 +259,7 @@ export default function MultiUrlContent() {
           </div>
         </div>
 
-        <NFCModal />
+
 
         {/* Submit */}
         <div className="text-center mt-4">

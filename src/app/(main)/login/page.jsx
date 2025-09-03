@@ -131,7 +131,7 @@ export default function LoginPage() {
             height={100}
             className="m-4 w-24 md:w-32"
           />
-          <h1 className="text-lg md:text-xl font-semibold text-center px-4 animate-bounce">
+          <h1 className="text-lg pt-9 md:text-xl font-semibold text-center px-4 animate-bounce">
             🔐 Trust us with your data. It's not just secure — it's encrypted 🔐
           </h1>
           <Image
@@ -148,10 +148,10 @@ export default function LoginPage() {
 
         {/* Right Section */}
         <div className="w-full md:w-1/2 flex flex-col justify-center items-center bg-white text-[#001a1a] p-6 rounded-2xl md:rounded-r-2xl">
-          <h1 className="text-2xl md:text-3xl text-loginBlue font-semibold text-center">
+          <h1 className="text-2xl md:text-3xl text-mainGreen font-semibold text-center">
             Welcome Back!
           </h1>
-          <h4 className="font-light text-sm md:text-base text-loginBlue text-center mt-1">
+          <h4 className="font-light text-sm md:text-base text-mainGreen text-center mt-1">
             Sign in to your ZM QR Code account
           </h4>
 
@@ -276,7 +276,7 @@ export default function LoginPage() {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full my-4 relative overflow-hidden text-white font-medium px-6 py-2 rounded-sm transition duration-300 bg-[#008080] hover:bg-[#DF8788] group cursor-pointer"
+              className="w-full my-4 relative  transition-effects overflow-hidden text-white font-medium px-6 py-2 rounded-sm transition duration-300 bg-[#008080] group cursor-pointer"
             >
               <span className="relative z-10">Done</span>
               <span

@@ -1,11 +1,8 @@
 "use client";
 
-import ComingSoonModal from "@/components/modalPopUps/comingSoonModal";
 import React, { useState } from "react";
 
 const DemoFormPage = () => {
-  const [showModal, setShowModal] = useState(false);
-
   const [formData, setFormData] = useState({
     email: "",
     firstName: "",
@@ -27,9 +24,6 @@ const DemoFormPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Show coming soon modal
-    setShowModal(true);
   };
 
   return (
@@ -184,11 +178,6 @@ const DemoFormPage = () => {
           </div>
         </form>
       </section>
-
-      <ComingSoonModal
-        isOpen={showModal}
-        onClose={() => setShowModal(false)}
-      />
     </>
   );
 };

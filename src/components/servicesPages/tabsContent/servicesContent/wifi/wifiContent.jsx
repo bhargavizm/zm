@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { Lock, Wifi, Eye, EyeOff, Shield } from "lucide-react";
 import useServicesContext from "@/components/hooks/useServiceContext";
-import NFCModal from "@/components/modalPopUps/nfcModal";
 import { useDispatch } from "react-redux";
 import { setWifiServices } from "@/redux/slices/servicesSlice";
 import useDesignContext from "@/components/hooks/useDesignContext";

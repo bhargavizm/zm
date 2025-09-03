@@ -3,11 +3,8 @@
 import { useState, useRef } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { toast } from "react-hot-toast";
-import NFCModal from "@/components/modalPopUps/nfcModal";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import { useParams } from "next/navigation";
-import Link from "next/link";
-import Image from "next/image";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import LoadingSpinner from "@/components/common/spinner";
 

@@ -7,42 +7,37 @@ import { toast } from 'react-hot-toast';
 
 export default function ForgotPassword() {
   const router = useRouter();
-  const [step, setStep] = useState("phone"); // step: phone → otp
-  const [phone, setPhone] = useState("");
-  const [otp, setOtp] = useState("");
+  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
-  const [phoneError, setPhoneError] = useState("");
+  const [emailError, setEmailError] = useState("");
 
-  // ✅ Phone Validation (10–15 digits)
-  const validatePhone = (value) => {
-    const regex = /^[0-9]{10,15}$/;
+  // ✅ Email Validation
+  const validateEmail = (value) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(value);
   };
 
-  const handlePhoneSubmit = async (e) => {
+  const handleEmailSubmit = async (e) => {
     e.preventDefault();
-    if (!validatePhone(phone)) {
-      setPhoneError("Phone number must be 10 to 15 digits.");
+    if (!validateEmail(email)) {
+      setEmailError("Please enter a valid email address.");
       return;
     }
-    setPhoneError("");
+    setEmailError("");
     setLoading(true);
 
     try {
-      const res = await axios.post("/api/auth/forgot-password", { phone });
+      const res = await axios.post("/api/auth/forgot-password", { email });
       localStorage.setItem("passwordToken", res.data.token);
+      localStorage.setItem("otpFlow", "forgotpwd"); // ✅ mark this flow as forgot password
       toast.success(res.data.message);
-
-localStorage.setItem("otpFlow", "forgotpwd"); // ✅ mark this flow as forgot password
-router.push("/verify-otp");
-
+      router.push("/verify-otp");
     } catch (err) {
       toast.error(err.response?.data?.error || "Failed to send OTP.");
     } finally {
       setLoading(false);
     }
   };
-
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
@@ -69,32 +64,30 @@ router.push("/verify-otp");
 
         {/* Right Section */}
         <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-6">
+          <h1 className="text-3xl text-mainGreen font-semibold text-center">
+            Forgot Password
+          </h1>
+          <h4 className="font-light text-sm text-mainGreen text-center mt-1">
+            Enter your registered email address
+          </h4>
 
-              <h1 className="text-3xl text-loginBlue font-semibold text-center">
-                Forgot Password
-              </h1>
-              <h4 className="font-light text-sm text-loginBlue text-center mt-1">
-                Enter your registered mobile number
-              </h4>
-
-              <form onSubmit={handlePhoneSubmit} className="w-full mt-6 flex flex-col items-center gap-4">
-                <input
-                  type="tel"
-                  placeholder="Enter mobile number"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="w-3/4 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-mainGreen text-center text-lg"
-                />
-                {phoneError && <p className="text-red-500 text-sm">{phoneError}</p>}
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-3/4 bg-mainGreen text-white rounded-lg px-4 py-2 font-semibold transition disabled:opacity-50"
-                >
-                  {loading ? "Sending OTP..." : "Send OTP"}
-                </button>
-              </form>
-
+          <form onSubmit={handleEmailSubmit} className="w-full mt-6 flex flex-col items-center gap-4">
+            <input
+              type="email"
+              placeholder="Enter email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-3/4 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-mainGreen  text-lg"
+            />
+            {emailError && <p className="text-red-500 text-sm">{emailError}</p>}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-3/4 bg-mainGreen text-white rounded-lg px-4 py-2 font-semibold transition disabled:opacity-50"
+            >
+              {loading ? "Sending OTP..." : "Send OTP"}
+            </button>
+          </form>
         </div>
       </div>
     </div>

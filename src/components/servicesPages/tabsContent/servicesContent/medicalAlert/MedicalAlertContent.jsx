@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import { FiTrash2, FiMapPin } from "react-icons/fi";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
-import NFCModal from "@/components/modalPopUps/nfcModal";
 import { toast } from "react-hot-toast";
 import { useParams } from "next/navigation";
 import useDesignContext from "@/components/hooks/useDesignContext";

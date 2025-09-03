@@ -1,20 +1,17 @@
 "use client";
 
 import useDesignContext from "@/components/hooks/useDesignContext";
-import usePremiumContext from "@/components/hooks/usePremiumContext";
-import PremiumModal from "@/components/modalPopUps/premiumServicesModal";
+import PremiumModal from "@/components/common/premiumServicesModal";
 import Image from "next/image";
 import React, { useRef, useEffect } from "react";
 import { stickerConfig } from "./stickerImages";
 
 const Stickers = () => {
-  const { selectedSticker, setSelectedSticker,setSelectedPremiumItem } = useDesignContext();
-  const {
-    premiumEnabled,
+  const { selectedSticker, setSelectedSticker,setSelectedPremiumItem, premiumEnabled,
     setPremiumEnabled,
     showPremiumModal,
-    setShowPremiumModal,
-  } = usePremiumContext();
+    setShowPremiumModal, } = useDesignContext();
+
 
   const containerRef = useRef(null);
 

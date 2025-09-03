@@ -146,7 +146,7 @@ const URLServices = ({ setIsModalOpen }) => {
           </div>
         </div>
 
-        {/* <NFCModal /> */}
+
 
         <div
           // onClick={handleClick}

@@ -2,14 +2,12 @@
 import Image from "next/image";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import NFCModal from "@/components/modalPopUps/nfcModal";
 import React, { useState, useRef } from "react";
 import { toast } from "react-hot-toast";
 import { MapPin } from "lucide-react";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import { useParams } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { setCardServices } from "@/redux/slices/servicesSlice";
 import LoadingSpinner from "@/components/common/spinner";
 
 // New ConfirmationModal component
@@ -464,8 +462,7 @@ const handleImageUpload = (e) => {
                 );
               })}
             </div>
-{/* 
-            <NFCModal /> */}
+
             <div className="flex justify-center items-center">
               <button
                 type="submit"

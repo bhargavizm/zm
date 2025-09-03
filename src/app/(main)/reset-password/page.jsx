@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 export default function ResetPassword() {
   const router = useRouter();
@@ -11,6 +12,8 @@ export default function ResetPassword() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   // 🔹 Validate password while typing
   const validatePassword = (value) => {
@@ -46,9 +49,7 @@ export default function ResetPassword() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const currentErrors = {
-      ...validatePassword(password),
-    };
+    const currentErrors = { ...validatePassword(password) };
     if (password !== confirmPassword) {
       currentErrors.match = "Passwords do not match";
     }
@@ -59,28 +60,22 @@ export default function ResetPassword() {
     }
 
     try {
-      const token = localStorage.getItem("passwordToken"); // 🔑 get token from storage
+      const token = localStorage.getItem("passwordToken");
       if (!token) {
         toast.error("Invalid or expired reset link. Please try again.");
         return;
       }
 
-      // ✅ Send both password + confirmPassword with token in headers
       const res = await axios.post(
         "/api/auth/reset-password",
         { password, confirmPassword },
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 
       toast.success(res.data.message || "Password reset successfully!");
-
-      // ✅ Clear token after reset
       localStorage.removeItem("passwordToken");
-
       router.push("/login");
     } catch (err) {
       toast.error(err.response?.data?.error || "Something went wrong");
@@ -99,9 +94,9 @@ export default function ResetPassword() {
         </button>
 
         {/* Left Section */}
-        <div className="hidden md:flex bg-mainGreen md:w-1/2 flex-col justify-center items-center text-white p-6">
+        <div className="hidden md:flex py-9 bg-mainGreen md:w-1/2 flex-col justify-center items-center text-white p-6">
           <Image src="/logos/zm-full.webp" alt="logo" width={150} height={150} />
-          <h1 className="text-xl font-semibold text-center px-4 animate-bounce">
+          <h1 className="text-xl pt-9 font-semibold text-center px-4 animate-bounce">
             🔐 Trust us with your data. It's not just secure — it's encrypted 🔐
           </h1>
           <Image
@@ -117,10 +112,10 @@ export default function ResetPassword() {
 
         {/* Right Section */}
         <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-6">
-          <h1 className="text-3xl text-loginBlue font-semibold text-center">
+          <h1 className="text-3xl text-mainGreen font-semibold text-center">
             Reset Password
           </h1>
-          <h4 className="font-light text-sm text-loginBlue text-center mt-1">
+          <h4 className="font-light text-sm text-mainGreen text-center mt-1">
             Enter new password
           </h4>
 
@@ -131,13 +126,25 @@ export default function ResetPassword() {
           >
             {/* Password */}
             <div>
-              <input
-                type="password"
-                value={password}
-                onChange={handlePasswordChange}
-                placeholder="New Password"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-mainGreen"
-              />
+              <label className="block text-sm font-medium mb-1">
+                New Password :
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={handlePasswordChange}
+                  placeholder="Enter new password"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-mainGreen"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-3 flex items-center text-gray-600"
+                >
+                  {showPassword ?  <FiEye />    : <FiEyeOff />}
+                </button>
+              </div>
               {errors.length && (
                 <p className="text-red-500 text-xs">{errors.length}</p>
               )}
@@ -147,14 +154,26 @@ export default function ResetPassword() {
             </div>
 
             {/* Confirm Password */}
-            <div>
-              <input
-                type="password"
-                value={confirmPassword}
-                onChange={handleConfirmChange}
-                placeholder="Confirm Password"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-mainGreen"
-              />
+            <div className="pb-6">
+              <label className="block text-sm font-medium mb-1">
+                Confirm Password :
+              </label>
+              <div className="relative">
+                <input
+                  type={showConfirm ? "text" : "password"}
+                  value={confirmPassword}
+                  onChange={handleConfirmChange}
+                  placeholder="Confirm new password"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-mainGreen"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirm(!showConfirm)}
+                  className="absolute inset-y-0 right-3 flex items-center text-gray-600"
+                >
+                  {showConfirm ? <FiEye />   : <FiEyeOff />}
+                </button>
+              </div>
               {errors.match && (
                 <p className="text-red-500 text-xs">{errors.match}</p>
               )}
@@ -163,7 +182,7 @@ export default function ResetPassword() {
             {/* Submit Button */}
             <button
               type="submit"
-              className="bg-mainGreen text-white py-2 rounded-lg font-semibold  transition-effects"
+              className="bg-mainGreen cursor-pointer text-white py-2 rounded-lg font-semibold transition"
             >
               Reset Password
             </button>

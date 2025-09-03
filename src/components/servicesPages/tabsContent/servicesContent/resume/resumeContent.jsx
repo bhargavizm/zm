@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import useDesignContext from "@/components/hooks/useDesignContext";
-import NFCModal from "@/components/modalPopUps/nfcModal";
 import LoadingSpinner from "@/components/common/spinner";
 
 const MAX_TOTAL_SIZE_MB = 30;
@@ -235,8 +234,6 @@ const handleChange = (e) => {
                   </span>
                 </div>
               </div>
-
-              <NFCModal />
 
               <div className="flex justify-center">
                 <button

@@ -30,7 +30,6 @@ const PreviewPanel = () => {
   const previewRef = useRef(null);
 
   const {
-    finalImages,
     foregroundColorMode,
     foregroundColor,
     foregroundGradientStart,
@@ -80,14 +79,6 @@ const PreviewPanel = () => {
   const [base64Logo, setBase64Logo] = useState(null);
   const [base64Background, setBase64Background] = useState(null);
   const [qrRenderTrigger, setQrRenderTrigger] = useState(0);
-
-    // 👇 If no sticker is chosen, ensure default is applied
-//  useEffect(() => {
-//   if (finalImages) {
-//     setSelectedSticker(finalImages);
-//   }
-// }, [finalImages, setSelectedSticker]);
-
 
   const effectiveForegroundColor = backgroundImage
     ? "#000000"

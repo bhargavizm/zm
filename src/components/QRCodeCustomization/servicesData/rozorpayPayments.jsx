@@ -70,7 +70,8 @@ const useRazorpayPayment = () => {
           order_id: order.id,
           handler: async (response) => {
             // 4️⃣ Verify payment
-
+try {
+    setServicesDataLoading(true);
             const verifyRes = await fetch(
               `/api/verify-payments/${userId}/${serviceName}/${serviceId}`,
               {
@@ -96,6 +97,13 @@ const useRazorpayPayment = () => {
               toast.error(verifyData.message || "Payment verification failed");
               resolve(false);
             }
+            } catch (err) {
+    console.error("❌ Payment verification error:", err);
+    toast.error(err.message || "Verification failed");
+    resolve(false);
+  } finally {
+    setServicesDataLoading(false); // ✅ Always stop loading
+  }
           },
           theme: { color: "#0f766e" },
         };

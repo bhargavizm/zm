@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import Image from "next/image";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import useDesignContext from "@/components/hooks/useDesignContext";
-import NFCModal from "@/components/modalPopUps/nfcModal";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { MapPin, Check, X } from "lucide-react";
 import axios from "axios";

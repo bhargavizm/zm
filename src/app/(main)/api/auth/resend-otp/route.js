@@ -1,11 +1,10 @@
 // /app/api/auth/resend-otp/route.js
+import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongoDB";
 import { auth } from "@/middlewares/authMiddleware";
 import User from "@/models/auth/userSchema";
-import { NextResponse } from "next/server";
-import axios from "axios";
 import { generateOTP } from "@/utils/generateOtp";
-
+import { sendEmail, sendResendOtpEmail } from "@/lib/mailer/mailer";
 
 export async function POST(req) {
   try {
@@ -32,39 +31,27 @@ export async function POST(req) {
 
     // ✅ Generate new OTP & expiry
     const otp = generateOTP();
+    const otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 min
 
     user.verifyOtp = otp;
-
+    user.otpExpiresAt = otpExpiresAt;
     await user.save();
 
-    // ✅ Send OTP
-    if (process.env.NODE_ENV === "development") {
-      console.log(`📌 MOCK OTP for ${user.phone || user.email}: ${otp}`);
-    } else {
-      try {
-        await axios.post(
-          "https://api.phone.email/v1/send",
-          { to: user.phone, message: `Your new verification code is ${otp}` },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              "X-Client-Id": process.env.PHONE_EMAIL_CLIENT_ID,
-              "X-Api-Key": process.env.PHONE_EMAIL_API_KEY,
-            },
-            timeout: 10000,
-          }
-        );
-      } catch (err) {
-        console.error("[Resend OTP Error]", err.message);
-        return NextResponse.json({ error: err.message }, { status: 500 });
-      }
+    // ✅ Send OTP email
+    try {
+       await sendResendOtpEmail(user.email, user.name, otp);
+    } catch (err) {
+      console.error("[Resend OTP Email Error]", err.message);
+      return NextResponse.json(
+        { error: err.message || "Failed to send OTP email. Please try again later." },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({
       success: true,
-      message: "A new OTP has been sent successfully!",
+      message: "A new OTP has been sent to your email!",
     });
-
   } catch (error) {
     console.error("[Resend OTP Error]", error.message);
     return NextResponse.json({ error: error.message }, { status: 500 });

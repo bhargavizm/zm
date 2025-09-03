@@ -2,8 +2,7 @@
 
 import React, { useRef, useEffect } from "react";
 import useDesignContext from "@/components/hooks/useDesignContext";
-import usePremiumContext from "@/components/hooks/usePremiumContext";
-import PremiumModal from "@/components/modalPopUps/premiumServicesModal";
+import PremiumModal from "@/components/common/premiumServicesModal";
 import { shapeDefinitions } from "./shapes";
 
 const QRShapes = () => {
@@ -15,15 +14,11 @@ const QRShapes = () => {
     canvasSize,
     setNoiseDensity,
     noiseDensity,
-    setSelectedPremiumItem,
-  } = useDesignContext();
-
-  const {
-    premiumEnabled,
+    setSelectedPremiumItem,    premiumEnabled,
     setPremiumEnabled,
     showPremiumModal,
     setShowPremiumModal,
-  } = usePremiumContext();
+  } = useDesignContext();
 
   const ref = useRef();
 

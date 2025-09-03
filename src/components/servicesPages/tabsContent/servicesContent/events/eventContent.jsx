@@ -452,8 +452,6 @@ const handleImageUpload = (e) => {
                 {!showPassword ? <FiEyeOff /> : <FiEye />}
               </button>
             </div>
-
-            {/* <NFCModal /> */}
             <div className="flex justify-center items-center">
               <button
                 type="button"

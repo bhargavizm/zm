@@ -3,11 +3,7 @@
 import React, { useRef, useState } from 'react';
 import useServicesContext from '@/components/hooks/useServiceContext';
 import { Eye, EyeOff, X } from 'lucide-react';
-import NFCModal from '@/components/modalPopUps/nfcModal';
 import { useDispatch } from 'react-redux';
-import { setDiscountServices } from '@/redux/slices/servicesSlice';
-import axios from 'axios';
-import CryptoJS from 'crypto-js';
 import useDesignContext from '@/components/hooks/useDesignContext';
 import { useParams } from 'next/navigation';
 import toast from 'react-hot-toast';
@@ -214,8 +210,6 @@ const DiscountCouponContent = () => {
             </button>
           </div>
         </div>
-
-        <NFCModal />
 
         <div className="text-center my-6">
           <button

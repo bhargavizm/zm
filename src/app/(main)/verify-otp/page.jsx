@@ -98,7 +98,7 @@ export default function VerifyOtp() {
 
       if (res.data.success) {
         toast.success(res.data.message || 'New OTP sent!');
-        setTimer(600); // reset 10min timer
+        setTimer(100); // reset 10min timer
       } else {
         toast.error(res.data.error || 'Failed to resend OTP');
       }
@@ -122,9 +122,9 @@ export default function VerifyOtp() {
         </button>
 
         {/* Left Section */}
-        <div className="hidden md:flex bg-mainGreen md:w-1/2 flex-col justify-center items-center text-white p-6">
+        <div className="hidden md:flex py-9 bg-mainGreen md:w-1/2 flex-col justify-center items-center text-white p-6">
           <Image src="/logos/zm-full.webp" alt="logo" width={150} height={150} />
-          <h1 className="text-xl font-semibold text-center px-4 animate-bounce">
+          <h1 className="text-xl pt-9 font-semibold text-center px-4 animate-bounce">
             🔐 Trust us with your data. It's not just secure — it's encrypted 🔐
           </h1>
           <Image src="/qr-image-login.webp" alt="qr-image" width={400} height={400} />
@@ -135,10 +135,10 @@ export default function VerifyOtp() {
 
         {/* Right Section (Form) */}
         <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-6">
-          <h1 className="text-3xl text-loginBlue font-semibold text-center">
+          <h1 className="text-3xl text-mainGreen font-semibold text-center">
             Verify OTP
           </h1>
-          <h4 className="font-light text-sm text-loginBlue text-center mt-1">
+          <h4 className="font-light text-sm text-mainGreen text-center mt-1">
             Enter the OTP sent to your email
           </h4>
 
