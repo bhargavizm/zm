@@ -18,7 +18,9 @@ const emailTemplates = {
     `,
   }),
 
-  login: (user) => ({
+
+  loginNotification: (user) => ({
+
     subject: "Login Successful",
     html: `
       <p>Hi ${user.name},</p>
@@ -61,8 +63,10 @@ const emailTemplates = {
       ? "Password Reset Successful"
       : "Password Reset Failed",
     html: success
-      ? <p>Hi ${user.name}, your password has been successfully reset on ZM QR Code.</p>
-      : <p>Hi ${user.name}, password reset failed on ZM QR Code. Please try again.</p>,
+
+      ? `<p>Hi ${user.name}, your password has been successfully reset on ZM QR Code.</p>`
+      : `<p>Hi ${user.name}, password reset failed on ZM QR Code. Please try again.</p>`,
+
   }),
 
   download: (user) => ({
@@ -114,16 +118,26 @@ const emailTemplates = {
       <p>If this wasn’t you, please contact our support team immediately.</p>
     `,
   }),
+
+  planExpiryReminder: (user, message) => ({
+    subject: "QR Code Expiry Reminder",
+    html: `
+      <p>Hi ${user.name},</p>
+      <p>${message}</p>
+    `,
+  }),
 };
 
-// ✅ Common function to send emails
+
 export async function triggerMessage(user, type, extra = null) {
   try {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS, // App Password if 2FA enabled
+
+        pass: process.env.EMAIL_PASS, // App Password if 2FA
+
       },
     });
 
@@ -146,3 +160,4 @@ export async function triggerMessage(user, type, extra = null) {
     throw err;
   }
 }
+

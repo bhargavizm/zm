@@ -1,6 +1,4 @@
 import nodemailer from "nodemailer";
-console.log("Mailer module loaded");
-console.log("EMAIL_USER:", process.env.EMAIL_USER, process.env.EMAIL_PASS);
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -10,7 +8,6 @@ const transporter = nodemailer.createTransport({
 });
 
 export const sendEmail = async (to, subject, message) => {
-  console.log("Sending OTP to:", to, subject, message);
   try {
     const mailOptions = {
       from: process.env.EMAIL_USER,
@@ -18,12 +15,14 @@ export const sendEmail = async (to, subject, message) => {
       subject,
       text: message,
     };
+
     const info = await transporter.sendMail(mailOptions);
     console.log("Email sent:", info.messageId);
   } catch (err) {
     console.error("Error sending email:", err);
   }
 };
+
 
 export const sendOtpEmail = async (to, name, otp) => {
   const subject = "Welcome to ZM QR Code Services – Verify Your Email";
@@ -64,3 +63,4 @@ The ZM QR Code Services Team`;
 
   return await sendEmail(to, subject, message);
 };
+
