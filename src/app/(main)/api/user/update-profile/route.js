@@ -38,15 +38,18 @@ export async function PUT(request) {
       );
     }
 
-    // Check if email already exists for another user
+    // Check if email already exists for another user (case-insensitive)
     const existingUserWithEmail = await User.findOne({
-      email: email.toLowerCase(),
-      _id: { $ne: user._id }
+      email: { $regex: new RegExp(`^${email}$`, 'i') }, // Case-insensitive match
+      _id: { $ne: user._id } // Exclude current user
     });
 
     if (existingUserWithEmail) {
       return NextResponse.json(
-        { success: false, message: 'Email already exists' },
+        { 
+          success: false, 
+          message: 'Email already exists. Please use a different email address.' 
+        },
         { status: 400 }
       );
     }
@@ -54,12 +57,15 @@ export async function PUT(request) {
     // Check if phone number already exists for another user
     const existingUserWithPhone = await User.findOne({
       phone: phone,
-      _id: { $ne: user._id }
+      _id: { $ne: user._id } // Exclude current user
     });
 
     if (existingUserWithPhone) {
       return NextResponse.json(
-        { success: false, message: 'Phone number already exists' },
+        { 
+          success: false, 
+          message: 'Phone number already exists. Please use a different phone number.' 
+        },
         { status: 400 }
       );
     }
@@ -67,8 +73,15 @@ export async function PUT(request) {
     // Update the user
     const updatedUser = await User.findByIdAndUpdate(
       user._id,
-      { name, email: email.toLowerCase(), phone },
-      { new: true, runValidators: true }
+      { 
+        name: name.trim(),
+        email: email.toLowerCase().trim(), // Store email in lowercase
+        phone: phone.trim()
+      },
+      { 
+        new: true, 
+        runValidators: true 
+      }
     ).select('-password -verifyOtp');
 
     if (!updatedUser) {
@@ -89,7 +102,19 @@ export async function PUT(request) {
     if (error.name === 'ValidationError') {
       const errors = Object.values(error.errors).map(e => e.message);
       return NextResponse.json(
-        { success: false, message: 'Validation error', errors },
+        { success: false, message: 'Validation error', errors: errors.join(', ') },
+        { status: 400 }
+      );
+    }
+    
+    // Handle duplicate key errors (MongoDB unique constraint)
+    if (error.code === 11000) {
+      const field = Object.keys(error.keyValue)[0];
+      return NextResponse.json(
+        { 
+          success: false, 
+          message: `${field.charAt(0).toUpperCase() + field.slice(1)} already exists. Please use a different ${field}.` 
+        },
         { status: 400 }
       );
     }
