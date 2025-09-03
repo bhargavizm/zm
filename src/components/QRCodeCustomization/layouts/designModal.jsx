@@ -11,7 +11,6 @@ import { FaLongArrowAltDown } from "react-icons/fa";
 import PreviewPanel from "../previewTab/previewPanel";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import ImageToQRDesign from "../designTabs/ownImage/ImageToQRDesign";
-import ComingSoonModal from "@/components/modalPopUps/comingSoonModal";
 import DownloadButton from "../previewTab/downloadButton";
 
 const tabs = [

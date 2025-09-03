@@ -72,7 +72,7 @@ export default function Invite() {
 
         <button
           type="submit"
-          className="px-4 py-2 bg-mainGreen text-white rounded-md hover:bg-green-700"
+          className="px-4 py-2 bg-mainGreen text-white rounded-md cursor-pointer hover:font-bold transition-effects"
         >
           Send Invite
         </button>

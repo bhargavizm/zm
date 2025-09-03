@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Eye, EyeOff, MapPin, X, Check } from "lucide-react";
-import NFCModal from "@/components/modalPopUps/nfcModal";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import { setVehicleServices } from "@/redux/slices/servicesSlice";
 import { useDispatch } from "react-redux";

@@ -157,10 +157,10 @@ export default function SignupPage() {
 
         {/* Right Section (Form) */}
         <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-6">
-          <h1 className="text-3xl text-loginBlue font-semibold text-center">
+          <h1 className="text-3xl text-mainGreen font-semibold text-center">
             Welcome!
           </h1>
-          <h4 className="font-light text-sm text-loginBlue text-center mt-1">
+          <h4 className="font-light text-sm text-mainGreen text-center mt-1">
             Sign in to your ZM QR Code account
           </h4>
 
@@ -362,7 +362,7 @@ export default function SignupPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full my-2 relative text-white font-medium px-6 py-2 rounded-sm bg-[#008080] hover:bg-[#DF8788] transition"
+              className="w-full my-2 relative transition-effects cursor-pointer text-white font-medium px-6 py-2 rounded-sm bg-[#008080] transition"
             >
               {loading ? "Processing..." : "Done"}
             </button>

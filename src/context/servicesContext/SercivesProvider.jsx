@@ -6,12 +6,6 @@ import { ServicesContext } from "./ServicesContext";
 import { usePathname } from "next/navigation";
 
 const ServicesProvider = ({ children }) => {
-  // --- Initial State Definitions for all forms ---
-  // This is crucial for the reset functionality.
-  // Define these outside the component or memoize them if they are truly static
-  // to prevent re-creation on every render, but for clarity, defining them here
-  // is fine for now.
-
   const [servicesDataLoading, setServicesDataLoading] = useState(false);
   const pathname = usePathname();
   const [activeService, setActiveService] = useState(null);
@@ -75,7 +69,7 @@ const ServicesProvider = ({ children }) => {
     },
   };
 
-  //businessshops
+  //business shops
   const [businessShopFormData, setBusinessShopFormData] = useState({
     businessName: "",
     businessType: "",
@@ -111,6 +105,7 @@ const ServicesProvider = ({ children }) => {
     },
   });
 
+  //product
   const initialProductData = {
     productLogo: "",
     brandName: "",
@@ -146,6 +141,7 @@ const ServicesProvider = ({ children }) => {
     },
   };
 
+  //audio
   const initialAudioFormData = {
     title: "",
     description: "",
@@ -179,6 +175,7 @@ const ServicesProvider = ({ children }) => {
     },
   };
 
+  //video
   const initialVideoFormData = {
     title: "",
     description: "",
@@ -211,6 +208,7 @@ const ServicesProvider = ({ children }) => {
     },
   };
 
+  //pdf
   const initialPdfFormData = {
     title: "",
     description: "",
@@ -244,6 +242,7 @@ const ServicesProvider = ({ children }) => {
     },
   };
 
+  //gallery
   const initialImagesFormData = {
     title: "",
     description: "",
@@ -276,6 +275,7 @@ const ServicesProvider = ({ children }) => {
     },
   };
 
+  //resume
   const initialResumeFormData = {
     resumeFile: [],
     resumeUrl: "",
@@ -296,6 +296,8 @@ const ServicesProvider = ({ children }) => {
       qrCodeStatus: "",
     },
   };
+
+  //wifi
   const initialWifiFormData = {
     ssid: "",
     password: "",
@@ -317,12 +319,11 @@ const ServicesProvider = ({ children }) => {
     },
   };
 
+  //events
   const initialEventsFormData = {
     organizer: "",
     title: "",
     summary: "",
-    // buttonLabel: "Buy Tickets",
-    // buttonLink: "www.YourWebsite.com",
     fromDate: "",
     toDate: "",
     venue: "",
@@ -351,6 +352,7 @@ const ServicesProvider = ({ children }) => {
     },
   };
 
+  //sms
   const initialSmsFormData = {
     genderName: "",
     messageType: "",
@@ -374,6 +376,7 @@ const ServicesProvider = ({ children }) => {
     },
   };
 
+  //text message
   const initialTextMessageForm = {
     sender: "",
     message: "",
@@ -395,8 +398,7 @@ const ServicesProvider = ({ children }) => {
     },
   };
 
-  // Menu Book (Original structure)
-  // Inside your ServiceContextProvider
+  //menu book
   const [menuBookFormData, setMenuBookFormData] = useState({
     restaurantName: "",
     menuItems: [], // array of { image: "blob-url" }
@@ -421,6 +423,7 @@ const ServicesProvider = ({ children }) => {
     },
   });
 
+  //property
   const [propertyDetails, setPropertyDetails] = useState({
     basicInfo: {
       propertyName: "",
@@ -460,6 +463,7 @@ const ServicesProvider = ({ children }) => {
     },
   });
 
+  //petID
   const initialPetIDFormData = {
     mainImage: null,
     ownerInfo: {
@@ -495,6 +499,7 @@ const ServicesProvider = ({ children }) => {
     },
   };
 
+  // Dynamic Forms Initial States
   const initialDynamicForms = {
     medicalAlert: {
       patientInfo: {
@@ -684,6 +689,7 @@ const ServicesProvider = ({ children }) => {
     },
   };
 
+  
   const resetAllDynamicForms = () => {
     const resetState = {};
     Object.keys(initialDynamicForms).forEach((key) => {
@@ -833,10 +839,136 @@ const ServicesProvider = ({ children }) => {
     }));
   };
 
+  const resetAllForms = () => {
+    setFormData({
+     url: "",
+    password: "",
+    qrCodeDetails: {
+      qrCodeImage: "",
+      scanCount: 0,
+      lastScanAt: null,
+      scanHistory: [],
+      lastScanLocation: {
+        city: "",
+        region: "",
+        country: "",
+        lat: null,
+        lon: null,
+      },
+      qrCodeStatus: "",
+    },
+  })
+  setBusinessForm(initialBusinessForm);
+  setBusinessShopFormData({  businessName: "",
+    businessType: "",
+    description: "",
+    openingTime: "",
+    closingTime: "",
+    discount: "",
+    contact: {
+      owner: "",
+      phone: "",
+      altPhone: "",
+      email: "",
+      address: "",
+      mapLink: "",
+    },
+    shopLogo: "",
+    shopImages: [],
+    password: "",
+    bgDesign: "",
+    qrCodeDetails: {
+      qrCodeImage: "",
+      scanCount: 0,
+      lastScanAt: null,
+      scanHistory: [],
+      lastScanLocation: {
+        city: "",
+        region: "",
+        country: "",
+        lat: null,
+        lon: null,
+      },
+      qrCodeStatus: "",
+    }}); // adapt based on your initial state
+  setProductData(initialProductData);
+  setAudioFormData(initialAudioFormData);
+  setVideoFormData(initialVideoFormData);
+  setPdfFormData(initialPdfFormData);
+  setImagesFormData(initialImagesFormData);
+  setResumeFormData(initialResumeFormData);
+  setWifiFormData(initialWifiFormData);
+  setEventsFormData(initialEventsFormData);
+  setSmsFormData(initialSmsFormData);
+  setTextMessageForm(initialTextMessageForm);
+  setMenuBookFormData({
+    restaurantName: "",
+    menuItems: [],
+    phone: "",
+    email: "",
+    link: "",
+    password: "",
+    bgDesign: "",
+    qrCodeDetails: { qrCodeImage: "", scanCount: 0 },
+  });
+  setPetIDFormData(initialPetIDFormData);
+  setPropertyDetails({
+    basicInfo: {
+      propertyName: "",
+      propertyType: "",
+      ownerName: "",
+      contactNumber: "",
+      alternateNumber: "",
+      propertyDescription: "",
+    },
+    addressInfo: {
+      address: "",
+      mapLink: "",
+    },
+    pricingInfo: {
+      price: "",
+      area: "",
+      amenities: "",
+    },
+    images: {
+      galleryImages: [],
+    },
+    password: "",
+    bgDesign: "",
+    qrCodeDetails: {
+      qrCodeImage: "",
+      scanCount: 0,
+      lastScanAt: null,
+      scanHistory: [],
+      lastScanLocation: {
+        city: "",
+        region: "",
+        country: "",
+        lat: null,
+        lon: null,
+      },
+      qrCodeStatus: "",
+    },
+  });
+  resetAllDynamicForms();
+};
+
+// STEP 2: call reset whenever pathname changes
+useEffect(() => {
+  if (pathname.includes("/services/")) {
+    const serviceName = pathname.split("/services/")[1]?.split("/")[0];
+    setActiveService(serviceName);
+
+    // 🔥 reset all forms when service changes
+    resetAllForms();
+  }
+}, [pathname]);
+
+
   return (
     <ServicesContext.Provider
       value={{
-        // Static forms and their setters
+         resetAllForms,
         businessShopFormData,
         setBusinessShopFormData,
         formData,

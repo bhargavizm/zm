@@ -7,7 +7,6 @@ import ScrollToTop from "@/components/scrollToTop/scrollToTop";
 import { LanguageProvider } from "@/context/languageContext/LanguageContext";
 import DesignProvider from "@/context/qrCodeDesignContext/DesignProvider";
 import ServicesProvider from "@/context/servicesContext/SercivesProvider";
-import PremiumProvider from "@/context/premiumContext/PremiumProvider";
 import ReduxProvider from "@/redux/reduxProvider/reduxProvider";
 
 export const metadata = {
@@ -35,14 +34,12 @@ export default function RootLayout({ children }) {
         />
         <ReduxProvider>
           <LanguageProvider>
-            <PremiumProvider>
               <ServicesProvider>
                 <DesignProvider>
                   <ScrollToTop />
                   {children}
                 </DesignProvider>
               </ServicesProvider>
-            </PremiumProvider>
           </LanguageProvider>
         </ReduxProvider>
       </body>

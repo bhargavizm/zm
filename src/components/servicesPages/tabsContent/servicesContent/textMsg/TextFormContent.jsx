@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import useServicesContext from "@/components/hooks/useServiceContext";
-import NFCModal from "@/components/modalPopUps/nfcModal";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useDispatch } from "react-redux";
 import { useParams, useRouter } from "next/navigation";
@@ -97,7 +96,6 @@ const TextMessageContent = () => {
           </div>
         </div>
 
-        {/* <NFCModal /> */}
 <div className="flex justify-center items-center">
         <button
           type="submit"

@@ -3,7 +3,6 @@
 import LoadingSpinner from "@/components/common/spinner";
 import useDesignContext from "@/components/hooks/useDesignContext";
 import useServicesContext from "@/components/hooks/useServiceContext";
-import NFCModal from "@/components/modalPopUps/nfcModal";
 import { setSmsServices } from "@/redux/slices/servicesSlice";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
@@ -214,8 +213,6 @@ const SmsContent = () => {
                       {showPassword ? <FiEye /> : <FiEyeOff />}
                     </button>
                   </div>
-
-                  {/* <NFCModal/> */}
                 </div>
 
                 {/* Submit Button */}

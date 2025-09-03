@@ -287,7 +287,7 @@ const MenuBookContent = () => {
             </button>
           </div>
 
-          {/* <NFCModal /> */}
+
 
           <div className="flex justify-center items-center">
             <button

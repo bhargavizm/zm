@@ -6,7 +6,6 @@ import useRazorpayPayment from "../../servicesData/rozorpayPayments";
 import LoadingSpinner from "@/components/common/spinner";
 import useServicesContext from "@/components/hooks/useServiceContext";
 import { useRouter } from "next/navigation";
-import usePremiumContext from "@/components/hooks/usePremiumContext";
 import useDesignContext from "@/components/hooks/useDesignContext";
 
 const formatDate = (dateStr) => {
@@ -31,7 +30,6 @@ const EncryptedPricesModalPopUp = ({
 
   const { selectedPremiumItem } = useDesignContext();
   const { servicesDataLoading, setServicesDataLoading } = useServicesContext();
-  const { premiumEnabled } = usePremiumContext();
   const { startPayment } = useRazorpayPayment();
   const router = useRouter();
 
@@ -68,7 +66,7 @@ const EncryptedPricesModalPopUp = ({
             ? "Lifetime"
             : `${priceDetails.validityDays} Days`,
         validityDays:
-          priceDetails.plan === "Free" ? 3650 : priceDetails.validityDays,
+          priceDetails.plan === "Free" ? 90 : priceDetails.validityDays,
         premiumStickerPlan: premiumAddon.toString(),
         totalAmount: finalPrice.toString(),
       };
@@ -199,7 +197,7 @@ const EncryptedPricesModalPopUp = ({
           <button
             onClick={handleBuy}
             disabled={servicesDataLoading}
-            className={`w-full mt-6 px-6 py-3 rounded-lg font-semibold text-white transition duration-200 ${
+            className={`w-full mt-6 px-6 py-3 cursor-pointer rounded-lg font-semibold text-white transition duration-200 ${
               servicesDataLoading
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-teal-600 hover:bg-teal-700"

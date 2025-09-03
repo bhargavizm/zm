@@ -2,6 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import { DesignContext } from "../qrCodeDesignContext/DesignContext";
+import { usePathname } from "next/navigation";
+
+
 
 const DEFAULT_LOGO = "/images/logos/insta.webp";
 const DEFAULT_STICKER = "/images/stickers/graduation.webp";
@@ -9,7 +12,6 @@ const DEFAULT_PREVIEW_IMAGE = "/invester.webp"; // 👈 default fallback image
 
 const DesignProvider = ({ children }) => {
   const [bgDesign, setBgDesign] = useState(null);
-
   const [selectedQRShape, setSelectedQRShape] = useState("square");
   const [selectedBodyFrame, setSelectedBodyFrame] = useState("heart");
   const [selectedEyeFrame, setSelectedEyeFrame] = useState("rounded");
@@ -17,30 +19,27 @@ const DesignProvider = ({ children }) => {
   const [selectedSticker, setSelectedSticker] = useState(DEFAULT_STICKER);
   const [selectedQRCodeImage, setSelectedQRCodeImage] = useState("");
   const [selectedPremiumItem, setSelectedPremiumItem] = useState(false);
-
   const [backgroundImage, setBackgroundImage] = useState(null);
   const [imageScale, setImageScale] = useState(80);
-
   const [matrix, setMatrix] = useState([]);
   const [text, setText] = useState("https://www.zmqrcode.com/");
   const [qrCodeUrl, setQrCodeUrl] = useState("");
   const [noiseDensity, setNoiseDensity] = useState(0.2);
   const [strokeWidth, setStrokeWidth] = useState(8);
-
   const [selectedLogo, setSelectedLogo] = useState(DEFAULT_LOGO);
   const [logoSize, setLogoSize] = useState(35); // for inner selected logo
   const [companyLogoSize, setCompanyLogoSize] = useState(105); // for outer company logo
   const [customLogo, setCustomLogo] = useState(null);
-
-  const [finalImages, setFinalImages] = useState([]);
   const [freePlanCount, setFreePlanCount] = useState(0);
-
   const [isLoading, setIsLoading] = useState(false);
-
   const [qrColor, setQrColor] = useState("#000000");
-
   const [activeTabs, setActiveTabs] = useState({}); // { slug: tab }
   // const [qrColor, setQrColor] = useState("#000000");
+  //sticker,shapes
+   const [premiumEnabled, setPremiumEnabled] = useState(false);
+  const [showPremiumModal, setShowPremiumModal] = useState(false);
+
+    const pathname = usePathname();
 
   const moduleSize = 8;
   const padding = 2;
@@ -86,52 +85,53 @@ const DesignProvider = ({ children }) => {
   };
 
   // Reset function to clear everything and set default preview
-  // Reset function to clear everything and set default preview
   const resetPreview = () => {
     setBgDesign(null);
     setSelectedQRShape("square"); // 👈 fallback shape
     setSelectedBodyFrame("heart"); // 👈 fallback body frame
     setSelectedEyeFrame("rounded"); // 👈 fallback eye frame
     setSelectedEyeBall("circle"); // 👈 fallback eyeball
-
     setSelectedLogo(DEFAULT_LOGO); // 👈 fallback logo
     setSelectedSticker(DEFAULT_STICKER); // 👈 fallback sticker
     setBackgroundImage(null);
 
-    setFinalImages(DEFAULT_PREVIEW_IMAGE); // 👈 show default preview image
-    localStorage.setItem("finalImages", JSON.stringify(DEFAULT_PREVIEW_IMAGE));
+     setPremiumEnabled(false);
+  setShowPremiumModal(false);
+  setSelectedPremiumItem(false);
   };
 
+    useEffect(() => {
+    if (pathname?.startsWith("/services/")) {
+      resetPreview();
+    }
+  }, [pathname]);
+
   // Load persisted values on mount
-  useEffect(() => {
-    if (typeof window === "undefined") return;
+  // useEffect(() => {
+  //   if (typeof window === "undefined") return;
 
-    const savedQR = localStorage.getItem("selectedQRShape");
-    const savedLogo = localStorage.getItem("selectedLogo");
-    const savedSticker = localStorage.getItem("selectedSticker");
-    // const savedLogoSize = localStorage.getItem("logoSize");
-    // const savedScale = localStorage.getItem("scale");
+  //   const savedQR = localStorage.getItem("selectedQRShape");
+  //   const savedLogo = localStorage.getItem("selectedLogo");
+  //   const savedSticker = localStorage.getItem("selectedSticker");
+  //   // const savedLogoSize = localStorage.getItem("logoSize");
+  //   // const savedScale = localStorage.getItem("scale");
 
-    if (savedQR) setSelectedQRShape(savedQR);
-    if (savedLogo) setSelectedLogo(savedLogo);
-    if (savedSticker) setSelectedSticker(savedSticker);
-    // if (savedLogoSize) setLogoSize(parseInt(savedLogoSize));
-    // if (savedScale) setScale(parseInt(savedScale));
-  }, []);
+  //   if (savedQR) setSelectedQRShape(savedQR);
+  //   if (savedLogo) setSelectedLogo(savedLogo);
+  //   if (savedSticker) setSelectedSticker(savedSticker);
+  //   // if (savedLogoSize) setLogoSize(parseInt(savedLogoSize));
+  //   // if (savedScale) setScale(parseInt(savedScale));
+  // }, []);
 
-  useEffect(() => {
-    const saved = localStorage.getItem("finalImages");
-    if (saved) setFinalImages(JSON.parse(saved));
-  }, []);
+
 
   return (
     <DesignContext.Provider
       value={{
+        premiumEnabled, setPremiumEnabled,showPremiumModal, setShowPremiumModal,
         selectedPremiumItem, setSelectedPremiumItem,
         selectedQRCodeImage,
         setSelectedQRCodeImage,
-        finalImages,
-        setFinalImages,
         resetPreview,
         text,
         setText,
