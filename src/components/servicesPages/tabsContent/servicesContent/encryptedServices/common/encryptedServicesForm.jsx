@@ -12,7 +12,7 @@ import useServicesContext from "@/components/hooks/useServiceContext";
 import LoadingSpinner from "@/components/common/spinner";
 
 const planPrices = {
-    Free: "₹0",
+  Free: "₹0",
   Basic: "₹999",
   Starter: "₹1799",
   Pro: "₹2499",
@@ -21,7 +21,7 @@ const planPrices = {
 };
 
 const planLimits = {
-   // Free: 5 * 1024 * 1024 * 1024, // 5 GB
+  // Free: 5 * 1024 * 1024 * 1024, // 5 GB
   Basic: 1 * 1024 * 1024 * 1024, // 1 GB
   Starter: 2 * 1024 * 1024 * 1024, // 2 GB
   Pro: 3 * 1024 * 1024 * 1024, // 3 GB
@@ -39,7 +39,6 @@ const getRequiredPlan = (size, isFreeUser = false) => {
   );
   return matchedPlan ? matchedPlan[0] : "Exceeds all plans";
 };
-
 
 const EncryptedServicesForm = ({
   formData,
@@ -113,20 +112,17 @@ const EncryptedServicesForm = ({
       const currentLimit = planLimits[userPlan];
       const requiredPlan = getRequiredPlan(updatedSize);
 
-      if (updatedSize > currentLimit) {
-        setUpgradeInfo({
-          fileSize: updatedSize,
-          requiredPlan,
-          requiredPlanLimit: planLimits[requiredPlan],
-          currentPlan: userPlan,
-          currentLimit,
-          nextPrice: planPrices[requiredPlan],
-        });
+      // ✅ Always set upgradeInfo, even if within current limit
+      setUpgradeInfo({
+        fileSize: updatedSize,
+        requiredPlan,
+        requiredPlanLimit: planLimits[requiredPlan],
+        currentPlan: userPlan,
+        currentLimit,
+        nextPrice: planPrices[requiredPlan],
+      });
 
-        setShowUpgradeModal(true);
-      } else {
-        setUpgradeInfo(null);
-      }
+      setShowUpgradeModal(true);
 
       setFormData((prev) => ({ ...prev, [fileKey]: updatedFiles }));
     } else {
@@ -174,9 +170,7 @@ const EncryptedServicesForm = ({
 
     // Optional: still update state if needed later
     setFormData(updatedFormData);
-     setActiveTab(slug, "Backdrop Designs");
-
-   
+    setActiveTab(slug, "Backdrop Designs");
   };
 
   return (
@@ -247,18 +241,41 @@ const EncryptedServicesForm = ({
                       (acc, f) => acc + f.size,
                       0
                     );
+
                     setFormData((prev) => ({
                       ...prev,
                       [fileKey]: updatedFiles,
                     }));
                     setTotalSize(newSize);
                     setSizeWarning(getPlanErrorMessage(newSize));
-                    // if (!updatedFiles.length && fileInputRef.current) {
-                    //   fileInputRef.current.value = "";
-                    // }
-                    //                     if (fileInputRef.current) {
-                    //   fileInputRef.current.value = "";
-                    // }
+
+                    // Recalculate upgradeInfo
+                    const currentLimit = planLimits[userPlan];
+                    const requiredPlan = getRequiredPlan(newSize);
+
+                    const info = {
+                      fileSize: newSize,
+                      requiredPlan,
+                      requiredPlanLimit: planLimits[requiredPlan],
+                      currentPlan: userPlan,
+                      currentLimit,
+                      nextPrice: planPrices[requiredPlan],
+                    };
+                    setUpgradeInfo(info);
+
+                    // ✅ Show toast with the same content as modal
+                    const toastMessage =
+                      requiredPlan === "Exceeds all plans"
+                        ? `❌ Any plan is not enough to support this upload.`
+                        : newSize <= currentLimit
+                        ? `✅ You are in ${userPlan} plan (${
+                            planPrices[userPlan]
+                          }) with limit up to ${formatBytes(currentLimit)}.`
+                        : `💡 You are in ${requiredPlan} plan (${
+                            planPrices[requiredPlan]
+                          }) to upload ${formatBytes(newSize)}.`;
+
+                    toast(toastMessage, { duration: 5000 });
                   }}
                   className="text-red-600 cursor-pointer"
                 >
@@ -302,8 +319,6 @@ const EncryptedServicesForm = ({
               </button>
             </div>
           </div>
-
-          {/* <NFCModal /> */}
 
           {/* Submit Button */}
           <div className="flex justify-center items-center pt-6">
@@ -422,7 +437,7 @@ const EncryptedServicesForm = ({
 
       {/* Upgrade Modal */}
       {showUpgradeModal && upgradeInfo && (
-                 <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
+        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md bg-black/30">
           <div className="bg-white relative rounded-xl shadow-xl p-6 w-full max-w-xl max-h-[90vh] border border-teal-200 mx-4 sm:mx-auto">
             <h2
               className={`text-xl font-bold text-center flex items-center justify-center gap-2 ${
@@ -459,18 +474,18 @@ const EncryptedServicesForm = ({
         </p> */}
 
               {upgradeInfo.requiredPlan === "Exceeds all plans" ? (
+                <p>❌ Any plan is not enough to support this upload.</p>
+              ) : upgradeInfo.fileSize <= upgradeInfo.currentLimit ? (
                 <p>
-                  ❌ {"  "}
-                  {/*  Even our highest plan (<b>Ultima</b>) with{" "}
-            <b>{formatBytes(planLimits["Ultima"])}</b> limit */}
-                  Any plan is not enough to support this upload.
+                  ✅ You are in <b>{upgradeInfo.currentPlan}</b> plan (
+                  <b>{planPrices[upgradeInfo.currentPlan]}</b>) with limit up to{" "}
+                  <b>{formatBytes(upgradeInfo.currentLimit)}</b>.
                 </p>
               ) : (
                 <p>
                   💡 Now, You are in <b>{upgradeInfo.requiredPlan}</b> plan (
-                  <b>{upgradeInfo.nextPrice}</b>)
-                  {/* to upload up to{" "}
-            <b>{formatBytes(upgradeInfo.requiredPlanLimit)}</b>. */}
+                  <b>{upgradeInfo.nextPrice}</b>) with limit up to{" "}
+                  <b>{formatBytes(upgradeInfo.requiredPlanLimit)}</b>.
                 </p>
               )}
             </div>
