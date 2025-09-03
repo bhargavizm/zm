@@ -1,7 +1,8 @@
-// /app/api/user/services/deleteService.js
 import { connectDB } from "@/lib/mongoDB";
 import serviceModelMap from "@/app/(main)/api/common/allServiceModels";
 import ShortLink from "@/models/shortLinkSchema";
+import User from "@/models/auth/userSchema";
+import { triggerMessage } from "@/lib/mailer/triggerMessage";
 
 export async function DELETE(req, context) {
   try {
@@ -50,6 +51,18 @@ export async function DELETE(req, context) {
     // ✅ Delete related ShortLink entries
     await ShortLink.deleteMany({ fullUrl: new RegExp(serviceId) });
 
+    // ✅ Trigger email to user about deletion
+    try {
+      const user = await User.findById(userId);
+      if (user) {
+        await triggerMessage(user, "serviceDeleted", serviceName);
+        console.log(`Service deletion email sent to: ${user.email}`);
+      }
+    } catch (emailErr) {
+      console.error("[Email Error] Service deletion:", emailErr.message);
+      // Do not block deletion if email fails
+    }
+
     return Response.json({
       success: true,
       message: `Service ${serviceName} and its related short links have been deleted successfully.`,
@@ -57,7 +70,11 @@ export async function DELETE(req, context) {
   } catch (err) {
     console.error("❌ Error deleting service:", err);
     return Response.json(
-      { success: false, message: "Something went wrong while deleting the service. Please try again later.", err: err.message },
+      {
+        success: false,
+        message: "Something went wrong while deleting the service. Please try again later.",
+        err: err.message,
+      },
       { status: 500 }
     );
   }

@@ -1,4 +1,4 @@
-// app/layout.jsx
+// src/app/layout.jsx
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import Footer from "@/components/footer/footer";
@@ -9,6 +9,11 @@ import DesignProvider from "@/context/qrCodeDesignContext/DesignProvider";
 import ServicesProvider from "@/context/servicesContext/SercivesProvider";
 import PremiumProvider from "@/context/premiumContext/PremiumProvider";
 import ReduxProvider from "@/redux/reduxProvider/reduxProvider";
+
+// ✅ Start cron job only on server
+if (typeof window === "undefined") {
+  import("@/lib/startCron").then(({ default: initCron }) => initCron());
+}
 
 export const metadata = {
   title: "Zm QR Code Services",
@@ -24,13 +29,13 @@ export default function RootLayout({ children }) {
           reverseOrder={false}
           toastOptions={{
             duration: 5000,
-             style: {
-      fontSize: "18px", // smaller font to fit better
-      padding: "12px 16px",
-      maxWidth: "500px", // limit box size
-      wordBreak: "break-word", // wrap long words/URLs
-      whiteSpace: "pre-wrap", // preserve line breaks but wrap text
-    },
+            style: {
+              fontSize: "18px",
+              padding: "12px 16px",
+              maxWidth: "500px",
+              wordBreak: "break-word",
+              whiteSpace: "pre-wrap",
+            },
           }}
         />
         <ReduxProvider>
