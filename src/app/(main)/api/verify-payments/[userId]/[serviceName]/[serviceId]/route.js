@@ -109,7 +109,14 @@ export async function POST(req, { params }) {
 
     doc.qrCodeDetails = doc.qrCodeDetails || {};
     doc.qrCodeDetails.qrCodeImage = qrImageUrl || "";
-    doc.qrCodeDetails.qrCodeStatus = startDate < endDate ? "active" : "inactive";
+const now = new Date();
+
+if (now > endDate) {
+  doc.qrCodeDetails.qrCodeStatus = "expired";
+} else {
+  doc.qrCodeDetails.qrCodeStatus = "active";
+}
+
 
     await doc.save();
 

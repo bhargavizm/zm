@@ -148,7 +148,7 @@ const fetchCurrentLocation = async () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="space-y-8 p-4 bg-gray-50 rounded-xl shadow-lg">
+      <form onSubmit={handleSubmit} className="space-y-8 p-4  rounded-xl">
         {/* Child's Profile Image */}
         <div className="p-6 bg-white rounded-xl shadow-md">
           <h3 className="text-2xl font-semibold mb-6 border-b pb-3">Child's Profile Image</h3>
@@ -265,8 +265,8 @@ const fetchCurrentLocation = async () => {
             <h3 className="text-2xl font-semibold mb-4">Confirm Submission</h3>
             <p className="text-gray-600 mb-6">Are you sure you want to submit this information?</p>
             <div className="flex justify-end space-x-4">
-              <button onClick={() => setShowConfirmationModal(false)} className="px-4 py-2 border rounded-lg hover:bg-gray-100">Back</button>
-              <button onClick={confirmSubmission} className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700" disabled={isSubmitting}>Continue</button>
+              <button onClick={() => setShowConfirmationModal(false)} className="px-4 py-2 border rounded-lg cursor-pointer">Back</button>
+              <button onClick={confirmSubmission} className="px-4 py-2 bg-teal-600 text-white rounded-lg cursor-pointer" disabled={isSubmitting}>Continue</button>
             </div>
           </div>
         </div>
