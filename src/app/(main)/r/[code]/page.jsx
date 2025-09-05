@@ -94,12 +94,12 @@
 //   redirect(record.fullUrl);
 // }
 
-export const runtime = "nodejs"; // force Node.js runtime
-
+import GeoTracker from "./geoTracker";
 import { redirect } from "next/navigation";
-import { headers } from "next/headers";
 import { connectDB } from "@/lib/mongoDB";
 import ShortLink from "@/models/shortLinkSchema";
+
+export const runtime = "nodejs";
 
 export default async function RedirectPage({ params }) {
   const code = params.code;
@@ -110,66 +110,6 @@ export default async function RedirectPage({ params }) {
     redirect("/not-found");
   }
 
-  // 🔹 Get visitor IP
-  let ip =
-    headers().get("x-forwarded-for")?.split(",")[0]?.trim() || // standard
-    headers().get("x-real-ip") ||                                // some hosts
-    headers().get("x-vercel-ip");                                // Vercel
-
-  // 🔁 Localhost fallback (for testing only)
-  if (!ip || ip === "::1" || ip === "127.0.0.1") {
-    ip = "8.8.8.8"; // test IP, will show USA
-  }
-
-  // 🌍 Default location
-  let location = {
-    city: "",
-    region: "",
-    country: "",
-    lat: null,
-    lon: null,
-  };
-
-  // 🔹 Fetch geolocation from ipwho.is
-  try {
-    const res = await fetch(`https://ipwho.is/${ip}`);
-    const data = await res.json();
-    if (data.success) {
-      location = {
-        city: data.city || "",
-        region: data.region || "",
-        country: data.country || "",
-        lat: data.latitude ?? null,
-        lon: data.longitude ?? null,
-      };
-    }
-  } catch (error) {
-    console.error("Geo location fetch failed:", error);
-  }
-
-  // ⏰ Convert UTC → IST (optional, adjust if you want UTC)
-  const istOffsetMinutes = 330; // IST = UTC+5:30
-  const scannedAt = new Date(new Date().getTime() + istOffsetMinutes * 60000);
-
-  // 📌 Update DB
-  await ShortLink.updateOne(
-    { code },
-    {
-      $inc: { scanCount: 1 },
-      $set: {
-        lastScanLocation: location,
-        lastScannedAt: scannedAt,
-      },
-      $push: {
-        scanHistory: {
-          ...location,
-          ip,
-          scannedAt,
-        },
-      },
-    }
-  );
-
-  // 🚀 Redirect to target URL
-  redirect(record.fullUrl);
+  // ⚡ Only show GeoTracker, no DB push here
+  return <GeoTracker targetUrl={record.fullUrl} code={code} />;
 }

@@ -1,4 +1,3 @@
-// src/lib/planExpiryCron.js
 import cron from "node-cron";
 import { connectDB } from "@/lib/mongoDB";
 import User from "@/models/auth/userSchema";
@@ -16,7 +15,7 @@ export function startPlanExpiryCron() {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
 
-      console.log("[Cron] Checking services for expiry reminders:", today.toDateString());
+      console.log("[Cron] Checking services for expiry reminders & expired notices:", today.toDateString());
 
       for (const serviceName in serviceModelMap) {
         const model = serviceModelMap[serviceName];
@@ -34,7 +33,11 @@ export function startPlanExpiryCron() {
             service.priceDetails.reminderSent = [];
           }
 
-          if (reminderWindows.includes(diffDays) && !service.priceDetails.reminderSent.includes(diffDays)) {
+          // ✅ Send pre-expiry reminders
+          if (
+            reminderWindows.includes(diffDays) &&
+            !service.priceDetails.reminderSent.includes(diffDays)
+          ) {
             const user = await User.findById(service.user.id);
             if (!user) continue;
 
@@ -47,14 +50,40 @@ export function startPlanExpiryCron() {
             service.priceDetails.reminderSent.push(diffDays);
             await service.save();
 
-            console.log(`[Cron] Reminder sent to ${user.email} for ${serviceName} (diffDays=${diffDays})`);
+            console.log(
+              `[Cron] Reminder sent to ${user.email} for ${serviceName} (diffDays=${diffDays})`
+            );
+          }
+
+          // ✅ Send expiry notification (only once)
+          if (
+            diffDays < 0 &&
+            service.priceDetails.expiredMessageSent !== true
+          ) {
+            const user = await User.findById(service.user.id);
+            if (!user) continue;
+
+            await triggerMessage(
+              user,
+              "expiry",
+              `Your ${serviceName} plan expired on ${endDate.toDateString()}. Please renew to continue using the service.`
+            );
+
+            // Mark QR as expired + prevent duplicate emails
+            service.qrCodeDetails.qrCodeStatus = "expired";
+            service.priceDetails.expiredMessageSent = true;
+            await service.save();
+
+            console.log(
+              `[Cron] Expiry notice sent to ${user.email} for ${serviceName} (expired on ${endDate.toDateString()})`
+            );
           }
         }
       }
 
-      console.log("✅ Plan expiry reminders check complete");
+      console.log("✅ Plan expiry check complete");
     } catch (err) {
-      console.error("❌ Error sending plan reminders:", err);
+      console.error("❌ Error in plan expiry cron:", err);
     }
   });
 }

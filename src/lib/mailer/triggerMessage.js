@@ -18,9 +18,7 @@ const emailTemplates = {
     `,
   }),
 
-
   loginNotification: (user) => ({
-
     subject: "Login Successful",
     html: `
       <p>Hi ${user.name},</p>
@@ -59,14 +57,10 @@ const emailTemplates = {
   },
 
   reset: (user, success = true) => ({
-    subject: success
-      ? "Password Reset Successful"
-      : "Password Reset Failed",
+    subject: success ? "Password Reset Successful" : "Password Reset Failed",
     html: success
-
       ? `<p>Hi ${user.name}, your password has been successfully reset on ZM QR Code.</p>`
       : `<p>Hi ${user.name}, password reset failed on ZM QR Code. Please try again.</p>`,
-
   }),
 
   download: (user) => ({
@@ -119,6 +113,11 @@ const emailTemplates = {
     `,
   }),
 
+  expiry: (user, msg) => ({
+    subject: "Your QR Plan Has Expired",
+    html: `<p>Hi ${user.name},</p><p>${msg}</p>`,
+  }),
+
   planExpiryReminder: (user, message) => ({
     subject: "QR Code Expiry Reminder",
     html: `
@@ -128,16 +127,14 @@ const emailTemplates = {
   }),
 };
 
-
-export async function triggerMessage(user, type, extra = null) {
+// ✅ Main mailer function
+async function triggerMessage(user, type, extra = null) {
   try {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
         user: process.env.EMAIL_USER,
-
         pass: process.env.EMAIL_PASS, // App Password if 2FA
-
       },
     });
 
@@ -161,3 +158,8 @@ export async function triggerMessage(user, type, extra = null) {
   }
 }
 
+// ✅ Named export
+export { triggerMessage, emailTemplates };
+
+// ✅ OR if you want default export as well
+// export default triggerMessage;
