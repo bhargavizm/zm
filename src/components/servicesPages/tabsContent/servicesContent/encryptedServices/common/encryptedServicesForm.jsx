@@ -161,7 +161,7 @@ const EncryptedServicesForm = ({
         price: planPrices[requiredPlan],
         storage: bytesToGB(totalSize),
         validityDays: 30,
-        startDate: new Date().toISOString(),
+        // startDate: new Date().toISOString(),
       },
     };
 
