@@ -151,7 +151,7 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
 
       router.push("/user-dashboard/qrCodesLists/");
       const dataUrl = await generateImageFromRef(previewRef);
-      downloadImage(dataUrl);
+      downloadImage(dataUrl, userMeta.serviceName);
 
       toast.success("QR Code downloaded successfully!");
 

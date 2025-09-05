@@ -26,7 +26,7 @@ const qrCodeServicesSchema = new mongoose.Schema(
 
     qrCodeStatus: {
       type: String,
-      enum: ["active", "inactive", "expired"],
+      enum: ["active", "inactive","expired"],
       default: "inactive",
     },
   },

@@ -110,6 +110,7 @@ export async function POST(req, context) {
     doc.qrCodeDetails = doc.qrCodeDetails || {};
     doc.qrCodeDetails.qrCodeImage = qrImageUrl || "";
 
+
     // ✅ Set QR code status (active / inactive / expired)
     const now = new Date();
     if (now >= startDate && now < endDate) {

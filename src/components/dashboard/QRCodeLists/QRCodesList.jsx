@@ -140,6 +140,8 @@ const QRCodesList = () => {
     setIsRenewalModalOpen(true);
   };
 
+  
+
   const handleDownload = async (entry) => {
     setDownloadingId(entry._id);
     try {
@@ -400,6 +402,15 @@ const QRCodesList = () => {
                         >
                           Delete
                         </button>
+
+                        {entry.qrCodeDetails?.qrCodeStatus?.toLowerCase() === "inactive" && (
+    <button
+      onClick={() => openRenewalModal(entry)}
+      className="px-4 py-2 rounded-lg text-sm font-medium bg-yellow-500 text-white hover:bg-yellow-600 transition"
+    >
+      Retry Payment
+    </button>
+  )}
                       </div>
 
                       {/* Renewal */}
