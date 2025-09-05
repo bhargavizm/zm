@@ -26,25 +26,13 @@ const kidsSafetySchema = new mongoose.Schema({
   parentName: { type: String },
   contact: {
     type: String,
-    validate: {
-      validator: (v) => phoneRegex.test(v),
-      message: (props) => `${props.value} is not a valid phone number`,
-    },
   },
   contact2: {
     type: String,
-    validate: {
-      validator: (v) => phoneRegex.test(v),
-      message: (props) => `${props.value} is not a valid phone number`,
-    },
   },
   altContact: [
     {
       type: String,
-      validate: {
-        validator: (v) => phoneRegex.test(v),
-        message: (props) => `${props.value} is not a valid phone number`,
-      },
     },
   ],
 

@@ -24,7 +24,7 @@ const CardsTemplate = ({ businessForm, styles = {} }) => {
       {/* Profile Image */}
       <div className="flex justify-center mt-6">
         <div
-          className={`w-28 h-28 rounded-xl overflow-hidden border-4 shadow ${styles.profileBorder}`}
+          className={`w-38 h-38 rounded-xl overflow-hidden border-4 shadow ${styles.profileBorder}`}
         >
           <Image
             src={profileImageUrl || "/default-user.webp"}

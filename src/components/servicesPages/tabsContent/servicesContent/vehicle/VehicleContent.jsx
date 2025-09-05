@@ -310,14 +310,14 @@ const VehicleContent = () => {
             <button
               type="button"
               onClick={() => setShowConfirmation(false)}
-              className="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition-colors duration-200 flex items-center"
+              className="px-4 py-2 cursor-pointer bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition-colors duration-200 flex items-center"
             >
               Back
             </button>
             <button
               type="button"
               onClick={confirmSubmission}
-              className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors duration-200 flex items-center"
+              className="px-4 py-2 cursor-pointer bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors duration-200 flex items-center"
             >
               Continue
             </button>

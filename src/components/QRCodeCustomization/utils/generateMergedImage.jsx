@@ -27,9 +27,9 @@ export const generateImageFromRef = async (ref, options = {}) => {
 
 
 
-export const downloadImage = (dataUrl) => {
+export const downloadImage = (dataUrl, serviceName) => {
   const link = document.createElement("a");
-  link.download = "qr-code.png";
+  link.download = `${serviceName.replace(/\s+/g, "_")}_qr-code.png`;
   link.href = dataUrl;
   link.click();
 };
