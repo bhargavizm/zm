@@ -1,44 +1,17 @@
-
 export const runtime = "nodejs";
 
 import { connectDB } from "@/lib/mongoDB";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import fs from "fs";
-import path from "path";
-import { v4 as uuidv4 } from "uuid";
+// import { v2 as cloudinary } from "cloudinary";
 import MedicalAlertModel from "@/models/services/medicalAlertSchema";
 import { authUser } from "@/middlewares/authMiddleware";
+import { cloudinary } from "@/utils/cloudinary";
 import { getShortenedUrl } from "@/utils/shortenUrl";
-
-const saveFiles = async (formData, fieldName) => {
-  const files = formData.getAll(fieldName);
-  const savedFiles = [];
-  const uploadDir = path.join(process.cwd(), "public", "uploads", "medical-alert");
-
-  if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
-  }
-
-  for (const file of files) {
-    if (!file || typeof file.arrayBuffer !== "function") continue;
-
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const safeName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_')}`;
-    const filePath = path.join(uploadDir, safeName);
-    fs.writeFileSync(filePath, buffer);
-
-    savedFiles.push({
-      //_id: uuidv4(),
-      fileName: safeName,
-      fileType: file.type,
-    });
-  }
-  return savedFiles;
-};
 
 export async function POST(req) {
   try {
+    // ✅ Step 1: Authenticate User
     const auth = await authUser(req);
     if (auth.status !== 200) {
       return new Response(JSON.stringify(auth.json), {
@@ -50,43 +23,59 @@ export async function POST(req) {
     const user = auth.user;
     await connectDB();
 
+    // ✅ Step 2: Parse Form Data
     const formData = await req.formData();
-
-    // Extract basic fields
     const getString = (key) => formData.get(key)?.toString().trim();
     const age = parseInt(getString("age"), 10) || undefined;
 
-    const qrCodeDetails = {
-      qrCodeImage: getString("qrCodeImage") || "",
-      scanCount: 0,
-    lastScanAt: null,
-    scanHistory: [
-      
-    ],
-    lastScanLocation: {
-      city: "",
-      region: "",
-      country: "",
-      lat: null,
-      lon: null,
-    },
-    qrCodeStatus: "inactive",
-
-    };
-
+    // ✅ Step 3: Password Hash
     const plainPassword = getString("password");
     let hashedPassword = "";
     if (plainPassword) {
-      const salt = await bcrypt.genSalt(10);
-      hashedPassword = await bcrypt.hash(plainPassword, salt);
+      hashedPassword = await bcrypt.hash(plainPassword, 10);
     }
 
-    // Save files
-    const medicalReports = await saveFiles(formData, "medicalReports");
-    const prescription = await saveFiles(formData, "prescription");
-    const insuranceImage = await saveFiles(formData, "insuranceImage");
+    // ✅ Step 4: Upload files to Cloudinary
+    const uploadFiles = async (fieldName, folder) => {
+      const files = formData.getAll(fieldName);
+      const uploaded = [];
 
-    // Create DB record
+      for (const file of files) {
+        if (typeof file.arrayBuffer !== "function") continue;
+
+        const arrayBuffer = await file.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+        const base64 = buffer.toString("base64");
+        const dataUri = `data:${file.type};base64,${base64}`;
+
+        const result = await cloudinary.uploader.upload(dataUri, {
+          folder,
+          public_id: file.name.split(".")[0],
+        });
+
+        uploaded.push({
+          url: result.secure_url,
+          name: file.name,
+        });
+      }
+      return uploaded;
+    };
+
+    const medicalReports = await uploadFiles("medicalReports", "medical-alert/medicalReports");
+    const prescription = await uploadFiles("prescription", "medical-alert/prescription");
+    const insuranceImage = await uploadFiles("insuranceImage", "medical-alert/insuranceImage");
+
+    // ✅ Step 5: QR Code Details
+    const qrCodeDetails = {
+      qrCodeImage: getString("qrCodeImage") || "",
+      scanCount: 0,
+      lastScanAt: null,
+      scanHistory: [],
+      lastScanLocation: { city: "", region: "", country: "", lat: null, lon: null },
+      qrCodeStatus: "inactive",
+    };
+
+    // ✅ Step 6: Create MongoDB Record
     const newRecord = await MedicalAlertModel.create({
       user: { id: user._id, name: user.name },
       bgDesign: getString("bgDesign"),
@@ -121,8 +110,13 @@ export async function POST(req) {
       insuranceImage,
     });
 
+    // ✅ Step 7: Generate QR URL
     const qrUrl = await getShortenedUrl(`/medical-alerts/${newRecord._id}`);
-    return NextResponse.json({ success: true, data: newRecord, qrUrl }, { status: 201 });
+
+    return NextResponse.json(
+      { success: true, message: "Medical Alert created successfully", data: newRecord, qrUrl },
+      { status: 201 }
+    );
   } catch (err) {
     console.error("❌ POST Error:", err);
     return NextResponse.json(

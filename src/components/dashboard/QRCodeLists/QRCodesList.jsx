@@ -82,7 +82,7 @@ const QRCodesList = () => {
       .includes(searchQuery.toLowerCase());
     const matchesStatus = statusFilter
       ? (entry.qrCodeDetails?.qrCodeStatus || "").toLowerCase() ===
-        statusFilter.toLowerCase()
+      statusFilter.toLowerCase()
       : true;
     return matchesSearch && matchesStatus;
   });
@@ -290,11 +290,10 @@ const QRCodesList = () => {
                               onClick={() => handleDownload(entry)}
                               disabled={downloadingId === entry._id}
                               className={`mt-3 px-5 py-2 cursor-pointer rounded-lg text-sm font-semibold shadow-2xs transition-all
-          ${
-            downloadingId === entry._id
-              ? "bg-gray-400 text-gray-200 cursor-not-allowed"
-              : "bg-mainGreen text-white hover:bg-teal-700"
-          }`}
+          ${downloadingId === entry._id
+                                  ? "bg-gray-400 text-gray-200 cursor-not-allowed"
+                                  : "bg-mainGreen text-white hover:bg-teal-700"
+                                }`}
                             >
                               {downloadingId === entry._id
                                 ? "Downloading..."
@@ -366,23 +365,25 @@ const QRCodesList = () => {
                         <div className="flex flex-col gap-1 mt-1">
                           {entry.qrCodeDetails?.scanHistory?.length > 0 ? (
                             entry.qrCodeDetails.scanHistory
-                              .slice(-5) // last 5
+                              .slice(-5)
                               .reverse()
                               .map((scan, i) => (
                                 <div
                                   key={scan._id || i}
                                   className="bg-gray-100 px-2 py-1 rounded-md text-gray-700 text-sm"
                                 >
-                                  {scan.city
-                                    ? `${scan.city}, ${scan.region}, ${scan.country}`
-                                    : scan.country}
+                                  {scan.city || scan.region || scan.country
+                                    ? `${scan.city ? scan.city + ", " : ""}${scan.region ? scan.region + ", " : ""}${scan.country}`
+                                    : scan.lat && scan.lon
+                                      ? `📍 Lat: ${scan.lat.toFixed(4)}, Lon: ${scan.lon.toFixed(4)}`
+                                      : "Unknown"}
                                 </div>
                               ))
                           ) : (
-                            <div className=" px-2 py-1 rounded-md text-black">
-                              - - - - - -
-                            </div>
+                            <div className="px-2 py-1 rounded-md text-black">- - - - - -</div>
                           )}
+
+
                         </div>
                       </div>
                       {/* )} */}
@@ -425,11 +426,10 @@ const QRCodesList = () => {
                         <button
                           onClick={() => openRenewalModal(entry)}
                           disabled={!isExpired(priceDetails.renewalDate)}
-                          className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
-                            isExpired(priceDetails.renewalDate)
-                              ? "bg-mainGreen text-white hover:bg-teal-700 cursor-pointer"
-                              : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                          }`}
+                          className={`px-4 py-2 rounded-lg text-sm font-medium transition ${isExpired(priceDetails.renewalDate)
+                            ? "bg-mainGreen text-white hover:bg-teal-700 cursor-pointer"
+                            : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                            }`}
                         >
                           Renewal payment
                         </button>
@@ -449,11 +449,10 @@ const QRCodesList = () => {
               <button
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
-                className={`px-3 py-1 rounded font-bold ${
-                  currentPage === 1
-                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    : "bg-mainGreen text-white hover:bg-teal-400"
-                }`}
+                className={`px-3 py-1 rounded font-bold ${currentPage === 1
+                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  : "bg-mainGreen text-white hover:bg-teal-400"
+                  }`}
               >
                 Prev
               </button>
@@ -465,11 +464,10 @@ const QRCodesList = () => {
                   setCurrentPage((prev) => Math.min(prev + 1, totalPages))
                 }
                 disabled={currentPage === totalPages}
-                className={`px-3 py-1 rounded font-bold ${
-                  currentPage === totalPages
-                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    : "bg-mainGreen text-white hover:bg-teal-400"
-                }`}
+                className={`px-3 py-1 rounded font-bold ${currentPage === totalPages
+                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  : "bg-mainGreen text-white hover:bg-teal-400"
+                  }`}
               >
                 Next
               </button>

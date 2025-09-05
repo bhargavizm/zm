@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useEffect } from "react";
@@ -12,7 +11,7 @@ const formatLabel = (key) =>
 const MedicalAlertPreview = ({ data }) => {
   const defaultBg = "/services-service/medical-alert.webp";
   const { bgDesign, setBgDesign } = useDesignContext();
-  const excludedSections = ["user", "userId", "status", "qrCodeDetails","priceDetails", ];
+  const excludedSections = ["user", "userId", "status", "qrCodeDetails", "priceDetails"];
 
   useEffect(() => {
     setBgDesign(data?.bgDesign || defaultBg);
@@ -22,7 +21,6 @@ const MedicalAlertPreview = ({ data }) => {
     data &&
     Object.entries(data).some(([key, value]) => {
       if (excludedSections.includes(key)) return false;
-
       if (typeof value === "string") return value.trim() !== "";
       if (typeof value === "object" && value !== null) {
         return Object.values(value).some((val) =>
@@ -49,46 +47,80 @@ const MedicalAlertPreview = ({ data }) => {
     );
   }
 
-  const renderFile = (file) => {
-    const fileUrl = `/uploads/medical-alert/${file.fileName}`;
-    const isImage = file.fileType.startsWith("image/");
+  // ✅ Download handler for cross-origin files
+  const handleDownload = async (fileUrl, fileName) => {
+    try {
+      const response = await fetch(fileUrl);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", fileName || "file");
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Download failed:", err);
+    }
+  };
 
-    return isImage ? (
-      <img
-        key={file.fileName}
-        src={fileUrl}
-        alt={file.fileName}
-        className="w-24 h-24 object-center rounded border"
-      />
-    ) : (
-      <button
-        key={file.fileName}
-        type="button"
-        onClick={() => window.open(fileUrl, "_blank")}
-        className="text-blue-600 underline break-words"
-      >
-        📄 {file.fileName}
-      </button>
+  // ✅ File Renderer (Cloudinary + download)
+  const renderFile = (file) => {
+    const fileUrl = file.url;
+    const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(fileUrl);
+    const isPdf = /\.pdf$/i.test(fileUrl);
+
+    return (
+      <div key={file._id || file.name} className="flex flex-col items-center">
+        {isImage && (
+          <img
+            src={fileUrl}
+            alt={file.name}
+            className="w-24 h-24 object-cover rounded border"
+          />
+        )}
+        {isPdf && (
+          <p className="text-gray-700 text-sm break-words">📄 {file.name}</p>
+        )}
+        <button
+          onClick={() => handleDownload(fileUrl, file.name)}
+          className="mt-2 px-3 py-1 bg-[#004d4d] text-white rounded hover:bg-[#006666] transition"
+        >
+          {isPdf ? "Download PDF" : "Download"}
+        </button>
+      </div>
     );
   };
 
+  // ✅ Render Fields
   const renderFields = (sectionValue) => {
     return Object.entries(sectionValue)
       .filter(([_, val]) => {
         if (typeof val === "string") return val.trim() !== "";
+        if (Array.isArray(val) && val.length === 0) return false;
         if (typeof val === "object" && val !== null) {
           return Object.values(val).some((v) => v && v.toString().trim() !== "");
         }
         return !!val;
       })
       .map(([fieldKey, fieldValue]) => {
+        // File arrays with Cloudinary {url, name}
+        if (Array.isArray(fieldValue) && fieldValue.length > 0 && fieldValue[0]?.url) {
+          return (
+            <div key={fieldKey} className="mb-4 flex flex-wrap gap-4">
+              <strong className="w-full mb-2">{formatLabel(fieldKey)}:</strong>
+              {fieldValue.map((file) => renderFile(file))}
+            </div>
+          );
+        }
+
         // Location object
         if (
           typeof fieldValue === "object" &&
           fieldValue !== null &&
           "latitude" in fieldValue &&
-          "longitude" in fieldValue &&
-          "address" in fieldValue
+          "longitude" in fieldValue
         ) {
           return (
             <div key={fieldKey} className="mb-2">
@@ -97,46 +129,38 @@ const MedicalAlertPreview = ({ data }) => {
                 <p>Latitude: {fieldValue.latitude ?? "N/A"}</p>
                 <p>Longitude: {fieldValue.longitude ?? "N/A"}</p>
                 <p>
-  Address:{" "}
-  {fieldValue.address ? (
-    <a
-      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fieldValue.address)}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="underline text-blue-600 hover:text-blue-800"
-    >
-      {fieldValue.address}
-    </a>
-  ) : (
-    "N/A"
-  )}
-</p>
-
+                  Address:{" "}
+                  {fieldValue.address ? (
+                    <a
+                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                        fieldValue.address
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline text-blue-600 hover:text-blue-800"
+                    >
+                      {fieldValue.address}
+                    </a>
+                  ) : (
+                    "N/A"
+                  )}
+                </p>
               </div>
             </div>
           );
         }
 
-        // File array
-        if (Array.isArray(fieldValue) && fieldValue.length > 0 && fieldValue[0]?.fileName && fieldValue[0]?.fileType) {
+        // Nested object fallback
+        if (typeof fieldValue === "object" && fieldValue !== null) {
           return (
-            <div key={fieldKey} className="mb-4 flex flex-wrap gap-2">
-              <strong className="w-full mb-2">{formatLabel(fieldKey)}:</strong>
-              {fieldValue.map((file) => renderFile(file))}
+            <div key={fieldKey} className="mb-2">
+              <strong>{formatLabel(fieldKey)}:</strong>{" "}
+              <span className="text-gray-600">[object details hidden]</span>
             </div>
           );
         }
 
-        // Nested object
-        if (typeof fieldValue === "object" && fieldValue !== null) {
-          return (
-            <p key={fieldKey} className="mb-2">
-              <strong>{formatLabel(fieldKey)}:</strong> {JSON.stringify(fieldValue)}
-            </p>
-          );
-        }
-
-        // Primitive value
+        // Primitive values
         return (
           <p key={fieldKey} className="mb-2">
             <strong>{formatLabel(fieldKey)}:</strong> {fieldValue}
@@ -156,13 +180,8 @@ const MedicalAlertPreview = ({ data }) => {
         {Object.entries(data).map(([sectionKey, sectionValue]) => {
           if (excludedSections.includes(sectionKey)) return null;
 
-          // Root-level file array
-          if (
-            Array.isArray(sectionValue) &&
-            sectionValue.length > 0 &&
-            sectionValue[0]?.fileName &&
-            sectionValue[0]?.fileType
-          ) {
+          // Root-level file array with Cloudinary {url, name}
+          if (Array.isArray(sectionValue) && sectionValue.length > 0 && sectionValue[0]?.url) {
             return (
               <section
                 key={sectionKey}

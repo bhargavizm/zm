@@ -3,8 +3,17 @@ import mongoose from "mongoose";
 import { qrCodeServicesSchema } from "./common/qrCodeServicesSchema";
 import { encryptedServicesPricingDetailsSchema } from "./common/encryptedServicesPricingDetailsSchema";
 
+// ✅ Reusable File Schema
+const fileItemSchema = new mongoose.Schema(
+  {
+    url: { type: String, required: true },
+    name: { type: String },
+  },
+  { _id: false }
+);
 
-export const commonFieldsSchema = {
+// ✅ Common Fields Schema
+const commonFieldsSchema = {
   user: {
     id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     name: String,
@@ -13,67 +22,18 @@ export const commonFieldsSchema = {
   description: String,
   password: String,
   bgDesign: String,
-   qrCodeDetails: qrCodeServicesSchema,
-   priceDetails:encryptedServicesPricingDetailsSchema
+  files: [fileItemSchema], // same for all
+  qrCodeDetails: qrCodeServicesSchema,
+  priceDetails: encryptedServicesPricingDetailsSchema,
 };
 
+// 🔹 Service Schemas (all identical structure)
+const audioSchema = new mongoose.Schema({ ...commonFieldsSchema }, { timestamps: true });
+const pdfSchema = new mongoose.Schema({ ...commonFieldsSchema }, { timestamps: true });
+const videoSchema = new mongoose.Schema({ ...commonFieldsSchema }, { timestamps: true });
+const gallerySchema = new mongoose.Schema({ ...commonFieldsSchema }, { timestamps: true });
 
-// 🔹 File sub-schema for Audio/PDF
-const fileItemSchema = new mongoose.Schema({
-  fileData: Buffer, // Optional if using Cloudinary
-  fileName: String,
-  fileType: String,
-   localPath: String,
- 
-});
-
-// 🔹 Audio Service
-const audioSchema = new mongoose.Schema(
-  {
-    ...commonFieldsSchema,
-    files: [fileItemSchema], // Audio files
-  },
-  { timestamps: true }
-);
-
-// 🔹 PDF Service
-const pdfSchema = new mongoose.Schema(
-  {
-    ...commonFieldsSchema,
-    files: [fileItemSchema], // PDF files
-  },
-  { timestamps: true }
-);
-
-// 🔹 Video Service
-const videoSchema = new mongoose.Schema(
-  {
-    ...commonFieldsSchema,
-    files: [
-      {
-        url: String,
-        name: String,
-      },
-    ],
-  },
-  { timestamps: true }
-);
-
-// 🔹 Gallery Service
-const gallerySchema = new mongoose.Schema(
-  {
-    ...commonFieldsSchema,
-    files: [
-      {
-        url: String,
-        name: String,
-      },
-    ],
-  },
-  { timestamps: true }
-);
-
-// ✅ Export models (separate collections)
+// ✅ Export Models (separate collections)
 export const AudioServiceModel =
   mongoose.models.AudioService || mongoose.model("AudioService", audioSchema);
 

@@ -9,6 +9,7 @@ const ResumePreview = ({ data }) => {
   const defaultBg = "/services-service/resume.webp";
   const [bgDesign, setBgDesign] = useState(defaultBg);
 
+  // ✅ Use Cloudinary URLs from DB OR local state
   const resumeFiles = data?.resumeFiles || resumeFormData?.resumeFiles || [];
   const resumeUrl = data?.resumeUrl || resumeFormData?.resumeUrl || "";
 
@@ -25,8 +26,11 @@ const ResumePreview = ({ data }) => {
         <div className="relative flex-1 bg-white/70 m-2 rounded-xl overflow-y-auto pt-6 pb-3 px-3 z-20 max-h-full">
           {hasData ? (
             <div className="space-y-4">
-              <h2 className="text-xl font-bold text-center text-[#004d4d]">Resume Preview</h2>
+              <h2 className="text-xl font-bold text-center text-[#004d4d]">
+                Resume Preview
+              </h2>
 
+              {/* ✅ Show files uploaded to Cloudinary */}
               {resumeFiles.length > 0 && (
                 <div className="bg-[#004d4d]/10 p-3 rounded border border-[#004d4d]/20">
                   <div className="flex items-center text-[#004d4d] mb-1">
@@ -35,8 +39,9 @@ const ResumePreview = ({ data }) => {
                   </div>
                   <ul className="text-sm space-y-1">
                     {resumeFiles.map((file, index) => {
-                      const fileName = file?.fileName || "Resume";
-                      const fileUrl = `/uploads/resumes/${fileName}`;
+                      const fileUrl = file?.url; // ✅ cloudinary URL
+                      const fileName =
+                        file?.fileName || fileUrl?.split("/").pop() || "Resume";
 
                       return (
                         <li key={index}>
@@ -54,6 +59,7 @@ const ResumePreview = ({ data }) => {
                 </div>
               )}
 
+              {/* ✅ Show manual URL */}
               {resumeUrl && (
                 <div className="bg-[#004d4d]/10 p-3 rounded border border-[#004d4d]/20">
                   <div className="flex items-center text-[#004d4d] mb-1">
