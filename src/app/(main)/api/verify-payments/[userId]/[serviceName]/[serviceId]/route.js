@@ -1,4 +1,4 @@
-// src/app/(main)/api/verify-payments/[userId]/[serviceName]/[serviceId]/route.js
+// D:\final web\zm\src\app\(main)\api\verify-payments\[userId]\[serviceName]\[serviceId]\route.js
 
 import { NextResponse } from "next/server";
 import crypto from "crypto";
@@ -6,13 +6,12 @@ import serviceModelMap from "@/app/(main)/api/common/allServiceModels";
 import { connectDB } from "@/lib/mongoDB";
 import User from "@/models/auth/userSchema";
 import checkFreePlanEligibility from "@/app/(main)/api/common/checkFreePlanEligibility";
-
-// ✅ Import email trigger
 import { triggerMessage } from "@/lib/mailer/triggerMessage";
 
-export async function POST(req, { params }) {
+export async function POST(req, context) {
   try {
-    // ✅ Use params directly (do NOT await)
+    // ✅ Get params safely
+    const { params } = context;
     const { serviceName, serviceId, userId } = params;
 
     const body = await req.json();
@@ -107,20 +106,24 @@ export async function POST(req, { params }) {
       reminderSent: [], // Track sent reminders
     };
 
+    // ✅ QR details
     doc.qrCodeDetails = doc.qrCodeDetails || {};
     doc.qrCodeDetails.qrCodeImage = qrImageUrl || "";
-const now = new Date();
 
-if (now > endDate) {
-  doc.qrCodeDetails.qrCodeStatus = "expired";
-} else {
-  doc.qrCodeDetails.qrCodeStatus = "active";
-}
 
+    // ✅ Set QR code status (active / inactive / expired)
+    const now = new Date();
+    if (now >= startDate && now < endDate) {
+      doc.qrCodeDetails.qrCodeStatus = "active";
+    } else if (now >= endDate) {
+      doc.qrCodeDetails.qrCodeStatus = "expired";
+    } else {
+      doc.qrCodeDetails.qrCodeStatus = "inactive";
+    }
 
     await doc.save();
 
-    // ✅ Trigger initial email
+    // ✅ Trigger initial email/message
     try {
       if (plan === "Free") {
         const updatedUser = await User.findByIdAndUpdate(
@@ -128,7 +131,11 @@ if (now > endDate) {
           { $inc: { freePlansUsed: 1 } },
           { new: true }
         );
-        await triggerMessage(updatedUser, "freeQR", updatedUser.freePlansUsed);
+        await triggerMessage(
+          updatedUser,
+          "freeQR",
+          updatedUser.freePlansUsed
+        );
       } else if (encrypted) {
         await triggerMessage(
           userDetails,
@@ -154,7 +161,10 @@ if (now > endDate) {
   } catch (err) {
     console.error("❌ Payment verification error:", err);
     return NextResponse.json(
-      { success: false, message: err?.message || "Payment verification failed" },
+      {
+        success: false,
+        message: err?.message || "Payment verification failed",
+      },
       { status: 500 }
     );
   }

@@ -1,14 +1,17 @@
+// D:\present\zm\src\app\(auth)\api\reset-password\route.js
+
 import { connectDB } from "@/lib/mongoDB";
 import { auth } from "@/middlewares/authMiddleware";
 import User from "@/models/auth/userSchema";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import { triggerMessage } from "@/lib/mailer/triggerMessage"; // ✅ import
 
 export async function POST(req) {
   try {
     await connectDB();
 
-    // ✅ Auth middleware validates token and attaches user
+    // ✅ Auth middleware validates token
     const authResult = await auth(req);
     if (authResult.status !== 200) {
       return NextResponse.json(authResult.json, { status: authResult.status });
@@ -19,7 +22,7 @@ export async function POST(req) {
       return NextResponse.json({ error: "Invalid token" }, { status: 400 });
     }
 
-    // ✅ Ensure user exists
+    // ✅ Find user
     const user = await User.findOne({ email });
     if (!user) {
       return NextResponse.json({ error: "This email is not registered!" }, { status: 404 });
@@ -38,7 +41,7 @@ export async function POST(req) {
       return NextResponse.json({ error: "Passwords do not match" }, { status: 400 });
     }
 
-    // ✅ Password validation rules
+    // ✅ Password rules
     if (password.length < 6) {
       return NextResponse.json(
         { error: "Password must be at least 6 characters long" },
@@ -53,12 +56,18 @@ export async function POST(req) {
       );
     }
 
-    // ✅ Hash password
+    // ✅ Hash and update
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    // ✅ Update password in DB
     user.password = hashedPassword;
     await user.save();
+
+    // ✅ Send email notification
+    try {
+      await triggerMessage(user, "reset", true); // uses reset template (success = true)
+      console.log(`[Email] Password reset confirmation sent to ${user.email}`);
+    } catch (emailErr) {
+      console.error("[Email Error] Password Reset:", emailErr.message);
+    }
 
     return NextResponse.json({
       success: true,

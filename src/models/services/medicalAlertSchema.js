@@ -34,20 +34,20 @@ const MedicalAlertSchema = new mongoose.Schema(
     },
     medicalReports: [
       {
-        fileName: String,
-        fileType: String,
+        url: String, 
+        name: String,
       },
     ],
     prescription: [
       {
-        fileName: String,
-        fileType: String,
+       url: String,
+        name: String,
       },
     ],
     insuranceImage: [
       {
-        fileName: String,
-        fileType: String,
+        url: String, 
+        name: String,
       },
     ],
     bgDesign: String,
