@@ -46,7 +46,7 @@ const sharedFileUploadMapper = {
       formData.append("price", state.priceDetails.price || "");
       formData.append("storage", state.priceDetails.storage || "");
       formData.append("validityDays", state.priceDetails.validityDays || 30);
-      formData.append("startDate", state.priceDetails.startDate || new Date().toISOString());
+      
     }
 
     // ✅ Append files

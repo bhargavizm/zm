@@ -67,7 +67,6 @@ const handler = NextAuth({
 
             if (account.provider === 'google' || account.provider === 'facebook') {
                 await connectDB();
-                console.log('Connected to DB');
 
                 const existing = await User.findOne({ email: user.email });
 
@@ -81,10 +80,7 @@ const handler = NextAuth({
                         phone: 'N/A',
                         password: hashedPassword,
                     });
-                    console.log('Created new custom user:', created);
-                } else {
-                    console.log('User already exists — skipping creation');
-                }
+                } 
             }
 
         },

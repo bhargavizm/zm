@@ -94,7 +94,27 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
         const finalDataUrl = await generateImageFromRef(previewRef);
         const finalImageUrl = await uploadImageToCloudinary(finalDataUrl);
         setSelectedQRCodeImage(finalImageUrl);
+        try {
+          const res = await fetch(
+            `/api/services/update-image/${response?.serviceName}/${response?.serviceId}/${response?.userId}`,
+            {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ qrImageUrl: finalImageUrl }),
+            }
+          );
 
+          if (!res.ok) {
+            const errorData = await res.json();
+            throw new Error(errorData.message || "Failed to update QR image");
+          }
+
+          const data = await res.json();
+          console.log("QR image updated successfully:", data);
+        } catch (error) {
+          console.error("Error updating QR image:", error);
+          toast.error(error.message || "Failed to update QR image");
+        }
         setUserMeta({
           userId: response?.userId,
           userName: response?.userName,
@@ -121,6 +141,28 @@ const DownloadButton = ({ previewRef, regenerateMatrixWithText }) => {
         const finalDataUrl = await generateImageFromRef(previewRef);
         const finalImageUrl = await uploadImageToCloudinary(finalDataUrl);
         setSelectedQRCodeImage(finalImageUrl);
+
+        try {
+          const res = await fetch(
+            `/api/services/update-image/${response?.serviceName}/${response?.serviceId}/${response?.userId}`,
+            {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ qrImageUrl: finalImageUrl }),
+            }
+          );
+
+          if (!res.ok) {
+            const errorData = await res.json();
+            throw new Error(errorData.message || "Failed to update QR image");
+          }
+
+          const data = await res.json();
+          console.log("QR image updated successfully:", data);
+        } catch (error) {
+          console.error("Error updating QR image:", error);
+          toast.error(error.message || "Failed to update QR image");
+        }
 
         setUserMeta({
           userId: response?.userId,

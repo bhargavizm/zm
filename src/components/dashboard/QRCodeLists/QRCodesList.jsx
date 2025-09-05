@@ -140,8 +140,6 @@ const QRCodesList = () => {
     setIsRenewalModalOpen(true);
   };
 
-  
-
   const handleDownload = async (entry) => {
     setDownloadingId(entry._id);
     try {
@@ -159,7 +157,6 @@ const QRCodesList = () => {
     const renewal = new Date(renewalDate);
     return now > renewal;
   };
-  console.log("Paginated Entries:", paginatedEntries);
   return (
     <>
       <div className="p-4">
@@ -265,24 +262,42 @@ const QRCodesList = () => {
                             <img
                               src={entry.qrCodeDetails.qrCodeImage}
                               alt="QR Code"
-                              className="w-40 h-40 sm:w-48 sm:h-48 md:w-50 md:h-50 object-contain rounded-lg cursor-pointer hover:opacity-90 transition"
-                              onClick={() =>
-                                setPreviewImage(entry.qrCodeDetails.qrCodeImage)
-                              }
+                              className={`w-40 h-40 sm:w-48 sm:h-48 md:w-50 md:h-50 object-contain rounded-lg cursor-pointer hover:opacity-90 transition 
+    ${
+      entry.qrCodeDetails?.qrCodeStatus?.toLowerCase() === "active"
+        ? ""
+        : "blur-md"
+    }`}
+                              onClick={() => {
+                                if (
+                                  entry.qrCodeDetails?.qrCodeStatus?.toLowerCase() ===
+                                  "active"
+                                ) {
+                                  setPreviewImage(
+                                    entry.qrCodeDetails.qrCodeImage
+                                  );
+                                }
+                              }}
                             />
+
                             {previewImage && (
-                              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
-                                <button
-                                  onClick={() => setPreviewImage(null)}
-                                  className="absolute top-4 right-4 text-white text-3xl font-bold cursor-pointer"
-                                >
-                                  &times;
-                                </button>
-                                <img
-                                  src={previewImage}
-                                  alt="Preview"
-                                  className="max-w-full max-h-screen rounded-lg shadow-lg"
-                                />
+                              <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md ">
+                                <div className="bg-white rounded-xl shadow-xl p-6 max-w-6xl w-full relative flex flex-col items-center">
+                                  {/* Close button */}
+                                  <button
+                                    onClick={() => setPreviewImage(null)}
+                                    className="absolute cursor-pointer top-3 right-3 text-gray-700 text-2xl font-bold hover:text-red-500"
+                                  >
+                                    ❌
+                                  </button>
+
+                                  {/* Image */}
+                                  <img
+                                    src={previewImage}
+                                    alt="Preview"
+                                    className="max-w-full max-h-[85vh] rounded-lg shadow-lg object-contain"
+                                  />
+                                </div>
                               </div>
                             )}
 
@@ -388,31 +403,38 @@ const QRCodesList = () => {
                       {/* )} */}
 
                       {/* Actions */}
+                      {/* Actions */}
                       <div className="flex justify-between flex-wrap gap-3 pt-2">
                         <button
                           onClick={() => openResetModal(entry)}
-                          className="bg-mainGreen  px-4 py-2 rounded-lg text-white text-md font-medium cursor-pointer "
+                          className="bg-mainGreen px-4 py-2 rounded-lg text-white text-md font-medium cursor-pointer"
                         >
                           Reset Password
                         </button>
+
+                        {/* Retry Payment if inactive */}
+                        {entry.qrCodeDetails?.qrCodeStatus?.toLowerCase() ===
+                          "inactive" && (
+                          <button
+                            onClick={() => openRenewalModal(entry)} // reuse renewal modal for retry
+                            className="bg-yellow-500 px-4 py-2 rounded-lg text-white text-md font-medium cursor-pointer"
+                          >
+                            Retry Payment
+                          </button>
+                        )}
+
                         <button
                           onClick={() => openDeleteModal(entry)}
                           className="text-white bg-red-400 px-4 py-2 rounded-lg text-md font-medium cursor-pointer"
                         >
                           Delete
                         </button>
-
-                        {entry.qrCodeDetails?.qrCodeStatus?.toLowerCase() === "inactive" && (
-    <button
-      onClick={() => openRenewalModal(entry)}
-      className="px-4 py-2 rounded-lg text-sm font-medium bg-yellow-500 text-white hover:bg-yellow-600 transition"
-    >
-      Retry Payment
-    </button>
-  )}
                       </div>
 
                       {/* Renewal */}
+                      {/* Renewal */}
+                      {/* {entry.qrCodeDetails?.qrCodeStatus?.toLowerCase() === "expiry" && ( */}
+                      {/* Renewal Payment (always visible, disabled unless expiry) */}
                       <div className="flex flex-col gap-2">
                         <span className="text-lg font-semibold">
                           Renewal Date:
@@ -424,16 +446,22 @@ const QRCodesList = () => {
                         </span>
                         <button
                           onClick={() => openRenewalModal(entry)}
-                          disabled={!isExpired(priceDetails.renewalDate)}
+                          disabled={
+                            entry.qrCodeDetails?.qrCodeStatus?.toLowerCase() !==
+                            "expiry"
+                          }
                           className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
-                            isExpired(priceDetails.renewalDate)
+                            entry.qrCodeDetails?.qrCodeStatus?.toLowerCase() ===
+                            "expiry"
                               ? "bg-mainGreen text-white hover:bg-teal-700 cursor-pointer"
                               : "bg-gray-300 text-gray-500 cursor-not-allowed"
                           }`}
                         >
-                          Renewal payment
+                          Renewal Payment
                         </button>
                       </div>
+
+                      {/* )} */}
                     </div>
                   );
                 })
